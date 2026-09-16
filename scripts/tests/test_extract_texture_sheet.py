@@ -176,3 +176,44 @@ def test_une_planche_sans_transparence_est_refusee(colisee):
     _, _, planches = _planches(colisee)
     with pytest.raises(T.DispositionError, match='fond transparent'):
         T.mettre_au_format(colisee, planches[0].convert('RGB'))
+
+
+def test_les_pieces_se_lisent_hors_des_cellules_dans_l_ordre(colisee):
+    """Ce que le générateur a rendu au tour 1 : ni la place ni l'échelle du gabarit, mais le nombre
+    et l'ordre. Chaque pièce est ici décalée et agrandie de moitié ; deux étincelles flottent."""
+    np, Image, planches = _planches(colisee)
+    s = T.pas(colisee)
+    deformees = []
+    for numero, planche in enumerate(planches, 1):
+        poses = [p for p in T.grille(colisee) if p['planche'] == numero]
+        largeur, hauteur = planche.size
+        sortie = Image.new('RGBA', (largeur * 2, hauteur * 2), (0, 0, 0, 0))
+        for rang, pose in enumerate(poses):
+            x0, y0, x1, y1 = pose['boite']
+            piece = planche.crop(pose['boite'])
+            piece = piece.resize((piece.width * 3 // 2, piece.height * 3 // 2), Image.NEAREST)
+            decalage = (rang % 3) * 7 * s
+            sortie.alpha_composite(piece, (x0 * 3 // 2 + decalage, y0 * 3 // 2 + decalage // 2))
+        # une étincelle au loin, à effacer ; une autre au ras de la première pièce, à rattacher
+        sortie.alpha_composite(Image.new('RGBA', (3, 3), (255, 200, 0, 255)), (largeur * 2 - 20, hauteur * 2 - 20))
+        x0, y0, x1, _ = poses[-1]['boite']
+        sortie.alpha_composite(Image.new('RGBA', (3, 3), (255, 200, 0, 255)),
+                               (x1 * 3 // 2 - 40, y0 * 3 // 2 - 6))
+        deformees.append(sortie)
+    textures, manifeste, erreurs, _ = T.decouper(
+        colisee, [T.mettre_au_format(colisee, p) for p in deformees])
+    assert erreurs == []
+    assert list(manifeste['textures']) == [T.cle(colisee, c) for c in colisee['cells']]
+    assert textures['scene/coliseum/sand'].size == (68, 42)
+    assert manifeste['textures']['scene/coliseum/sand']['scale'] == pytest.approx(1 / (1.5 * s), rel=0.05)
+
+
+def test_l_arete_d_une_piece_orientee_est_rouge_dans_le_gabarit(colisee):
+    pytest.importorskip('numpy')
+    pytest.importorskip('PIL.Image')
+    mur = next(p for p in T.grille(colisee) if p['cellule']['name'] == 'wall-left')
+    image = T.gabarit(colisee, mur['planche'])
+    s = T.pas(colisee)
+    ox, oy = mur['origine']
+    (hx, hy), _, _, (gx, gy) = [(ox + x * s, oy + y * s) for x, y in T.sommets(colisee, mur['cellule'])]
+    assert image.getpixel(((hx + gx) // 2, (hy + gy) // 2))[:3] == (220, 40, 40)

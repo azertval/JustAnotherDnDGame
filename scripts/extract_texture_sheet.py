@@ -59,7 +59,10 @@ TRAVAIL = Path(os.environ.get("TEXTURE_ATELIER", r"D:/JustAnotherDnDGame-texture
 DEMI_L, DEMI_H = 34, 21     # demi-losange, pixels d'art (68 × 42, IsoProjection 0,62)
 MARGE = 4                   # pixels d'art autour de chaque cellule
 COULEURS = 64               # palette commune à toutes les planches d'un lieu
-COUVERTURE_SOL = 0.97       # part minimale du losange qu'un sol doit remplir
+# Part minimale du losange qu'un sol doit remplir. Au tour 1 du Colisée, quinze sols pleins à l'œil
+# couvraient de 96,9 % à 99,8 % : l'arête d'un losange de 68 × 42 perd ses pixels à l'arrondi.
+COUVERTURE_SOL = 0.95
+ARETES = {"left": ((3, 0),), "right": ((0, 1),), "both": ((3, 0), (0, 1))}   # indices de sommets
 ALPHA = 127                 # seuil de binarisation, comme au LOT-91
 
 # Le générateur (documentation d'OpenAI, gpt-image-2 et suivants).
@@ -237,6 +240,9 @@ def valider(disposition: dict) -> list[str]:
             fautes.append(f"{ident} : cellule « {nom} » : classe « {cellule.get('class')} » inconnue.")
         if not cellule.get("prompt", "").strip():
             fautes.append(f"{ident} : cellule « {nom} » sans description pour le générateur.")
+        if "edge" in cellule and cellule["edge"] not in ARETES:
+            fautes.append(f"{ident} : cellule « {nom} » : arête « {cellule['edge']} » inconnue "
+                          f"({', '.join(ARETES)}).")
         if "footprint" in cellule and min(cellule["footprint"]) < 1:
             fautes.append(f"{ident} : cellule « {nom} » : emprise invalide.")
     if not fautes:
@@ -302,6 +308,9 @@ def bloc_c(disposition: dict, numero: int = 1) -> str:
         "its box. Do not draw the boxes, the outlines or anything between the cells.",
         f"Reference image 1 is drawn at {PAS_MAQUETTE} screen pixels per art pixel; this sheet is "
         f"drawn at {s}: keep its style, not its pixel size.",
+        "A thick red segment on a footprint outline marks the edge an oriented piece is built "
+        "against, seen exactly as in the template: walls, arches, torches, banners, gates and "
+        "boxes stand along that edge; stands and stairs rise toward it. Never draw the red line.",
         "Floor pieces fill their diamond exactly, edge to edge, and nothing outside it. Standing "
         "pieces rest on their footprint and include no floor under them.",
         "Cells, read left to right, then top to bottom:",
@@ -341,16 +350,22 @@ def gabarit(disposition: dict, numero: int = 1):
         ox, oy = pose["origine"]
         points = [(ox + x * s, oy + y * s) for x, y in sommets(disposition, pose["cellule"])]
         trait.polygon(points, outline=(60, 90, 200, 255))
+        # l'arête contre laquelle la pièce se dresse : au tour 1 du Colisée, « upper-left edge »
+        # écrit en toutes lettres a donné neuf pièces sur dix-neuf dans le mauvais sens
+        for i, j in ARETES.get(pose["cellule"].get("edge"), ()):
+            trait.line([points[i], points[j]], fill=(220, 40, 40, 255), width=max(3, s))
     return image
 
 
 def mettre_au_format(disposition: dict, candidat):
-    """Une planche reçue, à la taille de la disposition, en RGBA à alpha binaire."""
+    """Une planche reçue, en RGBA à alpha binaire, à la taille où elle a été rendue.
+
+    La taille n'est pas ramenée à celle de la disposition : l'interface du générateur ne la tient
+    pas (1672 × 941 rendus pour 2560 × 1440 demandés au tour 1 du Colisée), et la découpe mesure
+    chaque pièce là où elle est.
+    """
     np, Image, _ = _pil()
-    image = candidat.convert("RGBA")
-    if image.size != taille_planche(disposition):
-        image = image.resize(taille_planche(disposition), Image.LANCZOS)
-    pixels = np.asarray(image).copy()
+    pixels = np.asarray(candidat.convert("RGBA")).copy()
     alpha = pixels[..., 3]
     if alpha.min() >= 250:
         raise DispositionError("une planche reçue n'a pas de fond transparent : le prompt le "
@@ -368,81 +383,212 @@ def _masque_emprise(disposition: dict, cellule: dict):
     return np.asarray(masque) > 0
 
 
-def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list[str], list[str]]:
-    """Les textures des planches au format : {clé: image}, manifeste, erreurs, avertissements."""
+def _etiquettes(masque, grain: int):
+    """Composantes 4-connexes d'un masque lu par blocs de `grain` px : (étiquettes, nombre)."""
+    np, _, _ = _pil()
+    h, w = masque.shape[0] // grain, masque.shape[1] // grain
+    petit = masque[:h * grain, :w * grain].reshape(h, grain, w, grain).any(axis=(1, 3))
+    etiquettes = np.zeros((h, w), dtype=np.int32)
+    nombre = 0
+    for y, x in zip(*np.nonzero(petit)):
+        if etiquettes[y, x]:
+            continue
+        nombre += 1
+        etiquettes[y, x] = nombre
+        pile = [(y, x)]
+        while pile:
+            cy, cx = pile.pop()
+            for ny, nx in ((cy + 1, cx), (cy - 1, cx), (cy, cx + 1), (cy, cx - 1)):
+                if 0 <= ny < h and 0 <= nx < w and petit[ny, nx] and not etiquettes[ny, nx]:
+                    etiquettes[ny, nx] = nombre
+                    pile.append((ny, nx))
+    return etiquettes, nombre
+
+
+def pieces(planche) -> list[dict]:
+    """Les pièces d'une planche, dans l'ordre de lecture : {boite, masque}.
+
+    Le générateur ne pose pas ses pièces dans les cellules du gabarit (tour 1 du Colisée) : il en
+    tient le nombre et l'ordre, pas la place. Une pièce est donc une composante connexe ; un éclat
+    (une flamme détachée de sa torche) rejoint la pièce la plus proche s'il la touche presque, et
+    s'efface sinon ; les rangées se forment par
+    recouvrement vertical -- une pièce rejoint la rangée dont l'étendue couvre la moitié de sa
+    hauteur -- et se lisent de gauche à droite. Le masque d'une pièce est sa composante, pas sa
+    boîte : sur la planche 2 du tour 1, la boîte d'une loge mord sur la porte voisine.
+    """
+    np, _, _ = _pil()
+    grain = 2
+    etiquettes, nombre = _etiquettes(np.asarray(planche)[..., 3] > 0, grain)
+    composantes = []
+    for i in range(1, nombre + 1):
+        ys, xs = np.nonzero(etiquettes == i)
+        composantes.append({"ids": [i], "aire": len(ys),
+                            "boite": [int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1]})
+    if not composantes:
+        return []
+    seuil = 0.02 * float(np.median([c["aire"] for c in composantes]))
+    grandes = [c for c in composantes if c["aire"] >= seuil]
+    for eclat in (c for c in composantes if c["aire"] < seuil):
+        def distance(c, e=eclat):
+            (ax0, ay0, ax1, ay1), (bx0, by0, bx1, by1) = c["boite"], e["boite"]
+            return max(ax0 - bx1, bx0 - ax1, 0) + max(ay0 - by1, by0 - ay1, 0)
+        cible = min(grandes, key=distance)
+        x0, y0, x1, y1 = cible["boite"]
+        if distance(cible) > 0.25 * min(x1 - x0, y1 - y0):
+            continue   # trop loin de toute pièce : du bruit, qui fausserait la boîte et l'échelle
+        cible["ids"].extend(eclat["ids"])
+        b, e = cible["boite"], eclat["boite"]
+        cible["boite"] = [min(b[0], e[0]), min(b[1], e[1]), max(b[2], e[2]), max(b[3], e[3])]
+
+    rangees: list[dict] = []
+    for piece in sorted(grandes, key=lambda c: c["boite"][1]):
+        _, y0, _, y1 = piece["boite"]
+        for rangee in rangees:
+            if min(y1, rangee["y1"]) - max(y0, rangee["y0"]) >= 0.5 * (y1 - y0):
+                rangee["pieces"].append(piece)
+                rangee["y0"], rangee["y1"] = min(y0, rangee["y0"]), max(y1, rangee["y1"])
+                break
+        else:
+            rangees.append({"y0": y0, "y1": y1, "pieces": [piece]})
+    ordre = [p for r in sorted(rangees, key=lambda r: r["y0"])
+             for p in sorted(r["pieces"], key=lambda p: p["boite"][0])]
+
+    sortie = []
+    for piece in ordre:
+        x0, y0, x1, y1 = piece["boite"]
+        dedans = np.isin(etiquettes[y0:y1, x0:x1], piece["ids"])
+        sortie.append({"boite": (x0 * grain, y0 * grain, x1 * grain, y1 * grain),
+                       "masque": np.repeat(np.repeat(dedans, grain, axis=0), grain, axis=1)})
+    return sortie
+
+
+def _reduire(planche, piece: dict, largeur: int, hauteur: int):
+    """La pièce ramenée à largeur × hauteur px d'art : moyenne des pixels opaques, alpha binaire."""
     np, Image, _ = _pil()
-    s = pas(disposition)
+    x0, y0, x1, y1 = piece["boite"]
+    zone = np.asarray(planche)[y0:y1, x0:x1].astype(np.float32)
+    masque = piece["masque"][:zone.shape[0], :zone.shape[1]] & (zone[..., 3] > 0)
+    poids = masque.astype(np.float32)
+    taille = (largeur, hauteur)
+    somme = np.dstack([np.asarray(Image.fromarray(zone[..., c] * poids).resize(taille, Image.BOX))
+                       for c in range(3)])
+    couverture = np.asarray(Image.fromarray(poids).resize(taille, Image.BOX))
+    art = np.zeros((hauteur, largeur, 4), dtype=np.uint8)
+    pleins = couverture >= 0.5
+    moyenne = np.clip(somme / np.maximum(couverture, 1e-6)[..., None], 0, 255)
+    art[..., :3] = np.where(pleins[..., None], moyenne, 0)
+    art[..., 3] = np.where(pleins, 255, 0)
+    return art
+
+
+def _poser(disposition: dict, cellule: dict, art, avertissements: list[str]):
+    """La pièce réduite posée dans son canevas : (texture, sommet haut de l'emprise)."""
+    np, _, _ = _pil()
+    k = cle(disposition, cellule)
+    cw, ch = canevas(disposition, cellule)
+    a, b = emprise(disposition, cellule)
+    h_art, w_art = art.shape[:2]
+    if disposition["classes"][cellule["class"]]["rise"] == 0:
+        # un sol : sommet haut du losange en haut de la pièce ; l'épaisseur que le générateur
+        # dessine sous le losange tombe hors du masque
+        texture = np.zeros((ch, cw, 4), dtype=np.uint8)
+        texture[:min(ch, h_art), :min(cw, w_art)] = art[:ch, :cw]
+        texture[~_masque_emprise(disposition, cellule)] = 0
+        return texture, sommets(disposition, cellule)[0]
+    if w_art > cw:
+        avertissements.append(f"{k} : {w_art} px d'art de large pour une emprise de {cw}, rognée.")
+    h = max(ch, h_art)
+    if h_art > ch:
+        avertissements.append(f"{k} : {h_art} px d'art de haut, la classe en prévoit {ch} ; "
+                              "canevas agrandi.")
+    texture = np.zeros((h, cw, 4), dtype=np.uint8)
+    gauche = 0
+    if not cellule.get("fill", True):
+        bas_x = sommets(disposition, cellule)[2][0]
+        gauche = max(0, min(cw - w_art, bas_x - w_art // 2))
+    zone = art[:, :cw - gauche]
+    texture[h - h_art:, gauche:gauche + zone.shape[1]] = zone
+    return texture, (b * DEMI_L, h - (a + b) * DEMI_H)
+
+
+def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list[str], list[str]]:
+    """Les textures des planches reçues : {clé: image}, manifeste, erreurs, avertissements.
+
+    Chaque pièce lue (voir `pieces`) va à la cellule de même rang sur sa planche, puis s'ajuste à
+    son emprise : une pièce qui la remplit (`fill`, vrai par défaut) est mise à sa largeur ; une
+    pièce plus petite (un brasero, un banc) prend le facteur médian des pièces pleines de sa
+    planche. Un sol est découpé au losange et refusé sous 97 % de couverture ; une pièce haute est
+    posée en bas de son canevas, qui grandit si elle dépasse sa classe (l'ancre suit).
+    """
+    np, Image, _ = _pil()
     attendu = planches(disposition)
     if len(planches_recues) != attendu:
         raise DispositionError(f"{disposition['id']} : {len(planches_recues)} planche(s) reçue(s), "
                                f"{attendu} attendue(s).")
-    sources = [np.asarray(p) for p in planches_recues]
+    poses = grille(disposition)
     brutes, erreurs, avertissements = {}, [], []
-    for pose in grille(disposition):
-        cellule = pose["cellule"]
-        source = sources[pose["planche"] - 1]
-        k = cle(disposition, cellule)
-        w, h = canevas(disposition, cellule)
-        ox, oy = pose["origine"]
-        x0, y0, x1, y1 = pose["boite"]
-        boite = source[y0:y1, x0:x1, 3] > 0
-        interieur = np.zeros_like(boite)
-        interieur[oy - y0:oy - y0 + h * s, ox - x0:ox - x0 + w * s] = True
-        if (boite & ~interieur).sum() > 0:
-            avertissements.append(f"{k} : {int((boite & ~interieur).sum())} px d'écran hors du "
-                                  "canevas, rognés.")
-        # s × s -> 1 : couleur moyenne des pixels opaques du bloc, opaque si la moitié l'est
-        bloc = source[oy:oy + h * s, ox:ox + w * s].astype(np.float32).reshape(h, s, w, s, 4)
-        opaques = bloc[..., 3] > 0
-        compte = opaques.sum(axis=(1, 3))
-        somme = (bloc[..., :3] * opaques[..., None]).sum(axis=(1, 3))
-        art = np.zeros((h, w, 4), dtype=np.uint8)
-        pleins = compte * 2 >= s * s
-        art[..., :3] = np.where(pleins[..., None], somme / np.maximum(compte, 1)[..., None], 0)
-        art[..., 3] = np.where(pleins, 255, 0)
-        if disposition["classes"][cellule["class"]]["rise"] == 0:
-            masque = _masque_emprise(disposition, cellule)
-            art[~masque] = 0
-            couverture = (art[..., 3] > 0)[masque].mean()
-            if couverture < COUVERTURE_SOL:
-                erreurs.append(f"{k} : le sol couvre {couverture:.0%} de son losange, "
-                               f"{COUVERTURE_SOL:.0%} attendus.")
-        if not art[..., 3].any():
-            erreurs.append(f"{k} : cellule vide.")
-        brutes[k] = (pose, art)
+    for numero, planche in enumerate(planches_recues, 1):
+        cellules = [p["cellule"] for p in poses if p["planche"] == numero]
+        lues = pieces(planche)
+        if len(lues) != len(cellules):
+            erreurs.append(f"planche {numero} : {len(lues)} pièce(s) lue(s), {len(cellules)} "
+                           "attendue(s) : la génération est à refaire.")
+            continue
+        facteurs = {c["name"]: canevas(disposition, c)[0] / (p["boite"][2] - p["boite"][0])
+                    for c, p in zip(cellules, lues) if c.get("fill", True)}
+        repli = float(np.median(list(facteurs.values()))) if facteurs else None
+        for cellule, piece in zip(cellules, lues):
+            k = cle(disposition, cellule)
+            facteur = facteurs.get(cellule["name"], repli)
+            if facteur is None:
+                erreurs.append(f"{k} : aucune pièce pleine sur la planche {numero} pour en tirer "
+                               "l'échelle.")
+                continue
+            x0, y0, x1, y1 = piece["boite"]
+            art = _reduire(planche, piece, max(1, round((x1 - x0) * facteur)),
+                           max(1, round((y1 - y0) * facteur)))
+            texture, haut = _poser(disposition, cellule, art, avertissements)
+            if disposition["classes"][cellule["class"]]["rise"] == 0:
+                masque = _masque_emprise(disposition, cellule)
+                couverture = (texture[..., 3] > 0)[masque].mean()
+                if couverture < COUVERTURE_SOL:
+                    erreurs.append(f"{k} : le sol couvre {couverture:.0%} de son losange, "
+                                   f"{COUVERTURE_SOL:.0%} attendus.")
+            if not texture[..., 3].any():
+                erreurs.append(f"{k} : pièce vide.")
+            brutes[k] = (cellule, numero, piece["boite"], facteur, haut, texture)
 
-    # une palette commune au lieu : quantifier cellule par cellule, ou planche par planche, donnerait
+    # une palette commune au lieu : quantifier pièce par pièce, ou planche par planche, donnerait
     # des palettes voisines qui ne s'accordent pas une fois les tuiles posées côte à côte
-    opaques = [art[art[..., 3] > 0][:, :3] for _, art in brutes.values()]
+    opaques = [t[t[..., 3] > 0][:, :3] for *_, t in brutes.values()]
     textures, fichiers = {}, {}
     if any(len(o) for o in opaques):
         mosaique = np.concatenate([o for o in opaques if len(o)]).reshape(-1, 1, 3)
         palette = Image.fromarray(mosaique.astype(np.uint8), "RGB").quantize(
             COULEURS, Image.Quantize.MEDIANCUT)
-        for k, (pose, art) in brutes.items():
-            rgb = Image.fromarray(art[..., :3], "RGB").quantize(palette=palette,
-                                                                dither=Image.Dither.NONE)
-            finale = np.dstack([np.asarray(rgb.convert("RGB")), art[..., 3]])
+        for k, (cellule, numero, boite, facteur, haut, texture) in brutes.items():
+            rgb = Image.fromarray(texture[..., :3], "RGB").quantize(palette=palette,
+                                                                    dither=Image.Dither.NONE)
+            finale = np.dstack([np.asarray(rgb.convert("RGB")), texture[..., 3]])
             finale[finale[..., 3] == 0] = 0
             textures[k] = Image.fromarray(finale.astype(np.uint8), "RGBA")
-            cellule = pose["cellule"]
             fichiers[k] = {
                 "file": f"{cellule['name']}.png",
                 "class": cellule["class"],
                 "footprint": list(emprise(disposition, cellule)),
-                "size": list(canevas(disposition, cellule)),
+                "size": [int(finale.shape[1]), int(finale.shape[0])],
                 # le sommet haut de l'emprise : le coin (0, 0) de la case qui porte la pièce
-                "anchor": list(sommets(disposition, cellule)[0]),
-                "sheet": pose["planche"],
-                "box": list(pose["boite"]),
+                "anchor": [int(haut[0]), int(haut[1])],
+                "sheet": numero,
+                "sourceBox": [int(v) for v in boite],
+                "scale": round(float(facteur), 4),
             }
     manifeste = {
         "version": 1,
         "disposition": disposition["id"],
-        "sheets": [{"file": nom_planche(n), "sha256": hashlib.sha256(_png(p)).hexdigest()}
+        "sheets": [{"file": nom_planche(n), "size": list(p.size),
+                    "sha256": hashlib.sha256(_png(p)).hexdigest()}
                    for n, p in enumerate(planches_recues, 1)],
-        "sheetSize": list(taille_planche(disposition)),
-        "scale": s,
         "tile": [2 * DEMI_L, 2 * DEMI_H],
         "colors": COULEURS,
         "textures": fichiers,

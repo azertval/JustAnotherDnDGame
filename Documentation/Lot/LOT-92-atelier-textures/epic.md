@@ -138,3 +138,23 @@ l'arête (pavés, sable).
   `locationExcerpt` restreint le bloc B à des phrases de la fiche, **vérifiées mot pour mot**
   par `valider` (le bloc B cite le livre, il ne le récrit pas) ; le Colisée en cite deux, celles
   de l'Arena of Fate, et son sujet exclut le quartier alentour.
+- **16 septembre 2026, planche du Colisée, tour 1.** *Reçu* : deux planches à fond transparent,
+  rendues en 1672 × 941 pour 2560 × 1440 demandés ; le style de la maquette est tenu, les 36
+  pièces sont là, **dans l'ordre**. *Écarts* :
+  1. **Le gabarit n'est pas suivi** : pièces réparties librement, planche 2 dessinée plus grande
+     que la planche 1 ; la découpe aux cellules rendait 27 fautes. *Décision* : la découpe lit
+     désormais les **pièces** (composantes connexes, éclats proches rattachés, éclats lointains
+     effacés ; rangées par recouvrement vertical, lues de gauche à droite), les rapproche des
+     cellules par leur rang, et met chacune à la largeur de son emprise — ou, pour une pièce
+     plus petite qu'elle (`"fill": false` : pilier, brasero, banc, râtelier), au facteur médian
+     des pièces pleines de sa planche. La planche n'est plus ramenée à la taille demandée.
+     Résultat sur ce tour : 24 et 12 pièces lues, facteurs de 0,36 à 0,37 sur la planche 1.
+  2. **Le seuil de couverture des sols** (97 %) refusait `stands-step` à 96,9 % ; les quinze
+     sols, pleins à l'œil, couvrent de 96,9 à 99,8 % (arrondi de l'arête) : seuil à 95 %.
+  3. **L'orientation n'est pas tenue**, et c'est ce qui écarte le tour : arches et gradins
+     inversés, les deux torches dans le même sens, escaliers sans règle — « upper-left edge »
+     écrit en toutes lettres ne suffit pas. *Décision* (on corrige le prompt, jamais l'image) :
+     une cellule orientée déclare `"edge"` (`left`, `right`, `both`), le gabarit trace cette
+     arête **en rouge épais**, le bloc C dit que la pièce se dresse contre elle (ou monte vers
+     elle), et les descriptions de cellules perdent leurs « upper-left/right ».
+  *Tour 2 préparé* ; rien n'est installé du tour 1. Tests : 24.
