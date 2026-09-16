@@ -1,7 +1,7 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T5 faits ; reste la relecture de la
-> spécification par l'auteur, puis la livraison.
+> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T5 faits, Martpart installé ; reste la
+> relecture de la spécification par l'auteur, puis la livraison.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
@@ -289,3 +289,18 @@ l'arête (pavés, sable).
   pris de ce tour. *Tour 4* (*décision de l'auteur*, plutôt que retirer le seuil) : le bloc C
   répète pour **chaque sol** sa largeur et sa hauteur en pixels, sommet à sommet ; le seuil devient
   « le pavé de la rue, une grande dalle lisse encastrée à niveau, rien en relief ».
+- **16 septembre 2026, Martpart, tour 4 : installé.** *Reçu* : 18 pièces, **tout passe** — la
+  taille répétée pour chaque sol a porté : losanges de 194 × 120 px (rapport 0,61 à 0,63), seuil
+  plat, dalle encastrée. *Mais* le mur porte bannière, lanterne et jardinière (répétées sur chaque
+  case de mur) et la « façade » est un étal. *Recomposition* (*décision de l'auteur*) : les **six
+  sols du tour 4**, seuil compris — un seul tour, pavés plus réguliers — et les douze autres
+  pièces du tour 2 ; les sols du tour 1 sont abandonnés. Installé sous
+  `Source/Elements/Assets/Scene/martpart/` : 22 textures, `planche-1.png` recomposée,
+  `manifest.json` ; `--check martpart` vert ; relu à l'œil sur une planche de contrôle (×3,
+  ancres marquées). *Poids* : 1,6 Mio, dont 1,5 Mio de planche (le Colisée : 480 Kio). La
+  planche garde les pixels source remis à l'échelle ; deux allègements essayés et écartés —
+  256 couleurs (−20 %, la moitié des pixels de texture changent) et textures découpées reposées
+  ×4 comme au Colisée (160 Kio, mais le masque de `street-3` bouge : pas fidèle). Les planches
+  reçues pèsent elles-mêmes 1,4 à 1,6 Mio. **T5 : acceptation tenue** — la planche d'un lieu s'est
+  commandée depuis sa seule fiche et un modèle, bloc A intouché ; reste la relecture de la
+  spécification.
