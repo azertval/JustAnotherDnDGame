@@ -269,6 +269,33 @@ map.rename_prompt = New name:
 map.delete_title = Delete
 map.delete_confirm = Permanently delete “%1”?
 map.operation_failed = Operation failed
+map.tab.list = List
+map.tab.graph = Graph
+
+# Map browser: world graph view (LOT-11)
+world_graph.empty = No map in the levels folder.
+world_graph.legend.map = Map
+world_graph.legend.unreadable = Unreadable map
+world_graph.legend.ghost = Missing map
+world_graph.legend.portal = Portal
+world_graph.legend.broken = Broken portal
+world_graph.node.unreadable = unreadable
+world_graph.node.ghost = missing
+world_graph.ghost.no_target = (no target)
+world_graph.status.resolved = linked
+world_graph.status.missing_target = no target map
+world_graph.status.unknown_map = target map not in the folder
+world_graph.status.missing_arrival = no arrival point
+world_graph.status.unknown_arrival = arrival point unknown on the target map
+world_graph.status.target_unreadable = target map unreadable
+world_graph.tooltip.map = %1 (%2)
+world_graph.tooltip.open = Double-click to open the map.
+world_graph.tooltip.unreadable = Unreadable map: %1
+world_graph.tooltip.ghost = Map “%1” is not in the folder; portals name it.
+world_graph.tooltip.ghost_no_target = Portals without a target map.
+world_graph.tooltip.edge = %1 → %2
+world_graph.tooltip.portal = (%1, %2) → “%3”: %4
+world_graph.tooltip.no_arrival = (no arrival point)
 
 # Options page: tabs and labels
 tab.video = Video

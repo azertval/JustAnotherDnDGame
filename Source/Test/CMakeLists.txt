@@ -170,6 +170,7 @@ add_executable(UnitTests
     Unit/HMI/Editor/test_pixel_palette.cpp
     Unit/HMI/Editor/test_pixel_autotile_preview.cpp
     Unit/HMI/Editor/test_entity_editing.cpp
+    Unit/HMI/Editor/test_world_graph_layout.cpp
 )
 
 # Encodage/decodage d'image (LOT-54 TACHE-01) : QImage (Qt) lit et ecrit le PNG, mais aucun device

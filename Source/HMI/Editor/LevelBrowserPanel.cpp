@@ -12,9 +12,12 @@
 #include <QSortFilterProxyModel>
 #include <QStandardItem>
 #include <QStandardItemModel>
+#include <QTabWidget>
 #include <utility>
 
+#include "Core/World/WorldGraph.h"
 #include "HMI/Editor/LevelFileOperations.h"
+#include "HMI/Editor/WorldGraphView.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Localization/Localization.h"
 #include "ui_LevelBrowserPanel.h"
@@ -63,6 +66,9 @@ LevelBrowserPanel::LevelBrowserPanel(std::filesystem::path levelsDir, QWidget* p
     connect(_ui->renameButton, &QPushButton::clicked, this, &LevelBrowserPanel::onRename);
     connect(_ui->duplicateButton, &QPushButton::clicked, this, &LevelBrowserPanel::onDuplicate);
     connect(_ui->deleteButton, &QPushButton::clicked, this, &LevelBrowserPanel::onDelete);
+    // Le graphe ouvre une carte par le même signal que la liste : MainWindow n'a rien à brancher.
+    connect(_ui->worldGraph, &WorldGraphView::levelOpenRequested, this,
+            &LevelBrowserPanel::levelOpenRequested);
 
     refresh();
 }
@@ -79,6 +85,11 @@ void LevelBrowserPanel::refresh() {
         _model->appendRow(item);
     }
     _model->sort(0);
+    refreshWorldGraph();
+}
+
+void LevelBrowserPanel::refreshWorldGraph() {
+    _ui->worldGraph->setGraph(core::loadWorldGraph(_dir), _dir);
 }
 
 std::filesystem::path LevelBrowserPanel::selectedPath() const {
@@ -156,6 +167,9 @@ void LevelBrowserPanel::onDelete() {
 
 void LevelBrowserPanel::retranslateUi(const Localization& loc) {
     _loc = &loc;
+    _ui->viewTabs->setTabText(_ui->viewTabs->indexOf(_ui->listTab), t(_loc, "map.tab.list"));
+    _ui->viewTabs->setTabText(_ui->viewTabs->indexOf(_ui->graphTab), t(_loc, "map.tab.graph"));
+    _ui->worldGraph->retranslateUi(loc);
     _ui->searchField->setPlaceholderText(t(_loc, "map.search"));
     _ui->newButton->setText(t(_loc, "map.new"));
     _ui->renameButton->setText(t(_loc, "map.rename"));

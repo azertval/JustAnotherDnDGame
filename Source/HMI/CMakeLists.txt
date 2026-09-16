@@ -120,6 +120,7 @@ add_library(HmiLib STATIC
     Editor/EntityGesture.cpp
     Editor/EntityReferences.cpp
     Editor/EditorDiagnostics.cpp
+    Editor/WorldGraphLayout.cpp
     # Interface : logique d'écrans et de thème, sans widget.
     Presentation/ScreenFlow.cpp
     Presentation/RpgScreens.cpp
@@ -240,6 +241,7 @@ add_executable(LevelEditor
     Editor/PixelHistoryPanel.cpp
     Editor/PixelPalettePanel.cpp
     Editor/PlanesPanel.cpp
+    Editor/WorldGraphView.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
     ${ELEMENTS_UI}/resources.qrc
     # Mises en page Qt Designer — traitées par AUTOUIC (génèrent ui_*.h).

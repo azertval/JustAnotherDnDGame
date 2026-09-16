@@ -271,6 +271,33 @@ map.rename_prompt = Nouveau nom :
 map.delete_title = Supprimer
 map.delete_confirm = Supprimer définitivement « %1 » ?
 map.operation_failed = Opération impossible
+map.tab.list = Liste
+map.tab.graph = Graphe
+
+# Navigateur de cartes : vue graphe du monde (LOT-11)
+world_graph.empty = Aucune carte dans le dossier des niveaux.
+world_graph.legend.map = Carte
+world_graph.legend.unreadable = Carte illisible
+world_graph.legend.ghost = Carte absente
+world_graph.legend.portal = Portail
+world_graph.legend.broken = Portail cassé
+world_graph.node.unreadable = illisible
+world_graph.node.ghost = absente
+world_graph.ghost.no_target = (sans cible)
+world_graph.status.resolved = relié
+world_graph.status.missing_target = aucune carte cible
+world_graph.status.unknown_map = carte cible absente du dossier
+world_graph.status.missing_arrival = aucun point d'arrivée
+world_graph.status.unknown_arrival = point d'arrivée inconnu sur la carte cible
+world_graph.status.target_unreadable = carte cible illisible
+world_graph.tooltip.map = %1 (%2)
+world_graph.tooltip.open = Double-cliquer pour ouvrir la carte.
+world_graph.tooltip.unreadable = Carte illisible : %1
+world_graph.tooltip.ghost = Carte « %1 » absente du dossier, nommée par des portails.
+world_graph.tooltip.ghost_no_target = Portails sans carte cible.
+world_graph.tooltip.edge = %1 → %2
+world_graph.tooltip.portal = (%1, %2) → « %3 » : %4
+world_graph.tooltip.no_arrival = (aucun point d'arrivée)
 
 # Page Options : onglets et libelles
 tab.video = Vidéo
