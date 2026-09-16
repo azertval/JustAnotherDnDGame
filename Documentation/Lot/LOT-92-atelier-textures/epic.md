@@ -1,6 +1,6 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0 fait ; T1 fait (maquette approuvée : tour 1) ; T2 écrit, à relire.
+> Statut : **en cours, ouvert le 16 septembre 2026.** T0, T1 et T3 faits ; T2 écrit, à relire ; T4 attend la génération de la planche du Colisée.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
@@ -42,7 +42,7 @@ l'arête (pavés, sable).
 | **T0 — La Capitale dans l'atlas** | `scripts/sourcebook/atlas.py` lit l'encart « The Capital City » : la Capitale et ses douze quartiers (Sloghood, Uptown, Artisansquare, Scholarnest, Dweomer, **Martpart**, **Arenarea**, Oldtown, Neckoffoods, **Bloomburgs**, Downtown, Palacedomain) deviennent des lieux de `central-empire`, au schéma `location.schema.json` inchangé. `LIEUX_ATTENDUS` et `test_atlas.cpp` suivent. | `sourcebook atlas` régénère sans diff hors ces treize fiches ; `test_atlas` vert. |
 | **T1 — La maquette de style** | `atelier/prompts/maquette.txt` et `atelier/scripts/maquette.py` (l'envoi : prompt + référence d'échelle composée des figurines d'Anariel et de Jade sur la grille de losanges). Tours jusqu'à approbation ; la maquette retenue va dans `atelier/ancres/maquette.png`. | **L'auteur approuve** ; le risque de l'angle est tranché. |
 | **T2 — Le bloc A** | `atelier/prompts/style.txt`, écrit depuis la maquette approuvée : pas de pixel, trait, palette du sol et de la pierre, lumière, tuile. | Relu par l'auteur. |
-| **T3 — La disposition et la découpe** | `atelier/prompts/disposition_<planche>.txt` et son jumeau JSON (cellules nommées : sols, murs, objets, transitions) ; `scripts/extract_texture_sheet.py` généralise `extract_coliseum_atlas.py` et lit la disposition au lieu de coordonnées en dur ; chaque cellule entre au cahier des assets sous sa clé. | `extract_texture_sheet.py --check` reproduit le dossier ; `check_assets_brief.py` vert. |
+| **T3 — La disposition et la découpe** | `atelier/dispositions/<id>.json` (cellules nommées : sols, pièces hautes, grandes pièces ; emprise en cases, hauteur) ; `scripts/extract_texture_sheet.py` en déduit la grille, le gabarit, le bloc C, la découpe et la clé `scene/<lieu>/<nom>` de chaque texture ; `check_assets_brief.py` valide les dispositions. | `extract_texture_sheet.py --check` reproduit le dossier ; `check_assets_brief.py` vert. |
 | **T4 — La planche du Colisée** | Bloc B depuis la fiche du Colisée (l'Illu Die Arena de Martpart), disposition « Colisée » : sable, gradins, loges, couloirs, vestiaires, portes, torches, bannières. Remplace la planche du `LOT-50` au rendu de l'arène. | Découpée par le script ; l'arène se dessine avec. |
 | **T5 — Martpart et la spécification** | La planche de Martpart se **commande** (envoi prêt) depuis sa seule fiche d'atlas, bloc A intouché ; `Documentation/Specification/` dit les deux identités, scène et interface. | Envoi préparé sans rédaction à la main ; spécification relue. |
 
@@ -91,3 +91,28 @@ l'arête (pavés, sable).
   chiffres effaçait les cellules de la table d6 des rencontres de morts-vivants. Diff audité mot
   à mot : les treize filigranes, rien d'autre. *Reste* : `republic-of-freelands-fisherman-s-wharf`
   est cette légende, pas un lieu ; sa description est désormais vide (le schéma l'admet).
+- **16 septembre 2026, T3 fait.** *Décisions* :
+  - **La disposition vient avant l'image.** `extract_coliseum_atlas.py` relevait des coordonnées
+    sur une planche déjà faite ; ici un JSON déclare chaque cellule par sa classe (`floor`,
+    `tall`, `wide`), son emprise en cases (`footprint`, `[1, 2]` pour une pièce allongée sur
+    l'arête haut-gauche) et sa hauteur (`rise`, en pixels d'art). La grille (rangées remplies dans
+    l'ordre, marge de 8 px), le gabarit envoyé au générateur, le bloc C, la découpe et le
+    manifeste s'en déduisent : aucune coordonnée écrite à la main.
+  - **Géométrie d'`IsoProjection`** : une emprise a × b fait (a + b) · 34 × (a + b) · 21 px
+    d'art ; l'ancre d'une texture est le sommet haut de son emprise, le coin (0, 0) de sa case.
+  - **Le cahier des scènes est la disposition.** Le cahier du `LOT-87` est réservé à l'interface
+    (clés `ui/…`, jetons, zones de maquette) ; une texture de scène n'y a ni jeton ni maquette
+    d'écran. `check_assets_brief.py` fait donc valider les dispositions par
+    `extract_texture_sheet.valider_tout` (sans Pillow, comme la CI) : clés `scene/…` au format du
+    `LOT-39` et uniques, lieu présent dans l'atlas, grille qui tient dans la planche.
+  - **Réception** : planche ramenée à 1536 × 1024, alpha binarisé à 127 (une planche sans
+    transparence est refusée), 2 × 2 → 1 par moyenne des pixels opaques, **une palette de
+    64 couleurs commune** à la planche, sols découpés au losange exact et refusés sous 97 % de
+    couverture, débordement hors canevas signalé. Installés sous `installRoot` avec
+    `planche.png` et `manifest.json` ; `--check` refait la découpe en mémoire et compare pixels et
+    manifeste **sans rien écrire** (celui du `LOT-50` réécrivait ses PNG).
+  - *Disposition du Colisée* : 36 cellules — 15 sols, 17 pièces hautes (murs, arches, gradins,
+    escaliers, torches et bannières en deux orientations, pilier, brasero, banc, râtelier),
+    4 grandes pièces (porte des combattants, loge) ; bloc B depuis la fiche de Martpart, sujet :
+    l'Illu Die Arena. Tests : `scripts/tests/test_extract_texture_sheet.py` (13, dont la découpe
+    d'une planche synthétique et son `--check`).
