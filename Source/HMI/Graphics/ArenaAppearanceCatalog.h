@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <map>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -61,9 +62,15 @@ struct ArenaTileAppearance {
 
 /// @brief La figurine d'un combattant : le dossier de la planche, et son nombre d'images.
 struct FigureAppearance {
-    /// Nom de dossier sous `characters/` (allié) ou `enemies/` (ennemi), vide si le catalogue n'a
-    /// aucune figurine pour ce côté.
+    /// Nom de la figurine (`heroes`/`gladiators` du manifeste), vide si le catalogue n'a aucune
+    /// figurine pour ce côté. C'est la clé de ses clips (`ArenaAnimationDriver`).
     std::string sheet;
+    /// Dossier de ses bandes, relatif au dossier du Colisée : `characters/<sheet>` ou
+    /// `enemies/<sheet>` par défaut, ou le dossier d'un PNJ de remplacement (`../Npc/<slug>`,
+    /// voir `ArenaAppearanceCatalog::applyNpcManifest`). Vide si `sheet` l'est.
+    std::string directory;
+    /// Nombre d'images des bandes de la planche du Colisée (`heroFrames`/`enemyFrames`). La
+    /// composition lui préfère la largeur réelle de la bande quand elle la connaît.
     int frameCount = 0;
 };
 
@@ -115,6 +122,36 @@ public:
      */
     [[nodiscard]] FigureAppearance figureFor(std::string_view name, core::CombatSide side) const;
 
+    /**
+     * @brief Le dossier des bandes d'une figurine, relatif au dossier du Colisée.
+     * @param sheet Nom de la figurine (`heroes()` ou `gladiators()`).
+     * @param side  Son côté : `characters/` ou `enemies/`, sauf remplacement (`replaceHero`).
+     */
+    [[nodiscard]] std::string sheetDirectory(std::string_view sheet, core::CombatSide side) const;
+
+    /**
+     * @brief Fait lire les bandes d'un héros dans un autre dossier — la figurine de remplacement
+     *        d'un PNJ de l'atelier (LOT-91) à la place d'un héros de la planche de production.
+     *
+     * Le nom du héros ne change pas : le roster, la sélection par nom et la clé des clips restent
+     * ceux du manifeste du Colisée ; seul le dossier lu diffère.
+     * @param hero      Un nom de `heroes()`.
+     * @param directory Dossier des bandes, relatif au dossier du Colisée (ex. `../Npc/anariel`).
+     * @return Faux, sans effet, si @p hero n'est pas dans le roster.
+     */
+    bool replaceHero(std::string_view hero, std::string directory);
+
+    /**
+     * @brief Applique les remplacements déclarés par le manifeste des PNJ
+     *        (`Source/Elements/Assets/Npc/manifest.json`, champ `replaces` : héros → slug).
+     *
+     * Fichier absent : rien, silencieusement — les PNJ sont optionnels. Fichier illisible ou
+     * héros inconnu : avertissement dans le journal, l'entrée est ignorée (`EX-NFR-040`).
+     * @param path Chemin du manifeste des PNJ.
+     * @return Le nombre de héros remplacés.
+     */
+    int applyNpcManifest(const std::filesystem::path& path);
+
     [[nodiscard]] const std::vector<std::string>& heroes() const noexcept {
         return _heroes;
     }
@@ -138,6 +175,8 @@ private:
     std::vector<std::string> _heroes;
     std::vector<std::string> _gladiators;
     std::vector<std::string> _paleSlabs;
+    /// Héros → dossier de remplacement (`replaceHero`) ; absent : `characters/<héros>`.
+    std::map<std::string, std::string, std::less<>> _heroDirectories;
     int _heroFrames = 0;
     int _enemyFrames = 0;
 };

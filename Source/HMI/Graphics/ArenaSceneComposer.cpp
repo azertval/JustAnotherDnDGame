@@ -131,18 +131,25 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
     const bool down = combatant.down;
     const bool ally = side == core::CombatSide::Allies;
 
-    path.assign(ally ? "characters/" : "enemies/");
-    path.append(figure.sheet);
+    path.assign(figure.directory);
     path.append(down && ally ? "/death.png" : "/idle.png");
     const ArenaTexture& texture = composer.textures.resolve(path);
     if (texture.texture == nullptr) {
         return;
     }
 
+    // La bande dit sa propre decoupe : sa largeur d'image (48 par defaut, 96 pour les bandes
+    // larges des PNJ de l'atelier) et, avec sa largeur totale, son nombre d'images. Le compte du
+    // manifeste ne sert que si la texture est inconnue.
+    const int frameWidthPixels =
+        texture.frameWidth > 0 ? texture.frameWidth : ARENA_FIGURE_FRAME_WIDTH_PIXELS;
+    const int frameCount = texture.width > 0 ? std::max(1, texture.width / frameWidthPixels)
+                                             : std::max(1, figure.frameCount);
+
     // A terre, la figurine s'arrete sur la derniere image ; debout, elle suit l'animation, ramenee
     // dans sa bande.
-    const int frame = down ? figure.frameCount - 1
-                           : std::clamp(animation.frameOf(combatant.id), 0, figure.frameCount - 1);
+    const int frame =
+        down ? frameCount - 1 : std::clamp(animation.frameOf(combatant.id), 0, frameCount - 1);
 
     // Une emprise de n cases : une figurine centree dessus, n fois plus grande, au pied de
     // l'emprise.
@@ -158,14 +165,16 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
             .y;
     const float tileHeight = composer.projection.tileHeight();
 
+    // Une image plus large que 48 px garde son pied au centre de sa cellule : le quad s'elargit
+    // autour du meme centre.
     const float scale = composer.unitsPerPixel * ARENA_FIGURE_SCALE * extent;
     SpriteQuad quad;
-    quad.width = static_cast<float>(ARENA_FIGURE_FRAME_WIDTH_PIXELS) * scale;
+    quad.width = static_cast<float>(frameWidthPixels) * scale;
     quad.height = static_cast<float>(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) * scale;
     quad.x = center.x - quad.width / 2.0f;
     quad.y = footY - tileHeight * FIGURE_BOTTOM_MARGIN * extent - quad.height;
     if (texture.width > 0 && texture.height > 0) {
-        const float frameWidth = static_cast<float>(ARENA_FIGURE_FRAME_WIDTH_PIXELS);
+        const float frameWidth = static_cast<float>(frameWidthPixels);
         quad.u0 = static_cast<float>(frame) * frameWidth / static_cast<float>(texture.width);
         quad.u1 = static_cast<float>(frame + 1) * frameWidth / static_cast<float>(texture.width);
         quad.v0 = 0.0f;
@@ -194,11 +203,12 @@ std::vector<std::string> arenaTexturePaths(const ArenaAppearanceCatalog& catalog
     }
     // Un allie a terre montre sa bande de mort ; un ennemi, sa bande de repos estompee.
     for (const std::string& hero : catalog.heroes()) {
-        paths.push_back("characters/" + hero + "/idle.png");
-        paths.push_back("characters/" + hero + "/death.png");
+        const std::string directory = catalog.sheetDirectory(hero, core::CombatSide::Allies);
+        paths.push_back(directory + "/idle.png");
+        paths.push_back(directory + "/death.png");
     }
     for (const std::string& gladiator : catalog.gladiators()) {
-        paths.push_back("enemies/" + gladiator + "/idle.png");
+        paths.push_back(catalog.sheetDirectory(gladiator, core::CombatSide::Enemies) + "/idle.png");
     }
     return paths;
 }

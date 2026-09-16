@@ -3,6 +3,7 @@
 
 #include "HMI/Graphics/ArenaAppearanceCatalog.h"
 
+#include <algorithm>
 #include <utility>
 
 #include <nlohmann/json.hpp>
@@ -19,6 +20,12 @@ constexpr const char* FIELD_GLADIATORS = "gladiators";
 constexpr const char* FIELD_PALE_SLABS = "paleSlabs";
 constexpr const char* FIELD_HERO_FRAMES = "heroFrames";
 constexpr const char* FIELD_ENEMY_FRAMES = "enemyFrames";
+
+/// Manifeste des PNJ de l'atelier (LOT-91) : `replaces` associe un héros du Colisée au slug du
+/// PNJ qui prend sa place ; ses bandes sont sous `Npc/<slug>/`, à côté de `Coliseum/`.
+constexpr const char* FIELD_REPLACES = "replaces";
+constexpr int NPC_FORMAT_VERSION = 1;
+constexpr const char* NPC_DIRECTORY_FROM_COLISEUM = "../Npc/";
 
 // Meme patron que hmi::SkinCatalog : une traduction exhaustive, sans default, pour qu'une
 // categorie ajoutee d'un cote fasse echouer la compilation de l'autre plutot que de se perdre.
@@ -162,7 +169,64 @@ FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
             ? 0
             : (static_cast<int>(name.size()) * 7 + static_cast<unsigned char>(name.front())) %
                   static_cast<int>(roster.size());
-    return {roster[static_cast<std::size_t>(index)], frames};
+    const std::string& sheet = roster[static_cast<std::size_t>(index)];
+    return {sheet, sheetDirectory(sheet, side), frames};
+}
+
+std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
+                                                   core::CombatSide side) const {
+    if (side == core::CombatSide::Allies) {
+        const auto replaced = _heroDirectories.find(sheet);
+        if (replaced != _heroDirectories.end()) {
+            return replaced->second;
+        }
+        return "characters/" + std::string(sheet);
+    }
+    return "enemies/" + std::string(sheet);
+}
+
+bool ArenaAppearanceCatalog::replaceHero(std::string_view hero, std::string directory) {
+    const auto known = std::find(_heroes.begin(), _heroes.end(), hero);
+    if (known == _heroes.end()) {
+        return false;
+    }
+    _heroDirectories[*known] = std::move(directory);
+    return true;
+}
+
+int ArenaAppearanceCatalog::applyNpcManifest(const std::filesystem::path& path) {
+    const core::JsonDocument document = core::readJsonObjectFromFile(path, NPC_FORMAT_VERSION);
+    if (!document.ok()) {
+        if (document.error != core::JsonReadError::FileNotFound) {
+            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ ignore, " +
+                                 document.message);
+        }
+        return 0;
+    }
+    const nlohmann::json& root = document.root;
+    if (!root.contains(FIELD_REPLACES)) {
+        return 0;
+    }
+    if (!root[FIELD_REPLACES].is_object()) {
+        GRAPHICS_LOG_WARNING(
+            "arena_appearance : manifeste des PNJ, « replaces » n'est pas un objet.");
+        return 0;
+    }
+    int replaced = 0;
+    for (const auto& [hero, slug] : root[FIELD_REPLACES].items()) {
+        if (!slug.is_string() || slug.get<std::string>().empty()) {
+            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, remplacement de « " + hero +
+                                 " » sans slug.");
+            continue;
+        }
+        if (!replaceHero(hero, NPC_DIRECTORY_FROM_COLISEUM + slug.get<std::string>())) {
+            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, « " + hero +
+                                 " » n'est pas un heros du Colisee.");
+            continue;
+        }
+        ++replaced;
+    }
+    return replaced;
 }
 
 }  // namespace hmi

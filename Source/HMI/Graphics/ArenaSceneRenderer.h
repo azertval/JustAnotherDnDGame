@@ -5,6 +5,7 @@
 
 #include <cstddef>
 #include <filesystem>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -80,6 +81,9 @@ public:
      * @param coliseumDirectory Dossier de la planche du Colisée (`Assets/Coliseum`) : manifeste,
      *                          pièces et `.anim.json`. Absent ou illisible : catalogue vide, rien à
      *                          dessiner que le fond — jamais une erreur bloquante (`EX-NFR-040`).
+     *                          À côté de lui, `Assets/Npc/manifest.json` (l'atelier des PNJ,
+     *                          LOT-91) peut mettre un PNJ à la place d'un héros
+     *                          (`ArenaAppearanceCatalog::applyNpcManifest`) ; absent : rien.
      */
     explicit ArenaSceneRenderer(std::filesystem::path coliseumDirectory);
     ~ArenaSceneRenderer();
@@ -160,6 +164,9 @@ private:
 
     std::filesystem::path _directory;
     ArenaAppearanceCatalog _catalog;
+    /// Largeur d'image des bandes dessinées (`idle.png`, `death.png`), par chemin sous
+    /// `_directory`, lue avec leurs clips : `ArenaTexture::frameWidth` à la création des textures.
+    std::map<std::string, int> _bandFrameWidths;
     ArenaAnimationDriver _animation;
     ArenaSceneSnapshot _snapshot;
     /// Les combattants dont l'animation est pilotée : ceux de l'instantané courant.

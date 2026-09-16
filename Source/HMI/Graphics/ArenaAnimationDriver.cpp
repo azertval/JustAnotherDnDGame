@@ -33,10 +33,13 @@ namespace {
 // invalide : nul, et le message rejoint errors.
 [[nodiscard]] std::shared_ptr<const core::ClipSet> loadOptionalClips(
     const std::filesystem::path& sheetDirectory, ArenaFigureAction action,
-    std::vector<std::string>& errors) {
+    std::vector<std::string>& errors, int* frameWidth = nullptr) {
     const std::filesystem::path path = sheetDirectory / actionFileName(action);
     const AnimationDescriptionResult result = AnimationCatalog::loadFromFile(path);
     if (result.ok()) {
+        if (frameWidth != nullptr) {
+            *frameWidth = result.description->frameWidth;
+        }
         return std::make_shared<const core::ClipSet>(std::move(result.description->clips));
     }
     if (result.errorCode != AnimationCatalogError::FileNotFound) {
@@ -66,11 +69,13 @@ const std::shared_ptr<const core::ClipSet>& ArenaFigureAnimationSet::forAction(
 
 ArenaFigureAnimationLoad loadArenaFigureAnimations(const std::filesystem::path& sheetDirectory) {
     ArenaFigureAnimationLoad load;
-    load.clips.idle = loadOptionalClips(sheetDirectory, ArenaFigureAction::Idle, load.errors);
+    load.clips.idle = loadOptionalClips(sheetDirectory, ArenaFigureAction::Idle, load.errors,
+                                        &load.idleFrameWidth);
     load.clips.walk = loadOptionalClips(sheetDirectory, ArenaFigureAction::Walk, load.errors);
     load.clips.attack = loadOptionalClips(sheetDirectory, ArenaFigureAction::Attack, load.errors);
     load.clips.hit = loadOptionalClips(sheetDirectory, ArenaFigureAction::Hit, load.errors);
-    load.clips.death = loadOptionalClips(sheetDirectory, ArenaFigureAction::Death, load.errors);
+    load.clips.death = loadOptionalClips(sheetDirectory, ArenaFigureAction::Death, load.errors,
+                                         &load.deathFrameWidth);
     return load;
 }
 

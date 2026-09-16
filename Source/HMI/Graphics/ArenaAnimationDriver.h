@@ -80,6 +80,10 @@ struct ArenaFigureAnimationSet {
  */
 struct ArenaFigureAnimationLoad {
     ArenaFigureAnimationSet clips;
+    /// Largeur d'image (`frameWidth`) des bandes que la composition dessine, 0 si le fichier
+    /// manque : `idle.png` debout, `death.png` à terre (voir `ArenaTexture::frameWidth`).
+    int idleFrameWidth = 0;
+    int deathFrameWidth = 0;
     std::vector<std::string> errors;
 };
 

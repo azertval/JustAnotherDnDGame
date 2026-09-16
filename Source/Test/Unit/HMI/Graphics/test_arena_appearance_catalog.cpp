@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -301,4 +302,72 @@ TEST(ArenaAppearanceCatalogTest, ManifesteLivreValide) {
     EXPECT_FALSE(result.catalog->paleSlabs().empty());
     EXPECT_GT(result.catalog->heroFrames(), 0);
     EXPECT_GT(result.catalog->enemyFrames(), 0);
+}
+
+/**
+ * @brief Un heros remplace lit ses bandes ailleurs, sans changer de nom ni de place au roster.
+ * \castest{<b>`replaceHero` change le dossier rendu par `figureFor`/`sheetDirectory`, rien
+ * d'autre.</b><br/>
+ * \tcat Unitaire · Catalogue d'apparence de l'arene<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lire le dossier par defaut d'un heros et d'un gladiateur.<br/>
+ *          2. Remplacer ce heros par `../Npc/anariel`, puis tenter un nom inconnu.<br/>
+ * \tattendu `characters/<heros>` et `enemies/<gladiateur>` avant ; apres, le heros garde son nom
+ * et son rang mais son dossier vaut `../Npc/anariel` ; le nom inconnu est refuse sans effet.
+ * }
+ */
+TEST(ArenaAppearanceCatalogTest, UnHerosRemplaceLitSesBandesAilleurs) {
+    hmi::ArenaAppearanceCatalog catalog = referenceCatalog();
+    const hmi::FigureAppearance avant = catalog.figureFor("Gorlak", core::CombatSide::Allies);
+    EXPECT_EQ(avant.directory, "characters/" + avant.sheet);
+    EXPECT_EQ(catalog.figureFor("Gorlak", core::CombatSide::Enemies).directory,
+              "enemies/" + catalog.figureFor("Gorlak", core::CombatSide::Enemies).sheet);
+
+    EXPECT_TRUE(catalog.replaceHero(avant.sheet, "../Npc/anariel"));
+    const hmi::FigureAppearance apres = catalog.figureFor("Gorlak", core::CombatSide::Allies);
+    EXPECT_EQ(apres.sheet, avant.sheet);
+    EXPECT_EQ(apres.frameCount, avant.frameCount);
+    EXPECT_EQ(apres.directory, "../Npc/anariel");
+    EXPECT_EQ(catalog.sheetDirectory(avant.sheet, core::CombatSide::Allies), "../Npc/anariel");
+    EXPECT_EQ(catalog.heroes(), referenceCatalog().heroes());
+
+    EXPECT_FALSE(catalog.replaceHero("inconnu", "../Npc/inconnu"));
+    EXPECT_EQ(catalog.sheetDirectory("inconnu", core::CombatSide::Allies), "characters/inconnu");
+}
+
+/**
+ * @brief Le manifeste des PNJ remplace les heros qu'il nomme, ignore le reste, et son absence
+ *        ne change rien.
+ * \castest{<b>`applyNpcManifest` : un heros remplace par entree valide, une entree inconnue ou
+ * sans slug ignoree, un fichier absent sans effet.</b><br/>
+ * \tcat Unitaire · Catalogue d'apparence de l'arene<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Appliquer un chemin inexistant.<br/>
+ *          2. Ecrire un manifeste avec `kaelith_voss` -> `anariel`, un heros inconnu et un slug
+ *          vide ; l'appliquer.<br/>
+ * \tattendu 0 puis 1 remplacement ; `kaelith_voss` lit `../Npc/anariel`, `bram` reste sous
+ * `characters/`.
+ * }
+ */
+TEST(ArenaAppearanceCatalogTest, LeManifesteDesPnjRemplaceLesHerosNommes) {
+    hmi::ArenaAppearanceCatalog catalog = referenceCatalog();
+    const std::filesystem::path dir =
+        std::filesystem::temp_directory_path() / "jadg_npc_manifest_test";
+    std::filesystem::create_directories(dir);
+    const std::filesystem::path manifest = dir / "manifest.json";
+    std::filesystem::remove(manifest);
+
+    EXPECT_EQ(catalog.applyNpcManifest(manifest), 0);
+    EXPECT_EQ(catalog.sheetDirectory("kaelith_voss", core::CombatSide::Allies),
+              "characters/kaelith_voss");
+
+    {
+        std::ofstream out(manifest);
+        out << R"({"version": 1, "npcs": ["anariel"],
+                   "replaces": {"kaelith_voss": "anariel", "inconnu": "x", "bram": ""}})";
+    }
+    EXPECT_EQ(catalog.applyNpcManifest(manifest), 1);
+    EXPECT_EQ(catalog.sheetDirectory("kaelith_voss", core::CombatSide::Allies), "../Npc/anariel");
+    EXPECT_EQ(catalog.sheetDirectory("bram", core::CombatSide::Allies), "characters/bram");
+    std::filesystem::remove_all(dir);
 }
