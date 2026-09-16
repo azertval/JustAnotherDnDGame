@@ -17,6 +17,7 @@ add_library(Core STATIC
     World/Atlas.cpp
     World/EntityKinds.cpp
     World/GridDistanceField.cpp
+    World/WorldGraph.cpp
     Gameplay/Interaction.cpp
     Gameplay/MapEntitySpawner.cpp
     Gameplay/MechanismController.cpp
