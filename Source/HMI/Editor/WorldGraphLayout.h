@@ -104,6 +104,8 @@ struct WorldGraphLayout {
 
 /**
  * @brief Le nœud sous @p point.
+ * @param layout Disposition dans laquelle chercher.
+ * @param point Position à tester, dans le même repère que @p layout.
  * @param radius Distance maximale au centre (en général `WORLD_GRAPH_NODE_RADIUS`).
  * @return L'indice du nœud le plus proche à moins de @p radius (bord inclus) ; à distance égale,
  *         le plus petit indice. `std::nullopt` si aucun.
