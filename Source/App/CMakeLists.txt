@@ -71,6 +71,8 @@ qt_add_qml_module(JustAnotherRpgGame
         Game/Qml/Screens/Credits.qml
         Game/Qml/Screens/GameView.qml
         Game/Qml/Screens/Arena.qml
+        # Les outils de debug : pas des ecrans du jeu, donc sans formulaire dans Source/Ui.
+        Game/Qml/Tools/AssetGallery.qml
 )
 
 # `qmlcachegen` compile le QML A L'AVANCE en C++, et ce C++ ENGENDRÉ déclenche C4702 (« code

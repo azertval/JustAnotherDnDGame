@@ -39,6 +39,9 @@ qt_add_qml_module(JadgRuntime
         # est le premier ecran du jeu a faire tourner -- jusqu'ici compile dans l'editeur seul.
         ArenaViewportItem.h ArenaViewportItem.cpp
         ../Graphics/ArenaSceneRenderer.cpp
+        # La galerie des assets : un outil de debug, pas un ecran du jeu (`--screen=AssetGallery`).
+        AssetGalleryItem.h AssetGalleryItem.cpp
+        ../Graphics/AssetGalleryRenderer.cpp
         ../Graphics/SceneResources.cpp
         ../Graphics/SpriteBatch.cpp
         ../Graphics/SpriteRenderer.cpp

@@ -117,6 +117,17 @@ L'écart doit être **déclaré et consultable**, jamais découvert en jeu.
   un état d'avancement, pas un défaut. La production graphique devient un remplacement progressif,
   jamais un préalable bloquant.
 
+- \anchor EX-CNT-042 **EX-CNT-042** — Tout asset graphique livré doit paraître dans la **galerie des
+  assets**, l'écran de débug `--screen=AssetGallery` : un modèle ajouté y montre toutes ses formes
+  et toutes ses animations, disposées dans leur emprise, **sans rien câbler d'autre** que ses
+  fichiers et son manifeste. Une famille d'assets nouvelle, que la galerie ne sait pas encore lire,
+  s'y ajoute **dans le même changement** que ses premiers fichiers. Seules les images qui ne sont
+  pas des assets à montrer en sont exclues, par une règle **nommée** dans le code (planches sources
+  des ateliers, atlas procédural, interface, polices) ; l'intégration continue **échoue** sur toute
+  autre image absente de la galerie. Vérifier un asset dans une scène de jeu (le Colisée) ne montre
+  que ce que la scène utilise, dans la pose où elle l'utilise : à mesure que les ateliers produisent,
+  c'est la galerie qui dit ce qui existe.
+
 ## 6. Contrôle de plausibilité
 
 La validation par schéma dit qu'un fichier est **bien formé**. Elle ne dit rien de sa

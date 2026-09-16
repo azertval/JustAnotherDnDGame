@@ -6,6 +6,19 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Galerie des assets, un outil de débug.** `--screen=AssetGallery` (ou le sélecteur d'écrans en
+  build de développement) montre tous les assets livrés d'un coup : PNJ, héros et gladiateurs du
+  Colisée, pièces de la planche, textures des scènes, skins animés. Chaque forme occupe un bloc —
+  son emprise plus une case de marge — et joue son animation ; l'inspecteur donne taille, images,
+  durée, boucle, emprise et ancre, et avance image par image. On s'y déplace au clic maintenu, on
+  zoome à la molette, une minicarte situe la vue. Seuls les blocs à l'écran sont dessinés, ceux
+  d'un anneau autour gardent leur texture, les autres la libèrent après deux secondes. Ce n'est
+  pas un écran du jeu, et il n'appartient à aucun lot de la feuille de route.
+  - **Spécification** : tout asset livré doit y paraître (`EX-CNT-042`). Un test parcourt toutes
+    les images de `Assets/` et échoue sur celle que la galerie ne montre pas, hors exclusions
+    nommées (planches sources, atlas, interface, polices) ; portraits, joueur, objets, fonds et
+    skins fixes y entrent donc aussi.
+
 - **Atelier des textures : la scène a son style (LOT-92).** Une maquette approuvée par l'auteur
   fixe le style de la scène — pixel art isométrique, soir, lanternes, pierre et bois sombres —
   et une méthode commande ensuite une planche de textures **par lieu**, depuis sa fiche d'atlas.
