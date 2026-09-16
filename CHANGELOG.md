@@ -6,6 +6,15 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Feuille de route : le *vertical slice* se joue dans la Capitale.** Les quatre lots du chemin
+  critique — `LOT-09`, `LOT-16`, `LOT-17`, `LOT-27` — étaient rédigés sans lieu, sans PNJ, sans
+  quête, et ne se vérifiaient qu'en test. Ils sont réécrits autour de la **Capitale du Central
+  Empire** (Sourcebook, pages 94 à 103 ; plan `VTT/Map - Capital.jpg`), où se trouve déjà le
+  Colisée : l'exploration dans le jeu et le graphe des douze quartiers (`LOT-09`), la quête
+  « Les enfants de Martpart » tirée du livre (`LOT-16`), la reprise de partie (`LOT-17`), la
+  ville habillée — cartes, figurines, textures — et le combat sur la carte (`LOT-27`). La
+  région de départ passe des Freelands à la Capitale (§8) ; un plan d'intégration (§6) dit ce
+  qu'on voit dans le jeu à la fin de chaque lot. Le `LOT-09` devient le prochain lot calculé.
 - **L'éditeur produit les cartes du RPG (LOT-11).** `LevelEditor` reste l'outil d'auteur — décision
   tranchée, `EX-EDIT-030` refondue — et sait désormais tout ce qu'il faut pour écrire une carte sans
   toucher au JSON.
@@ -24,7 +33,6 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     touche d'interaction.
   - **Correctif** : la fenêtre de l'éditeur construisait tous ses panneaux deux fois — la barre
     d'outils montrait chaque outil en double.
-
 - **Atelier des PNJ : la preuve de concept (LOT-91).** Cinq figurines animées au style du jeu,
   produites par une méthode reproductible, entrent dans le dépôt — premières des 160 fiches du
   *Character Compendium*.

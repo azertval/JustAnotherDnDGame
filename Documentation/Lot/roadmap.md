@@ -1,7 +1,7 @@
 # Feuille de route — le bac à sable de Tanares {#roadmap}
 
 Le programme complet du jeu, et **l'unique source de vérité** des lots à venir : les lots `LOT-09`
-à `LOT-90`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et les audits qui ont
+à `LOT-96`, ce que le corpus `Documentation/SourceBook/` permet d'en tirer, et les audits qui ont
 confronté le tout à l'état réel du dépôt et aux deux livres de Tanares.
 
 > **Cette page s'appelait « Feuille de route 0.1.0 ».** Ce nom disait le périmètre d'un *vertical
@@ -32,7 +32,10 @@ sections 9 et 10 rapportent l'audit et ce qu'il faut anticiper ; la section 11 p
 
 ## État d'avancement {#roadmap-avancement}
 
-**Quarante lots livrés, quarante-cinq restants.** Le prochain est le [LOT-16](@ref lot-16).
+**Quarante lots livrés, cinquante restants.** Le prochain calculé est le `LOT-92`,
+l'atelier des textures ; le `LOT-94` (les images du corpus hors du dépôt) est prêt avec lui, et le
+[plan d'intégration de la Capitale](@ref roadmap-capitale) les veut ensemble : le
+[LOT-09](@ref lot-09), première carte du jeu, attend le style que le `LOT-92` fixe.
 
 Livrés : `LOT-01` à `LOT-08` (le socle : fork et purge, `HmiLib`, `LevelData`, format de carte
 version 3, modes de jeu, déplacement top-down, tri par profondeur, tuiles RPG), `LOT-77`, `LOT-78`
@@ -85,7 +88,7 @@ le slice.
 
 | Version | Ce qu'elle rend jouable | Lots |
 |---|---|---|
-| `0.0.1` | Le *vertical slice* : un village, un donjon, un combat tactique complet, une sauvegarde ; l'arène comme banc d'essai ; des spécifications qui décrivent ce jeu | `LOT-16`, `LOT-17`, `LOT-09`, `LOT-27`, `LOT-28`, `LOT-88` |
+| `0.0.1` | Le *vertical slice* **dans la Capitale** : le Colisée en version finale comme première carte qu'on parcourt, deux quartiers de la capitale impériale et leur bas-fond, une quête tirée du livre, un combat tactique complet sur la carte, le verdict de l'Arène du Destin, une sauvegarde ; un style de scène propre au jeu et plus aucune image du corpus ; des spécifications qui décrivent ce jeu | `LOT-92`, `LOT-93`, `LOT-94`, `LOT-95`, `LOT-09`, `LOT-96`, `LOT-16`, `LOT-17`, `LOT-27`, `LOT-28`, `LOT-88` |
 | `0.0.2` | Le bac à sable des **treize régions** : terrain généré, peuplement déduit des statistiques régionales, voyage, calendrier lunaire, économie, Guilde, groupe de quatre | `LOT-80`, `LOT-81`, `LOT-40`, `LOT-44`, `LOT-46`, `LOT-89`, `LOT-26`, `LOT-41`, `LOT-70`, `LOT-82`, `LOT-35`, `LOT-42`, `LOT-45`, `LOT-74`, `LOT-75`, `LOT-72`, `LOT-25`, `LOT-29`, `LOT-49`, `LOT-69` |
 | `0.0.3` | Les **seize classes** du *Player's Guide* et leurs sous-classes, le Colisée comme institution, la compagnie et son quartier général | `LOT-84`, `LOT-47`, `LOT-51` → `LOT-65`, `LOT-83` |
 | `0.0.4` | Le **plan pénombral**, second monde du Sourcebook | `LOT-90` |
@@ -117,37 +120,42 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-16` | Quêtes et drapeaux de monde | 12 | **prochain** |
-| 2 | `LOT-09` | Graphe de cartes et transitions | 11 | prêt |
-| 3 | `LOT-17` | Sauvegarde riche | 10 | en attente |
-| 4 | `LOT-27` | Contenu du *vertical slice* | 9 | en attente |
-| 5 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 6 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 7 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 8 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 9 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 10 | `LOT-46` | Créatures de Tanares | 7 | prêt |
-| 11 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 12 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 13 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 14 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 15 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 16 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 17 | `LOT-35` | Sorts et états | 2 | prêt |
-| 18 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 19 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 20 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 21 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 22 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 23 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 24 | `LOT-69` | Retrait de l'atelier pixel art | 0 | prêt |
-| 25 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 26 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 27 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 28 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 29 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 30 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 31 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-92` | Atelier des textures : le style de la scène par maquette, une planche par lieu | 18 | **prochain** |
+| 2 | `LOT-94` | Les images du corpus quittent le dépôt : carte du monde retirée, fond de menu propre | 15 | prêt |
+| 3 | `LOT-09` | Le Colisée se parcourt : exploration dans le jeu et première carte | 14 | en attente |
+| 4 | `LOT-95` | Le plan de la Capitale : régénéré dans le style du jeu, en sous-zones, avec un zoom | 14 | en attente |
+| 5 | `LOT-96` | Martpart et Arenarea se parcourent : le graphe des quartiers | 13 | en attente |
+| 6 | `LOT-16` | Les affaires de la Capitale : quêtes et drapeaux de monde | 12 | en attente |
+| 7 | `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | 11 | en attente |
+| 8 | `LOT-17` | Reprendre sa partie dans la Capitale : sauvegarde riche | 10 | en attente |
+| 9 | `LOT-27` | La Capitale : contenu du *vertical slice* | 9 | en attente |
+| 10 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 11 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 12 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 13 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 14 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 15 | `LOT-46` | Créatures de Tanares | 7 | en attente |
+| 16 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 17 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 18 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 19 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 20 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 21 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 22 | `LOT-35` | Sorts et états | 2 | prêt |
+| 23 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 24 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 25 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 26 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 27 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 28 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 29 | `LOT-69` | Retrait de l'atelier pixel art | 0 | prêt |
+| 30 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 31 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 32 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 33 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 34 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 35 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 36 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -211,8 +219,8 @@ personnage **vierge**, c'est-à-dire une maquette et non un exemple rempli.
 | `VTT/Character Compendium - High.pdf` | le même, à haute définition (83 Mo) | 169 pages | identique | extraction d'illustrations |
 | `VTT/Adventure Map Grids.pdf` | **31 cartes tactiques peintes, vues de dessus, alignées sur une grille** | 31 planches | aucun | `LOT-19`, `LOT-27`, `LOT-40` |
 | `VTT/Adventure Hunt for Azymor.pdf` | module d'aventure complet : intrigue, PNJ nommés, lieux, rencontres | 15 pages, **double** | natif, 97 000 car. | `LOT-27`, `LOT-16` |
-| `VTT/Map - World.jpg` | la carte du monde, **9 933 × 7 016**, sans filigrane | 1 planche | aucun | `LOT-42` |
-| `VTT/Map - Capital.jpg` | plan de la capitale, rue par rue, 9 933 × 7 016 | 1 planche | aucun | `LOT-42`, `LOT-82` |
+| `VTT/Map - World.jpg` | la carte du monde, **9 933 × 7 016**, sans filigrane — **référence seule** : le jeu ne l'affiche plus (`LOT-94`), le `LOT-42` en génère une dans son style | 1 planche | aucun | `LOT-94`, `LOT-42` |
+| `VTT/Map - Capital.jpg` | plan de la **Capitale impériale**, rue par rue, 9 933 × 7 016 — les douze quartiers du Sourcebook y sont nommés, avec les trois arènes, les portes et les bâtiments que la prose décrit | 1 planche | aucun | **référence seule**, lue sur le poste : le plan du jeu se régénère au `LOT-95`, et les cartes du slice se tracent depuis celui-là (`LOT-96`, [LOT-27](@ref lot-27)) |
 | `VTT/Blank Sheets RPG (1).pdf` | les 5 feuilles de personnage **vierges** | 5 planches | aucun (vectoriel) | [LOT-38](@ref lot-38) |
 | `VTT/RPG Sheets - BW print (2).pdf` | les mêmes en noir et blanc | 5 planches | aucun | [LOT-38](@ref lot-38) |
 | `VTT/Tokens VTT PNG/` | **172 jetons ronds détourés**, 354 × 354, canal alpha | 172 fichiers | — | [LOT-38](@ref lot-38), `LOT-15`, `LOT-24`, `LOT-82` |
@@ -477,8 +485,10 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 JSON**. C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière — les
 deux premiers sont livrés depuis, sur les catalogues qu'elle a produits.
 
-Trente-huit lots, `LOT-35` à `LOT-90`, restent à livrer dans cette filière — dont trois ajoutés
-par la relecture des livres (§4bis) : `LOT-88`, `LOT-89`, `LOT-90`. Cinq numéros ont été
+Quarante-deux lots, `LOT-35` à `LOT-96`, restent à livrer dans cette filière — dont trois ajoutés
+par la relecture des livres (§4bis) : `LOT-88`, `LOT-89`, `LOT-90`, et cinq par la relecture du
+plan d'intégration de la Capitale, le 16 septembre 2026 (§8) : `LOT-92` à `LOT-96`, les ateliers
+d'assets, les images propres au jeu et la ville scindée du `LOT-09`. Cinq numéros ont été
 **retirés** (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73` par fusion, `LOT-85` par abandon : voir l'encart
 en fin de section),
 et seize lots de la même plage sont **livrés** — les trois préconditions [LOT-77](@ref lot-77),
@@ -558,8 +568,9 @@ D'où trois lots supplémentaires, `LOT-40` à `LOT-42`, qui transforment l'atla
 le terrain, son peuplement, et le voyage entre les régions.
 
 Cela ne remplace pas le [LOT-27](@ref lot-27), qui garde sa fonction : prouver que la boucle
-complète tourne — explorer, parler, déclencher, combattre, gagner — sur **un** village et **un**
-donjon. Un bac à sable est cette boucle répétée sur cent lieux ; la construire sur cent lieux avant
+complète tourne — explorer, parler, déclencher, combattre, gagner — sur **deux** quartiers de la
+Capitale et leur bas-fond (§8, décision du 16 septembre 2026). Un bac à sable est cette boucle
+répétée sur cent lieux ; la construire sur cent lieux avant
 de l'avoir validée sur un seul multiplierait simplement par cent le coût de chaque correction.
 
 ### `LOT-35` — Sorts et états {#lot-35}
@@ -661,7 +672,9 @@ une région dont le biome ne la porte pas.
 
 ### `LOT-42` — Voyage et carte du monde {#lot-42}
 
-*Prérequis : `LOT-82`, [LOT-68](@ref lot-68), `LOT-70`, [LOT-09](@ref lot-09), [LOT-17](@ref lot-17).*
+*Prérequis : `LOT-82`, [LOT-68](@ref lot-68), `LOT-70`, [LOT-09](@ref lot-09), [LOT-17](@ref lot-17),
+`LOT-94` (la carte du monde extraite du corpus est partie ; celle-ci se génère), `LOT-92` (l'atelier
+qui la produit).*
 
 Un univers vaste ne vaut que si l'on peut le parcourir. Ce lot livre la **carte du monde** — les dix
 régions, leurs lieux connus, la position du personnage — et le déplacement entre régions : routes,
@@ -678,13 +691,16 @@ Il porte aussi la **découverte** : un lieu se révèle en y arrivant ou en l'ap
 cet état de découverte entre dans la sauvegarde du [LOT-17](@ref lot-17). Sans cela, un monde de
 cent lieux s'ouvre entièrement dès la première seconde et n'a plus rien à offrir.
 
-**L'écran existe déjà.** `WorldMapForm.ui.qml` ([LOT-87](@ref lot-87), maquette 08) pose la carte
-du monde en haute définition — **`VTT/Map - World.jpg`**, 9 933 × 7 016, **sans filigrane et hors
-double page**, là où le fond de menu du [LOT-67](@ref lot-67) se contentait de 96 ppp — avec les
-treize régions, leur gouvernement et le nombre de leurs lieux, sur un `WorldMapModel` qui ne
-connaît encore ni position du personnage ni découverte. Ce lot n'a donc plus d'écran à dessiner :
-il livre la **donnée** du voyage (routes, coûts, ancrages) et le modèle qui la porte, puis place
-les lieux un à un. **`VTT/Map - Capital.jpg`** donne la capitale rue par rue, à la même définition.
+**L'écran a existé, et il est parti.** `WorldMapForm.ui.qml` ([LOT-87](@ref lot-87), maquette 08)
+posait la carte du monde **extraite du corpus** (`VTT/Map - World.jpg`), avec les treize régions
+ancrées dessus ; le `LOT-94` l'a retiré avec ses deux images, parce qu'une œuvre du corpus n'est
+pas un asset du jeu (§8, décision du 16 septembre 2026). Ce lot **redessine** l'écran sur une carte
+**générée** par l'atelier du `LOT-92`, dans le style du jeu, à la manière du plan de la Capitale du
+`LOT-95` : des niveaux de zoom et des ancrages JSON, les treize régions et leurs lieux découverts,
+la position du personnage — et **on ne s'y déplace pas** : la carte du monde sert à choisir une
+destination et à s'orienter, le voyage la quitte pour une carte de niveau à l'arrivée. Il livre
+avec elle la **donnée** du voyage (routes, coûts, ancrages) et le modèle qui la porte, puis place
+les lieux un à un. Les deux cartes du corpus restent des références lues sur le poste.
 
 *Acceptation* — le joueur atteint les treize régions par le seul jeu, sans commande de débogage ; la
 carte du monde n'affiche que ce qui est découvert ; l'état de découverte survit à une sauvegarde et
@@ -764,7 +780,8 @@ affiche ce que le `LOT-82` a composé, sans qu'aucun contrat ne soit écrit à l
 
 ### `LOT-46` — Créatures de Tanares {#lot-46}
 
-*Prérequis : `LOT-33`, `LOT-30`.*
+*Prérequis : `LOT-33`, `LOT-30`, `LOT-93` (l'atelier des monstres, qui dessine ces blocs depuis leur
+texte seul).*
 
 Les **82 blocs de Tanares** (ch. 9, 17 familles : akhu, emoguns, gloomfolk, ironhands, kemets,
 kepesh, kikoku, dragons et drakes pénombraux, ninjas spectraux, constructs taii'makian…). Gabarit
@@ -1345,6 +1362,203 @@ la règle locale — un lieu de massacre ouvre une faille.
 un repos long y échoue hors zone de stabilité ; une créature pénombrale ramenée sur le plan
 matériel brûle au soleil ; les sept couches sont jouables, chacune avec sa table.
 
+### `LOT-92` — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
+
+*Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`, le
+précédent à généraliser), [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ, dont celui-ci
+est le frère), [LOT-39](@ref lot-39) (les clés d'assets et le cahier). Alimente
+[LOT-09](@ref lot-09), `LOT-93`, `LOT-95`, `LOT-42`.*
+
+*Ajouté le 16 septembre 2026, à la relecture du plan d'intégration de la Capitale (§6).* Les
+figurines ont une méthode (`LOT-91`) ; les textures n'en avaient pas — le [LOT-27](@ref lot-27)
+prévoyait « trois planches produites comme celle du Colisée », et celle du Colisée a été produite
+une fois, à la main, sur la maquette du HUD, sans style écrit. Or c'est le sol et les murs qui font
+qu'une ville ressemble à la Capitale, et le style d'une texture ne se décide pas planche par
+planche.
+
+Ce lot livre **l'atelier des textures**, sur le modèle de celui des PNJ, et d'abord son **style** :
+une **maquette** — une scène complète, un fragment de rue avec deux figurines de l'atelier posées
+dessus à l'échelle — soumise à l'auteur et **approuvée avant toute planche**. Le style est celui
+des figurines (pixel art, personnage de 45 px dans une cellule de 48 × 64), et la maquette fixe ce
+que les PNJ ne disent pas : la taille de la tuile, le point de vue, le trait, la palette du sol et
+de la pierre, la lumière. Une fois approuvée, elle est la référence de **toutes** les planches à
+venir, dans toutes les régions.
+
+La méthode, ensuite : le prompt en trois blocs de l'atelier des PNJ, transposé — **A**, le style,
+écrit une fois depuis la maquette ; **B**, le **lieu**, rédigé depuis la prose de l'atlas du
+[LOT-37](@ref lot-37) (`locations/*.json` : « rues pavées, étals éclairés de lanternes,
+architecture aux styles mêlés » suffit à Martpart) ; **C**, la **disposition de planche** — une
+grille de cellules nommées : sols, murs, objets, transitions. C'est le bloc B qui rend l'atelier
+**portable** : chaque lieu du monde a déjà son descriptif, et une planche se commande depuis lui
+sans rien réécrire. Le script de découpe généralise `extract_coliseum_atlas.py` — une disposition
+déclarée en JSON, plus des coordonnées codées en dur — et chaque cellule découpée entre dans le
+cahier des assets (`check_assets_brief.py`) sous sa clé. Comme pour les PNJ, la génération est
+**manuelle** (envois par l'auteur, retours dans un dossier de travail hors dépôt) ; Claude rédige,
+découpe, mesure, intègre — il ne dessine pas.
+
+La **première planche** est celle du [LOT-09](@ref lot-09) : le Colisée dans sa version finale —
+sable, gradins, loges, couloirs, vestiaires, portes, torches, bannières —, et elle **remplace** la
+planche du `LOT-50`, qui n'était pas au style. Les planches de la Capitale (Martpart, Arenarea, le
+bas-fond, la variante noble de l'Arène du Destin) suivent au fil de l'eau, chacune commandée par le
+lot qui la pose ; leur liste est celle du [LOT-27](@ref lot-27). La scène est en pixel art,
+l'interface reste à la charte v2 (§8) : ce lot l'écrit dans `Documentation/Specification/`.
+
+*Acceptation* — la maquette de style est approuvée par l'auteur et versionnée dans le lot ; la
+planche du Colisée est produite, découpée par le script depuis sa disposition JSON, et chaque
+cellule a sa clé au cahier des assets ; une planche se commande pour un second lieu (Martpart)
+depuis son seul descriptif d'atlas, sans toucher au bloc A ; `check_assets_brief.py` vert ; la
+spécification dit les deux identités, scène et interface.
+
+### `LOT-93` — Atelier des monstres : les figurines du bestiaire, depuis le texte seul {#lot-93}
+
+*Prérequis : [LOT-91](@ref lot-91) (la méthode), [LOT-33](@ref lot-33) (les 94 bêtes du SRD,
+premières fiches à dessiner), `LOT-92` (le style de scène, pour que la bête et le sol s'accordent).
+Alimente [LOT-27](@ref lot-27), `LOT-46`.*
+
+*Ajouté le 16 septembre 2026.* L'atelier des PNJ part d'une **image** : le portrait peint du
+*Character Compendium*, que la chaîne normalise avant de l'imiter. Le bestiaire n'en a pas — le
+`LOT-33` a extrait des blocs de statistiques, et le `LOT-46` en extraira 82 autres, tous sans
+illustration exploitable. Ce lot dérive l'atelier pour le cas **sans référence visuelle** : le bloc
+B se rédige depuis le **texte** seul — le type, la taille, la description du bloc, ce que le
+lecteur du corpus en dit —, et le style est celui des PNJ (bloc A du `LOT-91`), pour que le monstre
+et la figurine qui l'affronte soient du même monde.
+
+Ce qui change, concrètement : pas d'étape « références » ni de portrait à normaliser ; le bloc B
+gagne une rubrique **SILHOUETTE** — la lisibilité d'une bête en 45 px se joue à la silhouette, pas
+au détail — et une rubrique **SIZE** qui suit la **taille** du bloc : une créature Moyenne tient la
+cellule de 48 × 64, une Grande occupe une emprise de 2 × 2 cases ([LOT-19](@ref lot-19)) et une
+planche à cellules de 96 × 96 — la disposition C a donc **deux gabarits**, et `compose.py` les
+connaît. Le jeu d'animations est celui des PNJ (`idle` 6, `walk` 8, `hit` 4, `death` 6, `attack` 8,
+`cast` 8) ; une bête sans sort n'a pas de `cast`, et le manifeste le dit. Sortie :
+`Source/Elements/Assets/Monsters/<slug>/` et son `manifest.json`, sur le modèle de `Npc/`.
+
+Les premières fiches sont celles que le slice affronte : les bêtes que le Colisée oppose au joueur
+([LOT-09](@ref lot-09)) et les **champions loués** du noble des Blood Bound
+([LOT-27](@ref lot-27)) — des blocs du `LOT-33`. Le reste des 176 se produit **au fil de l'eau**,
+comme les 160 fiches du `LOT-91`, et le marqueur du [LOT-39](@ref lot-39) tient la place de chaque
+bloc non dessiné.
+
+*Acceptation* — trois créatures du `LOT-33` de tailles différentes (Petite ou Moyenne, Grande)
+produites de bout en bout, intégrées et affichées au Colisée ; la disposition à deux gabarits est
+découpée par le même script ; le manifeste déclare l'absence de `cast` et `check_asset_keys.py`
+l'accepte ; la fiche de méthode de l'atelier liste les 176 blocs à cocher.
+
+### `LOT-94` — Les images du corpus quittent le dépôt : carte du monde retirée, fond de menu propre {#lot-94}
+
+*Prérequis : [LOT-87](@ref lot-87) (le cahier des assets, où la pièce `ui/background/menu-scene`
+est décrite), [LOT-39](@ref lot-39) (le manifeste de provenance, `illustrations.json`). Alimente
+[LOT-28](@ref lot-28), `LOT-42`, `LOT-95`.*
+
+*Ajouté le 16 septembre 2026.* Le §3 disait les licences « en sommeil » ; elles le restent pour la
+**donnée** et le vocabulaire (projet privé), mais pas pour les **images** : le plan de la ville, la
+carte du monde et les planches du corpus sont des œuvres, et le jeu ne les affichera pas. Or deux le
+sont aujourd'hui, et ce sont les **seules** images du corpus commises : `UI/world-map.jpg`
+(Sourcebook, page 44) et `UI/world-map-hd.jpg` (`VTT/Map - World.jpg`), fond de l'écran carte du
+monde, mais aussi **du menu principal**, des crédits et des options, parce que la pièce
+`menu-scene` du cahier n'a jamais été produite.
+
+Ce lot les retire et met le dépôt en règle avec lui-même :
+
+- la **carte du monde est supprimée pour le moment** : `WorldMapForm.ui.qml`, `WorldMap.qml`,
+  `WorldMapModel`, `WorldMapRegions` et `world-map-regions.json` partent, l'entrée du menu avec
+  eux — on ne se **déplace** jamais sur une carte du monde (§8), et l'écran que le `LOT-42`
+  redessinera portera une carte **générée** dans le style du jeu, pas une extraction ;
+- le **fond du menu principal** est produit : la pièce `ui/background/menu-scene` du cahier,
+  1 920 × 1 080, sur deux propositions soumises à l'auteur — une scène au style du `LOT-92`, une
+  peinture à la charte v2 ; crédits et options prennent le même fond ou un aplat de la charte ;
+- `illustrations.json` ne connaît plus la provenance `tanares` que comme **interdite** : un lint
+  (`check_ui_assets.py`) refuse toute image dont la provenance est le corpus, et `EX-IHM-076` est
+  refondue en ce sens — une illustration d'interface est **produite**, jamais extraite ;
+- le cahier des assets du [LOT-87](@ref lot-87) et le §7 de cette page cessent de citer une carte
+  du monde extraite.
+
+*Acceptation* — aucun fichier du dépôt n'a la provenance `tanares`, et le lint le refuse en CI ; le
+menu principal, les crédits et les options s'affichent sur le nouveau fond, à la capture de
+référence près ; l'entrée « Carte du monde » n'existe plus dans le menu ni dans `ScreenRouter` ; le
+jeu et les tests QML passent sans les fichiers retirés ; le `LOT-42` cite ce lot.
+
+### `LOT-95` — Le plan de la Capitale : régénéré dans le style du jeu, en sous-zones, avec un zoom {#lot-95}
+
+*Prérequis : `LOT-92` (le style de scène et l'atelier qui produit le plan), `LOT-94` (la place que
+la carte du monde laisse dans le menu de partie), [LOT-37](@ref lot-37) (l'atlas, où la Capitale
+entre ici). Alimente `LOT-96`.*
+
+*Ajouté le 16 septembre 2026.* Le plan `VTT/Map - Capital.jpg` est une **référence**, pas un
+asset : le jeu ne l'affichera pas, et ses cartes ne le recopieront pas non plus (`LOT-94`). Il faut
+donc à la Capitale **son propre plan**, dans le style du jeu — et c'est l'occasion d'avoir la
+finesse que le plan du corpus ne donne pas : une ville en **sous-zones**, qu'on lit à trois
+échelles.
+
+Ce lot produit le plan par l'atelier du `LOT-92`, en **trois niveaux** : la **ville** — l'enceinte,
+les douze quartiers, les portes, les trois arènes, le palais, la tour de Torygg, le quartier
+général des Ironhand, ce que la prose du Sourcebook nomme (pages 98 et 99 du livre), disposé
+librement mais fidèle aux voisinages que le livre donne, Sloghood hors les murs, le palais au
+centre —, chaque **quartier** — ses rues, ses bâtiments nommés, ses portes vers les quartiers
+voisins —, et, pour les quartiers ouverts, les **îlots** — le Marché municipal, le parvis de
+l'Arène du Destin. Chaque niveau est une image de l'atelier et un fichier JSON d'**ancrages**
+(`Source/Elements/Maps/capital/plan.json`) : des rectangles nommés, d'un niveau à son niveau
+inférieur, avec le quartier de `capital.json` et la carte de niveau que chaque zone désigne. Le
+plan est la **source** des cartes du `LOT-96` et du [LOT-27](@ref lot-27) : on trace un quartier
+depuis son plan, pas depuis celui du corpus.
+
+`Source/Elements/World/capital.json` naît ici — les douze quartiers, la zone du plan de chacun, la
+porte de départ ; le `LOT-96` y renseigne les cartes. L'atlas reçoit le lieu qui lui manque,
+`central-empire-the-capital-city.json`, ses douze quartiers en légende, et `check_rpg_data.py` le
+lit.
+
+L'**écran** « Plan de la Capitale » prend, dans le menu de partie, la place que la carte du monde a
+laissée (`LOT-94`) : pan et **zoom** au clavier, à la manette et à la souris, d'un niveau à l'autre
+par les ancrages, la position du héros et les quartiers visités (donnée du `LOT-96`, persistée au
+[LOT-17](@ref lot-17)) — et **rien d'autre** : on ne s'y déplace pas, on n'y voyage pas ; le
+déplacement se fait sur les cartes de niveau, et le plan sert à s'orienter (§8). Une zone au zoom
+maximal sans carte de niveau se lit « porte gardée » ; celle qui en a une nomme sa carte, sans
+l'ouvrir.
+
+*Acceptation* — les trois niveaux du plan sont produits dans le style approuvé au `LOT-92`, et les
+ancrages JSON les relient ; l'écran zoome du niveau ville à un îlot au clavier, à la manette et à
+la souris, avec une capture de référence QML par niveau ; aucune image du corpus n'est commise
+(`LOT-94`) ; la Capitale figure dans l'atlas et `check_rpg_data.py` la lit ; un lint vérifie que
+chaque ancrage désigne un quartier de `capital.json`, et que chaque quartier a une zone.
+
+### `LOT-96` — Martpart et Arenarea se parcourent : le graphe des quartiers {#lot-96}
+
+*Prérequis : [LOT-09](@ref lot-09) (l'exploration dans le jeu, le graphe de cartes et les
+portails, prouvés au Colisée), `LOT-95` (le plan propre, source du tracé, et `capital.json`),
+[LOT-11](@ref lot-11) (l'éditeur, où les quartiers se tracent), [LOT-15](@ref lot-15) (le dialogue
+de la sentinelle). Alimente [LOT-16](@ref lot-16), [LOT-17](@ref lot-17), [LOT-27](@ref lot-27).*
+
+*Ajouté le 16 septembre 2026 — c'est la moitié « ville » de l'ancien `LOT-09`.* Le `LOT-09`
+réécrit le 16 au matin portait à la fois le moteur d'exploration et deux quartiers dégrossis aux
+tuiles de test ; le même jour, l'auteur a voulu que la **première carte** soit le Colisée, en
+version finale, et que le style des textures soit posé avant la ville. La ville vient donc en
+second, dans son lot, sur un moteur et un style déjà éprouvés.
+
+« Nouvelle partie » ne pose plus le personnage à la porte du Colisée mais à une porte de
+**Martpart**, le quartier du marché ; on y marche ; on passe à **Arenarea** par l'avenue et on
+revient sur ses pas, au point d'arrivée nommé ; on parle à une sentinelle Ironhand. Les douze
+quartiers de `capital.json` (`LOT-95`) sont les nœuds du graphe ; deux reçoivent leur carte,
+`Source/Elements/Levels/capital/martpart.json` et `arenarea.json`, **tracées dans l'éditeur depuis
+le plan du `LOT-95`** — rues, îlots, emplacements des bâtiments nommés, portails aux bons
+endroits — avec les planches de l'atelier du `LOT-92` là où elles existent et le marqueur du
+[LOT-39](@ref lot-39) partout ailleurs. Le marqueur est le **seul** substitut toléré : les tuiles
+de test sont parties avec le [LOT-09](@ref lot-09). Les dix autres quartiers ont une **porte
+gardée** : une entité `npc` sentinelle Ironhand, avec un dialogue de refus
+(`sentinelle-ironhand.json`), pas un portail vers une carte absente — l'entrée est contrôlée, dit
+la fiction ; le jour où un quartier reçoit sa carte, la sentinelle devient un portail. La porte
+d'Arenarea porte le `requiresFlag` que le [LOT-16](@ref lot-16) posera ; jusque-là, elle s'ouvre.
+Le plan du `LOT-95` montre le quartier courant et ceux qu'on a visités.
+
+Le Colisée du `LOT-09` reste accessible depuis le menu ; le brancher depuis Arenarea, en Arène du
+Destin, est au [LOT-27](@ref lot-27). L'habillage complet des deux quartiers aussi : ce lot livre
+une ville qu'on parcourt, pas une ville qu'on regarde.
+
+*Acceptation* — à l'écran, « Nouvelle partie » ouvre Martpart à sa porte ; on passe à Arenarea et
+on revient **au point d'arrivée nommé** ; on parle à la sentinelle d'une porte fermée et l'écran de
+dialogue s'ouvre sur son dialogue ; le plan montre le héros dans le bon quartier ; captures de
+référence QML de Martpart et d'Arenarea ; en headless, Martpart → Arenarea → Martpart ramène à la
+bonne case et l'état de la carte quittée est conservé dans la session ; `check_rpg_data.py` lie
+chaque quartier de `capital.json` à sa carte ou à sa sentinelle.
+
 ---
 
 > **Quatre numéros retirés.** Les `LOT-48`, `LOT-71` et `LOT-73` ont été absorbés par fusion, le
@@ -1447,7 +1661,11 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrables maintenant** | [LOT-16](@ref lot-16), [LOT-09](@ref lot-09) | Les quêtes tiennent le chemin critique restant, le combat étant jouable depuis le [LOT-24](@ref lot-24) et l'éditeur produisant les cartes depuis le [LOT-11](@ref lot-11) ; le graphe de cartes traverse les portails que l'éditeur pose déjà, sur le contrat et le graphe statique du `LOT-11` |
+| **Démarrables maintenant** | `LOT-92`, `LOT-94` | L'atelier des textures fixe le style de la scène avant qu'une carte ne l'emploie, et c'est lui qui débloque le plus ; les images du corpus partent avant toute version — l'éditeur du [LOT-11](@ref lot-11) est livré et trace déjà la première carte |
+| Après `LOT-92` | [LOT-09](@ref lot-09) | La première carte, le Colisée en version finale, dans le style final : l'exploration dans le jeu et le sable comme zone de combat déclarée — tout le chemin critique restant passe par lui |
+| Après `LOT-92` | `LOT-93`, `LOT-95` | L'atelier des monstres hérite du style ; le plan de la Capitale se génère avec lui, et sans lui les quartiers n'ont pas de source à recopier |
+| Après [LOT-09](@ref lot-09) et `LOT-95` | `LOT-96` | Les quartiers se tracent depuis le plan propre, sur un moteur éprouvé au Colisée |
+| Après `LOT-96` | [LOT-16](@ref lot-16) | La quête se vérifie en parlant à Myr sur la carte de Martpart, pas dans un test seul — c'est ce qui la rend vérifiable |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
 | Après `LOT-34` (livré) | `LOT-49` | Catalogue réel, puis contrôle de ses valeurs — un filet, pas un maillon |
 | Avant [LOT-25](@ref lot-25) | `LOT-35` | Les sorts sont des données avant d'être un système ; l'écran des sorts existe déjà (`LOT-87`) |
@@ -1487,8 +1705,8 @@ n'existe pas pour la règle qui calcule l'ordre.
 
 **Les lots du bac à sable restent résolument après le [LOT-27](@ref lot-27).** Peupler treize régions
 revient à appliquer cent fois la même recette ; si la recette est mauvaise — rencontres mal dosées,
-marchands inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte un village et un
-donjon, et c'est le prix pour ne pas payer cette erreur au centuple. Leur ordre interne compte
+marchands inutiles, quêtes vides — on la découvre cent fois. Le `LOT-27` coûte deux quartiers et
+un bas-fond de la Capitale, et c'est le prix pour ne pas payer cette erreur au centuple. Leur ordre interne compte
 aussi, et la règle le produit sans qu'on ait à l'imposer : `LOT-44` (les noms) avant `LOT-41` (le
 peuplement), sinon on peuple avec des « Villageois 1 » ; `LOT-45` (la Guilde) après le `LOT-82`,
 parce qu'elle a besoin de quêtes à afficher.
@@ -1517,17 +1735,64 @@ lots, dont la fiche de personnage et sa maquette. **Ces sept-là sont livrés.**
 
 Le chemin critique du **combat** est parcouru : de la bascule du [LOT-18](@ref lot-18) à l'IHM de
 combat du [LOT-24](@ref lot-24), livrée le 15 septembre 2026, le combat tactique se joue au Colisée,
-contre l'IA, au clavier et à la manette. Le chemin restant est celui de la **partie** :
+contre l'IA, au clavier et à la manette. Le chemin restant est celui de la **partie**, et depuis le
+16 septembre 2026 c'est **une seule chaîne** :
 
-[LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) → [LOT-27](@ref lot-27)
+`LOT-92` → [LOT-09](@ref lot-09) → `LOT-96` → [LOT-16](@ref lot-16) → [LOT-17](@ref lot-17) →
+[LOT-27](@ref lot-27)
 
-Quêtes et sauvegarde — trois lots, les dialogues du [LOT-15](@ref lot-15) étant livrés —, avec en
-parallèle [LOT-09](@ref lot-09) → `LOT-17` (le graphe de cartes), l'éditeur du
-[LOT-11](@ref lot-11) étant livré. Le `LOT-27` hérite du `LOT-24` une tâche que personne d'autre ne porte :
-**poser le combat sur la carte d'exploration**, que le jeu Qt Quick n'a pas encore (voir sa
-section). Tout le reste — classes, peuplement, voyage, guilde —
-vient **après**. La règle à tenir tient en une phrase : *un lot n'entre dans ce chemin que si le
-slice ne peut pas se jouer sans lui.*
+avec, en parallèle, l'éditeur du [LOT-11](@ref lot-11) (livré, qui trace les cartes),
+`LOT-95` → `LOT-96` (le plan propre, source du tracé), `LOT-93` → `LOT-27` (les monstres) et
+`LOT-94` → [LOT-28](@ref lot-28) (les images du corpus, parties avant la version). La chaîne du
+matin du 16 septembre était `LOT-09 → LOT-16 → LOT-17 → LOT-27` ; la relecture du soir, par
+l'auteur, a scindé le `LOT-09` et mis le style avant la carte — cinq lots de plus, pour un grain
+où chaque lot livre une chose qu'on voit. La chaîne
+était un éventail : `LOT-16` et `LOT-09` démarrables ensemble, `LOT-17` les attendant tous deux,
+`LOT-27` ramassant tout. C'était exact pour le graphe et faux pour le travail : ces quatre lots
+avaient été rédigés avant que le jeu ait une carte, ils ne nommaient **aucun lieu, aucun PNJ,
+aucune quête**, et chacun ne se vérifiait qu'en test — un graphe de cartes sans carte à ouvrir,
+« une quête à trois étapes » sans dire laquelle, une sauvegarde sans rien à sauvegarder. Un lot
+qu'on ne peut pas voir dans le jeu n'est jamais tout à fait fini, et le contenu qui devait les
+relier était renvoyé au dernier lot, celui qu'on n'atteint pas.
+
+La relecture du 16 septembre 2026 les **rattache à un lieu** : la Capitale du Central Empire, où se
+trouve le Colisée du [LOT-50](@ref lot-50) — le seul contenu jouable du jeu — et que le Sourcebook
+décrit plus longuement qu'aucun autre lieu (§8). Chaque lot livre désormais une pièce **visible**
+de cette ville, et le suivant s'appuie dessus. Le `LOT-09` porte l'exploration dans le jeu
+Qt Quick, que personne ne portait, et l'ouvre au **Colisée**, première carte en version finale ;
+le `LOT-96` pose la ville sur ce moteur ; le `LOT-16` l'attend, parce que sa quête se joue sur ses
+cartes. Le `LOT-27` hérite du `LOT-24` une tâche que personne d'autre ne porte : **poser le combat
+sur la carte d'exploration**. Tout le reste — classes, peuplement, voyage, guilde — vient
+**après**. La règle à tenir tient en une phrase : *un lot n'entre dans ce chemin que si le slice ne
+peut pas se jouer sans lui.*
+
+### Le plan d'intégration : la Capitale, lot après lot {#roadmap-capitale}
+
+Ce tableau dit ce qu'on **voit dans le jeu** à la fin de chaque lot du chemin, et comment on le
+vérifie — un geste de joueur et un test. C'est le contrat de « vérifiable » que les quatre lots
+réécrits doivent tenir ; le détail de chacun est en section 11.
+
+| Lot | Ce qu'on voit dans le jeu, à la fin | Comment on le vérifie |
+|---|---|---|
+| [LOT-11](@ref lot-11) (livré) | L'éditeur pose PNJ, portails et points d'arrivée sur les trois couches, et avertit d'une zone impraticable au combat | essai immédiat depuis l'éditeur ; le Colisée final s'y trace |
+| `LOT-92` | Rien dans le jeu encore : une **maquette de style** approuvée, la planche du Colisée découpée, un atelier qui se commande depuis un descriptif d'atlas | la maquette signée par l'auteur ; `check_assets_brief.py` ; une seconde planche commandée sans toucher au style |
+| `LOT-94` | Le menu principal sur un **fond produit** ; plus de carte du monde ; plus une image du corpus dans le dépôt | lint de provenance en CI ; captures de référence des trois écrans |
+| [LOT-09](@ref lot-09) | « Nouvelle partie » ouvre le **Colisée** à sa porte ; on parcourt hall, couloirs, vestiaires et tribunes ; le héraut lance le combat sur le sable et l'on revient sur la carte ; plus aucun contenu provisoire | parcours headless sur cinq fixtures ; capture de référence ; le geste au clavier et à la manette ; `Source/Elements/` sans fichier de test |
+| `LOT-93` | Trois bêtes du bestiaire dessinées, affrontées au Colisée | trois tailles produites de bout en bout ; manifeste et clés |
+| `LOT-95` | Le **plan de la Capitale**, dans le style du jeu, à trois niveaux de zoom, depuis le menu de partie | captures par niveau ; ancrages validés ; la Capitale dans l'atlas |
+| `LOT-96` | « Nouvelle partie » ouvre **Martpart** ; on passe à **Arenarea** et on revient au bon point ; dix portes gardées ; le plan montre où l'on est | aller-retour headless ; captures de Martpart et d'Arenarea ; le geste au clavier et à la manette |
+| [LOT-16](@ref lot-16) | **Myr** confie « Les enfants de Martpart » ; le journal la suit ; la porte d'Arenarea s'ouvre au laissez-passer | la quête jouée par drapeaux en headless ; à l'écran, du marché au journal |
+| [LOT-17](@ref lot-17) | « Continuer » et « Charger » reprennent la partie où on l'a laissée — quartier, case, journal | aller-retour à l'identique à chaque étape de la quête ; quitter et reprendre |
+| [LOT-27](@ref lot-27) | La ville **habillée** — textures, figurines de Myr et Galender, champions du bestiaire, le repaire —, le combat sur la carte, le verdict de l'Arène du Destin | test système de la porte de Martpart au verdict ; `check_world_graph.py` ; aucun marqueur sur le chemin de la quête |
+| [LOT-28](@ref lot-28) | Musique, bruitages, secousse sur critique ; aucune image du corpus ; la version `0.0.1` | cahier de test régénéré ; lint de provenance ; tag |
+
+Un chantier court **à côté** de la chaîne, sans l'attendre : les **figurines** de la série
+« Capitale » à l'atelier du `LOT-91` (Myr et Galender au *Character Compendium*, huit rôles
+rédigés depuis la prose). Les **planches de textures**, qui étaient l'autre chantier, sont
+devenues un lot, le `LOT-92`, parce que le style qu'elles fixent précède la première carte ; leur
+production continue ensuite au fil de l'eau, lieu par lieu, et les monstres suivent la même
+règle (`LOT-93`). Lancer les figurines avec le `LOT-92` fait que le `LOT-27` habille au lieu de
+dessiner.
 
 **Ce chemin portait une décision, pas seulement du code, et elle est prise.** Le contenu du slice
 « se produit dans l'éditeur », et le [LOT-86](@ref lot-86) avait fait de l'éditeur un second
@@ -1561,7 +1826,7 @@ digraph filiere {
     L43 [label="LOT-43\nOptions perso\n(livré)", style="rounded,filled", fillcolor=grey90];
     L36 [label="LOT-36\nEspèces\n(livré)", style="rounded,filled", fillcolor=grey90];
     L37 [label="LOT-37\nAtlas régions\n(livré)", style="rounded,filled", fillcolor=grey90];
-    L27 [label="LOT-27\nVertical slice", shape=box, style="rounded,bold"];
+    L27 [label="LOT-27\nLa Capitale", shape=box, style="rounded,bold"];
   }
   L84 [label="LOT-84\n31 tables"]; L47 [label="LOT-47\nSocle de classe"];
   L50 [label="LOT-50\nColisée\n(livré)", style="rounded,filled", fillcolor=grey90]; L51 [label="LOT-51→65\nune classe par lot"];
@@ -1585,8 +1850,13 @@ digraph filiere {
     L24 -> L27;
   }
   L15 [label="LOT-15\nDialogues\n(livré)", style="rounded,filled", fillcolor=grey90]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
-  L09 [label="LOT-09\nGraphe de cartes"]; L11 [label="LOT-11\nÉditeur\n(livré)", style="rounded,filled", fillcolor=grey90];
+  L09 [label="LOT-09\nLe Colisée\npremière carte"]; L11 [label="LOT-11\nÉditeur\n(livré)", style="rounded,filled", fillcolor=grey90];
+  L92 [label="LOT-92\nAtelier textures"]; L93 [label="LOT-93\nAtelier monstres"];
+  L94 [label="LOT-94\nImages du corpus\nhors dépôt"]; L95 [label="LOT-95\nPlan de la Capitale"];
+  L96 [label="LOT-96\nMartpart, Arenarea"]; L28 [label="LOT-28\nv0.0.1"];
   L15 -> L16 -> L17 -> L27; L09 -> L17; L11 -> L27; L11 -> L69;
+  L92 -> L09 -> L96 -> L16; L96 -> L17; L96 -> L27; L11 -> L09; L11 -> L96; L50 -> L09;
+  L92 -> L95 -> L96; L92 -> L93 -> L27; L94 -> L95; L94 -> L28; L27 -> L28; L94 -> L42; L92 -> L42;
 }
 ```
 
@@ -1603,10 +1873,10 @@ eux-mêmes.
 | `LOT-35` | Sorts et états | `LOT-32` | `LOT-25`, `LOT-72` |
 | `LOT-40` | Générateur de terrain | `LOT-11`, `LOT-81` | `LOT-41` |
 | `LOT-41` | Peuplement : rencontres et créatures | `LOT-27`, `LOT-33`, `LOT-40`, `LOT-44`, `LOT-46` | `LOT-75`, `LOT-82`, `LOT-90` |
-| `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82` | `LOT-75`, `LOT-90` |
+| `LOT-42` | Voyage et carte du monde | `LOT-09`, `LOT-17`, `LOT-68`, `LOT-70`, `LOT-82`, `LOT-92`, `LOT-94` | `LOT-75`, `LOT-90` |
 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | `LOT-36`, `LOT-37` | `LOT-41`, `LOT-82` |
 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | `LOT-16`, `LOT-26`, `LOT-68`, `LOT-82` | `LOT-83` |
-| `LOT-46` | Créatures de Tanares | `LOT-30`, `LOT-33` | `LOT-41`, `LOT-90` |
+| `LOT-46` | Créatures de Tanares | `LOT-30`, `LOT-33`, `LOT-93` | `LOT-41`, `LOT-90` |
 | `LOT-47` | Socle de classe, et le guerrier comme preuve | `LOT-36`, `LOT-43`, `LOT-84` | `LOT-51` |
 | `LOT-49` | Contrôle de cohérence du contenu | `LOT-33`, `LOT-34` | — |
 | `LOT-51` | une classe par lot | `LOT-47`, `LOT-50`, `LOT-70` | — |
@@ -1623,6 +1893,11 @@ eux-mêmes.
 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | `LOT-67` | — |
 | `LOT-89` | Dons, objets magiques et consommables de Tanares | `LOT-34`, `LOT-43` | `LOT-26` |
 | `LOT-90` | Le plan pénombral | `LOT-41`, `LOT-42`, `LOT-46` | — |
+| `LOT-92` | Atelier des textures : le style de la scène par maquette, une planche par lieu | `LOT-39`, `LOT-50`, `LOT-91` | `LOT-09`, `LOT-27`, `LOT-42`, `LOT-93`, `LOT-95` |
+| `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | `LOT-33`, `LOT-91`, `LOT-92` | `LOT-27`, `LOT-46` |
+| `LOT-94` | Les images du corpus quittent le dépôt : carte du monde retirée, fond de menu propre | `LOT-39`, `LOT-87` | `LOT-28`, `LOT-42`, `LOT-95` |
+| `LOT-95` | Le plan de la Capitale : régénéré dans le style du jeu, en sous-zones, avec un zoom | `LOT-37`, `LOT-92`, `LOT-94` | `LOT-27`, `LOT-96` |
+| `LOT-96` | Martpart et Arenarea se parcourent : le graphe des quartiers | `LOT-09`, `LOT-11`, `LOT-15`, `LOT-95` | `LOT-16`, `LOT-17`, `LOT-27` |
 
 
 ---
@@ -1665,7 +1940,10 @@ Source/Elements/World/
   penumbra/*.json           ← sept couches, lieux miroirs, failles (LOT-90)
 Source/Elements/Assets/
   Entities/families.json, UI/illustrations.json   ← clés d'assets et marqueurs (LOT-39, livré)
-  UI/world-map*.jpg         ← la carte du monde (LOT-67, LOT-87, livrés)
+  UI/background/            ← le fond du menu principal, produit (LOT-94) ; plus aucune image du corpus
+  Npc/<slug>/, Monsters/<slug>/   ← figurines de l'atelier des PNJ (LOT-91) et des monstres (LOT-93)
+  Textures/<lieu>/          ← planches découpées de l'atelier des textures (LOT-92), le Colisée d'abord
+  Maps/capital/             ← le plan de la Capitale à trois niveaux (LOT-95) ; ses ancrages dans Elements/Maps/
   UI/                       ← les 214 images 9-patch du cahier des assets (LOT-87 : à produire)
 Source/Elements/Localization/rpg.glossary.csv   ← lexique (LOT-30, livré)
 
@@ -1767,6 +2045,30 @@ Documentation/Lot/LOT-87-charte-v2/
   (Darkall, Undertanares, Wasteland) que le `LOT-81` décrit sans encart.
 - **Deux échelles de progression de groupe coexistent** : les rangs de la Guilde (`LOT-45`) et le
   niveau d'équipe avec quartier général (`LOT-83`), que la maquette 09 montre déjà.
+- **Les images du corpus sont des références, jamais des assets** — décision de l'auteur, 16
+  septembre 2026. Le §3 laisse les licences en sommeil pour la donnée et le vocabulaire ; les
+  **images** — plan de la Capitale, carte du monde, planches — sont des œuvres que le jeu
+  n'affiche pas et que ses cartes ne recopient pas. Les deux extractions commises partent
+  (`LOT-94`), le plan de la ville se **régénère** dans le style du jeu (`LOT-95`), le fond du menu
+  principal est produit. Le corpus reste ce qu'il est : lu sur le poste, hors dépôt (`EX-CNT-023`).
+- **On ne se déplace jamais sur une carte du monde** — même décision. Le déplacement se fait sur
+  des **cartes de niveau** ; le plan de la Capitale (`LOT-95`) et, plus tard, la carte du monde du
+  `LOT-42` servent à s'orienter et à choisir, pas à marcher. La carte du monde actuelle est
+  supprimée pour le moment (`LOT-94`).
+- **La première carte est le Colisée, en version finale** ([LOT-09](@ref lot-09)) — même
+  décision. Un lieu avec ses zones neutres (entrée, couloirs, vestiaires, tribunes) et le sable
+  comme zone de combat déclarée, pas un dégrossi ; il pose le style des textures et emporte, en
+  sortie de lot, tout le contenu provisoire accumulé depuis le socle — sauf les quatre classes
+  provisoires, qui sont un échafaudage de règles et tombent au dernier lot de classe. Les
+  quartiers de la Capitale suivent (`LOT-96`).
+- **Deux identités visuelles, une par couche.** La **scène** — figurines, monstres, textures — est
+  en pixel art, style fixé par la maquette du `LOT-92` sur les figurines du `LOT-91` ;
+  l'**interface** reste à la charte v2 du `LOT-87`. Le `LOT-66` avait retiré le pixel art de
+  l'interface, pas du jeu ; les deux décisions tiennent ensemble.
+- **Les ateliers d'assets sont des lots quand le slice attend leur méthode** : textures
+  (`LOT-92`) et monstres (`LOT-93`) entrent dans la feuille de route avec un critère
+  d'acceptation — la méthode et les premières pièces ; leur production continue ensuite au fil
+  de l'eau, comme celle du `LOT-91`, qui reste hors page parce qu'il n'a pas de fin.
 
 ### Écarté à la relecture des livres
 
@@ -1786,12 +2088,18 @@ Documentation/Lot/LOT-87-charte-v2/
   faille) reste au `LOT-90`.
 - **Les classes simplifiées** (Brawler, Mage, Priest, Scoundrel) comme classes du jeu final : ce
   sont les quatre provisoires du `LOT-36`, retirées au dernier lot de classe — décision inchangée.
-- **Région de départ : la République des Freelands.** Ses propres statistiques l'argumentent :
-  `Monster Presence` haute — les rencontres se justifient d'elles-mêmes, ce que le Central Empire,
-  noté *Low*, ne permet pas ; économie fondée sur les mercenaires et les parts de monstres — le
-  marchand et le donneur de quête n'ont rien à inventer ; villes de frontière — le village à
-  construire existe dans la fiction ; faction Allied Forces, cadre héroïque plutôt qu'oppressif. Et
-  surtout : c'est là que siège la **Guilde des Aventuriers**, donc la boucle du `LOT-45`.
+- **Région de départ : la Capitale du Central Empire** — décision du 16 septembre 2026, qui
+  **renverse** celle du 14. La République des Freelands avait été retenue pour ses statistiques :
+  `Monster Presence` haute, économie de mercenaires, villes de frontière, siège de la Guilde. Ce
+  raisonnement choisissait une région pour ce qu'elle *justifie* ; il ne donnait au slice aucun
+  lieu que le livre décrive, et « le village à construire » restait à inventer. La Capitale est le
+  lieu le plus **écrit** du Sourcebook (pages 94 à 103 du livre) : douze quartiers nommés et
+  caractérisés, trois arènes, une intrigue ouverte — les enfants disparus —, sept personnages avec
+  leurs commanditaires, et le plan `VTT/Map - Capital.jpg` qui la dessine rue par rue. Surtout, le
+  Colisée du [LOT-50](@ref lot-50) s'y trouve : le seul contenu jouable du jeu est déjà dans cette
+  ville. `Monster Presence : Low` n'est pas un obstacle — le slice ne combat pas des monstres
+  errants mais des hommes de main et des champions d'arène, ce que la ville fournit sans rien
+  inventer. La Guilde et les Freelands restent la porte du bac à sable (`LOT-45`, `LOT-42`).
 
 - **Trois préconditions sont devenues des lots, et les trois sont livrées.** Écrire la moitié RPG
   de la spécification ([LOT-77](@ref lot-77)), désambiguïser les numéros hérités
@@ -1923,8 +2231,9 @@ Ce qui manque avant d'ajouter des dizaines de catalogues :
   a posé la première carte, celle de l'arène, que son écran dessine lui-même : le [LOT-86](@ref lot-86)
   l'a reconstaté — le viewport n'affiche aucune scène, « Nouvelle partie » ouvre la fiche — et les
   treize écrans se vérifient par un sélecteur de développement faute d'un niveau pour y mener. La
-  première carte arrive avec le contenu du [LOT-27](@ref lot-27), sa destination avec le
-  [LOT-09](@ref lot-09).
+  première carte d'**exploration** — Martpart, un quartier de la Capitale — arrive avec le
+  [LOT-09](@ref lot-09), qui donne au jeu Qt Quick sa scène ; la ville habillée avec le
+  [LOT-27](@ref lot-27).
 
 ### 9.5 La collision de numéros est bloquante, et bien plus large qu'estimé
 
@@ -2085,62 +2394,156 @@ renvois `@ref lot-NN` des spécifications continuent de résoudre. Seuls les `@s
 > audit (§9.6) a en outre réécrit, **dans** les sections, ce qui décrivait des classes retirées ou
 > des écrans déjà dessinés : ces passages sont marqués « *État au 14 septembre 2026* ».
 
-### LOT-09 — Graphe de cartes et transitions {#lot-09}
+### LOT-09 — Le Colisée se parcourt : exploration dans le jeu et première carte {#lot-09}
 
 > Statut : **à faire**.
 > Prérequis : [LOT-04](@ref lot-04), [LOT-06](@ref lot-06), [LOT-10](@ref lot-10) (les portails
-> sont des entités de carte).
+> et les PNJ sont des entités de carte), [LOT-15](@ref lot-15) (le dialogue qu'on ouvre depuis la
+> carte), [LOT-18](@ref lot-18) (la bascule exploration ↔ combat), [LOT-50](@ref lot-50) (le
+> Colisée, dont ce lot livre la version finale), [LOT-86](@ref lot-86) (le pipeline QRhi et
+> `ArenaViewportItem`, dont la scène d'exploration est le jumeau), [LOT-11](@ref lot-11) (la carte
+> se trace dans l'éditeur), `LOT-92` (le style de scène et la planche du Colisée).
+
+> **Réécrit le 16 septembre 2026, deux fois.** Au matin, pour porter l'exploration dans le jeu
+> Qt Quick, que personne ne portait, et l'ouvrir dans la Capitale par deux quartiers dégrossis aux
+> tuiles de test. Le soir, relecture de l'auteur : la **première carte** n'est pas un dégrossi,
+> c'est **le Colisée en version finale** — plus grand que la grille de 20 × 14 du `LOT-50`, avec
+> ses zones neutres (l'entrée, les couloirs, les vestiaires, les tribunes) pour éprouver le
+> déplacement, et le sable au centre comme **zone de combat déclarée**. Cette carte pose le style
+> final des textures (`LOT-92`) et permet, en sortie de lot, de **supprimer tout le contenu
+> provisoire** accumulé depuis le socle. Les quartiers de la ville passent au `LOT-96`.
 
 #### Objectif
 
-Donner au jeu un **monde de cartes connectées**, où chaque carte a des sorties nommées vers
-d'autres cartes, et où l'on peut revenir sur ses pas.
-
-#### Le problème
-
-*État au 14 septembre 2026.* La **séquence linéaire** héritée (`core::LevelSequence` : tableau 1,
-puis 2, puis 3) a été retirée par le [LOT-67](@ref lot-67) avec la notion de niveau discret, et rien
-ne l'a remplacée : la tuile de sortie **ramène au menu**, et « Nouvelle partie » n'a aucune carte à
-ouvrir (`Source/Elements/Levels/` ne porte que l'arène du [LOT-50](@ref lot-50)). Un RPG a besoin d'un **graphe** : un village ouvre sur
-une forêt et sur une auberge, la forêt ramène au village, le donjon a trois entrées.
+« Nouvelle partie » pose le personnage à la **porte du Colisée** ; on parcourt au clavier et à la
+manette l'entrée, les couloirs, les vestiaires et les tribunes — des lieux où l'on marche et où
+l'on parle, et où l'on ne se bat pas — ; on descend sur le sable, qui est la zone de combat ; le
+héraut, posé sur la carte à la grille du sable, lance le combat du Colisée **sur cette zone**, et à
+l'issue on est de retour sur la carte, au même endroit. Le Colisée cesse d'être une grille nue :
+c'est un lieu.
 
 #### Périmètre
 
-- `Source/Core/World/WorldGraph.{h,cpp}` : cartes, portails, points d'arrivée **nommés**. Un
-  portail référence `(carte cible, nom du point d'arrivée)` — jamais des coordonnées brutes, qui
-  se désynchroniseraient au moindre redimensionnement de la carte cible.
-- Chargement de carte **à chaud**, sans repasser par un écran de sélection.
-- Transition visuelle (fondu) côté jeu — dans le jumeau QML de `GameViewForm`, piloté par
-  `hmi::ScreenRouter` ; `hmi::ScreenFlow` est la navigation du châssis d'édition, pas celle du jeu.
-- Les portails sont une **famille d'entités** de la table du [LOT-10](@ref lot-10) : ils se
-  posent, se détruisent et se recréent avec la carte, et `core::WorldFlags` retient ce qui a eu
-  lieu de part et d'autre.
-- **Validation au chargement** : un portail dont la carte ou le point d'arrivée n'existe pas est
-  une erreur explicite, pas un plantage à la traversée (`EX-NFR-040`).
+- **La scène d'exploration dans le jeu Qt Quick.** `hmi::GameSession` compile dans le jeu et non
+  plus seulement dans l'éditeur ; un `WorldViewportItem`, jumeau d'`ArenaViewportItem`
+  ([LOT-86](@ref lot-86)), dessine la carte courante par le **même** pipeline QRhi et le même
+  composeur à calques (sol, objets, personnages) ; la caméra suit le héros (`cameraFraming`,
+  `EX-LVL-006`) — le Colisée ne tient plus dans un écran ; le héros est une figurine de l'atelier
+  du `LOT-91`. Aucun second moteur de rendu : l'arène et le lieu se dessinent par le même code.
+- **Le graphe** : `Source/Core/World/WorldGraph.{h,cpp}` — cartes, portails, points d'arrivée
+  **nommés**. Un portail référence `(carte cible, nom du point d'arrivée)`, jamais des coordonnées,
+  qui se désynchroniseraient au premier redimensionnement. Le portail et le point d'arrivée sont
+  des entités de la table du [LOT-10](@ref lot-10) : ils se posent dans l'éditeur, se détruisent et
+  se recréent avec la carte. Un portail peut exiger un drapeau (`requiresFlag`), lu ici, posé au
+  [LOT-16](@ref lot-16). Le Colisée n'a qu'une carte, mais le graphe est là dès ce lot, avec ses
+  cinq cartes de fixture, pour que le `LOT-96` n'ait que des quartiers à y poser.
+- **La carte du Colisée, version finale** : `Source/Elements/Levels/coliseum.json`, tracée dans
+  l'éditeur ([LOT-11](@ref lot-11)) avec la planche du `LOT-92`. Le sable du `LOT-50` (20 × 14) en
+  est le centre ; autour, les **zones neutres** : la porte et le hall, deux couloirs sous les
+  gradins, les vestiaires des deux camps, les tribunes et la loge — et des PNJ pour les peupler,
+  pris parmi les cinq figurines déjà livrées par l'atelier (`anariel`, `jade`, `lizz`, `nakral`,
+  `xorius`), avec un dialogue chacun. Le combat y est **interdit** par propriété de zone
+  (`EX-LVL-018`), comme le livre le veut hors du sable.
+- **Le sable comme zone de combat déclarée** : un rectangle nommé sur la carte (`combatZone`,
+  propriété de couche ou entité de zone, `EX-LVL-018`) que `core::ArenaSession`
+  ([LOT-50](@ref lot-50)) prend pour grille tactique **à la place de la carte entière**. Les points
+  d'entrée des deux camps (`arenaEntry`) restent des entités, dans la zone. Le Colisée ouvert depuis
+  le menu principal joue sur cette zone de cette carte : le niveau `arena-of-the-future.json` part,
+  et l'arène du catalogue (`World/arena/`) désigne `coliseum.json` et sa zone — et prend enfin sa
+  **région** : la Capitale.
+- **Du sol au sable, et retour** : le héraut est une entité `npc` posée à la grille ; son dialogue
+  (`heraut-colisee.json`, qui perd sa marque *provisoire*) lance la session d'arène par la bascule
+  du [LOT-18](@ref lot-18) — la carte est gelée, la session joue sur la zone, la fin de session
+  rend la carte à l'exploration, personnage au même endroit, relevé par la Marque. C'est le geste
+  que le [LOT-27](@ref lot-27) reprendra pour l'Arène du Destin.
+- **Parler depuis la carte** : touche `E` ou bouton de la manette → `core::findInteractionTarget`
+  ([LOT-10](@ref lot-10)) → `core::dialogueTriggerFor` ([LOT-15](@ref lot-15)) →
+  `hmi::DialogueMode` et l'écran de dialogue, **sur le dialogue du PNJ visé**, plus jamais sur le
+  héraut écrit en dur.
+- **Transition** : fondu au passage d'un portail et à l'entrée du sable, dans le jumeau QML de la
+  vue du jeu, piloté par `hmi::ScreenRouter` — `hmi::ScreenFlow` est la navigation du châssis
+  d'édition, pas celle du jeu.
+- **Validation au chargement** : un portail dont la carte ou le point d'arrivée n'existe pas, une
+  zone de combat qui déborde de la carte ou qui n'est pas un terrain tactique valide, sont des
+  erreurs explicites, pas un plantage à la traversée (`EX-NFR-040`).
+- **Retraits, en sortie de lot.** La carte finale rend sans objet tout ce qui tenait lieu de
+  contenu : le niveau `arena-of-the-future.json` et la planche `Coliseum/production_source_atlas.png`
+  du `LOT-50` ; les tuiles, fonds, objets et skins de test des `LOT-06` à `LOT-08`
+  (`Assets/Backgrounds/test_*.png` et les scripts `generate_test_*.py` qui les produisent) ; le
+  personnage de démonstration du [LOT-13](@ref lot-13) (`demonstration-brenna.json`), remplacé par
+  le héros créé à « Nouvelle partie » ; la rencontre de démonstration du [LOT-18](@ref lot-18)
+  (`nuee-de-rats.json`), remplacée par une rencontre du Colisée sur des blocs du `LOT-33` ;
+  l'ouverture en dur du dialogue du héraut. Les **quatre classes provisoires** du `LOT-36`
+  restent : leur retrait est au dernier lot de classe (§8), et elles ne sont pas un substitut de
+  contenu mais un échafaudage de règles. En sortie, `check_asset_keys.py` et les tests ne
+  connaissent plus aucune clé de test.
 
 #### Exigences couvertes
 
-`EX-VIS-002` (plusieurs cartes reliées par des portails, retour possible), `EX-EXP-*` (portails,
-points d'arrivée nommés), `EX-LVL-*` (validation du graphe).
+`EX-VIS-001` (un personnage se déplace sur une carte, dans le jeu), `EX-VIS-002` (cartes reliées
+par des portails, retour possible — prouvé sur les fixtures, joué au `LOT-96`), `EX-EXP-*`
+(portails, points d'arrivée nommés), `EX-LVL-018` (la zone de combat, la zone sans combat),
+`EX-LVL-*` (validation du graphe).
 
 #### Critères d'acceptation
 
-- A → B → A ramène le personnage **au bon point d'arrivée**, pas à l'entrée par défaut de A.
-- Un portail orphelin (carte inconnue, point d'arrivée inconnu) est refusé au chargement avec un
-  message exploitable.
-- Test headless d'un parcours de cinq cartes, aller et retour.
-- L'état de la carte quittée (coffres ouverts, ennemis vaincus) est **conservé** au retour — c'est
-  ce qui distingue un monde d'une séquence de tableaux. Persisté au `LOT-17`.
+- **À l'écran** : « Nouvelle partie » ouvre le Colisée à sa porte ; on parcourt au clavier et à la
+  manette le hall, un couloir, un vestiaire et une tribune ; on parle à un PNJ et l'écran de
+  dialogue s'ouvre sur son dialogue ; on parle au héraut, le combat se joue sur le sable et l'on
+  revient sur la carte au même endroit ; une capture de référence du Colisée entre dans les tests
+  QML.
+- **Headless** : un parcours de cinq cartes de fixture, aller et retour, par points d'arrivée
+  nommés ; un portail orphelin et une zone de combat invalide sont refusés au chargement avec un
+  message exploitable ; la session d'arène joue sur la zone déclarée, et les cases hors zone lui
+  sont inconnues.
+- L'état de la carte (porte ouverte, coffre pris) est **conservé** dans la session au retour du
+  sable — c'est ce qui distingue un monde d'une suite de tableaux. Persisté au
+  [LOT-17](@ref lot-17).
+- Aucun fichier de test, de démonstration ou de planche provisoire ne subsiste dans
+  `Source/Elements/` ; le Colisée du menu principal joue sur `coliseum.json`, et `ArenaSession` se
+  rejoue à graine fixée comme avant.
 
-### LOT-16 — Quêtes et drapeaux de monde {#lot-16}
+### LOT-16 — Les affaires de la Capitale : quêtes et drapeaux de monde {#lot-16}
 
 > Statut : **à faire**.
-> Prérequis : [LOT-15](@ref lot-15) (les dialogues déclenchent et font avancer les quêtes).
+> Prérequis : [LOT-15](@ref lot-15) (les dialogues déclenchent et font avancer les quêtes),
+> `LOT-96` (la quête se joue sur les cartes de Martpart et d'Arenarea, pas dans un test seul).
+
+> **Réécrit le 16 septembre 2026.** La version précédente demandait « une quête à trois étapes »
+> sans dire laquelle, ni où, ni avec qui. Ce lot écrit **la** quête du slice, tirée du livre, et
+> l'appuie sur la ville du `LOT-96` : on la vérifie en parlant à Myr sur la place du
+> marché, et le journal la suit à l'écran.
 
 #### Objectif
 
-Suivre l'avancement du joueur par des **drapeaux persistants**, et en donner une lecture dans un
-journal de quêtes.
+Suivre l'avancement du joueur par des **drapeaux persistants**, en donner une lecture dans le
+journal de quêtes, et le prouver sur une quête réelle de la Capitale : **« Les enfants de
+Martpart »**.
+
+#### La quête, telle que le livre la tend
+
+Trois pages du Sourcebook s'emboîtent sans qu'on ait rien à inventer. Page 98 : « les disparitions
+inexpliquées d'enfants, surtout dans les quartiers hors les murs, inquiètent la population ; les
+autorités n'ont rien trouvé ». Page 101 : **Myr**, cheffe des Marchands de Mort, ancienne orpheline,
+« enquête sur les enlèvements d'enfants qu'elle soupçonne liés aux mages impériaux » et « emploie
+discrètement des mercenaires et des aventuriers ». Page 100 : les Tigres Jumeaux ont été « trouvés
+sur le terrain d'expérimentation du haut mage impérial Thidexius ». Et page 91 : les conflits sans
+coupable avéré « se règlent dans l'arène ».
+
+D'où la quête, en six étapes :
+
+| # | Étape | Où | Ce qui la fait avancer |
+|---|---|---|---|
+| 1 | Myr engage le personnage | Martpart, le marché | dialogue (`startQuest`) — pose aussi le **laissez-passer** pour Arenarea |
+| 2 | Deux indices : un parent, un receleur du Troisième Œil | Martpart | deux drapeaux, dont un **jet de compétence** (Persuasion ou Intimidation) dans le dialogue |
+| 3 | Le repaire trouvé dans les ruelles | Martpart | la porte du repaire lit les deux drapeaux et s'ouvre |
+| 4 | Les enfants libérés | le repaire | le combat scénarisé du [LOT-27](@ref lot-27) pose le drapeau ; jusqu'à lui, un dialogue **provisoire**, marqué comme le héraut l'était |
+| 5 | L'acheteur, un noble d'Arenarea, exige l'Arène du Destin : pas de preuve, donc le jugement du sable | Arenarea | dialogue du héraut de l'Arène |
+| 6 | Le verdict | l'Arène du Destin | la fin du combat d'arène (`LOT-27`) pose le drapeau ; provisoire jusque-là |
+
+La récompense est déclarée en JSON — un objet d'inventaire ([LOT-14](@ref lot-14)) et un drapeau ;
+l'or attend la monnaie du [LOT-26](@ref lot-26), l'expérience le [LOT-74](@ref lot-74). La piste
+vers Thidexius reste ouverte : c'est le bac à sable qui la reprendra (`LOT-82`).
 
 #### Périmètre
 
@@ -2150,41 +2553,62 @@ journal de quêtes.
   ([LOT-18](@ref lot-18)) y sont déjà. Ce lot n'a pas de substrat à créer.
 - *État au 14 septembre 2026.* **Les dialogues démarrent déjà une quête** ([LOT-15](@ref lot-15)) :
   l'action `startQuest` d'un nœud pose `core::questStartedFlag(id)` — `quest/<id>/started` —, et
-  les conditions d'un dialogue lisent n'importe quel drapeau. Le journal lit ce drapeau-là, et une
-  étape qui avance par dialogue n'est qu'une action `setFlag` de plus : aucun appel du runner vers
-  les quêtes n'est à écrire. Le héraut du Colisée (dialogue de démonstration) démarre
-  `champion-du-colisee`, une quête que personne ne déclare encore.
-- `Quest.{h,cpp}` : étapes, conditions d'avancement, récompenses. Défini en **JSON**.
+  les conditions d'un dialogue lisent n'importe quel drapeau. Une étape qui avance par dialogue
+  n'est qu'une action `setFlag` de plus : aucun appel du runner vers les quêtes n'est à écrire.
+- `Quest.{h,cpp}` : étapes, conditions d'avancement (des drapeaux), récompenses. Définie en
+  **JSON**, `Source/Elements/World/quests/enfants-de-martpart.json`, avec son schéma.
+- **Les deux sens du lien drapeau ↔ carte**, sur la ville : un dialogue pose le laissez-passer et
+  la porte d'Arenarea (`requiresFlag`, [LOT-09](@ref lot-09), posé au `LOT-96`) s'ouvre ; la porte du repaire, une
+  entité, lit deux drapeaux ; le coffre du repaire, ouvert, pose un drapeau que Myr lit.
+- **Les PNJ de la quête, posés sur les cartes** : Myr, le parent, le receleur, le héraut de
+  l'Arène du Destin (un second héraut : celui du Colisée reste à sa grille depuis le
+  [LOT-09](@ref lot-09), qui a déjà cessé de l'ouvrir en dur). Dessinés par le marqueur du [LOT-39](@ref lot-39) tant
+  que leurs figurines n'arrivent pas (`LOT-27`).
 - Journal de quêtes : **l'écran existe** (`JournalForm.ui.qml`, [LOT-87](@ref lot-87)) sur
-  `PendingData` ; ce lot lui donne sa vue-modèle.
-- Persistance dans `SaveGame` (`LOT-17`).
+  `PendingData` ; ce lot lui donne sa vue-modèle — quêtes en cours, étape courante et son texte,
+  quêtes terminées.
+- L'état d'une quête est **sérialisable** ; le [LOT-17](@ref lot-17) le persiste.
 
 #### Note de conception
 
 Les drapeaux de monde et les quêtes sont deux niveaux du même mécanisme : une quête **lit** des
 drapeaux pour décider de son avancement, elle n'a pas d'état propre au-delà de son étape courante.
 Cette séparation évite le piège classique où l'état du monde existe en double — une fois dans les
-entités, une fois dans les quêtes — et diverge.
+entités, une fois dans les quêtes — et diverge. Les deux étapes que le combat pose (4 et 6) le
+montrent : le jour où le [LOT-27](@ref lot-27) remplace le dialogue provisoire par une fin de
+combat, la quête ne change pas d'une ligne.
 
 #### Exigences couvertes
 
-`EX-RPG-*`.
+`EX-VIS-003` (dialogue à choix, avec un jet de compétence), `EX-RPG-*` (quêtes, drapeaux).
 
 #### Critères d'acceptation
 
-- Une quête à trois étapes se déclenche, progresse et se termine.
-- Elle **survit à une sauvegarde et un rechargement** à n'importe laquelle de ses étapes.
-- Un drapeau posé par un dialogue est lu par une entité de carte, et inversement.
+- **À l'écran** : on parle à Myr sur Martpart, la quête apparaît au journal ; la porte d'Arenarea,
+  fermée avant, s'ouvre ; chaque étape franchie se lit au journal.
+- **Headless** : la quête se déclenche, avance par ses six étapes et se termine, par drapeaux
+  seulement ; un drapeau posé par un dialogue est lu par une entité de carte, et inversement.
+- Le jet de compétence de l'étape 2 est joué par le runner du [LOT-15](@ref lot-15), à graine
+  fixée (`EX-VIS-005`).
+- `check_rpg_data.py` valide le fichier de quête ; une étape qui cite un drapeau que rien ne pose
+  est une erreur au chargement.
 
-### LOT-17 — Sauvegarde riche {#lot-17}
+### LOT-17 — Reprendre sa partie dans la Capitale : sauvegarde riche {#lot-17}
 
 > Statut : **à faire**.
-> Prérequis : [LOT-09](@ref lot-09), [LOT-10](@ref lot-10), [LOT-13](@ref lot-13),
-> [LOT-16](@ref lot-16).
+> Prérequis : [LOT-09](@ref lot-09), `LOT-96` (le quartier courant et les quartiers visités),
+> [LOT-10](@ref lot-10), [LOT-13](@ref lot-13), [LOT-16](@ref lot-16).
+
+> **Réécrit le 16 septembre 2026.** Le périmètre ne change pas — un état de partie complet et
+> versionné — mais il a maintenant un état à sauvegarder : un quartier, une case, une quête à une
+> étape, une porte ouverte. Les critères le disent en gestes de joueur, pas seulement en
+> aller-retour de fichier.
 
 #### Objectif
 
-Donner au jeu un état de partie complet et versionné, qu'on sauvegarde et qu'on reprend.
+Donner au jeu un état de partie complet et versionné, qu'on sauvegarde et qu'on reprend : quitter
+Arenarea au milieu de « Les enfants de Martpart », relancer le jeu, appuyer sur « Continuer », et
+se retrouver à la même case, avec le même journal.
 
 #### Le problème
 
@@ -2192,20 +2616,34 @@ Donner au jeu un état de partie complet et versionné, qu'on sauvegarde et qu'o
 été retirée par le [LOT-67](@ref lot-67) avec l'entrée « Continuer » du menu, qui n'avait plus
 rien à reprendre. **Rien ne persiste** aujourd'hui hors les options ; le menu du
 [LOT-87](@ref lot-87) réserve à ce lot ses entrées « Continuer » et « Charger », grisées jusqu'à
-lui. Un monde persistant a un joueur qui a une position, un inventaire, des quêtes en cours, et un
-monde qui a gardé la trace de ses actes.
+lui.
 
 #### Périmètre
 
 `Source/Core/Rpg/SaveGame.{h,cpp}` : JSON **versionné**, portant
 
-- la carte courante et la position exacte du personnage ;
+- la carte courante — un quartier de la Capitale, ou le repaire — et la position exacte du
+  personnage ;
 - la **liste** des personnages (décision de cadrage : un héros au départ, quatre à terme — c'est
   une liste dès maintenant, pas un champ unique qu'on pluraliserait plus tard) ;
 - l'inventaire et l'équipement ;
-- les drapeaux de monde et les entités consommées (coffres, ennemis vaincus) ;
+- les drapeaux de monde et les entités consommées (le coffre du repaire, la porte d'Arenarea
+  ouverte, les ennemis vaincus) ;
 - les quêtes et leur étape ;
-- l'état de découverte des lieux, dès que le `LOT-42` l'écrira.
+- les quartiers **visités** — l'état de découverte, que le `LOT-42` étendra au monde.
+
+Et ce qui l'entoure :
+
+- **« Continuer »** reprend la dernière sauvegarde ; **« Charger »** les liste, avec en en-tête le
+  quartier, l'étape de quête et la date — ce qu'un joueur lit pour choisir.
+- Une **sauvegarde automatique** au passage de chaque portail, en plus de la sauvegarde manuelle :
+  décision de ce lot, parce qu'une ville se traverse par portes et qu'on y perd sinon un quartier
+  entier.
+- **Pas de sauvegarde pendant un combat** : la session de combat ne se sérialise pas dans ce lot ;
+  l'entrée est grisée tant qu'un combat est engagé, et le dire vaut mieux qu'un format qui
+  promettrait de le faire.
+- Emplacement : le dossier de données utilisateur de la plateforme (`QStandardPaths`), un fichier
+  par emplacement.
 
 #### Règles de format
 
@@ -2219,11 +2657,13 @@ reconstruire — un format qui casse lui fait perdre sa partie.
 
 #### Critères d'acceptation
 
-- Aller-retour sauvegarde → chargement **à l'identique**, sur un état riche (plusieurs quêtes en
-  cours, inventaire garni, plusieurs cartes visitées).
+- **À l'écran** : sauvegarder sur Arenarea à l'étape 5 de la quête, quitter, « Continuer » — même
+  quartier, même case, même journal, porte d'Arenarea toujours ouverte.
+- **Headless** : aller-retour sauvegarde → chargement **à l'identique** sur un état riche — la
+  quête à **chacune** de ses étapes, inventaire garni, deux quartiers visités, coffre pris.
 - Une sauvegarde d'une version antérieure se charge avec des valeurs par défaut sensées.
 - Un champ inconnu est ignoré **et préservé** à la réécriture.
-- Testable headless.
+- L'entrée « Sauvegarder » est indisponible pendant un combat, et un test le vérifie.
 
 ### LOT-25 — Sorts et capacités de classe {#lot-25}
 
@@ -2310,65 +2750,119 @@ la partie, pas de l'horloge — `deriveSeed(baseSeed, step, entityId)` existe po
 - Vendre puis racheter un objet ne crée ni ne détruit de valeur au-delà de la marge annoncée.
 - Le stock d'un marchand se comporte de façon définie quand il est épuisé.
 
-### LOT-27 — Contenu du *vertical slice* {#lot-27}
+### LOT-27 — La Capitale : contenu du *vertical slice* {#lot-27}
 
 > Statut : **à faire**.
-> Prérequis : phases B, C et D complètes — soit [LOT-09](@ref lot-09), [LOT-11](@ref lot-11),
-> [LOT-15](@ref lot-15), [LOT-16](@ref lot-16), [LOT-17](@ref lot-17), [LOT-19](@ref lot-19),
-> [LOT-20](@ref lot-20), [LOT-21](@ref lot-21), [LOT-22](@ref lot-22), [LOT-23](@ref lot-23),
-> [LOT-24](@ref lot-24).
+> Prérequis : [LOT-09](@ref lot-09), [LOT-11](@ref lot-11), [LOT-15](@ref lot-15),
+> [LOT-16](@ref lot-16), [LOT-17](@ref lot-17), [LOT-19](@ref lot-19), [LOT-20](@ref lot-20),
+> [LOT-21](@ref lot-21), [LOT-22](@ref lot-22), [LOT-23](@ref lot-23), [LOT-24](@ref lot-24),
+> `LOT-92` (les planches de la ville), `LOT-93` (les champions du bestiaire), `LOT-95` (le plan,
+> source du tracé), `LOT-96` (les deux quartiers à habiller).
 
-> **Prérequis écrits en numéros au second audit** (§9.6). « Phases B, C et D » n'était lisible
-> par personne d'autre qu'un humain : le lint n'y voyait aucun lot, et plaçait ce lot « prêt » au
-> rang 5. La liste ci-dessus est la lecture littérale des trois phases (`lots.md`) : ce qui n'y
-> figure pas n'est pas requis par le slice.
+> **Réécrit le 16 septembre 2026.** « Un village, un donjon, trois PNJ » ne nommait rien que le
+> livre décrive, et un contenu qu'aucun texte ne porte s'invente au dernier moment — mal. Le
+> slice se joue désormais dans la **Capitale** (§8), le lieu le plus écrit du Sourcebook et celui
+> où le Colisée du [LOT-50](@ref lot-50) se trouve déjà. Ce lot livre la ville **habillée** :
+> ses cartes, ses habitants, ses textures, et le combat posé sur la carte.
 
 > **Hérité du [LOT-24](@ref lot-24), le 15 septembre 2026.** L'IHM de combat a été livrée sur le
-> Colisée, parce que le jeu Qt Quick n'avait ni exploration ni combat hors de l'arène :
-> `hmi::CombatMode` n'est instancié que par ses tests, `GameSession` et `GameViewport` ne sont
-> compilés que dans l'éditeur, l'écran `CombatHud` n'est ouvert par rien. Le slice « déclenche une
-> rencontre et gagne un combat tactique » : c'est donc ici que la rencontre engagée
-> (`core::beginEncounter`) doit monter une session de combat sur la carte **gelée**, et que
-> `CombatHudForm` doit lire la vue-modèle et la prévisualisation du `LOT-24` (`core::previewAttack`,
+> Colisée, parce que le jeu Qt Quick n'avait ni exploration ni combat hors de l'arène. Le
+> [LOT-09](@ref lot-09) donne l'exploration ; reste ici ce que personne d'autre ne porte : la
+> rencontre engagée (`core::beginEncounter`) monte une session de combat sur la carte **gelée**,
+> et `CombatHudForm` lit la vue-modèle et la prévisualisation du `LOT-24` (`core::previewAttack`,
 > `core::previewMove`, les gestes du curseur) au lieu de `PendingData`.
 
 #### Objectif
 
-Produire le contenu jouable qui démontre la boucle entière : *« un personnage explore une carte
-top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 »*.
+Produire le contenu jouable qui démontre la boucle entière : *« un personnage explore Martpart,
+parle à Myr, suit la piste des enfants disparus, libère le repaire dans un combat tactique sur la
+carte, et gagne le verdict de l'Arène du Destin »* — dans une ville qui ressemble à la Capitale.
 
 #### Périmètre
 
-- Un **village** : quelques bâtiments, trois PNJ, un marchand, un point de départ.
-- Un **donjon** : trois salles, deux rencontres, un coffre gardé.
-- Une **quête principale** reliant les deux, avec dialogues à choix et au moins un jet de compétence.
-- Deux types d'**ennemis** avec des profils d'IA distincts (mêlée agressive, distance prudente).
-- Un **combat scénarisé** déclenché par un dialogue.
+##### Les cartes — quatre, tracées depuis le plan
 
-Tout se produit **dans l'éditeur** (`LOT-11`), pas en écrivant du JSON à la main : c'est le test
-grandeur nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (`EX-VIS-006`).
+Dessinées dans l'éditeur ([LOT-11](@ref lot-11)), pas en JSON à la main : c'est le test grandeur
+nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (`EX-VIS-006`). La source
+est le **plan propre** du `LOT-95`, qui nomme les bâtiments d'après la prose ; le plan du corpus
+n'est qu'une référence lue sur le poste (§8).
 
-*État au 14 septembre 2026.* Les dialogues sont une donnée (`Source/Elements/World/dialogues/`,
-[LOT-15](@ref lot-15)) dont le chargeur refuse déjà cibles inconnues, cycles sans réponse, orphelins
-et impasses, et un test vérifie leurs clés de traduction en français et en anglais :
-`check_world_graph.py` n'a plus à le refaire, seulement à relier drapeaux et quêtes **entre**
-fichiers. **Parler à un PNJ depuis la carte n'est pas câblé** : l'interaction du
-[LOT-10](@ref lot-10) (touche `E`, `core::findInteractionTarget`) ne tourne pas dans
-`hmi::GameSession`, la surface de rendu Qt Quick n'affiche encore aucune scène, et l'écran de
-dialogue ouvre le héraut du Colisée en dur. La boucle « explore, parle à un PNJ » en a besoin :
-interaction → `core::dialogueTriggerFor` → `hmi::DialogueMode` et l'écran, sur le dialogue du PNJ.
-Le héraut, provisoire, part avec ce contenu.
+| Carte | Rôle dans la boucle | Ce que le plan y nomme |
+|---|---|---|
+| **Martpart** (extérieur) | le « village » : le point de départ, le marché, Myr, les témoins, les ruelles | le Marché municipal, l'arène Illu Die, les tavernes du quartier sans sommeil |
+| **Le repaire du Troisième Œil** (intérieur) | le « donjon » : trois salles, deux rencontres, un coffre gardé — le registre des acheteurs | sous les ruelles de Martpart ; la prose : « un monde souterrain de trafics et de complots » |
+| **Arenarea** (extérieur) | le noble accusé, le héraut, le parvis de l'Arène | l'Arène du Destin, le casino du Calice d'Or, l'Hippodrome, le Crépuscule de la Justice, le bazar de l'Anse, l'avenue Herofate |
+| **L'Arène du Destin** | le verdict : un combat d'arène à composition fixée | la carte du Colisée du [LOT-09](@ref lot-09), sa zone de combat et une variante de planche (loge impériale, bannières) ; `arena-of-fate.json` entre au catalogue des arènes, à Marque Héroïque — personne n'y meurt |
+
+Martpart et Arenarea sont les cartes du `LOT-96`, **habillées** ; le repaire est
+nouveau. Les dix autres quartiers gardent leur sentinelle : ils s'ouvriront avec le peuplement
+civil du `LOT-82`, un par un.
+
+##### Les habitants — les figurines de l'atelier
+
+Les personnages sont des figurines 48 × 64 de l'atelier du `LOT-91`, série **« Capitale »**,
+produites par la méthode du PoC ; elle n'attend rien du moteur et **démarre en parallèle du
+[LOT-09](@ref lot-09)**. Deux ont leur fiche au *Character Compendium* : **Myr** (page 91) et
+**Galender, le maître d'armes** (page 48), mentor à l'Arène du Destin, qui « respecte le courage
+des aventuriers et les forme ». Les autres se rédigent depuis la prose du Sourcebook, sans fiche :
+la sentinelle et la patrouille Ironhand, le spadassin et l'archer du Troisième Œil, le marchand du
+marché, le parent d'un enfant disparu, un enfant, le héraut de l'Arène, le noble des Blood Bound.
+Dix figurines ; le marqueur du [LOT-39](@ref lot-39) remplace chacune tant qu'elle n'est pas
+livrée, et le contenu se joue sans attendre l'art. Les **champions loués** du noble ne sont pas
+des PNJ mais des blocs du bestiaire, dessinés par l'atelier des monstres (`LOT-93`).
+
+Le **marchand** parle, il ne vend pas : la boutique est au [LOT-26](@ref lot-26) (`0.0.2`), et
+`MerchantForm` attend sa vue-modèle. Le slice ne le cache pas.
+
+##### Les textures — trois jeux, une planche chacun
+
+Par l'atelier du `LOT-92` : une **planche de production** par lieu, commandée depuis le descriptif
+d'atlas du lieu (bloc B), découpée par le script de l'atelier depuis sa disposition JSON, chaque
+cellule au cahier des assets (`check_assets_brief.py`).
+
+| Jeu | Pour | Ce que la prose impose |
+|---|---|---|
+| **Martpart** | l'extérieur du marché | « rues pavées, étals éclairés de lanternes, architecture aux styles mêlés » : pavés, étals, auvents, lanternes, tonneaux et caisses, façades mêlées, une fontaine |
+| **Arenarea** | l'extérieur noble | « grands hôtels à colonnes de marbre, larges jardins de façade, fontaines de pierre ouvragées » : dalles de marbre, colonnes, grilles, pelouses et haies, fontaines |
+| **Bas-fond** | le repaire | caves : pierre, poutres, cages, paillasses, le coffre |
+
+L'Arène du Destin reprend la planche du Colisée (`LOT-92`) ; ses gradins nobles sont une variante.
+
+##### Le combat sur la carte
+
+- Les deux rencontres du repaire : `core::beginEncounter` gèle la carte, monte
+  `core::CombatState` dessus, et `CombatHudForm` joue sur la vue-modèle du [LOT-24](@ref lot-24).
+  La fin de combat pose le drapeau de l'étape 4 ([LOT-16](@ref lot-16)) et retire le dialogue
+  provisoire.
+- Deux types d'**ennemis** avec deux des cinq profils d'IA du [LOT-23](@ref lot-23) : le spadassin
+  (mêlée agressive), l'archer (distance prudente).
+- **Le défi d'arène depuis la ville** : le dialogue du héraut monte une `core::ArenaSession`
+  ([LOT-50](@ref lot-50)) à composition fixée — le personnage contre les champions loués du noble —
+  et sa fin pose le drapeau du verdict. C'est le geste du [LOT-09](@ref lot-09), le héraut du
+  Colisée qui lance le combat sur la zone déclarée, rejoué sur l'Arène du Destin ; le voyage reste
+  au `LOT-42`.
+
+##### Retraits
+
+Les personnages et rencontres de démonstration sont partis avec le [LOT-09](@ref lot-09) ; restent
+ici les deux dialogues provisoires des étapes 4 et 6, qui disparaissent, et le dernier marqueur
+du chemin de la quête.
 
 #### Outillage
 
 `scripts/check_world_graph.py` remplace le `check_demo_sequence.py` hérité, retiré au `LOT-01`.
 Il valide, en CI :
 
-- le **graphe de cartes** : aucun portail orphelin, aucune carte inatteignable ;
-- les **références de dialogue et de quête** : chaque nœud cible, chaque drapeau, chaque
-  récompense existe ;
+- le **graphe de cartes** : aucun portail orphelin, aucune carte inatteignable depuis la porte de
+  départ ;
+- les **références entre fichiers** : chaque drapeau qu'une quête attend est posé par un dialogue,
+  une entité ou une fin de combat ; chaque PNJ posé sur une carte a un dialogue du catalogue ;
+  chaque récompense existe — le chargeur de dialogues du [LOT-15](@ref lot-15) vérifie déjà
+  l'intérieur d'un fichier, ce script relie les fichiers **entre** eux ;
 - que chaque zone de rencontre est un **terrain tactique valide** (contrainte du `LOT-11`, née de
-  la décision « combat sur la carte »).
+  la décision « combat sur la carte ») ;
+- que **le chemin de la quête n'affiche aucun marqueur** de clé d'asset manquante
+  ([LOT-39](@ref lot-39)) : les textures et figurines du slice sont livrées, pas promises.
 
 #### Exigences couvertes
 
@@ -2376,15 +2870,15 @@ Il valide, en CI :
 
 #### Critères d'acceptation
 
-- La boucle complète se joue de bout en bout.
-- Un **test système** la rejoue en headless, du départ à la victoire du combat.
-- `check_world_graph.py` vert.
+- La boucle complète se joue de bout en bout, de la porte de Martpart au verdict.
+- Un **test système** la rejoue en headless, du départ à la victoire de l'Arène.
+- `check_world_graph.py` vert ; aucun marqueur sur le chemin de la quête.
 - Le contenu se recharge après sauvegarde à n'importe quel point de la boucle.
-
+- Les quatre cartes ont leur capture de référence dans les tests QML.
 ### LOT-28 — Audio, effets et version `0.0.1` {#lot-28}
 
 > Statut : **à faire**.
-> Prérequis : [LOT-27](@ref lot-27).
+> Prérequis : [LOT-27](@ref lot-27), `LOT-94` (aucune image du corpus dans une version).
 
 #### Objectif
 
@@ -2418,6 +2912,7 @@ JSON depuis la phase C — aucune recompilation.
 ##### Clôture
 
 - Régénération du **cahier de test** (`scripts/generate_cahier_test.py`).
+- Le lint de provenance du `LOT-94` est vert : la version ne contient **aucune image du corpus**.
 - Mise en cohérence documentaire globale : specs, guides, manuel.
 - `project(VERSION 0.0.1)` dans le `CMakeLists.txt` racine — **seul endroit** où la version
   s'écrit — puis tag `v0.0.1`. Le `0.1.0` qui y figure est le numéro hérité du jeu de plateforme ;
