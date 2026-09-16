@@ -93,7 +93,8 @@ namespace hmi {
 class ArenaAppearanceCatalog;
 struct ArenaAnimationState;
 
-/// Largeur d'une image des bandes d'animation de la planche, en pixels (`manifest.json`, `frame`).
+/// Largeur d'une image des bandes d'animation de la planche, en pixels (`manifest.json`, `frame`),
+/// quand la bande n'en dÃ©clare pas d'autre (`ArenaTexture::frameWidth`).
 inline constexpr int ARENA_FIGURE_FRAME_WIDTH_PIXELS = 48;
 /// Hauteur d'une image des bandes d'animation, en pixels.
 inline constexpr int ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64;
@@ -128,6 +129,9 @@ struct ArenaTexture {
     TextureHandle texture = nullptr;
     int width = 0;
     int height = 0;
+    /// Largeur d'une image si la texture est une bande d'animation (`frameWidth` de son
+    /// `.anim.json`) ; 0 sinon, et la composition suppose `ARENA_FIGURE_FRAME_WIDTH_PIXELS`.
+    int frameWidth = 0;
 };
 
 /**

@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-16 11:30 UTC",
-  "commit": "4ecab7dc4",
-  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35089581732",
+  "generated": "2026-09-16 14:19 UTC",
+  "commit": "659bc3d41",
+  "run_url": "https://github.com/azertval/JustAnotherDnDGame/actions/runs/35106358212",
   "coverage": {
     "percent": 90.4,
-    "covered": 15053,
-    "valid": 16652,
+    "covered": 15100,
+    "valid": 16703,
     "files": 272,
     "areas": [
       {
@@ -112,9 +112,9 @@
       },
       {
         "name": "HMI/Graphics",
-        "covered": 2467,
-        "valid": 3000,
-        "percent": 82.23
+        "covered": 2514,
+        "valid": 3051,
+        "percent": 82.4
       },
       {
         "name": "HMI/Input",

@@ -1,5 +1,16 @@
 var NAVTREEINDEX23 =
 {
+"guide-journalisation.html#autotoc_md165":[4,10,5],
+"guide-journalisation.html#autotoc_md166":[4,10,6],
+"guide-journalisation.html#autotoc_md167":[4,10,6,0],
+"guide-journalisation.html#autotoc_md168":[4,10,7],
+"guide-journalisation.html#autotoc_md169":[4,10,8],
+"guide-maths.html":[4,5],
+"guide-maths.html#autotoc_md170":[4,5,0],
+"guide-maths.html#autotoc_md171":[4,5,0,0],
+"guide-maths.html#autotoc_md172":[4,5,0,1],
+"guide-maths.html#autotoc_md173":[4,5,1],
+"guide-maths.html#autotoc_md174":[4,5,2],
 "guide-maths.html#autotoc_md175":[4,5,3],
 "guide-maths.html#autotoc_md176":[4,5,4],
 "guide-niveaux.html":[4,7],
@@ -238,16 +249,5 @@ var NAVTREEINDEX23 =
 "lot-19.html#autotoc_md527":[7,34,10],
 "lot-19.html#autotoc_md528":[7,34,11],
 "lot-20.html":[7,35],
-"lot-20.html#autotoc_md529":[7,35,0],
-"lot-20.html#autotoc_md530":[7,35,1],
-"lot-20.html#autotoc_md531":[7,35,2],
-"lot-20.html#autotoc_md532":[7,35,3],
-"lot-20.html#autotoc_md533":[7,35,4],
-"lot-20.html#autotoc_md534":[7,35,5],
-"lot-20.html#autotoc_md535":[7,35,6],
-"lot-20.html#autotoc_md536":[7,35,7],
-"lot-20.html#autotoc_md537":[7,35,8],
-"lot-20.html#autotoc_md538":[7,35,9],
-"lot-20.html#autotoc_md539":[7,35,10],
-"lot-20.html#autotoc_md540":[7,35,11]
+"lot-20.html#autotoc_md529":[7,35,0]
 };

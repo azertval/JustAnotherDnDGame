@@ -1,5 +1,6 @@
 var classhmi_1_1ArenaAppearanceCatalog =
 [
+    [ "applyNpcManifest", "classhmi_1_1ArenaAppearanceCatalog.html#a9dc3132538268945af654cd544ab813f", null ],
     [ "enemyFrames", "classhmi_1_1ArenaAppearanceCatalog.html#a4b484538e997620e36be580223a9d94f", null ],
     [ "figureFor", "classhmi_1_1ArenaAppearanceCatalog.html#a812c8e53901ec0f3616e180ebb923a60", null ],
     [ "fromDocument", "classhmi_1_1ArenaAppearanceCatalog.html#a50f574b853e2e13b3d2c23c8846c23f3", null ],
@@ -9,9 +10,12 @@ var classhmi_1_1ArenaAppearanceCatalog =
     [ "loadFromFile", "classhmi_1_1ArenaAppearanceCatalog.html#aaafbef0722f6a29943192e6fd242a7a4", null ],
     [ "loadFromString", "classhmi_1_1ArenaAppearanceCatalog.html#aa7e034719a6931f68257f340876874af", null ],
     [ "paleSlabs", "classhmi_1_1ArenaAppearanceCatalog.html#aa37d1c44745446f26980ee570d84f526", null ],
+    [ "replaceHero", "classhmi_1_1ArenaAppearanceCatalog.html#ab6b02ebc7d15780ebbd2463e23a8d785", null ],
+    [ "sheetDirectory", "classhmi_1_1ArenaAppearanceCatalog.html#a242d9d41756fd2d69f4bd783c223d609", null ],
     [ "tileAppearance", "classhmi_1_1ArenaAppearanceCatalog.html#aa3ed42b73cf2574449ef73623919787a", null ],
     [ "_enemyFrames", "classhmi_1_1ArenaAppearanceCatalog.html#aee452ce6cdf045b5dc4a1fcaee0eac08", null ],
     [ "_gladiators", "classhmi_1_1ArenaAppearanceCatalog.html#ae59d275609c4d6e3359aba7648e9f53f", null ],
+    [ "_heroDirectories", "classhmi_1_1ArenaAppearanceCatalog.html#aec02ad6fe3c845d290e84c4f0ea66ed7", null ],
     [ "_heroes", "classhmi_1_1ArenaAppearanceCatalog.html#a631755e2317768443b91fc6f6eec2f75", null ],
     [ "_heroFrames", "classhmi_1_1ArenaAppearanceCatalog.html#ad3fbdb415594a1693d9d1e6eb9e5185b", null ],
     [ "_paleSlabs", "classhmi_1_1ArenaAppearanceCatalog.html#aaab61ea7744324821ebe4132523e94e2", null ],

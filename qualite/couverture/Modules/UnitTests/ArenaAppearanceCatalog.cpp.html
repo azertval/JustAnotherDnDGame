@@ -14,6 +14,7 @@
 
 #include "HMI/Graphics/ArenaAppearanceCatalog.h"
 
+#include &lt;algorithm&gt;
 #include &lt;utility&gt;
 
 #include &lt;nlohmann/json.hpp&gt;
@@ -30,6 +31,12 @@ constexpr const char* FIELD_GLADIATORS = "gladiators";
 constexpr const char* FIELD_PALE_SLABS = "paleSlabs";
 constexpr const char* FIELD_HERO_FRAMES = "heroFrames";
 constexpr const char* FIELD_ENEMY_FRAMES = "enemyFrames";
+
+/// Manifeste des PNJ de l'atelier (LOT-91) : `replaces` associe un hÃ©ros du ColisÃ©e au slug du
+/// PNJ qui prend sa place ; ses bandes sont sous `Npc/&lt;slug&gt;/`, Ã  cÃ´tÃ© de `Coliseum/`.
+constexpr const char* FIELD_REPLACES = "replaces";
+constexpr int NPC_FORMAT_VERSION = 1;
+constexpr const char* NPC_DIRECTORY_FROM_COLISEUM = "../Npc/";
 
 // Meme patron que hmi::SkinCatalog : une traduction exhaustive, sans default, pour qu'une
 // categorie ajoutee d'un cote fasse echouer la compilation de l'autre plutot que de se perdre.
@@ -173,7 +180,64 @@ FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
             ? 0
             : (static_cast&lt;int&gt;(name.size()) * 7 + static_cast&lt;unsigned char&gt;(name.front())) %
                   static_cast&lt;int&gt;(roster.size());
-<span style = "background-color:#dfd">    return {roster[static_cast&lt;std::size_t&gt;(index)], frames};
+<span style = "background-color:#dfd">    const std::string&amp; sheet = roster[static_cast&lt;std::size_t&gt;(index)];
+    return {sheet, sheetDirectory(sheet, side), frames};
+}</span>
+
+std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
+<span style = "background-color:#dfd">                                                   core::CombatSide side) const {
+    if (side == core::CombatSide::Allies) {
+        const auto replaced = _heroDirectories.find(sheet);
+        if (replaced != _heroDirectories.end()) {
+            return replaced-&gt;second;</span>
+        }
+<span style = "background-color:#dfd">        return "characters/" + std::string(sheet);</span>
+    }
+<span style = "background-color:#dfd">    return "enemies/" + std::string(sheet);
+}</span>
+
+<span style = "background-color:#dfd">bool ArenaAppearanceCatalog::replaceHero(std::string_view hero, std::string directory) {
+    const auto known = std::find(_heroes.begin(), _heroes.end(), hero);
+    if (known == _heroes.end()) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    _heroDirectories[*known] = std::move(directory);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">int ArenaAppearanceCatalog::applyNpcManifest(const std::filesystem::path&amp; path) {
+    const core::JsonDocument document = core::readJsonObjectFromFile(path, NPC_FORMAT_VERSION);
+    if (!document.ok()) {
+        if (document.error != core::JsonReadError::FileNotFound) {</span>
+<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ ignore, " +</span>
+                                 document.message);
+        }
+<span style = "background-color:#dfd">        return 0;</span>
+    }
+<span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;
+    if (!root.contains(FIELD_REPLACES)) {</span>
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+<span style = "background-color:#dfd">    if (!root[FIELD_REPLACES].is_object()) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING(</span>
+            "arena_appearance : manifeste des PNJ, Â« replaces Â» n'est pas un objet.");
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+<span style = "background-color:#dfd">    int replaced = 0;
+    for (const auto&amp; [hero, slug] : root[FIELD_REPLACES].items()) {
+        if (!slug.is_string() || slug.get&lt;std::string&gt;().empty()) {
+            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, remplacement de Â« " + hero +</span>
+                                 " Â» sans slug.");
+<span style = "background-color:#dfd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (!replaceHero(hero, NPC_DIRECTORY_FROM_COLISEUM + slug.get&lt;std::string&gt;())) {
+            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, Â« " + hero +</span>
+                                 " Â» n'est pas un heros du Colisee.");
+<span style = "background-color:#dfd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        ++replaced;
+    }
+    return replaced;
 }</span>
 
 }  // namespace hmi</pre>

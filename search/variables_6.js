@@ -46,6 +46,6 @@ var searchData=
   ['frameshadow_43',['frameShadow',['../structhmi_1_1ColorTokens.html#a564bcc840855b014c3e50ed7858ab865',1,'hmi::ColorTokens']]],
   ['framespersecond_44',['framesPerSecond',['../structhmi_1_1DiagnosticsMeasurements.html#aa4012ca819a87e7db6625662fdde6438',1,'hmi::DiagnosticsMeasurements']]],
   ['framethickness_45',['frameThickness',['../structhmi_1_1IdentityBaseScale.html#a6363a5795e414ce3656600f895a3dc8f',1,'hmi::IdentityBaseScale']]],
-  ['framewidth_46',['frameWidth',['../structhmi_1_1AnimationDescription.html#a18d25eef98c2ac2863e7d87b35bd4909',1,'hmi::AnimationDescription']]],
+  ['framewidth_46',['frameWidth',['../structhmi_1_1AnimationDescription.html#a18d25eef98c2ac2863e7d87b35bd4909',1,'hmi::AnimationDescription::frameWidth'],['../structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f',1,'hmi::ArenaTexture::frameWidth']]],
   ['friction_47',['friction',['../structcore_1_1TopDownConfig.html#a9e2e50352dbca429a850410f1db3a7c9',1,'core::TopDownConfig']]]
 ];

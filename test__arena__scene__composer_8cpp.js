@@ -8,5 +8,6 @@ var test__arena__scene__composer_8cpp =
     [ "TEST_F", "test__arena__scene__composer_8cpp.html#afe1a8bccedf6bcaa27c1a4c3823b5c30", null ],
     [ "TEST_F", "test__arena__scene__composer_8cpp.html#ad6e90140f99bbe44f9f95a5757b09017", null ],
     [ "TEST_F", "test__arena__scene__composer_8cpp.html#a147af953e557db9e85d976aee831d7ee", null ],
-    [ "TEST_F", "test__arena__scene__composer_8cpp.html#a8f6825967b3a03979238c24ec994a013", null ]
+    [ "TEST_F", "test__arena__scene__composer_8cpp.html#a8f6825967b3a03979238c24ec994a013", null ],
+    [ "TEST_F", "test__arena__scene__composer_8cpp.html#a8a772977936705339436c0d1d8ea5cb5", null ]
 ];

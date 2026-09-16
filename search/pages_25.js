@@ -8,10 +8,11 @@ var searchData=
   ['«_20en_20dur_20»_20une_20touche_20dans_20le_20gameplay_5',['Le principe : ne jamais coder « en dur » une touche dans le gameplay',['../guide-entrees.html#autotoc_md137',1,'']]],
   ['«_20niveau_20»_20devient_20«_20carte_20»_20partout_6',['Le vocabulaire : « niveau » devient « carte », partout',['../lot-67.html#autotoc_md688',1,'']]],
   ['«_20nouvelle_20partie_20»_20_3a_20un_20échafaudage_20et_20il_20est_20écrit_7',['« Nouvelle partie » : un échafaudage, et il est écrit',['../lot-68.html#autotoc_md695',1,'']]],
-  ['«_20par_20salle_20»_8',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md904',1,'']]],
-  ['«_20parcours_20»_20_3a_20dessiner_20la_20route_20d_20un_20élément_20mobile_9',['L&apos;outil « Parcours » : dessiner la route d&apos;un élément mobile',['../guide-editeur.html#autotoc_md121',1,'']]],
-  ['«_20peut_20on_20se_20tenir_20ici_20»_10',['« peut on se tenir ici »',['../lot-19.html#autotoc_md525',1,'Une seule source de vérité pour « peut-on se tenir ici »'],['../classcore_1_1BattleGrid.html#autotoc_md924',1,'Une seule source de vérité pour « peut-on se tenir ici »']]],
-  ['«_20plans_20»_11',['Le panneau « Plans »',['../guide-editeur.html#autotoc_md131',1,'']]],
-  ['«_20spirale_20de_20la_20mort_20»_12',['La « spirale de la mort »',['../guide-boucle.html#autotoc_md60',1,'']]],
-  ['«_20une_20seule_20hmilib_20»_13',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md416',1,'']]]
+  ['«_20oui_20»_8',['La revue (neuf « oui »)',['../lot-91.html#autotoc_md786',1,'']]],
+  ['«_20par_20salle_20»_9',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md927',1,'']]],
+  ['«_20parcours_20»_20_3a_20dessiner_20la_20route_20d_20un_20élément_20mobile_10',['L&apos;outil « Parcours » : dessiner la route d&apos;un élément mobile',['../guide-editeur.html#autotoc_md121',1,'']]],
+  ['«_20peut_20on_20se_20tenir_20ici_20»_11',['« peut on se tenir ici »',['../lot-19.html#autotoc_md525',1,'Une seule source de vérité pour « peut-on se tenir ici »'],['../classcore_1_1BattleGrid.html#autotoc_md947',1,'Une seule source de vérité pour « peut-on se tenir ici »']]],
+  ['«_20plans_20»_12',['Le panneau « Plans »',['../guide-editeur.html#autotoc_md131',1,'']]],
+  ['«_20spirale_20de_20la_20mort_20»_13',['La « spirale de la mort »',['../guide-boucle.html#autotoc_md60',1,'']]],
+  ['«_20une_20seule_20hmilib_20»_14',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md416',1,'']]]
 ];

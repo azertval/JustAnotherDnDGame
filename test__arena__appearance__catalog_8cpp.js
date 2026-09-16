@@ -8,7 +8,9 @@ var test__arena__appearance__catalog_8cpp =
     [ "TEST", "test__arena__appearance__catalog_8cpp.html#aec91f3c5fcc847d82c46a882eed84897", null ],
     [ "TEST", "test__arena__appearance__catalog_8cpp.html#a7c9c63bcf99e9644c63db2f2558dc83a", null ],
     [ "TEST", "test__arena__appearance__catalog_8cpp.html#a7ff241077c6b322270f72c0ce0c89a57", null ],
+    [ "TEST", "test__arena__appearance__catalog_8cpp.html#a7f2150ce29bcfa746f83e21ae72640d6", null ],
     [ "TEST", "test__arena__appearance__catalog_8cpp.html#a7ba89c5a688a50ea8e4e3775bf62defa", null ],
     [ "TEST", "test__arena__appearance__catalog_8cpp.html#a986a2188d8388034346643fb57dc8414", null ],
-    [ "TEST", "test__arena__appearance__catalog_8cpp.html#af0dfb2e8584f0c80fcabdabbde082f6f", null ]
+    [ "TEST", "test__arena__appearance__catalog_8cpp.html#af0dfb2e8584f0c80fcabdabbde082f6f", null ],
+    [ "TEST", "test__arena__appearance__catalog_8cpp.html#a944b77b4b4765556b9d996780a087cdd", null ]
 ];

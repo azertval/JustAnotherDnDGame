@@ -18,6 +18,7 @@ var classhmi_1_1ArenaSceneRenderer =
     [ "textures", "classhmi_1_1ArenaSceneRenderer.html#abfaeb27c9547c5be2e62a9d3ba1748bf", null ],
     [ "_animated", "classhmi_1_1ArenaSceneRenderer.html#ab52ccbc75e892f4b0f515302b54c8b2b", null ],
     [ "_animation", "classhmi_1_1ArenaSceneRenderer.html#a7bff94596cf7d792501a8a1a40217dfd", null ],
+    [ "_bandFrameWidths", "classhmi_1_1ArenaSceneRenderer.html#a6406f3e3ea4543f45cfc85f7faadfe30", null ],
     [ "_catalog", "classhmi_1_1ArenaSceneRenderer.html#acfac35e49caa17bba11a806637edb2ee", null ],
     [ "_composed", "classhmi_1_1ArenaSceneRenderer.html#a02dc2b80093547585c6b43efd8ced406", null ],
     [ "_directory", "classhmi_1_1ArenaSceneRenderer.html#aacf9fd0d70e452b3a64c103d384e06b1", null ],

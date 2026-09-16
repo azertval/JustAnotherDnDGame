@@ -59,19 +59,29 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
     } else {</span>
 <span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("Arene : manifeste du Colisee illisible, " + catalog.error);</span>
     }
+    // Les PNJ de l'atelier (LOT-91) vivent a cote du Colisee ; leur manifeste peut mettre l'un
+    // d'eux a la place d'un heros de la planche de production.
+<span style = "background-color:#dfd">    const int replaced =</span>
+        _catalog.applyNpcManifest(_directory.parent_path() / "Npc" / "manifest.json");
+<span style = "background-color:#dfd">    if (replaced &gt; 0) {
+        GRAPHICS_LOG_INFO("Arene : " + std::to_string(replaced) + " heros remplace(s) par un PNJ.");</span>
+    }
 
-<span style = "background-color:#dfd">    const auto declare = [this](const std::string&amp; folder, const std::string&amp; sheet) {
-        ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / folder / sheet);
+<span style = "background-color:#dfd">    const auto declare = [this](const std::string&amp; sheet, core::CombatSide side) {
+        const std::string directory = _catalog.sheetDirectory(sheet, side);
+        ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / directory);
         for (const std::string&amp; error : load.errors) {</span>
 <span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING("Arene : animation de " + sheet + ", " + error);</span>
         }
-<span style = "background-color:#dfd">        _animation.setFigureAnimations(sheet, std::move(load.clips));
+<span style = "background-color:#dfd">        _bandFrameWidths[directory + "/idle.png"] = load.idleFrameWidth;
+        _bandFrameWidths[directory + "/death.png"] = load.deathFrameWidth;
+        _animation.setFigureAnimations(sheet, std::move(load.clips));
     };
     for (const std::string&amp; hero : _catalog.heroes()) {
-        declare("characters", hero);
+        declare(hero, core::CombatSide::Allies);
     }
     for (const std::string&amp; gladiator : _catalog.gladiators()) {
-        declare("enemies", gladiator);
+        declare(gladiator, core::CombatSide::Enemies);
     }
 }</span>
 
@@ -118,8 +128,10 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
 <span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING(missingTextureWarning(path));
             continue;</span>
         }
-<span style = "background-color:#dfd">        _textures.byPath[path] = ArenaTexture{texture-&gt;handle(), texture-&gt;width, texture-&gt;height};
-        _loaded.push_back(std::move(*texture));
+<span style = "background-color:#dfd">        const auto band = _bandFrameWidths.find(path);
+        _textures.byPath[path] = ArenaTexture{texture-&gt;handle(), texture-&gt;width, texture-&gt;height,</span>
+                                              band != _bandFrameWidths.end() ? band-&gt;second : 0};
+<span style = "background-color:#dfd">        _loaded.push_back(std::move(*texture));
     }
 }</span>
 

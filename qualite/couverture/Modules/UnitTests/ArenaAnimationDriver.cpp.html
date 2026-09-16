@@ -44,11 +44,14 @@ namespace {
 // invalide : nul, et le message rejoint errors.
 [[nodiscard]] std::shared_ptr&lt;const core::ClipSet&gt; loadOptionalClips(
     const std::filesystem::path&amp; sheetDirectory, ArenaFigureAction action,
-<span style = "background-color:#dfd">    std::vector&lt;std::string&gt;&amp; errors) {
+<span style = "background-color:#dfd">    std::vector&lt;std::string&gt;&amp; errors, int* frameWidth = nullptr) {
     const std::filesystem::path path = sheetDirectory / actionFileName(action);
     const AnimationDescriptionResult result = AnimationCatalog::loadFromFile(path);
     if (result.ok()) {
-        return std::make_shared&lt;const core::ClipSet&gt;(std::move(result.description-&gt;clips));</span>
+        if (frameWidth != nullptr) {
+            *frameWidth = result.description-&gt;frameWidth;</span>
+        }
+<span style = "background-color:#dfd">        return std::make_shared&lt;const core::ClipSet&gt;(std::move(result.description-&gt;clips));</span>
     }
 <span style = "background-color:#dfd">    if (result.errorCode != AnimationCatalogError::FileNotFound) {</span>
 <span style = "background-color:#fdd">        errors.push_back(path.string() + " : " + result.error);</span>
@@ -77,12 +80,14 @@ const std::shared_ptr&lt;const core::ClipSet&gt;&amp; ArenaFigureAnimationSet::f
 
 <span style = "background-color:#dfd">ArenaFigureAnimationLoad loadArenaFigureAnimations(const std::filesystem::path&amp; sheetDirectory) {
     ArenaFigureAnimationLoad load;
-    load.clips.idle = loadOptionalClips(sheetDirectory, ArenaFigureAction::Idle, load.errors);
-    load.clips.walk = loadOptionalClips(sheetDirectory, ArenaFigureAction::Walk, load.errors);
+    load.clips.idle = loadOptionalClips(sheetDirectory, ArenaFigureAction::Idle, load.errors,</span>
+                                        &amp;load.idleFrameWidth);
+<span style = "background-color:#dfd">    load.clips.walk = loadOptionalClips(sheetDirectory, ArenaFigureAction::Walk, load.errors);
     load.clips.attack = loadOptionalClips(sheetDirectory, ArenaFigureAction::Attack, load.errors);
     load.clips.hit = loadOptionalClips(sheetDirectory, ArenaFigureAction::Hit, load.errors);
-    load.clips.death = loadOptionalClips(sheetDirectory, ArenaFigureAction::Death, load.errors);
-    return load;
+    load.clips.death = loadOptionalClips(sheetDirectory, ArenaFigureAction::Death, load.errors,</span>
+                                         &amp;load.deathFrameWidth);
+<span style = "background-color:#dfd">    return load;
 }</span>
 
 <span style = "background-color:#dfd">int ArenaCombatantAnimation::frame() const {

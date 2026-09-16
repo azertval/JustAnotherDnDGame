@@ -1,5 +1,15 @@
 var NAVTREEINDEX16 =
 {
+"classhmi_1_1LevelBrowserPanel.html#a67a52a66f33fbc3a4164f154ccad4733":[13,0,2,13,9],
+"classhmi_1_1LevelBrowserPanel.html#a67a52a66f33fbc3a4164f154ccad4733":[14,0,1,13,9],
+"classhmi_1_1LevelBrowserPanel.html#a69eb067948088996f047d0ad7582edab":[13,0,2,13,2],
+"classhmi_1_1LevelBrowserPanel.html#a69eb067948088996f047d0ad7582edab":[14,0,1,13,2],
+"classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0":[13,0,2,13,13],
+"classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0":[14,0,1,13,13],
+"classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b":[13,0,2,13,14],
+"classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b":[14,0,1,13,14],
+"classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba":[13,0,2,13,1],
+"classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba":[14,0,1,13,1],
 "classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e":[13,0,2,13,7],
 "classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e":[14,0,1,13,7],
 "classhmi_1_1LevelFileOperations.html":[13,0,2,14],
@@ -239,15 +249,5 @@ var NAVTREEINDEX16 =
 "classhmi_1_1MainWindow.html#acf7d0c1b8c6c9f77858c847276140b68":[13,0,2,155,75],
 "classhmi_1_1MainWindow.html#acf7d0c1b8c6c9f77858c847276140b68":[14,0,1,155,75],
 "classhmi_1_1MainWindow.html#acfd88f3e6576c175480e4eeac406ea93":[13,0,2,155,37],
-"classhmi_1_1MainWindow.html#acfd88f3e6576c175480e4eeac406ea93":[14,0,1,155,37],
-"classhmi_1_1MainWindow.html#ad32a46642735fa5056ea258df35b2847":[13,0,2,155,18],
-"classhmi_1_1MainWindow.html#ad32a46642735fa5056ea258df35b2847":[14,0,1,155,18],
-"classhmi_1_1MainWindow.html#ad46f19e154147f414a4ca0817086c2ac":[13,0,2,155,38],
-"classhmi_1_1MainWindow.html#ad46f19e154147f414a4ca0817086c2ac":[14,0,1,155,38],
-"classhmi_1_1MainWindow.html#ad7b5a4376b4b8147c28a8b586ca98b4c":[13,0,2,155,72],
-"classhmi_1_1MainWindow.html#ad7b5a4376b4b8147c28a8b586ca98b4c":[14,0,1,155,72],
-"classhmi_1_1MainWindow.html#ada4e70102abcb89f966532432b0dfa79":[13,0,2,155,67],
-"classhmi_1_1MainWindow.html#ada4e70102abcb89f966532432b0dfa79":[14,0,1,155,67],
-"classhmi_1_1MainWindow.html#adbb90fc80102c6f01e232b7134e30f57":[13,0,2,155,9],
-"classhmi_1_1MainWindow.html#adbb90fc80102c6f01e232b7134e30f57":[14,0,1,155,9]
+"classhmi_1_1MainWindow.html#acfd88f3e6576c175480e4eeac406ea93":[14,0,1,155,37]
 };

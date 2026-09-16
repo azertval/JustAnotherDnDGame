@@ -128,6 +128,8 @@ Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:aacf9fd0d70e452b3a64c103d384e06b1" id="r_aacf9fd0d70e452b3a64c103d384e06b1"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aacf9fd0d70e452b3a64c103d384e06b1">_directory</a></td></tr>
 <tr class="memitem:acfac35e49caa17bba11a806637edb2ee" id="r_acfac35e49caa17bba11a806637edb2ee"><td class="memItemLeft"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html">ArenaAppearanceCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#acfac35e49caa17bba11a806637edb2ee">_catalog</a></td></tr>
+<tr class="memitem:a6406f3e3ea4543f45cfc85f7faadfe30" id="r_a6406f3e3ea4543f45cfc85f7faadfe30"><td class="memItemLeft">std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6406f3e3ea4543f45cfc85f7faadfe30">_bandFrameWidths</a></td></tr>
+<tr class="memdesc:a6406f3e3ea4543f45cfc85f7faadfe30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur d'image des bandes dessinées (<span class="tt">idle.png</span>, <span class="tt">death.png</span>), par chemin sous <span class="tt"><a class="el" href="#aacf9fd0d70e452b3a64c103d384e06b1">_directory</a></span>, lue avec leurs clips : <span class="tt"><a class="el" href="structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f" title="Largeur d&#39;une image si la texture est une bande d&#39;animation (frameWidth de son .anim....">ArenaTexture::frameWidth</a></span> à la création des textures.  <br /></td></tr>
 <tr class="memitem:a7bff94596cf7d792501a8a1a40217dfd" id="r_a7bff94596cf7d792501a8a1a40217dfd"><td class="memItemLeft"><a class="el" href="classhmi_1_1ArenaAnimationDriver.html">ArenaAnimationDriver</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7bff94596cf7d792501a8a1a40217dfd">_animation</a></td></tr>
 <tr class="memitem:a7cc5f02212ec26bbf5deefbb2101cd6c" id="r_a7cc5f02212ec26bbf5deefbb2101cd6c"><td class="memItemLeft"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7cc5f02212ec26bbf5deefbb2101cd6c">_snapshot</a></td></tr>
 <tr class="memitem:ab52ccbc75e892f4b0f515302b54c8b2b" id="r_ab52ccbc75e892f4b0f515302b54c8b2b"><td class="memItemLeft">std::set&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">core::CombatantId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab52ccbc75e892f4b0f515302b54c8b2b">_animated</a></td></tr>
@@ -145,17 +147,17 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ce qui dessine le Colisée : ressources GPU, textures de la planche, animation des figurines, et la passe qui soumet la scène composée. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md969"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md992"></a>
 Pourquoi pas directement dans l'item Qt Quick</h2>
 <p><span class="tt"><a class="el" href="classhmi_1_1ArenaViewportItem.html" title="Surface QRhi de la scène de combat du Colisée : la grille, l&#39;enceinte et les figurines,...">hmi::ArenaViewportItem</a></span> n'est qu'un hôte : un <span class="tt">QQuickRhiItemRenderer</span> ne s'exécute que dans une fenêtre Qt Quick, et ses accesseurs (<span class="tt"><a class="el" href="#a0aa7fd703d2d54de7b460083dca8df41">rhi()</a></span>, <span class="tt">renderTarget()</span>) n'existent pas hors d'elle. Tout ce qui peut casser — l'ordre de création, l'ordre de libération, la recréation sur une autre interface QRhi — vit donc ici, où un test hors écran le fait tourner sur un vrai <span class="tt">QRhi</span> Direct3D 11 sans fenêtre (<span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">test_arena_scene_renderer.cpp</a></span>). L'item se contente de relayer ses trois appels.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md970"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md993"></a>
 Les trois temps, et les deux fils</h2>
 <ol type="1">
 <li><span class="tt">ensureResources(rhi)</span> — <b>fil de rendu</b>, depuis <span class="tt">initialize()</span>. Crée les ressources si elles n'existent pas, ou les <b>libère puis recrée</b> si l'interface QRhi a changé (fenêtre changée, graphe de scène reconstruit) : une ressource de l'ancienne interface ne doit plus servir.</li>
 <li><span class="tt">setSnapshot(snapshot)</span> — depuis <span class="tt">synchronize()</span>, <b>fil graphique bloqué</b>. Reçoit la scène <b>en valeurs</b> (<span class="tt"><a class="el" href="structhmi_1_1ArenaSceneSnapshot.html" title="La scène de combat en valeurs : ce que la composition lit, et rien d&#39;autre.">hmi::ArenaSceneSnapshot</a></span>) : aucun pointeur vers la session ne franchit la frontière entre les fils.</li>
 <li><span class="tt">render(...)</span> — <b>fil de rendu</b>. Avance l'animation, compose, trie, soumet.</li>
 </ol>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md971"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md994"></a>
 L'ordre de libération</h2>
 <p>Les textures de la planche et le damier meurent <b>avant</b> <span class="tt"><a class="el" href="classhmi_1_1SceneResources.html" title="Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins — créés ensemble,...">hmi::SceneResources</a></span>, qui libère ensuite sa propre grappe dans l'ordre qu'elle fixe (le lot de sprites, qui porte le pipeline, en dernier). Le lot de téléversements de création, s'il n'a jamais été soumis, est rendu à QRhi. Le destructeur fait la même chose : le renderer de Qt Quick est détruit sur le fil de rendu, son <span class="tt">QRhi</span> encore vivant. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -183,7 +185,7 @@ L'ordre de libération</h2>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">coliseumDirectory</td><td>Dossier de la planche du Colisée (<span class="tt">Assets/Coliseum</span>) : manifeste, pièces et <span class="tt">.anim.json</span>. Absent ou illisible : catalogue vide, rien à dessiner que le fond — jamais une erreur bloquante (<span class="tt">EX-NFR-040</span>). </td></tr>
+    <tr><td class="paramname">coliseumDirectory</td><td>Dossier de la planche du Colisée (<span class="tt">Assets/Coliseum</span>) : manifeste, pièces et <span class="tt">.anim.json</span>. Absent ou illisible : catalogue vide, rien à dessiner que le fond — jamais une erreur bloquante (<span class="tt">EX-NFR-040</span>). À côté de lui, <span class="tt">Assets/Npc/manifest.json</span> (l'atelier des PNJ, LOT-91) peut mettre un PNJ à la place d'un héros (<span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#a9dc3132538268945af654cd544ab813f" title="Applique les remplacements déclarés par le manifeste des PNJ (Source/Elements/Assets/Npc/manifest....">ArenaAppearanceCatalog::applyNpcManifest</a></span>) ; absent : rien. </td></tr>
   </table>
   </dd>
 </dl>
@@ -618,6 +620,30 @@ L'ordre de libération</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6406f3e3ea4543f45cfc85f7faadfe30" name="a6406f3e3ea4543f45cfc85f7faadfe30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6406f3e3ea4543f45cfc85f7faadfe30">&#9670;&#160;</a></span>_bandFrameWidths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, int&gt; hmi::ArenaSceneRenderer::_bandFrameWidths</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur d'image des bandes dessinées (<span class="tt">idle.png</span>, <span class="tt">death.png</span>), par chemin sous <span class="tt"><a class="el" href="#aacf9fd0d70e452b3a64c103d384e06b1">_directory</a></span>, lue avec leurs clips : <span class="tt"><a class="el" href="structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f" title="Largeur d&#39;une image si la texture est une bande d&#39;animation (frameWidth de son .anim....">ArenaTexture::frameWidth</a></span> à la création des textures. </p>
 
 </div>
 </div>

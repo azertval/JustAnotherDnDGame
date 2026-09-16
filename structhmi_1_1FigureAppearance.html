@@ -101,12 +101,32 @@ $(function(){initNavTree('structhmi_1_1FigureAppearance.html','','structhmi_1_1F
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a077dd53b1ea05f11941c61013503f2d1" id="r_a077dd53b1ea05f11941c61013503f2d1"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a077dd53b1ea05f11941c61013503f2d1">sheet</a></td></tr>
-<tr class="memdesc:a077dd53b1ea05f11941c61013503f2d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de dossier sous <span class="tt">characters/</span> (allié) ou <span class="tt">enemies/</span> (ennemi), vide si le catalogue n'a aucune figurine pour ce côté.  <br /></td></tr>
+<tr class="memdesc:a077dd53b1ea05f11941c61013503f2d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de la figurine (<span class="tt">heroes</span>/<span class="tt">gladiators</span> du manifeste), vide si le catalogue n'a aucune figurine pour ce côté.  <br /></td></tr>
+<tr class="memitem:a50b6ac160b5c7cdb2c8ae8d11cb5ba3b" id="r_a50b6ac160b5c7cdb2c8ae8d11cb5ba3b"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a50b6ac160b5c7cdb2c8ae8d11cb5ba3b">directory</a></td></tr>
+<tr class="memdesc:a50b6ac160b5c7cdb2c8ae8d11cb5ba3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dossier de ses bandes, relatif au dossier du Colisée : <span class="tt">characters/&lt;<a class="el" href="#a077dd53b1ea05f11941c61013503f2d1" title="Nom de la figurine (heroes/gladiators du manifeste), vide si le catalogue n&#39;a aucune figurine pour ce...">sheet</a>&gt;</span> ou <span class="tt">enemies/&lt;<a class="el" href="#a077dd53b1ea05f11941c61013503f2d1" title="Nom de la figurine (heroes/gladiators du manifeste), vide si le catalogue n&#39;a aucune figurine pour ce...">sheet</a>&gt;</span> par défaut, ou le dossier d'un PNJ de remplacement (<span class="tt">../Npc/&lt;slug&gt;</span>, voir <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#a9dc3132538268945af654cd544ab813f" title="Applique les remplacements déclarés par le manifeste des PNJ (Source/Elements/Assets/Npc/manifest....">ArenaAppearanceCatalog::applyNpcManifest</a></span>).  <br /></td></tr>
 <tr class="memitem:ae91ccadb25ba0edc56fb67369eabf7ba" id="r_ae91ccadb25ba0edc56fb67369eabf7ba"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ae91ccadb25ba0edc56fb67369eabf7ba">frameCount</a> = 0</td></tr>
+<tr class="memdesc:ae91ccadb25ba0edc56fb67369eabf7ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'images des bandes de la planche du Colisée (<span class="tt">heroFrames</span>/<span class="tt">enemyFrames</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La figurine d'un combattant : le dossier de la planche, et son nombre d'images. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a50b6ac160b5c7cdb2c8ae8d11cb5ba3b" name="a50b6ac160b5c7cdb2c8ae8d11cb5ba3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50b6ac160b5c7cdb2c8ae8d11cb5ba3b">&#9670;&#160;</a></span>directory</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::FigureAppearance::directory</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dossier de ses bandes, relatif au dossier du Colisée : <span class="tt">characters/&lt;<a class="el" href="#a077dd53b1ea05f11941c61013503f2d1" title="Nom de la figurine (heroes/gladiators du manifeste), vide si le catalogue n&#39;a aucune figurine pour ce...">sheet</a>&gt;</span> ou <span class="tt">enemies/&lt;<a class="el" href="#a077dd53b1ea05f11941c61013503f2d1" title="Nom de la figurine (heroes/gladiators du manifeste), vide si le catalogue n&#39;a aucune figurine pour ce...">sheet</a>&gt;</span> par défaut, ou le dossier d'un PNJ de remplacement (<span class="tt">../Npc/&lt;slug&gt;</span>, voir <span class="tt"><a class="el" href="classhmi_1_1ArenaAppearanceCatalog.html#a9dc3132538268945af654cd544ab813f" title="Applique les remplacements déclarés par le manifeste des PNJ (Source/Elements/Assets/Npc/manifest....">ArenaAppearanceCatalog::applyNpcManifest</a></span>). </p>
+<p>Vide si <span class="tt"><a class="el" href="#a077dd53b1ea05f11941c61013503f2d1" title="Nom de la figurine (heroes/gladiators du manifeste), vide si le catalogue n&#39;a aucune figurine pour ce...">sheet</a></span> l'est. </p>
+
+</div>
+</div>
 <a id="ae91ccadb25ba0edc56fb67369eabf7ba" name="ae91ccadb25ba0edc56fb67369eabf7ba"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae91ccadb25ba0edc56fb67369eabf7ba">&#9670;&#160;</a></span>frameCount</h2>
 
@@ -118,6 +138,9 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Nombre d'images des bandes de la planche du Colisée (<span class="tt">heroFrames</span>/<span class="tt">enemyFrames</span>). </p>
+<p>La composition lui préfère la largeur réelle de la bande quand elle la connaît. </p>
 
 </div>
 </div>
@@ -133,7 +156,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Nom de dossier sous <span class="tt">characters/</span> (allié) ou <span class="tt">enemies/</span> (ennemi), vide si le catalogue n'a aucune figurine pour ce côté. </p>
+<p>Nom de la figurine (<span class="tt">heroes</span>/<span class="tt">gladiators</span> du manifeste), vide si le catalogue n'a aucune figurine pour ce côté. </p>
+<p>C'est la clé de ses clips (<span class="tt"><a class="el" href="classhmi_1_1ArenaAnimationDriver.html" title="Pilote l&#39;animation des figurines du Colisée, par combattant, au temps réel du rendu.">ArenaAnimationDriver</a></span>). </p>
 
 </div>
 </div>

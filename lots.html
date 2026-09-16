@@ -102,7 +102,7 @@ $(function(){initNavTree('lots.html','',''); });
 <p><b>Numérotation repartie à <span class="tt">LOT-01</span>, et les deux plages se recouvrent désormais.</b> Ce dépôt est dérivé de <span class="tt">ProjectGaming</span> (jeu de plateforme livré en <span class="tt">0.1.3</span> après 74 lots). Son programme de lots est archivé en lecture seule sous <span class="tt">Documentation/Heritage/Lot/</span>.</p>
 <p>On a longtemps pu écrire que les deux ensembles « ne se croisaient jamais ». <b>Ce n'est plus vrai</b> : le programme atteint <span class="tt">LOT-87</span> et recouvre entièrement la plage héritée. Un renvoi au programme hérité s'écrit donc <span class="tt">LOT-H-XX</span> — le <span class="tt">LOT-78</span> a préfixé les 201 renvois des spécifications, et <span class="tt">scripts/lint_lots.py</span> refuse tout <span class="tt">LOT-XX</span> de spécification qui ne désigne pas un lot de ce programme. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md780"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md803"></a>
 Lots</h1>
 <ul>
 <li><a class="el" href="lot-01.html" title="LOT-01 — Fork, purge et remise à nu">LOT-01 — Fork, purge et remise à nu</a></li>
@@ -142,13 +142,14 @@ Lots</h1>
 <li><a class="el" href="lot-15.html" title="LOT-15 — PNJ et dialogues">LOT-15 — PNJ et dialogues</a></li>
 <li><a class="el" href="lot-21.html" title="LOT-21 — Attaques, dégâts et états">LOT-21 — Attaques, dégâts et états</a></li>
 <li><a class="el" href="lot-22.html" title="LOT-22 — Portée, ligne de vue et zones d&#39;effet">LOT-22 — Portée, ligne de vue et zones d'effet</a></li>
+<li><a class="el" href="lot-91.html" title="LOT-91 — Atelier des PNJ : les figurines du Character Compendium">LOT-91 — Atelier des PNJ : les figurines du Character Compendium</a> — hors feuille de route : chantier long, alimenté au fil de l'eau</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md781"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md804"></a>
 Feuille de route</h1>
 <ul>
 <li><a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">Feuille de route — le bac à sable de Tanares</a> — le programme complet du bac à sable de Tanares : ce que le corpus <span class="tt">Documentation/SourceBook/</span> permet d'en tirer, les lots <span class="tt">LOT-09</span> à <span class="tt">LOT-90</span> par jalon de version, et les audits qui ont confronté le tout au dépôt et aux livres.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md782"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md805"></a>
 Programme</h1>
 <p>La cible est un <b>bac à sable</b> dans l'univers complet de Tanares : treize régions jouables, treize espèces, seize classes, cent-soixante-seize créatures. Le <em>vertical slice</em> du <span class="tt">LOT-27</span> — « un personnage explore une carte top-down, parle à un PNJ, déclenche une rencontre, gagne un combat tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la généralise.</p>
 <table class="markdownTable">
@@ -170,6 +171,8 @@ Programme</h1>
 <td class="markdownTableBodyNone">G — Refonte de l'interface  </td><td class="markdownTableBodyNone"><span class="tt">LOT-85</span> → <span class="tt">LOT-87</span>  </td><td class="markdownTableBodyNone">Décidés hors de la feuille de route : <span class="tt">LOT-85</span> abandonné, <span class="tt">LOT-86</span> (Qt Quick, deux exécutables) et <span class="tt">LOT-87</span> (charte v2) livrés  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">H — Relecture des livres  </td><td class="markdownTableBodyNone"><span class="tt">LOT-88</span> → <span class="tt">LOT-90</span>  </td><td class="markdownTableBodyNone">Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">I — Chantiers au fil de l'eau  </td><td class="markdownTableBodyNone"><span class="tt">LOT-91</span>  </td><td class="markdownTableBodyNone">Hors feuille de route et hors jalon : l'atelier des PNJ, la méthode qui produit une à une les figurines des 160 fiches du <em>Character Compendium</em>, au rythme du budget de génération  </td></tr>
 </table>
 <p>La filière (phases F et H) compte <b>38 lots à venir</b> — quatre numéros (<span class="tt">LOT-31</span>, <span class="tt">LOT-48</span>, <span class="tt">LOT-71</span>, <span class="tt">LOT-73</span>) ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont ses trois préconditions (<span class="tt">LOT-77</span>, <span class="tt">LOT-78</span>, <span class="tt">LOT-79</span>). Elle <b>ne suit pas</b> les précédentes : elle s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au <span class="tt">LOT-27</span> et le graphe complet des dépendances sont donnés par la <a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">feuille de route</a>, §6 — et vérifiés en CI par <span class="tt">scripts/lint_lots.py</span>.</p>
 <p>Décisions de cadrage actées avant le <span class="tt">LOT-01</span> : règles <b>d20 maison</b> (compatible SRD dans sa structure, sans en dépendre), combat <b>sur la carte d'exploration</b> (grille dérivée de la couche collision), <b>un héros au départ et quatre à terme</b> (rien ne suppose l'unicité), échelle <b>1 case = 1,5 m</b>. </p>

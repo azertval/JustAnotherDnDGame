@@ -97,6 +97,7 @@ $(function(){initNavTree('test__arena__appearance__catalog_8cpp.html','',''); })
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
@@ -128,12 +129,16 @@ Functions</h2></td></tr>
 <tr class="memdesc:af0dfb2e8584f0c80fcabdabbde082f6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un nom vide ne fait pas planter la selection, et rend la premiere figurine.  <br /></td></tr>
 <tr class="memitem:a986a2188d8388034346643fb57dc8414" id="r_a986a2188d8388034346643fb57dc8414"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a986a2188d8388034346643fb57dc8414">TEST</a> (ArenaAppearanceCatalogTest, ManifesteLivreValide)</td></tr>
 <tr class="memdesc:a986a2188d8388034346643fb57dc8414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le catalogue livre avec le jeu se lit sans erreur, avec ses cinq champs au complet.  <br /></td></tr>
+<tr class="memitem:a944b77b4b4765556b9d996780a087cdd" id="r_a944b77b4b4765556b9d996780a087cdd"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a944b77b4b4765556b9d996780a087cdd">TEST</a> (ArenaAppearanceCatalogTest, UnHerosRemplaceLitSesBandesAilleurs)</td></tr>
+<tr class="memdesc:a944b77b4b4765556b9d996780a087cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un heros remplace lit ses bandes ailleurs, sans changer de nom ni de place au roster.  <br /></td></tr>
+<tr class="memitem:a7f2150ce29bcfa746f83e21ae72640d6" id="r_a7f2150ce29bcfa746f83e21ae72640d6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7f2150ce29bcfa746f83e21ae72640d6">TEST</a> (ArenaAppearanceCatalogTest, LeManifesteDesPnjRemplaceLesHerosNommes)</td></tr>
+<tr class="memdesc:a7f2150ce29bcfa746f83e21ae72640d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le manifeste des PNJ remplace les heros qu'il nomme, ignore le reste, et son absence ne change rien.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du catalogue d'apparence du Colisée (Phase 2 du LOT-86 : rôle de case et figurine, portés en <span class="tt">HMI</span> pur depuis <span class="tt">ArenaTile.ui.qml</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a4357337ca2f4c5153b7aa5892a68ac3b" name="a4357337ca2f4c5153b7aa5892a68ac3b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4357337ca2f4c5153b7aa5892a68ac3b">&#9670;&#160;</a></span>TEST() <span class="overload">[1/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4357337ca2f4c5153b7aa5892a68ac3b">&#9670;&#160;</a></span>TEST() <span class="overload">[1/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -162,7 +167,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aa9d2e57a6cf0cbe3a2213f4ed2b0fdec" name="aa9d2e57a6cf0cbe3a2213f4ed2b0fdec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9d2e57a6cf0cbe3a2213f4ed2b0fdec">&#9670;&#160;</a></span>TEST() <span class="overload">[2/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9d2e57a6cf0cbe3a2213f4ed2b0fdec">&#9670;&#160;</a></span>TEST() <span class="overload">[2/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -191,7 +196,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a02c0a8594af3c1047182e8796cd30b24" name="a02c0a8594af3c1047182e8796cd30b24"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02c0a8594af3c1047182e8796cd30b24">&#9670;&#160;</a></span>TEST() <span class="overload">[3/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a02c0a8594af3c1047182e8796cd30b24">&#9670;&#160;</a></span>TEST() <span class="overload">[3/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -222,7 +227,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a80df3307fa4535a48644b19cf27e7ccd" name="a80df3307fa4535a48644b19cf27e7ccd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80df3307fa4535a48644b19cf27e7ccd">&#9670;&#160;</a></span>TEST() <span class="overload">[4/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a80df3307fa4535a48644b19cf27e7ccd">&#9670;&#160;</a></span>TEST() <span class="overload">[4/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +256,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ada6d394b57a7d9e05fc76721fb96a4a1" name="ada6d394b57a7d9e05fc76721fb96a4a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada6d394b57a7d9e05fc76721fb96a4a1">&#9670;&#160;</a></span>TEST() <span class="overload">[5/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ada6d394b57a7d9e05fc76721fb96a4a1">&#9670;&#160;</a></span>TEST() <span class="overload">[5/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -281,7 +286,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aec91f3c5fcc847d82c46a882eed84897" name="aec91f3c5fcc847d82c46a882eed84897"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec91f3c5fcc847d82c46a882eed84897">&#9670;&#160;</a></span>TEST() <span class="overload">[6/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aec91f3c5fcc847d82c46a882eed84897">&#9670;&#160;</a></span>TEST() <span class="overload">[6/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +315,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7c9c63bcf99e9644c63db2f2558dc83a" name="a7c9c63bcf99e9644c63db2f2558dc83a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c9c63bcf99e9644c63db2f2558dc83a">&#9670;&#160;</a></span>TEST() <span class="overload">[7/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c9c63bcf99e9644c63db2f2558dc83a">&#9670;&#160;</a></span>TEST() <span class="overload">[7/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,7 +344,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7ff241077c6b322270f72c0ce0c89a57" name="a7ff241077c6b322270f72c0ce0c89a57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ff241077c6b322270f72c0ce0c89a57">&#9670;&#160;</a></span>TEST() <span class="overload">[8/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ff241077c6b322270f72c0ce0c89a57">&#9670;&#160;</a></span>TEST() <span class="overload">[8/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,8 +372,40 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a7f2150ce29bcfa746f83e21ae72640d6" name="a7f2150ce29bcfa746f83e21ae72640d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f2150ce29bcfa746f83e21ae72640d6">&#9670;&#160;</a></span>TEST() <span class="overload">[9/13]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ArenaAppearanceCatalogTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeManifesteDesPnjRemplaceLesHerosNommes</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le manifeste des PNJ remplace les heros qu'il nomme, ignore le reste, et son absence ne change rien. </p>
+<p><b>Cas de test :</b> <b><span class="tt">applyNpcManifest</span> : un heros remplace par entree valide, une entree inconnue ou sans slug ignoree, un fichier absent sans effet.</b><br  />
+ <b>Categorie :</b> Unitaire · Catalogue d'apparence de l'arene<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Appliquer un chemin inexistant.<br  />
+</p><ol type="1">
+<li>Ecrire un manifeste avec <span class="tt">kaelith_voss</span> -&gt; <span class="tt">anariel</span>, un heros inconnu et un slug vide ; l'appliquer.<br  />
+ <b>Resultat attendu :</b> 0 puis 1 remplacement ; <span class="tt">kaelith_voss</span> lit <span class="tt">../Npc/anariel</span>, <span class="tt">bram</span> reste sous <span class="tt">characters/</span>. </li>
+</ol>
+
+</div>
+</div>
 <a id="a7ba89c5a688a50ea8e4e3775bf62defa" name="a7ba89c5a688a50ea8e4e3775bf62defa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ba89c5a688a50ea8e4e3775bf62defa">&#9670;&#160;</a></span>TEST() <span class="overload">[9/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ba89c5a688a50ea8e4e3775bf62defa">&#9670;&#160;</a></span>TEST() <span class="overload">[10/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -397,7 +434,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a986a2188d8388034346643fb57dc8414" name="a986a2188d8388034346643fb57dc8414"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a986a2188d8388034346643fb57dc8414">&#9670;&#160;</a></span>TEST() <span class="overload">[10/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a986a2188d8388034346643fb57dc8414">&#9670;&#160;</a></span>TEST() <span class="overload">[11/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -426,7 +463,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="af0dfb2e8584f0c80fcabdabbde082f6f" name="af0dfb2e8584f0c80fcabdabbde082f6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af0dfb2e8584f0c80fcabdabbde082f6f">&#9670;&#160;</a></span>TEST() <span class="overload">[11/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af0dfb2e8584f0c80fcabdabbde082f6f">&#9670;&#160;</a></span>TEST() <span class="overload">[12/13]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,6 +488,38 @@ Functions</h2></td></tr>
  <b>Etapes :</b><br  />
  1. Demander la figurine d'un nom vide, des deux cotes.<br  />
  <b>Resultat attendu :</b> La premiere entree de <span class="tt">heroes()</span>/<span class="tt">gladiators()</span>. </p>
+
+</div>
+</div>
+<a id="a944b77b4b4765556b9d996780a087cdd" name="a944b77b4b4765556b9d996780a087cdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a944b77b4b4765556b9d996780a087cdd">&#9670;&#160;</a></span>TEST() <span class="overload">[13/13]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ArenaAppearanceCatalogTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UnHerosRemplaceLitSesBandesAilleurs</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Un heros remplace lit ses bandes ailleurs, sans changer de nom ni de place au roster. </p>
+<p><b>Cas de test :</b> <b><span class="tt">replaceHero</span> change le dossier rendu par <span class="tt">figureFor</span>/<span class="tt">sheetDirectory</span>, rien d'autre.</b><br  />
+ <b>Categorie :</b> Unitaire · Catalogue d'apparence de l'arene<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Lire le dossier par defaut d'un heros et d'un gladiateur.<br  />
+</p><ol type="1">
+<li>Remplacer ce heros par <span class="tt">../Npc/anariel</span>, puis tenter un nom inconnu.<br  />
+ <b>Resultat attendu :</b> <span class="tt">characters/&lt;heros&gt;</span> et <span class="tt">enemies/&lt;gladiateur&gt;</span> avant ; apres, le heros garde son nom et son rang mais son dossier vaut <span class="tt">../Npc/anariel</span> ; le nom inconnu est refuse sans effet. </li>
+</ol>
 
 </div>
 </div>

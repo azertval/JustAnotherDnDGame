@@ -104,6 +104,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa3ed42b73cf2574449ef73623919787a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le rôle visuel d'une case, dans une grille de <code class="param">columns</code> × <code class="param">rows</code>.  <br /></td></tr>
 <tr class="memitem:a812c8e53901ec0f3616e180ebb923a60" id="r_a812c8e53901ec0f3616e180ebb923a60"><td class="memItemLeft"><a class="el" href="structhmi_1_1FigureAppearance.html">FigureAppearance</a>&#160;</td><td class="memItemRight"><a class="el" href="#a812c8e53901ec0f3616e180ebb923a60">figureFor</a> (std::string_view name, <a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">core::CombatSide</a> side) const</td></tr>
 <tr class="memdesc:a812c8e53901ec0f3616e180ebb923a60"><td class="mdescLeft">&#160;</td><td class="mdescRight">La figurine d'un combattant, choisie d'après son nom pour rester la même d'un tour à l'autre — sans état à tenir à jour.  <br /></td></tr>
+<tr class="memitem:a242d9d41756fd2d69f4bd783c223d609" id="r_a242d9d41756fd2d69f4bd783c223d609"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a242d9d41756fd2d69f4bd783c223d609">sheetDirectory</a> (std::string_view sheet, <a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">core::CombatSide</a> side) const</td></tr>
+<tr class="memdesc:a242d9d41756fd2d69f4bd783c223d609"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le dossier des bandes d'une figurine, relatif au dossier du Colisée.  <br /></td></tr>
+<tr class="memitem:ab6b02ebc7d15780ebbd2463e23a8d785" id="r_ab6b02ebc7d15780ebbd2463e23a8d785"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab6b02ebc7d15780ebbd2463e23a8d785">replaceHero</a> (std::string_view hero, std::string directory)</td></tr>
+<tr class="memdesc:ab6b02ebc7d15780ebbd2463e23a8d785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait lire les bandes d'un héros dans un autre dossier — la figurine de remplacement d'un PNJ de l'atelier (LOT-91) à la place d'un héros de la planche de production.  <br /></td></tr>
+<tr class="memitem:a9dc3132538268945af654cd544ab813f" id="r_a9dc3132538268945af654cd544ab813f"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a9dc3132538268945af654cd544ab813f">applyNpcManifest</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a9dc3132538268945af654cd544ab813f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique les remplacements déclarés par le manifeste des PNJ (<span class="tt">Source/Elements/Assets/Npc/manifest.json</span>, champ <span class="tt">replaces</span> : héros → slug).  <br /></td></tr>
 <tr class="memitem:aac0e01f4a75f827056fcde0486e94970" id="r_aac0e01f4a75f827056fcde0486e94970"><td class="memItemLeft">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aac0e01f4a75f827056fcde0486e94970">heroes</a> () const noexcept</td></tr>
 <tr class="memitem:a5a65215a2c570bee2905e867fe6e565f" id="r_a5a65215a2c570bee2905e867fe6e565f"><td class="memItemLeft">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a5a65215a2c570bee2905e867fe6e565f">gladiators</a> () const noexcept</td></tr>
 <tr class="memitem:aa37d1c44745446f26980ee570d84f526" id="r_aa37d1c44745446f26980ee570d84f526"><td class="memItemLeft">const std::vector&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aa37d1c44745446f26980ee570d84f526">paleSlabs</a> () const noexcept</td></tr>
@@ -128,6 +134,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a631755e2317768443b91fc6f6eec2f75" id="r_a631755e2317768443b91fc6f6eec2f75"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a631755e2317768443b91fc6f6eec2f75">_heroes</a></td></tr>
 <tr class="memitem:ae59d275609c4d6e3359aba7648e9f53f" id="r_ae59d275609c4d6e3359aba7648e9f53f"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae59d275609c4d6e3359aba7648e9f53f">_gladiators</a></td></tr>
 <tr class="memitem:aaab61ea7744324821ebe4132523e94e2" id="r_aaab61ea7744324821ebe4132523e94e2"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aaab61ea7744324821ebe4132523e94e2">_paleSlabs</a></td></tr>
+<tr class="memitem:aec02ad6fe3c845d290e84c4f0ea66ed7" id="r_aec02ad6fe3c845d290e84c4f0ea66ed7"><td class="memItemLeft">std::map&lt; std::string, std::string, std::less&lt;&gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aec02ad6fe3c845d290e84c4f0ea66ed7">_heroDirectories</a></td></tr>
+<tr class="memdesc:aec02ad6fe3c845d290e84c4f0ea66ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Héros → dossier de remplacement (<span class="tt"><a class="el" href="#ab6b02ebc7d15780ebbd2463e23a8d785" title="Fait lire les bandes d&#39;un héros dans un autre dossier — la figurine de remplacement d&#39;un PNJ de l&#39;ate...">replaceHero</a></span>) ; absent : <span class="tt">characters/&lt;héros&gt;</span>.  <br /></td></tr>
 <tr class="memitem:ad3fbdb415594a1693d9d1e6eb9e5185b" id="r_ad3fbdb415594a1693d9d1e6eb9e5185b"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ad3fbdb415594a1693d9d1e6eb9e5185b">_heroFrames</a> = 0</td></tr>
 <tr class="memitem:aee452ce6cdf045b5dc4a1fcaee0eac08" id="r_aee452ce6cdf045b5dc4a1fcaee0eac08"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aee452ce6cdf045b5dc4a1fcaee0eac08">_enemyFrames</a> = 0</td></tr>
 </table>
@@ -135,6 +143,32 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Catalogue d'apparence du Colisée : figurines par côté, dalles de sol, chargé depuis <span class="tt">Source/Elements/Assets/Coliseum/manifest.json</span> (<span class="tt"><a class="el" href="#aac0e01f4a75f827056fcde0486e94970">heroes</a></span>, <span class="tt"><a class="el" href="#a5a65215a2c570bee2905e867fe6e565f">gladiators</a></span>, <span class="tt"><a class="el" href="#acb7e8c905b598bab04a1c65e0b1c0e21">heroFrames</a></span>, <span class="tt"><a class="el" href="#a4b484538e997620e36be580223a9d94f">enemyFrames</a></span>, <span class="tt"><a class="el" href="#aa37d1c44745446f26980ee570d84f526">paleSlabs</a></span>). </p>
 <p>Logique <b>pure</b> (aucune dépendance Qt ni GPU, <span class="tt">EX-NFR-010</span>), testable sur des grilles connues sans construire de <span class="tt">BattleGrid</span>. Aucune lecture ne lève d'exception (<span class="tt">EX-NFR-040</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a9dc3132538268945af654cd544ab813f" name="a9dc3132538268945af654cd544ab813f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dc3132538268945af654cd544ab813f">&#9670;&#160;</a></span>applyNpcManifest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::ArenaAppearanceCatalog::applyNpcManifest </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Applique les remplacements déclarés par le manifeste des PNJ (<span class="tt">Source/Elements/Assets/Npc/manifest.json</span>, champ <span class="tt">replaces</span> : héros → slug). </p>
+<p>Fichier absent : rien, silencieusement — les PNJ sont optionnels. Fichier illisible ou héros inconnu : avertissement dans le journal, l'entrée est ignorée (<span class="tt">EX-NFR-040</span>). </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>Chemin du manifeste des PNJ. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le nombre de héros remplacés. </dd></dl>
+
+</div>
+</div>
 <a id="a4b484538e997620e36be580223a9d94f" name="a4b484538e997620e36be580223a9d94f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4b484538e997620e36be580223a9d94f">&#9670;&#160;</a></span>enemyFrames()</h2>
 
@@ -373,6 +407,75 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6b02ebc7d15780ebbd2463e23a8d785" name="ab6b02ebc7d15780ebbd2463e23a8d785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6b02ebc7d15780ebbd2463e23a8d785">&#9670;&#160;</a></span>replaceHero()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::ArenaAppearanceCatalog::replaceHero </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>hero</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>directory</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fait lire les bandes d'un héros dans un autre dossier — la figurine de remplacement d'un PNJ de l'atelier (LOT-91) à la place d'un héros de la planche de production. </p>
+<p>Le nom du héros ne change pas : le roster, la sélection par nom et la clé des clips restent ceux du manifeste du Colisée ; seul le dossier lu diffère. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hero</td><td>Un nom de <span class="tt"><a class="el" href="#aac0e01f4a75f827056fcde0486e94970">heroes()</a></span>. </td></tr>
+    <tr><td class="paramname">directory</td><td>Dossier des bandes, relatif au dossier du Colisée (ex. <span class="tt">../Npc/anariel</span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Faux, sans effet, si <code class="param">hero</code> n'est pas dans le roster. </dd></dl>
+
+</div>
+</div>
+<a id="a242d9d41756fd2d69f4bd783c223d609" name="a242d9d41756fd2d69f4bd783c223d609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a242d9d41756fd2d69f4bd783c223d609">&#9670;&#160;</a></span>sheetDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::ArenaAppearanceCatalog::sheetDirectory </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>sheet</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">core::CombatSide</a></td>          <td class="paramname"><span class="paramname"><em>side</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le dossier des bandes d'une figurine, relatif au dossier du Colisée. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sheet</td><td>Nom de la figurine (<span class="tt"><a class="el" href="#aac0e01f4a75f827056fcde0486e94970">heroes()</a></span> ou <span class="tt"><a class="el" href="#a5a65215a2c570bee2905e867fe6e565f">gladiators()</a></span>). </td></tr>
+    <tr><td class="paramname">side</td><td>Son côté : <span class="tt">characters/</span> ou <span class="tt">enemies/</span>, sauf remplacement (<span class="tt"><a class="el" href="#ab6b02ebc7d15780ebbd2463e23a8d785" title="Fait lire les bandes d&#39;un héros dans un autre dossier — la figurine de remplacement d&#39;un PNJ de l&#39;ate...">replaceHero</a></span>). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="aa3ed42b73cf2574449ef73623919787a" name="aa3ed42b73cf2574449ef73623919787a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa3ed42b73cf2574449ef73623919787a">&#9670;&#160;</a></span>tileAppearance()</h2>
 
@@ -465,6 +568,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aec02ad6fe3c845d290e84c4f0ea66ed7" name="aec02ad6fe3c845d290e84c4f0ea66ed7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec02ad6fe3c845d290e84c4f0ea66ed7">&#9670;&#160;</a></span>_heroDirectories</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, std::string, std::less&lt;&gt; &gt; hmi::ArenaAppearanceCatalog::_heroDirectories</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Héros → dossier de remplacement (<span class="tt"><a class="el" href="#ab6b02ebc7d15780ebbd2463e23a8d785" title="Fait lire les bandes d&#39;un héros dans un autre dossier — la figurine de remplacement d&#39;un PNJ de l&#39;ate...">replaceHero</a></span>) ; absent : <span class="tt">characters/&lt;héros&gt;</span>. </p>
 
 </div>
 </div>

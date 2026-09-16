@@ -38,5 +38,6 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-78-numeros-herites", "dir_7d4f1976496a6a2058d9c70bdca36906.html", null ],
     [ "LOT-79-socle-chargement-donnees", "dir_97d7630938bc94e9facb9909756450a5.html", null ],
     [ "LOT-86-refonte-hmi-quick", "dir_135426e2726ee257749437028ff7c761.html", null ],
-    [ "LOT-87-charte-v2", "dir_97e9109d259bf3a165bf04ee00dc196c.html", null ]
+    [ "LOT-87-charte-v2", "dir_97e9109d259bf3a165bf04ee00dc196c.html", null ],
+    [ "LOT-91-atelier-pnj", "dir_0dce02adf24e4614fa697990fdb0a34a.html", null ]
 ];
