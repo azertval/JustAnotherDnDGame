@@ -355,6 +355,16 @@ keybindings.action.texture_tool = Texture tool
 # In-game head-up display (LOT-52, EX-IHM-003)
 hud.interact_prompt = Interact to pick up
 
+# Editor play-test: report of an interaction with a placed entity (LOT-11)
+playtest.interaction.chest_opened = Chest opened
+playtest.interaction.chest_already_opened = Chest already opened
+playtest.interaction.sign_read = Sign read
+playtest.interaction.npc_dialogue = NPC: dialogue %1
+playtest.interaction.npc_silent = NPC without dialogue
+playtest.interaction.portal = Portal to %1, arrival %2 (traversal comes with LOT-09)
+playtest.interaction.portal_incomplete = Incomplete portal: target map or arrival missing
+playtest.interaction.other = Entity %1: no interaction
+
 # In-game diagnostics overlay (LOT-62, F9, EX-NFR-001, EX-NFR-005)
 diag.fps = FPS: %1
 diag.primitives = Primitives: %1 composed / %2 submitted

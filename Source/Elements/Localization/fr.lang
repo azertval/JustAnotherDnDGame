@@ -357,6 +357,16 @@ keybindings.action.texture_tool = Outil Texture
 # Affichage tete haute en jeu (LOT-52, EX-IHM-003)
 hud.interact_prompt = Interagir pour ramasser
 
+# Essai immediat de l'editeur : compte rendu d'une interaction avec une entite posee (LOT-11)
+playtest.interaction.chest_opened = Coffre ouvert
+playtest.interaction.chest_already_opened = Coffre déjà ouvert
+playtest.interaction.sign_read = Panneau lu
+playtest.interaction.npc_dialogue = PNJ : dialogue %1
+playtest.interaction.npc_silent = PNJ sans dialogue
+playtest.interaction.portal = Portail vers %1, arrivée %2 (traversée au LOT-09)
+playtest.interaction.portal_incomplete = Portail incomplet : carte cible ou arrivée manquante
+playtest.interaction.other = Entité %1 : aucune interaction
+
 # Compteur de diagnostic en jeu (LOT-62, F9, EX-NFR-001, EX-NFR-005)
 diag.fps = Images/s : %1
 diag.primitives = Primitives : %1 composees / %2 soumises

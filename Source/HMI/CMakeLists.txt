@@ -65,6 +65,8 @@ add_library(HmiLib STATIC
     Graphics/Parallax.cpp
     Graphics/ProceduralFont.cpp
     Graphics/TextRenderer.cpp
+    # Marqueurs d'entite de carte (LOT-11) : cle d'asset et pixels, sans GPU.
+    Graphics/EntityMarkers.cpp
     # Entrées : état, mapping, remappage persistant.
     Input/InputState.cpp
     Input/PlayerInputMapper.cpp
@@ -87,6 +89,7 @@ add_library(HmiLib STATIC
     Game/CombatMode.cpp
     Game/DialogueMode.cpp
     Game/GameHud.cpp
+    Game/PlaytestInteraction.cpp
     Game/DiagnosticsHud.cpp
     # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
     Editor/LevelNameValidation.cpp

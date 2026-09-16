@@ -122,7 +122,9 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_render_budget.cpp
     Unit/HMI/Graphics/test_particle_render.cpp
     Unit/HMI/Graphics/test_screen_shake.cpp
+    Unit/HMI/Graphics/test_entity_markers.cpp
     Unit/HMI/Game/test_game_hud.cpp
+    Unit/HMI/Game/test_playtest_interaction.cpp
     Unit/HMI/Game/test_diagnostics_hud.cpp
     Unit/HMI/Game/test_game_mode.cpp
     Unit/HMI/Game/test_game_events.cpp
