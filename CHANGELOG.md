@@ -6,6 +6,21 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Atelier des textures : la scène a son style (LOT-92).** Une maquette approuvée par l'auteur
+  fixe le style de la scène — pixel art isométrique, soir, lanternes, pierre et bois sombres —
+  et une méthode commande ensuite une planche de textures **par lieu**, depuis sa fiche d'atlas.
+  - **La Capitale dans l'atlas** : la Capitale et ses douze quartiers (Martpart, Arenarea…)
+    entrent dans l'atlas, qui passe à 107 lieux ; les filigranes de commande sortent des fiches.
+  - **L'arène se dessine avec l'atelier** : sable, dalles, murs, arches, torches et bannières du
+    Colisée remplacent le décor de la planche du `LOT-50`, orientés et posés par leur ancre.
+  - **Martpart** a sa planche, commandée sans rien rédiger pour ce quartier : 22 textures de rue,
+    de murs, d'étals et de marchandises.
+  - **Outil** : `scripts/extract_texture_sheet.py` prépare l'envoi au générateur, découpe les
+    planches reçues (pièces lues dans l'ordre, orientation contrôlée, miroirs, palette commune),
+    installe et revérifie (`--check`).
+  - **Spécification** : la scène en pixel art et l'interface à la charte v2, avec leur frontière
+    (`EX-VIS-008`, `EX-VIS-009`).
+
 - **Feuille de route : le *vertical slice* se joue dans la Capitale.** Les quatre lots du chemin
   critique — `LOT-09`, `LOT-16`, `LOT-17`, `LOT-27` — étaient rédigés sans lieu, sans PNJ, sans
   quête, et ne se vérifiaient qu'en test. Ils sont réécrits autour de la **Capitale du Central

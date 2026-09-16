@@ -60,7 +60,7 @@ TEST(WorldMapRegionsTest, AncresLuesEtBornees) {
  * \tetapes 1. Charger l'atlas livré et `Source/Elements/Maps/world-map-regions.json`.<br/>
  * 2. Joindre les deux.<br/>
  * \tattendu Aucune région sans ancre, aucune ancre sans région ; autant de régions posées que
- * l'atlas en compte, et les lieux de l'atlas répartis dans leurs régions (94).
+ * l'atlas en compte, et les lieux de l'atlas répartis dans leurs régions (107).
  * }
  */
 TEST(WorldMapRegionsTest, AtlasLivreEntierementPose) {

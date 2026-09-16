@@ -25,8 +25,12 @@
  *
  * | Pièce | Calque | Tri |
  * |---|---|---|
- * | sol (sable, pierre, dalle claire) | `RenderLayer::Tile` | texture, puis profondeur de case |
- * | enceinte (mur, colonne, bannière, torche, arche) | `RenderLayer::Object` | pied de la case |
+ * | sol (sable et variantes, pierre, seuil) | `RenderLayer::Tile` | texture, puis profondeur de case |
+ * | enceinte (pan, angle, pilier, bannière, torche, arche) | `RenderLayer::Object` | pied de la case |
+ *
+ * Le décor vient de l'atelier des textures (`LOT-92`, `Assets/Scene/coliseum/`) : **une** pièce par
+ * case d'enceinte, qui porte son mur (une torche est un pan à torche), dressée contre l'arête du fond
+ * parallèle au bord de la grille et posée par son ancre. Les figurines restent celles du Colisée.
  * | figurine d'un combattant | `RenderLayer::Player` | pied de son emprise |
  *
  * `Object` et `Player` partagent la bande de profondeur (`hmi::sortsByDepth`) : un mur plus bas à
@@ -91,6 +95,14 @@ inline constexpr int ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64;
 inline constexpr float ARENA_FIGURE_SCALE = 1.25f;
 /// Opacité d'un ennemi à terre (`ArenaTile.ui.qml`, `0.45`).
 inline constexpr float ARENA_DOWN_ENEMY_ALPHA = 0.45f;
+/// Largeur du losange des textures de scène de l'atelier (`LOT-92`), en pixels d'art : 68 × 42, le
+/// rapport 0,62 d'`core::IsoProjection`. Une pièce se pose par son ancre, le sommet haut de son
+/// emprise (`anchor` de `Assets/Scene/<lieu>/manifest.json`).
+inline constexpr int ARENA_SCENE_TILE_WIDTH_PIXELS = 68;
+/// Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case.
+inline constexpr int ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = ARENA_SCENE_TILE_WIDTH_PIXELS / 2;
+/// Hauteur de ce losange, en pixels d'art : il occupe le bas d'une pièce d'une case.
+inline constexpr int ARENA_SCENE_TILE_HEIGHT_PIXELS = 42;
 
 /**
  * @brief Rang d'une pièce à l'intérieur d'une même profondeur : l'ordre d'empilement de la brique
@@ -124,8 +136,9 @@ struct ArenaTexture {
 };
 
 /**
- * @brief Les textures du Colisée, adressées par leur chemin sous `Source/Elements/Assets/Coliseum/`
- *        (`"terrain/sand.png"`, `"characters/bram/idle.png"`).
+ * @brief Les textures du Colisée, adressées par leur chemin relatif à
+ *        `Source/Elements/Assets/Coliseum/` (`"../Scene/coliseum/sand.png"`,
+ *        `"characters/bram/idle.png"`).
  *
  * Même rôle que `hmi::SceneTextures` pour l'exploration : la composition ne demande rien au GPU.
  * Un chemin absent se lie au damier `missing` (`EX-NFR-040`) ; si lui aussi manque, la pièce n'est
