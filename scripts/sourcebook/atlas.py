@@ -135,7 +135,7 @@ GALERIES = {
 # le seul garde-fou contre une derive silencieuse de l'extraction : une section qui se ferme trop
 # tot ne produit pas d'erreur, elle produit moins de lieux.
 LIEUX_ATTENDUS = {
-    'central-empire': 12,
+    'central-empire': 25,  # 12 « Places of Interest », la Capitale et ses 12 quartiers (LOT-92)
     'republic-of-freelands': 15,
     'imperial-benenet': 7,
     'kingdom-of-kolbjorn': 6,
@@ -181,6 +181,35 @@ MARGE_COLONNE = 14.0
 # En dessous de cette largeur, une colonne detectee n'est pas une colonne de texte mais le numero
 # de page ou une legende isolee.
 LARGEUR_COLONNE_MINIMALE = 60.0
+
+# -- La Capitale (LOT-92) ------------------------------------------------------------------------
+# La capitale imperiale n'est pas sous « Places of Interest » : le livre la decrit dans un ENCART
+# d'une page PDF entiere, au milieu de la region Central Empire, titre en corps 18 (« The Capital
+# City, / Tanarean Empire's Capital »), puis « Districts of the Capital » et douze quartiers
+# numerotes, chacun ouvert par un fragment gras italique « N- Nom. ». Rien dans la typographie ne
+# distingue l'encart d'une ouverture de region, sinon l'absence d'encart statistique : il est donc
+# DECLARE ici, page et region, et lu par sa propre fonction. Sans lui, Martpart et Arenarea -- les
+# deux quartiers du vertical slice -- n'existent pas dans l'atlas.
+CAPITALE = {'page': 49, 'region': 'central-empire', 'nom': 'The Capital City'}
+QUARTIERS_ATTENDUS = 12
+INTERTITRE_QUARTIERS = 'Districts of the Capital'
+QUARTIER_RE = re.compile(r'^(\d+)-\s*(.+?)\.\s*$')
+# Deux lignes que le rendu de page mele a la prose : le numero de page imprime (« 98 ») et le
+# filigrane de la commande (« Valentin Eloy (Order #...) »). Dans l'encart de la Capitale, sans
+# table, toute ligne de chiffres seuls est un numero de page ; sous « Places of Interest », non --
+# une table d6 aligne « 3 », « 4 », « 5 » -- et seul le numero colle au filigrane en est un.
+HORS_PROSE_RE = re.compile(r'^\d+(\s+\d+)?$|\(Order #\d+\)')
+FILIGRANE_RE = re.compile(r'\(Order #\d+\)')
+NUMERO_DE_PAGE_RE = re.compile(r'^\d+(\s+\d+)?$')
+
+
+def sans_filigrane(lignes: list[str]) -> list[str]:
+    """Les lignes d'un lieu, sans le filigrane ni le numero de page seul qui le jouxte."""
+    marques = {i for i, ligne in enumerate(lignes) if FILIGRANE_RE.search(ligne)}
+    marques |= {j for i in marques for j in (i - 1, i + 1)
+                if 0 <= j < len(lignes) and NUMERO_DE_PAGE_RE.match(lignes[j].strip())}
+    return [ligne for i, ligne in enumerate(lignes) if i not in marques]
+
 
 # -- Voisinage -----------------------------------------------------------------------------------
 # Releve sur la carte du monde (Tanares_Sourcebook.pdf, chapitre 5). Symetrique par construction :
@@ -533,6 +562,50 @@ def _lieux(ex: Extracteur, debut: int, fin: int, galerie: str | None) -> list[di
     return lieux
 
 
+def _capitale(ex: Extracteur) -> list[dict]:
+    """La Capitale puis ses quartiers, dans l'ordre du livre : (name, lignes).
+
+    La Capitale porte le texte qui precede « Districts of the Capital » (population, gouvernance,
+    armee comprises : c'est sa fiche) ; chaque quartier, le texte qui suit son fragment d'ouverture
+    jusqu'au quartier suivant. Un compte different de douze, ou une numerotation qui saute, est
+    une erreur : un quartier fondu dans le precedent passerait tous les autres controles.
+    """
+    index = CAPITALE['page']
+    capitale = {'name': CAPITALE['nom'], 'lignes': []}
+    lieux = [capitale]
+    courant = capitale
+    titre_vu = quartiers = False
+    for moitie in ('gauche', 'droite'):
+        for ligne in _lignes_ordonnees(ex, index, moitie):
+            texte = ligne.texte.strip()
+            corps = ligne.corps or 0.0
+            if not texte or HORS_PROSE_RE.search(texte):
+                continue
+            if corps >= CORPS_SECTION:
+                titre_vu = titre_vu or texte.startswith(CAPITALE['nom'])
+                continue
+            if corps >= CORPS_SOUS_TITRE:
+                quartiers = quartiers or texte == INTERTITRE_QUARTIERS
+                continue
+            ouverture = ligne.fragments[0]
+            m = QUARTIER_RE.match(ouverture.texte.strip()) if ouverture.gras else None
+            if quartiers and m:
+                if int(m.group(1)) != len(lieux):
+                    raise AtlasError(f'page {index} : quartier « {m.group(2)} » numéroté '
+                                     f'{m.group(1)}, {len(lieux)} attendu.')
+                courant = {'name': m.group(2), 'lignes': []}
+                lieux.append(courant)
+                texte = ''.join(f.texte for f in ligne.fragments[1:]).strip()
+            if texte:
+                courant['lignes'].append(texte)
+    if not titre_vu:
+        raise AtlasError(f"page {index} : titre « {CAPITALE['nom']} » absent, l'encart a bougé.")
+    if len(lieux) - 1 != QUARTIERS_ATTENDUS:
+        raise AtlasError(f'page {index} : {len(lieux) - 1} quartier(s), '
+                         f'{QUARTIERS_ATTENDUS} attendus.')
+    return lieux
+
+
 # -- Production ----------------------------------------------------------------------------------
 
 def extraire(corpus: Corpus, cache=None) -> tuple[list[dict], list[dict]]:
@@ -569,8 +642,24 @@ def extraire(corpus: Corpus, cache=None) -> tuple[list[dict], list[dict]]:
                     'name': lieu['name'],
                     'region': identifiant,
                     'source': document.provenance,
-                    'description': recoller(lieu['lignes']),
+                    # Le numero de page et le filigrane restent dans `lignes`, ou ils separent deux
+                    # intertitres (le decoupage en depend) ; ils sortent de la description.
+                    'description': recoller(sans_filigrane(lieu['lignes'])),
                 })
+            if identifiant == CAPITALE['region']:
+                capitale, *quartiers = _capitale(ex)
+                id_capitale = f"{identifiant}-{cle(capitale['name'])}"
+                for lieu in [capitale] + quartiers:
+                    identifiant_lieu = (id_capitale if lieu is capitale
+                                        else f"{id_capitale}-{cle(lieu['name'])}")
+                    region['locations'].append(identifiant_lieu)
+                    lieux.append({
+                        'id': identifiant_lieu,
+                        'name': lieu['name'],
+                        'region': identifiant,
+                        'source': document.provenance,
+                        'description': recoller(lieu['lignes']),
+                    })
             regions.append(region)
     return regions, lieux
 

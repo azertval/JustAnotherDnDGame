@@ -1932,7 +1932,7 @@ Source/Elements/Rpg/
 Source/Elements/World/
   regions/*.json            ← 13 régions : statistiques, espèces, factions (LOT-37, livré)
                               + descripteurs de terrain (LOT-81)
-  locations/*.json          ← 94 lieux nommés, avec leurs effets mécaniques (LOT-37, livré)
+  locations/*.json          ← 107 lieux nommés, avec leurs effets mécaniques (LOT-37, livré)
   factions/, pantheon/, organizations/            ← (LOT-80)
   arena/*.json              ← Colisée : les arènes, une par variante régionale (LOT-50, livré) ;
                               les huit Marques Héroïques sont une règle, Rpg/rules/heroic-marks.json

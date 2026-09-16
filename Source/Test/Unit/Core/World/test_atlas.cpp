@@ -38,7 +38,8 @@ const std::filesystem::path SCHEMAS{JADG_RPG_SCHEMA_DIR};
 // Le chapitre 5 du Sourcebook porte treize encarts << Regional Statistics >>, un par region --
 // et non dix, comme la feuille de route l'annoncait de memoire avant que le corpus ne soit lu.
 constexpr std::size_t REGIONS_DU_LIVRE = 13;
-constexpr std::size_t LIEUX_DU_LIVRE = 94;
+// 94 « Places of Interest », la Capitale et ses 12 quartiers (LOT-92).
+constexpr std::size_t LIEUX_DU_LIVRE = 107;
 
 const core::Atlas& atlas() {
     static const core::Atlas charge = core::loadAtlas(MONDE);
@@ -52,8 +53,8 @@ struct NoteDuLivre {
 };
 
 /**
- * @brief Les treize regions et leurs quatre-vingt-quatorze lieux se chargent tous.
- * \castest{<b>Les treize regions et leurs quatre-vingt-quatorze lieux se chargent tous.</b><br/>
+ * @brief Les treize regions et leurs cent sept lieux se chargent tous.
+ * \castest{<b>Les treize regions et leurs cent sept lieux se chargent tous.</b><br/>
  * \tcat Unitaire · Atlas<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Charger Source/Elements/World.<br/>
@@ -187,6 +188,44 @@ TEST(AtlasTest, UneRegionUniformeNePorteAucunePortee) {
             }
         }
     }
+}
+
+/**
+ * @brief La Capitale et ses douze quartiers sont des lieux de l'Empire central (LOT-92).
+ * \castest{<b>La Capitale et ses douze quartiers sont des lieux de l'Empire central.</b><br/>
+ * \tcat Unitaire · Atlas<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Resoudre la Capitale et chacun des douze quartiers, noms recopies du PDF.<br/>
+ * 2. Verifier leur region et une phrase de Martpart et d'Arenarea lue sur la page.<br/>
+ * \tattendu Treize lieux de central-empire ; Martpart et Arenarea portent le texte du livre.
+ * }
+ */
+TEST(AtlasTest, LaCapitaleEtSesDouzeQuartiersSontRejouesDepuisLeLivre) {
+    // Tanares_Sourcebook.pdf, pages imprimees 98-99 : << Districts of the Capital >>, dans l'ordre.
+    constexpr std::array<std::string_view, 12> quartiers{
+        "sloghood", "uptown",  "artisansquare", "scholarnest", "dweomer",  "martpart",
+        "arenarea", "oldtown", "neckoffoods",   "bloomburgs",  "downtown", "palacedomain"};
+    const std::string capitale = "central-empire-the-capital-city";
+    const core::Location* ville = atlas().findLocation(capitale);
+    ASSERT_NE(ville, nullptr);
+    EXPECT_EQ(ville->region, "central-empire");
+    EXPECT_NE(ville->description.find("Approximately 680,000"), std::string::npos);
+
+    for (std::string_view quartier : quartiers) {
+        const std::string id = capitale + "-" + std::string(quartier);
+        const core::Location* lieu = atlas().findLocation(id);
+        ASSERT_NE(lieu, nullptr) << id;
+        EXPECT_EQ(lieu->region, "central-empire") << id;
+        EXPECT_FALSE(lieu->description.empty()) << id;
+    }
+
+    // Le bloc B de l'atelier des textures lit ces phrases : elles doivent etre celles du livre.
+    EXPECT_NE(atlas().findLocation(capitale + "-martpart")->description.find(
+                  "Lantern-lit stalls and culturally blended architecture adorn cobblestone"),
+              std::string::npos);
+    EXPECT_NE(atlas().findLocation(capitale + "-arenarea")->description.find(
+                  "Famed for the Arena of Fate"),
+              std::string::npos);
 }
 
 /**
