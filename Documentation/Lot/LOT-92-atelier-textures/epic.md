@@ -1,6 +1,6 @@
 # LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu {#lot-92}
 
-> Statut : **en cours, ouvert le 16 septembre 2026.** T0, T1 et T3 faits ; T2 écrit, à relire ; T4 attend la génération de la planche du Colisée.
+> Statut : **en cours, ouvert le 16 septembre 2026.** T0 à T3 faits ; T4 attend la génération de la planche du Colisée.
 > Prérequis : [LOT-50](@ref lot-50) (la planche du Colisée et `extract_coliseum_atlas.py`),
 > [LOT-91](@ref lot-91) (la méthode de l'atelier des PNJ), [LOT-39](@ref lot-39) (les clés
 > d'assets et le cahier), [LOT-37](@ref lot-37) (l'atlas, dont le bloc B lit les lieux).
@@ -111,8 +111,22 @@ l'arête (pavés, sable).
     couverture, débordement hors canevas signalé. Installés sous `installRoot` avec
     `planche.png` et `manifest.json` ; `--check` refait la découpe en mémoire et compare pixels et
     manifeste **sans rien écrire** (celui du `LOT-50` réécrivait ses PNG).
-  - *Disposition du Colisée* : 36 cellules — 15 sols, 17 pièces hautes (murs, arches, gradins,
+  - *Disposition du Colisée* (T3, alors sur une planche 1536 × 1024 au pas 2) : 36 cellules — 15 sols, 17 pièces hautes (murs, arches, gradins,
     escaliers, torches et bannières en deux orientations, pilier, brasero, banc, râtelier),
     4 grandes pièces (porte des combattants, loge) ; bloc B depuis la fiche de Martpart, sujet :
     l'Illu Die Arena. Tests : `scripts/tests/test_extract_texture_sheet.py` (13, dont la découpe
     d'une planche synthétique et son `--check`).
+- **16 septembre 2026, T2 fait** : le bloc A (`style.txt` v1) est relu par l'auteur.
+- **16 septembre 2026, planches plus grandes et au pas 4** (demande de l'auteur). Le 1536 × 1024
+  de T3 venait d'une limite du générateur qui n'a plus cours : la documentation d'OpenAI
+  (`gpt-image-2` et suivants) admet toute taille aux côtés multiples de 16, d'au plus 3840 px, au
+  rapport d'au plus 3 : 1, entre 655 360 et 8 294 400 pixels, et donne le rendu pour
+  expérimental au-delà de 2560 × 1440. *Décisions* : la disposition déclare `sheet.size` et
+  `sheet.scale` (pixels d'écran par pixel d'art), contrôlés contre ces contraintes ; les cellules
+  débordent sur **autant de planches que nécessaire** ; la palette de 64 couleurs reste
+  **commune au lieu**. Le Colisée passe à **2560 × 1440 au pas 4** — la plus grande taille
+  fiable, quatre fois plus de pixels par pixel d'art qu'au pas 2 : 2 planches (24 et 12
+  cellules). La texture installée ne grandit pas (une tuile reste 68 × 42 px d'art, l'échelle des
+  figurines) ; c'est la réduction qui gagne en netteté. Le bloc A porte désormais `{PAS}`,
+  `{LOSANGE_L}` et `{LOSANGE_H}`, remplis depuis la disposition, sans autre changement ; le bloc C
+  précise que la maquette est au pas 2 et la planche à son propre pas.

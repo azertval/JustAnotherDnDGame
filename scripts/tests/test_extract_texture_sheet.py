@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
 """L'atelier des textures (LOT-92, T3) : la disposition se valide sans image, et une planche
-synthétique -- chaque emprise peinte à plat -- se découpe, s'installe et se revérifie.
+synthétique -- chaque emprise peinte à plat, sur deux planches -- se découpe, s'installe et se revérifie.
 
 Les tests d'image demandent Pillow et numpy, que la CI n'installe pas : ils sont sautés là, et joués
 sur le poste qui produit les planches.
@@ -29,11 +29,23 @@ def test_les_dispositions_de_l_atelier_sont_conformes():
 def test_une_grille_se_deduit_sans_chevauchement(colisee):
     poses = T.grille(colisee)
     assert len(poses) == len(colisee['cells'])
-    boites = [p['boite'] for p in poses]
-    for i, (ax0, ay0, ax1, ay1) in enumerate(boites):
-        assert 0 <= ax0 < ax1 <= T.PLANCHE[0] and 0 <= ay0 < ay1 <= T.PLANCHE[1]
-        for bx0, by0, bx1, by1 in boites[i + 1:]:
-            assert ax1 <= bx0 or bx1 <= ax0 or ay1 <= by0 or by1 <= ay0
+    largeur, hauteur = T.taille_planche(colisee)
+    for numero in range(1, T.planches(colisee) + 1):
+        boites = [p['boite'] for p in poses if p['planche'] == numero]
+        assert boites, f'planche {numero} vide'
+        for i, (ax0, ay0, ax1, ay1) in enumerate(boites):
+            assert 0 <= ax0 < ax1 <= largeur and 0 <= ay0 < ay1 <= hauteur
+            for bx0, by0, bx1, by1 in boites[i + 1:]:
+                assert ax1 <= bx0 or bx1 <= ax0 or ay1 <= by0 or by1 <= ay0
+
+
+def test_les_cellules_debordent_sur_une_planche_de_plus(colisee):
+    colisee['sheet'] = {'size': [2560, 1440], 'scale': 4}
+    poses = T.grille(colisee)
+    assert T.planches(colisee) == 2
+    assert [p['planche'] for p in poses] == sorted(p['planche'] for p in poses)
+    colisee['sheet'] = {'size': [3840, 2160], 'scale': 4}
+    assert T.planches(colisee) == 1
 
 
 def test_un_sol_est_le_losange_d_iso_projection(colisee):
@@ -49,52 +61,62 @@ def test_une_grande_piece_a_gauche_s_allonge_sur_l_arete_haut_gauche(colisee):
     assert (droite[0] - haut[0], droite[1] - haut[1]) == (34, 21)   # une vers la droite
 
 
-def _trop_de_grandes_pieces(disposition):
-    grande = next(c for c in disposition['cells'] if c['class'] == 'wide')
-    for rang in range(24):
-        disposition['cells'].append(dict(grande, name=f'grande-{rang}'))
-
-
 @pytest.mark.parametrize('faute, attendu', [
     (lambda d: d['cells'].append(copy.deepcopy(d['cells'][0])), 'deux fois'),
     (lambda d: d.update(keyPrefix='ui/coliseum'), 'scene/'),
     (lambda d: d.update(location='lieu-inexistant'), "absent de l'atlas"),
     (lambda d: d['cells'][0].update({'class': 'inconnue'}), 'inconnue'),
-    (_trop_de_grandes_pieces, 'px de haut'),
+    (lambda d: d.update(sheet={'size': [2560, 1450], 'scale': 4}), 'multiples de 16'),
+    (lambda d: d.update(sheet={'size': [4096, 2048], 'scale': 4}), 'au plus 3840'),
+    (lambda d: d.update(sheet={'size': [3200, 800], 'scale': 2}), 'rapport'),
+    (lambda d: d.update(sheet={'size': [768, 512], 'scale': 2}), 'pixels'),
+    (lambda d: d.update(sheet={'size': [2560, 1440], 'scale': 12}), 'ne tient pas'),
 ])
 def test_une_disposition_fautive_est_refusee(colisee, faute, attendu):
     faute(colisee)
     assert any(attendu in f for f in T.valider(colisee))
 
 
-def test_le_bloc_c_nomme_chaque_cellule_dans_l_ordre(colisee):
-    texte = T.bloc_c(colisee)
-    for rang, cellule in enumerate(colisee['cells'], 1):
-        assert f"{rang}. {cellule['prompt']}" in texte
+def test_le_bloc_c_nomme_chaque_cellule_de_sa_planche_dans_l_ordre(colisee):
+    for numero in range(1, T.planches(colisee) + 1):
+        texte = T.bloc_c(colisee, numero)
+        cellules = [p['cellule'] for p in T.grille(colisee) if p['planche'] == numero]
+        for rang, cellule in enumerate(cellules, 1):
+            assert f"{rang}. {cellule['prompt']}" in texte
+        assert f"{rang + 1}. " not in texte
+
+
+def test_le_bloc_a_prend_le_pas_de_la_disposition(colisee):
+    colisee['sheet'] = {'size': [2560, 1440], 'scale': 4}
+    texte = T.bloc_a(colisee)
+    assert '4 screen pixels per art pixel' in texte and '272 screen pixels wide and 168' in texte
+    assert '{' not in texte and not any(l.startswith('#') for l in texte.splitlines())
 
 
 # -- Avec images ---------------------------------------------------------------------------------
 
-def _planche(disposition, trou=None):
+def _planches(disposition, trou=None):
     np = pytest.importorskip('numpy')
     Image = pytest.importorskip('PIL.Image')
     ImageDraw = pytest.importorskip('PIL.ImageDraw')
-    image = Image.new('RGBA', T.PLANCHE, (0, 0, 0, 0))
-    trait = ImageDraw.Draw(image)
+    s = T.pas(disposition)
+    images = [Image.new('RGBA', T.taille_planche(disposition), (0, 0, 0, 0))
+              for _ in range(T.planches(disposition))]
     for rang, pose in enumerate(T.grille(disposition)):
         cellule = pose['cellule']
+        trait = ImageDraw.Draw(images[pose['planche'] - 1])
         ox, oy = pose['origine']
         couleur = (40 + 5 * rang, 120, 200 - 4 * rang, 255)
-        points = [(ox + x * T.PAS, oy + y * T.PAS) for x, y in T.sommets(disposition, cellule)]
+        points = [(ox + x * s, oy + y * s) for x, y in T.sommets(disposition, cellule)]
         trait.polygon(points, fill=couleur)
         hausse = disposition['classes'][cellule['class']]['rise']
         if hausse:
             w, _ = T.canevas(disposition, cellule)
-            trait.rectangle([ox + 20, oy, ox + w * T.PAS - 20, oy + hausse * T.PAS], fill=couleur)
+            trait.rectangle([ox + 10 * s, oy, ox + (w - 10) * s, oy + hausse * s], fill=couleur)
         if cellule['name'] == trou:
-            haut = points[0]
-            trait.rectangle([haut[0] - 60, haut[1], haut[0] + 60, haut[1] + 60], fill=(0, 0, 0, 0))
-    return np, Image, image
+            x, y = points[0]
+            trait.rectangle([x - 30 * s, y, x + 30 * s, y + 30 * s], fill=(0, 0, 0, 0))
+    return np, Image, images
 
 
 @pytest.fixture
@@ -103,17 +125,21 @@ def depot(tmp_path, monkeypatch, colisee):
     return tmp_path
 
 
-def test_une_planche_se_decoupe_s_installe_et_se_reverifie(depot, colisee, tmp_path):
-    np, Image, planche = _planche(colisee)
-    candidat = tmp_path / 'candidat.png'
-    planche.save(candidat)
-    assert T.decoupe('colisee', candidat) == 0
+def test_des_planches_se_decoupent_s_installent_et_se_reverifient(depot, colisee, tmp_path):
+    np, Image, planches = _planches(colisee)
+    candidats = []
+    for numero, planche in enumerate(planches, 1):
+        candidats.append(tmp_path / f'candidat-{numero}.png')
+        planche.save(candidats[-1])
+    assert len(candidats) == 2
+    assert T.decoupe('colisee', candidats) == 0
 
     racine = depot / colisee['installRoot']
     manifeste = json.loads((racine / 'manifest.json').read_text(encoding='utf-8'))
     assert len(manifeste['textures']) == len(colisee['cells'])
+    assert [f['file'] for f in manifeste['sheets']] == ['planche-1.png', 'planche-2.png']
     sable = manifeste['textures']['scene/coliseum/sand']
-    assert (sable['size'], sable['anchor']) == ([68, 42], [34, 0])
+    assert (sable['size'], sable['anchor'], sable['sheet']) == ([68, 42], [34, 0], 1)
     assert Image.open(racine / 'sand.png').size == (68, 42)
     assert T.verifier('colisee') == 0
 
@@ -125,12 +151,19 @@ def test_une_planche_se_decoupe_s_installe_et_se_reverifie(depot, colisee, tmp_p
 
 
 def test_un_sol_troue_est_refuse(colisee):
-    _, _, planche = _planche(colisee, trou='sand-blood')
-    _, _, erreurs, _ = T.decouper(colisee, T.mettre_au_format(planche))
+    _, _, planches = _planches(colisee, trou='sand-blood')
+    recues = [T.mettre_au_format(colisee, p) for p in planches]
+    _, _, erreurs, _ = T.decouper(colisee, recues)
     assert any(e.startswith('scene/coliseum/sand-blood : le sol couvre') for e in erreurs)
 
 
+def test_il_faut_toutes_les_planches(colisee):
+    _, _, planches = _planches(colisee)
+    with pytest.raises(T.DispositionError, match='1 planche'):
+        T.decouper(colisee, [T.mettre_au_format(colisee, planches[0])])
+
+
 def test_une_planche_sans_transparence_est_refusee(colisee):
-    _, _, planche = _planche(colisee)
+    _, _, planches = _planches(colisee)
     with pytest.raises(T.DispositionError, match='fond transparent'):
-        T.mettre_au_format(planche.convert('RGB'))
+        T.mettre_au_format(colisee, planches[0].convert('RGB'))

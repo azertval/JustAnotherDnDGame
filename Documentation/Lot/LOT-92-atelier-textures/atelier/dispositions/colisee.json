@@ -6,6 +6,7 @@
   "subject": "the Illu Die Arena at the heart of the market district: a magically lit gladiator arena with sand, tiered stands, noble boxes, vaulted corridors under the stands and locker rooms for the fighters",
   "keyPrefix": "scene/coliseum",
   "installRoot": "Source/Elements/Assets/Scene/coliseum",
+  "sheet": { "size": [2560, 1440], "scale": 4 },
   "classes": {
     "floor": { "footprint": [1, 1], "rise": 0, "description": "a flat floor tile filling the diamond exactly, nothing above it" },
     "tall": { "footprint": [1, 1], "rise": 58, "description": "an object or wall piece standing on one diamond, at most one wall height tall" },
