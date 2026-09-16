@@ -121,7 +121,7 @@ l'arête (pavés, sable).
   `AtlasTest.LaCapitaleEtSesDouzeQuartiersSontRejouesDepuisLeLivre` (phrases de Martpart et
   d'Arenarea recopiées du PDF) ; `check_rpg_data.py` vert, 1 263 tests unitaires verts.
 - **16 septembre 2026, filigrane retiré de l'atlas** (accord de l'auteur). Treize fiches du
-  `LOT-37` portaient le numéro de page et le filigrane « Valentin Eloy (Order #…) », en fin ou
+  `LOT-37` portaient le numéro de page et le filigrane de commande du livre (`Order #…`), en fin ou
   en milieu de description. `sans_filigrane` les retire **à l'assemblage de la description** et
   non à la lecture : retirée plus tôt, la ligne ne sépare plus deux intertitres, et la légende
   « Fisherman's Wharf » du plan de la République fusionnait avec « Locations in Fisherman's
