@@ -48,19 +48,29 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
     } else {
         GRAPHICS_LOG_WARNING("Arene : manifeste du Colisee illisible, " + catalog.error);
     }
+    // Les PNJ de l'atelier (LOT-91) vivent a cote du Colisee ; leur manifeste peut mettre l'un
+    // d'eux a la place d'un heros de la planche de production.
+    const int replaced =
+        _catalog.applyNpcManifest(_directory.parent_path() / "Npc" / "manifest.json");
+    if (replaced > 0) {
+        GRAPHICS_LOG_INFO("Arene : " + std::to_string(replaced) + " heros remplace(s) par un PNJ.");
+    }
 
-    const auto declare = [this](const std::string& folder, const std::string& sheet) {
-        ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / folder / sheet);
+    const auto declare = [this](const std::string& sheet, core::CombatSide side) {
+        const std::string directory = _catalog.sheetDirectory(sheet, side);
+        ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / directory);
         for (const std::string& error : load.errors) {
             GRAPHICS_LOG_WARNING("Arene : animation de " + sheet + ", " + error);
         }
+        _bandFrameWidths[directory + "/idle.png"] = load.idleFrameWidth;
+        _bandFrameWidths[directory + "/death.png"] = load.deathFrameWidth;
         _animation.setFigureAnimations(sheet, std::move(load.clips));
     };
     for (const std::string& hero : _catalog.heroes()) {
-        declare("characters", hero);
+        declare(hero, core::CombatSide::Allies);
     }
     for (const std::string& gladiator : _catalog.gladiators()) {
-        declare("enemies", gladiator);
+        declare(gladiator, core::CombatSide::Enemies);
     }
 }
 
@@ -107,7 +117,9 @@ void ArenaSceneRenderer::loadTextures() {
             GRAPHICS_LOG_WARNING(missingTextureWarning(path));
             continue;
         }
-        _textures.byPath[path] = ArenaTexture{texture->handle(), texture->width, texture->height};
+        const auto band = _bandFrameWidths.find(path);
+        _textures.byPath[path] = ArenaTexture{texture->handle(), texture->width, texture->height,
+                                              band != _bandFrameWidths.end() ? band->second : 0};
         _loaded.push_back(std::move(*texture));
     }
 }

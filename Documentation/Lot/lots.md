@@ -63,6 +63,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-15
 - @subpage lot-21
 - @subpage lot-22
+- @subpage lot-91 — hors feuille de route : chantier long, alimenté au fil de l'eau
 
 ## Feuille de route
 
@@ -87,6 +88,7 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | F — Filière contenu | `LOT-30` → `LOT-84` | Préconditions (spécification RPG, numéros, chargement de données), extraction du corpus, catalogues, monde et peuplement, une classe par lot, refonte IHM, mécaniques manquantes |
 | G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
 | H — Relecture des livres | `LOT-88` → `LOT-90` | Ajoutés au second audit : retrait de l'héritage plateforme des spécifications, dons et objets magiques de Tanares, le plan pénombral |
+| I — Chantiers au fil de l'eau | `LOT-91` | Hors feuille de route et hors jalon : l'atelier des PNJ, la méthode qui produit une à une les figurines des 160 fiches du *Character Compendium*, au rythme du budget de génération |
 
 La filière (phases F et H) compte **38 lots à venir** — quatre numéros (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`)
 ayant été retirés par fusion et n'étant pas réattribués, et seize de ses lots étant livrés, dont

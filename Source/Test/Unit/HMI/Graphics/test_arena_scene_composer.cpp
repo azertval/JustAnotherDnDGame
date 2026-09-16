@@ -119,8 +119,9 @@ hmi::ArenaSceneTextures textures(const hmi::ArenaAppearanceCatalog& appearance) 
     add("structures/torch_01.png", 26, 71);
     add("structures/arch.png", 59, 74);
     for (const std::string& hero : appearance.heroes()) {
-        add("characters/" + hero + "/idle.png", 240, 64);
-        add("characters/" + hero + "/death.png", 240, 64);
+        const std::string directory = appearance.sheetDirectory(hero, CombatSide::Allies);
+        add(directory + "/idle.png", 240, 64);
+        add(directory + "/death.png", 240, 64);
     }
     for (const std::string& gladiator : appearance.gladiators()) {
         add("enemies/" + gladiator + "/idle.png", 384, 64);
@@ -133,9 +134,7 @@ hmi::TextureHandle figureTexture(const hmi::ArenaSceneTextures& all,
                                  const hmi::ArenaAppearanceCatalog& appearance,
                                  const std::string& name, CombatSide side, const char* strip) {
     const hmi::FigureAppearance figure = appearance.figureFor(name, side);
-    const std::string path = std::string(side == CombatSide::Allies ? "characters/" : "enemies/") +
-                             figure.sheet + "/" + strip;
-    return all.resolve(path).texture;
+    return all.resolve(figure.directory + "/" + strip).texture;
 }
 
 std::vector<hmi::ComposedQuad> onLayer(const hmi::ComposedScene& scene, RenderLayer layer) {
@@ -541,4 +540,52 @@ TEST_F(ArenaSceneComposerTest, ListeDesTexturesCouvreLaComposition) {
     EXPECT_TRUE(std::none_of(
         scene.quads().begin(), scene.quads().end(),
         [&](const hmi::ComposedQuad& quad) { return quad.texture == listed.missing.texture; }));
+}
+
+/**
+ * @brief Une figurine de remplacement (atelier des PNJ, LOT-91) se lit dans son propre dossier,
+ *        avec la decoupe que ses bandes declarent : six images de 48 px au repos, six de 96 px a
+ *        terre.
+ * \castest{<b>Un heros remplace se dessine depuis `../Npc/<slug>` ; une bande large (96 px)
+ * donne un quad deux fois plus large, centre au meme endroit, et sa derniere image a terre.</b>
+ * <br/>
+ * \tcat Unitaire · Composeur de la scene de l'arene<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Remplacer la figurine de Bram par `../Npc/anariel`, avec `idle.png` 288x64
+ *          (frameWidth 48) et `death.png` 576x64 (frameWidth 96).<br/>
+ *          2. Composer debout a l'image 5, puis a terre.<br/>
+ * \tattendu Debout : la texture de `../Npc/anariel/idle.png`, u dans [240, 288[ de 288, largeur
+ * 48 x echelle. A terre : `death.png`, u dans [480, 576[ de 576, largeur doublee, meme centre.
+ * }
+ */
+TEST_F(ArenaSceneComposerTest, UneFigurineDeRemplacementSuitSaPropreDecoupe) {
+    const std::string sheet = appearance.figureFor("Bram", CombatSide::Allies).sheet;
+    ASSERT_TRUE(appearance.replaceHero(sheet, "../Npc/anariel"));
+    const hmi::TextureHandle idle = handle(7001);
+    const hmi::TextureHandle death = handle(7002);
+    sceneTextures.byPath["../Npc/anariel/idle.png"] = hmi::ArenaTexture{idle, 288, 64, 48};
+    sceneTextures.byPath["../Npc/anariel/death.png"] = hmi::ArenaTexture{death, 576, 64, 96};
+
+    ASSERT_TRUE(session.start());
+    const CombatantId bram = idOf(session, "Bram");
+    animation.figures[bram] = hmi::ArenaFigureAnimation{.frame = 5};
+    const hmi::ComposedScene debout = compose();
+    const hmi::ComposedQuad* repos = withTexture(debout, idle);
+    ASSERT_NE(repos, nullptr);
+    EXPECT_FLOAT_EQ(repos->sprite.u0, 5.0f * 48.0f / 288.0f);
+    EXPECT_FLOAT_EQ(repos->sprite.u1, 1.0f);
+    const float centreDebout = repos->sprite.x + repos->sprite.width / 2.0f;
+
+    session.combat().applyDamage(bram, 100);
+    ASSERT_EQ(session.combat().find(bram)->status, core::CombatantStatus::Down);
+    // Un autre allie peut partager la figurine de Bram et rester debout : on ne verifie que la
+    // bande de mort, qui n'appartient qu'a lui.
+    const hmi::ComposedScene aTerre = compose();
+    const hmi::ComposedQuad* mort = withTexture(aTerre, death);
+    ASSERT_NE(mort, nullptr);
+    EXPECT_FLOAT_EQ(mort->sprite.u0, 5.0f * 96.0f / 576.0f);
+    EXPECT_FLOAT_EQ(mort->sprite.u1, 1.0f);
+    EXPECT_FLOAT_EQ(mort->sprite.width, repos->sprite.width * 2.0f);
+    EXPECT_FLOAT_EQ(mort->sprite.height, repos->sprite.height);
+    EXPECT_NEAR(mort->sprite.x + mort->sprite.width / 2.0f, centreDebout, 1e-3f);
 }
