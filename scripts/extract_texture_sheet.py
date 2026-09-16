@@ -568,13 +568,13 @@ def _poser(disposition: dict, cellule: dict, art, avertissements: list[str]):
         zone = art[:, :cw]
         texture[h - h_art:, :zone.shape[1]] = zone
         return texture, (b * DEMI_L, h - (a + b) * DEMI_H)
-    # Une pièce libre est centrée sur le sommet bas de son emprise. Plus large qu'elle, elle n'est
+    # Une pièce libre est centrée sur le milieu de son emprise -- le sommet bas pour une case, pas
+    # pour une emprise allongée (tour 2 de Martpart : 17 px d'art de décalage). Plus large, elle n'est
     # PAS rognée : le canevas s'élargit de part et d'autre et l'ancre suit (tour 1 de Martpart : des
     # étals de 170 px d'art pour une emprise de 102 perdaient leur côté droit). Elle déborde alors
     # sur les cases voisines, comme tout objet isométrique plus large que sa case. Décision de
     # l'auteur, 16 septembre 2026.
-    bas_x = sommets(disposition, cellule)[2][0]
-    debut = bas_x - w_art // 2
+    debut = cw // 2 - w_art // 2
     deborde_g, deborde_d = max(0, -debut), max(0, debut + w_art - cw)
     if deborde_g or deborde_d:
         avertissements.append(f"{k} : {w_art} px d'art de large pour une emprise de {cw} ; "

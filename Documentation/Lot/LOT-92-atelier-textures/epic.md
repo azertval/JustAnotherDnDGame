@@ -260,3 +260,13 @@ l'arête (pavés, sable).
   droite (18 et 52 px d'art). *Rien n'est installé du tour 1* ; `commande martpart 2` préparé.
   Colisée redécoupé depuis ses planches installées : seul `bench` change (rogné de 2 px, il passe
   à 70 px d'art, ancre à 35) ; le composeur ne le pose pas ; `--check colisee` vert. Tests : 28.
+- **16 septembre 2026, Martpart, tour 2.** *Reçu* : 1672 × 941, 18 pièces dans l'ordre. *Gagné* :
+  porte et fenêtre **le long de l'arête**, dans le mur de la cellule 7 (la correction du modèle a
+  porté) ; seuil plat ; objets et grands éléments dans leur emprise ou presque (85 et 77 px d'art
+  pour 102). *Perdu* : les **sols**, dessinés en losanges de rapport **0,56 à 0,58** (mesuré :
+  rang le plus large sur hauteur de la pièce) au lieu de 0,62 — au tour 1, 0,60 à 0,67 ; la
+  découpe en refuse cinq (couverture de 90 à 94 %), à juste titre : ce n'est pas un arrondi.
+  *Bug corrigé* : une pièce libre était centrée sur le sommet bas de son emprise, juste pour une
+  case, décalé de 17 px d'art pour une emprise de 2 × 1 ; elle l'est désormais sur le milieu de
+  l'emprise (le Colisée, aux pièces libres d'une case, ne change pas : `--check` vert). Rien
+  n'est installé.

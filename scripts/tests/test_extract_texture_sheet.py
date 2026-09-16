@@ -293,10 +293,9 @@ def test_une_piece_libre_plus_large_que_son_emprise_elargit_son_canevas():
     avertissements = []
     texture, ancre = T._poser(martpart, etal, art, avertissements)
     assert texture.shape[1] == cw + 70 and texture[..., 3].all()      # rien n'est rogné
-    bas_x = T.sommets(martpart, etal)[2][0]
-    gauche = max(0, (cw + 70) // 2 - bas_x)                          # débord à gauche
+    gauche = (cw + 70) // 2 - cw // 2                                # centré sur l'emprise
     assert ancre[0] == T.emprise(martpart, etal)[1] * T.DEMI_L + gauche
-    assert any('canevas élargi' in a for a in avertissements)
+    assert any('canevas élargi (35 à gauche, 35 à droite)' in a for a in avertissements)
     mur = next(c for c in martpart['cells'] if c['name'] == 'wall-left')
     cw, ch = T.canevas(martpart, mur)
     texture, _ = T._poser(martpart, mur, np.full((ch, cw + 5, 4), 255, dtype=np.uint8), [])
