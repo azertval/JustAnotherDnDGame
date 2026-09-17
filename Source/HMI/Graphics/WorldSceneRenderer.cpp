@@ -30,35 +30,27 @@ namespace {
 }  // namespace
 
 Camera2D worldCamera(const core::IsoProjection& projection, core::Vector2 focus, int pixelWidth,
-                     int pixelHeight, float tilesAcross) {
+                     int pixelHeight) {
     const int width = std::max(1, pixelWidth);
     const int height = std::max(1, pixelHeight);
     Camera2D camera(width, height);
 
-    // L'echelle du jeu : un nombre de losanges en largeur, et non le cadrage entier de l'arene --
-    // le Colisee ne tient pas dans un ecran (EX-LVL-006).
-    const float visibleWidth = std::max(1.0F, tilesAcross) * projection.tileWidth();
-    camera.setZoom(std::max(0.25F, static_cast<float>(width) / visibleWidth /
-                                       Camera2D::PIXELS_PER_UNIT));
+    // Un agrandissement ENTIER, jamais un cadrage ajuste : le pixel art se brouille des qu'on le
+    // met a l'echelle 0,62. L'art est dessine pour 720 lignes ; au-dela, on double.
+    camera.setZoom(static_cast<float>(std::max(1, height / WORLD_ART_HEIGHT_PIXELS)));
 
     // Le point suivi, ramene dans la scene : la vue ne montre pas le vide autour de la carte. Sur
-    // un axe ou la scene est plus petite que la vue, elle reste centree.
+    // un axe ou la scene est plus petite que la vue, elle reste centree. La scene occupe
+    // [0, sceneSize] en unites monde (`core::IsoProjection::gridToWorld` y place la case (0, 0)).
     const core::Vector2 scene = projection.sceneSize();
     const core::Rect visible = camera.visibleBounds();
-    const core::Vector2 origin = projection.origin();
-    const float demiLargeur = visible.size.x / 2.0F;
-    const float demiHauteur = visible.size.y / 2.0F;
     core::Vector2 centre = focus;
-    if (scene.x <= visible.size.x) {
-        centre.x = origin.x + (scene.x / 2.0F);
-    } else {
-        centre.x = std::clamp(centre.x, origin.x + demiLargeur, origin.x + scene.x - demiLargeur);
-    }
-    if (scene.y <= visible.size.y) {
-        centre.y = origin.y + (scene.y / 2.0F);
-    } else {
-        centre.y = std::clamp(centre.y, origin.y + demiHauteur, origin.y + scene.y - demiHauteur);
-    }
+    centre.x = scene.x <= visible.size.x
+                   ? scene.x / 2.0F
+                   : std::clamp(centre.x, visible.size.x / 2.0F, scene.x - (visible.size.x / 2.0F));
+    centre.y = scene.y <= visible.size.y
+                   ? scene.y / 2.0F
+                   : std::clamp(centre.y, visible.size.y / 2.0F, scene.y - (visible.size.y / 2.0F));
     camera.setCenter(centre);
     return camera;
 }
@@ -173,8 +165,8 @@ void WorldSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarg
     _composed.sort();
 
     const QSize pixels = target->pixelSize();
-    const Camera2D camera = worldCamera(projection, projection.gridToWorld(_focus), pixels.width(),
-                                        pixels.height(), WORLD_TILES_ACROSS);
+    const Camera2D camera =
+        worldCamera(projection, projection.gridToWorld(_focus), pixels.width(), pixels.height());
 
     SpriteBatch& sprites = _resources.sprites();
     sprites.beginFrame();

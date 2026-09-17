@@ -68,6 +68,8 @@ add_executable(UnitTests
     Unit/Core/World/test_world_graph.cpp
     Unit/Core/World/test_world_travel.cpp
     Unit/Core/World/test_exploration_session.cpp
+    # La carte du Colisee LIVREE (LOT-09) : contenu, pas moteur.
+    Unit/Core/World/test_coliseum_map.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp

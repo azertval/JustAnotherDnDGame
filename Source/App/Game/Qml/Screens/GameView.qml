@@ -23,8 +23,8 @@ GameViewForm {
 
     focus: true
     pending: !world.loaded
-    status: world.status !== "" ? world.status
-                                : qsTr("Aucune carte à jouer : le contenu arrive avec un lot ultérieur.")
+    // Rien a dire quand la carte est la : le statut ne parle que d'un echec.
+    status: world.status
 
     characterName: PendingData.value("hud.character.name")
     level: PendingData.value("hud.character.level")
@@ -64,7 +64,8 @@ GameViewForm {
         parent: root.viewportHost
         anchors.fill: parent
         model: world
-        clearColor: Tokens.background
+        // Le vide autour du lieu n'est pas du parchemin : c'est la nuit hors des murs.
+        clearColor: Tokens.panel
     }
 
     // --- Le deplacement : un etat de touches, releve a chaque appui et a chaque relachement -----

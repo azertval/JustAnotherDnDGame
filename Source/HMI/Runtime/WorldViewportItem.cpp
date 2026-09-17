@@ -109,8 +109,7 @@ WorldViewportItem::Framing WorldViewportItem::framing() const {
                                       static_cast<float>(model->heroRow())})
             : core::Vector2{};
     return Framing{.projection = projection,
-                   .camera = worldCamera(projection, focus, pixels.width(), pixels.height(),
-                                         WORLD_TILES_ACROSS),
+                   .camera = worldCamera(projection, focus, pixels.width(), pixels.height()),
                    .pixelsPerItemX = width() > 0.0 ? std::max(1, pixels.width()) / width() : 1.0,
                    .pixelsPerItemY = height() > 0.0 ? std::max(1, pixels.height()) / height() : 1.0};
 }

@@ -45,20 +45,21 @@ namespace hmi {
  * @brief Le cadrage d'un lieu : la caméra **suit** le héros, et ne sort pas de la carte.
  *
  * Le Colisée ne tient pas dans un écran (`EX-LVL-006`) : le cadrage entier de l'arène ne convient
- * plus. La caméra se centre sur le point donné, puis se ramène dans la scène — sur un axe où la
- * scène est plus petite que la vue, elle reste centrée, faute de quoi la carte collerait à un bord.
+ * plus. L'agrandissement est **entier** — le pixel art se brouille dès qu'on le met à une échelle
+ * fractionnaire —, l'art étant dessiné pour 720 lignes ; au-delà, on double. La caméra se centre
+ * ensuite sur le point suivi, puis se ramène dans la scène : sur un axe où la scène est plus petite
+ * que la vue, elle reste centrée, faute de quoi la carte collerait à un bord.
  *
  * @param projection  La projection du lieu.
  * @param focus       Le point suivi, en unités monde (le héros).
  * @param pixelWidth  Largeur de la surface, en pixels physiques.
  * @param pixelHeight Hauteur de la surface.
- * @param tilesAcross Nombre de losanges visibles en largeur : c'est l'échelle du jeu.
  */
 [[nodiscard]] Camera2D worldCamera(const core::IsoProjection& projection, core::Vector2 focus,
-                                   int pixelWidth, int pixelHeight, float tilesAcross);
+                                   int pixelWidth, int pixelHeight);
 
-/// Nombre de losanges visibles en largeur, par défaut : de quoi voir une salle et ses abords.
-inline constexpr float WORLD_TILES_ACROSS = 24.0F;
+/// Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
 
 /**
  * @brief Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la
