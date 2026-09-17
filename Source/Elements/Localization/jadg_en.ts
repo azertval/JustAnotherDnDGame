@@ -459,14 +459,6 @@
     </message>
 </context>
 <context>
-    <name>GameView</name>
-    <message>
-        <location filename="../../App/Game/Qml/Screens/GameView.qml" line="21"/>
-        <source>Aucune carte à jouer : le contenu arrive avec un lot ultérieur.</source>
-        <translation>No map to play: content arrives with a later lot.</translation>
-    </message>
-</context>
-<context>
     <name>HudFrame.ui</name>
     <message>
         <location filename="../../Ui/Controls/HudFrame.ui.qml" line="255"/>
@@ -1096,174 +1088,174 @@
 <context>
     <name>hmi::ArenaModel</name>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="605"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="627"/>
         <source>a terre</source>
         <translation>down</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="608"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="630"/>
         <source>ensanglante</source>
         <translation>bloodied</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="557"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="579"/>
         <source>Esquiver</source>
         <translation>Dodge</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="559"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="581"/>
         <source>Se desengager</source>
         <translation>Disengage</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="561"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="583"/>
         <source>Se precipiter</source>
         <translation>Dash</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="565"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="587"/>
         <source>Reaction : saisir les opportunites</source>
         <translation>Reaction: take opportunity attacks</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="566"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="588"/>
         <source>Reaction : laisser passer</source>
         <translation>Reaction: let them go</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="734"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="756"/>
         <source>Esquiver : les attaques contre lui sont desavantagees jusqu&apos;a son prochain tour, s&apos;il voit l&apos;attaquant.</source>
         <translation>Dodge: attacks against them have disadvantage until their next turn, if they can see the attacker.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="739"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="761"/>
         <source>Se desengager : ses deplacements ne provoquent plus d&apos;attaque d&apos;opportunite ce tour-ci.</source>
         <translation>Disengage: their movement provokes no opportunity attacks for the rest of the turn.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="744"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="766"/>
         <source>Se precipiter : un deplacement supplementaire egal a sa vitesse.</source>
         <translation>Dash: extra movement equal to their speed.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="748"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="770"/>
         <source>Il frappera l&apos;ennemi qui quitte son allonge. Confirmer pour le laisser passer.</source>
         <translation>They will strike an enemy leaving their reach. Confirm to let it go.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="750"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="772"/>
         <source>Il laissera passer l&apos;ennemi qui quitte son allonge. Confirmer pour frapper.</source>
         <translation>They will let an enemy leave their reach. Confirm to strike.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="617"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="639"/>
         <source> (a terre)</source>
         <translation> (down)</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="619"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="641"/>
         <source> (ensanglante)</source>
         <translation> (bloodied)</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="772"/>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="832"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="794"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="854"/>
         <source>Hors d&apos;allonge ou de portee.</source>
         <translation>Out of reach or range.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="775"/>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="835"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="797"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="857"/>
         <source>Cible hors de vue : abri total.</source>
         <translation>Target out of sight: total cover.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="778"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="800"/>
         <source>Cible invalide.</source>
         <translation>Invalid target.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="781"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="803"/>
         <source>Jet requis %1 : %2 % de chances de toucher</source>
         <translation>Roll needed %1: %2% chance to hit</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="785"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="807"/>
         <source>CA %1</source>
         <translation>AC %1</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="786"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="808"/>
         <source>CA %1, dont %2</source>
         <translation>AC %1, including %2</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="790"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="812"/>
         <source>Avantage : %1</source>
         <translation>Advantage: %1</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="793"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="815"/>
         <source>Desavantage : %1</source>
         <translation>Disadvantage: %1</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="804"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="826"/>
         <source>Case hors d&apos;atteinte ce tour-ci.</source>
         <translation>Square out of reach this turn.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="807"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="829"/>
         <source>Deplacement : %1 case(s), il en restera %2.</source>
         <translation>Move: %1 square(s), %2 left afterwards.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="815"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="837"/>
         <source>Attaque d&apos;opportunite : %1</source>
         <translation>Opportunity attack: %1</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="838"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="860"/>
         <source>L&apos;action de ce tour est deja depensee.</source>
         <translation>This turn&apos;s action is already spent.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="841"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="863"/>
         <source>Ce combattant n&apos;a aucune attaque.</source>
         <translation>This fighter has no attack.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="845"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="867"/>
         <source>Attaque refusee.</source>
         <translation>Attack refused.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="854"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="876"/>
         <source>Deplacement : %1 case(s).</source>
         <translation>Move: %1 square(s).</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="857"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="879"/>
         <source>Case hors de portee de ce qui reste du deplacement.</source>
         <translation>Square beyond the movement left.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="861"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="883"/>
         <source>Aucun combattant a deplacer.</source>
         <translation>No fighter to move.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1015"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1037"/>
         <source>Rien a faire sur cette case.</source>
         <translation>Nothing to do on this square.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1032"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1054"/>
         <source>Il frappera l&apos;ennemi qui quitte son allonge.</source>
         <translation>They will strike an enemy leaving their reach.</translation>
     </message>
     <message>
-        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1033"/>
+        <location filename="../../HMI/Runtime/ArenaModel.cpp" line="1055"/>
         <source>Il laissera passer l&apos;ennemi qui quitte son allonge.</source>
         <translation>They will let an enemy leave their reach.</translation>
     </message>
@@ -1285,6 +1277,14 @@
         <location filename="../../HMI/Runtime/OptionsModel.cpp" line="159"/>
         <source>Journaux enregistrés : %1</source>
         <translation>Logs saved: %1</translation>
+    </message>
+</context>
+<context>
+    <name>hmi::WorldModel</name>
+    <message>
+        <location filename="../../HMI/Runtime/WorldModel.cpp" line="52"/>
+        <source>La carte « %1 » ne s&apos;ouvre pas.</source>
+        <translation>The map “%1” does not open.</translation>
     </message>
 </context>
 </TS>
