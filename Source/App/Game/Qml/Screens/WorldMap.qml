@@ -297,6 +297,10 @@ Item {
         hud.optionsRequested.connect(() => ScreenRouter.openOptions())
 
         form.canvas.backRequested.connect(root.back)
+        form.canvas.positionMarked.connect((x, y) => {
+            if (root.level === level)
+                console.info("Carte : [" + x.toFixed(3) + ", " + y.toFixed(3) + "] sur " + form.canvas.image)
+        })
         form.canvas.markerHovered.connect((index, inside) => {
             if (inside && root.level === level)
                 root.select(index)
@@ -337,16 +341,8 @@ Item {
                                         point.position.x, point.position.y)
     }
 
-    // Releve d'une position pour `world-maps.json` : Ctrl+clic, et la fraction part au journal.
-    TapHandler {
-        acceptedModifiers: Qt.ControlModifier
-        onTapped: (eventPoint) => {
-            const canvas = root.canvas
-            const x = (canvas.flick.contentX + eventPoint.position.x) / canvas.mapWidth
-            const y = (canvas.flick.contentY + eventPoint.position.y) / canvas.mapHeight
-            console.info("Carte : [" + x.toFixed(3) + ", " + y.toFixed(3) + "] sur " + canvas.image)
-        }
-    }
+    // Le releve de position (Ctrl+clic) part de `MapCanvas` (voir sa note en tete de fichier) et
+    // rejoint le journal via `wire()`, comme `backRequested` et les reperes.
 
     GamepadNavigator {
         active: root.visible
