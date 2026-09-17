@@ -19,8 +19,15 @@ import Jadg.Ui
 
     - `markers` : `{ name, x, y, kind, number, gateway }` ; `activeIndex` designe le repere choisi.
     - `labels` : `{ name, kind, x, y }`, des noms de geographie sans repere ni fiche.
-    - `markerHovered(index, inside)`, `markerActivated(index)` et `backRequested()` (clic droit)
-      remontent le pointeur ; le jumeau decide.
+    - `markerHovered(index, inside)`, `markerActivated(index)`, `backRequested()` (clic droit) et
+      `positionMarked(x, y)` (Ctrl+clic, la fraction sous le pointeur) remontent le pointeur ; le
+      jumeau decide.
+
+    `positionMarked` est detecte par une `MouseArea` posee DANS la `Flickable`, au meme niveau que
+    le clic droit -- pas par un `TapHandler` sur un ancetre : la `Flickable` prend la main sur le
+    bouton gauche a la pression pour son propre glisser-deposer, et un gestionnaire pose plus haut
+    dans l'arbre ne fait pas partie de sa cooperation `childMouseEventFilter`, donc ne voit jamais
+    le tap.
 */
 Item {
     id: root
@@ -53,6 +60,7 @@ Item {
     signal markerHovered(int index, bool inside)
     signal markerActivated(int index)
     signal backRequested()
+    signal positionMarked(real x, real y)
 
     Rectangle {
         anchors.fill: parent
@@ -85,6 +93,17 @@ Item {
             anchors.fill: mapImage
             acceptedButtons: Qt.RightButton
             onClicked: root.backRequested()
+        }
+
+        // Releve d'une position pour `world-maps.json` : Ctrl+clic. Ici, DANS la `Flickable`, pas
+        // sur un ancetre -- voir la note en tete de fichier.
+        MouseArea {
+            anchors.fill: mapImage
+            acceptedButtons: Qt.LeftButton
+            onClicked: (mouse) => {
+                if (mouse.modifiers & Qt.ControlModifier)
+                    root.positionMarked(mouse.x / root.mapWidth, mouse.y / root.mapHeight)
+            }
         }
 
         Repeater {

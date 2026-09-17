@@ -56,7 +56,11 @@ Item {
     /// Ouvre l'écran suivant (`delta > 0`) ou précédent, en bouclant aux extrémités.
     function step(delta) {
         const count = root.screenNames.length;
-        root.index = (root.index + delta + count) % count;
+        // Avant tout usage, `-1` n'est le symétrique de « position 0 » que pour `delta > 0`
+        // ((-1 + 1) % count fait 0) : reculer depuis `-1` retombait un rang trop loin. Le premier
+        // pas part donc d'une position explicite plutôt que du seul calcul modulo.
+        root.index = root.index < 0 ? (delta > 0 ? 0 : count - 1)
+                                     : (root.index + delta + count) % count;
         root.selectedScreen = root.screenNames[root.index];
     }
 
