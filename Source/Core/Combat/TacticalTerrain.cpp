@@ -53,7 +53,8 @@ constexpr CombatantId ARPENTEUR{1};
     if (grille.place(ARPENTEUR, trigger) != PlacementResult::Placed) {
         return {};
     }
-    const ReachableArea aire(grille, Mover{.combatant = ARPENTEUR}, TACTICAL_AREA_RADIUS);
+    const ReachableArea aire(grille, Mover{.combatant = ARPENTEUR, .canPassThrough = {}},
+                             TACTICAL_AREA_RADIUS);
     std::vector<GridPosition> zone = aire.destinations();
     zone.push_back(trigger);
     std::ranges::sort(zone, [](GridPosition a, GridPosition b) {

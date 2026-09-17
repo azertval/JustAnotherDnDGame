@@ -6,6 +6,11 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Analyse statique : les 113 alertes restantes de Code scanning corrigées.** L'analyse de main
+  en relevait encore dans l'éditeur et la galerie des assets, arrivés hors du périmètre de la
+  correction précédente. Réécritures mécaniques, quatre fonctions trop complexes découpées,
+  transtypages vérifiés (`qobject_cast`, `dynamic_cast`), un `std::visit` que l'analyseur ne
+  suivait pas remplacé, et une boucle sur un temporaire rendue explicite. Deux `NOLINT` justifiés.
 - **Analyse statique : les 896 alertes clang-tidy de Code scanning corrigées.** Sur les cent
   fichiers signalés, les réécritures mécaniques sont appliquées, les fonctions trop complexes
   découpées en étapes nommées, et quelques défauts réels corrigés : conversions élargissantes

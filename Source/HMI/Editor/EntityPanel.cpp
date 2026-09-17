@@ -60,6 +60,8 @@ constexpr int INTEGER_MAXIMUM = 9999;
 EntityPanel::EntityPanel(QWidget* parent)
     : QWidget(parent), _ui(std::make_unique<Ui::EntityPanel>()), _form(nullptr) {
     _ui->setupUi(this);
+    // Le conteneur du formulaire n'existe qu'apres setupUi : pas d'initialisation de membre.
+    // NOLINTNEXTLINE(cppcoreguidelines-prefer-member-initializer)
     _form = new QFormLayout(_ui->propertiesForm);
     _form->setContentsMargins(0, 0, 0, 0);
 
@@ -169,6 +171,39 @@ void EntityPanel::rebuildForm() {
     _formEntity = entity != nullptr ? std::make_optional(*entity) : std::nullopt;
     _formChoices = choices;
 
+    clearForm();
+    _ui->removeButton->setEnabled(entity != nullptr);
+    if (entity == nullptr) {
+        _ui->selectionLabel->setText(text("entities.no_selection", {}));
+        return;
+    }
+    const std::size_t index = *_selected;
+    _ui->selectionLabel->setText(
+        kind != nullptr ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
+                        : text("entities.unknown_kind", QStringLiteral("%1"))
+                              .arg(QString::fromStdString(entity->type)));
+
+    if (kind != nullptr) {
+        for (std::size_t specIndex = 0; specIndex < kind->properties.size(); ++specIndex) {
+            const core::EntityPropertySpec& spec = kind->properties[specIndex];
+            const auto found = entity->properties.find(std::string{spec.key});
+            addPropertyRow(index, spec,
+                           found != entity->properties.end() ? found->second : spec.defaultValue,
+                           choices[specIndex]);
+        }
+    }
+    // Proprietes que la table ne declare pas : transportees, montrees, jamais editees ici.
+    for (const auto& [key, value] : entity->properties) {
+        if (kind != nullptr && kind->find(key) != nullptr) {
+            continue;
+        }
+        auto* const shown = new QLabel(valueText(value), _ui->propertiesForm);
+        shown->setTextInteractionFlags(Qt::TextSelectableByMouse);
+        _form->addRow(QString::fromStdString(key), shown);
+    }
+}
+
+void EntityPanel::clearForm() {
     // Les champs sont retires puis detruits APRES le retour a la boucle d'evenements : une
     // reconstruction declenchee par le `editingFinished` d'un champ du formulaire se deroule
     // pendant l'emission de son signal, et `removeRow` le detruirait sous ses pieds.
@@ -185,105 +220,86 @@ void EntityPanel::rebuildForm() {
             delete item;
         }
     }
-    _ui->removeButton->setEnabled(entity != nullptr);
-    if (entity == nullptr) {
-        _ui->selectionLabel->setText(text("entities.no_selection", {}));
-        return;
-    }
-    const std::size_t index = *_selected;
-    _ui->selectionLabel->setText(
-        kind != nullptr ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
-                        : text("entities.unknown_kind", QStringLiteral("%1"))
-                              .arg(QString::fromStdString(entity->type)));
+}
 
-    if (kind != nullptr) {
-        for (std::size_t specIndex = 0; specIndex < kind->properties.size(); ++specIndex) {
-            const core::EntityPropertySpec& spec = kind->properties[specIndex];
-            const QString key =
-                QString::fromUtf8(spec.key.data(), static_cast<qsizetype>(spec.key.size()));
-            const auto found = entity->properties.find(key.toStdString());
-            const core::PropertyValue value =
-                found != entity->properties.end() ? found->second : spec.defaultValue;
-            const QString label = propertyLabel(key.toStdString());
-
-            switch (spec.kind) {
-                case core::EntityPropertyKind::Choice: {
-                    auto* const combo = new QComboBox(_ui->propertiesForm);
-                    // Editable : l'auteur peut nommer une cible qui n'existe pas encore -- la carte
-                    // qu'il ecrira ensuite. L'avertissement le lui rappellera.
-                    combo->setEditable(spec.source != core::EntityChoiceSource::Fixed);
-                    if (!spec.required || spec.source != core::EntityChoiceSource::Fixed) {
-                        combo->addItem(text("entities.none", QStringLiteral("(aucun)")), QString{});
-                    }
-                    for (const std::string& choice : choices[specIndex]) {
-                        combo->addItem(QString::fromStdString(choice),
-                                       QString::fromStdString(choice));
-                    }
-                    const QString current = valueText(value);
-                    int currentIndex = combo->findData(current);
-                    if (currentIndex < 0 && !current.isEmpty()) {
-                        combo->addItem(current, current);
-                        currentIndex = combo->count() - 1;
-                    }
-                    combo->setCurrentIndex((std::max)(currentIndex, 0));
-                    const auto commit = [this, index, key, combo] {
-                        const QString chosen =
-                            combo->currentIndex() >= 0 &&
-                                    combo->currentText() == combo->itemText(combo->currentIndex())
-                                ? combo->currentData().toString()
-                                : combo->currentText().trimmed();
-                        emit propertyChanged(index, key, core::PropertyValue{chosen.toStdString()});
-                    };
-                    connect(combo, &QComboBox::activated, this, [commit](int) { commit(); });
-                    if (combo->isEditable()) {
-                        connect(combo->lineEdit(), &QLineEdit::editingFinished, this, commit);
-                    }
-                    _form->addRow(label, combo);
-                    break;
-                }
-                case core::EntityPropertyKind::Text: {
-                    auto* const edit = new QLineEdit(valueText(value), _ui->propertiesForm);
-                    connect(edit, &QLineEdit::editingFinished, this, [this, index, key, edit] {
-                        emit propertyChanged(
-                            index, key, core::PropertyValue{edit->text().trimmed().toStdString()});
-                    });
-                    _form->addRow(label, edit);
-                    break;
-                }
-                case core::EntityPropertyKind::Integer: {
-                    auto* const spin = new QSpinBox(_ui->propertiesForm);
-                    spin->setRange(INTEGER_MINIMUM, INTEGER_MAXIMUM);
-                    const auto* const held = std::get_if<std::int64_t>(&value);
-                    spin->setValue(held != nullptr ? static_cast<int>(*held) : 0);
-                    connect(spin, &QSpinBox::editingFinished, this, [this, index, key, spin] {
-                        emit propertyChanged(index, key,
-                                             core::PropertyValue{std::int64_t{spin->value()}});
-                    });
-                    _form->addRow(label, spin);
-                    break;
-                }
-                case core::EntityPropertyKind::Boolean: {
-                    auto* const check = new QCheckBox(_ui->propertiesForm);
-                    const auto* const held = std::get_if<bool>(&value);
-                    check->setChecked(held != nullptr && *held);
-                    connect(check, &QCheckBox::toggled, this, [this, index, key](bool checked) {
-                        emit propertyChanged(index, key, core::PropertyValue{checked});
-                    });
-                    _form->addRow(label, check);
-                    break;
-                }
-            }
+void EntityPanel::addPropertyRow(std::size_t index, const core::EntityPropertySpec& spec,
+                                 const core::PropertyValue& value,
+                                 const std::vector<std::string>& choices) {
+    const QString key = QString::fromUtf8(spec.key.data(), static_cast<qsizetype>(spec.key.size()));
+    const QString label = propertyLabel(key.toStdString());
+    switch (spec.kind) {
+        case core::EntityPropertyKind::Choice: {
+            addChoiceRow(index, spec, value, choices);
+            break;
+        }
+        case core::EntityPropertyKind::Text: {
+            auto* const edit = new QLineEdit(valueText(value), _ui->propertiesForm);
+            connect(edit, &QLineEdit::editingFinished, this, [this, index, key, edit] {
+                emit propertyChanged(index, key,
+                                     core::PropertyValue{edit->text().trimmed().toStdString()});
+            });
+            _form->addRow(label, edit);
+            break;
+        }
+        case core::EntityPropertyKind::Integer: {
+            auto* const spin = new QSpinBox(_ui->propertiesForm);
+            spin->setRange(INTEGER_MINIMUM, INTEGER_MAXIMUM);
+            const auto* const held = std::get_if<std::int64_t>(&value);
+            spin->setValue(held != nullptr ? static_cast<int>(*held) : 0);
+            connect(spin, &QSpinBox::editingFinished, this, [this, index, key, spin] {
+                emit propertyChanged(index, key, core::PropertyValue{std::int64_t{spin->value()}});
+            });
+            _form->addRow(label, spin);
+            break;
+        }
+        case core::EntityPropertyKind::Boolean: {
+            auto* const check = new QCheckBox(_ui->propertiesForm);
+            const auto* const held = std::get_if<bool>(&value);
+            check->setChecked(held != nullptr && *held);
+            connect(check, &QCheckBox::toggled, this, [this, index, key](bool checked) {
+                emit propertyChanged(index, key, core::PropertyValue{checked});
+            });
+            _form->addRow(label, check);
+            break;
         }
     }
-    // Proprietes que la table ne declare pas : transportees, montrees, jamais editees ici.
-    for (const auto& [key, value] : entity->properties) {
-        if (kind != nullptr && kind->find(key) != nullptr) {
-            continue;
-        }
-        auto* const shown = new QLabel(valueText(value), _ui->propertiesForm);
-        shown->setTextInteractionFlags(Qt::TextSelectableByMouse);
-        _form->addRow(QString::fromStdString(key), shown);
+}
+
+void EntityPanel::addChoiceRow(std::size_t index, const core::EntityPropertySpec& spec,
+                               const core::PropertyValue& value,
+                               const std::vector<std::string>& choices) {
+    const QString key = QString::fromUtf8(spec.key.data(), static_cast<qsizetype>(spec.key.size()));
+    const QString label = propertyLabel(key.toStdString());
+    auto* const combo = new QComboBox(_ui->propertiesForm);
+    // Editable : l'auteur peut nommer une cible qui n'existe pas encore -- la carte
+    // qu'il ecrira ensuite. L'avertissement le lui rappellera.
+    combo->setEditable(spec.source != core::EntityChoiceSource::Fixed);
+    if (!spec.required || spec.source != core::EntityChoiceSource::Fixed) {
+        combo->addItem(text("entities.none", QStringLiteral("(aucun)")), QString{});
     }
+    for (const std::string& choice : choices) {
+        combo->addItem(QString::fromStdString(choice), QString::fromStdString(choice));
+    }
+    const QString current = valueText(value);
+    int currentIndex = combo->findData(current);
+    if (currentIndex < 0 && !current.isEmpty()) {
+        combo->addItem(current, current);
+        currentIndex = combo->count() - 1;
+    }
+    combo->setCurrentIndex((std::max)(currentIndex, 0));
+    const auto commit = [this, index, key, combo] {
+        const QString chosen =
+            combo->currentIndex() >= 0 &&
+                    combo->currentText() == combo->itemText(combo->currentIndex())
+                ? combo->currentData().toString()
+                : combo->currentText().trimmed();
+        emit propertyChanged(index, key, core::PropertyValue{chosen.toStdString()});
+    };
+    connect(combo, &QComboBox::activated, this, [commit](int) { commit(); });
+    if (combo->isEditable()) {
+        connect(combo->lineEdit(), &QLineEdit::editingFinished, this, commit);
+    }
+    _form->addRow(label, combo);
 }
 
 void EntityPanel::rebuildWarnings() {

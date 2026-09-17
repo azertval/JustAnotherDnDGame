@@ -5,6 +5,7 @@
 
 #include <QQuickWindow>
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <cmath>
 #include <set>
@@ -18,7 +19,7 @@
 namespace hmi {
 namespace {
 
-constexpr float MAXIMUM_FRAME_SECONDS = 0.25f;
+constexpr float MAXIMUM_FRAME_SECONDS = 0.25F;
 constexpr qreal MINIMUM_ZOOM = 0.25;
 constexpr qreal MAXIMUM_ZOOM = 8.0;
 /// Une image toutes les 16 ms tant que les animations jouent.
@@ -26,6 +27,28 @@ constexpr int CLOCK_INTERVAL_MS = 16;
 
 QString decimal(double value) {
     return QString::number(value, 'g', 3).replace(u'.', u',');
+}
+
+/// Bouclée, jouée une fois puis tenue, ou « — » pour une image fixe.
+QString loopText(const AssetGalleryEntry& entry) {
+    if (entry.frameCount() <= 1) {
+        return QStringLiteral("—");
+    }
+    if (entry.loop) {
+        return QStringLiteral("oui");
+    }
+    return QStringLiteral("non (tenue %1 s)").arg(decimal(ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS));
+}
+
+QString visibilityText(AssetGalleryVisibility visibility) {
+    switch (visibility) {
+        case AssetGalleryVisibility::Drawn:
+            return QStringLiteral("dessiné");
+        case AssetGalleryVisibility::Preloaded:
+            return QStringLiteral("préchargé");
+        default:
+            return QStringLiteral("déchargé");
+    }
 }
 
 class AssetGalleryViewportRenderer : public QQuickRhiItemRenderer {
@@ -42,7 +65,12 @@ public:
 
     void synchronize(QQuickRhiItem* item) override {
         // Le seul instant où les deux fils se parlent : tout est copié en valeurs.
-        auto* const gallery = static_cast<AssetGalleryItem*>(item);
+        // Le moteur ne passe que l'élément qui a créé ce rendu (createRenderer) : qobject_cast ne
+        // peut échouer, et reste une vérification bon marché plutôt qu'un transtypage aveugle.
+        auto* const gallery = qobject_cast<AssetGalleryItem*>(item);
+        if (gallery == nullptr) {
+            return;
+        }
         _clearColor = gallery->clearColor();
         const int pixelWidth = gallery->effectiveColorBufferSize().width();
         const qreal pixelsPerItem =
@@ -57,9 +85,9 @@ public:
         const float elapsed =
             std::min(std::chrono::duration<float>(now - _previous).count(), MAXIMUM_FRAME_SECONDS);
         _previous = now;
-        const float clear[4] = {_clearColor.redF(), _clearColor.greenF(), _clearColor.blueF(),
-                                1.0f};
-        _gallery.render(commandBuffer, renderTarget(), elapsed, clear);
+        const std::array<float, 4> clear = {_clearColor.redF(), _clearColor.greenF(),
+                                            _clearColor.blueF(), 1.0F};
+        _gallery.render(commandBuffer, renderTarget(), elapsed, clear.data());
         // Des chargements étalés, ou des textures qui attendent leur libération : l'image suivante
         // est demandée. L'horloge de l'item s'occupe des animations.
         if (_gallery.loading() || _gallery.cachedTextureCount() > _wantedCount) {
@@ -116,7 +144,8 @@ const AssetGalleryEntry& AssetGalleryItem::entryOf(const AssetGalleryBloc& bloc)
 }
 
 AssetGalleryView AssetGalleryItem::view() const noexcept {
-    return AssetGalleryView{viewColumn(), viewRow(), viewColumns(), viewRows()};
+    return AssetGalleryView{
+        .column = viewColumn(), .row = viewRow(), .columns = viewColumns(), .rows = viewRows()};
 }
 
 qreal AssetGalleryItem::viewColumn() const noexcept {
@@ -138,7 +167,7 @@ void AssetGalleryItem::refreshView() {
     _drawnCount = 0;
     _preloadedCount = 0;
     _labels.clear();
-    for (int index = 0; index < static_cast<int>(_layout.blocs.size()); ++index) {
+    for (int index = 0; std::cmp_less(index, _layout.blocs.size()); ++index) {
         const AssetGalleryBloc& bloc = _layout.blocs[static_cast<std::size_t>(index)];
         switch (assetGalleryVisibility(bloc, current)) {
             case AssetGalleryVisibility::Drawn: {
@@ -152,8 +181,8 @@ void AssetGalleryItem::refreshView() {
                 }
                 _labels.push_back(
                     QVariantMap{{QStringLiteral("index"), index},
-                                {QStringLiteral("x"), _offsetX + bloc.column * cell},
-                                {QStringLiteral("y"), _offsetY + bloc.row * cell},
+                                {QStringLiteral("x"), _offsetX + (bloc.column * cell)},
+                                {QStringLiteral("y"), _offsetY + (bloc.row * cell)},
                                 {QStringLiteral("width"), bloc.columns * cell},
                                 {QStringLiteral("height"), bloc.rows * cell},
                                 {QStringLiteral("title"),
@@ -175,7 +204,8 @@ void AssetGalleryItem::refreshView() {
 }
 
 void AssetGalleryItem::tick() {
-    const double delta = std::min(_elapsed.restart() / 1000.0, double{MAXIMUM_FRAME_SECONDS});
+    const double delta =
+        std::min(static_cast<double>(_elapsed.restart()) / 1000.0, double{MAXIMUM_FRAME_SECONDS});
     if (!_playing) {
         return;
     }
@@ -266,21 +296,14 @@ QVariantMap AssetGalleryItem::selected() const {
                                       .arg(decimal(entry.frameDuration),
                                            decimal(entry.frameDuration * entry.frameCount()))
                                 : QStringLiteral("—")},
-        {QStringLiteral("loop"), entry.frameCount() <= 1 ? QStringLiteral("—")
-                                 : entry.loop
-                                     ? QStringLiteral("oui")
-                                     : QStringLiteral("non (tenue %1 s)")
-                                           .arg(decimal(ASSET_GALLERY_ONE_SHOT_HOLD_SECONDS))},
+        {QStringLiteral("loop"), loopText(entry)},
         {QStringLiteral("footprint"),
          QStringLiteral("%1×%2").arg(entry.footprintColumns).arg(entry.footprintRows)},
         {QStringLiteral("anchor"),
          entry.anchorX >= 0 ? QStringLiteral("%1, %2").arg(entry.anchorX).arg(entry.anchorY)
                             : QStringLiteral("—")},
         {QStringLiteral("bloc"), QStringLiteral("%1×%2").arg(bloc.columns).arg(bloc.rows)},
-        {QStringLiteral("state"),
-         visibility == AssetGalleryVisibility::Drawn       ? QStringLiteral("dessiné")
-         : visibility == AssetGalleryVisibility::Preloaded ? QStringLiteral("préchargé")
-                                                           : QStringLiteral("déchargé")}};
+        {QStringLiteral("state"), visibilityText(visibility)}};
 }
 
 int AssetGalleryItem::selectedFrame() const {
@@ -345,8 +368,8 @@ void AssetGalleryItem::zoomAt(qreal zoom, qreal x, qreal y) {
         return;
     }
     const qreal ratio = zoom / _zoom;
-    _offsetX = x - (x - _offsetX) * ratio;
-    _offsetY = y - (y - _offsetY) * ratio;
+    _offsetX = x - ((x - _offsetX) * ratio);
+    _offsetY = y - ((y - _offsetY) * ratio);
     _zoom = zoom;
     refreshView();
 }
@@ -380,17 +403,17 @@ void AssetGalleryItem::centerOn(int index) {
         return;
     }
     const AssetGalleryBloc& bloc = _layout.blocs[static_cast<std::size_t>(index)];
-    centerOnCell(bloc.column + bloc.columns / 2.0, bloc.row + bloc.rows / 2.0);
+    centerOnCell(bloc.column + (bloc.columns / 2.0), bloc.row + (bloc.rows / 2.0));
 }
 
 void AssetGalleryItem::centerOnCell(qreal column, qreal row) {
-    _offsetX = width() / 2.0 - column * cellSize();
-    _offsetY = height() / 2.0 - row * cellSize();
+    _offsetX = (width() / 2.0) - (column * cellSize());
+    _offsetY = (height() / 2.0) - (row * cellSize());
     refreshView();
 }
 
 void AssetGalleryItem::showBand(int band) {
-    if (band < 0 || band >= static_cast<int>(_layout.bands.size())) {
+    if (band < 0 || std::cmp_greater_equal(band, _layout.bands.size())) {
         return;
     }
     _offsetX = cellSize() / 3.0;
@@ -438,9 +461,9 @@ AssetGalleryFrame AssetGalleryItem::frameFor(float pixelsPerItem) const {
         const int rank = assetGalleryFrameRank(entry, _seconds);
         frame.drawn.push_back(AssetGalleryDrawnBloc{
             .path = entry.path,
-            .x =
-                std::round(static_cast<float>(_offsetX + bloc.column * cellSize()) * pixelsPerItem),
-            .y = std::round(static_cast<float>(_offsetY + bloc.row * cellSize()) * pixelsPerItem),
+            .x = std::round(static_cast<float>(_offsetX + (bloc.column * cellSize())) *
+                            pixelsPerItem),
+            .y = std::round(static_cast<float>(_offsetY + (bloc.row * cellSize())) * pixelsPerItem),
             .columns = bloc.columns,
             .rows = bloc.rows,
             .footprintColumn = bloc.footprintColumn,

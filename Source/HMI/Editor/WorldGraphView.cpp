@@ -88,12 +88,12 @@ QString WorldGraphView::localized(const char* key) const {
 
 qreal WorldGraphView::scale() const {
     const qreal extent = 2.0 * (static_cast<qreal>(_layout.circleRadius) + LABEL_MARGIN);
-    const qreal available = std::min<qreal>(width(), height() - LEGEND_ROWS * LEGEND_ROW);
+    const qreal available = std::min<qreal>(width(), height() - (LEGEND_ROWS * LEGEND_ROW));
     return std::clamp(available / extent, 0.05, 1.0);
 }
 
 core::Vector2 WorldGraphView::toLayout(QPointF widgetPoint) const {
-    const QPointF origin(width() / 2.0, (height() - LEGEND_ROWS * LEGEND_ROW) / 2.0);
+    const QPointF origin(width() / 2.0, (height() - (LEGEND_ROWS * LEGEND_ROW)) / 2.0);
     const QPointF local = (widgetPoint - origin) / scale();
     return {static_cast<float>(local.x()), static_cast<float>(local.y())};
 }
@@ -158,8 +158,9 @@ QString WorldGraphView::edgeToolTip(std::size_t edge) const {
 }
 
 bool WorldGraphView::event(QEvent* event) {
-    if (event->type() == QEvent::ToolTip) {
-        const auto* help = static_cast<QHelpEvent*>(event);
+    const auto* help =
+        event->type() == QEvent::ToolTip ? dynamic_cast<const QHelpEvent*>(event) : nullptr;
+    if (help != nullptr) {
         const core::Vector2 point = toLayout(help->pos());
         if (const auto node = nodeAt(_layout, point, WORLD_GRAPH_NODE_RADIUS)) {
             QToolTip::showText(help->globalPos(), nodeToolTip(*node), this);
@@ -227,7 +228,7 @@ void WorldGraphView::paintEvent(QPaintEvent* /*event*/) {
     }
 
     painter.save();
-    painter.translate(width() / 2.0, (height() - LEGEND_ROWS * LEGEND_ROW) / 2.0);
+    painter.translate(width() / 2.0, (height() - (LEGEND_ROWS * LEGEND_ROW)) / 2.0);
     painter.scale(scale(), scale());
     paintEdges(painter);
     paintNodes(painter);
@@ -312,7 +313,7 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
         }
 
         const qreal labelWidth = static_cast<qreal>(WORLD_GRAPH_NODE_SPACING) - 8.0;
-        const QRectF nameRect(center.x() - labelWidth / 2.0,
+        const QRectF nameRect(center.x() - (labelWidth / 2.0),
                               center.y() + WORLD_GRAPH_NODE_RADIUS + 2.0, labelWidth, 18.0);
         const QRectF idRect = nameRect.translated(0.0, 16.0);
 
@@ -325,15 +326,7 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
             nameRect, Qt::AlignHCenter | Qt::AlignTop,
             QFontMetrics(labelFont).elidedText(name, Qt::ElideRight, static_cast<int>(labelWidth)));
 
-        // Seconde ligne : l'identifiant d'une carte nommée, ou l'état d'une carte à problème.
-        QString detail;
-        if (node.unreadable) {
-            detail = localized("world_graph.node.unreadable");
-        } else if (node.ghost) {
-            detail = localized("world_graph.node.ghost");
-        } else if (!node.name.empty() && node.name != node.mapId) {
-            detail = QString::fromStdString(node.mapId);
-        }
+        const QString detail = nodeDetail(node);
         if (!detail.isEmpty()) {
             painter.setFont(idFont);
             painter.setPen(toQColor(node.unreadable ? colors.error : colors.textMuted));
@@ -345,20 +338,34 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
     painter.setFont(baseFont);
 }
 
+QString WorldGraphView::nodeDetail(const WorldGraphLayoutNode& node) const {
+    // L'identifiant d'une carte nommée, ou l'état d'une carte à problème.
+    if (node.unreadable) {
+        return localized("world_graph.node.unreadable");
+    }
+    if (node.ghost) {
+        return localized("world_graph.node.ghost");
+    }
+    if (!node.name.empty() && node.name != node.mapId) {
+        return QString::fromStdString(node.mapId);
+    }
+    return {};
+}
+
 void WorldGraphView::paintLegend(QPainter& painter) const {
     const ColorTokens& colors = currentEditorTokens().color;
     const qreal radius = 6.0;
-    int y = height() - LEGEND_ROWS * LEGEND_ROW + LEGEND_ROW / 2 - LEGEND_PADDING / 2;
+    int y = height() - (LEGEND_ROWS * LEGEND_ROW) + (LEGEND_ROW / 2) - (LEGEND_PADDING / 2);
     const int x = LEGEND_PADDING;
     const int textX = x + LEGEND_SAMPLE + LEGEND_PADDING;
 
     const auto label = [&](const char* key) {
         painter.setPen(toQColor(colors.textMuted));
-        painter.drawText(QRectF(textX, y - LEGEND_ROW / 2, width() - textX, LEGEND_ROW),
+        painter.drawText(QRectF(textX, y - (LEGEND_ROW / 2.0), width() - textX, LEGEND_ROW),
                          Qt::AlignLeft | Qt::AlignVCenter, localized(key));
         y += LEGEND_ROW;
     };
-    const QPointF sample(x + LEGEND_SAMPLE / 2.0, 0.0);
+    const QPointF sample(x + (LEGEND_SAMPLE / 2.0), 0.0);
 
     painter.setPen(QPen(toQColor(colors.accent), 1.5));
     painter.setBrush(toQColor(colors.surface));

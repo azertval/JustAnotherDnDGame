@@ -5,6 +5,8 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <optional>
+#include <utility>
 #include <variant>
 
 #include "Core/Combat/Arena.h"
@@ -140,6 +142,86 @@ std::set<std::string, std::less<>> arrivalPointNames(const std::vector<MapEntity
     return names;
 }
 
+namespace {
+
+// Defaut d'une propriete de choix non vide : la valeur n'est pas dans la liste que la source
+// designe. Rien pour une valeur admise.
+[[nodiscard]] std::optional<EntityIssueCode> choiceIssue(const MapEntity& entity,
+                                                         const EntityPropertySpec& spec,
+                                                         const std::string& text,
+                                                         const EntityReferenceContext& context) {
+    switch (spec.source) {
+        case EntityChoiceSource::Fixed:
+            if (std::ranges::find(spec.fixedChoices, std::string_view{text}) ==
+                spec.fixedChoices.end()) {
+                return EntityIssueCode::InvalidChoice;
+            }
+            break;
+        case EntityChoiceSource::Dialogues:
+            if (!context.dialogues.contains(text)) {
+                return EntityIssueCode::UnknownDialogue;
+            }
+            break;
+        case EntityChoiceSource::Encounters:
+            if (!context.encounters.contains(text)) {
+                return EntityIssueCode::UnknownEncounter;
+            }
+            break;
+        case EntityChoiceSource::Maps:
+            if (!context.arrivalPointsByMap.contains(text)) {
+                return EntityIssueCode::UnknownTargetMap;
+            }
+            break;
+        case EntityChoiceSource::ArrivalPoints: {
+            // Un point d'arrivee ne se juge que dans une carte connue : une carte inconnue
+            // est deja signalee, et la signaler deux fois n'apprendrait rien.
+            const auto target = context.arrivalPointsByMap.find(
+                textOf(entity.properties, PORTAL_TARGET_MAP_PROPERTY));
+            if (target != context.arrivalPointsByMap.end() && !target->second.contains(text)) {
+                return EntityIssueCode::UnknownArrivalPoint;
+            }
+            break;
+        }
+    }
+    return std::nullopt;
+}
+
+// Defaut d'une propriete de l'entite au regard de sa specification, avec la valeur a citer.
+// Rien pour une propriete conforme, ou facultative et absente.
+[[nodiscard]] std::optional<std::pair<EntityIssueCode, std::string>> propertyIssue(
+    const MapEntity& entity, const EntityPropertySpec& spec,
+    const EntityReferenceContext& context) {
+    const auto found = entity.properties.find(std::string{spec.key});
+    if (found == entity.properties.end()) {
+        if (spec.required) {
+            return std::pair{EntityIssueCode::MissingProperty, std::string{}};
+        }
+        return std::nullopt;
+    }
+    if (!hasExpectedType(found->second, spec.kind)) {
+        return std::pair{EntityIssueCode::WrongValueType, std::string{}};
+    }
+    const auto* const text = std::get_if<std::string>(&found->second);
+    if (text == nullptr) {
+        return std::nullopt;  // entier ou booleen du bon type : rien d'autre a verifier.
+    }
+    if (text->empty()) {
+        if (spec.required) {
+            return std::pair{EntityIssueCode::MissingProperty, std::string{}};
+        }
+        return std::nullopt;
+    }
+    if (spec.kind != EntityPropertyKind::Choice) {
+        return std::nullopt;
+    }
+    if (const std::optional<EntityIssueCode> code = choiceIssue(entity, spec, *text, context)) {
+        return std::pair{*code, *text};
+    }
+    return std::nullopt;
+}
+
+}  // namespace
+
 std::vector<EntityIssue> validateMapEntities(const std::vector<MapEntity>& entities,
                                              const EntityReferenceContext& context) {
     std::vector<EntityIssue> issues;
@@ -164,71 +246,16 @@ std::vector<EntityIssue> validateMapEntities(const std::vector<MapEntity>& entit
         }
 
         for (const EntityPropertySpec& spec : kind->properties) {
-            const auto found = entity.properties.find(std::string{spec.key});
-            if (found == entity.properties.end()) {
-                if (spec.required) {
-                    report(index, EntityIssueCode::MissingProperty, spec.key, {});
-                }
-                continue;
-            }
-            if (!hasExpectedType(found->second, spec.kind)) {
-                report(index, EntityIssueCode::WrongValueType, spec.key, {});
-                continue;
-            }
-            const auto* const text = std::get_if<std::string>(&found->second);
-            if (text == nullptr) {
-                continue;  // entier ou booleen du bon type : rien d'autre a verifier.
-            }
-            if (text->empty()) {
-                if (spec.required) {
-                    report(index, EntityIssueCode::MissingProperty, spec.key, {});
-                }
-                continue;
-            }
-            if (spec.kind != EntityPropertyKind::Choice) {
-                continue;
-            }
-            switch (spec.source) {
-                case EntityChoiceSource::Fixed:
-                    if (std::ranges::find(spec.fixedChoices, std::string_view{*text}) ==
-                        spec.fixedChoices.end()) {
-                        report(index, EntityIssueCode::InvalidChoice, spec.key, *text);
-                    }
-                    break;
-                case EntityChoiceSource::Dialogues:
-                    if (!context.dialogues.contains(*text)) {
-                        report(index, EntityIssueCode::UnknownDialogue, spec.key, *text);
-                    }
-                    break;
-                case EntityChoiceSource::Encounters:
-                    if (!context.encounters.contains(*text)) {
-                        report(index, EntityIssueCode::UnknownEncounter, spec.key, *text);
-                    }
-                    break;
-                case EntityChoiceSource::Maps:
-                    if (!context.arrivalPointsByMap.contains(*text)) {
-                        report(index, EntityIssueCode::UnknownTargetMap, spec.key, *text);
-                    }
-                    break;
-                case EntityChoiceSource::ArrivalPoints: {
-                    // Un point d'arrivee ne se juge que dans une carte connue : une carte inconnue
-                    // est deja signalee, et la signaler deux fois n'apprendrait rien.
-                    const auto target = context.arrivalPointsByMap.find(
-                        textOf(entity.properties, PORTAL_TARGET_MAP_PROPERTY));
-                    if (target != context.arrivalPointsByMap.end() &&
-                        !target->second.contains(*text)) {
-                        report(index, EntityIssueCode::UnknownArrivalPoint, spec.key, *text);
-                    }
-                    break;
-                }
+            if (auto issue = propertyIssue(entity, spec, context)) {
+                report(index, issue->first, spec.key, std::move(issue->second));
             }
         }
 
         if (entity.type == SPAWN_POINT_ENTITY_TYPE) {
-            std::string name = textOf(entity.properties, SPAWN_POINT_NAME_PROPERTY);
+            const std::string name = textOf(entity.properties, SPAWN_POINT_NAME_PROPERTY);
             if (!name.empty() && !seenArrivals.insert(name).second) {
                 report(index, EntityIssueCode::DuplicateArrivalPoint, SPAWN_POINT_NAME_PROPERTY,
-                       std::move(name));
+                       name);
             }
         }
     }

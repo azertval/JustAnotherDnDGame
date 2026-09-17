@@ -61,6 +61,8 @@ using json = nlohmann::json;
 [[nodiscard]] std::pair<int, int> pngSize(const std::filesystem::path& path) {
     std::ifstream file(path, std::ios::binary);
     std::array<unsigned char, 24> header{};
+    // Les octets bruts de l'en-tête : istream::read ne lit que des char.
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (!file.read(reinterpret_cast<char*>(header.data()), header.size()) || header[1] != 'P' ||
         header[2] != 'N' || header[3] != 'G') {
         return {0, 0};
@@ -128,14 +130,16 @@ void readNpcs(const std::filesystem::path& root, AssetGalleryCatalog& catalog) {
             npcs.push_back(item.path().filename().string());
         }
     }
-    std::sort(npcs.begin(), npcs.end());
+    std::ranges::sort(npcs);
     const std::vector<std::string> animations = stringList(document.root, "animations");
     for (const std::string& npc : npcs) {
         for (const std::string& animation : animations) {
-            AssetGalleryEntry entry{.family = family.title,
-                                    .model = npc,
-                                    .form = animation,
-                                    .path = "Npc/" + npc + "/" + animation + ".png"};
+            AssetGalleryEntry entry{
+                .family = family.title,
+                .model = npc,
+                .form = animation,
+                .path = std::string("Npc/").append(npc).append("/").append(animation + ".png"),
+                .frames = {}};
             if (readAnimatedEntry(entry, root / "Npc" / npc / (animation + ".anim.json"),
                                   catalog.errors)) {
                 family.entries.push_back(std::move(entry));
@@ -148,7 +152,8 @@ void readNpcs(const std::filesystem::path& root, AssetGalleryCatalog& catalog) {
                                                        .form = "portrait",
                                                        .path = "Npc/" + npc + "/portrait.png",
                                                        .frameWidth = width,
-                                                       .frameHeight = height});
+                                                       .frameHeight = height,
+                                                       .frames = {}});
         }
     }
     if (!family.entries.empty()) {
@@ -171,7 +176,8 @@ void readColiseum(const std::filesystem::path& root, AssetGalleryCatalog& catalo
                 AssetGalleryEntry entry{.family = family.title,
                                         .model = name,
                                         .form = animation,
-                                        .path = "Coliseum/" + folder + animation + ".png"};
+                                        .path = "Coliseum/" + folder + (animation + ".png"),
+                                        .frames = {}};
                 if (readAnimatedEntry(
                         entry, root / "Coliseum" / directory / name / (animation + ".anim.json"),
                         catalog.errors)) {
@@ -207,7 +213,8 @@ void readColiseum(const std::filesystem::path& root, AssetGalleryCatalog& catalo
                                                    .form = stemOf(key.substr(slash + 1)),
                                                    .path = "Coliseum/" + key,
                                                    .frameWidth = width,
-                                                   .frameHeight = height});
+                                                   .frameHeight = height,
+                                                   .frames = {}});
     }
     // `nlohmann::json` range ses clés par ordre alphabétique : les dossiers se suivent déjà.
     if (!pieces.entries.empty()) {
@@ -233,7 +240,7 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
             dispositions.push_back(item.path());
         }
     }
-    std::sort(dispositions.begin(), dispositions.end());
+    std::ranges::sort(dispositions);
     for (const std::filesystem::path& directory : dispositions) {
         const core::JsonDocument document =
             readManifest(directory / "manifest.json", catalog.errors);
@@ -262,15 +269,16 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
                                   .path = family.directory + "/" + value["file"].get<std::string>(),
                                   .frameWidth = width,
                                   .frameHeight = height,
+                                  .frames = {},
                                   .footprintColumns = std::max(1, columns),
                                   .footprintRows = std::max(1, rows),
                                   .anchorX = anchorX,
                                   .anchorY = anchorY});
         }
-        std::stable_sort(family.entries.begin(), family.entries.end(),
-                         [](const AssetGalleryEntry& left, const AssetGalleryEntry& right) {
-                             return classRank(left.model) < classRank(right.model);
-                         });
+        std::ranges::stable_sort(family.entries,
+                                 [](const AssetGalleryEntry& left, const AssetGalleryEntry& right) {
+                                     return classRank(left.model) < classRank(right.model);
+                                 });
         if (!family.entries.empty()) {
             catalog.families.push_back(std::move(family));
         }
@@ -289,14 +297,15 @@ void readFolder(const std::filesystem::path& root, AssetGalleryCatalog& catalog,
             images.push_back(item.path());
         }
     }
-    std::sort(images.begin(), images.end());
+    std::ranges::sort(images);
     AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
     for (const std::filesystem::path& image : images) {
         const std::string stem = stemOf(image.filename().string());
         AssetGalleryEntry entry{.family = family.title,
                                 .model = directory,
                                 .form = stem,
-                                .path = std::string(directory) + "/" + stem + ".png"};
+                                .path = std::string(directory) + "/" + stem + ".png",
+                                .frames = {}};
         const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
         std::error_code ignored;
         if (std::filesystem::is_regular_file(descriptor, ignored)) {
@@ -365,7 +374,7 @@ std::vector<std::string> assetGalleryUnlisted(const std::filesystem::path& asset
             unlisted.push_back(path);
         }
     }
-    std::sort(unlisted.begin(), unlisted.end());
+    std::ranges::sort(unlisted);
     return unlisted;
 }
 
@@ -411,8 +420,7 @@ AssetGalleryLayout layoutAssetGallery(const AssetGalleryCatalog& catalog, int ma
         lineRows = 0;
     };
 
-    for (int familyIndex = 0; familyIndex < static_cast<int>(catalog.families.size());
-         ++familyIndex) {
+    for (int familyIndex = 0; std::cmp_less(familyIndex, catalog.families.size()); ++familyIndex) {
         const AssetGalleryFamily& family = catalog.families[static_cast<std::size_t>(familyIndex)];
         layout.bands.push_back(AssetGalleryBand{.family = familyIndex, .row = row});
         ++row;
@@ -420,7 +428,7 @@ AssetGalleryLayout layoutAssetGallery(const AssetGalleryCatalog& catalog, int ma
         // Les modèles dans l'ordre de leur première forme.
         std::vector<std::string> models;
         std::map<std::string, std::vector<int>> byModel;
-        for (int index = 0; index < static_cast<int>(family.entries.size()); ++index) {
+        for (int index = 0; std::cmp_less(index, family.entries.size()); ++index) {
             const std::string& model = family.entries[static_cast<std::size_t>(index)].model;
             if (!byModel.contains(model)) {
                 models.push_back(model);

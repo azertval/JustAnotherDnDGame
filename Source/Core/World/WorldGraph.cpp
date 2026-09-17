@@ -162,7 +162,8 @@ WorldGraph loadWorldGraph(const std::filesystem::path& levelsDir) {
             chemin.filename().string().starts_with("sequence-")) {
             continue;
         }
-        WorldMapInput carte{.mapId = chemin.stem().string()};
+        WorldMapInput carte{
+            .mapId = chemin.stem().string(), .name = {}, .entities = {}, .loadError = {}};
         LevelLoadResult lu = LevelLoader::loadFromFile(chemin);
         if (lu.ok()) {
             carte.name = lu.level->name();

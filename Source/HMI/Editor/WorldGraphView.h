@@ -82,6 +82,12 @@ private:
 
     void paintEdges(QPainter& painter) const;
     void paintNodes(QPainter& painter) const;
+    /**
+     * @brief Seconde ligne sous un nœud.
+     * @param node Nœud dessiné.
+     * @return L'identifiant d'une carte nommée, l'état d'une carte à problème, ou rien.
+     */
+    [[nodiscard]] QString nodeDetail(const WorldGraphLayoutNode& node) const;
     void paintLegend(QPainter& painter) const;
 
     core::WorldGraph _graph;
