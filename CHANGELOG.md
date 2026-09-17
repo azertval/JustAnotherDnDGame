@@ -6,6 +6,37 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le Colisée se parcourt : l'exploration dans le jeu, et la première carte (LOT-09).**
+  « Nouvelle partie » ouvre le **Colisée en version finale** à sa porte : 40 × 34 cases, dont le
+  sable du `LOT-50` (20 × 14) au centre comme **zone de combat déclarée**. On parcourt au clavier
+  le hall, les couloirs sous les gradins, les deux vestiaires, les tribunes et la loge impériale ;
+  on parle aux PNJ ; le héraut envoie sur le sable, et l'on en revient sur la carte, au même
+  endroit.
+  - **Un seul moteur de rendu** : le lieu se dessine comme l'arène — même pipeline QRhi, même
+    projection isométrique, mêmes planches de l'atelier des textures (`LOT-92`). `WorldViewport`
+    est le jumeau d'`ArenaViewport` ; la caméra **suit** le héros, à un agrandissement entier, et
+    ne sort pas de la carte. *Décision de l'auteur* : plutôt que de compiler dans le jeu la session
+    de l'éditeur (qui aurait amené un second rendu, en tuiles carrées), une **session
+    d'exploration** neuve vit dans `Core`, jumelle de la session d'arène.
+  - **Le graphe du monde se joue** : traversée d'un portail par **point d'arrivée nommé**, jamais
+    par des coordonnées ; une carte visitée n'est pas rechargée (le lieu reste ce qu'on a quitté) ;
+    un portail peut exiger un drapeau de monde. Un portail orphelin, une zone de combat qui déborde
+    ou qu'aucune case ne laisse libre sont refusés **au chargement**, avec un code exploitable.
+  - **Ce qu'une case porte** (*décision de l'auteur*) : le sol vient du type de tuile de la couche
+    « sol », traduit par la table du lieu (`Assets/Scene/<lieu>/appearance.json`) ; le relief nomme
+    sa pièce **à la case**, par l'assignation de texture que l'éditeur pose déjà. Aucun changement
+    du format de niveau.
+  - **Parler à qui l'on regarde** : l'écran de dialogue n'a plus d'identifiant écrit en dur — la
+    carte nomme le dialogue du PNJ visé. Un dialogue peut envoyer se battre (nouvelle action
+    `startCombat`), et le héraut du Colisée perd sa marque « provisoire ».
+  - **Le contenu provisoire s'en va** : le niveau nu de l'arène (`arena-of-the-future.json`), les
+    six fonds de test et leur script, la rencontre de démonstration — remplacée par les fauves du
+    Colisée. Restent le personnage de démonstration et la planche source du `LOT-50`, pour les
+    raisons écrites dans l'epic du lot.
+  - **Vérifié** : 1 297 tests, dont le parcours de cinq cartes aller-retour, la carte livrée
+    (chaque dialogue, chaque figurine et chaque pièce qu'elle nomme existent ; ses six lieux
+    s'atteignent depuis la porte) et le rendu hors écran du Colisée sur un vrai `QRhi`.
+
 - **Les images du corpus quittent le dépôt, et l'écran « Carte » revient sur les cartes de l'auteur
   (LOT-94).** Les deux cartes du monde extraites du corpus étaient les seules images du corpus
   commises : elles partent, avec l'écran qui les affichait et la commande

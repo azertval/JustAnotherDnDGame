@@ -25,7 +25,7 @@ principe que `Source/Elements/Audio/CREDITS.md` (`LOT-60`).
 **Élargissement du second temps du `LOT-65`** — huit motifs (`mushroom`, `crystal`, `stalactite`,
 `vine`, `grass_tuft`, `lantern`, `pillar`, `gear` ; décors à l'époque, code de dessin de
 `generate_demo_plans.py` depuis le `LOT-69`), trois fonds (`test_forest`, `test_sunset`,
-`test_industrial`), quatre objets (`crate_green`, `stone_block`, `metal_plate`, `ice_block`) et la
+`test_industrial`, **retirés au `LOT-09`** avec les autres fonds de test), quatre objets (`crate_green`, `stone_block`, `metal_plate`, `ice_block`) et la
 refonte du personnage sont **entièrement générés par script**, sans source externe : rien à créditer
 au-delà du dépôt lui-même. La génération procédurale a été préférée à l'import d'assets libres
 supplémentaires pour deux raisons — elle reste reproductible (`python scripts/generate_test_*.py`

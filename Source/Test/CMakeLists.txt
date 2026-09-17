@@ -201,6 +201,10 @@ if(Qt6_FOUND)
         # interface QRhi, liberation, et une image qui n'est pas que le fond.
         Unit/HMI/Graphics/test_arena_scene_renderer.cpp
         ../HMI/Graphics/ArenaSceneRenderer.cpp
+        # Le lieu qu'on parcourt, rendu hors ecran (LOT-09) : cycle de vie, cadrage qui suit le
+        # heros, et une image du Colisee LIVRE -- la capture de reference du lot.
+        Unit/HMI/Graphics/test_world_scene_renderer.cpp
+        ../HMI/Graphics/WorldSceneRenderer.cpp
         # La galerie des assets hors ecran : chargement de ce qui est voulu, liberation du reste.
         Unit/HMI/Graphics/test_asset_gallery_renderer.cpp
         ../HMI/Graphics/AssetGalleryRenderer.cpp

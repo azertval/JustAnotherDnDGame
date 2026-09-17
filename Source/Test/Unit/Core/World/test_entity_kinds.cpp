@@ -32,7 +32,7 @@ namespace {
 [[nodiscard]] core::EntityReferenceContext context() {
     core::EntityReferenceContext references;
     references.dialogues = {"heraut-colisee"};
-    references.encounters = {"nuee-de-rats"};
+    references.encounters = {"colisee-fauves"};
     references.arrivalPointsByMap["village"] = {"porte-nord"};
     references.arrivalPointsByMap["foret"] = {};
     return references;
@@ -107,7 +107,7 @@ TEST(FamillesDEntitesTest, CarteBienRenseigneeEstMuette) {
     const std::vector<core::MapEntity> entities = {
         entity("npc", {{"dialogue", std::string{"heraut-colisee"}}}),
         entity("npc"),
-        entity("encounter", {{"encounterId", std::string{"nuee-de-rats"}}, {"respawns", true}}),
+        entity("encounter", {{"encounterId", std::string{"colisee-fauves"}}, {"respawns", true}}),
         entity("portal",
                {{"targetMap", std::string{"village"}}, {"arrival", std::string{"porte-nord"}}}),
         entity("spawnPoint", {{"name", std::string{"puits"}}}),

@@ -1561,7 +1561,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 
 | Quand | Lots | Pourquoi là |
 |---|---|---|
-| **Démarrables maintenant** | [LOT-09](@ref lot-09) (**en cours** depuis le 17 septembre 2026, cf. sa page) | La première carte, le Colisée en version finale, dans le style que le [LOT-92](@ref lot-92) (livré) a fixé : l'exploration dans le jeu et le sable comme zone de combat déclarée — tout le chemin critique restant passe par lui ; les images du corpus sont parties et l'écran « Carte » est revenu sur les cartes de l'auteur ([LOT-94](@ref lot-94), livré) — l'éditeur du [LOT-11](@ref lot-11) est livré et trace déjà la première carte |
+| **Livré le 17 septembre 2026** | [LOT-09](@ref lot-09) | La première carte, le Colisée en version finale, dans le style que le [LOT-92](@ref lot-92) (livré) a fixé : l'exploration dans le jeu et le sable comme zone de combat déclarée — tout le chemin critique restant passe par lui ; les images du corpus sont parties et l'écran « Carte » est revenu sur les cartes de l'auteur ([LOT-94](@ref lot-94), livré) — l'éditeur du [LOT-11](@ref lot-11) est livré et trace déjà la première carte |
 | Après [LOT-92](@ref lot-92) (livré) | `LOT-93` | L'atelier des monstres hérite du style |
 | Après [LOT-09](@ref lot-09) et [LOT-94](@ref lot-94) (livré) | `LOT-96` | Les quartiers se tracent depuis le plan de la Capitale peint par l'auteur, sur un moteur éprouvé au Colisée ; `capital.json` et les niveaux quartier et îlot du plan y naissent, le `LOT-95` ayant été absorbé |
 | Après `LOT-96` | [LOT-16](@ref lot-16) | La quête se vérifie en parlant à Myr sur la carte de Martpart, pas dans un test seul — c'est ce qui la rend vérifiable |

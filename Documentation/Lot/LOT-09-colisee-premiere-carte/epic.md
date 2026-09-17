@@ -1,6 +1,12 @@
 # LOT-09 — Le Colisée se parcourt : exploration dans le jeu et première carte {#lot-09}
 
-> Statut : **en cours** (ouvert le 17 septembre 2026).
+> Statut : **livré le 17 septembre 2026** (ouvert le même jour). Vérification automatisée :
+> construction `/W4 /WX` sans avertissement, `ctest` à **1 317/1 317** (dont le rendu du Colisée
+> hors écran sur un vrai `QRhi`), toute la batterie de `scripts/check.py` verte hormis
+> PSScriptAnalyzer, absent du poste et sans rapport avec ce lot (aucun `.ps1` touché). Relu à
+> l'écran : `--screen=GameView` et `--screen=Arena`, captures à l'appui. Reste la vérification
+> IHM manuelle — marcher, parler, descendre sur le sable, en revenir. Le détail de ce qui est
+> livré et de ce qui ne l'est pas est plus bas.
 > Prérequis : [LOT-04](@ref lot-04), [LOT-06](@ref lot-06), [LOT-10](@ref lot-10) (les portails
 > et les PNJ sont des entités de carte), [LOT-15](@ref lot-15) (le dialogue qu'on ouvre depuis la
 > carte), [LOT-18](@ref lot-18) (la bascule exploration ↔ combat), [LOT-50](@ref lot-50) (le
@@ -64,6 +70,46 @@ la charge, sans en changer la cible.
 | 4 | **Le sable, zone de combat déclarée** | `combatZone` sur la carte (`EX-LVL-018`) ; `core::ArenaSession` joue sur la zone et non sur la carte entière ; l'arène du catalogue désigne `coliseum.json`, sa zone et sa région (la Capitale) |
 | 5 | **Parler, basculer, revenir** | `E` / bouton de manette → `core::findInteractionTarget` → `core::dialogueTriggerFor` → `hmi::DialogueMode`, sur le dialogue du PNJ visé ; le héraut lance la session d'arène par la bascule du [LOT-18](@ref lot-18) ; retour sur la carte au même endroit, état de carte conservé ; fondu piloté par `hmi::ScreenRouter` |
 | 6 | **Les retraits** | Le contenu provisoire quitte `Source/Elements/` ; capture de référence du Colisée dans les tests QML ; `check_asset_keys.py` et les tests sans aucune clé de test |
+
+## Ce que le lot a livré, et ce qu'il n'a pas livré
+
+### Livré, et vérifié
+
+| Ce que le lot promettait | Ce qui a été fait | Comment c'est vérifié |
+|---|---|---|
+| L'exploration dans le jeu Qt Quick | `core::ExplorationSession` (marche, collision, interaction, portails) et `hmi::WorldModel` — la partie, en singleton, qui survit aux écrans | `test_exploration_session.cpp` (4), `--screen=GameView` |
+| Le même rendu que l'arène | `hmi::WorldSceneComposer` + `hmi::WorldSceneRenderer`, jumeaux du composeur et du rendu de l'arène ; la géométrie des planches vit une seule fois (`ScenePieces.h`) | `test_world_scene_composer.cpp` (3), `test_world_scene_renderer.cpp` (3, sur un vrai `QRhi`) |
+| La caméra qui suit le héros (`EX-LVL-006`) | `worldCamera` : agrandissement **entier**, suivi borné à la scène | `LaCameraSuitLeHerosSansSortirDeLaCarte` |
+| Le graphe jouable et sa validation (`EX-NFR-040`) | `core::WorldTravel`, `validateWorldGraph`, `validateWorldMap` ; cinq cartes de fixture, aller et retour | `test_world_travel.cpp` (6) |
+| La carte du Colisée, version finale | `coliseum.json` : 40 × 34, 634 cases franchissables, 31 des 36 pièces de l'atelier, cinq PNJ, deux points d'arrivée | `test_coliseum_map.cpp` (6) |
+| Le sable comme zone de combat déclarée (`EX-LVL-018`) | `core::CombatZone`, `cropLevelToZone` ; l'arène du catalogue désigne la carte, sa zone et son lieu | `test_combat_zone.cpp` (3), `--screen=Arena` |
+| Parler au PNJ visé | `ScreenRouter.openDialogue`, `dialogueId` ; l'écran de dialogue n'a plus d'identifiant en dur | `OnParleAuPnjQueLOnRegarde`, qmllint |
+| Du sol au sable, et retour | action de dialogue `startCombat` (le héraut), `arenaReturnTo` dans la table des écrans, session en singleton | `LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie` |
+| Le fondu du passage | un voile dans le jumeau de la vue de jeu, relancé à l'entrée sur une carte et au retour | relu à l'écran |
+
+### Écarté, et pourquoi
+
+Trois retraits que la feuille de route demandait n'ont **pas** été faits. Les écrire ici vaut mieux
+que les faire à moitié :
+
+- **Le personnage de démonstration reste** (`demonstration-brenna.json`). La feuille de route le
+  remplaçait par « le héros créé à *Nouvelle partie* » — sauf qu'aucune création de personnage
+  n'existe encore dans le jeu (`LOT-43` l'a dessinée, personne ne la joue). Le retirer aujourd'hui
+  viderait la fiche, l'inventaire, la composition de l'arène et l'interlocuteur des dialogues, qui
+  le lisent tous. Il part avec la création de personnage, pas avant. La figurine du héros sur la
+  carte (`WorldModel::heroFigure`, `jade`) est provisoire pour la même raison.
+- **La planche source du `LOT-50` reste** (`Coliseum/production_source_atlas.png`). Ce n'est pas du
+  contenu provisoire : c'est la **source** des pièces que l'arène dessine encore, et
+  `extract_coliseum_atlas.py` n'a rien d'autre à découper. Les planches de l'atelier des textures
+  (`Scene/*/planche-*.png`) sont commitées pour exactement la même raison.
+- **`hmi::GameViewportItem` reste** : l'écran de jeu ne s'en sert plus, mais l'affichage tête haute
+  de combat (`CombatHud.qml`) le pose encore. Il partira avec le branchement du combat sur la carte
+  (`LOT-27`).
+
+Sont partis, eux : le niveau `arena-of-the-future.json`, les six fonds de test et
+`generate_test_backgrounds.py`, la rencontre de démonstration `nuee-de-rats.json` (remplacée par
+`colisee-fauves.json`, les fauves du Colisée, sur les bêtes du `LOT-33`) et la marque *provisoire*
+du dialogue du héraut.
 
 ## Périmètre
 
@@ -146,3 +192,28 @@ la charge, sans en changer la cible.
   ne peut pas être écrite deux fois. Les deux tableaux de la section 6 ont été régénérés
   (`lint_lots.py --regenerer`) et le diagramme perd les arêtes entrantes du lot, comme pour tout
   lot sorti de la page ; le nœud y reste, marqué « en cours ».
+- **17 septembre 2026, phases 1 et 2.** Le graphe se joue (`WorldTravel`), puis la session
+  d'exploration et la composition d'un lieu. *Décision de l'auteur* : plutôt que de compiler
+  `hmi::GameSession` dans le jeu — ce qui y aurait amené un second moteur de rendu, en tuiles
+  carrées, alors que le même paragraphe de la feuille de route demandait le composeur de l'arène —,
+  une session d'exploration neuve vit dans `Core`, jumelle de `core::ArenaSession`. `GameSession`
+  reste le banc d'essai de l'éditeur.
+- **17 septembre 2026, phase 2 (suite).** *Décision de l'auteur* sur ce qu'une case porte : le sol
+  par type de tuile, le relief nommé à la case. Les deux autres options étudiées étaient un format
+  de niveau `v4` (tout à la case) et une déduction complète par voisinage (rien dans la carte).
+- **17 septembre 2026, phase 3.** La carte, posée par script puis relisible dans l'éditeur ; la
+  table d'apparence du lieu ; quatre dialogues neufs et leurs 28 clés. *Piège rencontré* :
+  l'écrivain de niveau n'émet l'assignation de texture d'une case que si cette case a un **type**
+  non vide — une case franchissable qui porte du relief reçoit donc `dirt` dans la grille racine,
+  sa matière visible restant dans la couche de sol.
+- **17 septembre 2026, phase 4.** La zone de combat, et la carte réduite à la zone. `ArenaSession`
+  n'a pas changé d'une ligne : elle reçoit une carte qui **est** la zone.
+- **17 septembre 2026, phase 5.** *Piège rencontré, et corrigé* : la pile d'écrans ne garde qu'un
+  écran vivant (`Loader`). Une session possédée par l'écran de jeu mourait à l'ouverture du
+  dialogue ou du Colisée, et l'on revenait sur une carte neuve, héros à la porte — exactement ce
+  que le lot interdit. `hmi::WorldModel` est donc un **singleton** : la partie n'appartient pas à
+  l'écran qui la montre.
+- **17 septembre 2026, phase 6.** Les retraits, et les trois écarts assumés ci-dessus. La capture
+  de référence est un rendu **hors écran** sur un vrai `QRhi` (`test_world_scene_renderer.cpp`), et
+  non une image de test QML : la scène du lieu est dessinée par le pipeline 2D, que les tests QML
+  ne font pas tourner.

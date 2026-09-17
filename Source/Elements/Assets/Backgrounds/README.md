@@ -12,32 +12,17 @@ bornes du niveau au rendu, avec son ratio d'aspect **préservé** — l'image es
 centre sur la dimension excédentaire plutôt que déformée. Un fichier illisible ou introuvable
 retombe sur le damier magenta, avec un avertissement journalisé nommant l'asset (`EX-NFR-040`).
 
-## Contenu actuel : des fonds de **test**
+## Contenu actuel : plus aucun fond de test
 
-Trois fonds (320×180, ratio 16:9), **schématiques**, servent à vérifier le rendu du fond et à
-offrir un minimum de variété d'ambiance pour la refonte du `LOT-65`, pas à habiller le jeu.
-Générés par script, donc reproductibles et modifiables sans éditeur d'image :
+**Les six fonds de test sont partis au `LOT-09`**, avec le script qui les produisait
+(`generate_test_backgrounds.py`) : ils servaient à vérifier `hmi::computeBackgroundFit` à l'œil
+dans l'éditeur, et la première carte du jeu (le Colisée) est une scène **isométrique** qui ne
+désigne aucun fond. Le calcul de recadrage, lui, reste couvert par ses tests
+(`test_background_fit.cpp`), qui n'ont jamais eu besoin d'une image sur le disque.
 
-```
-python scripts/generate_test_backgrounds.py
-```
+Reste `kenney_grass.png`, un fond réel (voir `../CREDITS.md`).
 
-| Fichier | Ambiance |
-|---|---|
-| `test_sky.png` | ciel diurne, soleil, bande de sol |
-| `test_night.png` | ciel nocturne, lune, étoiles, silhouette de collines |
-| `test_cave.png` | souterrain, stalactites, points de lueur |
-| `test_forest.png` | forêt, deux rangées de troncs, rais de lumière |
-| `test_sunset.png` | crépuscule, soleil bas, dunes superposées |
-| `test_industrial.png` | halle industrielle, poutrelles rivetées, conduits |
-
-Chacun partage le même cadre de bordure et les mêmes graduations centrées, qui rendent le
-recadrage bien visible : sur un niveau d'un ratio différent, le cadre doit rester entier et
-**centré**, jamais coupé de travers ni déformé — c'est le repère visuel pour vérifier
-`hmi::computeBackgroundFit` (`LOT-44`, TACHE-02) à l'œil, dans l'éditeur (section « Fond » du
-panneau « Textures », mode Texture, `F8`).
-
-Un artiste remplacera ces fichiers par les vrais fonds, sans toucher au code.
+Un artiste déposera ici les vrais fonds, sans toucher au code.
 
 ## Fond `kenney_grass.png` : premier fond réel, sous licence libre (`LOT-65`)
 
