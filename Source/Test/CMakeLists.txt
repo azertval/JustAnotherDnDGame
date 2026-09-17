@@ -67,6 +67,7 @@ add_executable(UnitTests
     Unit/Core/World/test_grid_distance_field.cpp
     Unit/Core/World/test_world_graph.cpp
     Unit/Core/World/test_world_travel.cpp
+    Unit/Core/World/test_exploration_session.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
@@ -108,6 +109,7 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
     Unit/HMI/Graphics/test_asset_gallery.cpp
     Unit/HMI/Graphics/test_arena_scene_composer.cpp
+    Unit/HMI/Graphics/test_world_scene_composer.cpp
     Unit/HMI/Graphics/test_arena_animation_driver.cpp
     Unit/HMI/Graphics/test_tile_autotile.cpp
     Unit/HMI/Graphics/test_tile_skin_resolution.cpp

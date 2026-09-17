@@ -19,6 +19,7 @@ add_library(Core STATIC
     World/GridDistanceField.cpp
     World/WorldGraph.cpp
     World/WorldTravel.cpp
+    World/ExplorationSession.cpp
     Gameplay/Interaction.cpp
     Gameplay/MapEntitySpawner.cpp
     Gameplay/MechanismController.cpp
