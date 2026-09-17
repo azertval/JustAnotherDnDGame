@@ -16,6 +16,6 @@ var dir_569b647e50016dd1a7589315f920e6aa =
     [ "RpgScreens.h", "RpgScreens_8h.html", "RpgScreens_8h" ],
     [ "ScreenFlow.cpp", "ScreenFlow_8cpp.html", "ScreenFlow_8cpp" ],
     [ "ScreenFlow.h", "ScreenFlow_8h.html", "ScreenFlow_8h" ],
-    [ "WorldMapRegions.cpp", "WorldMapRegions_8cpp.html", "WorldMapRegions_8cpp" ],
-    [ "WorldMapRegions.h", "WorldMapRegions_8h.html", "WorldMapRegions_8h" ]
+    [ "WorldMaps.cpp", "WorldMaps_8cpp.html", "WorldMaps_8cpp" ],
+    [ "WorldMaps.h", "WorldMaps_8h.html", "WorldMaps_8h" ]
 ];

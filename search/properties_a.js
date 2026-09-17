@@ -9,6 +9,5 @@ var searchData=
   ['level_6',['level',['../classhmi_1_1CharacterSheetModel.html#a00211f22b831a62542f5df2a8baf68e3',1,'hmi::CharacterSheetModel']]],
   ['line_7',['line',['../classhmi_1_1DialogueModel.html#a592028e7408a21f11bdeb1efe008c1e7',1,'hmi::DialogueModel']]],
   ['loadratio_8',['loadRatio',['../classhmi_1_1InventoryModel.html#aba17baad4338fb9e5ce748ecfdb6f446',1,'hmi::InventoryModel']]],
-  ['locationcount_9',['locationCount',['../classhmi_1_1WorldMapModel.html#a12f74d325911c0aa8a22beef0fa5b24c',1,'hmi::WorldMapModel']]],
-  ['logsavailable_10',['logsAvailable',['../classhmi_1_1OptionsModel.html#ace9a52cbc002b12326f524777f7febd5',1,'hmi::OptionsModel']]]
+  ['logsavailable_9',['logsAvailable',['../classhmi_1_1OptionsModel.html#ace9a52cbc002b12326f524777f7febd5',1,'hmi::OptionsModel']]]
 ];

@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-17 07:18 UTC",
-  "commit": "7821d11b5",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35192869312",
+  "generated": "2026-09-17 19:43 UTC",
+  "commit": "ef24acbfb",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35265239285",
   "coverage": {
-    "percent": 90.85,
-    "covered": 19985,
-    "valid": 21999,
+    "percent": 90.87,
+    "covered": 20162,
+    "valid": 22188,
     "files": 289,
     "areas": [
       {
@@ -136,59 +136,59 @@
       },
       {
         "name": "HMI/Platform",
-        "covered": 72,
+        "covered": 74,
         "valid": 128,
-        "percent": 56.25
+        "percent": 57.81
       },
       {
         "name": "HMI/Presentation",
-        "covered": 400,
-        "valid": 440,
-        "percent": 90.91
+        "covered": 575,
+        "valid": 629,
+        "percent": 91.41
       }
     ]
   },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
-    "runs": 2,
-    "date": "2026-09-17 02:38 UTC",
-    "commit": "d7792a077",
+    "runs": 3,
+    "date": "2026-09-17 16:30 UTC",
+    "commit": "7821d11b5",
     "benches": [
       {
         "name": "ReachableAreaDashing",
-        "value": 130823.49337082541,
+        "value": 167720.66298341966,
         "unit": "ns/iter",
-        "change_percent": -17.4
+        "change_percent": 28.2
       },
       {
         "name": "FindPathAcrossGrid",
-        "value": 177600.65622069975,
+        "value": 227812.90808637897,
         "unit": "ns/iter",
-        "change_percent": -17.9
+        "change_percent": 28.3
       },
       {
         "name": "LineOfSightAcrossGrid",
-        "value": 50729.56688272962,
+        "value": 65373.469387753314,
         "unit": "ns/iter",
-        "change_percent": -11.0
+        "change_percent": 28.9
       },
       {
         "name": "CoverFromWithInterposed",
-        "value": 147044.3350743485,
+        "value": 189187.81304405027,
         "unit": "ns/iter",
-        "change_percent": -8.9
+        "change_percent": 28.7
       },
       {
         "name": "PlanTurnFourVersusFour",
-        "value": 909435.8576052382,
+        "value": 1185325.9821428708,
         "unit": "ns/iter",
-        "change_percent": -17.9
+        "change_percent": 30.3
       },
       {
         "name": "LoadShippedLevel",
-        "value": 619398.320537539,
+        "value": 771829.0625000179,
         "unit": "ns/iter",
-        "change_percent": -31.8
+        "change_percent": 24.6
       }
     ]
   },

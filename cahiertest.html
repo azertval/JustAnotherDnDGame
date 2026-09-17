@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1283 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1285 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1267)</h1>
+Tests unitaires (1269)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -6928,7 +6928,8 @@ Vérifie que <span class="tt">hmi::layoutAssetGallery(catalog).blocs.empty()</sp
 <td class="markdownTableBodyNone"><b>AssetGalleryTest.ToutAssetLivreEstDansLaGalerie</b> (Bloquant)<br  />
 <sub><span class="tt"><a class="el" href="test__asset__gallery_8cpp.html" title="Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition,...">Source/Test/Unit/HMI/Graphics/test_asset_gallery.cpp</a>:225</span></sub>  </td><td class="markdownTableBodyNone">Aucun asset livré n'échappe à la galerie.  </td><td class="markdownTableBodyNone">1. Lire le catalogue de Source/Elements/Assets. 2. Parcourir toutes les images livrées.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Scene/martpart/planche-1.png")</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Coliseum/production_source_atlas.png")</span> est vrai.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("UI/world-map.jpg")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("UI/background/menu-scene.png")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Maps/world.jpg")</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Scene/martpart/street.png")</span> est faux.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a11b4cbe2fcfcc3f152293f1bdf5c7f8d" title="Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches sources des ...">hmi::assetGalleryExcludes</a>("Npc/anariel/portrait.png")</span> est faux.  </td></tr>
 </table>
@@ -9711,7 +9712,7 @@ Vérifie que <span class="tt">hasExceptionStream(path)</span> est vrai.  </td></
 <sub><span class="tt"><a class="el" href="test__crash__dump_8cpp.html" title="Minidump sur plantage (HMI/Platform/CrashDump) : nom du fichier et écriture réelle.">Source/Test/Unit/HMI/Platform/test_crash_dump.cpp</a>:173</span></sub>  </td><td class="markdownTableBodyNone">Un chemin de minidump impossible échoue sans exception ni plantage.  </td><td class="markdownTableBodyNone">1. Écrire un dump sous un nom interdit par Windows (« a?b.dmp »).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1acfbf8f1ffce943900246a61f336bf7" title="Écrit un minidump du processus courant.">hmi::writeMiniDump</a>(directory_ / "a?b.dmp", nullptr)</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md29"></a>
-Presentation (15)</h3>
+Presentation (17)</h3>
 <p><b><span class="tt"><a class="el" href="test__credits__catalog_8cpp.html" title="Tests unitaires de la lecture des crédits (LOT-87, T3.3).">test_credits_catalog.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -9810,28 +9811,66 @@ Vérifie que <span class="tt">torch.kind</span> vaut <span class="tt">"Matériel
 Vérifie que <span class="tt">torch.weight</span> vaut <span class="tt">"0,5 kg"</span>.<br  />
 Vérifie que <span class="tt">torch.equippable</span> est faux.  </td></tr>
 </table>
-<p><b><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">test_world_map_regions.cpp</a></span></b></p>
+<p><b><span class="tt"><a class="el" href="test__world__maps_8cpp.html" title="Tests unitaires des cartes de l&#39;écran « Carte » : monde, régions, villes (LOT-94, LOT-95) — trois niv...">test_world_maps.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>WorldMapRegionsTest.AncresLuesEtBornees</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp</a>:33</span></sub>  </td><td class="markdownTableBodyNone">Les ancres des régions se lisent, et une ancre hors de la carte est refusée.  </td><td class="markdownTableBodyNone">1. Lire deux ancres valides.<br  />
- 2. Lire une ancre dont l'abscisse vaut 1,2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">valid.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">valid.anchors.size()</span> vaut <span class="tt">2U</span>.<br  />
-Vérifie que <span class="tt">valid.anchors.at("a").first</span> vaut <span class="tt">0.25</span> (comparaison flottante).<br  />
-Vérifie que <span class="tt">valid.anchors.at("a").second</span> vaut <span class="tt">0.5</span> (comparaison flottante).<br  />
+<td class="markdownTableBodyNone"><b>WorldMapsTest.FichierLuEtBorne</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__maps_8cpp.html" title="Tests unitaires des cartes de l&#39;écran « Carte » : monde, régions, villes (LOT-94, LOT-95) — trois niv...">Source/Test/Unit/HMI/Presentation/test_world_maps.cpp</a>:69</span></sub>  </td><td class="markdownTableBodyNone">Les cartes se lisent, et une position hors de la carte est refusée.  </td><td class="markdownTableBodyNone">1. Lire un fichier à une région et une ville.<br  />
+ 2. Lire une position d'abscisse 1,2, puis un cadre qui déborde.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">maps.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">maps.worldImage</span> vaut <span class="tt">"world.jpg"</span>.<br  />
+Vérifie que <span class="tt">maps.regions.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">region.anchor.x</span> vaut <span class="tt">0.25</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">region.frame.width</span> vaut <span class="tt">0.3</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">region.places.at("a-town").y</span> vaut <span class="tt">0.6</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">region.labels.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">region.labels.front().kind</span> vaut <span class="tt">"lake"</span>.<br  />
+Vérifie que <span class="tt">maps.cities.at("a-town").sites.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">maps.cities.at("a-town").sites.front().number</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">outside.ok()</span> est faux.<br  />
-Vérifie que <span class="tt">outside.anchors.empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">outside.error.find("c")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+Vérifie que <span class="tt">outside.regions.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">outside.error.find("c")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">overflowing.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">overflowing.error.find("cadre")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>WorldMapRegionsTest.AtlasLivreEntierementPose</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__world__map__regions_8cpp.html" title="Tests unitaires des régions posées sur la carte du monde (LOT-87, T3.6).">Source/Test/Unit/HMI/Presentation/test_world_map_regions.cpp</a>:57</span></sub>  </td><td class="markdownTableBodyNone">Les treize régions de l'atlas sont posées sur la carte du monde.  </td><td class="markdownTableBodyNone">1. Charger l'atlas livré et <span class="tt">Source/Elements/Maps/world-map-regions.json</span>.<br  />
- 2. Joindre les deux.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas.errors.empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">anchors.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">missing.empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">regions.size()</span> vaut <span class="tt">atlas.regions.size()</span>.<br  />
-Vérifie que <span class="tt">locations</span> vaut <span class="tt">atlas.locations.size()</span>.  </td></tr>
+<td class="markdownTableBodyNone"><b>WorldMapsTest.JointureRangeLesLieux</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__maps_8cpp.html" title="Tests unitaires des cartes de l&#39;écran « Carte » : monde, régions, villes (LOT-94, LOT-95) — trois niv...">Source/Test/Unit/HMI/Presentation/test_world_maps.cpp</a>:107</span></sub>  </td><td class="markdownTableBodyNone">Une région montre ses lieux posés puis les autres, sans les entrées écartées ni les quartiers d'une ville.  </td><td class="markdownTableBodyNone">1. Joindre un atlas de quatre lieux (une règle, un lieu sans position, une ville à plan, son quartier) au fichier minimal.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">maps.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">mismatches.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">views.regions.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">places.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">places[0].id</span> vaut <span class="tt">"a-town"</span>.<br  />
+Vérifie que <span class="tt">places[0].placed</span> est vrai.<br  />
+Vérifie que <span class="tt">places[0].hasCityMap</span> est vrai.<br  />
+Vérifie que <span class="tt">places[1].id</span> vaut <span class="tt">"a-hidden"</span>.<br  />
+Vérifie que <span class="tt">places[1].placed</span> est faux.<br  />
+Vérifie que <span class="tt">views.cities.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">points.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">points[0].id</span> vaut <span class="tt">"a-town-market"</span>.<br  />
+Vérifie que <span class="tt">points[0].number</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">points[1].name</span> vaut <span class="tt">"Harbour"</span>.<br  />
+Vérifie que <span class="tt">points[1].number</span> vaut <span class="tt">3</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldMapsTest.EcartsNommes</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__maps_8cpp.html" title="Tests unitaires des cartes de l&#39;écran « Carte » : monde, régions, villes (LOT-94, LOT-95) — trois niv...">Source/Test/Unit/HMI/Presentation/test_world_maps.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">Une carte sans région, une région sans carte et une position étrangère sont signalées.  </td><td class="markdownTableBodyNone">1. Joindre au fichier minimal, qui ne connaît que la région <span class="tt">a</span>, un atlas dont la seule région est <span class="tt">b</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">views.regions.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">views.cities.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">mismatches.size()</span> est supérieur ou égal à <span class="tt">3U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldMapsTest.AtlasLivreEntierementCartographie</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__maps_8cpp.html" title="Tests unitaires des cartes de l&#39;écran « Carte » : monde, régions, villes (LOT-94, LOT-95) — trois niv...">Source/Test/Unit/HMI/Presentation/test_world_maps.cpp</a>:170</span></sub>  </td><td class="markdownTableBodyNone">Les treize régions de l'atlas ont leur carte, et chaque position désigne un lieu de sa région.  </td><td class="markdownTableBodyNone">1. Charger l'atlas livré et <span class="tt">Source/Elements/Maps/world-maps.json</span>.<br  />
+ 2. Joindre les deux.<br  />
+ 3. Chercher l'image de chaque carte sous <span class="tt">Source/Elements/Assets/Maps/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">atlas.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">maps.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">views.regions.size()</span> vaut <span class="tt">atlas.regions.size()</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::is_regular_file(images / views.worldImage)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::filesystem::is_regular_file(images / region.image)</span> est vrai.<br  />
+Vérifie que <span class="tt">views.cities.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::is_regular_file(images / city.image)</span> est vrai.<br  />
+Vérifie que <span class="tt">city.points.size()</span> vaut <span class="tt">12U</span>.<br  />
+Vérifie que <span class="tt">region</span> diffère de <span class="tt">views.regions.end()</span>.<br  />
+Vérifie que <span class="tt">place</span> diffère de <span class="tt">region-&gt;places.end()</span>.<br  />
+Vérifie que <span class="tt">place-&gt;placed</span> est vrai.<br  />
+Vérifie que <span class="tt">place-&gt;hasCityMap</span> est vrai.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md30"></a>
 Runtime (3)</h3>

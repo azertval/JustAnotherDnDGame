@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldMaps.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;array&gt;
+#include &lt;map&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/World/Atlas.h"
+
+/**
+ * @file HMI/Presentation/WorldMaps.h
+ * @brief Les cartes de l'Ã©cran Â« Carte Â» â monde, rÃ©gions, villes â jointes Ã  l'atlas (`LOT-94`,
+ * `LOT-95`).
+ */
+
+namespace hmi {
+
+/// Position sur une carte, en fraction de sa largeur et de sa hauteur (0 Ã  1).
+struct MapPoint {
+<span style = "background-color:#dfd">    double x = 0.0;
+    double y = 0.0;</span>
+};
+
+/// Cadre d'une carte sur la carte du niveau supÃ©rieur, en fractions : d'oÃ¹ part le zoom.
+struct MapFrame {
+    double x = 0.0;
+    double y = 0.0;
+    double width = 1.0;
+    double height = 1.0;
+};
+
+/// Nom de gÃ©ographie posÃ© sur une carte, sans fiche : un lac, une chaÃ®ne, une ville hors atlas.
+struct MapLabel {
+    std::string name;
+    std::string kind;  ///&lt; `city`, `town`, `fortress`, `site`, `lake`, `forest`, `mountain`â¦
+    MapPoint at;
+};
+
+/// Lieu numÃ©rotÃ© d'un plan de ville qui n'est pas un lieu de l'atlas (lÃ©gende du livre).
+struct MapSite {
+    int number = 0;
+    std::string name;
+    std::string note;
+    MapPoint at;
+};
+
+/// La carte d'une rÃ©gion, telle que `world-maps.json` la dÃ©crit.
+struct RegionMap {
+    std::string image;
+    MapPoint anchor;  ///&lt; RepÃ¨re de la rÃ©gion sur la carte du monde.
+    MapFrame frame;   ///&lt; Cadre approximatif de la rÃ©gion sur la carte du monde.
+    std::map&lt;std::string, MapPoint&gt; places;  ///&lt; Lieu de l'atlas â position sur la carte.
+    std::vector&lt;std::string&gt; omitted;  ///&lt; EntrÃ©es de l'atlas qui ne sont pas des lieux (rÃ¨glesâ¦).
+    std::vector&lt;MapLabel&gt; labels;
+};
+
+/// Le plan d'une ville : ses quartiers (lieux de l'atlas) ou ses lieux numÃ©rotÃ©s.
+struct CityMap {
+    std::string image;
+    std::map&lt;std::string, MapPoint&gt; places;
+    std::vector&lt;MapSite&gt; sites;
+    std::vector&lt;MapLabel&gt; labels;
+};
+
+/// Le contenu de `world-maps.json`, ou la raison de l'Ã©chec.
+struct WorldMaps {
+    std::string worldImage;
+    std::map&lt;std::string, RegionMap&gt; regions;  ///&lt; Identifiant de rÃ©gion â carte.
+    std::map&lt;std::string, CityMap&gt; cities;     ///&lt; Identifiant de lieu â plan.
+    std::string error;                         ///&lt; Vide si la lecture a abouti.
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const {
+        return error.empty();
+    }</span>
+};
+
+/**
+ * @brief Lit `world-maps.json`.
+ *
+ * **Pourquoi un fichier Ã  part de l'atlas.** L'atlas du `LOT-37` est extrait du livre, qui ne donne
+ * aucune coordonnÃ©e, et la chaÃ®ne d'extraction rÃ©Ã©crit ses fichiers : elle effacerait un champ
+ * qu'elle n'a pas produit. Les positions sont **relevÃ©es sur les cartes de l'auteur** et vivent Ã 
+ * cÃ´tÃ©.
+ *
+ * Une position hors de [0, 1], un cadre qui sort de la carte ou un champ mal formÃ© font Ã©chouer
+ * toute la lecture, en nommant l'entrÃ©e fautive.
+ */
+[[nodiscard]] WorldMaps readWorldMaps(std::string_view json);
+
+/// Un lieu d'une rÃ©gion, tel que la vue Â« rÃ©gion Â» le montre.
+struct MapPlaceView {
+    std::string id;
+    std::string name;
+    std::string description;
+    bool placed = false;  ///&lt; Faux : le lieu figure dans la liste, sans repÃ¨re.
+    MapPoint at;
+    bool hasCityMap = false;  ///&lt; Vrai : on peut encore zoomer, jusqu'au plan de la ville.
+};
+
+/// Une rÃ©gion, telle que les vues Â« monde Â» et Â« rÃ©gion Â» la montrent.
+struct MapRegionView {
+    std::string id;
+    std::string name;
+    std::string image;
+    MapPoint anchor;
+    MapFrame frame;
+    std::string government;
+    std::string faction;
+    std::optional&lt;int&gt; population;
+    /// Les sept statistiques rÃ©gionales, dans l'ordre de `core::RegionAxis`, de 0 (trÃ¨s bas) Ã  4.
+    std::array&lt;int, core::kRegionAxisCount&gt; grades{};
+    std::vector&lt;MapPlaceView&gt; places;  ///&lt; PosÃ©s d'abord, puis les autres ; ordre de l'atlas.
+    std::vector&lt;MapLabel&gt; labels;
+};
+
+/// Un point d'un plan de ville : un quartier de l'atlas ou un lieu numÃ©rotÃ©.
+struct MapCityPointView {
+    std::string id;
+    int number = 0;
+    std::string name;
+    std::string description;
+    MapPoint at;
+};
+
+/// Un plan de ville, tel que la vue Â« ville Â» le montre.
+struct MapCityView {
+    std::string id;  ///&lt; Le lieu de l'atlas que ce plan dÃ©taille.
+    std::string name;
+    std::string regionId;
+    std::string image;
+    std::vector&lt;MapCityPointView&gt; points;
+    std::vector&lt;MapLabel&gt; labels;
+};
+
+/// Les trois niveaux de l'Ã©cran Â« Carte Â».
+struct WorldMapViews {
+    std::string worldImage;
+    std::vector&lt;MapRegionView&gt; regions;  ///&lt; Dans l'ordre de l'atlas.
+    std::vector&lt;MapCityView&gt; cities;
+};
+
+/**
+ * @brief Joint les cartes Ã  l'atlas.
+ *
+ * @param atlas L'atlas du `LOT-37` : ses rÃ©gions donnent l'ordre, ses lieux les noms et les textes.
+ * @param maps Les cartes lues par `readWorldMaps`.
+ * @param mismatches ReÃ§oit, en clair, chaque Ã©cart entre les deux : rÃ©gion sans carte, carte sans
+ *        rÃ©gion, position d'un lieu que sa rÃ©gion ne connaÃ®t pas, plan d'une ville que l'atlas
+ *        ignore. Une rÃ©gion qui manque en silence sur la carte ne se corrige jamais ; un Ã©cart
+ *        nommÃ©, si.
+ */
+[[nodiscard]] WorldMapViews joinWorldMaps(const core::Atlas&amp; atlas, const WorldMaps&amp; maps,
+                                          std::vector&lt;std::string&gt;&amp; mismatches);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

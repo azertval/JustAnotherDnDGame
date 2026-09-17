@@ -12,10 +12,11 @@ var searchData=
   ['generation_9',['generation',['../structcore_1_1Entity.html#a2ad1b664955eb77c38cef28d6978cf7b',1,'core::Entity']]],
   ['ghost_10',['ghost',['../structhmi_1_1WorldGraphLayoutNode.html#a658ecaab804ab15790666c6e74f2d498',1,'hmi::WorldGraphLayoutNode']]],
   ['glyphs_11',['glyphs',['../structhmi_1_1FontMetrics.html#af8edf913ecf02975f75b9d41f9acff65',1,'hmi::FontMetrics']]],
-  ['government_12',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region::government'],['../structhmi_1_1MapRegion.html#a325fc962037f6fdbb94fbab81e2e86e2',1,'hmi::MapRegion::government']]],
+  ['government_12',['government',['../structcore_1_1Region.html#ab2fcfb2827210b97d085a810023d1196',1,'core::Region::government'],['../structhmi_1_1MapRegionView.html#a6f5d6b1a1e94283593b4a4e75f02d7a2',1,'hmi::MapRegionView::government']]],
   ['grade_13',['grade',['../structcore_1_1RegionAppraisal.html#a9cea16e7edc28da4c20902d603d19cf6',1,'core::RegionAppraisal']]],
-  ['graph_14',['graph',['../structcore_1_1DialogueLoad.html#a2d0bdba2a17ecccc54ad3d9dcfb20a36',1,'core::DialogueLoad::graph'],['../structhmi_1_1DialogueModel_1_1Session.html#a06d4e0952d1b0a59c408725a795b88e2',1,'hmi::DialogueModel::Session::graph']]],
-  ['gravity_15',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
-  ['groundpoundspeed_16',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
-  ['group_17',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
+  ['grades_14',['grades',['../structhmi_1_1MapRegionView.html#a100fef56ec6baba5b096607def9533e5',1,'hmi::MapRegionView']]],
+  ['graph_15',['graph',['../structcore_1_1DialogueLoad.html#a2d0bdba2a17ecccc54ad3d9dcfb20a36',1,'core::DialogueLoad::graph'],['../structhmi_1_1DialogueModel_1_1Session.html#a06d4e0952d1b0a59c408725a795b88e2',1,'hmi::DialogueModel::Session::graph']]],
+  ['gravity_16',['gravity',['../structcore_1_1PhysicsConfig.html#abca056c01e3263ccc8d5e3adbd174e91',1,'core::PhysicsConfig']]],
+  ['groundpoundspeed_17',['groundPoundSpeed',['../structcore_1_1PhysicsConfig.html#a2072e171d44c396a1d3fc28e738224d0',1,'core::PhysicsConfig']]],
+  ['group_18',['group',['../structhmi_1_1EditorActionSpec.html#a8a67cad23c73abe7095578e00c818b81',1,'hmi::EditorActionSpec']]]
 ];

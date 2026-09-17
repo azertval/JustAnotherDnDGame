@@ -138,6 +138,7 @@ var specifications =
         [ "Ce qui rend ces exigences autre chose que des intentions", "spec-interface-ihm.html#autotoc_md368", null ],
         [ "Ce que la conception ne peut pas faire seule", "spec-interface-ihm.html#autotoc_md369", null ]
       ] ],
+      [ "12. L'écran « Carte » : le monde, une région, une ville (LOT-94)", "spec-interface-ihm.html#ihm-carte", null ],
       [ "Traçabilité", "spec-interface-ihm.html#autotoc_md370", null ]
     ] ],
     [ "Solveur IA", "spec-ia.html", [

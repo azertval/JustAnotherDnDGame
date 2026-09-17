@@ -360,7 +360,7 @@ void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; 
     const std::string_view fileName =</span>
         slash == std::string_view::npos ? path : path.substr(slash + 1);
 <span style = "background-color:#dfd">    return path == "atlas.png" || path == "Coliseum/production_source_atlas.png" ||</span>
-           path.starts_with("UI/") || path.starts_with("Fonts/") ||
+           path.starts_with("UI/") || path.starts_with("Maps/") || path.starts_with("Fonts/") ||
            (path.starts_with("Scene/") &amp;&amp; fileName.starts_with("planche-"));
 <span style = "background-color:#dfd">}</span>
 

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: hmi::RegionAnchors Struct Reference</title>
+<title>JustAnotherRpgGame: hmi::MapFrame Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('structhmi_1_1RegionAnchors.html','','structhmi_1_1RegionAnchors-members'); });
+$(function(){initNavTree('structhmi_1_1MapFrame.html','','structhmi_1_1MapFrame-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,89 +89,83 @@ $(function(){initNavTree('structhmi_1_1RegionAnchors.html','','structhmi_1_1Regi
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">hmi::RegionAnchors Struct Reference</div></div>
+  <div class="headertitle"><div class="title">hmi::MapFrame Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Les ancres lues dans <span class="tt">world-map-regions.json</span>, ou la raison de l'échec.  
+<p>Cadre d'une carte sur la carte du niveau supérieur, en fractions : d'où part le zoom.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="WorldMapRegions_8h_source.html">WorldMapRegions.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="WorldMaps_8h_source.html">WorldMaps.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a01f2e028fb8b6b753a07e9b882bee313" id="r_a01f2e028fb8b6b753a07e9b882bee313"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a01f2e028fb8b6b753a07e9b882bee313">ok</a> () const</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:afb2422c58a72420b4f3590173f0e9d62" id="r_afb2422c58a72420b4f3590173f0e9d62"><td class="memItemLeft">std::map&lt; std::string, <a class="el" href="namespacehmi.html#a3381e27cdaac8041b5c1525d4b5fb0a1">MapAnchor</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afb2422c58a72420b4f3590173f0e9d62">anchors</a></td></tr>
-<tr class="memdesc:afb2422c58a72420b4f3590173f0e9d62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant de région → position.  <br /></td></tr>
-<tr class="memitem:af38d72e8a106cae8567e3ecbc727f0bd" id="r_af38d72e8a106cae8567e3ecbc727f0bd"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#af38d72e8a106cae8567e3ecbc727f0bd">error</a></td></tr>
-<tr class="memdesc:af38d72e8a106cae8567e3ecbc727f0bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vide si la lecture a abouti.  <br /></td></tr>
+<tr class="memitem:a76402fbfb23f61ee61da124e1c15638d" id="r_a76402fbfb23f61ee61da124e1c15638d"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a76402fbfb23f61ee61da124e1c15638d">x</a> = 0.0</td></tr>
+<tr class="memitem:afd340af3080f034178dfcc7ceb43adf3" id="r_afd340af3080f034178dfcc7ceb43adf3"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#afd340af3080f034178dfcc7ceb43adf3">y</a> = 0.0</td></tr>
+<tr class="memitem:aa9761e726c0ed485baf0c9174592551e" id="r_aa9761e726c0ed485baf0c9174592551e"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#aa9761e726c0ed485baf0c9174592551e">width</a> = 1.0</td></tr>
+<tr class="memitem:a2948587b31678886e3e958879a91136c" id="r_a2948587b31678886e3e958879a91136c"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a2948587b31678886e3e958879a91136c">height</a> = 1.0</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Les ancres lues dans <span class="tt">world-map-regions.json</span>, ou la raison de l'échec. </p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a01f2e028fb8b6b753a07e9b882bee313" name="a01f2e028fb8b6b753a07e9b882bee313"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01f2e028fb8b6b753a07e9b882bee313">&#9670;&#160;</a></span>ok()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::RegionAnchors::ok </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="afb2422c58a72420b4f3590173f0e9d62" name="afb2422c58a72420b4f3590173f0e9d62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afb2422c58a72420b4f3590173f0e9d62">&#9670;&#160;</a></span>anchors</h2>
+<div class="textblock"><p>Cadre d'une carte sur la carte du niveau supérieur, en fractions : d'où part le zoom. </p>
+</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a2948587b31678886e3e958879a91136c" name="a2948587b31678886e3e958879a91136c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2948587b31678886e3e958879a91136c">&#9670;&#160;</a></span>height</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt;std::string, <a class="el" href="namespacehmi.html#a3381e27cdaac8041b5c1525d4b5fb0a1">MapAnchor</a>&gt; hmi::RegionAnchors::anchors</td>
+          <td class="memname">double hmi::MapFrame::height = 1.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Identifiant de région → position. </p>
-
 </div>
 </div>
-<a id="af38d72e8a106cae8567e3ecbc727f0bd" name="af38d72e8a106cae8567e3ecbc727f0bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af38d72e8a106cae8567e3ecbc727f0bd">&#9670;&#160;</a></span>error</h2>
+<a id="aa9761e726c0ed485baf0c9174592551e" name="aa9761e726c0ed485baf0c9174592551e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9761e726c0ed485baf0c9174592551e">&#9670;&#160;</a></span>width</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string hmi::RegionAnchors::error</td>
+          <td class="memname">double hmi::MapFrame::width = 1.0</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Vide si la lecture a abouti. </p>
+</div>
+</div>
+<a id="a76402fbfb23f61ee61da124e1c15638d" name="a76402fbfb23f61ee61da124e1c15638d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76402fbfb23f61ee61da124e1c15638d">&#9670;&#160;</a></span>x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double hmi::MapFrame::x = 0.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afd340af3080f034178dfcc7ceb43adf3" name="afd340af3080f034178dfcc7ceb43adf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd340af3080f034178dfcc7ceb43adf3">&#9670;&#160;</a></span>y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double hmi::MapFrame::y = 0.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Presentation/<a class="el" href="WorldMapRegions_8h_source.html">WorldMapRegions.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Presentation/<a class="el" href="WorldMaps_8h_source.html">WorldMaps.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -186,7 +180,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacehmi.html">hmi</a></li><li class="navelem"><a href="structhmi_1_1RegionAnchors.html">RegionAnchors</a></li>
+    <li class="navelem"><a href="namespacehmi.html">hmi</a></li><li class="navelem"><a href="structhmi_1_1MapFrame.html">MapFrame</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

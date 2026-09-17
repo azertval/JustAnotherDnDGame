@@ -13,5 +13,7 @@ var searchData=
   ['worldmapinput_10',['WorldMapInput',['../structcore_1_1WorldMapInput.html',1,'core']]],
   ['worldmapmodel_11',['WorldMapModel',['../classhmi_1_1WorldMapModel.html',1,'hmi']]],
   ['worldmapnode_12',['WorldMapNode',['../structcore_1_1WorldMapNode.html',1,'core']]],
-  ['worldportallink_13',['WorldPortalLink',['../structcore_1_1WorldPortalLink.html',1,'core']]]
+  ['worldmaps_13',['WorldMaps',['../structhmi_1_1WorldMaps.html',1,'hmi']]],
+  ['worldmapviews_14',['WorldMapViews',['../structhmi_1_1WorldMapViews.html',1,'hmi']]],
+  ['worldportallink_15',['WorldPortalLink',['../structcore_1_1WorldPortalLink.html',1,'core']]]
 ];

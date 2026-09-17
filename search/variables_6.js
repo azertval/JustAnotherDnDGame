@@ -2,7 +2,7 @@ var searchData=
 [
   ['faces_0',['faces',['../structcore_1_1Dice.html#ab314d1f44dd395eaa20238519889a6f2',1,'core::Dice::faces'],['../structcore_1_1DiceRoll.html#ace2f672bae9f8c3f8b34b6aa8acadce5',1,'core::DiceRoll::faces']]],
   ['facing_1',['facing',['../structcore_1_1Actor.html#ada4c84a898de6c67b5d303ad876b61a0',1,'core::Actor']]],
-  ['faction_2',['faction',['../structcore_1_1Region.html#a6bb62937945a9ed10649b41925f5886d',1,'core::Region']]],
+  ['faction_2',['faction',['../structcore_1_1Region.html#a6bb62937945a9ed10649b41925f5886d',1,'core::Region::faction'],['../structhmi_1_1MapRegionView.html#a1d55e8f7e4dd54bbd9e36b2d6c124702',1,'hmi::MapRegionView::faction']]],
   ['failed_3',['failed',['../structhmi_1_1AssetGalleryRenderer_1_1CachedTexture.html#a018b7b1d397096bc890a074753b41157',1,'hmi::AssetGalleryRenderer::CachedTexture']]],
   ['falldragcoefficient_4',['fallDragCoefficient',['../structcore_1_1PhysicsConfig.html#ad25df5ec421bb0425ed733998852678e',1,'core::PhysicsConfig']]],
   ['fallgravitymultiplier_5',['fallGravityMultiplier',['../structcore_1_1PhysicsConfig.html#a1d917394883028f145c989fd268e876c',1,'core::PhysicsConfig']]],
@@ -42,7 +42,7 @@ var searchData=
   ['form_39',['form',['../structhmi_1_1AssetGalleryEntry.html#af740fc7a10a896e3d600ab11ca70a91c',1,'hmi::AssetGalleryEntry']]],
   ['format_5fversion_40',['FORMAT_VERSION',['../classhmi_1_1SoundCatalog.html#a0904fbd25b44f19ea87496deaf32943d',1,'hmi::SoundCatalog::FORMAT_VERSION'],['../classhmi_1_1PixelPalette.html#af0f9ba35c5a891faaee4e90fa12fdc5e',1,'hmi::PixelPalette::FORMAT_VERSION'],['../classhmi_1_1AnimationCatalog.html#a2e32d9448dc4a00346eba59a2aa27e75',1,'hmi::AnimationCatalog::FORMAT_VERSION'],['../classhmi_1_1ArenaAppearanceCatalog.html#ad092f238d7462994ad5a769f6e224ab6',1,'hmi::ArenaAppearanceCatalog::FORMAT_VERSION'],['../classhmi_1_1SkinCatalog.html#ad04a32a030e2bb069c16ef4233a7d729',1,'hmi::SkinCatalog::FORMAT_VERSION']]],
   ['found_41',['found',['../structcore_1_1SkillCheckModifier.html#ab7aba02abe8f184dcfebb04e3c0f39f6',1,'core::SkillCheckModifier']]],
-  ['frame_42',['frame',['../structhmi_1_1ArenaFigureAnimation.html#a04912d2fa48a38d6dc6cf316dd8ab708',1,'hmi::ArenaFigureAnimation']]],
+  ['frame_42',['frame',['../structhmi_1_1ArenaFigureAnimation.html#a04912d2fa48a38d6dc6cf316dd8ab708',1,'hmi::ArenaFigureAnimation::frame'],['../structhmi_1_1RegionMap.html#a56940e1df7be47c0bd107f4d41fdac4b',1,'hmi::RegionMap::frame'],['../structhmi_1_1MapRegionView.html#ae340aea3c6a7448c1117d8e74db0d49b',1,'hmi::MapRegionView::frame']]],
   ['framecount_43',['frameCount',['../structhmi_1_1FigureAppearance.html#ae91ccadb25ba0edc56fb67369eabf7ba',1,'hmi::FigureAppearance']]],
   ['frameduration_44',['frameDuration',['../structcore_1_1AnimationClip.html#a816a1ce26647a4bb356e0f18a1761226',1,'core::AnimationClip::frameDuration'],['../structhmi_1_1AssetGalleryEntry.html#a155891b9457d7577956cd2057ddbba10',1,'hmi::AssetGalleryEntry::frameDuration']]],
   ['frameedge_45',['frameEdge',['../structhmi_1_1ColorTokens.html#a83711b180228eedc438687779c8c25f5',1,'hmi::ColorTokens']]],

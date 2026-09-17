@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789612717318,
+  "lastUpdate": 1789662660546,
   "repoUrl": "https://github.com/azertval/JustAnotherRpgGame",
   "entries": {
     "Combat et niveaux (Release, windows-2022)": [
@@ -116,6 +116,64 @@ window.BENCHMARK_DATA = {
             "value": 619398.320537539,
             "unit": "ns/iter",
             "extra": "iterations: 2084\ncpu: 622300.8637236084 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "azertval",
+            "username": "azertval",
+            "email": "valentin.eloy@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "7821d11b506195e3fa8fca90c7bf7aa9514270c8",
+          "message": "Analyse statique — corriger les 113 alertes restantes de Code scanning (#64)\n\n* Analyse statique — corriger les 113 alertes restantes de Code scanning\n\nL'analyse clang-tidy de main (d7792a077) relevait 112 alertes, et CppCheck une, dans les\nfichiers arrivés avec l'éditeur (LOT-11) et la galerie des assets : ils n'étaient pas dans le\npérimètre de la PR #63.\n\n- Correctifs mécaniques : suffixes littéraux, parenthèses, initialiseurs désignés complets,\n  std::ranges, std::cmp_*.\n- Complexité cognitive : validateMapEntities, EntityPanel::rebuildForm,\n  WorldGraphView::paintNodes et AssetGalleryRenderer::compose découpées en fonctions.\n- Transtypages : qobject_cast dans le rendu de la galerie (comme l'arène), dynamic_cast pour\n  l'infobulle du graphe ; tableau C de couleur d'effacement remplacé par std::array.\n- Analyseur : le nom d'un point d'arrivée n'est plus déplacé dans la boucle ; LevelWriter\n  n'emploie plus std::visit, que l'analyseur ne suivait pas.\n- CppCheck : le catalogue des dialogues est tenu dans une variable avant d'être parcouru.\n- Deux NOLINT justifiés en ligne : reinterpret_cast de lecture d'en-tête PNG, et _form créé\n  après setupUi.\n\nclang-tidy en local : 0 diagnostic sur les 13 fichiers ; build et 1289 tests verts.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* Changelog — les 113 alertes restantes de Code scanning\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-17T07:05:54Z",
+          "url": "https://github.com/azertval/JustAnotherRpgGame/commit/7821d11b506195e3fa8fca90c7bf7aa9514270c8"
+        },
+        "date": 1789662656973,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ReachableAreaDashing",
+            "value": 167720.66298341966,
+            "unit": "ns/iter",
+            "extra": "iterations: 8145\ncpu: 168815.22406384285 ns\nthreads: 1"
+          },
+          {
+            "name": "FindPathAcrossGrid",
+            "value": 227812.90808637897,
+            "unit": "ns/iter",
+            "extra": "iterations: 5973\ncpu: 227586.63987945757 ns\nthreads: 1"
+          },
+          {
+            "name": "LineOfSightAcrossGrid",
+            "value": 65373.469387753314,
+            "unit": "ns/iter",
+            "extra": "iterations: 21854\ncpu: 65777.4320490528 ns\nthreads: 1"
+          },
+          {
+            "name": "CoverFromWithInterposed",
+            "value": 189187.81304405027,
+            "unit": "ns/iter",
+            "extra": "iterations: 7467\ncpu: 188328.64604258738 ns\nthreads: 1"
+          },
+          {
+            "name": "PlanTurnFourVersusFour",
+            "value": 1185325.9821428708,
+            "unit": "ns/iter",
+            "extra": "iterations: 1120\ncpu: 1185825.892857143 ns\nthreads: 1"
+          },
+          {
+            "name": "LoadShippedLevel",
+            "value": 771829.0625000179,
+            "unit": "ns/iter",
+            "extra": "iterations: 1600\ncpu: 771484.375 ns\nthreads: 1"
           }
         ]
       }

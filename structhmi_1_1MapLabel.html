@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: hmi::MapRegion Struct Reference</title>
+<title>JustAnotherRpgGame: hmi::MapLabel Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('structhmi_1_1MapRegion.html','','structhmi_1_1MapRegion-members'); });
+$(function(){initNavTree('structhmi_1_1MapLabel.html','','structhmi_1_1MapLabel-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,108 +89,63 @@ $(function(){initNavTree('structhmi_1_1MapRegion.html','','structhmi_1_1MapRegio
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">hmi::MapRegion Struct Reference</div></div>
+  <div class="headertitle"><div class="title">hmi::MapLabel Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Une région telle que la carte la montre : son repère et sa fiche.  
+<p>Nom de géographie posé sur une carte, sans fiche : un lac, une chaîne, une ville hors atlas.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="WorldMapRegions_8h_source.html">WorldMapRegions.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="WorldMaps_8h_source.html">WorldMaps.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:adba311780ea96fb57e3a57161c007390" id="r_adba311780ea96fb57e3a57161c007390"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#adba311780ea96fb57e3a57161c007390">id</a></td></tr>
-<tr class="memitem:a4738e0b27372121b6b13866fc95b6507" id="r_a4738e0b27372121b6b13866fc95b6507"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a4738e0b27372121b6b13866fc95b6507">name</a></td></tr>
-<tr class="memitem:a1a3bcc0f07af8cd30ccea34867004ae7" id="r_a1a3bcc0f07af8cd30ccea34867004ae7"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a1a3bcc0f07af8cd30ccea34867004ae7">x</a> = 0.0</td></tr>
-<tr class="memitem:a2759d84ea68c7271cfdece4615a644e8" id="r_a2759d84ea68c7271cfdece4615a644e8"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a2759d84ea68c7271cfdece4615a644e8">y</a> = 0.0</td></tr>
-<tr class="memitem:a325fc962037f6fdbb94fbab81e2e86e2" id="r_a325fc962037f6fdbb94fbab81e2e86e2"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a325fc962037f6fdbb94fbab81e2e86e2">government</a></td></tr>
-<tr class="memitem:afadd81f0cb1d6a5e17d1e940a0f9a78e" id="r_afadd81f0cb1d6a5e17d1e940a0f9a78e"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#afadd81f0cb1d6a5e17d1e940a0f9a78e">locations</a></td></tr>
-<tr class="memdesc:afadd81f0cb1d6a5e17d1e940a0f9a78e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Noms des lieux, dans l'ordre de l'atlas.  <br /></td></tr>
+<tr class="memitem:aec998a7ae8951e954785611c25387b8a" id="r_aec998a7ae8951e954785611c25387b8a"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aec998a7ae8951e954785611c25387b8a">name</a></td></tr>
+<tr class="memitem:a72d786866139cbdfca10e26e533d6a99" id="r_a72d786866139cbdfca10e26e533d6a99"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a72d786866139cbdfca10e26e533d6a99">kind</a></td></tr>
+<tr class="memdesc:a72d786866139cbdfca10e26e533d6a99"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">city</span>, <span class="tt">town</span>, <span class="tt">fortress</span>, <span class="tt">site</span>, <span class="tt">lake</span>, <span class="tt">forest</span>, <span class="tt">mountain</span>…  <br /></td></tr>
+<tr class="memitem:a614c85cc21c5a03bb5eadcd8ad121ec7" id="r_a614c85cc21c5a03bb5eadcd8ad121ec7"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapPoint.html">MapPoint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a614c85cc21c5a03bb5eadcd8ad121ec7">at</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Une région telle que la carte la montre : son repère et sa fiche. </p>
+<div class="textblock"><p>Nom de géographie posé sur une carte, sans fiche : un lac, une chaîne, une ville hors atlas. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a325fc962037f6fdbb94fbab81e2e86e2" name="a325fc962037f6fdbb94fbab81e2e86e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a325fc962037f6fdbb94fbab81e2e86e2">&#9670;&#160;</a></span>government</h2>
+<a id="a614c85cc21c5a03bb5eadcd8ad121ec7" name="a614c85cc21c5a03bb5eadcd8ad121ec7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a614c85cc21c5a03bb5eadcd8ad121ec7">&#9670;&#160;</a></span>at</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string hmi::MapRegion::government</td>
+          <td class="memname"><a class="el" href="structhmi_1_1MapPoint.html">MapPoint</a> hmi::MapLabel::at</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="adba311780ea96fb57e3a57161c007390" name="adba311780ea96fb57e3a57161c007390"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adba311780ea96fb57e3a57161c007390">&#9670;&#160;</a></span>id</h2>
+<a id="a72d786866139cbdfca10e26e533d6a99" name="a72d786866139cbdfca10e26e533d6a99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72d786866139cbdfca10e26e533d6a99">&#9670;&#160;</a></span>kind</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string hmi::MapRegion::id</td>
+          <td class="memname">std::string hmi::MapLabel::kind</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
+<p><span class="tt">city</span>, <span class="tt">town</span>, <span class="tt">fortress</span>, <span class="tt">site</span>, <span class="tt">lake</span>, <span class="tt">forest</span>, <span class="tt">mountain</span>… </p>
+
 </div>
 </div>
-<a id="afadd81f0cb1d6a5e17d1e940a0f9a78e" name="afadd81f0cb1d6a5e17d1e940a0f9a78e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afadd81f0cb1d6a5e17d1e940a0f9a78e">&#9670;&#160;</a></span>locations</h2>
+<a id="aec998a7ae8951e954785611c25387b8a" name="aec998a7ae8951e954785611c25387b8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec998a7ae8951e954785611c25387b8a">&#9670;&#160;</a></span>name</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;std::string&gt; hmi::MapRegion::locations</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Noms des lieux, dans l'ordre de l'atlas. </p>
-
-</div>
-</div>
-<a id="a4738e0b27372121b6b13866fc95b6507" name="a4738e0b27372121b6b13866fc95b6507"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4738e0b27372121b6b13866fc95b6507">&#9670;&#160;</a></span>name</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::MapRegion::name</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1a3bcc0f07af8cd30ccea34867004ae7" name="a1a3bcc0f07af8cd30ccea34867004ae7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a3bcc0f07af8cd30ccea34867004ae7">&#9670;&#160;</a></span>x</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double hmi::MapRegion::x = 0.0</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2759d84ea68c7271cfdece4615a644e8" name="a2759d84ea68c7271cfdece4615a644e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2759d84ea68c7271cfdece4615a644e8">&#9670;&#160;</a></span>y</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double hmi::MapRegion::y = 0.0</td>
+          <td class="memname">std::string hmi::MapLabel::name</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -198,7 +153,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Presentation/<a class="el" href="WorldMapRegions_8h_source.html">WorldMapRegions.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Presentation/<a class="el" href="WorldMaps_8h_source.html">WorldMaps.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -213,7 +168,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacehmi.html">hmi</a></li><li class="navelem"><a href="structhmi_1_1MapRegion.html">MapRegion</a></li>
+    <li class="navelem"><a href="namespacehmi.html">hmi</a></li><li class="navelem"><a href="structhmi_1_1MapLabel.html">MapLabel</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

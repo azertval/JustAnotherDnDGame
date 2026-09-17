@@ -97,10 +97,9 @@ var searchData=
   ['localization_94',['Localization',['../classhmi_1_1Localization.html#aa549c7438b65314c5e0b8bd90996e310',1,'hmi::Localization']]],
   ['localized_95',['localized',['../classhmi_1_1WorldGraphView.html#ad2f332c820645e993c8a3bd570c43804',1,'hmi::WorldGraphView']]],
   ['localizedtaxonomylabel_96',['localizedTaxonomyLabel',['../namespacehmi.html#a62841e1d2bd66f14e276709d5f41acb0',1,'hmi']]],
-  ['locationcount_97',['locationCount',['../classhmi_1_1WorldMapModel.html#aaa3fcf5322ce528763ea90e63a4cccbc',1,'hmi::WorldMapModel']]],
-  ['log_98',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
-  ['logger_99',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
-  ['logsavailable_100',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
-  ['logstatisticsifchanged_101',['logStatisticsIfChanged',['../classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783',1,'hmi::SpriteRenderer']]],
-  ['lookup_102',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
+  ['log_97',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
+  ['logger_98',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
+  ['logsavailable_99',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
+  ['logstatisticsifchanged_100',['logStatisticsIfChanged',['../classhmi_1_1SpriteRenderer.html#a796e552b16b1c726e9bd44016c965783',1,'hmi::SpriteRenderer']]],
+  ['lookup_101',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
 ];

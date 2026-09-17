@@ -62,6 +62,7 @@ var menudata={children:[
 {text:"g",url:"namespacemembers_func_g.html#index_g"},
 {text:"h",url:"namespacemembers_func_h.html#index_h"},
 {text:"i",url:"namespacemembers_func_i.html#index_i"},
+{text:"j",url:"namespacemembers_func_j.html#index_j"},
 {text:"k",url:"namespacemembers_func_k.html#index_k"},
 {text:"l",url:"namespacemembers_func_l.html#index_l"},
 {text:"m",url:"namespacemembers_func_m.html#index_m"},
@@ -228,6 +229,7 @@ var menudata={children:[
 {text:"t",url:"functions_prop.html#index_t"},
 {text:"u",url:"functions_prop.html#index_u"},
 {text:"v",url:"functions_prop.html#index_v"},
+{text:"w",url:"functions_prop.html#index_w"},
 {text:"z",url:"functions_prop.html#index_z"}]},
 {text:"Related Symbols",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[

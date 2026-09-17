@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldMaps.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Presentation/WorldMaps.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cstddef&gt;
+#include &lt;set&gt;
+#include &lt;stdexcept&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace hmi {
+namespace {
+
+constexpr int FORMAT_VERSION = 1;
+constexpr std::string_view ORIGIN = "world-maps.json";
+
+/// Ãchec de lecture : porte le message, remontÃ© tel quel dans `WorldMaps::error`.
+class ReadFailure : public std::runtime_error {
+public:
+    using std::runtime_error::runtime_error;
+};
+
+<span style = "background-color:#dfd">[[nodiscard]] ReadFailure failure(const std::string&amp; where, const std::string&amp; what) {
+    return ReadFailure(std::string(ORIGIN) + " : " + where + " â " + what);
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] bool isFraction(const nlohmann::json&amp; value) {
+    return value.is_number() &amp;&amp; value.get&lt;double&gt;() &gt;= 0.0 &amp;&amp; value.get&lt;double&gt;() &lt;= 1.0;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] MapPoint readPoint(const nlohmann::json&amp; value, const std::string&amp; where) {
+    if (!value.is_array() || value.size() != 2 || !isFraction(value[0]) || !isFraction(value[1])) {
+        throw failure(where, "la position n'est pas une paire de fractions entre 0 et 1.");</span>
+    }
+<span style = "background-color:#dfd">    return MapPoint{.x = value[0].get&lt;double&gt;(), .y = value[1].get&lt;double&gt;()};
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] MapFrame readFrame(const nlohmann::json&amp; value, const std::string&amp; where) {
+    constexpr std::size_t FRAME_SIZE = 4;
+    const bool shaped =</span>
+        value.is_array() &amp;&amp; value.size() == FRAME_SIZE &amp;&amp; std::ranges::all_of(value, isFraction);
+<span style = "background-color:#dfd">    if (!shaped) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le cadre n'est pas [x, y, largeur, hauteur] en fractions.");</span>
+    }
+<span style = "background-color:#dfd">    const MapFrame frame{.x = value[0].get&lt;double&gt;(),
+                         .y = value[1].get&lt;double&gt;(),
+                         .width = value[2].get&lt;double&gt;(),
+                         .height = value[3].get&lt;double&gt;()};
+    constexpr double EPSILON = 1e-9;
+    if (frame.width &lt;= 0.0 || frame.height &lt;= 0.0 || frame.x + frame.width &gt; 1.0 + EPSILON ||</span>
+        frame.y + frame.height &gt; 1.0 + EPSILON) {
+<span style = "background-color:#dfd">        throw failure(where, "le cadre est vide ou sort de la carte.");</span>
+    }
+<span style = "background-color:#dfd">    return frame;
+}</span>
+
+[[nodiscard]] std::string readText(const nlohmann::json&amp; object, const char* field,
+<span style = "background-color:#dfd">                                   const std::string&amp; where, bool required) {
+    const auto found = object.find(field);
+    if (found == object.end()) {</span>
+<span style = "background-color:#fdd">        if (required) {
+            throw failure(where, std::string("le champ Â« ") + field + " Â» manque.");</span>
+        }
+<span style = "background-color:#fdd">        return {};</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, std::string("le champ Â« ") + field + " Â» n'est pas un texte.");</span>
+    }
+<span style = "background-color:#dfd">    return found-&gt;get&lt;std::string&gt;();
+}</span>
+
+[[nodiscard]] std::map&lt;std::string, MapPoint&gt; readPlaces(const nlohmann::json&amp; object,
+<span style = "background-color:#dfd">                                                         const std::string&amp; where) {
+    std::map&lt;std::string, MapPoint&gt; places;
+    const auto found = object.find("places");
+    if (found == object.end()) {
+        return places;</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le champ Â« places Â» n'est pas un objet.");</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [id, position] : found-&gt;items()) {
+        places.emplace(id, readPoint(position, where + " / " + id));
+    }
+    return places;
+}</span>
+
+[[nodiscard]] std::vector&lt;MapLabel&gt; readLabels(const nlohmann::json&amp; object,
+<span style = "background-color:#dfd">                                               const std::string&amp; where) {
+    std::vector&lt;MapLabel&gt; labels;
+    const auto found = object.find("labels");
+    if (found == object.end()) {
+        return labels;</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le champ Â« labels Â» n'est pas une liste.");</span>
+    }
+<span style = "background-color:#dfd">    for (const nlohmann::json&amp; entry : *found) {
+        if (!entry.is_object() || !entry.contains("at")) {</span>
+<span style = "background-color:#fdd">            throw failure(where, "un nom de gÃ©ographie n'a pas de position.");</span>
+        }
+<span style = "background-color:#dfd">        MapLabel label{.name = readText(entry, "name", where, true),
+                       .kind = readText(entry, "kind", where, false),</span>
+                       .at = {}};
+<span style = "background-color:#dfd">        label.at = readPoint(entry["at"], where + " / " + label.name);
+        labels.push_back(std::move(label));
+    }
+    return labels;
+}</span>
+
+[[nodiscard]] std::vector&lt;MapSite&gt; readSites(const nlohmann::json&amp; object,
+<span style = "background-color:#dfd">                                             const std::string&amp; where) {
+    std::vector&lt;MapSite&gt; sites;
+    const auto found = object.find("sites");
+    if (found == object.end()) {
+        return sites;</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le champ Â« sites Â» n'est pas une liste.");</span>
+    }
+<span style = "background-color:#dfd">    for (const nlohmann::json&amp; entry : *found) {
+        if (!entry.is_object() || !entry.contains("at")) {</span>
+<span style = "background-color:#fdd">            throw failure(where, "un lieu numÃ©rotÃ© n'a pas de position.");</span>
+        }
+<span style = "background-color:#dfd">        MapSite site{.number = 0,
+                     .name = readText(entry, "name", where, true),
+                     .note = readText(entry, "note", where, false),</span>
+                     .at = {}};
+<span style = "background-color:#dfd">        if (const auto number = entry.find("number");
+            number != entry.end() &amp;&amp; number-&gt;is_number_integer()) {
+            site.number = number-&gt;get&lt;int&gt;();
+        }
+        site.at = readPoint(entry["at"], where + " / " + site.name);
+        sites.push_back(std::move(site));
+    }
+    return sites;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] RegionMap readRegion(const nlohmann::json&amp; object, const std::string&amp; where) {
+    if (!object.is_object() || !object.contains("anchor") || !object.contains("frame")) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "il faut une image, un repÃ¨re (Â« anchor Â») et un cadre (Â« frame Â»).");</span>
+    }
+<span style = "background-color:#dfd">    RegionMap region;
+    region.image = readText(object, "image", where, true);
+    region.anchor = readPoint(object["anchor"], where + " / anchor");
+    region.frame = readFrame(object["frame"], where + " / frame");
+    region.places = readPlaces(object, where);
+    region.labels = readLabels(object, where);
+    if (const auto omitted = object.find("omitted"); omitted != object.end()) {
+        if (!omitted-&gt;is_array() || !std::ranges::all_of(*omitted, [](const nlohmann::json&amp; id) {
+                return id.is_string();
+            })) {</span>
+<span style = "background-color:#fdd">            throw failure(where, "le champ Â« omitted Â» n'est pas une liste d'identifiants.");</span>
+        }
+<span style = "background-color:#dfd">        region.omitted = omitted-&gt;get&lt;std::vector&lt;std::string&gt;&gt;();
+    }
+    return region;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] CityMap readCity(const nlohmann::json&amp; object, const std::string&amp; where) {
+    if (!object.is_object()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le plan n'est pas un objet.");</span>
+    }
+<span style = "background-color:#dfd">    CityMap city;
+    city.image = readText(object, "image", where, true);
+    city.places = readPlaces(object, where);
+    city.sites = readSites(object, where);
+    city.labels = readLabels(object, where);
+    return city;
+}</span>
+
+<span style = "background-color:#dfd">void readInto(WorldMaps&amp; maps, const nlohmann::json&amp; root) {
+    const auto world = root.find("world");
+    if (world == root.end() || !world-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        throw failure("world", "le champ manque ou n'est pas un objet.");</span>
+    }
+<span style = "background-color:#dfd">    maps.worldImage = readText(*world, "image", "world", true);</span>
+
+<span style = "background-color:#dfd">    const auto regions = root.find("regions");
+    if (regions == root.end() || !regions-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        throw failure("regions", "le champ manque ou n'est pas un objet.");</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [id, region] : regions-&gt;items()) {
+        maps.regions.emplace(id, readRegion(region, "regions / " + id));
+    }</span>
+
+<span style = "background-color:#dfd">    if (const auto cities = root.find("cities"); cities != root.end()) {
+        if (!cities-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">            throw failure("cities", "le champ n'est pas un objet.");</span>
+        }
+<span style = "background-color:#dfd">        for (const auto&amp; [id, city] : cities-&gt;items()) {
+            maps.cities.emplace(id, readCity(city, "cities / " + id));
+        }
+    }
+}</span>
+
+[[nodiscard]] MapRegionView regionView(const core::Atlas&amp; atlas, const core::Region&amp; region,
+                                       const RegionMap&amp; map, const WorldMaps&amp; maps,
+<span style = "background-color:#dfd">                                       const std::set&lt;std::string&gt;&amp; cityPlaces) {
+    MapRegionView view{.id = region.id,
+                       .name = region.name,
+                       .image = map.image,
+                       .anchor = map.anchor,
+                       .frame = map.frame,
+                       .government = region.government,
+                       .faction = region.faction,
+                       .population = region.population.total,</span>
+                       .grades = {},
+<span style = "background-color:#dfd">                       .places = {},
+                       .labels = map.labels};
+    for (std::size_t axis = 0; axis &lt; core::kRegionAxisCount; ++axis) {
+        view.grades.at(axis) = static_cast&lt;int&gt;(region.statistics.at(axis).grade());
+    }
+    for (const std::string&amp; locationId : region.locations) {
+        const core::Location* const location = atlas.findLocation(locationId);
+        const bool omitted = std::ranges::find(map.omitted, locationId) != map.omitted.end();
+        if (location == nullptr || omitted || cityPlaces.contains(locationId)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto position = map.places.find(locationId);
+        view.places.push_back(</span>
+            MapPlaceView{.id = location-&gt;id,
+                         .name = location-&gt;name,
+                         .description = location-&gt;description,
+                         .placed = position != map.places.end(),
+                         .at = position != map.places.end() ? position-&gt;second : MapPoint{},
+                         .hasCityMap = maps.cities.contains(locationId)});
+<span style = "background-color:#dfd">    }</span>
+    // Les lieux posÃ©s d'abord : ce sont eux qu'on parcourt sur la carte ; l'ordre de l'atlas
+    // dÃ©partage.
+<span style = "background-color:#dfd">    std::ranges::stable_partition(view.places,
+                                  [](const MapPlaceView&amp; place) { return place.placed; });
+    return view;
+}</span>
+
+[[nodiscard]] MapCityView cityView(const core::Atlas&amp; atlas, const core::Location&amp; location,
+<span style = "background-color:#dfd">                                   const CityMap&amp; map, std::vector&lt;std::string&gt;&amp; mismatches) {
+    MapCityView view{.id = location.id,
+                     .name = location.name,
+                     .regionId = location.region,
+                     .image = map.image,
+                     .points = {},
+                     .labels = map.labels};</span>
+    // Les quartiers dans l'ordre oÃ¹ la RÃGION les liste â celui du livre (1 - Sloghood,
+    // 2 - Uptownâ¦), que l'ordre des fichiers de l'atlas, alphabÃ©tique, ne garde pas â, puis les
+    // lieux numÃ©rotÃ©s dans l'ordre du fichier.
+<span style = "background-color:#dfd">    int number = 0;
+    const core::Region* const region = atlas.findRegion(location.region);
+    for (const std::string&amp; candidateId :
+         region != nullptr ? region-&gt;locations : std::vector&lt;std::string&gt;{}) {
+        const auto position = map.places.find(candidateId);
+        const core::Location* const candidate = atlas.findLocation(candidateId);
+        if (position == map.places.end() || candidate == nullptr) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        view.points.push_back(MapCityPointView{.id = candidate-&gt;id,</span>
+                                               .number = ++number,
+                                               .name = candidate-&gt;name,
+                                               .description = candidate-&gt;description,
+                                               .at = position-&gt;second});
+<span style = "background-color:#dfd">    }
+    for (const auto&amp; [id, position] : map.places) {
+        if (atlas.findLocation(id) == nullptr) {</span>
+<span style = "background-color:#fdd">            mismatches.push_back("plan de Â« " + location.id + " Â» : le quartier Â« " + id +</span>
+                                 " Â» n'est pas un lieu de l'atlas");
+        }
+<span style = "background-color:#dfd">    }
+    for (const MapSite&amp; site : map.sites) {
+        view.points.push_back(</span>
+            MapCityPointView{.id = location.id + "#" + std::to_string(site.number),
+                             .number = site.number,
+                             .name = site.name,
+                             .description = site.note,
+                             .at = site.at});
+<span style = "background-color:#dfd">    }
+    return view;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">WorldMaps readWorldMaps(std::string_view json) {
+    WorldMaps maps;
+    const core::JsonDocument document = core::readJsonObject(json, FORMAT_VERSION, ORIGIN);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        maps.error = document.message;
+        return maps;</span>
+    }
+    try {
+<span style = "background-color:#dfd">        readInto(maps, document.root);
+    } catch (const ReadFailure&amp; error) {
+        maps = WorldMaps{};
+        maps.error = error.what();
+    }
+    return maps;
+}</span>
+
+WorldMapViews joinWorldMaps(const core::Atlas&amp; atlas, const WorldMaps&amp; maps,
+<span style = "background-color:#dfd">                            std::vector&lt;std::string&gt;&amp; mismatches) {
+    WorldMapViews views;
+    views.worldImage = maps.worldImage;</span>
+
+    // Un quartier posÃ© sur un plan de ville ne se rÃ©pÃ¨te pas dans la liste de sa rÃ©gion.
+<span style = "background-color:#dfd">    std::set&lt;std::string&gt; cityPlaces;
+    for (const auto&amp; [cityId, city] : maps.cities) {
+        for (const auto&amp; [placeId, position] : city.places) {
+            cityPlaces.insert(placeId);
+        }
+    }</span>
+
+<span style = "background-color:#dfd">    for (const core::Region&amp; region : atlas.regions) {
+        const auto map = maps.regions.find(region.id);
+        if (map == maps.regions.end()) {
+            mismatches.push_back("la rÃ©gion Â« " + region.id + " Â» n'a pas de carte");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        for (const auto&amp; [placeId, position] : map-&gt;second.places) {
+            if (std::ranges::find(region.locations, placeId) == region.locations.end()) {</span>
+<span style = "background-color:#fdd">                mismatches.push_back("carte de Â« " + region.id + " Â» : Â« " + placeId +</span>
+                                     " Â» n'est pas un lieu de cette rÃ©gion");
+            }
+<span style = "background-color:#dfd">        }
+        for (const std::string&amp; omitted : map-&gt;second.omitted) {
+            if (std::ranges::find(region.locations, omitted) == region.locations.end()) {</span>
+<span style = "background-color:#fdd">                mismatches.push_back("carte de Â« " + region.id + " Â» : l'entrÃ©e Ã©cartÃ©e Â« " +</span>
+                                     omitted + " Â» n'est pas un lieu de cette rÃ©gion");
+            }
+<span style = "background-color:#dfd">        }
+        views.regions.push_back(regionView(atlas, region, map-&gt;second, maps, cityPlaces));
+    }
+    for (const auto&amp; [id, map] : maps.regions) {
+        if (atlas.findRegion(id) == nullptr) {
+            mismatches.push_back("la carte Â« " + id + " Â» ne dÃ©signe aucune rÃ©gion de l'atlas");</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    for (const auto&amp; [id, map] : maps.cities) {
+        const core::Location* const location = atlas.findLocation(id);
+        if (location == nullptr) {
+            mismatches.push_back("le plan Â« " + id + " Â» ne dÃ©signe aucun lieu de l'atlas");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        views.cities.push_back(cityView(atlas, *location, map, mismatches));
+    }
+    return views;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>
