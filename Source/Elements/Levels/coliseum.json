@@ -5703,6 +5703,14 @@
       "figure": "xorius"
     },
     {
+      "type": "combatZone",
+      "x": 10,
+      "y": 10,
+      "name": "sable",
+      "width": 20,
+      "height": 14
+    },
+    {
       "type": "arenaEntry",
       "x": 11,
       "y": 15,

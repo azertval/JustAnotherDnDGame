@@ -42,6 +42,16 @@
     "description": {
       "type": "string",
       "minLength": 1
+    },
+    "location": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifiant du lieu de l'atlas (LOT-37) ou l'arene se tient, plus precis que la region : un quartier, une ville. Absent : seule la region est etablie."
+    },
+    "zone": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Nom de la zone de combat de la carte (entite combatZone, EX-LVL-018, LOT-09) sur laquelle l'arene joue. Absent : la carte entiere est la grille tactique, comme au LOT-50."
     }
   },
   "required": [

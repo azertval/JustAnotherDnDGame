@@ -19,14 +19,14 @@
 
 #include "Core/Levels/LevelLoader.h"
 
-/// Analyse et validation de `arena-of-the-future.json`.
+/// Analyse et validation de `coliseum.json`, la premiere carte du jeu (LOT-09).
 static void LoadShippedLevel(benchmark::State& state) {
-    std::ifstream fichier(std::filesystem::path(JADG_LEVELS_DIR) / "arena-of-the-future.json",
+    std::ifstream fichier(std::filesystem::path(JADG_LEVELS_DIR) / "coliseum.json",
                           std::ios::binary);
     const std::string texte{std::istreambuf_iterator<char>(fichier),
                             std::istreambuf_iterator<char>()};
     if (texte.empty()) {
-        state.SkipWithError("arena-of-the-future.json illisible");
+        state.SkipWithError("coliseum.json illisible");
         return;
     }
     for (auto _ : state) {

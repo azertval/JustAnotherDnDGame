@@ -76,6 +76,12 @@ enum class WorldIssueCode {
     UnknownArrivalPoint,
     /// Deux points d'arrivée d'une même carte portent le même nom. `value` le nomme.
     DuplicateArrivalPoint,
+    /// Une zone de combat est dégénérée : largeur ou hauteur nulle. `value` la nomme.
+    CombatZoneDegenerate,
+    /// Une zone de combat déborde de la carte. `value` la nomme.
+    CombatZoneOutOfBounds,
+    /// Une zone de combat n'a aucune case libre : on ne s'y bat pas. `value` la nomme.
+    CombatZoneBlocked,
 };
 
 /// @brief Un défaut relevé sur une carte, et où.

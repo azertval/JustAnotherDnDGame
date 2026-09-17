@@ -270,6 +270,18 @@ def tracer() -> dict:
         entites.append(
             {"type": "npc", "x": colonne, "y": ligne, "dialogue": dialogue, "figure": figurine}
         )
+    # La zone de combat : le sable, et lui seul (EX-LVL-018). `core::ArenaSession` la prend pour
+    # grille tactique a la place de la carte entiere, et les cases du dehors lui sont inconnues.
+    entites.append(
+        {
+            "type": "combatZone",
+            "x": SABLE[0],
+            "y": SABLE[1],
+            "name": "sable",
+            "width": SABLE[2] - SABLE[0] + 1,
+            "height": SABLE[3] - SABLE[1] + 1,
+        }
+    )
     for colonne, ligne, camp, rang in ENTREES_ARENE:
         entites.append({"type": "arenaEntry", "x": colonne, "y": ligne, "side": camp, "rank": rang})
     # Le point d'arrivée de la porte : c'est par là qu'on entre quand on vient d'ailleurs, et c'est

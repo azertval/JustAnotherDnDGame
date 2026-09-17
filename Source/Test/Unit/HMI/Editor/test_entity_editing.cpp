@@ -259,13 +259,13 @@ TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
     EXPECT_NE(std::ranges::find(references.dialogues, "heraut-colisee"),
               references.dialogues.end());
     EXPECT_NE(references.encounters.find("nuee-de-rats"), nullptr);
-    ASSERT_NE(references.world.find("arena-of-the-future"), nullptr);
+    ASSERT_NE(references.world.find("coliseum"), nullptr);
 
     const core::LevelLoadResult arena =
-        core::LevelLoader::loadFromFile(elementsRoot() / "Levels" / "arena-of-the-future.json");
+        core::LevelLoader::loadFromFile(elementsRoot() / "Levels" / "coliseum.json");
     ASSERT_TRUE(arena.ok()) << arena.error;
     const core::EntityReferenceContext context =
-        hmi::referenceContext(references, "arena-of-the-future", arena.level->entities());
+        hmi::referenceContext(references, "coliseum", arena.level->entities());
     EXPECT_TRUE(core::validateMapEntities(arena.level->entities(), context).empty());
 }
 

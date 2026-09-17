@@ -10,6 +10,7 @@
 #include <variant>
 
 #include "Core/Combat/Arena.h"
+#include "Core/World/CombatZone.h"
 #include "Core/Combat/CombatTransition.h"
 #include "Core/Rpg/Dialogue.h"
 
@@ -114,6 +115,26 @@ const std::vector<EntityKind>& knownEntityKinds() {
                                                      .fixedChoices = {},
                                                      .required = true,
                                                      .defaultValue = std::string{}}}},
+        // Zone de combat (LOT-09) : le rectangle nomme ou l'on se bat, et lui seul (EX-LVL-018).
+        EntityKind{.type = COMBAT_ZONE_ENTITY_TYPE,
+                   .properties = {EntityPropertySpec{.key = COMBAT_ZONE_NAME_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::string{}},
+                                  EntityPropertySpec{.key = COMBAT_ZONE_WIDTH_PROPERTY,
+                                                     .kind = EntityPropertyKind::Integer,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::int64_t{1}},
+                                  EntityPropertySpec{.key = COMBAT_ZONE_HEIGHT_PROPERTY,
+                                                     .kind = EntityPropertyKind::Integer,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::int64_t{1}}}},
         // Entree d'arene (LOT-50).
         EntityKind{.type = ARENA_ENTRY_ENTITY_TYPE,
                    .properties = {EntityPropertySpec{.key = ARENA_SIDE_PROPERTY,

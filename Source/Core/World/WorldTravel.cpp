@@ -3,11 +3,13 @@
 
 #include "Core/World/WorldTravel.h"
 
+#include <iterator>
 #include <set>
 #include <utility>
 #include <variant>
 
 #include "Core/Gameplay/WorldFlags.h"
+#include "Core/World/CombatZone.h"
 #include "Core/World/EntityKinds.h"
 
 namespace core {
@@ -57,6 +59,9 @@ namespace {
         case WorldIssueCode::MissingArrivalPoint:
         case WorldIssueCode::UnreadableMap:
         case WorldIssueCode::DuplicateArrivalPoint:
+        case WorldIssueCode::CombatZoneDegenerate:
+        case WorldIssueCode::CombatZoneOutOfBounds:
+        case WorldIssueCode::CombatZoneBlocked:
             return {};
     }
     return {};
@@ -128,6 +133,11 @@ std::vector<WorldIssue> validateWorldMap(std::string_view mapId, const Level& le
                                      .code = WorldIssueCode::DuplicateArrivalPoint,
                                      .value = std::move(nom)});
     }
+    // Les zones de combat de la carte (`EX-LVL-018`) : une zone qui deborde ou qui n'a aucune case
+    // libre est un defaut de la CARTE, du meme ordre que le point d'arrivee en double.
+    std::vector<WorldIssue> zones = validateCombatZones(mapId, level);
+    defauts.insert(defauts.end(), std::make_move_iterator(zones.begin()),
+                   std::make_move_iterator(zones.end()));
     return defauts;
 }
 
