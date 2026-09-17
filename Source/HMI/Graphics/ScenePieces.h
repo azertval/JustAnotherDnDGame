@@ -77,6 +77,7 @@ struct ScenePieceTextures {
 /**
  * @brief Pose une pièce **debout** d'une case par son ancre.
  *
+ * @param texture La pièce à poser, déjà chargée (sa taille donne le quad).
  * @param topVertex Sommet haut du losange de la case, en unités monde.
  * @param unitsPerScenePixel Unités monde par pixel d'art (un losange de `SCENE_TILE_WIDTH_PIXELS`
  *                           occupe la largeur du losange de la projection).
