@@ -28,7 +28,7 @@ namespace {
 
 std::string skillLabelKey(std::string_view skillId) {
     std::string cle = "rpg.skill." + std::string(skillId);
-    std::replace(cle.begin(), cle.end(), '-', '_');
+    std::ranges::replace(cle, '-', '_');
     return cle;
 }
 
@@ -40,7 +40,8 @@ DialogueScreenValues dialogueScreenValues(const core::DialogueRunner& runner,
     valeurs.attitude = text(core::dialogueAttitudeKey(runner.attitude()));
 
     const auto quitter = [&text]() {
-        return DialogueReply{std::string(DIALOGUE_LEAVE_REPLY), text("dialogue.leave"), {}};
+        return DialogueReply{
+            .id = std::string(DIALOGUE_LEAVE_REPLY), .label = text("dialogue.leave"), .value = {}};
     };
 
     switch (runner.state()) {
@@ -59,7 +60,7 @@ DialogueScreenValues dialogueScreenValues(const core::DialogueRunner& runner,
 
     valeurs.line = text(runner.lineKey());
     for (const core::AvailableChoice& choix : runner.choices()) {
-        DialogueReply reponse{choix.id, text(choix.textKey), {}};
+        DialogueReply reponse{.id = choix.id, .label = text(choix.textKey), .value = {}};
         if (!choix.checkSkill.empty()) {
             // Annonce le jet AVANT qu'on le choisisse, comme une table l'annonce : un joueur qui
             // decouvre apres coup qu'il jouait sa Persuasion n'a pas choisi, il a subi.

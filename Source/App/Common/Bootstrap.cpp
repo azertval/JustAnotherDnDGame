@@ -7,6 +7,7 @@
 #include <QLibraryInfo>
 #include <QString>
 #include <QTranslator>
+#include <array>
 #include <cstdio>
 #include <cstdlib>
 #include <ctime>
@@ -55,9 +56,12 @@ namespace {
     const std::time_t now = std::time(nullptr);
     std::tm local{};
     localtime_s(&local, &now);
-    char stamp[32] = {};
-    std::strftime(stamp, sizeof(stamp), "%Y%m%d_%H%M%S", &local);
-    return hmi::executableDirectory() / "Logs" / (std::string("run_") + stamp + ".log");
+    std::array<char, 32> stamp{};
+    std::strftime(stamp.data(), stamp.size(), "%Y%m%d_%H%M%S", &local);
+    std::string fileName = "run_";
+    fileName += stamp.data();
+    fileName += ".log";
+    return hmi::executableDirectory() / "Logs" / fileName;
 }
 
 /// @return Le niveau minimum retenu ; @p invalidValueGiven signale une valeur non reconnue.

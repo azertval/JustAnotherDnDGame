@@ -137,6 +137,18 @@ public:
     }
 
 private:
+    /// Ouvre DEFINITIVEMENT la porte de la cle @p index (EX-GP-023).
+    void pickUpKey(std::size_t index);
+
+    /**
+     * @brief Passe la porte du mecanisme @p index a l'etat @p open, et signale un ecrasement.
+     * @param index        Indice du mecanisme dont la porte change d'etat.
+     * @param open         Vrai pour ouvrir la porte, faux pour la fermer.
+     * @param playerBox   Boite du personnage : une porte qui se referme dessus l'ecrase.
+     * @param triggerLabel Nom du declencheur pour la trace (« Interrupteur », « Plaque... »).
+     */
+    void setDoorOpen(std::size_t index, bool open, const Aabb& playerBox, const char* triggerLabel);
+
     TileMap _collision;  ///< Copie mutable : portes Solid (fermées) / Door (ouvertes).
     std::vector<Mechanism> _mechanisms;  ///< Liaisons déclencheur↔porte (positions).
     std::vector<bool> _switchOn;         ///< État de chaque déclencheur (porte ouverte ?).

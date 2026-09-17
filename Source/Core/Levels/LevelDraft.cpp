@@ -328,7 +328,7 @@ void LevelDraft::setSkinSet(std::optional<std::string> skinSet) {
 
 void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
     pushUndo();
-    _cameraFraming = cameraFraming;
+    _cameraFraming = std::move(cameraFraming);
 }
 
 void LevelDraft::addCameraZone(CameraZone zone) {
@@ -612,12 +612,9 @@ bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
             return true;
         }
     }
-    for (const MapEntity& entity : _entities) {
-        if (outOfBounds(entity.position)) {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::any_of(_entities, [&outOfBounds](const MapEntity& entity) {
+        return outOfBounds(entity.position);
+    });
 }
 
 bool LevelDraft::undo() {

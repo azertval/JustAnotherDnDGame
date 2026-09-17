@@ -33,10 +33,10 @@ QString positionText(core::GridPosition position) {
 LinkPanel::LinkPanel(QWidget* parent)
     : QWidget(parent),
       _ui(std::make_unique<Ui::LinkPanel>()),
-      _model(new QStandardItemModel(0, COLUMN_COUNT, this)) {
+      _table(_ui->table),
+      _model(new QStandardItemModel(0, COLUMN_COUNT, this)),
+      _deleteButton(_ui->deleteButton) {
     _ui->setupUi(this);
-    _table = _ui->table;
-    _deleteButton = _ui->deleteButton;
 
     _table->setModel(_model);
     // Comportement de selection et en-tetes : du fonctionnel, pas de la mise en page -- il reste

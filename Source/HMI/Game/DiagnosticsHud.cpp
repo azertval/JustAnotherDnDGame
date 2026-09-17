@@ -3,6 +3,7 @@
 
 #include "HMI/Game/DiagnosticsHud.h"
 
+#include <array>
 #include <cstdio>
 
 #include "HMI/Localization/Localization.h"
@@ -37,9 +38,9 @@ std::string formatTwoCounts(const std::string& templateText, int first, int seco
 
 // Une decimale, sans dependance Qt/locale (std::to_string tronque a l'entier pour un float).
 std::string formatOneDecimal(float value) {
-    char buffer[32];
-    std::snprintf(buffer, sizeof(buffer), "%.1f", static_cast<double>(value));
-    return std::string(buffer);
+    std::array<char, 32> buffer{};
+    std::snprintf(buffer.data(), buffer.size(), "%.1f", static_cast<double>(value));
+    return {buffer.data()};
 }
 
 }  // namespace
@@ -47,7 +48,7 @@ std::string formatOneDecimal(float value) {
 // Ajoute la duree d'une image ecoulee et purge les echantillons sortis de la fenetre (voir
 // en-tete).
 void FrameRateAverage::addSample(float deltaSeconds) noexcept {
-    if (deltaSeconds <= 0.0f) {
+    if (deltaSeconds <= 0.0F) {
         return;  // robustesse : un appelant ne doit jamais en produire (cf. contrat de l'en-tete).
     }
     _recentDeltas.push_back(deltaSeconds);
@@ -60,8 +61,8 @@ void FrameRateAverage::addSample(float deltaSeconds) noexcept {
 
 // Cadence moyenne sur la fenetre courante (voir en-tete : 0 si aucun echantillon).
 float FrameRateAverage::framesPerSecond() const noexcept {
-    if (_recentDeltas.empty() || _accumulatedSeconds <= 0.0f) {
-        return 0.0f;
+    if (_recentDeltas.empty() || _accumulatedSeconds <= 0.0F) {
+        return 0.0F;
     }
     return static_cast<float>(_recentDeltas.size()) / _accumulatedSeconds;
 }
@@ -69,7 +70,7 @@ float FrameRateAverage::framesPerSecond() const noexcept {
 // Oublie tous les echantillons (voir en-tete).
 void FrameRateAverage::reset() noexcept {
     _recentDeltas.clear();
-    _accumulatedSeconds = 0.0f;
+    _accumulatedSeconds = 0.0F;
 }
 
 // Compose les lignes du compteur de diagnostic a partir de valeurs deja mesurees (voir en-tete).

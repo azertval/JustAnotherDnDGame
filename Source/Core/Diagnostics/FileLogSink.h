@@ -32,7 +32,7 @@ public:
      * @param path   Chemin du fichier ; les dossiers parents sont créés au besoin.
      * @param append Si vrai, ajoute à la suite d'un fichier existant plutôt que de l'écraser.
      */
-    explicit FileLogSink(std::filesystem::path path, bool append = false);
+    explicit FileLogSink(const std::filesystem::path& path, bool append = false);
 
     void write(LogLevel level, std::string_view message) override;
 

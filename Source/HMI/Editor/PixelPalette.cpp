@@ -35,7 +35,7 @@ std::string formatColorHex(std::uint32_t color) {
                   static_cast<unsigned>(color & 0xFFU), static_cast<unsigned>((color >> 8) & 0xFFU),
                   static_cast<unsigned>((color >> 16) & 0xFFU),
                   static_cast<unsigned>((color >> 24) & 0xFFU));
-    return std::string(buffer.data());
+    return {buffer.data()};
 }
 
 // Chiffre hexadecimal -> valeur, sans lever (contrairement a std::stoul) : aucune exception ne

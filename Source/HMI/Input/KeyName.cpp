@@ -50,6 +50,8 @@ std::string keyDisplayName(Key key) {
             return "C";
         case Key::D:
             return "D";
+        case Key::E:
+            return "E";
         case Key::P:
             return "P";
         case Key::Q:
@@ -78,10 +80,10 @@ std::string keyDisplayName(Key key) {
 
     const int code = static_cast<int>(key);
     if (code >= '0' && code <= '9') {
-        return std::string(1, static_cast<char>(code));
+        return {static_cast<char>(code)};  // une chaine d'un seul caractere
     }
     if (code >= 'A' && code <= 'Z') {
-        return std::string(1, static_cast<char>(code));
+        return {static_cast<char>(code)};  // une chaine d'un seul caractere
     }
     std::ostringstream stream;
     stream << "Touche 0x" << std::hex << std::uppercase << std::setw(2) << std::setfill('0')
@@ -91,6 +93,9 @@ std::string keyDisplayName(Key key) {
 
 std::optional<Key> capturedKey(const InputState& input) {
     for (int code = 1; code < KEY_CODE_COUNT; ++code) {
+        // Tous les codes suivis par InputState, nommes ou non : une touche sans enumerateur doit
+        // pouvoir etre capturee, et keyPressed ne prend qu'une Key.
+        // NOLINTNEXTLINE(clang-analyzer-optin.core.EnumCastOutOfRange)
         const Key candidate = static_cast<Key>(code);
         if (candidate == Key::Escape || candidate == Key::Enter) {
             continue;  // reservees a la navigation globale : jamais capturees (LOT-29).

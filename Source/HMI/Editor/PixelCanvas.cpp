@@ -68,6 +68,48 @@ constexpr int CHECKER_LOGICAL_CELL = 6;
     return PixelOperationKind::Brush;
 }
 
+// Damier de fond : une case sur deux en checkerB, le fond checkerA etant deja rempli.
+void paintChecker(QPainter& painter, int realWidth, int realHeight, int cell,
+                  const QColor& checkerB) {
+    for (int y = 0; y < realHeight; y += cell) {
+        const bool rowOffset = ((y / cell) % 2) != 0;
+        for (int x = rowOffset ? 0 : cell; x < realWidth; x += 2 * cell) {
+            painter.fillRect(x, y, cell, cell, checkerB);
+        }
+    }
+}
+
+// Lignes de la grille de tuiles, tous les stepReal pixels reels. La position flottante s'accumule
+// par addition (jamais index * pas) : memes arrondis que le trace historique, et le compteur de
+// boucle reste entier.
+void paintReferenceGrid(QPainter& painter, int realWidth, int realHeight, double stepReal) {
+    double x = 0.0;
+    while (x <= realWidth) {
+        const int screenX = static_cast<int>(std::lround(x));
+        painter.drawLine(screenX, 0, screenX, realHeight);
+        x += stepReal;
+    }
+    double y = 0.0;
+    while (y <= realHeight) {
+        const int screenY = static_cast<int>(std::lround(y));
+        painter.drawLine(0, screenY, realWidth, screenY);
+        y += stepReal;
+    }
+}
+
+// Lignes de la grille de pixels, une par colonne et par rangee de l'image.
+void paintPixelGrid(QPainter& painter, int imageWidth, int imageHeight, int realWidth,
+                    int realHeight, double zoomReal) {
+    for (int column = 0; column <= imageWidth; ++column) {
+        const int screenX = static_cast<int>(std::lround(column * zoomReal));
+        painter.drawLine(screenX, 0, screenX, realHeight);
+    }
+    for (int row = 0; row <= imageHeight; ++row) {
+        const int screenY = static_cast<int>(std::lround(row * zoomReal));
+        painter.drawLine(0, screenY, realWidth, screenY);
+    }
+}
+
 }  // namespace
 
 PixelCanvas::PixelCanvas(QWidget* parent) : QWidget(parent) {
@@ -438,13 +480,13 @@ void PixelCanvas::wheelEvent(QWheelEvent* event) {
 
 void PixelCanvas::setUnderlay(DecodedImage image, float opacity) {
     _underlay = std::move(image);
-    _underlayOpacity = std::clamp(opacity, 0.0f, 1.0f);
+    _underlayOpacity = std::clamp(opacity, 0.0F, 1.0F);
     update();
 }
 
 void PixelCanvas::setOverlay(DecodedImage image, float opacity) {
     _overlay = std::move(image);
-    _overlayOpacity = std::clamp(opacity, 0.0f, 1.0f);
+    _overlayOpacity = std::clamp(opacity, 0.0F, 1.0F);
     update();
 }
 
@@ -468,12 +510,7 @@ QPixmap PixelCanvas::renderPixmap() const {
     painter.fillRect(0, 0, real.width, real.height, checkerA);
 
     const int cell = std::max(1, static_cast<int>(std::lround(CHECKER_LOGICAL_CELL * scale)));
-    for (int y = 0; y < real.height; y += cell) {
-        const bool rowOffset = ((y / cell) % 2) != 0;
-        for (int x = rowOffset ? 0 : cell; x < real.width; x += 2 * cell) {
-            painter.fillRect(x, y, cell, cell, checkerB);
-        }
-    }
+    paintChecker(painter, real.width, real.height, cell, checkerB);
 
     // Repere SOUS le contenu (mode creation, LOT-69 TACHE-07) : dessine ici, entre le damier et
     // l'oeuvre. Il n'entre jamais dans _image -- ni historique, ni copier.
@@ -502,14 +539,7 @@ QPixmap PixelCanvas::renderPixmap() const {
         const double stepReal =
             static_cast<double>(_referenceGridStep) * pixelCanvasScale(_view) * scale;
         if (stepReal >= 2.0) {
-            for (double x = 0.0; x <= real.width; x += stepReal) {
-                const int screenX = static_cast<int>(std::lround(x));
-                painter.drawLine(screenX, 0, screenX, real.height);
-            }
-            for (double y = 0.0; y <= real.height; y += stepReal) {
-                const int screenY = static_cast<int>(std::lround(y));
-                painter.drawLine(0, screenY, real.width, screenY);
-            }
+            paintReferenceGrid(painter, real.width, real.height, stepReal);
         }
     }
 
@@ -517,14 +547,7 @@ QPixmap PixelCanvas::renderPixmap() const {
     if (pixelCanvasGridVisible(_view)) {
         painter.setPen(toQColor(identityTokens().color.border));
         const double zoomReal = pixelCanvasScale(_view) * scale;
-        for (int column = 0; column <= _image.width; ++column) {
-            const int screenX = static_cast<int>(std::lround(column * zoomReal));
-            painter.drawLine(screenX, 0, screenX, real.height);
-        }
-        for (int row = 0; row <= _image.height; ++row) {
-            const int screenY = static_cast<int>(std::lround(row * zoomReal));
-            painter.drawLine(0, screenY, real.width, screenY);
-        }
+        paintPixelGrid(painter, _image.width, _image.height, real.width, real.height, zoomReal);
     }
 
     // Pixel survole : contour de vise, pas seulement le curseur systeme -- a fort zoom, la pointe

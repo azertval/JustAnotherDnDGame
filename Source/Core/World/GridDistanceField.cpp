@@ -22,7 +22,7 @@ GridDistanceField::GridDistanceField(const core::TileMap& tileMap,
       _distances(static_cast<std::size_t>(_width) * static_cast<std::size_t>(_height),
                  UNREACHABLE) {
     const auto index = [this](int column, int row) {
-        return static_cast<std::size_t>(row) * static_cast<std::size_t>(_width) +
+        return (static_cast<std::size_t>(row) * static_cast<std::size_t>(_width)) +
                static_cast<std::size_t>(column);
     };
 
@@ -62,7 +62,7 @@ GridDistanceField::GridDistanceField(const core::TileMap& tileMap,
                 continue;
             }
             _distances[neighborIndex] = currentDistance + 1;
-            frontier.push(core::GridPosition{neighborColumn, neighborRow});
+            frontier.push(core::GridPosition{.column = neighborColumn, .row = neighborRow});
         }
     }
 }
@@ -74,7 +74,7 @@ int GridDistanceField::distance(const core::GridPosition& position) const noexce
         return sentinel;
     }
     const std::size_t linearIndex =
-        static_cast<std::size_t>(position.row) * static_cast<std::size_t>(_width) +
+        (static_cast<std::size_t>(position.row) * static_cast<std::size_t>(_width)) +
         static_cast<std::size_t>(position.column);
     const int value = _distances[linearIndex];
     return value == UNREACHABLE ? sentinel : value;
@@ -86,7 +86,7 @@ bool GridDistanceField::isReachable(const core::GridPosition& position) const no
         return false;
     }
     const std::size_t linearIndex =
-        static_cast<std::size_t>(position.row) * static_cast<std::size_t>(_width) +
+        (static_cast<std::size_t>(position.row) * static_cast<std::size_t>(_width)) +
         static_cast<std::size_t>(position.column);
     return _distances[linearIndex] != UNREACHABLE;
 }

@@ -127,9 +127,12 @@ ItemSheet itemSheet(std::string_view itemId, const core::ItemLookup& lookup) {
         return sheet;
     }
     if (const core::Item* const item = findItem(lookup, itemId); item != nullptr) {
-        sheet.kind = item->category == "tool"
-                         ? "Outil"
-                         : (item->category == "mount" ? "Monture" : "Matériel");
+        sheet.kind = "Matériel";
+        if (item->category == "tool") {
+            sheet.kind = "Outil";
+        } else if (item->category == "mount") {
+            sheet.kind = "Monture";
+        }
         sheet.weight = kilograms(item->weightGrams);
         sheet.text = item->text;
     }
@@ -179,13 +182,12 @@ bool dropFromBackpack(core::Inventory& inventory, std::string_view itemId) {
 }
 
 void sortBackpack(core::Inventory& inventory, const core::ItemLookup& lookup) {
-    std::stable_sort(
-        inventory.backpack.begin(), inventory.backpack.end(),
-        [&lookup](const core::InventoryStack& left, const core::InventoryStack& right) {
-            const std::string leftName = nameOf(lookup, left.itemId);
-            const std::string rightName = nameOf(lookup, right.itemId);
-            return leftName != rightName ? leftName < rightName : left.itemId < right.itemId;
-        });
+    std::ranges::stable_sort(inventory.backpack, [&lookup](const core::InventoryStack& left,
+                                                           const core::InventoryStack& right) {
+        const std::string leftName = nameOf(lookup, left.itemId);
+        const std::string rightName = nameOf(lookup, right.itemId);
+        return leftName != rightName ? leftName < rightName : left.itemId < right.itemId;
+    });
 }
 
 }  // namespace hmi

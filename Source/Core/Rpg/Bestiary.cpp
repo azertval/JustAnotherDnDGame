@@ -98,9 +98,15 @@ void lireEnumerations(const nlohmann::json& objet, const char* champ, Analyser a
         if (valeur.has_value()) {
             sortie.push_back(*valeur);
         } else {
-            erreurs.push_back(fichier + " : " + champ + " '" + nom +
-                              "' inconnu du moteur. Une valeur ignoree ferait taire l'effet "
-                              "sans qu'aucun message ne le dise.");
+            std::string message = fichier;
+            message += " : ";
+            message += champ;
+            message += " '";
+            message += nom;
+            message +=
+                "' inconnu du moteur. Une valeur ignoree ferait taire l'effet "
+                "sans qu'aucun message ne le dise.";
+            erreurs.push_back(std::move(message));
         }
     }
 }
@@ -158,8 +164,8 @@ void lireNommes(const nlohmann::json& objet, const char* champ,
     }
     for (const auto& element : *trouve) {
         if (element.is_object()) {
-            sortie.push_back(
-                {lireTexteFacultatif(element, "name"), lireTexteFacultatif(element, "text")});
+            sortie.push_back({.name = lireTexteFacultatif(element, "name"),
+                              .text = lireTexteFacultatif(element, "text")});
         }
     }
 }
@@ -194,7 +200,11 @@ void lireActions(const nlohmann::json& objet, Creature& creature, const std::str
         if (!type.empty()) {
             action.damageType = parseDamageType(type);
             if (!action.damageType.has_value()) {
-                erreurs.push_back(fichier + " : type de degats '" + type + "' inconnu du moteur.");
+                std::string message = fichier;
+                message += " : type de degats '";
+                message += type;
+                message += "' inconnu du moteur.";
+                erreurs.push_back(std::move(message));
             }
         }
         creature.actions.push_back(std::move(action));

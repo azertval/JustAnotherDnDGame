@@ -11,6 +11,7 @@
 #include <QSettings>
 #include <QWheelEvent>
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <filesystem>
 #include <optional>
@@ -182,9 +183,9 @@ void GameViewport::updateEditCamera() {
     const int levelHeight = _draft.tileMap().height();
     _camera.setZoom(hmi::Camera2D::fitZoom(
         static_cast<float>(pixelWidth()), static_cast<float>(pixelHeight()),
-        static_cast<float>(levelWidth), static_cast<float>(levelHeight), 0.92f));
-    _camera.setCenter(core::Vector2{static_cast<float>(levelWidth) * 0.5f,
-                                    static_cast<float>(levelHeight) * 0.5f});
+        static_cast<float>(levelWidth), static_cast<float>(levelHeight), 0.92F));
+    _camera.setCenter(core::Vector2{static_cast<float>(levelWidth) * 0.5F,
+                                    static_cast<float>(levelHeight) * 0.5F});
 }
 
 core::Vector2 GameViewport::screenPosition(const QMouseEvent* event) const {
@@ -197,7 +198,7 @@ float GameViewport::minManualZoom() const {
     return hmi::Camera2D::fitZoom(static_cast<float>(pixelWidth()),
                                   static_cast<float>(pixelHeight()),
                                   static_cast<float>(_draft.tileMap().width()),
-                                  static_cast<float>(_draft.tileMap().height()), 0.92f);
+                                  static_cast<float>(_draft.tileMap().height()), 0.92F);
 }
 
 float GameViewport::maxManualZoom() const {
@@ -205,7 +206,7 @@ float GameViewport::maxManualZoom() const {
     // suffisante pour poser un bloc (ajustement post-livraison, LOT-15). Borne au minimum : un
     // niveau plus petit que 4 cases sur un axe rendrait sinon ce maximum inferieur au minimum
     // (std::clamp exige min <= max), verrouillant le zoom a l'ajustement automatique.
-    constexpr float MINIMUM_VISIBLE_CELLS = 4.0f;
+    constexpr float MINIMUM_VISIBLE_CELLS = 4.0F;
     const float smallerAxis = static_cast<float>((std::min)(pixelWidth(), pixelHeight()));
     const float rawMax = smallerAxis / (MINIMUM_VISIBLE_CELLS * hmi::Camera2D::PIXELS_PER_UNIT);
     return (std::max)(rawMax, minManualZoom());
@@ -222,7 +223,7 @@ std::optional<core::GridPosition> GameViewport::cellAt(const QMouseEvent* event)
     if (!_draft.tileMap().inBounds(column, row)) {
         return std::nullopt;
     }
-    return core::GridPosition{column, row};
+    return core::GridPosition{.column = column, .row = row};
 }
 
 void GameViewport::paintAt(const QMouseEvent* event) {
@@ -285,8 +286,9 @@ core::GridPosition GameViewport::clampedCell(const QMouseEvent* event) {
                                             static_cast<float>(event->position().y() * ratio)});
     const int width = _draft.tileMap().width();
     const int height = _draft.tileMap().height();
-    return core::GridPosition{std::clamp(static_cast<int>(std::floor(world.x)), 0, width - 1),
-                              std::clamp(static_cast<int>(std::floor(world.y)), 0, height - 1)};
+    return core::GridPosition{
+        .column = std::clamp(static_cast<int>(std::floor(world.x)), 0, width - 1),
+        .row = std::clamp(static_cast<int>(std::floor(world.y)), 0, height - 1)};
 }
 
 void GameViewport::applyRectangle(core::GridPosition a, core::GridPosition b) {
@@ -354,10 +356,11 @@ void GameViewport::pasteClipboard() {
 
 std::optional<std::pair<core::GridPosition, core::GridPosition>> GameViewport::highlight() const {
     if (_dragging) {
-        return std::make_pair(core::GridPosition{std::min(_dragStart.column, _dragCurrent.column),
-                                                 std::min(_dragStart.row, _dragCurrent.row)},
-                              core::GridPosition{std::max(_dragStart.column, _dragCurrent.column),
-                                                 std::max(_dragStart.row, _dragCurrent.row)});
+        return std::make_pair(
+            core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
+                               .row = std::min(_dragStart.row, _dragCurrent.row)},
+            core::GridPosition{.column = std::max(_dragStart.column, _dragCurrent.column),
+                               .row = std::max(_dragStart.row, _dragCurrent.row)});
     }
     if (_highlightedOverride) {
         return std::make_pair(*_highlightedOverride, *_highlightedOverride);
@@ -553,7 +556,7 @@ void GameViewport::setLevelSkinSet(std::optional<std::string> skinSet) {
 }
 
 void GameViewport::setLevelCameraFraming(core::CameraFramingConfig cameraFraming) {
-    _draft.setCameraFraming(cameraFraming);
+    _draft.setCameraFraming(std::move(cameraFraming));
     _dirty = true;
     markDraftMutated();
 }
@@ -598,13 +601,10 @@ void GameViewport::invalidateAsset(const std::string& fileName) {
 
 bool GameViewport::linkExists(core::GridPosition switchPosition,
                               core::GridPosition targetPosition) const {
-    for (const core::Mechanism& mechanism : _draft.mechanisms()) {
-        if (mechanism.switchPosition == switchPosition &&
-            mechanism.doorPosition == targetPosition) {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::any_of(_draft.mechanisms(), [&](const core::Mechanism& mechanism) {
+        return mechanism.switchPosition == switchPosition &&
+               mechanism.doorPosition == targetPosition;
+    });
 }
 
 void GameViewport::handleLinkClick(const QMouseEvent* event) {
@@ -616,8 +616,9 @@ void GameViewport::handleLinkClick(const QMouseEvent* event) {
 
     std::optional<hmi::PendingLink> pending;
     if (_pendingLink) {
-        pending = hmi::PendingLink{*_pendingLink,
-                                   _draft.tileMap().tile(_pendingLink->column, _pendingLink->row)};
+        pending = hmi::PendingLink{
+            .cell = *_pendingLink,
+            .tileType = _draft.tileMap().tile(_pendingLink->column, _pendingLink->row)};
     }
 
     // N'a de sens que si l'attente est toujours un declencheur/une cible valide : resolu de la
@@ -678,53 +679,64 @@ void GameViewport::tick(float elapsedSeconds) {
     // appel simplement absent) -- aucun pas n'est consommé tant que la pause dure. Le rendu, lui,
     // continue ci-dessous : la scène reste dessinée derrière l'écran de pause.
     if (!_paused) {
-        const int steps = _timestep.advance(elapsedSeconds);
-        _lastSimulationSteps = steps;  // pas consommés à cette image (LOT-62 TACHE-02).
-        const float fixedDelta = _timestep.fixedDeltaSeconds();
-        for (int step = 0; step < steps; ++step) {
-            core::LevelOutcome outcome = core::LevelOutcome::Playing;
-            if (_session) {
-                outcome = _session->update(_input, fixedDelta);
-            }
-            // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
-            // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
-            if (_session && _gameMode) {}
-            // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
-            // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
-            if (_session && _audioEngine) {
-                for (const GameEvent gameEvent : _session->lastStepEvents()) {
-                    if (const std::optional<std::string> soundId = soundForEvent(gameEvent)) {
-                        _audioEngine->play(*soundId);
-                    }
-                }
-            }
-            if (_session && outcome == core::LevelOutcome::Won) {
-                _input.beginFrame();
-                if (_gameMode) {
-                    // La sortie de la carte ne TERMINE plus rien (LOT-67) : il n'y a ni tableau
-                    // suivant, ni ecran de fin. Elle ramene au menu, faute de destination -- et
-                    // c'est un provisoire assume : la sortie redeviendra une TRANSITION, vers la
-                    // carte que le graphe du LOT-09 designera. Y laisser un ecran de fin de
-                    // sequence aurait ete plus spectaculaire et plus faux.
-                    HMI_LOG_INFO(
-                        "Jeu : sortie atteinte ; sans graphe de cartes (LOT-09), retour "
-                        "au menu.");
-                    _gameMode = false;
-                    _session.reset();
-                    emit exitToMenuRequested();
-                } else {
-                    stopPlaytest();  // essai éditeur : retour à l'édition
-                }
-                break;
-            }
-            _input.beginFrame();
-        }
+        advanceSimulation(elapsedSeconds);
     } else {
         // Consomme les fronts (ex. bouton B tenu en ouvrant la pause) sans avancer la simulation
         // -- sinon un appui encore maintenu à la reprise ferait osciller entrée/sortie de pause
         // (piège documenté par TACHE-02).
         _input.beginFrame();
     }
+}
+
+void GameViewport::advanceSimulation(float elapsedSeconds) {
+    const int steps = _timestep.advance(elapsedSeconds);
+    _lastSimulationSteps = steps;  // pas consommés à cette image (LOT-62 TACHE-02).
+    const float fixedDelta = _timestep.fixedDeltaSeconds();
+    for (int step = 0; step < steps; ++step) {
+        if (!simulateStep(fixedDelta)) {
+            break;
+        }
+    }
+}
+
+bool GameViewport::simulateStep(float fixedDelta) {
+    core::LevelOutcome outcome = core::LevelOutcome::Playing;
+    if (_session) {
+        outcome = _session->update(_input, fixedDelta);
+    }
+    // Bilan du tableau (LOT-68) : compte au PAS, pour la meme raison que les sons
+    // ci-dessous -- une mesure a l'image dependrait de la cadence de rendu.
+    if (_session && _gameMode) {}
+    // Sons de jeu (LOT-60 TACHE-03) : un evenement par pas, jamais par image de rendu --
+    // lastStepEvents() reflete exactement CE pas, celui qui vient de s'executer.
+    if (_session && (_audioEngine != nullptr)) {
+        for (const GameEvent gameEvent : _session->lastStepEvents()) {
+            if (const std::optional<std::string> soundId = soundForEvent(gameEvent)) {
+                _audioEngine->play(*soundId);
+            }
+        }
+    }
+    if (_session && outcome == core::LevelOutcome::Won) {
+        _input.beginFrame();
+        if (_gameMode) {
+            // La sortie de la carte ne TERMINE plus rien (LOT-67) : il n'y a ni tableau
+            // suivant, ni ecran de fin. Elle ramene au menu, faute de destination -- et
+            // c'est un provisoire assume : la sortie redeviendra une TRANSITION, vers la
+            // carte que le graphe du LOT-09 designera. Y laisser un ecran de fin de
+            // sequence aurait ete plus spectaculaire et plus faux.
+            HMI_LOG_INFO(
+                "Jeu : sortie atteinte ; sans graphe de cartes (LOT-09), retour "
+                "au menu.");
+            _gameMode = false;
+            _session.reset();
+            emit exitToMenuRequested();
+        } else {
+            stopPlaytest();  // essai éditeur : retour à l'édition
+        }
+        return false;
+    }
+    _input.beginFrame();
+    return true;
 }
 
 // Crée (ou recrée) les ressources graphiques quand QRhiWidget fournit son interface de rendu.
@@ -799,9 +811,9 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
     // surface qui appartient tour a tour aux deux portees (hmi::viewportClearColor).
     const hmi::DesignColor clearColor =
         hmi::viewportClearColor(/*editorMode=*/!_session, hmi::currentEditorTokens());
-    const float clear[4] = {static_cast<float>(clearColor.r) / 255.0f,
-                            static_cast<float>(clearColor.g) / 255.0f,
-                            static_cast<float>(clearColor.b) / 255.0f, 1.0f};
+    const std::array<float, 4> clear = {static_cast<float>(clearColor.r) / 255.0F,
+                                        static_cast<float>(clearColor.g) / 255.0F,
+                                        static_cast<float>(clearColor.b) / 255.0F, 1.0F};
     if (_session) {
         _session->render(pixelWidth(), pixelHeight(), _renderMode, _timestep.interpolationAlpha());
         renderDiagnosticsOverlay(pixelWidth(), pixelHeight());
@@ -832,7 +844,7 @@ void GameViewport::renderFrame(QRhiCommandBuffer* commandBuffer, float deltaSeco
     }
     // Téléversement unique puis passe unique : c'est ici, et nulle part ailleurs, que le GPU voit
     // l'image (cf. `hmi::SpriteBatch`, enregistrement en deux phases).
-    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear);
+    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear.data());
 }
 
 void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeight) {
@@ -848,23 +860,23 @@ void GameViewport::renderDiagnosticsOverlay(int viewportWidth, int viewportHeigh
 
     // Meme habillage (ombre + texte) que hmi::GameSession::renderHud, coin haut-DROIT (LOT-62
     // TACHE-02) pour ne jamais recouvrir le HUD de jeu, ancre coin haut-gauche.
-    constexpr float MARGIN = 8.0f;
-    constexpr float SCALE = 1.0f;
-    constexpr float LINE_SPACING = 2.0f;
-    constexpr core::Color SHADOW_COLOR{0.0f, 0.0f, 0.0f, 0.75f};
-    constexpr core::Color TEXT_COLOR{1.0f, 1.0f, 1.0f, 1.0f};
-    constexpr hmi::TextAnchor ANCHOR{hmi::TextHorizontalAnchor::Right,
-                                     hmi::TextVerticalAnchor::Top};
+    constexpr float MARGIN = 8.0F;
+    constexpr float SCALE = 1.0F;
+    constexpr float LINE_SPACING = 2.0F;
+    constexpr core::Color SHADOW_COLOR{.r = 0.0F, .g = 0.0F, .b = 0.0F, .a = 0.75F};
+    constexpr core::Color TEXT_COLOR{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = 1.0F};
+    constexpr hmi::TextAnchor ANCHOR{.horizontal = hmi::TextHorizontalAnchor::Right,
+                                     .vertical = hmi::TextVerticalAnchor::Top};
 
     _diagnosticsScene.clear();
     const float x = static_cast<float>(viewportWidth) - MARGIN;
     float lineY = MARGIN;
     for (const std::string& line : lines) {
-        hmi::composeText(_diagnosticsScene, _scene.font(), line, x + 1.0f, lineY + 1.0f, SCALE,
+        hmi::composeText(_diagnosticsScene, _scene.font(), line, x + 1.0F, lineY + 1.0F, SCALE,
                          SHADOW_COLOR, ANCHOR);
         hmi::composeText(_diagnosticsScene, _scene.font(), line, x, lineY, SCALE, TEXT_COLOR,
                          ANCHOR);
-        lineY += static_cast<float>(_scene.font().metrics().lineHeight) * SCALE + LINE_SPACING;
+        lineY += (static_cast<float>(_scene.font().metrics().lineHeight) * SCALE) + LINE_SPACING;
     }
     _diagnosticsScene.sort();
     hmi::submitComposedScene(_scene.sprites(),
@@ -896,31 +908,7 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
     // les autres touches alimentent le jeu -- jamais pendant une pause, où le focus clavier
     // revient à l'écran de pause (MainWindow::applyScreenDressing), pas au viewport.
     if (_session) {
-        if (event->key() == Qt::Key_Escape) {
-            if (_paused) {
-                return;  // ne devrait pas arriver (focus sur l'écran de pause) ; robustesse
-            }
-            if (_gameMode) {
-                emit pauseRequested();
-            } else {
-                stopPlaytest();
-            }
-            return;
-        }
-        if (_paused) {
-            return;
-        }
-        // Compteur de diagnostic (F9, LOT-62 TACHE-02) : touche dédiée non remappable, même statut
-        // que F8 (bascule de rendu) -- jamais transmise au jeu comme entrée (return immédiat).
-        if (!event->isAutoRepeat() && event->key() == Qt::Key_F9) {
-            toggleDiagnosticsOverlay();
-            return;
-        }
-        if (!event->isAutoRepeat()) {
-            if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
-                _input.onKeyDown(*key);
-            }
-        }
+        handleSessionKeyPress(event);
         return;
     }
 
@@ -952,6 +940,35 @@ void GameViewport::keyPressEvent(QKeyEvent* event) {
     }
     if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
         _input.onKeyDown(*key);
+    }
+}
+
+// Touche en mode jeu/essai (voir keyPressEvent).
+void GameViewport::handleSessionKeyPress(QKeyEvent* event) {
+    if (event->key() == Qt::Key_Escape) {
+        if (_paused) {
+            return;  // ne devrait pas arriver (focus sur l'écran de pause) ; robustesse
+        }
+        if (_gameMode) {
+            emit pauseRequested();
+        } else {
+            stopPlaytest();
+        }
+        return;
+    }
+    if (_paused) {
+        return;
+    }
+    // Compteur de diagnostic (F9, LOT-62 TACHE-02) : touche dédiée non remappable, même statut
+    // que F8 (bascule de rendu) -- jamais transmise au jeu comme entrée (return immédiat).
+    if (!event->isAutoRepeat() && event->key() == Qt::Key_F9) {
+        toggleDiagnosticsOverlay();
+        return;
+    }
+    if (!event->isAutoRepeat()) {
+        if (const std::optional<hmi::Key> key = qtKeyToHmiKey(event->key())) {
+            _input.onKeyDown(*key);
+        }
     }
 }
 
@@ -1050,7 +1067,7 @@ void GameViewport::startPlaytest() {
         return;  // rendu pas encore initialise (aucune image dessinee) : rien a essayer.
     }
     _session.emplace(_scene.sprites(), _scene.atlas(), _scene.textures(), pixelWidth(),
-                     pixelHeight(), std::move(*validated.level), _gameBindings, _gamepadBindings,
+                     pixelHeight(), *validated.level, _gameBindings, _gamepadBindings,
                      _scene.font(), _loc);
     // Meme habillage qu'en edition : l'essai doit montrer exactement le canevas de l'editeur.
     _session->setSkins(&_scene.skins(), _skinSet);
@@ -1277,11 +1294,11 @@ void GameViewport::mouseReleaseEvent(QMouseEvent* event) {
         if (_tool == hmi::EditorTool::Rectangle) {
             applyRectangle(_dragStart, _dragCurrent);
         } else if (_tool == hmi::EditorTool::Selection) {
-            _selection =
-                std::make_pair(core::GridPosition{std::min(_dragStart.column, _dragCurrent.column),
-                                                  std::min(_dragStart.row, _dragCurrent.row)},
-                               core::GridPosition{std::max(_dragStart.column, _dragCurrent.column),
-                                                  std::max(_dragStart.row, _dragCurrent.row)});
+            _selection = std::make_pair(
+                core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
+                                   .row = std::min(_dragStart.row, _dragCurrent.row)},
+                core::GridPosition{.column = std::max(_dragStart.column, _dragCurrent.column),
+                                   .row = std::max(_dragStart.row, _dragCurrent.row)});
         } else if (_tool == hmi::EditorTool::CameraZone) {
             addCameraZoneFromDrag(_dragStart, _dragCurrent);
         }
@@ -1296,7 +1313,7 @@ void GameViewport::mouseMoveEvent(QMouseEvent* event) {
         return;
     }
     if (_rightDragging) {
-        constexpr float PAN_THRESHOLD_PIXELS = 3.0f;  // au-dela : un glisser, pas un clic.
+        constexpr float PAN_THRESHOLD_PIXELS = 3.0F;  // au-dela : un glisser, pas un clic.
         const core::Vector2 current = screenPosition(event);
         const core::Vector2 delta = current - _rightDragLastScreen;
         if (std::abs(delta.x) > PAN_THRESHOLD_PIXELS || std::abs(delta.y) > PAN_THRESHOLD_PIXELS) {
@@ -1368,9 +1385,9 @@ void GameViewport::syncEditingState() {
 }
 
 void GameViewport::refreshDiagnostics() {
-    static const hmi::EditorReferences EMPTY_REFERENCES;
+    static const hmi::EditorReferences emptyReferences;
     const hmi::EditorReferences& references =
-        _references != nullptr ? *_references : EMPTY_REFERENCES;
+        _references != nullptr ? *_references : emptyReferences;
     // L'identifiant de la carte editee est le nom de son fichier (save() ecrit <nom>.json).
     _referenceContext = hmi::referenceContext(references, _draft.name(), _draft.entities());
     const std::vector<core::EntityIssue> issues =

@@ -585,6 +585,13 @@ private:
     void createResources();
     /// Avance la simulation d'une image (entrées, pas fixes, sons) — sans rien dessiner.
     void tick(float elapsedSeconds);
+    /// Consomme les pas fixes dus à @p elapsedSeconds (hors pause), appelée par `tick`.
+    void advanceSimulation(float elapsedSeconds);
+    /// Exécute un pas fixe (simulation, sons, fin de carte) ; faux si la carte vient de se
+    /// terminer et que les pas restants de l'image doivent être abandonnés.
+    bool simulateStep(float fixedDelta);
+    /// Traite un appui de touche pendant une session de jeu ou d'essai (voir `keyPressEvent`).
+    void handleSessionKeyPress(QKeyEvent* event);
     /// Compose et soumet une image sur @p commandBuffer.
     /// @p deltaSeconds : temps réel écoulé depuis l'image précédente (LOT-46 TACHE-05, avance
     /// l'aperçu des tuiles animées de l'éditeur).

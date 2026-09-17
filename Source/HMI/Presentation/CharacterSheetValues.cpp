@@ -4,6 +4,7 @@
 #include "HMI/Presentation/CharacterSheetValues.h"
 
 #include <array>
+#include <cmath>
 #include <string>
 
 namespace hmi {
@@ -34,9 +35,65 @@ constexpr std::array<std::pair<Ability, const char*>, 6> ABILITIES = {{
     std::string texte = std::to_string(entier);
     const float reste = valeur - static_cast<float>(entier);
     if (reste > 0.05F) {
-        texte += ',' + std::to_string(static_cast<int>(reste * 10.0F + 0.5F));
+        texte += ',' + std::to_string(static_cast<int>(std::lround(reste * 10.0F)));
     }
     return texte + " m";
+}
+
+/// Les trois choix qui ont construit la fiche, et le dé de vie que la classe donne.
+void addChoices(std::map<std::string, std::string>& valeurs, const CharacterSheetContext& context,
+                const core::CharacterSheet& fiche) {
+    // Les trois choix qui ont construit la fiche portent des IDENTIFIANTS ; leur nom lisible vit
+    // dans le catalogue. Un identifiant inconnu du catalogue rend le tiret plutôt que l'identifiant
+    // brut : `human-variant` affiché tel quel se lirait comme une donnée, alors que c'est une clé.
+    if (context.options == nullptr) {
+        return;
+    }
+    const core::Species* const espece = context.options->findSpecies(fiche.speciesId);
+    const core::PlayableClass* const classe = context.options->findClass(fiche.classId);
+    const core::Background* const historique = context.options->findBackground(fiche.backgroundId);
+    valeurs["sheet.species"] = espece != nullptr ? espece->name : context.emptyMark;
+    valeurs["sheet.class"] = classe != nullptr ? classe->name : context.emptyMark;
+    valeurs["sheet.background"] = historique != nullptr ? historique->name : context.emptyMark;
+    if (classe != nullptr && classe->hitDie > 0) {
+        valeurs["sheet.hit_dice"] =
+            std::to_string(fiche.level) + "d" + std::to_string(classe->hitDie);
+    }
+}
+
+/// Le bonus de maîtrise, les jets de sauvegarde et les compétences : ce qui demande la table
+/// d'expérience (et, pour les compétences, leur catalogue).
+void addExperienceValues(std::map<std::string, std::string>& valeurs,
+                         const CharacterSheetContext& context, const core::CharacterSheet& fiche) {
+    if (context.experience != nullptr) {
+        valeurs["sheet.proficiency_bonus"] =
+            signe(core::proficiencyBonus(fiche, *context.experience));
+        for (const auto& [caracteristique, suffixe] : ABILITIES) {
+            valeurs[std::string("sheet.save.") + suffixe] =
+                signe(core::savingThrowModifier(fiche, *context.experience, caracteristique));
+        }
+    }
+
+    if (context.experience != nullptr && context.skills != nullptr) {
+        for (const core::SkillDefinition& competence : context.skills->skills) {
+            const core::SkillCheckModifier modificateur =
+                core::skillModifier(fiche, *context.experience, *context.skills, competence.id);
+            if (!modificateur.found) {
+                continue;  // le catalogue ne la connaît pas : ne rien afficher plutôt qu'un zéro.
+            }
+            // La maîtrise se voit : c'est l'information que la pastille cochée porte sur la
+            // feuille, et le seul moyen de la rendre dans une ligne de texte.
+            valeurs[std::string("sheet.skill.") + competence.id] =
+                signe(modificateur.value) + (modificateur.proficient ? " •" : "");
+        }
+        // Perception passive : 10 + le modificateur de Perception, la règle du livre. Elle est
+        // dérivée, jamais stockée -- deux valeurs qui doivent s'accorder finissent par diverger.
+        const core::SkillCheckModifier perception =
+            core::skillModifier(fiche, *context.experience, *context.skills, "perception");
+        if (perception.found) {
+            valeurs["sheet.passive_perception"] = std::to_string(10 + perception.value);
+        }
+    }
 }
 
 }  // namespace
@@ -56,22 +113,7 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
 
     valeurs["sheet.name"] = nomOuTiret(fiche.name);
 
-    // Les trois choix qui ont construit la fiche portent des IDENTIFIANTS ; leur nom lisible vit
-    // dans le catalogue. Un identifiant inconnu du catalogue rend le tiret plutôt que l'identifiant
-    // brut : `human-variant` affiché tel quel se lirait comme une donnée, alors que c'est une clé.
-    if (context.options != nullptr) {
-        const core::Species* const espece = context.options->findSpecies(fiche.speciesId);
-        const core::PlayableClass* const classe = context.options->findClass(fiche.classId);
-        const core::Background* const historique =
-            context.options->findBackground(fiche.backgroundId);
-        valeurs["sheet.species"] = espece != nullptr ? espece->name : context.emptyMark;
-        valeurs["sheet.class"] = classe != nullptr ? classe->name : context.emptyMark;
-        valeurs["sheet.background"] = historique != nullptr ? historique->name : context.emptyMark;
-        if (classe != nullptr && classe->hitDie > 0) {
-            valeurs["sheet.hit_dice"] =
-                std::to_string(fiche.level) + "d" + std::to_string(classe->hitDie);
-        }
-    }
+    addChoices(valeurs, context, fiche);
 
     valeurs["sheet.level"] = std::to_string(fiche.level);
     // « Classe et niveau » est UN champ sur la planche, et deux dans le modèle.
@@ -107,35 +149,7 @@ std::map<std::string, std::string> characterSheetValues(const CharacterSheetCont
         valeurs[racine] = valeurs[racine + ".score"] + " (" + valeurs[racine + ".modifier"] + ")";
     }
 
-    if (context.experience != nullptr) {
-        valeurs["sheet.proficiency_bonus"] =
-            signe(core::proficiencyBonus(fiche, *context.experience));
-        for (const auto& [caracteristique, suffixe] : ABILITIES) {
-            valeurs[std::string("sheet.save.") + suffixe] =
-                signe(core::savingThrowModifier(fiche, *context.experience, caracteristique));
-        }
-    }
-
-    if (context.experience != nullptr && context.skills != nullptr) {
-        for (const core::SkillDefinition& competence : context.skills->skills) {
-            const core::SkillCheckModifier modificateur =
-                core::skillModifier(fiche, *context.experience, *context.skills, competence.id);
-            if (!modificateur.found) {
-                continue;  // le catalogue ne la connaît pas : ne rien afficher plutôt qu'un zéro.
-            }
-            // La maîtrise se voit : c'est l'information que la pastille cochée porte sur la
-            // feuille, et le seul moyen de la rendre dans une ligne de texte.
-            valeurs[std::string("sheet.skill.") + competence.id] =
-                signe(modificateur.value) + (modificateur.proficient ? " •" : "");
-        }
-        // Perception passive : 10 + le modificateur de Perception, la règle du livre. Elle est
-        // dérivée, jamais stockée -- deux valeurs qui doivent s'accorder finissent par diverger.
-        const core::SkillCheckModifier perception =
-            core::skillModifier(fiche, *context.experience, *context.skills, "perception");
-        if (perception.found) {
-            valeurs["sheet.passive_perception"] = std::to_string(10 + perception.value);
-        }
-    }
+    addExperienceValues(valeurs, context, fiche);
 
     return valeurs;
 }

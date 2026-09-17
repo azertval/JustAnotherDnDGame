@@ -106,6 +106,9 @@ private:
     void refreshSettings(const core::LevelDraft& draft, std::optional<std::size_t> selected);
     /// Branche les signaux des contrôles (une seule fois, à la construction).
     void connectControls();
+    /// Branche les champs de réglage du plan (densité, profondeur, parallaxe, opacité), appelée
+    /// en fin de connectControls.
+    void connectSettingControls();
 
     Ui::PlanesPanel* _ui;
     /// Vrai pendant un repeuplement : les signaux des contrôles sont alors ignorés, sinon

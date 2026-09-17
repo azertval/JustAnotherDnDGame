@@ -45,7 +45,8 @@ void lireTraits(const nlohmann::json& objet, const char* champ, std::vector<Name
     }
     for (const auto& element : *trouve) {
         if (element.is_object()) {
-            sortie.push_back({lireTexte(element, "name"), lireTexte(element, "text")});
+            sortie.push_back(
+                {.name = lireTexte(element, "name"), .text = lireTexte(element, "text")});
         }
     }
 }
@@ -63,9 +64,15 @@ void lireTraits(const nlohmann::json& objet, const char* champ, std::vector<Name
         if (lue.has_value()) {
             valeurs.push_back(*lue);
         } else {
-            erreurs.push_back(fichier + " : " + champ + " '" + nom +
-                              "' inconnue du moteur. Une caracteristique ignoree fausse un "
-                              "modificateur sans qu'aucun message ne le dise.");
+            std::string message = fichier;
+            message += " : ";
+            message += champ;
+            message += " '";
+            message += nom;
+            message +=
+                "' inconnue du moteur. Une caracteristique ignoree fausse un "
+                "modificateur sans qu'aucun message ne le dise.";
+            erreurs.push_back(std::move(message));
         }
     }
     return valeurs;
@@ -157,113 +164,152 @@ int abilityScoreWith(const Species& species, Ability which, int baseScore, int m
     return std::min(baseScore + species.increase(which), maximumScore);
 }
 
+namespace {
+
+// Augmentations de caracteristiques d'une espece ; une entree inconnue est signalee et ignoree.
+void lireAugmentations(const nlohmann::json& racine, const std::string& fichier, Species& espece,
+                       std::vector<std::string>& erreurs) {
+    const auto increases = racine.find("abilityScoreIncrease");
+    if (increases == racine.end() || !increases->is_object()) {
+        return;
+    }
+    for (const auto& [nom, valeur] : increases->items()) {
+        const std::optional<Ability> lue = parseAbility(nom);
+        if (!lue.has_value() || !valeur.is_number_integer()) {
+            std::string message = fichier;
+            message += " : augmentation '";
+            message += nom;
+            message += "' inconnue du moteur.";
+            erreurs.push_back(std::move(message));
+            continue;
+        }
+        espece.abilityScoreIncrease[static_cast<std::size_t>(*lue)] = valeur.get<int>();
+    }
+}
+
+[[nodiscard]] std::optional<Species> lireEspece(const nlohmann::json& racine,
+                                                const std::string& fichier,
+                                                std::vector<std::string>& erreurs) {
+    Species espece;
+    espece.id = lireTexte(racine, "id");
+    espece.name = lireTexte(racine, "name");
+    espece.source = lireTexte(racine, "source");
+    espece.parentSpecies = lireTexte(racine, "parentSpecies");
+    const std::optional<CreatureSize> taille = parseCreatureSize(lireTexte(racine, "size"));
+    if (!taille.has_value()) {
+        erreurs.push_back(fichier + " : taille inconnue du moteur.");
+        return std::nullopt;
+    }
+    espece.size = *taille;
+    const auto vitesse = racine.find("speed");
+    if (vitesse == racine.end() || !vitesse->is_number()) {
+        erreurs.push_back(fichier + " : champ 'speed' absent ou non numerique.");
+        return std::nullopt;
+    }
+    espece.speed = vitesse->get<float>();
+    lireAugmentations(racine, fichier, espece, erreurs);
+    espece.languages = lireTextes(racine, "languages");
+    espece.requiredMechanisms = lireTextes(racine, "mecanismesRequis");
+    lireTraits(racine, "traits", espece.traits);
+    return espece;
+}
+
+[[nodiscard]] Background lireHistorique(const nlohmann::json& racine) {
+    Background historique;
+    historique.id = lireTexte(racine, "id");
+    historique.name = lireTexte(racine, "name");
+    historique.source = lireTexte(racine, "source");
+    historique.skillProficiencies = lireTextes(racine, "skillProficiencies");
+    historique.text = lireTexte(racine, "text");
+    if (const auto langues = racine.find("languageCount");
+        langues != racine.end() && langues->is_number_integer()) {
+        historique.languageCount = langues->get<int>();
+    }
+    if (const auto capacite = racine.find("feature");
+        capacite != racine.end() && capacite->is_object()) {
+        historique.feature =
+            NamedTrait{.name = lireTexte(*capacite, "name"), .text = lireTexte(*capacite, "text")};
+    }
+    return historique;
+}
+
+// Progression d'une classe, triee par niveau ; une ligne incomplete est signalee et ignoree.
+void lireProgression(const nlohmann::json& racine, const std::string& fichier,
+                     PlayableClass& classe, std::vector<std::string>& erreurs) {
+    if (const auto progression = racine.find("progression");
+        progression != racine.end() && progression->is_array()) {
+        for (const auto& element : *progression) {
+            if (!element.is_object()) {
+                continue;
+            }
+            ClassLevel niveau;
+            const auto valeur = element.find("level");
+            const auto bonus = element.find("proficiencyBonus");
+            if (valeur == element.end() || !valeur->is_number_integer() || bonus == element.end() ||
+                !bonus->is_number_integer()) {
+                erreurs.push_back(fichier +
+                                  " : ligne de progression sans niveau ni "
+                                  "bonus de maitrise.");
+                continue;
+            }
+            niveau.level = valeur->get<int>();
+            niveau.proficiencyBonus = bonus->get<int>();
+            niveau.features = lireTextes(element, "features");
+            classe.progression.push_back(std::move(niveau));
+        }
+    }
+    std::ranges::sort(classe.progression, {}, &ClassLevel::level);
+}
+
+[[nodiscard]] std::optional<PlayableClass> lireClasse(const nlohmann::json& racine,
+                                                      const std::string& fichier,
+                                                      std::vector<std::string>& erreurs) {
+    PlayableClass classe;
+    classe.id = lireTexte(racine, "id");
+    classe.name = lireTexte(racine, "name");
+    classe.source = lireTexte(racine, "source");
+    const auto de = racine.find("hitDie");
+    if (de == racine.end() || !de->is_number_integer()) {
+        erreurs.push_back(fichier +
+                          " : champ 'hitDie' absent ou non entier. Le de de "
+                          "vie decide des points de vie a chaque niveau.");
+        return std::nullopt;
+    }
+    classe.hitDie = de->get<int>();
+    classe.primaryAbility = lireCaracteristiques(racine, "primaryAbility", fichier, erreurs);
+    classe.savingThrowProficiencies =
+        lireCaracteristiques(racine, "savingThrowProficiencies", fichier, erreurs);
+    lireStatut(racine, classe.status);
+    lireProgression(racine, fichier, classe, erreurs);
+    return classe;
+}
+
+}  // namespace
+
 CharacterOptions loadCharacterOptions(const std::filesystem::path& speciesDir,
                                       const std::filesystem::path& backgroundsDir,
                                       const std::filesystem::path& classesDir) {
     CharacterOptions options;
 
-    balayer(
-        speciesDir, options.errors,
-        [&options](const nlohmann::json& racine, const std::string& fichier) {
-            Species espece;
-            espece.id = lireTexte(racine, "id");
-            espece.name = lireTexte(racine, "name");
-            espece.source = lireTexte(racine, "source");
-            espece.parentSpecies = lireTexte(racine, "parentSpecies");
-            const std::optional<CreatureSize> taille = parseCreatureSize(lireTexte(racine, "size"));
-            if (!taille.has_value()) {
-                options.errors.push_back(fichier + " : taille inconnue du moteur.");
-                return;
-            }
-            espece.size = *taille;
-            const auto vitesse = racine.find("speed");
-            if (vitesse == racine.end() || !vitesse->is_number()) {
-                options.errors.push_back(fichier + " : champ 'speed' absent ou non numerique.");
-                return;
-            }
-            espece.speed = vitesse->get<float>();
-            if (const auto increases = racine.find("abilityScoreIncrease");
-                increases != racine.end() && increases->is_object()) {
-                for (const auto& [nom, valeur] : increases->items()) {
-                    const std::optional<Ability> lue = parseAbility(nom);
-                    if (!lue.has_value() || !valeur.is_number_integer()) {
-                        options.errors.push_back(fichier + " : augmentation '" + nom +
-                                                 "' inconnue du moteur.");
-                        continue;
-                    }
-                    espece.abilityScoreIncrease[static_cast<std::size_t>(*lue)] = valeur.get<int>();
+    balayer(speciesDir, options.errors,
+            [&options](const nlohmann::json& racine, const std::string& fichier) {
+                if (std::optional<Species> espece = lireEspece(racine, fichier, options.errors)) {
+                    options.species.push_back(std::move(*espece));
                 }
-            }
-            espece.languages = lireTextes(racine, "languages");
-            espece.requiredMechanisms = lireTextes(racine, "mecanismesRequis");
-            lireTraits(racine, "traits", espece.traits);
-            options.species.push_back(std::move(espece));
-        });
+            });
 
     balayer(backgroundsDir, options.errors,
             [&options](const nlohmann::json& racine, const std::string&) {
-                Background historique;
-                historique.id = lireTexte(racine, "id");
-                historique.name = lireTexte(racine, "name");
-                historique.source = lireTexte(racine, "source");
-                historique.skillProficiencies = lireTextes(racine, "skillProficiencies");
-                historique.text = lireTexte(racine, "text");
-                if (const auto langues = racine.find("languageCount");
-                    langues != racine.end() && langues->is_number_integer()) {
-                    historique.languageCount = langues->get<int>();
-                }
-                if (const auto capacite = racine.find("feature");
-                    capacite != racine.end() && capacite->is_object()) {
-                    historique.feature =
-                        NamedTrait{lireTexte(*capacite, "name"), lireTexte(*capacite, "text")};
-                }
-                options.backgrounds.push_back(std::move(historique));
+                options.backgrounds.push_back(lireHistorique(racine));
             });
 
-    balayer(classesDir, options.errors,
-            [&options](const nlohmann::json& racine, const std::string& fichier) {
-                PlayableClass classe;
-                classe.id = lireTexte(racine, "id");
-                classe.name = lireTexte(racine, "name");
-                classe.source = lireTexte(racine, "source");
-                const auto de = racine.find("hitDie");
-                if (de == racine.end() || !de->is_number_integer()) {
-                    options.errors.push_back(fichier +
-                                             " : champ 'hitDie' absent ou non entier. Le de de "
-                                             "vie decide des points de vie a chaque niveau.");
-                    return;
-                }
-                classe.hitDie = de->get<int>();
-                classe.primaryAbility =
-                    lireCaracteristiques(racine, "primaryAbility", fichier, options.errors);
-                classe.savingThrowProficiencies = lireCaracteristiques(
-                    racine, "savingThrowProficiencies", fichier, options.errors);
-                lireStatut(racine, classe.status);
-                if (const auto progression = racine.find("progression");
-                    progression != racine.end() && progression->is_array()) {
-                    for (const auto& element : *progression) {
-                        if (!element.is_object()) {
-                            continue;
-                        }
-                        ClassLevel niveau;
-                        const auto valeur = element.find("level");
-                        const auto bonus = element.find("proficiencyBonus");
-                        if (valeur == element.end() || !valeur->is_number_integer() ||
-                            bonus == element.end() || !bonus->is_number_integer()) {
-                            options.errors.push_back(fichier +
-                                                     " : ligne de progression sans niveau ni "
-                                                     "bonus de maitrise.");
-                            continue;
-                        }
-                        niveau.level = valeur->get<int>();
-                        niveau.proficiencyBonus = bonus->get<int>();
-                        niveau.features = lireTextes(element, "features");
-                        classe.progression.push_back(std::move(niveau));
-                    }
-                }
-                std::ranges::sort(classe.progression, {}, &ClassLevel::level);
-                options.classes.push_back(std::move(classe));
-            });
+    balayer(
+        classesDir, options.errors,
+        [&options](const nlohmann::json& racine, const std::string& fichier) {
+            if (std::optional<PlayableClass> classe = lireClasse(racine, fichier, options.errors)) {
+                options.classes.push_back(std::move(*classe));
+            }
+        });
 
     std::ranges::sort(options.species, {}, &Species::id);
     std::ranges::sort(options.backgrounds, {}, &Background::id);

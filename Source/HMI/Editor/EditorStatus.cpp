@@ -57,7 +57,7 @@ std::string formatMebibytes(std::size_t bytes) {
     const double mebibytes = static_cast<double>(bytes) / (1024.0 * 1024.0);
     std::array<char, 32> buffer{};
     std::snprintf(buffer.data(), buffer.size(), "%.2f", mebibytes);
-    return std::string(buffer.data());
+    return {buffer.data()};
 }
 
 // Cle de traduction du libelle d'un mode de cadrage (LOT-64) -- memes cles que TexturePanel.cpp
@@ -160,7 +160,7 @@ std::string formatColorHex(std::uint32_t color) {
                   static_cast<unsigned>(color & 0xFFU), static_cast<unsigned>((color >> 8) & 0xFFU),
                   static_cast<unsigned>((color >> 16) & 0xFFU),
                   static_cast<unsigned>((color >> 24) & 0xFFU));
-    return std::string(buffer.data());
+    return {buffer.data()};
 }
 
 }  // namespace

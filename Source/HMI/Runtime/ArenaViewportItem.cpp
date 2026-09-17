@@ -5,6 +5,7 @@
 
 #include <QQuickWindow>
 #include <algorithm>
+#include <array>
 #include <chrono>
 #include <optional>
 
@@ -21,7 +22,7 @@ namespace hmi {
 namespace {
 
 /// Au-delà, une image en retard (fenêtre déplacée, point d'arrêt) ne fait pas sauter l'animation.
-constexpr float MAXIMUM_FRAME_SECONDS = 0.25f;
+constexpr float MAXIMUM_FRAME_SECONDS = 0.25F;
 
 /**
  * @brief Le peintre, côté **fil de rendu**.
@@ -62,7 +63,12 @@ void ArenaViewportRenderer::initialize(QRhiCommandBuffer* /*commandBuffer*/) {
 void ArenaViewportRenderer::synchronize(QQuickRhiItem* item) {
     // Le SEUL instant où les deux fils se parlent : le fil graphique est bloqué. Rien de ce qui est
     // lu ici n'est gardé par référence.
-    auto* const viewport = static_cast<ArenaViewportItem*>(item);
+    // Le moteur ne passe que l'élément qui a créé ce rendu (createRenderer) : qobject_cast ne
+    // peut échouer, et reste une vérification bon marché plutôt qu'un transtypage aveugle.
+    auto* const viewport = qobject_cast<ArenaViewportItem*>(item);
+    if (viewport == nullptr) {
+        return;
+    }
     _clearColor = viewport->clearColor();
 
     if (viewport->sceneRevision() == _sceneRevision) {
@@ -80,8 +86,9 @@ void ArenaViewportRenderer::render(QRhiCommandBuffer* commandBuffer) {
         std::min(std::chrono::duration<float>(now - _previousFrame).count(), MAXIMUM_FRAME_SECONDS);
     _previousFrame = now;
 
-    const float clear[4] = {_clearColor.redF(), _clearColor.greenF(), _clearColor.blueF(), 1.0f};
-    _arena.render(commandBuffer, renderTarget(), elapsed, clear);
+    const std::array<float, 4> clear = {_clearColor.redF(), _clearColor.greenF(),
+                                        _clearColor.blueF(), 1.0F};
+    _arena.render(commandBuffer, renderTarget(), elapsed, clear.data());
 
     // Des figurines à l'écran : elles respirent, l'image suivante est demandée. Sans elles, la
     // surface ne se redessine qu'à un changement de scène, de taille ou de couleur.
@@ -93,11 +100,11 @@ void ArenaViewportRenderer::render(QRhiCommandBuffer* commandBuffer) {
 }  // namespace
 
 struct ArenaViewportItem::Framing {
-    core::IsoProjection projection;
+    core::IsoProjection projection{0, 0};
     Camera2D camera;
     /// Pixels de texture par unité d'élément, sur chaque axe.
-    qreal pixelsPerItemX;
-    qreal pixelsPerItemY;
+    qreal pixelsPerItemX = 1.0;
+    qreal pixelsPerItemY = 1.0;
 };
 
 ArenaViewportItem::ArenaViewportItem(QQuickItem* parent) : QQuickRhiItem(parent) {
@@ -129,15 +136,15 @@ ArenaViewportItem::Framing ArenaViewportItem::framing() const {
 
 qreal ArenaViewportItem::tileWidth() const {
     const Framing f = framing();
-    const core::Vector2 left = f.camera.worldToScreen({0.0f, 0.0f});
-    const core::Vector2 right = f.camera.worldToScreen({f.projection.tileWidth(), 0.0f});
+    const core::Vector2 left = f.camera.worldToScreen({0.0F, 0.0F});
+    const core::Vector2 right = f.camera.worldToScreen({f.projection.tileWidth(), 0.0F});
     return (right.x - left.x) / f.pixelsPerItemX;
 }
 
 qreal ArenaViewportItem::tileHeight() const {
     const Framing f = framing();
-    const core::Vector2 top = f.camera.worldToScreen({0.0f, 0.0f});
-    const core::Vector2 bottom = f.camera.worldToScreen({0.0f, f.projection.tileHeight()});
+    const core::Vector2 top = f.camera.worldToScreen({0.0F, 0.0F});
+    const core::Vector2 bottom = f.camera.worldToScreen({0.0F, f.projection.tileHeight()});
     return (bottom.y - top.y) / f.pixelsPerItemY;
 }
 

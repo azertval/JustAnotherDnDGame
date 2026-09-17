@@ -21,10 +21,12 @@ constexpr int MAXIMUM_ROWS = 64;
 
 PendingData::PendingData(QObject* parent) : QObject(parent) {}
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static) : Q_INVOKABLE, appelée par QML.
 QString PendingData::value(const QString& /*key*/) const {
     return QString::fromUtf8(EMPTY_MARK);
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static) : Q_INVOKABLE, appelée par QML.
 QUrl PendingData::image(const QString& /*key*/) const {
     return {};
 }

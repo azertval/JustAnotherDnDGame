@@ -25,7 +25,7 @@ namespace {
     if (n < 0 || n > dx) {
         return false;
     }
-    const long long y = static_cast<long long>(p.y) * dx + n * (q.y - p.y);
+    const long long y = (static_cast<long long>(p.y) * dx) + (n * (q.y - p.y));
     return y >= static_cast<long long>(y0) * dx && y <= static_cast<long long>(y1) * dx;
 }
 
@@ -91,21 +91,19 @@ bool isFlankedFrom(const CombatState& combat, CombatantId attacker, GridPosition
         !hasLineOfSight(grille, moi, emplacement)) {
         return false;
     }
-    for (const CombatantId autre : combat.combatants()) {
+    const auto prendEnTenaille = [&](const CombatantId autre) {
         const Combatant* allie = combat.find(autre);
         const std::optional<GridPosition> ancre = grille.positionOf(autre);
         if (autre == attacker || autre == target || allie == nullptr || !ancre.has_value() ||
             allie->status != CombatantStatus::Standing ||
             allie->profile.side != assaillant->profile.side) {
-            continue;
+            return false;
         }
         const Footprint lui{.anchor = *ancre, .side = footprintSide(allie->profile.size)};
-        if (ecart(lui.anchor, lui.side, emplacement) == 1 &&
-            hasLineOfSight(grille, lui, emplacement) && alignees(moi, lui, emplacement)) {
-            return true;
-        }
-    }
-    return false;
+        return ecart(lui.anchor, lui.side, emplacement) == 1 &&
+               hasLineOfSight(grille, lui, emplacement) && alignees(moi, lui, emplacement);
+    };
+    return std::ranges::any_of(combat.combatants(), prendEnTenaille);
 }
 
 bool isFlanked(const CombatState& combat, CombatantId attacker, CombatantId target) {

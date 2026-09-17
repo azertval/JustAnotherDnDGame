@@ -52,7 +52,7 @@ constexpr int FILE_NAME_ROLE = Qt::UserRole + 1;
     QImage image(decoded.width, decoded.height, QImage::Format_RGBA8888);
     for (int y = 0; y < decoded.height; ++y) {
         const std::uint32_t* const row =
-            decoded.pixels.data() + static_cast<std::size_t>(y) * decoded.width;
+            decoded.pixels.data() + (static_cast<std::size_t>(y) * decoded.width);
         std::memcpy(image.scanLine(y), row, static_cast<std::size_t>(decoded.width) * 4);
     }
     return image;
@@ -168,7 +168,8 @@ QPixmap AssetThumbnailView::thumbnailFor(const std::string& fileName) {
         // Repli coherent avec le damier magenta du rendu (LOT-40) : un fichier illisible reste
         // visible dans la grille plutot que de faire planter l'affichage.
         const ProceduralAtlasImage missing = buildMissingTextureImage();
-        source = toImage(DecodedImage{missing.width, missing.height, missing.pixels});
+        source = toImage(DecodedImage{
+            .width = missing.width, .height = missing.height, .pixels = missing.pixels});
     }
 
     // Plus proche voisin : les assets sont du pixel art, une vignette interpolee serait floue.
@@ -199,7 +200,8 @@ void AssetThumbnailView::onFilterChanged(const QString& text) {
     rebuildItems();
 }
 
-void AssetThumbnailView::onCurrentItemChanged(QListWidgetItem* current, QListWidgetItem*) {
+void AssetThumbnailView::onCurrentItemChanged(QListWidgetItem* current,
+                                              QListWidgetItem* /*unused*/) {
     if (current == nullptr) {
         return;
     }
@@ -340,7 +342,7 @@ void AssetThumbnailView::onDelete() {
     }
 
     const AssetFileOperations ops(_directory);
-    const FileOperationResult result = ops.remove(_directory / current);
+    const FileOperationResult result = hmi::AssetFileOperations::remove(_directory / current);
     reportIfError(this, t(_loc, "assets.delete_title"), result);
     if (!result.ok()) {
         return;

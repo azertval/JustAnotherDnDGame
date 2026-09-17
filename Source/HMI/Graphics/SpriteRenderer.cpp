@@ -71,10 +71,65 @@ std::vector<PlaneTexture> resolvePlaneTextures(TextureCache& cache,
             textures.push_back(PlaneTexture{});  // meme le damier a echoue : plan muet.
             continue;
         }
-        textures.push_back(PlaneTexture{loaded->handle(), loaded->width, loaded->height});
+        textures.push_back(PlaneTexture{
+            .texture = loaded->handle(), .width = loaded->width, .height = loaded->height});
     }
     return textures;
 }
+
+namespace {
+
+// Charge les surcharges de texture par instance (EX-EDIT-043, LOT-45), independamment du
+// catalogue de skins : plusieurs cases peuvent partager le meme asset, charge une seule fois.
+void loadOverrideTextures(SceneTextures& textures, TextureCache& cache,
+                          const std::vector<core::TileTextureOverride>& textureOverrides) {
+    for (const core::TileTextureOverride& override : textureOverrides) {
+        if (textures.objectIndexOf(override.assetName) >= 0) {
+            continue;  // asset deja charge.
+        }
+        const LoadedTexture* loaded =
+            cache.get(OBJECTS_SUBDIRECTORY + override.assetName, AssetFamily::Object);
+        if (loaded == nullptr) {
+            continue;  // absent/illisible/refuse : la resolution retombera sur le damier.
+        }
+        textures.objects.push_back(SkinTexture{.asset = override.assetName,
+                                               .maskType = std::nullopt,
+                                               .texture = loaded->handle(),
+                                               .width = loaded->width,
+                                               .height = loaded->height,
+                                               .animatedFrame = std::nullopt});
+    }
+}
+
+// Region de l'image courante d'un asset de skin anime, d'apres son horloge partagee ;
+// std::nullopt si l'asset n'a pas d'horloge ou pas de description d'animation.
+std::optional<core::AtlasRegion> currentAnimatedFrame(
+    TextureCache& cache, const std::string& asset, const LoadedTexture& loaded,
+    const std::unordered_map<std::string, core::Animation>& tileAnimations) {
+    const auto animationEntry = tileAnimations.find(asset);
+    if (animationEntry == tileAnimations.end()) {
+        return std::nullopt;
+    }
+    const AnimationDescription* description =
+        cache.getAnimation(SKINS_SUBDIRECTORY + asset, loaded.width, loaded.height);
+    if (description == nullptr) {
+        return std::nullopt;
+    }
+    return AnimationCatalog::currentFrameRegion(*description, animationEntry->second);
+}
+
+// Avertit UNE fois par asset qu'une animation est ignoree (bitmask16 ou silhouette detouree).
+void warnAnimationExcluded(const SkinEntry& entry, std::set<std::string>& warnedExclusions) {
+    if (!warnedExclusions.insert(entry.asset).second) {
+        return;
+    }
+    GRAPHICS_LOG_WARNING(
+        "Animation de '" + entry.asset + "' ignoree : combinaison non supportee (" +
+        std::string(entry.mode == SkinMode::Bitmask16 ? "mode bitmask16" : "silhouette detouree") +
+        " + animation, LOT-46).");
+}
+
+}  // namespace
 
 // Textures liables par la composition d'une scene : atlas, damier de repli et skins (point unique).
 SceneTextures sceneTextures(
@@ -103,20 +158,7 @@ SceneTextures sceneTextures(
         textures.characterSheetHeight = sheet->height;
     }
 
-    // Charge les surcharges de texture par instance (EX-EDIT-043, LOT-45), independamment du
-    // catalogue de skins : plusieurs cases peuvent partager le meme asset, charge une seule fois.
-    for (const core::TileTextureOverride& override : textureOverrides) {
-        if (textures.objectIndexOf(override.assetName) >= 0) {
-            continue;  // asset deja charge.
-        }
-        const LoadedTexture* loaded =
-            cache.get(OBJECTS_SUBDIRECTORY + override.assetName, AssetFamily::Object);
-        if (loaded == nullptr) {
-            continue;  // absent/illisible/refuse : la resolution retombera sur le damier.
-        }
-        textures.objects.push_back(SkinTexture{override.assetName, std::nullopt, loaded->handle(),
-                                               loaded->width, loaded->height});
-    }
+    loadOverrideTextures(textures, cache, textureOverrides);
 
     textures.skinCatalog = skins;
     textures.skinSet = skinSet;
@@ -149,20 +191,17 @@ SceneTextures sceneTextures(
         // silhouette : bitmask16 et le detourage de silhouette excluent l'animation (limite
         // assumee, cf. GameSession::updateTileAnimations qui la signale). L'horloge partagee est
         // deja avancee au pas fixe ; ici on ne fait QUE traduire son etat courant en region.
-        std::optional<core::AtlasRegion> animatedFrame;
-        if (!animationExcludedForTile(entry.mode, type)) {
-            const auto animationEntry = tileAnimations.find(entry.asset);
-            if (animationEntry != tileAnimations.end()) {
-                if (const AnimationDescription* description = cache.getAnimation(
-                        SKINS_SUBDIRECTORY + entry.asset, loaded->width, loaded->height)) {
-                    animatedFrame =
-                        AnimationCatalog::currentFrameRegion(*description, animationEntry->second);
-                }
-            }
-        }
+        const std::optional<core::AtlasRegion> animatedFrame =
+            animationExcludedForTile(entry.mode, type)
+                ? std::nullopt
+                : currentAnimatedFrame(cache, entry.asset, *loaded, tileAnimations);
 
-        textures.skins.push_back(SkinTexture{entry.asset, maskType, loaded->handle(), loaded->width,
-                                             loaded->height, animatedFrame});
+        textures.skins.push_back(SkinTexture{.asset = entry.asset,
+                                             .maskType = maskType,
+                                             .texture = loaded->handle(),
+                                             .width = loaded->width,
+                                             .height = loaded->height,
+                                             .animatedFrame = animatedFrame});
     }
     return textures;
 }
@@ -180,7 +219,8 @@ BackgroundTexture resolveBackgroundTexture(const std::optional<std::string>& bac
     if (texture == nullptr) {
         return {};  // meme le damier de repli n'a pas pu etre cree (device perdu).
     }
-    return BackgroundTexture{texture->handle(), texture->width, texture->height};
+    return BackgroundTexture{
+        .texture = texture->handle(), .width = texture->width, .height = texture->height};
 }
 
 // Avance l'horloge d'animation partagee des tuiles animees d'un jeu de skins courant (voir
@@ -209,13 +249,7 @@ void advanceTileAnimations(const SkinCatalog* skins, const std::string& skinSet,
         // bitmask16 et silhouette detouree excluent l'animation (limite assumee, epic LOT-46
         // TACHE-05) : signale UNE fois par asset plutot que silencieusement ignore.
         if (animationExcludedForTile(entry.mode, type)) {
-            if (warnedExclusions.insert(entry.asset).second) {
-                GRAPHICS_LOG_WARNING(
-                    "Animation de '" + entry.asset + "' ignoree : combinaison non supportee (" +
-                    std::string(entry.mode == SkinMode::Bitmask16 ? "mode bitmask16"
-                                                                  : "silhouette detouree") +
-                    " + animation, LOT-46).");
-            }
+            warnAnimationExcluded(entry, warnedExclusions);
             continue;
         }
 

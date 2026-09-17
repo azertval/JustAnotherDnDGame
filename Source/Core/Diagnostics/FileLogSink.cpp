@@ -7,7 +7,7 @@
 
 namespace core {
 
-FileLogSink::FileLogSink(std::filesystem::path path, bool append) {
+FileLogSink::FileLogSink(const std::filesystem::path& path, bool append) {
     // Cree les dossiers parents au besoin ; ignore silencieusement une erreur (ex. chemin deja
     // existant ou droits insuffisants) et laisse l'ouverture du flux ci-dessous echouer/reussir
     // pour son propre compte -- journaliser ne doit jamais faire echouer l'appelant.
@@ -28,7 +28,8 @@ void FileLogSink::write(LogLevel level, std::string_view message) {
     if (!_stream.is_open()) {
         return;
     }
-    _stream << message << std::endl;
+    _stream << message << '\n';
+    _stream.flush();
 }
 
 bool FileLogSink::isOpen() const {

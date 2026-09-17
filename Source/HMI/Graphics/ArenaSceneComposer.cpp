@@ -38,7 +38,7 @@ constexpr std::string_view CORNER = "wall-corner";
 constexpr std::string_view PILLAR = "pillar";
 
 // Marge basse d'une figurine, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
-constexpr float FIGURE_BOTTOM_MARGIN = 0.42f;
+constexpr float FIGURE_BOTTOM_MARGIN = 0.42F;
 
 /// Le chemin d'une piece de scene : `../Scene/coliseum/<nom><suffixe>.png`.
 void scenePath(std::string& path, std::string_view name, std::string_view suffix = {}) {
@@ -74,8 +74,8 @@ struct Composer {
      * @brief Une piece de scene d'une case, posee par son ancre : le sommet haut du losange de sa
      *        case tombe sur le pixel (34, hauteur - 42) de la texture.
      *
-     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture a
-     * la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
+     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture
+     * a la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
      */
     void addStanding(RenderLayer layer, std::string_view path, core::Vector2 topVertex,
                      std::int32_t sortOrder) const {
@@ -83,12 +83,12 @@ struct Composer {
         if (texture.texture == nullptr) {
             return;
         }
-        const float height = static_cast<float>(texture.height);
+        const auto height = static_cast<float>(texture.height);
         SpriteQuad quad;
         quad.x = topVertex.x -
-                 static_cast<float>(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel;
-        quad.y = topVertex.y -
-                 (height - static_cast<float>(ARENA_SCENE_TILE_HEIGHT_PIXELS)) * unitsPerScenePixel;
+                 (static_cast<float>(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel);
+        quad.y = topVertex.y - ((height - static_cast<float>(ARENA_SCENE_TILE_HEIGHT_PIXELS)) *
+                                unitsPerScenePixel);
         quad.width = static_cast<float>(texture.width) * unitsPerScenePixel;
         quad.height = height * unitsPerScenePixel;
         scene.addSprite(layer, texture.texture, sortOrder, quad);
@@ -115,8 +115,9 @@ void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog
     } else if (appearance.gateSpot) {
         scenePath(path, THRESHOLD);
     } else if (appearance.slab) {
-        scenePath(path, SAND_VARIANTS[static_cast<std::size_t>(appearance.slabVariant) %
-                                      SAND_VARIANTS.size()]);
+        scenePath(
+            path,
+            SAND_VARIANTS[static_cast<std::size_t>(appearance.slabVariant) % SAND_VARIANTS.size()]);
     } else {
         scenePath(path, SAND);
     }
@@ -131,8 +132,8 @@ void composeTile(const Composer& composer, const ArenaAppearanceCatalog& catalog
     }
 
     // --- L'enceinte : une piece debout par case, triee au pied de la case --------------------
-    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan decore,
-    // pas une decoration posee sur un pan.
+    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan
+    // decore, pas une decoration posee sur un pan.
     const std::string_view edge = edgeSuffix(cell, snapshot.rows);
     if (appearance.gateSpot) {
         scenePath(path, ARCH, edge);
@@ -195,10 +196,10 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
     // l'emprise.
     const core::GridPosition anchor = combatant.anchor;
     const int footprint = std::max(1, combatant.footprint);
-    const float extent = static_cast<float>(footprint);
+    const auto extent = static_cast<float>(footprint);
     const core::Vector2 center =
-        composer.projection.gridToWorld({static_cast<float>(anchor.column) + extent / 2.0f,
-                                         static_cast<float>(anchor.row) + extent / 2.0f});
+        composer.projection.gridToWorld({static_cast<float>(anchor.column) + (extent / 2.0F),
+                                         static_cast<float>(anchor.row) + (extent / 2.0F)});
     const float footY =
         composer.projection
             .gridToWorld(gridPoint(anchor.column + footprint, anchor.row + footprint))
@@ -211,14 +212,14 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
     SpriteQuad quad;
     quad.width = static_cast<float>(frameWidthPixels) * scale;
     quad.height = static_cast<float>(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) * scale;
-    quad.x = center.x - quad.width / 2.0f;
-    quad.y = footY - tileHeight * FIGURE_BOTTOM_MARGIN * extent - quad.height;
+    quad.x = center.x - (quad.width / 2.0F);
+    quad.y = footY - (tileHeight * FIGURE_BOTTOM_MARGIN * extent) - quad.height;
     if (texture.width > 0 && texture.height > 0) {
-        const float frameWidth = static_cast<float>(frameWidthPixels);
+        const auto frameWidth = static_cast<float>(frameWidthPixels);
         quad.u0 = static_cast<float>(frame) * frameWidth / static_cast<float>(texture.width);
         quad.u1 = static_cast<float>(frame + 1) * frameWidth / static_cast<float>(texture.width);
-        quad.v0 = 0.0f;
-        quad.v1 = std::min(1.0f, static_cast<float>(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) /
+        quad.v0 = 0.0F;
+        quad.v1 = std::min(1.0F, static_cast<float>(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) /
                                      static_cast<float>(texture.height));
     }
     if (down && !ally) {
@@ -231,7 +232,7 @@ void composeFigure(const Composer& composer, const ArenaAppearanceCatalog& catal
 }  // namespace
 
 std::int32_t arenaDepthSortOrder(float footWorldY, ArenaDepthSlot slot) noexcept {
-    return depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS + static_cast<std::int32_t>(slot);
+    return (depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS) + static_cast<std::int32_t>(slot);
 }
 
 std::vector<std::string> arenaTexturePaths(const ArenaAppearanceCatalog& catalog) {
@@ -270,7 +271,7 @@ bool ArenaSceneSnapshot::isObstructed(core::GridPosition cell) const noexcept {
         return false;
     }
     const std::size_t index =
-        static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(columns) +
+        (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(columns)) +
         static_cast<std::size_t>(cell.column);
     return index < obstructed.size() && obstructed[index];
 }

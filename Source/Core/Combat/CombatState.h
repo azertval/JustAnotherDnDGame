@@ -535,6 +535,8 @@ private:
 
     void settle();
     [[nodiscard]] bool reachEndIfDecided();
+    /// Ouvre le tour du premier acteur intercalé encore debout ; faux s'il n'y en a pas.
+    [[nodiscard]] bool startInterjection();
     void step();
     void startTurn(CombatantId combatant);
     void finishTurn();

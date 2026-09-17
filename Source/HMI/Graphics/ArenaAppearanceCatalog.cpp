@@ -144,10 +144,11 @@ ArenaTileAppearance ArenaAppearanceCatalog::tileAppearance(core::GridPosition ce
     appearance.gateSpot =
         cell.column == 0 || cell.column == columns - 1 || cell.row == 0 || cell.row == rows - 1;
 
-    if (!_paleSlabs.empty() && (cell.column * 3 + cell.row * 5 + cell.column * cell.row) % 7 == 0) {
+    if (!_paleSlabs.empty() &&
+        ((cell.column * 3) + (cell.row * 5) + (cell.column * cell.row)) % 7 == 0) {
         appearance.slab = true;
         appearance.slabVariant =
-            (cell.column * 3 + cell.row * 5) % static_cast<int>(_paleSlabs.size());
+            ((cell.column * 3) + (cell.row * 5)) % static_cast<int>(_paleSlabs.size());
     }
 
     return appearance;
@@ -167,10 +168,10 @@ FigureAppearance ArenaAppearanceCatalog::figureFor(std::string_view name,
     const int index =
         name.empty()
             ? 0
-            : (static_cast<int>(name.size()) * 7 + static_cast<unsigned char>(name.front())) %
+            : ((static_cast<int>(name.size()) * 7) + static_cast<unsigned char>(name.front())) %
                   static_cast<int>(roster.size());
     const std::string& sheet = roster[static_cast<std::size_t>(index)];
-    return {sheet, sheetDirectory(sheet, side), frames};
+    return {.sheet = sheet, .directory = sheetDirectory(sheet, side), .frameCount = frames};
 }
 
 std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
@@ -186,7 +187,7 @@ std::string ArenaAppearanceCatalog::sheetDirectory(std::string_view sheet,
 }
 
 bool ArenaAppearanceCatalog::replaceHero(std::string_view hero, std::string directory) {
-    const auto known = std::find(_heroes.begin(), _heroes.end(), hero);
+    const auto known = std::ranges::find(_heroes, hero);
     if (known == _heroes.end()) {
         return false;
     }
@@ -194,32 +195,57 @@ bool ArenaAppearanceCatalog::replaceHero(std::string_view hero, std::string dire
     return true;
 }
 
-int ArenaAppearanceCatalog::applyNpcManifest(const std::filesystem::path& path) {
-    const core::JsonDocument document = core::readJsonObjectFromFile(path, NPC_FORMAT_VERSION);
+namespace {
+
+// Lit le manifeste des PNJ et rend son objet « replaces ». std::nullopt (avec journal si utile)
+// quand le manifeste est absent, illisible, sans « replaces » ou quand ce champ n'est pas un objet.
+[[nodiscard]] std::optional<nlohmann::json> readNpcReplacements(const std::filesystem::path& path) {
+    core::JsonDocument document = core::readJsonObjectFromFile(path, NPC_FORMAT_VERSION);
     if (!document.ok()) {
         if (document.error != core::JsonReadError::FileNotFound) {
             GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ ignore, " +
                                  document.message);
         }
-        return 0;
+        return std::nullopt;
     }
-    const nlohmann::json& root = document.root;
+    nlohmann::json& root = document.root;
     if (!root.contains(FIELD_REPLACES)) {
-        return 0;
+        return std::nullopt;
     }
     if (!root[FIELD_REPLACES].is_object()) {
         GRAPHICS_LOG_WARNING(
             "arena_appearance : manifeste des PNJ, « replaces » n'est pas un objet.");
+        return std::nullopt;
+    }
+    return std::move(root[FIELD_REPLACES]);
+}
+
+// Dossier du PNJ désigné par `slug`, relatif à `Coliseum/`. std::nullopt (avec journal) si le
+// slug n'est pas une chaîne non vide.
+[[nodiscard]] std::optional<std::string> npcDirectory(const std::string& hero,
+                                                      const nlohmann::json& slug) {
+    if (!slug.is_string() || slug.get<std::string>().empty()) {
+        GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, remplacement de « " + hero +
+                             " » sans slug.");
+        return std::nullopt;
+    }
+    return NPC_DIRECTORY_FROM_COLISEUM + slug.get<std::string>();
+}
+
+}  // namespace
+
+int ArenaAppearanceCatalog::applyNpcManifest(const std::filesystem::path& path) {
+    const std::optional<nlohmann::json> replacements = readNpcReplacements(path);
+    if (!replacements) {
         return 0;
     }
     int replaced = 0;
-    for (const auto& [hero, slug] : root[FIELD_REPLACES].items()) {
-        if (!slug.is_string() || slug.get<std::string>().empty()) {
-            GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, remplacement de « " + hero +
-                                 " » sans slug.");
+    for (const auto& [hero, slug] : replacements->items()) {
+        std::optional<std::string> directory = npcDirectory(hero, slug);
+        if (!directory) {
             continue;
         }
-        if (!replaceHero(hero, NPC_DIRECTORY_FROM_COLISEUM + slug.get<std::string>())) {
+        if (!replaceHero(hero, std::move(*directory))) {
             GRAPHICS_LOG_WARNING("arena_appearance : manifeste des PNJ, « " + hero +
                                  " » n'est pas un heros du Colisee.");
             continue;

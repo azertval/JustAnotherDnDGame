@@ -54,15 +54,15 @@ bool TurnOrder::add(const InitiativeEntry& entry) {
     if (contains(entry.combatant)) {
         return false;
     }
-    const auto place = std::upper_bound(_entries.begin(), _entries.end(), entry, actsBefore);
+    const auto place = std::ranges::upper_bound(_entries, entry, actsBefore);
     _entries.insert(place, entry);
     return true;
 }
 
 bool TurnOrder::remove(CombatantId combatant) {
-    const auto found = std::find_if(
-        _entries.begin(), _entries.end(),
-        [combatant](const InitiativeEntry& entry) { return entry.combatant == combatant; });
+    const auto found = std::ranges::find_if(_entries, [combatant](const InitiativeEntry& entry) {
+        return entry.combatant == combatant;
+    });
     if (found == _entries.end()) {
         return false;
     }
@@ -71,14 +71,13 @@ bool TurnOrder::remove(CombatantId combatant) {
 }
 
 bool TurnOrder::addMarker(InitiativeMarker marker) {
-    const bool duplicate =
-        std::any_of(_markers.begin(), _markers.end(), [&marker](const InitiativeMarker& other) {
-            return other.count == marker.count && other.name == marker.name;
-        });
+    const bool duplicate = std::ranges::any_of(_markers, [&marker](const InitiativeMarker& other) {
+        return other.count == marker.count && other.name == marker.name;
+    });
     if (duplicate) {
         return false;
     }
-    const auto place = std::upper_bound(_markers.begin(), _markers.end(), marker, markerBefore);
+    const auto place = std::ranges::upper_bound(_markers, marker, markerBefore);
     _markers.insert(place, std::move(marker));
     return true;
 }
@@ -88,9 +87,9 @@ bool TurnOrder::contains(CombatantId combatant) const {
 }
 
 const InitiativeEntry* TurnOrder::find(CombatantId combatant) const {
-    const auto found = std::find_if(
-        _entries.begin(), _entries.end(),
-        [combatant](const InitiativeEntry& entry) { return entry.combatant == combatant; });
+    const auto found = std::ranges::find_if(_entries, [combatant](const InitiativeEntry& entry) {
+        return entry.combatant == combatant;
+    });
     return found == _entries.end() ? nullptr : &*found;
 }
 

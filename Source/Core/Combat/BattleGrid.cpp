@@ -51,7 +51,7 @@ BattleGrid::BattleGrid(const TileMap& collision)
             // arrête aussi un volant, y compris une porte fermée, que le contrôleur de mécanismes
             // écrit comme de la matière pleine.
             const bool groundOnly = type == TileType::DeepWater || type == TileType::Cliff;
-            _terrain[indexOf({column, row})] =
+            _terrain[indexOf({.column = column, .row = row})] =
                 groundOnly ? Terrain::GroundObstacle : Terrain::Solid;
         }
     }
@@ -77,7 +77,7 @@ void BattleGrid::addZones(const Level& level) {
                 if (layer.tiles.tile(column, row) == TileType::Empty) {
                     continue;
                 }
-                const std::size_t index = indexOf({column, row});
+                const std::size_t index = indexOf({.column = column, .row = row});
                 zone.cells[index] = true;
                 if (difficult) {
                     _difficult[index] = true;
@@ -89,7 +89,7 @@ void BattleGrid::addZones(const Level& level) {
 }
 
 std::size_t BattleGrid::indexOf(GridPosition cell) const noexcept {
-    return static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(_width) +
+    return (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(_width)) +
            static_cast<std::size_t>(cell.column);
 }
 
@@ -154,7 +154,7 @@ bool BattleGrid::isClear(GridPosition anchor, int side, Locomotion locomotion) c
     }
     for (int row = anchor.row; row < anchor.row + side; ++row) {
         for (int column = anchor.column; column < anchor.column + side; ++column) {
-            if (isObstructed({column, row}, locomotion)) {
+            if (isObstructed({.column = column, .row = row}, locomotion)) {
                 return false;
             }
         }
@@ -169,7 +169,8 @@ bool BattleGrid::canStand(GridPosition anchor, int side, std::optional<Combatant
     }
     for (int row = anchor.row; row < anchor.row + side; ++row) {
         for (int column = anchor.column; column < anchor.column + side; ++column) {
-            const std::optional<CombatantId>& occupant = _occupants[indexOf({column, row})];
+            const std::optional<CombatantId>& occupant =
+                _occupants[indexOf({.column = column, .row = row})];
             if (occupant.has_value() && occupant != self) {
                 return false;
             }
@@ -180,7 +181,7 @@ bool BattleGrid::canStand(GridPosition anchor, int side, std::optional<Combatant
 
 PlacementResult BattleGrid::check(GridPosition anchor, int side, CombatantId self,
                                   Locomotion locomotion) const {
-    const GridPosition farCorner{anchor.column + side - 1, anchor.row + side - 1};
+    const GridPosition farCorner{.column = anchor.column + side - 1, .row = anchor.row + side - 1};
     if (!inBounds(anchor) || !inBounds(farCorner)) {
         return PlacementResult::OutOfBounds;
     }
@@ -199,7 +200,7 @@ void BattleGrid::fill(const Placement& placement, std::optional<CombatantId> occ
     for (int row = placement.anchor.row; row < placement.anchor.row + placement.side; ++row) {
         for (int column = placement.anchor.column;
              column < placement.anchor.column + placement.side; ++column) {
-            _occupants[indexOf({column, row})] = occupant;
+            _occupants[indexOf({.column = column, .row = row})] = occupant;
         }
     }
 }

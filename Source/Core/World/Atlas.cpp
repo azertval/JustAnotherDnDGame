@@ -99,7 +99,7 @@ constexpr std::array<std::string_view, kRegionAxisCount> NOMS_D_AXE{
             return false;
         }
         sortie.appraisals.push_back(
-            RegionAppraisal{*valeur, lireTexteFacultatif(element, "scope")});
+            RegionAppraisal{.grade = *valeur, .scope = lireTexteFacultatif(element, "scope")});
     }
     return true;
 }
@@ -123,7 +123,7 @@ constexpr std::array<std::string_view, kRegionAxisCount> NOMS_D_AXE{
         RegionSpeciesShare part;
         if (!element.is_object() || !lireTexte(element, "species", part.species, raison) ||
             !lireTexte(element, "label", part.label, raison)) {
-            raison = "population/species : " + raison;
+            raison.insert(0, "population/species : ");
             return false;
         }
         const std::optional<int> pourcent = lireEntierFacultatif(element, "percent");
@@ -157,7 +157,11 @@ constexpr std::array<std::string_view, kRegionAxisCount> NOMS_D_AXE{
     }
     for (std::size_t rang = 0; rang < kRegionAxisCount; ++rang) {
         if (!lireStatistique(*statistiques, NOMS_D_AXE[rang], sortie.statistics[rang], raison)) {
-            erreurs.push_back(fichier + " : " + raison + '.');
+            std::string message = fichier;
+            message += " : ";
+            message += raison;
+            message += '.';
+            erreurs.push_back(std::move(message));
             return false;
         }
     }

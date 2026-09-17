@@ -161,9 +161,9 @@ void addColorValues(std::unordered_map<std::string, std::string>& values, const 
 }  // namespace
 
 DesignColor mixColor(DesignColor from, DesignColor to, float ratio) noexcept {
-    const float t = std::clamp(ratio, 0.0f, 1.0f);
+    const float t = std::clamp(ratio, 0.0F, 1.0F);
     const auto blend = [t](std::uint8_t a, std::uint8_t b) {
-        const float mixed = (static_cast<float>(a) * (1.0f - t)) + (static_cast<float>(b) * t);
+        const float mixed = (static_cast<float>(a) * (1.0F - t)) + (static_cast<float>(b) * t);
         // std::lround plutot qu'un + 0.5 tronque : ce dernier arrondit mal les valeurs negatives
         // et depend du mode d'arrondi courant. Les composantes sont positives ici, mais la forme
         // fautive se recopie.
@@ -215,7 +215,7 @@ DesignColor viewportClearColor(bool editorMode, const DesignTokens& activeEditor
 std::string toCssColor(DesignColor color) {
     std::array<char, 8> buffer{};
     std::snprintf(buffer.data(), buffer.size(), "#%02x%02x%02x", color.r, color.g, color.b);
-    return std::string(buffer.data());
+    return {buffer.data()};
 }
 
 std::string toCssRgba(DesignColor color) {

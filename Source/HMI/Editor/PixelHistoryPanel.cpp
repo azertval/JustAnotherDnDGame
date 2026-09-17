@@ -14,9 +14,9 @@
 namespace hmi {
 
 PixelHistoryPanel::PixelHistoryPanel(QWidget* parent)
-    : QWidget(parent), _ui(std::make_unique<Ui::PixelHistoryPanel>()) {
+    : QWidget(parent), _ui(std::make_unique<Ui::PixelHistoryPanel>()), _list(_ui->list) {
     _ui->setupUi(this);
-    _list = _ui->list;
+
     connect(_list, &QListWidget::itemActivated, this,
             [this](QListWidgetItem*) { onItemActivated(); });
 }

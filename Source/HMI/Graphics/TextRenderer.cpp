@@ -26,17 +26,14 @@ namespace {
 // position en pixels en coordonnees de clip [-1, 1], l'axe Y etant inverse pour que l'ordonnee
 // croisse vers le bas de l'ecran.
 DirectX::XMFLOAT4X4 screenProjectionMatrix(int viewportWidth, int viewportHeight) noexcept {
-    const float width = viewportWidth > 0 ? static_cast<float>(viewportWidth) : 1.0f;
-    const float height = viewportHeight > 0 ? static_cast<float>(viewportHeight) : 1.0f;
+    const float width = viewportWidth > 0 ? static_cast<float>(viewportWidth) : 1.0F;
+    const float height = viewportHeight > 0 ? static_cast<float>(viewportHeight) : 1.0F;
 
-    DirectX::XMFLOAT4X4 projection{};
-    projection._11 = 2.0f / width;
-    projection._22 = -2.0f / height;
-    projection._33 = 1.0f;
-    projection._41 = -1.0f;
-    projection._42 = 1.0f;
-    projection._44 = 1.0f;
-    return projection;
+    // Lignes de la matrice (_11.._14, _21.._24, ...), les autres coefficients a zero.
+    return {2.0F / width, 0.0F,           0.0F, 0.0F,  //
+            0.0F,         -2.0F / height, 0.0F, 0.0F,  //
+            0.0F,         0.0F,           1.0F, 0.0F,  //
+            -1.0F,        1.0F,           0.0F, 1.0F};
 }
 
 // Compose une chaine en quads sur le calque UI, ancree a une position ecran.
@@ -56,7 +53,7 @@ void composeText(ComposedScene& scene, const FontMetrics& metrics, TextureHandle
         case TextHorizontalAnchor::Left:
             break;
         case TextHorizontalAnchor::Center:
-            originX -= extent.width * 0.5f;
+            originX -= extent.width * 0.5F;
             break;
         case TextHorizontalAnchor::Right:
             originX -= extent.width;
@@ -67,7 +64,7 @@ void composeText(ComposedScene& scene, const FontMetrics& metrics, TextureHandle
         case TextVerticalAnchor::Top:
             break;
         case TextVerticalAnchor::Middle:
-            originY -= extent.height * 0.5f;
+            originY -= extent.height * 0.5F;
             break;
         case TextVerticalAnchor::Bottom:
             originY -= extent.height;
@@ -76,8 +73,8 @@ void composeText(ComposedScene& scene, const FontMetrics& metrics, TextureHandle
     originX = roundToPixel(originX);
     originY = roundToPixel(originY);
 
-    const float invTextureWidth = 1.0f / static_cast<float>(textureWidth);
-    const float invTextureHeight = 1.0f / static_cast<float>(textureHeight);
+    const float invTextureWidth = 1.0F / static_cast<float>(textureWidth);
+    const float invTextureHeight = 1.0F / static_cast<float>(textureHeight);
     const float lineAdvance = static_cast<float>(metrics.lineHeight) * scale;
 
     float penX = originX;

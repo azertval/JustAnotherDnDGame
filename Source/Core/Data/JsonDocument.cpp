@@ -57,7 +57,7 @@ TextPosition positionOf(std::string_view text, std::size_t byteOffset) {
             ++column;
         }
     }
-    return {line, column};
+    return {.line = line, .column = column};
 }
 
 JsonDocument readJsonObject(std::string_view json, int supportedVersion, std::string_view origin,

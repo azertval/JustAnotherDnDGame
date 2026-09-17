@@ -48,6 +48,23 @@ namespace {
     return core::deriveSeed(0x15D1A106ULL, compteur++, 0);
 }
 
+/// Garde les dialogues dont toutes les références se résolvent ; journalise les autres.
+[[nodiscard]] std::vector<core::DialogueGraph> validDialogues(
+    std::vector<core::DialogueGraph> graphes, const core::DialogueReferences& references) {
+    std::vector<core::DialogueGraph> valides;
+    for (core::DialogueGraph& graphe : graphes) {
+        const std::vector<std::string> erreurs =
+            core::validateDialogueReferences(graphe, references);
+        for (const std::string& error : erreurs) {
+            HMI_LOG_WARNING("Dialogue : " + error);
+        }
+        if (erreurs.empty()) {
+            valides.push_back(std::move(graphe));
+        }
+    }
+    return valides;
+}
+
 }  // namespace
 
 struct DialogueModel::Session {
@@ -96,18 +113,7 @@ DialogueModel::DialogueModel(QObject* parent)
     references.languageExists = [root](std::string_view id) {
         return std::filesystem::exists(root / "Rpg" / "languages" / (std::string(id) + ".json"));
     };
-    std::vector<core::DialogueGraph> valides;
-    for (core::DialogueGraph& graphe : s.dialogues.dialogues) {
-        const std::vector<std::string> erreurs =
-            core::validateDialogueReferences(graphe, references);
-        for (const std::string& error : erreurs) {
-            HMI_LOG_WARNING("Dialogue : " + error);
-        }
-        if (erreurs.empty()) {
-            valides.push_back(std::move(graphe));
-        }
-    }
-    s.dialogues.dialogues = std::move(valides);
+    s.dialogues.dialogues = validDialogues(std::move(s.dialogues.dialogues), references);
     refresh();
 }
 
@@ -147,12 +153,14 @@ void DialogueModel::refresh() {
     } else {
         s.values = DialogueScreenValues{};
         s.values.line = ruleLabel("dialogue.unavailable", activeLanguage());
-        s.values.replies.push_back(
-            {std::string(DIALOGUE_LEAVE_REPLY), ruleLabel("dialogue.leave", activeLanguage()), {}});
+        s.values.replies.push_back({.id = std::string(DIALOGUE_LEAVE_REPLY),
+                                    .label = ruleLabel("dialogue.leave", activeLanguage()),
+                                    .value = {}});
     }
     QVector<SheetRow> lignes;
     for (const DialogueReply& reponse : s.values.replies) {
-        lignes.push_back({toQt(reponse.id), toQt(reponse.label), toQt(reponse.value)});
+        lignes.push_back(
+            {.id = toQt(reponse.id), .label = toQt(reponse.label), .value = toQt(reponse.value)});
     }
     _replies.setRows(std::move(lignes));
     emit changed();

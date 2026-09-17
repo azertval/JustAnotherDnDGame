@@ -51,6 +51,7 @@ OptionsModel::OptionsModel(QObject* parent) : QObject(parent) {
         stored.value(QLatin1String(LANGUAGE_KEY), QLatin1String(DEFAULT_LANGUAGE)).toString();
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static) : lue par QML (Q_PROPERTY).
 QVariantMap OptionsModel::defaults() const {
     return {{QStringLiteral("fullscreen"), DEFAULT_FULLSCREEN},
             {QStringLiteral("vsync"), DEFAULT_VSYNC},
@@ -63,10 +64,12 @@ void OptionsModel::setSessionLog(core::MemoryLogSink* sessionLog) noexcept {
     _sessionLog = sessionLog;
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static) : lue par QML (Q_PROPERTY).
 QStringList OptionsModel::languages() const {
     return {QStringLiteral("fr"), QStringLiteral("en")};
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static) : lue par QML (Q_PROPERTY).
 QStringList OptionsModel::languageNames() const {
     // Chaque langue est nommee DANS SA PROPRE LANGUE, et jamais traduite. Un joueur qui a mis le
     // jeu dans une langue qu'il ne lit pas doit pouvoir en sortir : c'est le seul endroit de

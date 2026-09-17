@@ -94,7 +94,7 @@ PlayerClipKind proceduralClipKindFor(const std::string& clipName) {
 // Zoom et marge visuelle communs aux trois modes de cadrage (LOT-64) : une marge UNIQUE, la meme
 // quel que soit le mode -- aucune raison visuelle de la faire varier, et une marge par mode se
 // verrait comme un saut a chaque changement de cadrage.
-constexpr float CAMERA_FIT_MARGIN = 0.92f;
+constexpr float CAMERA_FIT_MARGIN = 0.92F;
 }  // namespace
 
 GameSession::GameSession(SpriteBatch& batch, const TextureAtlas& atlas, TextureCache& cache,
@@ -159,8 +159,8 @@ void GameSession::loadLevel(core::Level level) {
     // Caméra de suivi (LOT-64 TACHE-02) : réinitialisée à chaque chargement, elle démarrera sur le
     // personnage à l'entrée dès le premier `update()` (état non initialisé).
     _followCameraState = FollowCameraState{};
-    _previousFollowCenter = core::Vector2{static_cast<float>(levelRef.entry().column) + 0.5f,
-                                          static_cast<float>(levelRef.entry().row) + 0.5f};
+    _previousFollowCenter = core::Vector2{static_cast<float>(levelRef.entry().column) + 0.5F,
+                                          static_cast<float>(levelRef.entry().row) + 0.5F};
     // Zone de camera active (mode par salle avec zones dessinees a la main, EX-LVL-007) : resolue
     // ici comme _currentRoomIndex ci-dessus, pour ne pas dependre d'un premier update() avant le
     // premier rendu.
@@ -194,13 +194,16 @@ void GameSession::loadLevel(core::Level level) {
     // refaire a chaque image sans rendre la scene dependante du mode de rendu.
     const core::TileMap& sceneMap = levelRef.tileMap();
     core::buildLevelScene(
-        _world, levelRef, [this](core::TileType type) { return regionForTile(type); },
+        _world, levelRef, [](core::TileType type) { return regionForTile(type); },
         [this, &sceneMap, &levelRef](core::Entity entity, core::LayerKind kind, core::TileType type,
                                      int column, int row) {
-            _world.addComponent(entity,
-                                TileSkinTag{type, solidNeighborMask(sceneMap, column, row),
-                                            textureOverrideAt(levelRef.textureOverrides(),
-                                                              core::GridPosition{column, row})});
+            _world.addComponent(
+                entity, TileSkinTag{.type = type,
+                                    .neighborMask = solidNeighborMask(sceneMap, column, row),
+                                    .overrideAsset = textureOverrideAt(
+                                        levelRef.textureOverrides(),
+                                        core::GridPosition{.column = column, .row = row}),
+                                    .animatedFrame = std::nullopt});
             // Une tuile de DECOR partage la profondeur du personnage (LOT-07) : un arbre plus bas
             // que lui le cache, un arbre plus haut passe derriere. Le sol, lui, reste sous tout le
             // monde -- il n'a pas de pied, on marche dessus (EX-REN-018).
@@ -278,7 +281,9 @@ void GameSession::spawnPlayer(core::GridPosition entry) {
     _player = _world.createEntity();
     const core::Vector2 size = core::playerSize();  // collision ET rendu partagent la meme taille
     _world.addComponent(
-        _player, core::Transform{core::playerSpawnPosition(entry.column, entry.row), size, 0.0f});
+        _player, core::Transform{.position = core::playerSpawnPosition(entry.column, entry.row),
+                                 .scale = size,
+                                 .rotation = 0.0F});
     _world.addComponent(_player, core::Velocity{});
     _world.addComponent(_player, core::Collider{size});
     _world.addComponent(_player, core::Actor{});
@@ -287,8 +292,8 @@ void GameSession::spawnPlayer(core::GridPosition entry) {
     animation.clipIndex = core::PLAYER_CLIP_IDLE;
     _world.addComponent(_player, animation);
     core::Sprite sprite;
-    sprite.region = _atlas.playerFrameRegion(PlayerClipKind::Idle, 0);
-    sprite.tint = core::Color{1.0f, 1.0f, 1.0f, 1.0f};
+    sprite.region = hmi::TextureAtlas::playerFrameRegion(PlayerClipKind::Idle, 0);
+    sprite.tint = core::Color{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = 1.0F};
     _world.addComponent(_player, sprite);
     // Habillage du personnage (LOT-48) : resolu chaque image par refreshPlayerSprite, valeurs
     // par defaut sans effet tant qu'un premier appel n'a pas eu lieu (RenderMode::Physique inchange
@@ -308,7 +313,7 @@ void GameSession::applyMechanismVisual(core::Entity entity, bool active,
     if (!_world.hasComponent<TileSkinTag>(entity) || !_world.hasComponent<core::Sprite>(entity)) {
         return;  // entite-tuile non reperee (robustesse) : rien a faire, meme garde que le reste.
     }
-    TileSkinTag& tag = _world.getComponent<TileSkinTag>(entity);
+    auto& tag = _world.getComponent<TileSkinTag>(entity);
     // Par defaut : pas d'image par instance -- repli sur l'horloge partagee par asset (LOT-46) ou
     // sur l'image entiere, selon ce que resolveTileAppearance decide plus bas au rendu.
     tag.animatedFrame.reset();
@@ -378,8 +383,8 @@ void GameSession::updateMechanismVisuals(float fixedDelta) {
 
 // Modulation d'opacite de diagnostic, reservee au mode Physique (voir en-tete).
 void GameSession::refreshMechanismDiagnosticTint(RenderMode mode) {
-    constexpr float DOOR_OPEN_ALPHA = 0.25f;
-    constexpr float DOOR_CLOSED_ALPHA = 1.0f;
+    constexpr float DOOR_OPEN_ALPHA = 0.25F;
+    constexpr float DOOR_CLOSED_ALPHA = 1.0F;
 
     for (std::size_t index = 0; index < _doorEntities.size(); ++index) {
         const core::Entity door = _doorEntities[index];
@@ -388,7 +393,8 @@ void GameSession::refreshMechanismDiagnosticTint(RenderMode mode) {
         }
         const float alpha = mechanismDiagnosticAlpha(mode, _mechanisms->isDoorOpen(index),
                                                      DOOR_OPEN_ALPHA, DOOR_CLOSED_ALPHA);
-        _world.getComponent<core::Sprite>(door).tint = core::Color{1.0f, 1.0f, 1.0f, alpha};
+        _world.getComponent<core::Sprite>(door).tint =
+            core::Color{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = alpha};
     }
 }
 
@@ -411,8 +417,8 @@ std::vector<core::Aabb> GameSession::collectActiveDangerBoxes() {
 void GameSession::refreshPlayerSprite() {
     const core::Animation& animation = _world.getComponent<core::Animation>(_player);
     const core::Actor& actor = _world.getComponent<core::Actor>(_player);
-    core::Sprite& sprite = _world.getComponent<core::Sprite>(_player);
-    PlayerSpriteTag& tag = _world.getComponent<PlayerSpriteTag>(_player);
+    auto& sprite = _world.getComponent<core::Sprite>(_player);
+    auto& tag = _world.getComponent<PlayerSpriteTag>(_player);
 
     const std::string clipName =
         animation.clips ? std::string(animation.clips->clipAt(animation.clipIndex).name) : "idle";
@@ -423,7 +429,7 @@ void GameSession::refreshPlayerSprite() {
     const PlayerClipKind proceduralKind = proceduralClipKindFor(clipName);
     const int proceduralFrame = animation.frameIndex % proceduralFrameCount(proceduralKind);
     const core::AtlasRegion proceduralRegion =
-        _atlas.playerFrameRegion(proceduralKind, proceduralFrame);
+        hmi::TextureAtlas::playerFrameRegion(proceduralKind, proceduralFrame);
     sprite.region = proceduralRegion;
 
     core::AtlasRegion textureRegion = proceduralRegion;
@@ -468,7 +474,7 @@ void GameSession::refreshPlayerSprite() {
     // deplacement (core::Actor::facing), sans que le rendu n'ait a la recalculer. Seule sa
     // composante horizontale se lit en miroir -- le vocabulaire de sprites RPG du LOT-08 dira quoi
     // faire des quatre orientations.
-    tag.flipHorizontal = actor.facing.x < 0.0f;
+    tag.flipHorizontal = actor.facing.x < 0.0F;
 }
 
 // Avance l'horloge d'animation partagee des tuiles animees, au pas fixe (LOT-46 TACHE-05).
@@ -491,16 +497,16 @@ void GameSession::snapshotPreviousPositions() {
 void GameSession::centerCameraOnRoom(core::GridPosition roomIndex) {
     const RoomBounds bounds = _roomGrid->roomBounds(roomIndex);
     _camera.setCenter(
-        core::Vector2{static_cast<float>(bounds.column) + static_cast<float>(bounds.width) * 0.5f,
-                      static_cast<float>(bounds.row) + static_cast<float>(bounds.height) * 0.5f});
+        core::Vector2{static_cast<float>(bounds.column) + (static_cast<float>(bounds.width) * 0.5F),
+                      static_cast<float>(bounds.row) + (static_cast<float>(bounds.height) * 0.5F)});
 }
 
 void GameSession::updateCurrentRoom() {
     const core::Transform& transform = _world.getComponent<core::Transform>(_player);
     const core::Collider& collider = _world.getComponent<core::Collider>(_player);
-    const core::Vector2 center = transform.position + collider.size * 0.5f;
-    const core::GridPosition tile{static_cast<int>(std::floor(center.x)),
-                                  static_cast<int>(std::floor(center.y))};
+    const core::Vector2 center = transform.position + collider.size * 0.5F;
+    const core::GridPosition tile{.column = static_cast<int>(std::floor(center.x)),
+                                  .row = static_cast<int>(std::floor(center.y))};
     const core::GridPosition roomIndex = _roomGrid->roomIndexAt(tile);
     if (roomIndex != _currentRoomIndex) {
         _currentRoomIndex = roomIndex;
@@ -511,24 +517,24 @@ void GameSession::updateCurrentRoom() {
 // Centre la camera sur le niveau entier (mode WholeLevel, LOT-64) : centre fixe, pose une fois au
 // chargement -- symetrique a centerCameraOnRoom, jamais recalcule au pas fixe (voir en-tete).
 void GameSession::centerCameraOnWholeLevel() {
-    _camera.setCenter(core::Vector2{static_cast<float>(_levelWidth) * 0.5f,
-                                    static_cast<float>(_levelHeight) * 0.5f});
+    _camera.setCenter(core::Vector2{static_cast<float>(_levelWidth) * 0.5F,
+                                    static_cast<float>(_levelHeight) * 0.5F});
 }
 
 // Centre la camera sur une zone dessinee a la main (EX-LVL-007, voir en-tete).
 void GameSession::centerCameraOnZone(const core::CameraZone& zone) {
     _camera.setCenter(
-        core::Vector2{static_cast<float>(zone.x) + static_cast<float>(zone.width) * 0.5f,
-                      static_cast<float>(zone.y) + static_cast<float>(zone.height) * 0.5f});
+        core::Vector2{static_cast<float>(zone.x) + (static_cast<float>(zone.width) * 0.5F),
+                      static_cast<float>(zone.y) + (static_cast<float>(zone.height) * 0.5F)});
 }
 
 // Equivalent de updateCurrentRoom pour les zones dessinees a la main (EX-LVL-007, voir en-tete).
 void GameSession::updateCurrentCameraZone() {
     const core::Transform& transform = _world.getComponent<core::Transform>(_player);
     const core::Collider& collider = _world.getComponent<core::Collider>(_player);
-    const core::Vector2 center = transform.position + collider.size * 0.5f;
-    const core::GridPosition tile{static_cast<int>(std::floor(center.x)),
-                                  static_cast<int>(std::floor(center.y))};
+    const core::Vector2 center = transform.position + collider.size * 0.5F;
+    const core::GridPosition tile{.column = static_cast<int>(std::floor(center.x)),
+                                  .row = static_cast<int>(std::floor(center.y))};
     const std::optional<std::size_t> zoneIndex = activeCameraZoneIndex(_cameraFraming.zones, tile);
     if (zoneIndex == _currentZoneIndex) {
         return;
@@ -552,19 +558,19 @@ void GameSession::updateFollowCamera(float fixedDelta) {
     // le CENTRE DE CAMERA resultant entre deux pas, exactement comme il interpole deja la position
     // affichee du personnage (PreviousPosition). Melanger les deux ici desynchroniserait le suivi
     // de la simulation qu'il est cense suivre.
-    const core::Vector2 characterCenter = transform.position + collider.size * 0.5f;
+    const core::Vector2 characterCenter = transform.position + collider.size * 0.5F;
     const core::Actor& actor = _world.getComponent<core::Actor>(_player);
     const core::Rect levelBounds{
-        core::Vector2{0.0f, 0.0f},
+        core::Vector2{0.0F, 0.0F},
         core::Vector2{static_cast<float>(_levelWidth), static_cast<float>(_levelHeight)}};
     // Cadrage de la camera de suivi : taille reglable par niveau (EX-REN-017, memes champs que la
     // taille de salle du mode par salle -- valeur par defaut si non declaree).
     const core::Vector2 viewHalfExtent{
         static_cast<float>(_cameraFraming.roomWidthTiles.value_or(core::DEFAULT_ROOM_WIDTH_TILES)) *
-            0.5f,
+            0.5F,
         static_cast<float>(
             _cameraFraming.roomHeightTiles.value_or(core::DEFAULT_ROOM_HEIGHT_TILES)) *
-            0.5f};
+            0.5F};
     _followCameraState = advanceFollowCamera(_followCameraState, characterCenter, actor.facing,
                                              levelBounds, viewHalfExtent, fixedDelta);
 }
@@ -664,30 +670,34 @@ core::LevelOutcome GameSession::update(const core::PlayerInput& intent, float fi
 void GameSession::spawnPlaytestEntities() {
     _playtestEntities.clear();
     std::size_t mapIndex = 0;
-    core::spawnMapEntities(_world, *_level, _level->name(),
-                           [this, &mapIndex](core::Entity entity, const core::MapEntity& source) {
-                               if (source.type == core::PORTAL_ENTITY_TYPE &&
-                                   !_world.hasComponent<core::Interactable>(entity)) {
-                                   // Decision (LOT-11) : le portail devient DESIGNABLE dans
-                                   // l'essai, et seulement la. Sans drapeau (il ne se consomme pas)
-                                   // ni invite (le jeu n'en affiche aucune tant que le LOT-09 ne le
-                                   // traverse pas). core::knownInteractableKinds reste inchange :
-                                   // le jeu ne gagne pas une interaction qui ne fait rien.
-                                   core::Interactable portal;
-                                   portal.type = source.type;
-                                   portal.position = source.position;
-                                   _world.addComponent(entity, portal);
-                               }
-                               _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
-                               _playtestEntities.push_back(
-                                   PlaytestEntity{entity, mapIndex, entityMarkerKey(source.type)});
-                               ++mapIndex;
-                           });
+    core::spawnMapEntities(
+        _world, *_level, _level->name(),
+        [this, &mapIndex](core::Entity entity, const core::MapEntity& source) {
+            if (source.type == core::PORTAL_ENTITY_TYPE &&
+                !_world.hasComponent<core::Interactable>(entity)) {
+                // Decision (LOT-11) : le portail devient DESIGNABLE dans
+                // l'essai, et seulement la. Sans drapeau (il ne se consomme pas)
+                // ni invite (le jeu n'en affiche aucune tant que le LOT-09 ne le
+                // traverse pas). core::knownInteractableKinds reste inchange :
+                // le jeu ne gagne pas une interaction qui ne fait rien.
+                core::Interactable portal;
+                portal.type = source.type;
+                portal.position = source.position;
+                _world.addComponent(entity, portal);
+            }
+            _world.addComponent(entity, RenderLayerTag{RenderLayer::Object});
+            _playtestEntities.push_back(PlaytestEntity{
+                .entity = entity, .mapIndex = mapIndex, .markerKey = entityMarkerKey(source.type)});
+            ++mapIndex;
+        });
 }
 
 void GameSession::updatePlaytestInteraction(const core::PlayerInput& input, float fixedDelta) {
-    if (_playtestMessageStepsLeft > 0 && --_playtestMessageStepsLeft == 0) {
-        _playtestMessage.reset();
+    if (_playtestMessageStepsLeft > 0) {
+        --_playtestMessageStepsLeft;
+        if (_playtestMessageStepsLeft == 0) {
+            _playtestMessage.reset();
+        }
     }
     if (!input.interactPressed || _playtestEntities.empty()) {
         return;
@@ -698,7 +708,8 @@ void GameSession::updatePlaytestInteraction(const core::PlayerInput& input, floa
     for (const PlaytestEntity& placed : _playtestEntities) {
         if (_world.hasComponent<core::Interactable>(placed.entity)) {
             candidates.push_back(core::InteractionCandidate{
-                &_world.getComponent<core::Interactable>(placed.entity), placed.mapIndex});
+                .interactable = &_world.getComponent<core::Interactable>(placed.entity),
+                .index = placed.mapIndex});
         }
     }
     if (candidates.empty()) {
@@ -706,9 +717,9 @@ void GameSession::updatePlaytestInteraction(const core::PlayerInput& input, floa
     }
 
     const core::Aabb box = playerBox();
-    const core::Vector2 center = (box.min + box.max) * 0.5f;
-    const core::GridPosition cell{static_cast<int>(std::floor(center.x)),
-                                  static_cast<int>(std::floor(center.y))};
+    const core::Vector2 center = (box.min + box.max) * 0.5F;
+    const core::GridPosition cell{.column = static_cast<int>(std::floor(center.x)),
+                                  .row = static_cast<int>(std::floor(center.y))};
     const core::Vector2 facing = _world.getComponent<core::Actor>(_player).facing;
     const core::TileMap& map = _level->tileMap();
 
@@ -744,8 +755,8 @@ void GameSession::renderEntityMarkers() {
         return;
     }
     // Un coffre deja ouvert s'assombrit : il reste visible, et ne se confond plus avec un plein.
-    constexpr float CONSUMED_SHADE = 0.45f;
-    constexpr float CONSUMED_ALPHA = 0.6f;
+    constexpr float CONSUMED_SHADE = 0.45F;
+    constexpr float CONSUMED_ALPHA = 0.6F;
 
     _markerScene.clear();
     _markerScene.setVisibleBounds(_camera.visibleBounds());
@@ -758,8 +769,8 @@ void GameSession::renderEntityMarkers() {
         SpriteQuad quad;
         quad.x = transform.position.x;
         quad.y = transform.position.y;
-        quad.width = 1.0f;
-        quad.height = 1.0f;
+        quad.width = 1.0F;
+        quad.height = 1.0F;
         if (_world.hasComponent<core::Interactable>(placed.entity)) {
             const core::Interactable& interactable =
                 _world.getComponent<core::Interactable>(placed.entity);
@@ -877,7 +888,7 @@ void GameSession::onLevelLost() {
     // Eclatement a la mort (LOT-53 TACHE-02) : emis AVANT reload(), qui remet le personnage a
     // l'entree -- apres, l'eclatement partirait du point d'apparition.
     const core::Aabb box = playerBox();
-    _particles.emitDeath(_world, (box.min + box.max) * 0.5f);
+    _particles.emitDeath(_world, (box.min + box.max) * 0.5F);
     triggerScreenShake(_screenShake, DEATH_SHAKE_AMPLITUDE_PIXELS, SCREEN_SHAKE_DURATION);
     reload();
 }
@@ -919,13 +930,13 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
         return;  // catalogue pas encore charge (demarrage) : pas de HUD plutot qu'un plantage.
     }
 
-    constexpr float HUD_MARGIN = 8.0f;
-    constexpr float HUD_SCALE = 1.0f;
-    constexpr float HUD_LINE_SPACING = 2.0f;
+    constexpr float HUD_MARGIN = 8.0F;
+    constexpr float HUD_SCALE = 1.0F;
+    constexpr float HUD_LINE_SPACING = 2.0F;
     // Ombre portee (decalage d'un pixel, noir semi-opaque) : contraste suffisant sur un fond
     // clair comme sur un fond sombre, le fond de niveau etant libre (TACHE-03).
-    constexpr core::Color HUD_SHADOW_COLOR{0.0f, 0.0f, 0.0f, 0.75f};
-    constexpr core::Color HUD_TEXT_COLOR{1.0f, 1.0f, 1.0f, 1.0f};
+    constexpr core::Color HUD_SHADOW_COLOR{.r = 0.0F, .g = 0.0F, .b = 0.0F, .a = 0.75F};
+    constexpr core::Color HUD_TEXT_COLOR{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = 1.0F};
 
     // Le personnage touche-t-il une cle non ramassee (EX-GP-023, LOT-65 TACHE-07) ? La porte
     // qu'ouvre une cle reste FERMEE tant que celle-ci n'est pas ramassee : `isDoorOpen` vaut donc
@@ -941,7 +952,7 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
         const core::GridPosition cell = _mechanisms->mechanisms()[index].switchPosition;
         const auto left = static_cast<float>(cell.column);
         const auto top = static_cast<float>(cell.row);
-        if (hudBox.min.x < left + 1.0f && hudBox.max.x > left && hudBox.min.y < top + 1.0f &&
+        if (hudBox.min.x < left + 1.0F && hudBox.max.x > left && hudBox.min.y < top + 1.0F &&
             hudBox.max.y > top) {
             overlappingKey = true;
             break;
@@ -957,10 +968,10 @@ void GameSession::renderHud(int viewportWidth, int viewportHeight) {
     _hudScene.clear();
     float lineY = HUD_MARGIN;
     for (const std::string& line : lines) {
-        composeText(_hudScene, _font, line, HUD_MARGIN + 1.0f, lineY + 1.0f, HUD_SCALE,
+        composeText(_hudScene, _font, line, HUD_MARGIN + 1.0F, lineY + 1.0F, HUD_SCALE,
                     HUD_SHADOW_COLOR);
         composeText(_hudScene, _font, line, HUD_MARGIN, lineY, HUD_SCALE, HUD_TEXT_COLOR);
-        lineY += static_cast<float>(_font.metrics().lineHeight) * HUD_SCALE + HUD_LINE_SPACING;
+        lineY += (static_cast<float>(_font.metrics().lineHeight) * HUD_SCALE) + HUD_LINE_SPACING;
     }
     _hudScene.sort();
     submitComposedScene(_batch, screenProjectionMatrix(viewportWidth, viewportHeight), _hudScene);

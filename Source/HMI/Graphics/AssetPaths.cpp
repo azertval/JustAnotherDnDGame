@@ -12,7 +12,7 @@ AssetPaths::AssetPaths(std::filesystem::path directory) : _directory(std::move(d
 
 // Résout un nom de fichier logique vers un chemin existant dans le dossier d'assets.
 std::optional<std::filesystem::path> AssetPaths::resolve(const std::string& fileName) const {
-    const std::filesystem::path candidate = _directory / fileName;
+    std::filesystem::path candidate = _directory / fileName;
     std::error_code error;
     if (!std::filesystem::is_regular_file(candidate, error) || error) {
         return std::nullopt;

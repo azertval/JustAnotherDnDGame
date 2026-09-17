@@ -3,6 +3,7 @@
 
 #include "Core/Gameplay/MechanismController.h"
 
+#include <algorithm>
 #include <string>
 
 #include "Core/Gameplay/GameplayLog.h"
@@ -29,12 +30,9 @@ constexpr float MIN_TRIGGER_MASS = 1.0F;
 // TACHE-06.) Un poids trop leger touche la plaque sans l'enfoncer, exactement comme un personnage
 // trop leger -- meme seuil, meme regle, pas de cas particulier pour les blocs.
 bool weightRestsOn(const std::vector<TriggerWeight>& weights, GridPosition cell) {
-    for (const TriggerWeight& weight : weights) {
-        if (weight.mass >= MIN_TRIGGER_MASS && overlapsCell(weight.box, cell)) {
-            return true;
-        }
-    }
-    return false;
+    return std::ranges::any_of(weights, [cell](const TriggerWeight& weight) {
+        return weight.mass >= MIN_TRIGGER_MASS && overlapsCell(weight.box, cell);
+    });
 }
 
 }  // namespace
@@ -72,7 +70,6 @@ void MechanismController::update(const Aabb& playerBox, float playerMass, bool i
     for (std::size_t index = 0; index < _mechanisms.size(); ++index) {
         const Mechanism& mechanism = _mechanisms[index];
         const bool onSwitch = overlapsCell(playerBox, mechanism.switchPosition);
-        const GridPosition door = mechanism.doorPosition;
 
         if (_isKey[index]) {
             // Cle (EX-GP-023) : ramassage au contact ET a l'action « Interagir » (EX-CTRL-022,
@@ -80,11 +77,7 @@ void MechanismController::update(const Aabb& playerBox, float playerMass, bool i
             // Une fois ramassee, la porte reste ouverte DEFINITIVEMENT : jamais de retour a false,
             // meme si le joueur revient sur la case (deja consommee) ou rappuie sur Interagir.
             if (!_switchOn[index] && onSwitch && interactPressed) {
-                _switchOn[index] = true;
-                _collision.setTile(door.column, door.row, _openType[index]);
-                GAMEPLAY_LOG_TRACE("Cle #" + std::to_string(index) + " ramassee -> porte (" +
-                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
-                                   ") ouverte definitivement");
+                pickUpKey(index);
             }
         } else if (_continuous[index]) {
             // Plaque de pression (EX-GP-025) : ouverte tant qu'un poids suffisant y repose,
@@ -93,33 +86,40 @@ void MechanismController::update(const Aabb& playerBox, float playerMass, bool i
             const bool shouldBeOpen = (onSwitch && playerMass >= MIN_TRIGGER_MASS) ||
                                       weightRestsOn(weights, mechanism.switchPosition);
             if (shouldBeOpen != _switchOn[index]) {
-                _switchOn[index] = shouldBeOpen;
-                _collision.setTile(door.column, door.row,
-                                   _switchOn[index] ? _openType[index] : TileType::Solid);
-                if (!_switchOn[index] && overlapsCell(playerBox, door)) {
-                    _crushedPlayer = true;  // la porte se referme sur le personnage : mortel.
-                }
-                GAMEPLAY_LOG_TRACE("Plaque de pression #" + std::to_string(index) + " -> porte (" +
-                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
-                                   ") " + (_switchOn[index] ? "ouverte" : "fermee"));
+                setDoorOpen(index, shouldBeOpen, playerBox, "Plaque de pression");
             }
         } else {
             // Interrupteur a bascule (EX-GP-020) : bascule au FRONT seulement, comportement
             // inchange (rester dessus ne re-bascule pas ; le poids n'intervient pas).
             if (onSwitch && !_playerOnSwitchPrev[index]) {
-                _switchOn[index] = !_switchOn[index];
-                _collision.setTile(door.column, door.row,
-                                   _switchOn[index] ? _openType[index] : TileType::Solid);
-                if (!_switchOn[index] && overlapsCell(playerBox, door)) {
-                    _crushedPlayer = true;  // la porte se referme sur le personnage : mortel.
-                }
-                GAMEPLAY_LOG_TRACE("Interrupteur #" + std::to_string(index) + " -> porte (" +
-                                   std::to_string(door.column) + ", " + std::to_string(door.row) +
-                                   ") " + (_switchOn[index] ? "ouverte" : "fermee"));
+                setDoorOpen(index, !_switchOn[index], playerBox, "Interrupteur");
             }
         }
         _playerOnSwitchPrev[index] = onSwitch;
     }
+}
+
+void MechanismController::pickUpKey(std::size_t index) {
+    const GridPosition door = _mechanisms[index].doorPosition;
+    _switchOn[index] = true;
+    _collision.setTile(door.column, door.row, _openType[index]);
+    GAMEPLAY_LOG_TRACE("Cle #" + std::to_string(index) + " ramassee -> porte (" +
+                       std::to_string(door.column) + ", " + std::to_string(door.row) +
+                       ") ouverte definitivement");
+}
+
+void MechanismController::setDoorOpen(std::size_t index, bool open, const Aabb& playerBox,
+                                      const char* triggerLabel) {
+    const GridPosition door = _mechanisms[index].doorPosition;
+    _switchOn[index] = open;
+    _collision.setTile(door.column, door.row,
+                       _switchOn[index] ? _openType[index] : TileType::Solid);
+    if (!_switchOn[index] && overlapsCell(playerBox, door)) {
+        _crushedPlayer = true;  // la porte se referme sur le personnage : mortel.
+    }
+    GAMEPLAY_LOG_TRACE(std::string(triggerLabel) + " #" + std::to_string(index) + " -> porte (" +
+                       std::to_string(door.column) + ", " + std::to_string(door.row) + ") " +
+                       (_switchOn[index] ? "ouverte" : "fermee"));
 }
 
 }  // namespace core

@@ -3,6 +3,7 @@
 
 #include "Core/Diagnostics/LogFormat.h"
 
+#include <array>
 #include <ctime>
 
 namespace core {
@@ -49,9 +50,9 @@ std::string currentTimestamp() {
 #else
     localtime_r(&now, &localTime);
 #endif
-    char buffer[16] = {};
-    std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &localTime);
-    return buffer;
+    std::array<char, 16> buffer{};
+    std::strftime(buffer.data(), buffer.size(), "%H:%M:%S", &localTime);
+    return buffer.data();
 }
 
 }  // namespace core
