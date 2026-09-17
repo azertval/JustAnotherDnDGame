@@ -1,0 +1,214 @@
+{
+  "version": 1,
+  "note": "Cartes peintes par l'auteur en 1920 x 1080, sans lettrage, livrees en PNG et converties en JPEG (qualite 88, sans sous-echantillonnage de la chrominance) pour ne pas charger le depot de 66 Mo. 'source' : le fichier d'origine dans la livraison de l'auteur. Aucune n'est une image du corpus (EX-IHM-076).",
+  "maps": [
+    {
+      "file": "city-central-empire-the-capital-city.jpg",
+      "level": "city",
+      "provenance": "author",
+      "source": "Tanares-1080p-01-monde-villes/city-imperial-capital.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1040617,
+      "sha256": "949d5ebcb838fd2160453b3e5d98c04ab87df6fc2abadfc99729729a04ddbc16"
+    },
+    {
+      "file": "city-republic-of-freelands-fisherman-s-wharf.jpg",
+      "level": "city",
+      "provenance": "author",
+      "source": "Tanares-1080p-01-monde-villes/city-fishermans-wharf.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 894077,
+      "sha256": "21136f4b85456468564c318049bdf6b0eda24a3131c02fd0d8e38053e7a80289"
+    },
+    {
+      "file": "region-central-empire.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-03-centre-iles/region-central-empire.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1032020,
+      "sha256": "6637dc605823e403694a84e34c8b02faccbee52b4ab6aa2bd65da0ef0b29e586"
+    },
+    {
+      "file": "region-imperial-benenet.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-02-nord/region-imperial-benenet.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1077282,
+      "sha256": "56364983099061bc1e00bcdb7bbaf734df292a50aa428ae6a590abe0b50540cc"
+    },
+    {
+      "file": "region-kingdom-of-kolbjorn.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-02-nord/region-kingdom-of-kolbjorn.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 969877,
+      "sha256": "fea6e520dfcabfb8bac126ecffcb0c4d39c9bacb97139968c037a558b2acafce"
+    },
+    {
+      "file": "region-magocracy-of-mage-tower.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-02-nord/region-magocracy-of-mage-tower.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1032360,
+      "sha256": "234f297a80c13563a08c51ffbbf78d8e44deb19d9abfcbd703b225a2b2786b61"
+    },
+    {
+      "file": "region-republic-of-freelands.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-03-centre-iles/region-republic-of-freelands.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1005908,
+      "sha256": "6bef73082eca9a4579e524f4114ef68bbf2a3974e72a17599179c1a247a2d978"
+    },
+    {
+      "file": "region-seashores.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-03-centre-iles/region-seashores.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1042825,
+      "sha256": "9be6d0b663ed00b8fa139965dd4e948511c0ee2820f880c9176d7dbb134011f1"
+    },
+    {
+      "file": "region-sindile-forest.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-04-sud-est/region-sindile-forest.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1042195,
+      "sha256": "026dc48a071c13d8781c886d0a373fd38c080326ed1ff04ae8f9fa383dc7239e"
+    },
+    {
+      "file": "region-storm-islands.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-03-centre-iles/region-storm-islands.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 927933,
+      "sha256": "c7fae505bcf49feee944299a2c6a679dffb52f399df44676d5c440c91fdd2c81"
+    },
+    {
+      "file": "region-stravian-domains.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-02-nord/region-stravian-domains.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 975962,
+      "sha256": "7dd029af988b185746b27e55afcc50115e4eb1e5b398264c9f109194325591d9"
+    },
+    {
+      "file": "region-taii-maku-city-states.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-04-sud-est/region-taii-maku-city-states.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1085737,
+      "sha256": "a5bf645ec4b9eed8b86520f1787d172c39303f14bbb99de5693d14b59ecdb6c3"
+    },
+    {
+      "file": "region-theocracy-of-kepesh.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-04-sud-est/region-theocracy-of-kepesh.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1015248,
+      "sha256": "a91e7a41b0513460dd65cc02ecb227199bfb4e9fb9a1fad85a908967dac91fed"
+    },
+    {
+      "file": "region-tsvetan.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-04-sud-est/region-tsvetan.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1033121,
+      "sha256": "723dd751f3d4be35e08cc4e2c03cc24ef75c52fa92a9c6b1cb267e159e3fa258"
+    },
+    {
+      "file": "region-yama.jpg",
+      "level": "region",
+      "provenance": "author",
+      "source": "Tanares-1080p-04-sud-est/region-yama.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1042493,
+      "sha256": "518a2ef87a64c63e016ec22a4b68dfb50effa9c2ac5b3f962ad0f8ad33878f37"
+    },
+    {
+      "file": "world.jpg",
+      "level": "world",
+      "provenance": "author",
+      "source": "world-tanares.png",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 1027192,
+      "sha256": "3e47a07f503f026d35591637cf4fe7a8f649a5bca8d2a7da2d091e490259804c"
+    }
+  ]
+}

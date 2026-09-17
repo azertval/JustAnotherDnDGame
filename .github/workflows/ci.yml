@@ -700,14 +700,23 @@ jobs:
         if: ${{ !cancelled() }}
         run: python3 scripts/check_corpus_manifest.py
 
-      # Illustrations extraites du corpus (LOT-67). Le corpus n'est pas sur le runner et ne le
-      # sera pas (EX-CNT-023) : rien ici ne peut rejouer l'extraction. Ce controle porte donc sur
-      # ce qui EST versionne -- les images, leur manifeste, et le lien entre les deux et le code
-      # qui les nomme. Sans dependance : hashlib et une lecture d'en-tete JPEG.
-      - name: Illustrations conformes a leur manifeste (EX-IHM-076)
+      # Illustrations d'interface (LOT-87, LOT-94) : toutes PRODUITES depuis le cahier des assets ;
+      # une provenance extraite du corpus est refusee. Le controle porte sur ce qui est versionne --
+      # les images, leur manifeste, et le lien entre les deux et le code qui les nomme. Sans
+      # dependance : hashlib et une lecture d'en-tete d'image.
+      - name: Illustrations produites et conformes a leur manifeste (EX-IHM-076)
         id: ui_assets
         if: ${{ !cancelled() }}
         run: python3 scripts/check_ui_assets.py
+
+      # Cartes de l'ecran « Carte » (LOT-94, LOT-95) : peintes par l'auteur, jamais extraites du
+      # corpus. Le controle recoupe les images, leur manifeste, world-maps.json et l'atlas : une
+      # region sans carte, une position qui designe un lieu inconnu, une carte retouchee sans
+      # repasser par le manifeste. Sans dependance.
+      - name: Cartes conformes a leur manifeste et a l'atlas (EX-IHM-076, EX-IHM-107)
+        id: map_assets
+        if: ${{ !cancelled() }}
+        run: python3 scripts/check_map_assets.py
 
       # Les cles d'assets d'ENTITE (LOT-39). Ce controle echoue sur une cle orpheline -- une
       # derogation malformee, ou qui nomme une famille inconnue (EX-CNT-040) -- mais se contente de
@@ -811,6 +820,7 @@ jobs:
             Lexique de règles=${{ steps.glossary.outcome }}
             Manifeste du corpus=${{ steps.corpus.outcome }}
             Illustrations et manifeste=${{ steps.ui_assets.outcome }}
+            Cartes, manifeste et atlas=${{ steps.map_assets.outcome }}
             Clés d'assets d'entité=${{ steps.asset_keys.outcome }}
             Catalogues RPG=${{ steps.rpg_data.outcome }}
             Cahier des assets=${{ steps.assets_brief.outcome }}

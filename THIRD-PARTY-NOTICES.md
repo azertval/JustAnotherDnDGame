@@ -38,7 +38,7 @@ qui en sont extraites portent leur provenance dans un champ `"source"` imposé p
 | *Dungeons & Dragons*, *D&D* | Wizards of the Coast LLC | **marques déposées** | inspiration ; aucune marque dans le nom ni le logo du jeu |
 | *Manuel des Joueurs*, *Guide du Maître*, *Manuel des Monstres* (5ᵉ éd., VF) | © Wizards of the Coast LLC, VF Black Book Éditions | tous droits réservés | règles, vocabulaire et bestiaire (`"source": "phb-fr"`) |
 | *Basic Rules* en français | © Wizards of the Coast LLC, traduction communautaire [AideDD](https://www.aidedd.org/) | tous droits réservés | règles de base |
-| *Player's Guide to Tanares*, *Tanares Sourcebook*, feuilles de personnage, cartes VTT | © **Dragori Games, Inc.** | tous droits réservés ; « Tanares », « Penumbral Plane » et les noms réservés sont *Product Identity* | monde, régions, espèces, dialogues (`"source": "tanares"`) ; cartes du monde `Source/Elements/Assets/UI/world-map*.jpg` ([`illustrations.json`](Source/Elements/Assets/UI/illustrations.json)) |
+| *Player's Guide to Tanares*, *Tanares Sourcebook*, feuilles de personnage, cartes VTT | © **Dragori Games, Inc.** | tous droits réservés ; « Tanares », « Penumbral Plane » et les noms réservés sont *Product Identity* | monde, régions, espèces, dialogues (`"source": "tanares"`) ; **aucune image** : les deux cartes du monde extraites ont été retirées (`LOT-94`), et [`illustrations.json`](Source/Elements/Assets/UI/illustrations.json) refuse cette provenance ; les cartes de l'écran « Carte » ([`Assets/Maps/`](Source/Elements/Assets/Maps/manifest.json)) sont **peintes par l'auteur** d'après la géographie de ce monde, sans lettrage, et aucune n'est une image du livre |
 
 Attribution exigée par la CC BY 4.0 du SRD :
 

@@ -3598,7 +3598,7 @@
     {
       "what": "Carte du monde",
       "mockups": ["08_Map_Mockup.png"],
-      "reason": "extraite du corpus (VTT/Map - World.jpg, 9 933 x 7 016) ; world-map.jpg en est déjà tiré, le T3.6 le réextrait en pleine définition par la chaîne du LOT-30"
+      "reason": "plus d'écran de carte du monde (LOT-94) ; celle du LOT-42 se génère dans le style du jeu, jamais extraite du corpus"
     },
     {
       "what": "Portraits",

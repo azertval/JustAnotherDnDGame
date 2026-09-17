@@ -587,7 +587,7 @@ Le cahier compte **80 pièces**, qui engendrent **214 images** (une par état ou
 
 | Élément | Maquettes | Raison |
 |---|---|---|
-| Carte du monde | 08 | extraite du corpus (VTT/Map - World.jpg, 9 933 x 7 016) ; world-map.jpg en est déjà tiré, le T3.6 le réextrait en pleine définition par la chaîne du LOT-30 |
+| Carte du monde | 08 | plus d'écran de carte du monde (LOT-94) ; celle du LOT-42 se génère dans le style du jeu, jamais extraite du corpus |
 | Portraits | 03, 01, 09 | les 172 jetons ronds du corpus (LOT-38) servent de portraits de démonstration |
 | Icônes d'objets, d'armes et d'armures | 04 | assets d'entité du LOT-39 (familles item, weapon, armor), servis par un marqueur tant que l'illustration n'est pas livrée : ils ne sont pas de l'interface |
 | Scène et grille tactique du HUD | 01, 02 | le viewport est rendu en pixel art par le moteur ; la maquette fixe le cadre, pas la scène (T4.1) |

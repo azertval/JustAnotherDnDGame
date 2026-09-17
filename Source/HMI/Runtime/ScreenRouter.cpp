@@ -55,6 +55,8 @@ static_assert(static_cast<int>(ScreenRouter::RpgScreen::Skills) ==
               static_cast<int>(RpgScreenId::Skills));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::Inventory) ==
               static_cast<int>(RpgScreenId::Inventory));
+static_assert(static_cast<int>(ScreenRouter::RpgScreen::Dialogue) ==
+              static_cast<int>(RpgScreenId::Dialogue));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::CombatHud) ==
               static_cast<int>(RpgScreenId::CombatHud));
 static_assert(static_cast<int>(ScreenRouter::RpgScreen::Company) ==

@@ -100,7 +100,8 @@ struct AssetGalleryCatalog {
 /**
  * @brief Les images livrées qui ne sont pas des assets à montrer, par règle nommée : les planches
  *        sources des ateliers (`Scene/…/planche-*.png`, `Coliseum/production_source_atlas.png`),
- *        l'atlas procédural (`atlas.png`), l'interface (`UI/`) et les polices (`Fonts/`).
+ *        l'atlas procédural (`atlas.png`), l'interface (`UI/`), les cartes plein écran de l'écran
+ *        « Carte » (`Maps/`, que cet écran montre déjà une à une) et les polices (`Fonts/`).
  * @param path Chemin relatif à la racine des assets, séparateurs `/`.
  */
 [[nodiscard]] bool assetGalleryExcludes(std::string_view path) noexcept;

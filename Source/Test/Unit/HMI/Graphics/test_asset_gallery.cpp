@@ -243,7 +243,8 @@ TEST(AssetGalleryTest, ToutAssetLivreEstDansLaGalerie) {
 
     EXPECT_TRUE(hmi::assetGalleryExcludes("Scene/martpart/planche-1.png"));
     EXPECT_TRUE(hmi::assetGalleryExcludes("Coliseum/production_source_atlas.png"));
-    EXPECT_TRUE(hmi::assetGalleryExcludes("UI/world-map.jpg"));
+    EXPECT_TRUE(hmi::assetGalleryExcludes("UI/background/menu-scene.png"));
+    EXPECT_TRUE(hmi::assetGalleryExcludes("Maps/world.jpg"));
     EXPECT_FALSE(hmi::assetGalleryExcludes("Scene/martpart/street.png"));
     EXPECT_FALSE(hmi::assetGalleryExcludes("Npc/anariel/portrait.png"));
 }

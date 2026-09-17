@@ -2,25 +2,23 @@
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Garde-fou : les illustrations livrees et leur manifeste ne doivent pas diverger.
 
-`Source/Elements/Assets/UI/` porte deux provenances distinctes, toutes deux cataloguees par
-`illustrations.json` :
+`Source/Elements/Assets/UI/` ne porte qu'une provenance, cataloguee par `illustrations.json` : les
+illustrations **produites** par un generateur d'images a partir du cahier des assets
+(`Documentation/Lot/LOT-87-charte-v2/assets-brief.json`, T2.4), `provenance: "produced"`, qui
+portent la cle du cahier (`cahier`), le prompt tel qu'envoye et sa date.
 
-- les illustrations **extraites** du corpus (`LOT-67`, `EX-IHM-076`, `provenance` autre que
-  `"produced"`) -- le corpus n'est pas versionne (`EX-CNT-023`), donc rien ne peut rejouer
-  l'extraction pour verifier ce qu'elles contiennent ;
-- depuis le `LOT-87` (T2.5), les illustrations **produites** par un generateur d'images a partir
-  du cahier des assets (`Documentation/Lot/LOT-87-charte-v2/assets-brief.json`, T2.4),
-  `provenance: "produced"`, qui portent la cle du cahier (`cahier`), le prompt tel qu'envoye et sa
-  date, plutot qu'une page du corpus.
+**Une illustration d'interface est produite, jamais extraite** (`EX-IHM-076`, `LOT-94`). Le plan
+de la ville, la carte du monde et les planches du corpus sont des oeuvres : le jeu ne les affiche
+pas. Toute autre provenance -- `tanares` en tete, celle des deux cartes du monde que le `LOT-94` a
+retirees -- est refusee, et non plus seulement declaree.
 
 Ce que ce controle rend impossible, c'est l'ecart SILENCIEUX :
 
+- une image du corpus revenue dans le depot, declaree sous sa provenance (interdite) ;
 - une illustration retouchee a la main, ou remplacee par une image venue d'ailleurs (empreinte) ;
-- une illustration supprimee, ou ajoutee sans passer par le catalogue du module (orpheline) ;
+- une illustration supprimee, ou ajoutee sans passer par le manifeste (orpheline) ;
 - un manifeste redige a la main dont les dimensions ne sont pas celles du fichier ;
-- une cle citee par le C++ que le manifeste ne porte pas -- et l'inverse, une illustration EXTRAITE
-  que plus personne ne nomme (une illustration PRODUITE, elle, n'est recoupee qu'avec le cahier :
-  aucun ecran ne la consomme avant le T2.7) ;
+- un nom de fichier cite par le QML que le manifeste ne porte pas ;
 - une piece du cahier sans image livree ET sans mention explicite « non livree » dans le
   manifeste (section `pending`) -- ce qui la ferait disparaitre sans que rien ne le remarque ;
 - depuis le T2.7, une table des pieces livrees (`Source/Ui/Theme/Artwork.qml`, ce que les briques
@@ -57,6 +55,9 @@ CAHIER = ROOT / "Documentation" / "Lot" / "LOT-87-charte-v2" / "assets-brief.jso
 # Les pieces du Colisee (LOT-50) : un autre dossier, un autre manifeste, ecrit par
 # scripts/extract_coliseum_atlas.py depuis la planche de production.
 COLISEUM_MANIFEST = ROOT / "Source" / "Elements" / "Assets" / "Coliseum" / "manifest.json"
+# Les cartes de l'ecran « Carte » (LOT-94, LOT-95) : peintes par l'auteur, sous Assets/Maps/, avec
+# leur propre manifeste, que scripts/check_map_assets.py recoupe.
+MAPS_MANIFEST = ROOT / "Source" / "Elements" / "Assets" / "Maps" / "manifest.json"
 # La table des pieces livrees que les briques consultent (T2.7), et les briques elles-memes.
 ARTWORK = ROOT / "Source" / "Ui" / "Theme" / "Artwork.qml"
 ARTWORK_BEGIN = "// --- DEBUT DE LA TABLE ENGENDREE"
@@ -131,6 +132,13 @@ def read_coliseum_manifest() -> list[str]:
     return list(json.loads(COLISEUM_MANIFEST.read_text(encoding="utf-8")).get("files", {}))
 
 
+def read_maps_manifest() -> list[str]:
+    """Les cartes de l'ecran « Carte » (LOT-94, LOT-95), ou rien si le dossier n'existe pas."""
+    if not MAPS_MANIFEST.is_file():
+        return []
+    return [entry["file"] for entry in json.loads(MAPS_MANIFEST.read_text(encoding="utf-8"))["maps"]]
+
+
 def read_cahier() -> dict | None:
     """Le cahier des assets (T2.4), lu sans validation de schema (role de check_assets_brief.py)."""
     if not CAHIER.is_file():
@@ -173,20 +181,34 @@ def check_produced(identifier: str, entry: dict, keys: dict[str, dict]) -> None:
             fail(f"`{identifier}` : marges {margins}, {piece['margins']} annoncees par le cahier")
 
 
-def check_illustrations(manifest: dict, keys: dict[str, dict]) -> tuple[set[str], set[str], set[str]]:
-    """Chaque illustration declaree existe, et est bien celle que le manifeste decrit.
+def check_illustrations(manifest: dict, keys: dict[str, dict]) -> tuple[set[str], set[str]]:
+    """Chaque illustration declaree est produite, existe, et est bien celle que le manifeste decrit.
 
-    Renvoie (tous les fichiers declares, les fichiers extraits du corpus, les cles du cahier
-    citees par une entree produite).
+    Renvoie (tous les fichiers declares, les cles du cahier citees par une entree produite).
     """
     declared: dict[str, str] = {}
-    corpus_files: set[str] = set()
     cited: set[str] = set()
     for entry in manifest["illustrations"]:
         identifier = entry["id"]
         if identifier in declared:
             fail(f"`{identifier}` declare deux fois dans le manifeste")
         declared[identifier] = entry["file"]
+
+        # La provenance d'abord : une image du corpus est refusee pour ce qu'elle est, avant meme
+        # de savoir si son fichier est la (LOT-94).
+        provenance = entry.get("provenance")
+        if not provenance:
+            fail(f"`{identifier}` : aucune provenance declaree")
+        elif provenance != "produced":
+            fail(
+                f"`{identifier}` : provenance '{provenance}' interdite. Une illustration d'interface "
+                f"est produite, jamais extraite du corpus (EX-IHM-076, LOT-94) : retirer l'image et "
+                f"son entree."
+            )
+        else:
+            check_produced(identifier, entry, keys)
+            if entry.get("cahier"):
+                cited.add(entry["cahier"])
 
         path = UI / entry["file"]
         if not path.is_file():
@@ -197,7 +219,7 @@ def check_illustrations(manifest: dict, keys: dict[str, dict]) -> tuple[set[str]
         if hashlib.sha256(data).hexdigest() != entry["sha256"]:
             fail(
                 f"`{identifier}` : {entry['file']} n'a plus l'empreinte du manifeste. "
-                f"Rejouer l'extraction :\n    python scripts/sourcebook illustrations"
+                f"La relivrer :\n    python scripts/receive_ui_assets.py"
             )
         if len(data) != entry["bytes"]:
             fail(f"`{identifier}` : {len(data)} octets, {entry['bytes']} annonces")
@@ -208,19 +230,7 @@ def check_illustrations(manifest: dict, keys: dict[str, dict]) -> tuple[set[str]
             continue
         if [width, height] != entry["size"]:
             fail(f"`{identifier}` : {width}x{height}, {entry['size']} annonces")
-
-        # La provenance n'est pas decorative : elle repond, le jour d'une publication, a la
-        # question « qu'est-ce qui doit sauter ? » (EX-CNT-001).
-        provenance = entry.get("provenance")
-        if not provenance:
-            fail(f"`{identifier}` : aucune provenance declaree")
-        elif provenance == "produced":
-            check_produced(identifier, entry, keys)
-            if entry.get("cahier"):
-                cited.add(entry["cahier"])
-        else:
-            corpus_files.add(entry["file"])
-    return set(declared.values()), corpus_files, cited
+    return set(declared.values()), cited
 
 
 def check_orphan_files(declared_files: set[str]) -> None:
@@ -236,13 +246,11 @@ def check_orphan_files(declared_files: set[str]) -> None:
             )
 
 
-def check_code_keys(declared_files: set[str], corpus_files: set[str]) -> None:
-    """Les noms de fichiers cites par le code et ceux EXTRAITS du manifeste sont les memes, dans
-    les deux sens. Une illustration PRODUITE n'entre dans aucun des deux ensembles compares ici :
-    les briques du T2.7 ne la nomment pas par son fichier mais par sa cle, que `check_artwork`
-    recoupe avec le cahier."""
+def check_code_keys(declared_files: set[str]) -> None:
+    """Tout nom de fichier cite par le QML est declare. L'inverse n'est pas exige : les briques du
+    T2.7 ne nomment pas une illustration produite par son fichier mais par sa cle, que
+    `check_artwork` recoupe avec le cahier."""
     declared_names = {Path(name).name for name in declared_files}
-    corpus_names = {Path(name).name for name in corpus_files}
     used: set[str] = set()
     for source in NAMING_SOURCES:
         if not source.is_file():
@@ -250,22 +258,22 @@ def check_code_keys(declared_files: set[str], corpus_files: set[str]) -> None:
             continue
         used |= set(
             re.findall(
-                # Un chemin facultatif devant le nom : le QML ecrit « assets/world-map.jpg »,
-                # la ou le C++ ecrivait le nom nu. Seul le NOM DE FICHIER compte au recoupement.
+                # Un chemin facultatif devant le nom : le QML ecrit « ../../Elements/Assets/... ».
+                # Seul le NOM DE FICHIER compte au recoupement.
                 r'"(?:[A-Za-z0-9_./-]*/)?([A-Za-z0-9_-]+\.(?:jpe?g|png))"',
                 source.read_text(encoding="utf-8"))
         )
-    if not used:
-        fail("aucun nom d'illustration dans les sources de nommage (lecture cassee ?)")
-        return
+    # Aucun nom n'est pas une lecture cassee : depuis le LOT-94, plus aucun ecran ne designe une
+    # image par son fichier (les briques passent par les cles du cahier, l'arene par son composeur).
     # Les pieces du Colisee (LOT-50) ont leur propre manifeste, ecrit par
     # scripts/extract_coliseum_atlas.py : ce que la scene de l'arene nomme s'y recoupe, pas ici.
     coliseum_names = {Path(name).name for name in read_coliseum_manifest()}
     used -= coliseum_names
+    # De meme les cartes de l'ecran « Carte » : ce que ses formulaires nomment se recoupe avec leur
+    # manifeste, par scripts/check_map_assets.py.
+    used -= set(read_maps_manifest())
     for name in sorted(used - declared_names):
         fail(f"`{name}` nomme par le code, absent du manifeste")
-    for name in sorted(corpus_names - used):
-        fail(f"`{name}` extraite et declaree, mais nomme par aucun code")
 
 
 def check_cahier_coverage(manifest: dict, keys: dict[str, dict], cited: set[str]) -> None:
@@ -379,9 +387,9 @@ def main() -> None:
     else:
         keys = cahier_keys(cahier)
 
-    declared_files, corpus_files, cited = check_illustrations(manifest, keys)
+    declared_files, cited = check_illustrations(manifest, keys)
     check_orphan_files(declared_files)
-    check_code_keys(declared_files, corpus_files)
+    check_code_keys(declared_files)
     if cahier is not None:
         check_cahier_coverage(manifest, keys, cited)
     check_artwork(manifest, cahier)

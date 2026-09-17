@@ -228,6 +228,19 @@
     </message>
 </context>
 <context>
+    <name>CityMapForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/CityMapForm.ui.qml" line="74"/>
+        <source>Quartiers et lieux</source>
+        <translation>Districts and sites</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CityMapForm.ui.qml" line="85"/>
+        <source>Tanares  ›  %1  ›  %2</source>
+        <translation>Tanares  ›  %1  ›  %2</translation>
+    </message>
+</context>
+<context>
     <name>CombatHudForm.ui</name>
     <message>
         <location filename="../../Ui/Screens/CombatHudForm.ui.qml" line="287"/>
@@ -402,17 +415,17 @@
 <context>
     <name>CreditsForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="152"/>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="138"/>
         <source>« Une grande aventure ne se fait jamais seul. »</source>
         <translation>“No great adventure is ever undertaken alone.”</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="165"/>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="151"/>
         <source>Crédits</source>
         <translation>Credits</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="182"/>
+        <location filename="../../Ui/Screens/CreditsForm.ui.qml" line="168"/>
         <source>Retour</source>
         <translation>Back</translation>
     </message>
@@ -645,44 +658,72 @@
 <context>
     <name>MainMenuForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="122"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="113"/>
         <source>Continuer</source>
         <translation>Continue</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="137"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="128"/>
         <source>Nouvelle partie</source>
         <translation>New Game</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="151"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="142"/>
         <source>Charger une partie</source>
         <translation>Load Game</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="166"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="157"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="180"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="171"/>
         <source>Crédits</source>
         <translation>Credits</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="194"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="185"/>
         <source>Quitter</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="233"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="224"/>
         <source>Profil joueur</source>
         <translation>Player profile</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="256"/>
+        <location filename="../../Ui/Screens/MainMenuForm.ui.qml" line="247"/>
         <source>« Chaque choix façonne une nouvelle histoire. »</source>
         <translation>“Every choice shapes a new story.”</translation>
+    </message>
+</context>
+<context>
+    <name>MapHud.ui</name>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="298"/>
+        <source>Carte</source>
+        <translation>Map</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="307"/>
+        <source>Quêtes</source>
+        <translation>Quests</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="316"/>
+        <source>Sac</source>
+        <translation>Bag</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="325"/>
+        <source>Équipe</source>
+        <translation>Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="334"/>
+        <source>Options</source>
+        <translation>Options</translation>
     </message>
 </context>
 <context>
@@ -716,92 +757,92 @@
 <context>
     <name>OptionsForm.ui</name>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="148"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="134"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="105"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="91"/>
         <source>Général</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="115"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="101"/>
         <source>Graphismes</source>
         <translation>Graphics</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="125"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="111"/>
         <source>Audio</source>
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="185"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="171"/>
         <source>Langue</source>
         <translation>Language</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="194"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="180"/>
         <source>Langue du jeu</source>
         <translation>Game language</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="223"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="209"/>
         <source>Journaux</source>
         <translation>Logs</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="231"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="217"/>
         <source>Enregistrer les journaux de session</source>
         <translation>Save session logs</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="266"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="252"/>
         <source>Affichage</source>
         <translation>Display</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="271"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="257"/>
         <source>Plein écran</source>
         <translation>Fullscreen</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="276"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="262"/>
         <source>Synchronisation verticale</source>
         <translation>Vertical sync</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="282"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="268"/>
         <source>Appliquée au prochain lancement.</source>
         <translation>Applied on next launch.</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="291"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="277"/>
         <source>Compteur de diagnostic</source>
         <translation>Diagnostics counter</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="324"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="310"/>
         <source>Volume</source>
         <translation>Volume</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="332"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="318"/>
         <source>Volume général</source>
         <translation>Master volume</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="389"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="375"/>
         <source>Par défaut</source>
         <translation>Defaults</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="400"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="386"/>
         <source>Annuler</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="407"/>
+        <location filename="../../Ui/Screens/OptionsForm.ui.qml" line="393"/>
         <source>Appliquer</source>
         <translation>Apply</translation>
     </message>
@@ -827,6 +868,67 @@
         <location filename="../../Ui/Screens/PauseForm.ui.qml" line="88"/>
         <source>Pause</source>
         <translation>Pause</translation>
+    </message>
+</context>
+<context>
+    <name>RegionMap</name>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/RegionMap.qml" line="32"/>
+        <source>%L1 habitants</source>
+        <translation>%L1 inhabitants</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/RegionMap.qml" line="46"/>
+        <source>Le livre ne situe pas ce lieu sur la carte.</source>
+        <translation>The book does not say where this place lies on the map.</translation>
+    </message>
+</context>
+<context>
+    <name>RegionMapForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Liberté</source>
+        <translation>Freedom</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Crime</source>
+        <translation>Crime</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Prospérité</source>
+        <translation>Prosperity</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Corruption</source>
+        <translation>Corruption</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Magie</source>
+        <translation>Magic</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Monstres</source>
+        <translation>Monsters</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Stabilité</source>
+        <translation>Stability</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="81"/>
+        <source>Lieux</source>
+        <translation>Places</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="92"/>
+        <source>Tanares  ›  %1</source>
+        <translation>Tanares  ›  %1</translation>
     </message>
 </context>
 <context>
@@ -953,70 +1055,42 @@
 <context>
     <name>WorldMap</name>
     <message>
-        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="28"/>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="274"/>
         <source>Niv. %1</source>
         <translation>Lvl %1</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="288"/>
+        <source>Flèches : choisir  ·  Retour : remonter  ·  + / − : agrandir</source>
+        <translation>Arrows: select  ·  Backspace: go up  ·  + / −: zoom</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="289"/>
+        <source>Flèches : choisir  ·  Entrée : ouvrir  ·  Retour : remonter  ·  + / − : agrandir</source>
+        <translation>Arrows: select  ·  Enter: open  ·  Backspace: go up  ·  + / −: zoom</translation>
     </message>
 </context>
 <context>
     <name>WorldMapForm.ui</name>
-    <message numerus="yes">
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="153"/>
-        <source>%n lieu(x)</source>
-        <translation>
-            <numerusform>%n location</numerusform>
-            <numerusform>%n locations</numerusform>
-        </translation>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="113"/>
+        <source>Lieux : %1</source>
+        <translation>Places: %1</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="196"/>
-        <source>Tanares impérial</source>
-        <translation>Imperial Tanares</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="121"/>
+        <source>Entrée ou clic : ouvrir la région</source>
+        <translation>Enter or click: open the region</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="204"/>
-        <source>Provinces et points d&apos;intérêt</source>
-        <translation>Provinces and points of interest</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="133"/>
+        <source>Tanares</source>
+        <translation>Tanares</translation>
     </message>
     <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="239"/>
-        <source>O</source>
-        <translation>W</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="240"/>
-        <source>N</source>
-        <translation>N</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="241"/>
-        <source>E</source>
-        <translation>E</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="398"/>
-        <source>Carte</source>
-        <translation>Map</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="408"/>
-        <source>Quêtes</source>
-        <translation>Quests</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="417"/>
-        <source>Sac</source>
-        <translation>Bag</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="426"/>
-        <source>Équipe</source>
-        <translation>Company</translation>
-    </message>
-    <message>
-        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="435"/>
-        <source>Options</source>
-        <translation>Options</translation>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="134"/>
+        <source>Le monde connu</source>
+        <translation>The known world</translation>
     </message>
 </context>
 <context>

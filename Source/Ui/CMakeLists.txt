@@ -53,6 +53,9 @@ set(JADG_UI_QML_FILES
     Controls/FieldRow.ui.qml
     Controls/SkillRow.ui.qml
     Controls/MapMarker.ui.qml
+    Controls/MapCanvas.ui.qml
+    Controls/MapHud.ui.qml
+    Controls/MapSidePanel.ui.qml
     Controls/LedgerList.ui.qml
     Controls/SpellEntry.ui.qml
     Controls/ScreenPage.ui.qml
@@ -65,6 +68,8 @@ set(JADG_UI_QML_FILES
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
     Screens/WorldMapForm.ui.qml
+    Screens/RegionMapForm.ui.qml
+    Screens/CityMapForm.ui.qml
     Screens/DialogueForm.ui.qml
     Screens/MerchantForm.ui.qml
     Screens/CombatHudForm.ui.qml
@@ -102,25 +107,39 @@ qt_add_qml_module(JadgUi
     QML_FILES ${JADG_UI_QML_FILES}
 )
 
-# Illustrations extraites du corpus (EX-IHM-076) que les formulaires désignent par un chemin
-# RELATIF À LEUR SOURCE : `../../Elements/Assets/UI/world-map.jpg` depuis Screens/. Le même chemin
+# Illustrations PRODUITES de la charte v2 (LOT-87, EX-IHM-076), que les briques désignent par un
+# chemin RELATIF À LEUR SOURCE (`../../Elements/Assets/UI/<famille>/<pièce>.png`). Le même chemin
 # doit fonctionner dans l'atelier (qui lit Source/), depuis les sources (JADG_QML_FROM_SOURCE=1) et
 # depuis la ressource : l'image est donc embarquée à l'endroit exact où ce chemin relatif la
-# cherche depuis `/qt/qml/Jadg/Ui/Screens/`, c'est-à-dire `/qt/qml/Jadg/Elements/Assets/UI/`.
-# `BASE` est le mécanisme prévu par qt_add_resources pour cela -- pas un alias par fichier.
+# cherche, c'est-à-dire `/qt/qml/Jadg/Elements/Assets/UI/`. `BASE` est le mécanisme prévu par
+# qt_add_resources pour cela -- pas un alias par fichier.
 #
-# Les images PRODUITES de la charte v2 (LOT-87) suivent le même chemin, rangées par famille sous
-# `UI/<famille>/` par scripts/receive_ui_assets.py. Elles sont ramassées par motif et non listées :
-# la liste qui fait foi est le manifeste (`illustrations.json`), et `check_ui_assets.py` refuse
-# déjà tout fichier qu'il ne déclare pas -- une seconde liste ici serait une troisième copie à
-# tenir. `CONFIGURE_DEPENDS` : une livraison est vue à la construction suivante, sans reconfigurer.
+# Rangées par famille sous `UI/<famille>/` par scripts/receive_ui_assets.py, elles sont ramassées
+# par motif et non listées : la liste qui fait foi est le manifeste (`illustrations.json`), et
+# `check_ui_assets.py` refuse déjà tout fichier qu'il ne déclare pas -- une seconde liste ici serait
+# une troisième copie à tenir. `CONFIGURE_DEPENDS` : une livraison est vue à la construction
+# suivante, sans reconfigurer. Aucune image extraite du corpus n'est plus embarquée (LOT-94).
 file(GLOB_RECURSE _jadg_produced_art CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/*/*.png")
-qt_add_resources(JadgUi "JadgUiIllustrations"
-    PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
-    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
-    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg"
-          "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map-hd.jpg" ${_jadg_produced_art}
+if(_jadg_produced_art)
+    qt_add_resources(JadgUi "JadgUiIllustrations"
+        PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
+        BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
+        FILES ${_jadg_produced_art}
+    )
+endif()
+
+# Les cartes de l'ecran « Carte » (LOT-94, LOT-95) : le monde, les treize regions et les plans de
+# ville, PEINTS PAR L'AUTEUR (aucune image du corpus), sous Source/Elements/Assets/Maps/. Embarquees
+# par le meme mecanisme, a l'endroit ou `../../Elements/Assets/Maps/` les cherche depuis
+# Source/Ui/Controls/. Ramassees par motif : la liste qui fait foi est leur manifeste
+# (`Maps/manifest.json`), que `check_map_assets.py` recoupe avec le dossier.
+file(GLOB _jadg_map_art CONFIGURE_DEPENDS
+    "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Maps/*.jpg")
+qt_add_resources(JadgUi "JadgUiMaps"
+    PREFIX "/qt/qml/Jadg/Elements/Assets/Maps"
+    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Maps"
+    FILES ${_jadg_map_art}
 )
 
 # Les pieces du Colisee (LOT-50) : decoupees de la planche de production par

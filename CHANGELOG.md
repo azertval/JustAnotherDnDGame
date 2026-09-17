@@ -6,6 +6,42 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les images du corpus quittent le dépôt, et l'écran « Carte » revient sur les cartes de l'auteur
+  (LOT-94).** Les deux cartes du monde extraites du corpus étaient les seules images du corpus
+  commises : elles partent, avec l'écran qui les affichait et la commande
+  `sourcebook illustrations` qui les extrayait. L'écran « Carte » revient aussitôt, refondu, sur
+  **seize cartes peintes par l'auteur**, sans lettrage : le monde, les treize régions de l'atlas,
+  les plans de la Capitale impériale et de Fisherman's Wharf.
+  - **Trois niveaux** : la vue d'ensemble, une région, le plan d'une ville. Les mêmes commandes aux
+    trois, au clavier, à la manette et à la souris — flèches pour le repère voisin, Tab ou LB/RB
+    pour le lieu suivant de la liste, Entrée, clic ou A pour ouvrir, Retour arrière, Échap, clic
+    droit ou B pour remonter, +/−, molette ou X/Y pour agrandir, glisser pour déplacer la carte.
+    On ne s'y déplace pas : la carte sert à s'orienter. Le bouton « Carte » du cadre de jeu est
+    rallumé, et les écrans du RPG sont de nouveau neuf. `--map-region=<id>` et `--map-city=<id>`
+    ouvrent un niveau directement.
+  - **Les lieux placés** : 61 lieux de l'atlas sur les cartes de région, les douze quartiers de la
+    Capitale et les douze sites numérotés de Fisherman's Wharf sur leur plan, 103 noms de
+    géographie ; 19 entrées de l'atlas qui ne sont pas des lieux sont écartées nommément. Les noms
+    sont posés par le jeu, jamais peints. Un lieu que le livre ne situe pas, ou qui sort du cadre
+    peint, reste dans la liste de sa région sans repère : le jeu n'invente pas de position — les
+    îles de la Tempête n'en ont ainsi aucun. Ctrl+clic journalise la fraction sous le pointeur,
+    pour retoucher le relevé.
+  - **Données et outil** : `Source/Elements/Assets/Maps/` (seize JPEG, 15,9 Mo, et leur
+    manifeste de provenance `author`), `Source/Elements/Maps/world-maps.json` (les positions, à
+    part de l'atlas) ; `scripts/check_map_assets.py` les recoupe en intégration continue avec
+    l'atlas.
+  - **Le fond du menu principal est produit** (`ui/background/menu-scene`) ; les captures de
+    référence du menu et des crédits sont régénérées.
+  - **Spécification** : une illustration d'interface est produite, jamais extraite
+    (`EX-IHM-076`, refondue — les cartes de l'auteur ont leur propre manifeste) ;
+    `check_ui_assets.py` refuse toute provenance autre que `produced` ; l'écran à trois niveaux
+    (`EX-IHM-106`) ; aucun nom peint, des positions tenues à part de l'atlas et jamais inventées
+    (`EX-IHM-107`).
+  - **Feuille de route** : le `LOT-94` est livré et absorbe le `LOT-95` (le plan de la Capitale),
+    retiré par fusion ; `capital.json`, les niveaux quartier et îlot du plan et la position du
+    héros passent au `LOT-96` ; le `LOT-42` bâtit sur l'écran livré et n'a plus de carte du monde à
+    produire.
+
 - **Analyse statique : les 113 alertes restantes de Code scanning corrigées.** L'analyse de main
   en relevait encore dans l'éditeur et la galerie des assets, arrivés hors du périmètre de la
   correction précédente. Réécritures mécaniques, quatre fonctions trop complexes découpées,

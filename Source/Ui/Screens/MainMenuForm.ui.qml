@@ -8,9 +8,8 @@ import Jadg.Ui
     la definition de conception -- puis multipliees par `Tokens.uiScale` : a 720p, tout l'ecran se
     reduit d'un bloc, dans les proportions de la maquette.
 
-    - la scene en fond (`ui/background/menu-scene`) ; tant qu'elle n'est pas livree, la carte de
-      Tanares extraite du corpus tient sa place, sous un degrade de `panel` qui porte la lisibilite
-      du tiers gauche -- le decor reste visible, comme la maquette le veut ;
+    - la scene en fond (`ui/background/menu-scene`) ; tant qu'elle n'est pas livree, l'aplat
+      `panel` tient sa place -- aucune image du corpus ne sert de repli (LOT-94) ;
     - le logotype en haut a gauche, et sous lui six entrees a icone ;
     - l'encart de profil en haut a droite, la citation en bas a gauche, la version en bas a droite.
 
@@ -59,16 +58,8 @@ Item {
         color: Tokens.panel
     }
 
-    // Repli de la scene : la carte du monde, extraite du corpus (EX-IHM-076). `PreserveAspectCrop`
-    // remplit sans deformer.
-    Image {
-        anchors.fill: parent
-        visible: !sceneArt.delivered
-        source: "../../Elements/Assets/UI/world-map.jpg"
-        fillMode: Image.PreserveAspectCrop
-        smooth: true
-    }
-
+    // Tant que la scene n'est pas livree, l'aplat ci-dessus en tient lieu : plus aucune image du
+    // corpus ne sert de repli (LOT-94, EX-IHM-076).
     CoverArt {
         id: sceneArt
 

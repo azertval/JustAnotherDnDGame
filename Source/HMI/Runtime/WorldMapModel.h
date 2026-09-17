@@ -6,52 +6,75 @@
 #include <QObject>
 #include <QString>
 #include <QVariantList>
+#include <QVariantMap>
 #include <QtQmlIntegration>
 
 /**
  * @file HMI/Runtime/WorldMapModel.h
- * @brief Les régions de l'atlas, posées sur la carte du monde, exposées au QML (`LOT-87`, T3.6).
+ * @brief Les trois niveaux de l'écran « Carte » — monde, région, ville — exposés au QML (`LOT-94`,
+ * `LOT-95`).
  */
 
 namespace hmi {
 
 /**
- * @brief Vue-modèle de la carte du monde : les treize régions de l'atlas et leurs lieux.
+ * @brief Vue-modèle de l'écran « Carte » : le monde, ses treize régions, les plans de ville.
  *
- * Charge l'atlas du `LOT-37` (`World/`, à côté de l'exécutable) et les ancres relevées sur la
- * carte (`Maps/world-map-regions.json`), puis les joint par `hmi::worldMapRegions`. Une région sans
- * ancre, ou une ancre sans région, est journalisée plutôt que tue.
+ * Charge l'atlas du `LOT-37` (`World/`, à côté de l'exécutable) et les positions relevées sur les
+ * cartes de l'auteur (`Maps/world-maps.json`), puis les joint par `hmi::joinWorldMaps`. Chaque
+ * écart entre les deux est journalisé plutôt que tu.
  *
- * `regions` est une liste de tables — `regionId`, `name`, `x`, `y` (fractions de la carte),
- * `government`, `locations` (un nom par ligne) et `locationCount` — lue par un `Repeater`.
+ * Les images sont désignées par leur **nom de fichier** : le formulaire les cherche sous
+ * `Elements/Assets/Maps/`, le même chemin dans l'atelier, depuis les sources et dans la ressource.
+ *
+ * - `regions` : une table par région — `regionId`, `name`, `image`, `x`, `y` (repère sur le
+ *   monde), `frame` (`x`, `y`, `width`, `height` : d'où part le zoom), `government`, `faction`,
+ *   `population`, `grades` (sept entiers de 0 à 4, ordre de `core::RegionAxis`), `places` (une
+ *   table par lieu : `placeId`, `name`, `description`, `placed`, `x`, `y`, `hasCityMap`),
+ *   `placedCount` et `labels` (`name`, `kind`, `x`, `y`).
+ * - `city(placeId)` : le plan d'une ville — `cityId`, `name`, `regionId`, `image`, `points` (une
+ *   table par quartier ou lieu numéroté : `pointId`, `number`, `name`, `description`, `x`, `y`) et
+ *   `labels` — ou une table vide.
  */
 class WorldMapModel : public QObject {
     Q_OBJECT
     QML_ELEMENT
 
+    Q_PROPERTY(QString worldImage READ worldImage NOTIFY changed)
     Q_PROPERTY(QVariantList regions READ regions NOTIFY changed)
-    /// Nombre total de lieux répartis dans les régions posées.
-    Q_PROPERTY(int locationCount READ locationCount NOTIFY changed)
+    /// Nombre de lieux posés sur les cartes de région.
+    Q_PROPERTY(int placedCount READ placedCount NOTIFY changed)
 
 public:
     explicit WorldMapModel(QObject* parent = nullptr);
 
-    /// Charge l'atlas et les ancres livrés à côté de l'exécutable.
+    /// Charge l'atlas et les cartes livrés à côté de l'exécutable.
     Q_INVOKABLE void load();
 
+    /// Le plan de la ville `placeId`, ou une table vide si ce lieu n'a pas de plan.
+    [[nodiscard]] Q_INVOKABLE QVariantMap city(const QString& placeId) const;
+
+    /// L'indice, dans `regions`, de la région `regionId`, ou -1.
+    [[nodiscard]] Q_INVOKABLE int regionIndex(const QString& regionId) const;
+
+    [[nodiscard]] QString worldImage() const {
+        return _worldImage;
+    }
     [[nodiscard]] QVariantList regions() const {
         return _regions;
     }
-    [[nodiscard]] int locationCount() const noexcept {
-        return _locationCount;
+    [[nodiscard]] int placedCount() const noexcept {
+        return _placedCount;
     }
 
 signals:
     void changed();
 
 private:
+    QString _worldImage;
     QVariantList _regions;
-    int _locationCount = 0;
+    QVariantMap _cities;  ///< Identifiant de lieu → plan.
+    int _placedCount = 0;
 };
 
 }  // namespace hmi

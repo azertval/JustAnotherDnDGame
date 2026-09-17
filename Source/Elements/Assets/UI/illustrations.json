@@ -2,44 +2,18 @@
   "version": 1,
   "illustrations": [
     {
-      "id": "world-map",
-      "file": "world-map.jpg",
-      "document": "Tanares_Sourcebook.pdf",
-      "provenance": "tanares",
-      "page": 44,
-      "region": [
-        8.0,
-        6.0,
-        1216.0,
-        748.0
-      ],
+      "id": "ui-background-menu-scene",
+      "file": "background/menu-scene.png",
+      "provenance": "produced",
+      "cahier": "ui/background/menu-scene",
+      "prompt": "Game UI asset for a painted dark-fantasy tactical RPG, in the style of a richly illustrated tabletop sourcebook: relief gold and brass filigree, worn enamel, soft light from the top left, fine painterly grain. Front orthographic view, perfectly centred and symmetrical unless stated, no perspective, no cast shadow outside the piece. Painted illustration, full bleed. Keep the darkest values near #0c0c0c, the warm highlights toward #e4a43c and any banner cloth toward #701010, so that dark gold-rimmed panels sit naturally on top. Absolutely no lettering, letters, numbers, runes or glyphs anywhere: the game sets all text itself in Cinzel (titles) and IM Fell English (body). Epic painted landscape at golden-hour sunset: a river valley with a walled castle city on a hill centre-right, misty mountains, dramatic clouds; four adventurers seen from behind on a rocky outcrop in the right third (archer, armoured warrior, fur-clad dwarf, hooded mage with a glowing staff), a campfire and lantern at the bottom right. The left third is darker and quiet, with a tall garnet war standard at the far left edge, leaving room for a menu column. Canvas exactly 1920 x 1080 px, fully opaque. Full-screen background, composed for 16:9, safe to crop 10 % on either side.",
+      "date": "2026-09-17",
       "size": [
-        1612,
-        990
+        1920,
+        1080
       ],
-      "dpi": 96,
-      "quality": 88,
-      "bytes": 710136,
-      "sha256": "209757713a21409a8b755efb56531be1c923f9e26bfeb99f379af523e404f644",
-      "note": "carte du monde de Tanares (pages imprimees 88-89), les treize regions de l'atlas"
-    },
-    {
-      "id": "world-map-hd",
-      "file": "world-map-hd.jpg",
-      "document": "VTT/Map - World.jpg",
-      "provenance": "tanares",
-      "sourceSize": [
-        9933,
-        7016
-      ],
-      "size": [
-        3072,
-        2170
-      ],
-      "quality": 88,
-      "bytes": 3445434,
-      "sha256": "62ab6b81d1622dc3ae50466f4148e9307b482437deb42baf26d264a894fd3d55",
-      "note": "carte du monde de Tanares, ressource VTT reduite : fond consulte de l'ecran de carte (LOT-87, T3.6)"
+      "bytes": 3823310,
+      "sha256": "bfc27ca9a2b821b0126813df33dbcb06318c2d591d4f0d9c23cddd0dc917c355"
     }
   ],
   "pending": [
