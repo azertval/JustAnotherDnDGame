@@ -40,11 +40,11 @@ struct Tint {
 };
 
 /// Les lignes de cases : discrÃ¨tes, sous tout le reste.
-constexpr Tint GRID_TINT{1.0f, 1.0f, 1.0f, 0.07f};
+constexpr Tint GRID_TINT{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = 0.07F};
 /// L'emprise, et son contour : l'or de la sÃ©lection, attÃ©nuÃ©.
-constexpr Tint FOOTPRINT_FILL{0.88f, 0.64f, 0.29f, 0.12f};
-constexpr Tint FOOTPRINT_EDGE{0.88f, 0.64f, 0.29f, 0.55f};
-constexpr Tint SELECTION_EDGE{0.88f, 0.64f, 0.29f, 1.0f};
+constexpr Tint FOOTPRINT_FILL{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 0.12F};
+constexpr Tint FOOTPRINT_EDGE{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 0.55F};
+constexpr Tint SELECTION_EDGE{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 1.0F};
 
 void addRect(ComposedScene&amp; scene, RenderLayer layer, TextureHandle white, float x, float y,
 <span style = "background-color:#fdd">             float width, float height, Tint tint) {
@@ -66,6 +66,55 @@ void addFrame(ComposedScene&amp; scene, RenderLayer layer, TextureHandle white, 
     addRect(scene, layer, white, x, y + height - thickness, width, thickness, tint);
     addRect(scene, layer, white, x, y, thickness, height, tint);
     addRect(scene, layer, white, x + width - thickness, y, thickness, height, tint);
+}</span>
+
+// Rectangle en pixels de la cible.
+struct Area {
+    float x;
+    float y;
+    float width;
+    float height;
+};
+
+// Les lignes de cases d'un bloc, bords compris ; alignÃ©es au pixel.
+void addGrid(ComposedScene&amp; scene, TextureHandle white, const AssetGalleryDrawnBloc&amp; bloc,
+<span style = "background-color:#fdd">             float cell, float line) {
+    const float width = static_cast&lt;float&gt;(bloc.columns) * cell;
+    const float height = static_cast&lt;float&gt;(bloc.rows) * cell;
+    for (int column = 0; column &lt;= bloc.columns; ++column) {
+        addRect(scene, RenderLayer::Background, white,</span>
+                std::round(bloc.x + (static_cast&lt;float&gt;(column) * cell)), bloc.y, line, height,
+                GRID_TINT);
+<span style = "background-color:#fdd">    }
+    for (int row = 0; row &lt;= bloc.rows; ++row) {
+        addRect(scene, RenderLayer::Background, white, bloc.x,</span>
+                std::round(bloc.y + (static_cast&lt;float&gt;(row) * cell)), width, line, GRID_TINT);
+<span style = "background-color:#fdd">    }
+}</span>
+
+// Le quad de l'image courante d'un bloc, posÃ© sur son emprise. Une texture en Ã©chec (le damier
+// de remplacement) se montre entiÃ¨re, sans dÃ©coupe en images.
+[[nodiscard]] SpriteQuad artQuad(const LoadedTexture&amp; texture, bool failed,
+                                 const AssetGalleryDrawnBloc&amp; bloc, float artScale,
+<span style = "background-color:#dfd">                                 Area footprint) {
+    const int frameWidth =</span>
+        failed || bloc.frameWidth &lt;= 0 ? texture.width : std::min(bloc.frameWidth, texture.width);
+<span style = "background-color:#dfd">    const int frameHeight = failed || bloc.frameHeight &lt;= 0</span>
+                                ? texture.height
+                                : std::min(bloc.frameHeight, texture.height);
+<span style = "background-color:#dfd">    const int frames = std::max(1, texture.width / std::max(1, frameWidth));
+    const int index = failed ? 0 : std::clamp(bloc.frameIndex, 0, frames - 1);</span>
+
+<span style = "background-color:#dfd">    SpriteQuad quad;
+    quad.width = static_cast&lt;float&gt;(frameWidth) * artScale;
+    quad.height = static_cast&lt;float&gt;(frameHeight) * artScale;</span>
+    // Pieds sur le bas de l'emprise, centrÃ© sur elle ; au pixel prÃ¨s, pour la nettetÃ©.
+<span style = "background-color:#dfd">    quad.x = std::round(footprint.x + (footprint.width / 2.0F) - (quad.width / 2.0F));
+    quad.y = std::round(footprint.y + footprint.height - quad.height);
+    quad.u0 = static_cast&lt;float&gt;(index * frameWidth) / static_cast&lt;float&gt;(texture.width);
+    quad.u1 = static_cast&lt;float&gt;((index + 1) * frameWidth) / static_cast&lt;float&gt;(texture.width);
+    quad.v1 = static_cast&lt;float&gt;(frameHeight) / static_cast&lt;float&gt;(texture.height);
+    return quad;
 }</span>
 
 }  // namespace
@@ -128,7 +177,7 @@ AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
     for (const std::string&amp; path : wanted) {
         const auto found = _cache.find(path);
         if (found != _cache.end()) {
-            found-&gt;second.unwantedSeconds = 0.0f;
+            found-&gt;second.unwantedSeconds = 0.0F;
             continue;</span>
         }
 <span style = "background-color:#dfd">        if (uploads &gt;= UPLOADS_PER_FRAME) {
@@ -159,8 +208,8 @@ AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
 <span style = "background-color:#dfd">void AssetGalleryRenderer::compose() {
     _composed.clear();
     const TextureHandle white = _white.handle();
-    const float cell = std::max(1.0f, _frame.cellPixels);
-    const float line = std::max(1.0f, std::floor(_frame.artScale));</span>
+    const float cell = std::max(1.0F, _frame.cellPixels);
+    const float line = std::max(1.0F, std::floor(_frame.artScale));</span>
 
 <span style = "background-color:#dfd">    std::int32_t order = 0;
     for (const AssetGalleryDrawnBloc&amp; bloc : _frame.drawn) {
@@ -168,20 +217,11 @@ AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
         const float height = static_cast&lt;float&gt;(bloc.rows) * cell;</span>
 
 <span style = "background-color:#dfd">        if (_frame.showGrid &amp;&amp; white != nullptr) {</span>
-<span style = "background-color:#fdd">            for (int column = 0; column &lt;= bloc.columns; ++column) {
-                addRect(_composed, RenderLayer::Background, white,</span>
-                        std::round(bloc.x + static_cast&lt;float&gt;(column) * cell), bloc.y, line,
-                        height, GRID_TINT);
-<span style = "background-color:#fdd">            }
-            for (int row = 0; row &lt;= bloc.rows; ++row) {
-                addRect(_composed, RenderLayer::Background, white, bloc.x,</span>
-                        std::round(bloc.y + static_cast&lt;float&gt;(row) * cell), width, line,
-                        GRID_TINT);
-<span style = "background-color:#fdd">            }</span>
+<span style = "background-color:#fdd">            addGrid(_composed, white, bloc, cell, line);</span>
         }
 
-<span style = "background-color:#dfd">        const float footprintX = bloc.x + static_cast&lt;float&gt;(bloc.footprintColumn) * cell;
-        const float footprintY = bloc.y + static_cast&lt;float&gt;(bloc.footprintRow) * cell;
+<span style = "background-color:#dfd">        const float footprintX = bloc.x + (static_cast&lt;float&gt;(bloc.footprintColumn) * cell);
+        const float footprintY = bloc.y + (static_cast&lt;float&gt;(bloc.footprintRow) * cell);
         const float footprintWidth = static_cast&lt;float&gt;(bloc.footprintColumns) * cell;
         const float footprintHeight = static_cast&lt;float&gt;(bloc.footprintRows) * cell;
         if (_frame.showFootprint &amp;&amp; white != nullptr) {</span>
@@ -196,32 +236,17 @@ AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
             const bool failed = cached-&gt;second.failed || cached-&gt;second.texture.texture == nullptr;
             const LoadedTexture&amp; texture = failed ? _missing : cached-&gt;second.texture;
             if (texture.texture != nullptr &amp;&amp; texture.width &gt; 0 &amp;&amp; texture.height &gt; 0) {
-                const int frameWidth = failed || bloc.frameWidth &lt;= 0</span>
-                                           ? texture.width
-                                           : std::min(bloc.frameWidth, texture.width);
-<span style = "background-color:#dfd">                const int frameHeight = failed || bloc.frameHeight &lt;= 0</span>
-                                            ? texture.height
-                                            : std::min(bloc.frameHeight, texture.height);
-<span style = "background-color:#dfd">                const int frames = std::max(1, texture.width / std::max(1, frameWidth));
-                const int index = failed ? 0 : std::clamp(bloc.frameIndex, 0, frames - 1);</span>
-
-<span style = "background-color:#dfd">                SpriteQuad quad;
-                quad.width = static_cast&lt;float&gt;(frameWidth) * _frame.artScale;
-                quad.height = static_cast&lt;float&gt;(frameHeight) * _frame.artScale;</span>
-                // Pieds sur le bas de l'emprise, centrÃ© sur elle ; au pixel prÃ¨s, pour la nettetÃ©.
-<span style = "background-color:#dfd">                quad.x = std::round(footprintX + footprintWidth / 2.0f - quad.width / 2.0f);
-                quad.y = std::round(footprintY + footprintHeight - quad.height);
-                quad.u0 =</span>
-                    static_cast&lt;float&gt;(index * frameWidth) / static_cast&lt;float&gt;(texture.width);
-<span style = "background-color:#dfd">                quad.u1 = static_cast&lt;float&gt;((index + 1) * frameWidth) /</span>
-                          static_cast&lt;float&gt;(texture.width);
-<span style = "background-color:#dfd">                quad.v1 = static_cast&lt;float&gt;(frameHeight) / static_cast&lt;float&gt;(texture.height);
-                _composed.addSprite(RenderLayer::Tile, texture.handle(), order++, quad);</span>
+                const SpriteQuad quad = artQuad(texture, failed, bloc, _frame.artScale,</span>
+                                                Area{.x = footprintX,
+                                                     .y = footprintY,
+                                                     .width = footprintWidth,
+                                                     .height = footprintHeight});
+<span style = "background-color:#dfd">                _composed.addSprite(RenderLayer::Tile, texture.handle(), order++, quad);</span>
             }
         }
 
 <span style = "background-color:#dfd">        if (bloc.selected &amp;&amp; white != nullptr) {</span>
-<span style = "background-color:#fdd">            addFrame(_composed, RenderLayer::UI, white, bloc.x, bloc.y, width, height, 2.0f * line,</span>
+<span style = "background-color:#fdd">            addFrame(_composed, RenderLayer::UI, white, bloc.x, bloc.y, width, height, 2.0F * line,</span>
                      SELECTION_EDGE);
         }
 <span style = "background-color:#dfd">    }
@@ -229,7 +254,7 @@ AssetGalleryRenderer::AssetGalleryRenderer(std::filesystem::path assetsRoot)
 }</span>
 
 void AssetGalleryRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-<span style = "background-color:#dfd">                                  float realDeltaSeconds, const float clear[4]) {
+<span style = "background-color:#dfd">                                  float realDeltaSeconds, const float* clear) {
     if (!created() || commandBuffer == nullptr || target == nullptr) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
@@ -238,7 +263,7 @@ void AssetGalleryRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTa
                                                  : _rhi-&gt;nextResourceUpdateBatch();
 <span style = "background-color:#dfd">    _resources.setFrameUpdates(updates);</span>
 
-<span style = "background-color:#dfd">    updateCache(std::max(0.0f, realDeltaSeconds));
+<span style = "background-color:#dfd">    updateCache(std::max(0.0F, realDeltaSeconds));
     compose();</span>
 
 <span style = "background-color:#dfd">    const QSize pixels = target-&gt;pixelSize();

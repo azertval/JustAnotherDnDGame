@@ -400,7 +400,7 @@ var searchData=
   ['slot_397',['slot',['../structhmi_1_1LayerRow.html#a683253901522222d98029e7303bc3c23',1,'hmi::LayerRow']]],
   ['slotafter_398',['slotAfter',['../classcore_1_1TurnOrder.html#af320563c95027694286cb09cb5585a99',1,'core::TurnOrder']]],
   ['slotbefore_399',['slotBefore',['../namespacecore.html#aefbe58769e27637d475329aa7459e90d',1,'core']]],
-  ['slotof_400',['slotOf',['../classhmi_1_1LayersPanel.html#ac33a3f32d24556ab0a497e019f7464dd',1,'hmi::LayersPanel']]],
+  ['slotof_400',['slotOf',['../classhmi_1_1LayersPanel.html#acbc45ab547145118a5dcc187a237983c',1,'hmi::LayersPanel']]],
   ['small_401',['Small',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204a2660064e68655415da2628c2ae2f7592',1,'core']]],
   ['small_402',['small',['../structhmi_1_1SpacingTokens.html#a49320e3cd44ad0e33eccda2946045e8d',1,'hmi::SpacingTokens']]],
   ['smallestentities_403',['smallestEntities',['../classcore_1_1View.html#a4888128d907a06adce68b142bcc867ce',1,'core::View']]],

@@ -10,8 +10,9 @@ var searchData=
   ['nextuint32_7',['nextUInt32',['../classcore_1_1DeterministicRandom.html#ad1df942da4dba2bfcc231873164d7bd0',1,'core::DeterministicRandom']]],
   ['nextutf8codepoint_8',['nextUtf8CodePoint',['../namespacehmi.html#a91e9f8bb5e7b91ae4e2c77d2c09fefd7',1,'hmi']]],
   ['nodeat_9',['nodeAt',['../namespacehmi.html#a626ed35cec8a3a4b0bad705e85a87f4e',1,'hmi']]],
-  ['nodelabel_10',['nodeLabel',['../classhmi_1_1WorldGraphView.html#ae9dde0b588fc25d7c59a5bf65dd338fb',1,'hmi::WorldGraphView']]],
-  ['nodetooltip_11',['nodeToolTip',['../classhmi_1_1WorldGraphView.html#a9f90d85faf73f76eeffa42a7cb169c6a',1,'hmi::WorldGraphView']]],
-  ['normalized_12',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]],
-  ['note_13',['note',['../classcore_1_1ArenaSession.html#ad9d4850a9d42e1eb18cf9cb17c688f03',1,'core::ArenaSession']]]
+  ['nodedetail_10',['nodeDetail',['../classhmi_1_1WorldGraphView.html#afc54f8156b306b508eabc5b84a1e93df',1,'hmi::WorldGraphView']]],
+  ['nodelabel_11',['nodeLabel',['../classhmi_1_1WorldGraphView.html#ae9dde0b588fc25d7c59a5bf65dd338fb',1,'hmi::WorldGraphView']]],
+  ['nodetooltip_12',['nodeToolTip',['../classhmi_1_1WorldGraphView.html#a9f90d85faf73f76eeffa42a7cb169c6a',1,'hmi::WorldGraphView']]],
+  ['normalized_13',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]],
+  ['note_14',['note',['../classcore_1_1ArenaSession.html#ad9d4850a9d42e1eb18cf9cb17c688f03',1,'core::ArenaSession']]]
 ];

@@ -1,5 +1,13 @@
 var NAVTREEINDEX43 =
 {
+"structcore_1_1Vector2.html#ae70a029307287be5d22ec57a536a21d6":[15,0,1,128,2],
+"structcore_1_1Vector2.html#ae70a029307287be5d22ec57a536a21d6":[16,0,0,128,2],
+"structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60":[15,0,1,128,5],
+"structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60":[16,0,0,128,5],
+"structcore_1_1Velocity.html":[15,0,1,94],
+"structcore_1_1Velocity.html":[16,0,0,94],
+"structcore_1_1Velocity.html#ad6dd1b25f77f486834db55aa9c384b66":[15,0,1,94,0],
+"structcore_1_1Velocity.html#ad6dd1b25f77f486834db55aa9c384b66":[16,0,0,94,0],
 "structcore_1_1Weapon.html":[15,0,1,180],
 "structcore_1_1Weapon.html":[16,0,0,180],
 "structcore_1_1Weapon.html#a1e7d7f051f4a90b0d1b831531dcb69fe":[15,0,1,180,3],
@@ -241,13 +249,5 @@ var NAVTREEINDEX43 =
 "structhmi_1_1ArenaTileAppearance.html#a9e20acd2f093ee0d764d2ac299c7ef88":[15,0,2,82,2],
 "structhmi_1_1ArenaTileAppearance.html#a9e20acd2f093ee0d764d2ac299c7ef88":[16,0,1,82,2],
 "structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9":[15,0,2,82,3],
-"structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9":[16,0,1,82,3],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html":[15,0,2,201,0],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html":[16,0,1,201,0],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a151b78c0bd630154554402e7f348ef87":[15,0,2,201,0,0],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a151b78c0bd630154554402e7f348ef87":[16,0,1,201,0,0],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a1a2b25056c556872408b024b85020a6e":[15,0,2,201,0,1],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a1a2b25056c556872408b024b85020a6e":[16,0,1,201,0,1],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a8c8f8a181cb321bac4cbe76e15c5bf38":[15,0,2,201,0,2],
-"structhmi_1_1ArenaViewportItem_1_1Framing.html#a8c8f8a181cb321bac4cbe76e15c5bf38":[16,0,1,201,0,2]
+"structhmi_1_1ArenaTileAppearance.html#ad896f61618f62de0bd218f761e687ce9":[16,0,1,82,3]
 };

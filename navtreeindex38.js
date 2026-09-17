@@ -1,5 +1,13 @@
 var NAVTREEINDEX38 =
 {
+"structcore_1_1DamageClause.html#a7b620a8a447f33c6f2b8062150381b0d":[15,0,1,42,1],
+"structcore_1_1DamageClause.html#a7b620a8a447f33c6f2b8062150381b0d":[16,0,0,42,1],
+"structcore_1_1DamageClause.html#acb2f8d68d3399ec0a5c9f4525131ccb7":[15,0,1,42,2],
+"structcore_1_1DamageClause.html#acb2f8d68d3399ec0a5c9f4525131ccb7":[16,0,0,42,2],
+"structcore_1_1DamagePortion.html":[15,0,1,46],
+"structcore_1_1DamagePortion.html":[16,0,0,46],
+"structcore_1_1DamagePortion.html#a473b08c01ded992b8d1d57983219664c":[15,0,1,46,1],
+"structcore_1_1DamagePortion.html#a473b08c01ded992b8d1d57983219664c":[16,0,0,46,1],
 "structcore_1_1DamagePortion.html#a57d0c947db6176f54e4d6c5395aee01c":[15,0,1,46,2],
 "structcore_1_1DamagePortion.html#a57d0c947db6176f54e4d6c5395aee01c":[16,0,0,46,2],
 "structcore_1_1DamagePortion.html#a86761164916563eafacf1e803154f9ee":[15,0,1,46,0],
@@ -241,13 +249,5 @@ var NAVTREEINDEX38 =
 "structcore_1_1EncounterMount.html":[15,0,1,36],
 "structcore_1_1EncounterMount.html":[16,0,0,36],
 "structcore_1_1EncounterMount.html#a4d66b19e2cd305206ef75a850ba16159":[15,0,1,36,0],
-"structcore_1_1EncounterMount.html#a4d66b19e2cd305206ef75a850ba16159":[16,0,0,36,0],
-"structcore_1_1EncounterMount.html#a7a4848419127ffe79efc137a59153194":[15,0,1,36,1],
-"structcore_1_1EncounterMount.html#a7a4848419127ffe79efc137a59153194":[16,0,0,36,1],
-"structcore_1_1EncounterMount.html#af4bc940f51a11ebfe1639e40af665997":[15,0,1,36,2],
-"structcore_1_1EncounterMount.html#af4bc940f51a11ebfe1639e40af665997":[16,0,0,36,2],
-"structcore_1_1EncounterRun.html":[15,0,1,38],
-"structcore_1_1EncounterRun.html":[16,0,0,38],
-"structcore_1_1EncounterRun.html#a1dff8455ada8dcbe8c60329ae803bd2c":[15,0,1,38,4],
-"structcore_1_1EncounterRun.html#a1dff8455ada8dcbe8c60329ae803bd2c":[16,0,0,38,4]
+"structcore_1_1EncounterMount.html#a4d66b19e2cd305206ef75a850ba16159":[16,0,0,36,0]
 };

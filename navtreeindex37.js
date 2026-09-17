@@ -1,5 +1,13 @@
 var NAVTREEINDEX37 =
 {
+"structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c":[15,0,1,155,8],
+"structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c":[16,0,0,155,8],
+"structcore_1_1CharacterSheet.html#a9877610cbb279159f796da46604ddf21":[15,0,1,155,16],
+"structcore_1_1CharacterSheet.html#a9877610cbb279159f796da46604ddf21":[16,0,0,155,16],
+"structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70":[15,0,1,155,9],
+"structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70":[16,0,0,155,9],
+"structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495":[15,0,1,155,5],
+"structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495":[16,0,0,155,5],
 "structcore_1_1CharacterSheet.html#acb6e1037ecf2517ccd754447a9d5d04f":[15,0,1,155,17],
 "structcore_1_1CharacterSheet.html#acb6e1037ecf2517ccd754447a9d5d04f":[16,0,0,155,17],
 "structcore_1_1CharacterSheet.html#ad9f5e6c341a1df8f0646a09b05067643":[15,0,1,155,15],
@@ -241,13 +249,5 @@ var NAVTREEINDEX37 =
 "structcore_1_1DamageClause.html":[15,0,1,42],
 "structcore_1_1DamageClause.html":[16,0,0,42],
 "structcore_1_1DamageClause.html#a593240e65c6f77b5ded1bcb3484692f0":[15,0,1,42,0],
-"structcore_1_1DamageClause.html#a593240e65c6f77b5ded1bcb3484692f0":[16,0,0,42,0],
-"structcore_1_1DamageClause.html#a7b620a8a447f33c6f2b8062150381b0d":[15,0,1,42,1],
-"structcore_1_1DamageClause.html#a7b620a8a447f33c6f2b8062150381b0d":[16,0,0,42,1],
-"structcore_1_1DamageClause.html#acb2f8d68d3399ec0a5c9f4525131ccb7":[15,0,1,42,2],
-"structcore_1_1DamageClause.html#acb2f8d68d3399ec0a5c9f4525131ccb7":[16,0,0,42,2],
-"structcore_1_1DamagePortion.html":[15,0,1,46],
-"structcore_1_1DamagePortion.html":[16,0,0,46],
-"structcore_1_1DamagePortion.html#a473b08c01ded992b8d1d57983219664c":[15,0,1,46,1],
-"structcore_1_1DamagePortion.html#a473b08c01ded992b8d1d57983219664c":[16,0,0,46,1]
+"structcore_1_1DamageClause.html#a593240e65c6f77b5ded1bcb3484692f0":[16,0,0,42,0]
 };

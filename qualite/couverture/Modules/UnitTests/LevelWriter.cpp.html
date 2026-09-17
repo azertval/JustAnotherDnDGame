@@ -14,6 +14,7 @@
 
 #include "Core/Levels/LevelWriter.h"
 
+#include &lt;cstdint&gt;
 #include &lt;fstream&gt;
 #include &lt;map&gt;
 #include &lt;string&gt;
@@ -73,9 +74,19 @@ namespace {
 // core::PropertyMap est ordonnee : l'ecriture est deterministe, deux enregistrements du meme
 // niveau produisent le meme fichier.
 <span style = "background-color:#dfd">void writeProperties(const PropertyMap&amp; properties, nlohmann::json&amp; object) {
-    for (const auto&amp; [key, value] : properties) {
-        std::visit([&amp;object, &amp;key](const auto&amp; raw) { object[key] = raw; }, value);
-    }
+    for (const auto&amp; [key, value] : properties) {</span>
+        // Alternative par alternative plutot que std::visit : l'analyseur statique ne suit pas la
+        // table de saut de visit et croit la valeur non initialisee.
+<span style = "background-color:#dfd">        if (const auto* const flag = std::get_if&lt;bool&gt;(&amp;value)) {
+            object[key] = *flag;
+        } else if (const auto* const integer = std::get_if&lt;std::int64_t&gt;(&amp;value)) {
+            object[key] = *integer;
+        } else if (const auto* const real = std::get_if&lt;double&gt;(&amp;value)) {
+            object[key] = *real;
+        } else if (const auto* const text = std::get_if&lt;std::string&gt;(&amp;value)) {
+            object[key] = *text;</span>
+        }
+<span style = "background-color:#dfd">    }
 }</span>
 
 // Tuiles non vides d'une grille, au format {x, y, type}. Les cases vides sont omises (EX-LVL-003),

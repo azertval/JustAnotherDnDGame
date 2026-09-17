@@ -9,6 +9,7 @@ var classhmi_1_1WorldGraphView =
     [ "localized", "classhmi_1_1WorldGraphView.html#ad2f332c820645e993c8a3bd570c43804", null ],
     [ "mouseDoubleClickEvent", "classhmi_1_1WorldGraphView.html#a6caae3cd45d950cdc09614c1b2571e74", null ],
     [ "mouseMoveEvent", "classhmi_1_1WorldGraphView.html#ac4fc383fbc9ca4d6cb9a5f6cd5afe47e", null ],
+    [ "nodeDetail", "classhmi_1_1WorldGraphView.html#afc54f8156b306b508eabc5b84a1e93df", null ],
     [ "nodeLabel", "classhmi_1_1WorldGraphView.html#ae9dde0b588fc25d7c59a5bf65dd338fb", null ],
     [ "nodeToolTip", "classhmi_1_1WorldGraphView.html#a9f90d85faf73f76eeffa42a7cb169c6a", null ],
     [ "paintEdges", "classhmi_1_1WorldGraphView.html#a05c9cedc87c8f81677657b07739d7a31", null ],

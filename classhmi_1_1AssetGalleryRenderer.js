@@ -12,7 +12,7 @@ var classhmi_1_1AssetGalleryRenderer =
     [ "loading", "classhmi_1_1AssetGalleryRenderer.html#a0c52adee03770db5098d5136bcaf4ee5", null ],
     [ "operator=", "classhmi_1_1AssetGalleryRenderer.html#af7c13fa7f7572455de2b2c16cb92a5c2", null ],
     [ "release", "classhmi_1_1AssetGalleryRenderer.html#acc9f68287cca7a48d9fcd2e20182b106", null ],
-    [ "render", "classhmi_1_1AssetGalleryRenderer.html#a5599d4910b9b2829b8894fcac4f68a8c", null ],
+    [ "render", "classhmi_1_1AssetGalleryRenderer.html#a28a2aa93b231f8ec4b09cb2a7a03f205", null ],
     [ "rhi", "classhmi_1_1AssetGalleryRenderer.html#a67a82faa46c76903a9c1239eee92851a", null ],
     [ "setFrame", "classhmi_1_1AssetGalleryRenderer.html#acf5cf200df12641ed1d6eed10ec80456", null ],
     [ "updateCache", "classhmi_1_1AssetGalleryRenderer.html#a33a718a60f65a5d76283359eb5f49c61", null ],

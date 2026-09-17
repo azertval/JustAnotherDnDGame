@@ -13,7 +13,7 @@ var classhmi_1_1LayersPanel =
     [ "renameRequested", "classhmi_1_1LayersPanel.html#a3106f92bc8a2ba0d96a2d13147d28edb", null ],
     [ "retranslateUi", "classhmi_1_1LayersPanel.html#ac9e719cae36f1c937fbd4a13e4b47987", null ],
     [ "rowLabel", "classhmi_1_1LayersPanel.html#add474b51356dfa7d9826204eb4e33d61", null ],
-    [ "slotOf", "classhmi_1_1LayersPanel.html#ac33a3f32d24556ab0a497e019f7464dd", null ],
+    [ "slotOf", "classhmi_1_1LayersPanel.html#acbc45ab547145118a5dcc187a237983c", null ],
     [ "text", "classhmi_1_1LayersPanel.html#a57f6fe631534469a33b6425270e5d2d6", null ],
     [ "updateButtons", "classhmi_1_1LayersPanel.html#a555ff5da7117c10cbdf0995a750704f2", null ],
     [ "visibilityRequested", "classhmi_1_1LayersPanel.html#ae3b5648168f33c5fdf7e7772db0cc91b", null ],

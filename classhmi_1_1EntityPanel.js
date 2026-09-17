@@ -2,6 +2,9 @@ var classhmi_1_1EntityPanel =
 [
     [ "EntityPanel", "classhmi_1_1EntityPanel.html#a7b25f952e66212262dc69ff3256310d4", null ],
     [ "~EntityPanel", "classhmi_1_1EntityPanel.html#a057a81d88961c14170d824eb0a3ec1bf", null ],
+    [ "addChoiceRow", "classhmi_1_1EntityPanel.html#a81eb6d52c526cf35a34ebb481fce24e5", null ],
+    [ "addPropertyRow", "classhmi_1_1EntityPanel.html#a7b8d2a589c3b105e6e31f28b2bc35c8d", null ],
+    [ "clearForm", "classhmi_1_1EntityPanel.html#a14ca619b562a89bed393e3f422136b25", null ],
     [ "entitySelected", "classhmi_1_1EntityPanel.html#a11f1a1d750f7eb7f27bb9a6eec42bc33", null ],
     [ "kindLabel", "classhmi_1_1EntityPanel.html#ae7e57f9e758980a58916952792ebeb17", null ],
     [ "kindToPlace", "classhmi_1_1EntityPanel.html#a3e09c0091086b69baf02c9d9c2e92c3a", null ],

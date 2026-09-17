@@ -1,5 +1,13 @@
 var NAVTREEINDEX35 =
 {
+"spec-rpg.html#autotoc_md395":[6,4,4],
+"spec-rpg.html#autotoc_md396":[6,4,5],
+"spec-vision.html":[6,1],
+"spec-vision.html#autotoc_md398":[6,1,0],
+"spec-vision.html#autotoc_md399":[6,1,0,0],
+"spec-vision.html#autotoc_md400":[6,1,1],
+"spec-vision.html#autotoc_md401":[6,1,2],
+"spec-vision.html#autotoc_md402":[6,1,3],
 "spec-vision.html#autotoc_md403":[6,1,4],
 "spec-vision.html#autotoc_md404":[6,1,5],
 "spec-vision.html#autotoc_md405":[6,1,6],
@@ -241,13 +249,5 @@ var NAVTREEINDEX35 =
 "structcore_1_1AttackOutcome.html#af0266e4f1dfc56d47cec37fb0dc6fad1":[15,0,1,19,5],
 "structcore_1_1AttackOutcome.html#af0266e4f1dfc56d47cec37fb0dc6fad1":[16,0,0,19,5],
 "structcore_1_1AttackPreview.html":[15,0,1,25],
-"structcore_1_1AttackPreview.html":[16,0,0,25],
-"structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033":[15,0,1,25,11],
-"structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033":[16,0,0,25,11],
-"structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[15,0,1,25,6],
-"structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[16,0,0,25,6],
-"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[15,0,1,25,8],
-"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[16,0,0,25,8],
-"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[15,0,1,25,0],
-"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[16,0,0,25,0]
+"structcore_1_1AttackPreview.html":[16,0,0,25]
 };

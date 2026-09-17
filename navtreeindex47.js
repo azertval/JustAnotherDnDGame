@@ -1,5 +1,13 @@
 var NAVTREEINDEX47 =
 {
+"structhmi_1_1LoadedTexture.html#a60bd4aa4803c4c3a7806fab906be9803":[15,0,2,149,1],
+"structhmi_1_1LoadedTexture.html#a60bd4aa4803c4c3a7806fab906be9803":[16,0,1,149,1],
+"structhmi_1_1LoadedTexture.html#a67650178772d769575f41474d13c4e4e":[15,0,2,149,2],
+"structhmi_1_1LoadedTexture.html#a67650178772d769575f41474d13c4e4e":[16,0,1,149,2],
+"structhmi_1_1LoadedTexture.html#abc3c97ef24fe096e5429fcdb7b5e3d5e":[15,0,2,149,0],
+"structhmi_1_1LoadedTexture.html#abc3c97ef24fe096e5429fcdb7b5e3d5e":[16,0,1,149,0],
+"structhmi_1_1MapRegion.html":[15,0,2,199],
+"structhmi_1_1MapRegion.html":[16,0,1,199],
 "structhmi_1_1MapRegion.html#a1a3bcc0f07af8cd30ccea34867004ae7":[15,0,2,199,4],
 "structhmi_1_1MapRegion.html#a1a3bcc0f07af8cd30ccea34867004ae7":[16,0,1,199,4],
 "structhmi_1_1MapRegion.html#a2759d84ea68c7271cfdece4615a644e8":[15,0,2,199,5],
@@ -241,13 +249,5 @@ var NAVTREEINDEX47 =
 "structhmi_1_1ProceduralAtlasImage.html":[15,0,2,125],
 "structhmi_1_1ProceduralAtlasImage.html":[16,0,1,125],
 "structhmi_1_1ProceduralAtlasImage.html#a5e64957b189f33bd6abcf1ffb2466253":[15,0,2,125,2],
-"structhmi_1_1ProceduralAtlasImage.html#a5e64957b189f33bd6abcf1ffb2466253":[16,0,1,125,2],
-"structhmi_1_1ProceduralAtlasImage.html#a9793e61a5644666b4d997ae64dde340b":[15,0,2,125,1],
-"structhmi_1_1ProceduralAtlasImage.html#a9793e61a5644666b4d997ae64dde340b":[16,0,1,125,1],
-"structhmi_1_1ProceduralAtlasImage.html#ace67941b19f6214c0367d2c23d71ce7d":[15,0,2,125,0],
-"structhmi_1_1ProceduralAtlasImage.html#ace67941b19f6214c0367d2c23d71ce7d":[16,0,1,125,0],
-"structhmi_1_1ProceduralFont.html":[15,0,2,130],
-"structhmi_1_1ProceduralFont.html":[16,0,1,130],
-"structhmi_1_1ProceduralFont.html#a688c94f0dcc8e378212602baf9727c9c":[15,0,2,130,0],
-"structhmi_1_1ProceduralFont.html#a688c94f0dcc8e378212602baf9727c9c":[16,0,1,130,0]
+"structhmi_1_1ProceduralAtlasImage.html#a5e64957b189f33bd6abcf1ffb2466253":[16,0,1,125,2]
 };

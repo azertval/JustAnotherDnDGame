@@ -125,6 +125,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a5f5a6bf5b8d0d1a220dc1080a46f5b0e" id="r_a5f5a6bf5b8d0d1a220dc1080a46f5b0e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5f5a6bf5b8d0d1a220dc1080a46f5b0e">rebuildKinds</a> ()</td></tr>
 <tr class="memitem:a85c60b874a072b7f4f0fa38653d6306c" id="r_a85c60b874a072b7f4f0fa38653d6306c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a85c60b874a072b7f4f0fa38653d6306c">rebuildTable</a> ()</td></tr>
 <tr class="memitem:a05e206f7af68e68bc586a0b3c98391ab" id="r_a05e206f7af68e68bc586a0b3c98391ab"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a05e206f7af68e68bc586a0b3c98391ab">rebuildForm</a> ()</td></tr>
+<tr class="memitem:a14ca619b562a89bed393e3f422136b25" id="r_a14ca619b562a89bed393e3f422136b25"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a14ca619b562a89bed393e3f422136b25">clearForm</a> ()</td></tr>
+<tr class="memdesc:a14ca619b562a89bed393e3f422136b25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire les lignes du formulaire ; leurs champs sont détruits au retour à la boucle.  <br /></td></tr>
+<tr class="memitem:a7b8d2a589c3b105e6e31f28b2bc35c8d" id="r_a7b8d2a589c3b105e6e31f28b2bc35c8d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7b8d2a589c3b105e6e31f28b2bc35c8d">addPropertyRow</a> (std::size_t index, const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;spec, const <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> &amp;value, const std::vector&lt; std::string &gt; &amp;choices)</td></tr>
+<tr class="memdesc:a7b8d2a589c3b105e6e31f28b2bc35c8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute au formulaire le champ d'une propriété déclarée.  <br /></td></tr>
+<tr class="memitem:a81eb6d52c526cf35a34ebb481fce24e5" id="r_a81eb6d52c526cf35a34ebb481fce24e5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a81eb6d52c526cf35a34ebb481fce24e5">addChoiceRow</a> (std::size_t index, const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;spec, const <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> &amp;value, const std::vector&lt; std::string &gt; &amp;choices)</td></tr>
+<tr class="memdesc:a81eb6d52c526cf35a34ebb481fce24e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute au formulaire la liste déroulante d'une propriété de choix.  <br /></td></tr>
 <tr class="memitem:af08df6945e608ada373cb52b27dbdab1" id="r_af08df6945e608ada373cb52b27dbdab1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af08df6945e608ada373cb52b27dbdab1">rebuildWarnings</a> ()</td></tr>
 <tr class="memitem:ae3fedf00752ab2a0b00340339d81b27c" id="r_ae3fedf00752ab2a0b00340339d81b27c"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ae3fedf00752ab2a0b00340339d81b27c">text</a> (const char *key, const QString &amp;fallback) const</td></tr>
 <tr class="memitem:ae7e57f9e758980a58916952792ebeb17" id="r_ae7e57f9e758980a58916952792ebeb17"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ae7e57f9e758980a58916952792ebeb17">kindLabel</a> (const std::string &amp;type) const</td></tr>
@@ -200,6 +206,133 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a81eb6d52c526cf35a34ebb481fce24e5" name="a81eb6d52c526cf35a34ebb481fce24e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81eb6d52c526cf35a34ebb481fce24e5">&#9670;&#160;</a></span>addChoiceRow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EntityPanel::addChoiceRow </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>spec</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>choices</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ajoute au formulaire la liste déroulante d'une propriété de choix. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Rang de l'entité dans la carte. </td></tr>
+    <tr><td class="paramname">spec</td><td>Déclaration de la propriété. </td></tr>
+    <tr><td class="paramname">value</td><td>Valeur portée par l'entité, ou la valeur par défaut. </td></tr>
+    <tr><td class="paramname">choices</td><td>Valeurs proposées. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7b8d2a589c3b105e6e31f28b2bc35c8d" name="a7b8d2a589c3b105e6e31f28b2bc35c8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b8d2a589c3b105e6e31f28b2bc35c8d">&#9670;&#160;</a></span>addPropertyRow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EntityPanel::addPropertyRow </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1EntityPropertySpec.html">core::EntityPropertySpec</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>spec</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>choices</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ajoute au formulaire le champ d'une propriété déclarée. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Rang de l'entité dans la carte. </td></tr>
+    <tr><td class="paramname">spec</td><td>Déclaration de la propriété. </td></tr>
+    <tr><td class="paramname">value</td><td>Valeur portée par l'entité, ou la valeur par défaut. </td></tr>
+    <tr><td class="paramname">choices</td><td>Valeurs proposées, pour une propriété de choix. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a14ca619b562a89bed393e3f422136b25" name="a14ca619b562a89bed393e3f422136b25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14ca619b562a89bed393e3f422136b25">&#9670;&#160;</a></span>clearForm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EntityPanel::clearForm </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retire les lignes du formulaire ; leurs champs sont détruits au retour à la boucle. </p>
+
+</div>
+</div>
 <a id="a11f1a1d750f7eb7f27bb9a6eec42bc33" name="a11f1a1d750f7eb7f27bb9a6eec42bc33"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a11f1a1d750f7eb7f27bb9a6eec42bc33">&#9670;&#160;</a></span>entitySelected</h2>
 

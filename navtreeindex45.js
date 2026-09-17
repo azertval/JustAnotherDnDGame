@@ -1,5 +1,13 @@
 var NAVTREEINDEX45 =
 {
+"structhmi_1_1ColorTokens.html#abbfc15e5e0df4ee2b326631e8c2ba3d4":[15,0,2,164,2],
+"structhmi_1_1ColorTokens.html#abbfc15e5e0df4ee2b326631e8c2ba3d4":[16,0,1,164,2],
+"structhmi_1_1ColorTokens.html#acf7220f0fec104b7dce4adf5eee0b9b4":[15,0,2,164,13],
+"structhmi_1_1ColorTokens.html#acf7220f0fec104b7dce4adf5eee0b9b4":[16,0,1,164,13],
+"structhmi_1_1ColorTokens.html#ad9bcad9a086e443e7b76d767b3ac1477":[15,0,2,164,1],
+"structhmi_1_1ColorTokens.html#ad9bcad9a086e443e7b76d767b3ac1477":[16,0,1,164,1],
+"structhmi_1_1ColorTokens.html#aec46ebdcef4690658cf60d873af98a7f":[15,0,2,164,12],
+"structhmi_1_1ColorTokens.html#aec46ebdcef4690658cf60d873af98a7f":[16,0,1,164,12],
 "structhmi_1_1ComposedQuad.html":[15,0,2,110],
 "structhmi_1_1ComposedQuad.html":[16,0,1,110],
 "structhmi_1_1ComposedQuad.html#a11f80072d43177fd77c938bb6efaab02":[15,0,2,110,0],
@@ -241,13 +249,5 @@ var NAVTREEINDEX45 =
 "structhmi_1_1FileOperationResult.html#aa1390ec36dc9b8612b40fb0226bbfb29":[15,0,2,16,0],
 "structhmi_1_1FileOperationResult.html#aa1390ec36dc9b8612b40fb0226bbfb29":[16,0,1,16,0],
 "structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8":[15,0,2,16,5],
-"structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8":[16,0,1,16,5],
-"structhmi_1_1FileOperationResult.html#aee4bac40c5c8e4b073df50d24367e9bd":[15,0,2,16,4],
-"structhmi_1_1FileOperationResult.html#aee4bac40c5c8e4b073df50d24367e9bd":[16,0,1,16,4],
-"structhmi_1_1FollowCameraState.html":[15,0,2,116],
-"structhmi_1_1FollowCameraState.html":[16,0,1,116],
-"structhmi_1_1FollowCameraState.html#a368743e0f75536e0786770bbeb35c68c":[15,0,2,116,1],
-"structhmi_1_1FollowCameraState.html#a368743e0f75536e0786770bbeb35c68c":[16,0,1,116,1],
-"structhmi_1_1FollowCameraState.html#a5ab4f23e086f01bf22e626878c555ed0":[15,0,2,116,2],
-"structhmi_1_1FollowCameraState.html#a5ab4f23e086f01bf22e626878c555ed0":[16,0,1,116,2]
+"structhmi_1_1FileOperationResult.html#ad059749c338126e1310a43e6c07f08c8":[16,0,1,16,5]
 };

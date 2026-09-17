@@ -1,5 +1,13 @@
 var NAVTREEINDEX36 =
 {
+"structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033":[15,0,1,25,11],
+"structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033":[16,0,0,25,11],
+"structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[15,0,1,25,6],
+"structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[16,0,0,25,6],
+"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[15,0,1,25,8],
+"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[16,0,0,25,8],
+"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[15,0,1,25,0],
+"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[16,0,0,25,0],
 "structcore_1_1AttackPreview.html#a51ffd26eb40dee217746d53bbf8d01ef":[15,0,1,25,10],
 "structcore_1_1AttackPreview.html#a51ffd26eb40dee217746d53bbf8d01ef":[16,0,0,25,10],
 "structcore_1_1AttackPreview.html#a540a629c4442f2967db2814bba58a21a":[15,0,1,25,4],
@@ -241,13 +249,5 @@ var NAVTREEINDEX36 =
 "structcore_1_1CharacterSheet.html#a74fd59e8a9d1e2de82abdba2792be1ec":[15,0,1,155,14],
 "structcore_1_1CharacterSheet.html#a74fd59e8a9d1e2de82abdba2792be1ec":[16,0,0,155,14],
 "structcore_1_1CharacterSheet.html#a7630295f7d3f3aae393329eb9843e811":[15,0,1,155,2],
-"structcore_1_1CharacterSheet.html#a7630295f7d3f3aae393329eb9843e811":[16,0,0,155,2],
-"structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c":[15,0,1,155,8],
-"structcore_1_1CharacterSheet.html#a866fe7b5be97e74f1de1068d17c6392c":[16,0,0,155,8],
-"structcore_1_1CharacterSheet.html#a9877610cbb279159f796da46604ddf21":[15,0,1,155,16],
-"structcore_1_1CharacterSheet.html#a9877610cbb279159f796da46604ddf21":[16,0,0,155,16],
-"structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70":[15,0,1,155,9],
-"structcore_1_1CharacterSheet.html#aa1c2dffd68f832ebdfdfb79428399c70":[16,0,0,155,9],
-"structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495":[15,0,1,155,5],
-"structcore_1_1CharacterSheet.html#ab92e71f78ebaed0cd98af3b48cf3a495":[16,0,0,155,5]
+"structcore_1_1CharacterSheet.html#a7630295f7d3f3aae393329eb9843e811":[16,0,0,155,2]
 };

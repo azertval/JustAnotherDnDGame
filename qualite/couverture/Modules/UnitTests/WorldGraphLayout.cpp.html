@@ -25,10 +25,10 @@ namespace hmi {
 namespace {
 
 /// DÃ©calage perpendiculaire de deux flÃ¨ches opposÃ©es (AâB et BâA), en pixels logiques.
-constexpr float REVERSE_EDGE_OFFSET = 7.0f;
+constexpr float REVERSE_EDGE_OFFSET = 7.0F;
 
 /// Rayon du cercle d'une boucle, en proportion du rayon d'un nÅud.
-constexpr float LOOP_RADIUS_RATIO = 0.55f;
+constexpr float LOOP_RADIUS_RATIO = 0.55F;
 
 /// @return Vrai si le portail nomme une carte absente du dossier (ou n'en nomme aucune).
 <span style = "background-color:#dfd">[[nodiscard]] bool targetsGhost(core::PortalLinkStatus status) noexcept {
@@ -40,10 +40,10 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
 <span style = "background-color:#dfd">[[nodiscard]] float distanceToSegment(core::Vector2 point, core::Vector2 a, core::Vector2 b) {
     const core::Vector2 ab = b - a;
     const float lengthSquared = ab.lengthSquared();
-    if (lengthSquared &lt;= 0.0f) {</span>
+    if (lengthSquared &lt;= 0.0F) {</span>
 <span style = "background-color:#fdd">        return (point - a).length();</span>
     }
-<span style = "background-color:#dfd">    const float t = std::clamp((point - a).dot(ab) / lengthSquared, 0.0f, 1.0f);
+<span style = "background-color:#dfd">    const float t = std::clamp((point - a).dot(ab) / lengthSquared, 0.0F, 1.0F);
     return (point - (a + ab * t)).length();
 }</span>
 
@@ -51,11 +51,11 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
 
 <span style = "background-color:#dfd">float worldGraphCircleRadius(std::size_t nodeCount) noexcept {
     if (nodeCount &lt; 2) {
-        return 0.0f;</span>
+        return 0.0F;</span>
     }
 <span style = "background-color:#dfd">    const float halfAngle = std::numbers::pi_v&lt;float&gt; / static_cast&lt;float&gt;(nodeCount);
     return std::max(WORLD_GRAPH_MIN_CIRCLE_RADIUS,</span>
-                    WORLD_GRAPH_NODE_SPACING / (2.0f * std::sin(halfAngle)));
+                    WORLD_GRAPH_NODE_SPACING / (2.0F * std::sin(halfAngle)));
 <span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">WorldGraphLayout layoutWorldGraph(const core::WorldGraph&amp; graph) {
@@ -110,9 +110,9 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
 <span style = "background-color:#dfd">    const std::size_t count = layout.nodes.size();
     layout.circleRadius = worldGraphCircleRadius(count);
     for (std::size_t i = 0; i &lt; count; ++i) {
-        const float angle = -std::numbers::pi_v&lt;float&gt; / 2.0f + 2.0f * std::numbers::pi_v&lt;float&gt; *</span>
-                                                                    static_cast&lt;float&gt;(i) /
-                                                                    static_cast&lt;float&gt;(count);
+        const float angle =</span>
+            (-std::numbers::pi_v&lt;float&gt; / 2.0F) +
+            (2.0F * std::numbers::pi_v&lt;float&gt; * static_cast&lt;float&gt;(i) / static_cast&lt;float&gt;(count));
 <span style = "background-color:#dfd">        layout.nodes[i].center = core::Vector2(layout.circleRadius * std::cos(angle),</span>
                                                layout.circleRadius * std::sin(angle));
 <span style = "background-color:#dfd">    }</span>
@@ -134,8 +134,8 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
         const std::size_t to = indexOf(portal.toMap, targetsGhost(portal.status));
         auto [it, inserted] = edgeIndex.try_emplace({from, to}, layout.edges.size());
         if (inserted) {
-            layout.edges.push_back(</span>
-                WorldGraphLayoutEdge{.from = from, .to = to, .selfLoop = from == to});
+            layout.edges.push_back(WorldGraphLayoutEdge{</span>
+                .from = from, .to = to, .selfLoop = from == to, .portals = {}});
         }
 <span style = "background-color:#dfd">        WorldGraphLayoutEdge&amp; edge = layout.edges[it-&gt;second];
         edge.portals.push_back(p);
@@ -171,7 +171,7 @@ WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout&amp; layout
 <span style = "background-color:#dfd">    if (edge.selfLoop) {</span>
         // En diagonale montante, du cÃ´tÃ© extÃ©rieur : jamais dessous, oÃ¹ est l'Ã©tiquette.
         const core::Vector2 outward =
-<span style = "background-color:#dfd">            core::Vector2(from.x &lt; 0.0f ? -1.0f : 1.0f, -1.0f).normalized();
+<span style = "background-color:#dfd">            core::Vector2(from.x &lt; 0.0F ? -1.0F : 1.0F, -1.0F).normalized();
         geometry.loopRadius = WORLD_GRAPH_NODE_RADIUS * LOOP_RADIUS_RATIO;
         geometry.loopCenter = from + outward * WORLD_GRAPH_NODE_RADIUS;
         geometry.start = geometry.loopCenter;
@@ -189,7 +189,7 @@ WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout&amp; layout
                    : core::Vector2();
 <span style = "background-color:#dfd">    geometry.start = from + direction * WORLD_GRAPH_NODE_RADIUS + offset;
     geometry.end = to - direction * WORLD_GRAPH_NODE_RADIUS + offset;
-    geometry.badge = (geometry.start + geometry.end) * 0.5f;
+    geometry.badge = (geometry.start + geometry.end) * 0.5F;
     return geometry;
 }</span>
 

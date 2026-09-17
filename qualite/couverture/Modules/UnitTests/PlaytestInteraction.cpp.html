@@ -45,19 +45,19 @@ namespace {
 
 <span style = "background-color:#dfd">PlaytestMessage playtestInteractionMessage(const core::MapEntity&amp; entity, bool alreadyConsumed) {
     if (entity.type == "chest") {
-        return {std::string{alreadyConsumed ? PLAYTEST_CHEST_ALREADY_OPENED_KEY</span>
-                                            : PLAYTEST_CHEST_OPENED_KEY},
-                {}};
+        return {.key = std::string{alreadyConsumed ? PLAYTEST_CHEST_ALREADY_OPENED_KEY</span>
+                                                   : PLAYTEST_CHEST_OPENED_KEY},
+                .args = {}};
     }
 <span style = "background-color:#dfd">    if (entity.type == "sign") {
-        return {std::string{PLAYTEST_SIGN_READ_KEY}, {}};</span>
+        return {.key = std::string{PLAYTEST_SIGN_READ_KEY}, .args = {}};</span>
     }
 <span style = "background-color:#dfd">    if (entity.type == core::NPC_ENTITY_TYPE) {</span>
         // Meme lecture que le jeu (LOT-15) : un PNJ sans dialogue n'est pas un declencheur.
 <span style = "background-color:#dfd">        if (const std::optional&lt;core::DialogueTrigger&gt; trigger = core::dialogueTriggerFor(entity)) {
-            return {std::string{PLAYTEST_NPC_DIALOGUE_KEY}, {trigger-&gt;dialogueId}};
+            return {.key = std::string{PLAYTEST_NPC_DIALOGUE_KEY}, .args = {trigger-&gt;dialogueId}};
         }
-        return {std::string{PLAYTEST_NPC_SILENT_KEY}, {}};</span>
+        return {.key = std::string{PLAYTEST_NPC_SILENT_KEY}, .args = {}};</span>
     }
 <span style = "background-color:#dfd">    if (entity.type == core::PORTAL_ENTITY_TYPE) {
         const std::optional&lt;std::string&gt; target =</span>
@@ -65,11 +65,11 @@ namespace {
 <span style = "background-color:#dfd">        const std::optional&lt;std::string&gt; arrival =</span>
             textProperty(entity, core::PORTAL_ARRIVAL_PROPERTY);
 <span style = "background-color:#dfd">        if (target &amp;&amp; arrival) {
-            return {std::string{PLAYTEST_PORTAL_KEY}, {*target, *arrival}};</span>
+            return {.key = std::string{PLAYTEST_PORTAL_KEY}, .args = {*target, *arrival}};</span>
         }
-<span style = "background-color:#dfd">        return {std::string{PLAYTEST_PORTAL_INCOMPLETE_KEY}, {}};</span>
+<span style = "background-color:#dfd">        return {.key = std::string{PLAYTEST_PORTAL_INCOMPLETE_KEY}, .args = {}};</span>
 <span style = "background-color:#fdd">    }</span>
-<span style = "background-color:#dfd">    return {std::string{PLAYTEST_OTHER_KEY}, {entity.type}};
+<span style = "background-color:#dfd">    return {.key = std::string{PLAYTEST_OTHER_KEY}, .args = {entity.type}};
 }</span>
 
 std::string formatPlaytestMessage(const PlaytestMessage&amp; message,
@@ -87,7 +87,7 @@ std::string formatPlaytestMessage(const PlaytestMessage&amp; message,
 }</span>
 
 <span style = "background-color:#dfd">int playtestMessageSteps(float fixedDelta) {
-    if (!(fixedDelta &gt; 0.0f)) {
+    if (!(fixedDelta &gt; 0.0F)) {
         return 1;</span>
     }
 <span style = "background-color:#dfd">    const long steps = std::lround(PLAYTEST_MESSAGE_SECONDS / fixedDelta);

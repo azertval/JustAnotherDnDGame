@@ -193,7 +193,7 @@ var searchData=
   ['skiptomatch_190',['skipToMatch',['../classcore_1_1View_1_1Iterator.html#a8023ce2eabf79c007797ced3a5dc7e06',1,'core::View::Iterator']]],
   ['slotafter_191',['slotAfter',['../classcore_1_1TurnOrder.html#af320563c95027694286cb09cb5585a99',1,'core::TurnOrder']]],
   ['slotbefore_192',['slotBefore',['../namespacecore.html#aefbe58769e27637d475329aa7459e90d',1,'core']]],
-  ['slotof_193',['slotOf',['../classhmi_1_1LayersPanel.html#ac33a3f32d24556ab0a497e019f7464dd',1,'hmi::LayersPanel']]],
+  ['slotof_193',['slotOf',['../classhmi_1_1LayersPanel.html#acbc45ab547145118a5dcc187a237983c',1,'hmi::LayersPanel']]],
   ['smallestentities_194',['smallestEntities',['../classcore_1_1View.html#a4888128d907a06adce68b142bcc867ce',1,'core::View']]],
   ['snapshot_195',['snapshot',['../classcore_1_1LevelDraft.html#a89fced43d78e2f2fcd89fd03b75373bc',1,'core::LevelDraft::snapshot()'],['../classhmi_1_1ArenaAnimationDriver.html#a05504cbeb0b0db4fd1e69bc6728ac407',1,'hmi::ArenaAnimationDriver::snapshot()'],['../classhmi_1_1ArenaSceneRenderer.html#abc5b0b2897753622f6694b2de12e42d7',1,'hmi::ArenaSceneRenderer::snapshot()']]],
   ['snapshotarenascene_196',['snapshotArenaScene',['../namespacehmi.html#aa0d7669255f79f79f2cd34ed1d8f939d',1,'hmi']]],

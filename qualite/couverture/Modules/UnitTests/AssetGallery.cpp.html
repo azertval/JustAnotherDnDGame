@@ -72,6 +72,8 @@ using json = nlohmann::json;
 <span style = "background-color:#dfd">[[nodiscard]] std::pair&lt;int, int&gt; pngSize(const std::filesystem::path&amp; path) {
     std::ifstream file(path, std::ios::binary);
     std::array&lt;unsigned char, 24&gt; header{};</span>
+    // Les octets bruts de l'en-tÃªte : istream::read ne lit que des char.
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (!file.read(reinterpret_cast&lt;char*&gt;(header.data()), header.size()) || header[1] != 'P' ||
 <span style = "background-color:#dfd">        header[2] != 'N' || header[3] != 'G') {</span>
 <span style = "background-color:#fdd">        return {0, 0};</span>
@@ -139,14 +141,16 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
             npcs.push_back(item.path().filename().string());
         }
     }
-    std::sort(npcs.begin(), npcs.end());
+    std::ranges::sort(npcs);
     const std::vector&lt;std::string&gt; animations = stringList(document.root, "animations");
     for (const std::string&amp; npc : npcs) {
-        for (const std::string&amp; animation : animations) {
-            AssetGalleryEntry entry{.family = family.title,
-                                    .model = npc,
-                                    .form = animation,
-                                    .path = "Npc/" + npc + "/" + animation + ".png"};
+        for (const std::string&amp; animation : animations) {</span>
+            AssetGalleryEntry entry{
+<span style = "background-color:#dfd">                .family = family.title,
+                .model = npc,
+                .form = animation,
+                .path = std::string("Npc/").append(npc).append("/").append(animation + ".png"),
+                .frames = {}};
             if (readAnimatedEntry(entry, root / "Npc" / npc / (animation + ".anim.json"),</span>
                                   catalog.errors)) {
 <span style = "background-color:#dfd">                family.entries.push_back(std::move(entry));</span>
@@ -159,7 +163,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
                                                        .form = "portrait",
                                                        .path = "Npc/" + npc + "/portrait.png",
                                                        .frameWidth = width,
-                                                       .frameHeight = height});
+                                                       .frameHeight = height,
+                                                       .frames = {}});
         }
 <span style = "background-color:#dfd">    }
     if (!family.entries.empty()) {
@@ -182,7 +187,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
                 AssetGalleryEntry entry{.family = family.title,
                                         .model = name,
                                         .form = animation,
-                                        .path = "Coliseum/" + folder + animation + ".png"};
+                                        .path = "Coliseum/" + folder + (animation + ".png"),
+                                        .frames = {}};
                 if (readAnimatedEntry(</span>
                         entry, root / "Coliseum" / directory / name / (animation + ".anim.json"),
                         catalog.errors)) {
@@ -218,7 +224,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
                                                    .form = stemOf(key.substr(slash + 1)),
                                                    .path = "Coliseum/" + key,
                                                    .frameWidth = width,
-                                                   .frameHeight = height});
+                                                   .frameHeight = height,
+                                                   .frames = {}});
 <span style = "background-color:#dfd">    }</span>
     // `nlohmann::json` range ses clÃ©s par ordre alphabÃ©tique : les dossiers se suivent dÃ©jÃ .
 <span style = "background-color:#dfd">    if (!pieces.entries.empty()) {
@@ -244,7 +251,7 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
             dispositions.push_back(item.path());
         }
     }
-    std::sort(dispositions.begin(), dispositions.end());
+    std::ranges::sort(dispositions);
     for (const std::filesystem::path&amp; directory : dispositions) {
         const core::JsonDocument document =</span>
             readManifest(directory / "manifest.json", catalog.errors);
@@ -273,15 +280,16 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
                                   .path = family.directory + "/" + value["file"].get&lt;std::string&gt;(),
                                   .frameWidth = width,
                                   .frameHeight = height,
+                                  .frames = {},
                                   .footprintColumns = std::max(1, columns),
                                   .footprintRows = std::max(1, rows),
                                   .anchorX = anchorX,
                                   .anchorY = anchorY});
 <span style = "background-color:#dfd">        }
-        std::stable_sort(family.entries.begin(), family.entries.end(),
-                         [](const AssetGalleryEntry&amp; left, const AssetGalleryEntry&amp; right) {
-                             return classRank(left.model) &lt; classRank(right.model);
-                         });
+        std::ranges::stable_sort(family.entries,
+                                 [](const AssetGalleryEntry&amp; left, const AssetGalleryEntry&amp; right) {
+                                     return classRank(left.model) &lt; classRank(right.model);
+                                 });
         if (!family.entries.empty()) {
             catalog.families.push_back(std::move(family));</span>
         }
@@ -300,14 +308,15 @@ void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; 
             images.push_back(item.path());
         }
     }
-    std::sort(images.begin(), images.end());
+    std::ranges::sort(images);
     AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
     for (const std::filesystem::path&amp; image : images) {
         const std::string stem = stemOf(image.filename().string());
         AssetGalleryEntry entry{.family = family.title,
                                 .model = directory,
                                 .form = stem,
-                                .path = std::string(directory) + "/" + stem + ".png"};
+                                .path = std::string(directory) + "/" + stem + ".png",
+                                .frames = {}};
         const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
         std::error_code ignored;
         if (std::filesystem::is_regular_file(descriptor, ignored)) {
@@ -376,7 +385,7 @@ std::vector&lt;std::string&gt; assetGalleryUnlisted(const std::filesystem::path&
 <span style = "background-color:#fdd">            unlisted.push_back(path);</span>
         }
 <span style = "background-color:#dfd">    }
-    std::sort(unlisted.begin(), unlisted.end());
+    std::ranges::sort(unlisted);
     return unlisted;
 }</span>
 
@@ -422,8 +431,7 @@ std::vector&lt;std::string&gt; assetGalleryUnlisted(const std::filesystem::path&
         lineRows = 0;
     };</span>
 
-<span style = "background-color:#dfd">    for (int familyIndex = 0; familyIndex &lt; static_cast&lt;int&gt;(catalog.families.size());
-         ++familyIndex) {
+<span style = "background-color:#dfd">    for (int familyIndex = 0; std::cmp_less(familyIndex, catalog.families.size()); ++familyIndex) {
         const AssetGalleryFamily&amp; family = catalog.families[static_cast&lt;std::size_t&gt;(familyIndex)];
         layout.bands.push_back(AssetGalleryBand{.family = familyIndex, .row = row});
         ++row;</span>
@@ -431,7 +439,7 @@ std::vector&lt;std::string&gt; assetGalleryUnlisted(const std::filesystem::path&
         // Les modÃ¨les dans l'ordre de leur premiÃ¨re forme.
 <span style = "background-color:#dfd">        std::vector&lt;std::string&gt; models;
         std::map&lt;std::string, std::vector&lt;int&gt;&gt; byModel;
-        for (int index = 0; index &lt; static_cast&lt;int&gt;(family.entries.size()); ++index) {
+        for (int index = 0; std::cmp_less(index, family.entries.size()); ++index) {
             const std::string&amp; model = family.entries[static_cast&lt;std::size_t&gt;(index)].model;
             if (!byModel.contains(model)) {
                 models.push_back(model);</span>
