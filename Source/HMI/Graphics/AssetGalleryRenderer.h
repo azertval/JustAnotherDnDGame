@@ -102,7 +102,7 @@ public:
     void setFrame(AssetGalleryFrame frame);
 
     void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, float realDeltaSeconds,
-                const float clear[4]);
+                const float* clear);
 
     /// @return Le nombre de textures en mémoire (chargées ou retenues illisibles).
     [[nodiscard]] std::size_t cachedTextureCount() const noexcept {

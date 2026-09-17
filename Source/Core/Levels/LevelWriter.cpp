@@ -3,6 +3,7 @@
 
 #include "Core/Levels/LevelWriter.h"
 
+#include <cstdint>
 #include <fstream>
 #include <map>
 #include <string>
@@ -63,7 +64,17 @@ namespace {
 // niveau produisent le meme fichier.
 void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
     for (const auto& [key, value] : properties) {
-        std::visit([&object, &key](const auto& raw) { object[key] = raw; }, value);
+        // Alternative par alternative plutot que std::visit : l'analyseur statique ne suit pas la
+        // table de saut de visit et croit la valeur non initialisee.
+        if (const auto* const flag = std::get_if<bool>(&value)) {
+            object[key] = *flag;
+        } else if (const auto* const integer = std::get_if<std::int64_t>(&value)) {
+            object[key] = *integer;
+        } else if (const auto* const real = std::get_if<double>(&value)) {
+            object[key] = *real;
+        } else if (const auto* const text = std::get_if<std::string>(&value)) {
+            object[key] = *text;
+        }
     }
 }
 

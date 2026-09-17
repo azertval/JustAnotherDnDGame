@@ -74,7 +74,7 @@ private:
     void rebuild();
     void updateButtons();
     [[nodiscard]] QString rowLabel(const LayerRow& row) const;
-    [[nodiscard]] LayerSlot slotOf(const QListWidgetItem* item) const;
+    [[nodiscard]] static LayerSlot slotOf(const QListWidgetItem* item);
     [[nodiscard]] QString text(const char* key, const QString& fallback) const;
 
     std::unique_ptr<Ui::LayersPanel> _ui;

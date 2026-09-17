@@ -79,6 +79,26 @@ private:
     void rebuildKinds();
     void rebuildTable();
     void rebuildForm();
+    /// Retire les lignes du formulaire ; leurs champs sont détruits au retour à la boucle.
+    void clearForm();
+    /**
+     * @brief Ajoute au formulaire le champ d'une propriété déclarée.
+     * @param index   Rang de l'entité dans la carte.
+     * @param spec    Déclaration de la propriété.
+     * @param value   Valeur portée par l'entité, ou la valeur par défaut.
+     * @param choices Valeurs proposées, pour une propriété de choix.
+     */
+    void addPropertyRow(std::size_t index, const core::EntityPropertySpec& spec,
+                        const core::PropertyValue& value, const std::vector<std::string>& choices);
+    /**
+     * @brief Ajoute au formulaire la liste déroulante d'une propriété de choix.
+     * @param index   Rang de l'entité dans la carte.
+     * @param spec    Déclaration de la propriété.
+     * @param value   Valeur portée par l'entité, ou la valeur par défaut.
+     * @param choices Valeurs proposées.
+     */
+    void addChoiceRow(std::size_t index, const core::EntityPropertySpec& spec,
+                      const core::PropertyValue& value, const std::vector<std::string>& choices);
     void rebuildWarnings();
     [[nodiscard]] QString text(const char* key, const QString& fallback) const;
     [[nodiscard]] QString kindLabel(const std::string& type) const;

@@ -34,19 +34,19 @@ namespace {
 
 PlaytestMessage playtestInteractionMessage(const core::MapEntity& entity, bool alreadyConsumed) {
     if (entity.type == "chest") {
-        return {std::string{alreadyConsumed ? PLAYTEST_CHEST_ALREADY_OPENED_KEY
-                                            : PLAYTEST_CHEST_OPENED_KEY},
-                {}};
+        return {.key = std::string{alreadyConsumed ? PLAYTEST_CHEST_ALREADY_OPENED_KEY
+                                                   : PLAYTEST_CHEST_OPENED_KEY},
+                .args = {}};
     }
     if (entity.type == "sign") {
-        return {std::string{PLAYTEST_SIGN_READ_KEY}, {}};
+        return {.key = std::string{PLAYTEST_SIGN_READ_KEY}, .args = {}};
     }
     if (entity.type == core::NPC_ENTITY_TYPE) {
         // Meme lecture que le jeu (LOT-15) : un PNJ sans dialogue n'est pas un declencheur.
         if (const std::optional<core::DialogueTrigger> trigger = core::dialogueTriggerFor(entity)) {
-            return {std::string{PLAYTEST_NPC_DIALOGUE_KEY}, {trigger->dialogueId}};
+            return {.key = std::string{PLAYTEST_NPC_DIALOGUE_KEY}, .args = {trigger->dialogueId}};
         }
-        return {std::string{PLAYTEST_NPC_SILENT_KEY}, {}};
+        return {.key = std::string{PLAYTEST_NPC_SILENT_KEY}, .args = {}};
     }
     if (entity.type == core::PORTAL_ENTITY_TYPE) {
         const std::optional<std::string> target =
@@ -54,11 +54,11 @@ PlaytestMessage playtestInteractionMessage(const core::MapEntity& entity, bool a
         const std::optional<std::string> arrival =
             textProperty(entity, core::PORTAL_ARRIVAL_PROPERTY);
         if (target && arrival) {
-            return {std::string{PLAYTEST_PORTAL_KEY}, {*target, *arrival}};
+            return {.key = std::string{PLAYTEST_PORTAL_KEY}, .args = {*target, *arrival}};
         }
-        return {std::string{PLAYTEST_PORTAL_INCOMPLETE_KEY}, {}};
+        return {.key = std::string{PLAYTEST_PORTAL_INCOMPLETE_KEY}, .args = {}};
     }
-    return {std::string{PLAYTEST_OTHER_KEY}, {entity.type}};
+    return {.key = std::string{PLAYTEST_OTHER_KEY}, .args = {entity.type}};
 }
 
 std::string formatPlaytestMessage(const PlaytestMessage& message,
@@ -76,7 +76,7 @@ std::string formatPlaytestMessage(const PlaytestMessage& message,
 }
 
 int playtestMessageSteps(float fixedDelta) {
-    if (!(fixedDelta > 0.0f)) {
+    if (!(fixedDelta > 0.0F)) {
         return 1;
     }
     const long steps = std::lround(PLAYTEST_MESSAGE_SECONDS / fixedDelta);

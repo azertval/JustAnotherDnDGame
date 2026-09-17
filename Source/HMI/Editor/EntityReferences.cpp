@@ -26,7 +26,8 @@ EditorReferences loadEditorReferences(const std::filesystem::path& root) {
     EditorReferences references;
     if (const std::filesystem::path dialogues = root / "World" / "dialogues";
         isDirectory(dialogues)) {
-        for (const core::DialogueGraph& graph : core::loadDialogues(dialogues).dialogues) {
+        const core::DialogueCatalog loaded = core::loadDialogues(dialogues);
+        for (const core::DialogueGraph& graph : loaded.dialogues) {
             references.dialogues.push_back(graph.id);
         }
         std::ranges::sort(references.dialogues);

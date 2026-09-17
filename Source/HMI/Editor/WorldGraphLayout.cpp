@@ -14,10 +14,10 @@ namespace hmi {
 namespace {
 
 /// Décalage perpendiculaire de deux flèches opposées (A→B et B→A), en pixels logiques.
-constexpr float REVERSE_EDGE_OFFSET = 7.0f;
+constexpr float REVERSE_EDGE_OFFSET = 7.0F;
 
 /// Rayon du cercle d'une boucle, en proportion du rayon d'un nœud.
-constexpr float LOOP_RADIUS_RATIO = 0.55f;
+constexpr float LOOP_RADIUS_RATIO = 0.55F;
 
 /// @return Vrai si le portail nomme une carte absente du dossier (ou n'en nomme aucune).
 [[nodiscard]] bool targetsGhost(core::PortalLinkStatus status) noexcept {
@@ -29,10 +29,10 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
 [[nodiscard]] float distanceToSegment(core::Vector2 point, core::Vector2 a, core::Vector2 b) {
     const core::Vector2 ab = b - a;
     const float lengthSquared = ab.lengthSquared();
-    if (lengthSquared <= 0.0f) {
+    if (lengthSquared <= 0.0F) {
         return (point - a).length();
     }
-    const float t = std::clamp((point - a).dot(ab) / lengthSquared, 0.0f, 1.0f);
+    const float t = std::clamp((point - a).dot(ab) / lengthSquared, 0.0F, 1.0F);
     return (point - (a + ab * t)).length();
 }
 
@@ -40,11 +40,11 @@ constexpr float LOOP_RADIUS_RATIO = 0.55f;
 
 float worldGraphCircleRadius(std::size_t nodeCount) noexcept {
     if (nodeCount < 2) {
-        return 0.0f;
+        return 0.0F;
     }
     const float halfAngle = std::numbers::pi_v<float> / static_cast<float>(nodeCount);
     return std::max(WORLD_GRAPH_MIN_CIRCLE_RADIUS,
-                    WORLD_GRAPH_NODE_SPACING / (2.0f * std::sin(halfAngle)));
+                    WORLD_GRAPH_NODE_SPACING / (2.0F * std::sin(halfAngle)));
 }
 
 WorldGraphLayout layoutWorldGraph(const core::WorldGraph& graph) {
@@ -99,9 +99,9 @@ WorldGraphLayout layoutWorldGraph(const core::WorldGraph& graph) {
     const std::size_t count = layout.nodes.size();
     layout.circleRadius = worldGraphCircleRadius(count);
     for (std::size_t i = 0; i < count; ++i) {
-        const float angle = -std::numbers::pi_v<float> / 2.0f + 2.0f * std::numbers::pi_v<float> *
-                                                                    static_cast<float>(i) /
-                                                                    static_cast<float>(count);
+        const float angle =
+            (-std::numbers::pi_v<float> / 2.0F) +
+            (2.0F * std::numbers::pi_v<float> * static_cast<float>(i) / static_cast<float>(count));
         layout.nodes[i].center = core::Vector2(layout.circleRadius * std::cos(angle),
                                                layout.circleRadius * std::sin(angle));
     }
@@ -123,8 +123,8 @@ WorldGraphLayout layoutWorldGraph(const core::WorldGraph& graph) {
         const std::size_t to = indexOf(portal.toMap, targetsGhost(portal.status));
         auto [it, inserted] = edgeIndex.try_emplace({from, to}, layout.edges.size());
         if (inserted) {
-            layout.edges.push_back(
-                WorldGraphLayoutEdge{.from = from, .to = to, .selfLoop = from == to});
+            layout.edges.push_back(WorldGraphLayoutEdge{
+                .from = from, .to = to, .selfLoop = from == to, .portals = {}});
         }
         WorldGraphLayoutEdge& edge = layout.edges[it->second];
         edge.portals.push_back(p);
@@ -160,7 +160,7 @@ WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout& layout,
     if (edge.selfLoop) {
         // En diagonale montante, du côté extérieur : jamais dessous, où est l'étiquette.
         const core::Vector2 outward =
-            core::Vector2(from.x < 0.0f ? -1.0f : 1.0f, -1.0f).normalized();
+            core::Vector2(from.x < 0.0F ? -1.0F : 1.0F, -1.0F).normalized();
         geometry.loopRadius = WORLD_GRAPH_NODE_RADIUS * LOOP_RADIUS_RATIO;
         geometry.loopCenter = from + outward * WORLD_GRAPH_NODE_RADIUS;
         geometry.start = geometry.loopCenter;
@@ -178,7 +178,7 @@ WorldGraphEdgeGeometry worldGraphEdgeGeometry(const WorldGraphLayout& layout,
                    : core::Vector2();
     geometry.start = from + direction * WORLD_GRAPH_NODE_RADIUS + offset;
     geometry.end = to - direction * WORLD_GRAPH_NODE_RADIUS + offset;
-    geometry.badge = (geometry.start + geometry.end) * 0.5f;
+    geometry.badge = (geometry.start + geometry.end) * 0.5F;
     return geometry;
 }
 

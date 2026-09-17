@@ -29,11 +29,11 @@ struct Tint {
 };
 
 /// Les lignes de cases : discrètes, sous tout le reste.
-constexpr Tint GRID_TINT{1.0f, 1.0f, 1.0f, 0.07f};
+constexpr Tint GRID_TINT{.r = 1.0F, .g = 1.0F, .b = 1.0F, .a = 0.07F};
 /// L'emprise, et son contour : l'or de la sélection, atténué.
-constexpr Tint FOOTPRINT_FILL{0.88f, 0.64f, 0.29f, 0.12f};
-constexpr Tint FOOTPRINT_EDGE{0.88f, 0.64f, 0.29f, 0.55f};
-constexpr Tint SELECTION_EDGE{0.88f, 0.64f, 0.29f, 1.0f};
+constexpr Tint FOOTPRINT_FILL{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 0.12F};
+constexpr Tint FOOTPRINT_EDGE{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 0.55F};
+constexpr Tint SELECTION_EDGE{.r = 0.88F, .g = 0.64F, .b = 0.29F, .a = 1.0F};
 
 void addRect(ComposedScene& scene, RenderLayer layer, TextureHandle white, float x, float y,
              float width, float height, Tint tint) {
@@ -55,6 +55,55 @@ void addFrame(ComposedScene& scene, RenderLayer layer, TextureHandle white, floa
     addRect(scene, layer, white, x, y + height - thickness, width, thickness, tint);
     addRect(scene, layer, white, x, y, thickness, height, tint);
     addRect(scene, layer, white, x + width - thickness, y, thickness, height, tint);
+}
+
+// Rectangle en pixels de la cible.
+struct Area {
+    float x;
+    float y;
+    float width;
+    float height;
+};
+
+// Les lignes de cases d'un bloc, bords compris ; alignées au pixel.
+void addGrid(ComposedScene& scene, TextureHandle white, const AssetGalleryDrawnBloc& bloc,
+             float cell, float line) {
+    const float width = static_cast<float>(bloc.columns) * cell;
+    const float height = static_cast<float>(bloc.rows) * cell;
+    for (int column = 0; column <= bloc.columns; ++column) {
+        addRect(scene, RenderLayer::Background, white,
+                std::round(bloc.x + (static_cast<float>(column) * cell)), bloc.y, line, height,
+                GRID_TINT);
+    }
+    for (int row = 0; row <= bloc.rows; ++row) {
+        addRect(scene, RenderLayer::Background, white, bloc.x,
+                std::round(bloc.y + (static_cast<float>(row) * cell)), width, line, GRID_TINT);
+    }
+}
+
+// Le quad de l'image courante d'un bloc, posé sur son emprise. Une texture en échec (le damier
+// de remplacement) se montre entière, sans découpe en images.
+[[nodiscard]] SpriteQuad artQuad(const LoadedTexture& texture, bool failed,
+                                 const AssetGalleryDrawnBloc& bloc, float artScale,
+                                 Area footprint) {
+    const int frameWidth =
+        failed || bloc.frameWidth <= 0 ? texture.width : std::min(bloc.frameWidth, texture.width);
+    const int frameHeight = failed || bloc.frameHeight <= 0
+                                ? texture.height
+                                : std::min(bloc.frameHeight, texture.height);
+    const int frames = std::max(1, texture.width / std::max(1, frameWidth));
+    const int index = failed ? 0 : std::clamp(bloc.frameIndex, 0, frames - 1);
+
+    SpriteQuad quad;
+    quad.width = static_cast<float>(frameWidth) * artScale;
+    quad.height = static_cast<float>(frameHeight) * artScale;
+    // Pieds sur le bas de l'emprise, centré sur elle ; au pixel près, pour la netteté.
+    quad.x = std::round(footprint.x + (footprint.width / 2.0F) - (quad.width / 2.0F));
+    quad.y = std::round(footprint.y + footprint.height - quad.height);
+    quad.u0 = static_cast<float>(index * frameWidth) / static_cast<float>(texture.width);
+    quad.u1 = static_cast<float>((index + 1) * frameWidth) / static_cast<float>(texture.width);
+    quad.v1 = static_cast<float>(frameHeight) / static_cast<float>(texture.height);
+    return quad;
 }
 
 }  // namespace
@@ -117,7 +166,7 @@ void AssetGalleryRenderer::updateCache(float deltaSeconds) {
     for (const std::string& path : wanted) {
         const auto found = _cache.find(path);
         if (found != _cache.end()) {
-            found->second.unwantedSeconds = 0.0f;
+            found->second.unwantedSeconds = 0.0F;
             continue;
         }
         if (uploads >= UPLOADS_PER_FRAME) {
@@ -148,8 +197,8 @@ void AssetGalleryRenderer::updateCache(float deltaSeconds) {
 void AssetGalleryRenderer::compose() {
     _composed.clear();
     const TextureHandle white = _white.handle();
-    const float cell = std::max(1.0f, _frame.cellPixels);
-    const float line = std::max(1.0f, std::floor(_frame.artScale));
+    const float cell = std::max(1.0F, _frame.cellPixels);
+    const float line = std::max(1.0F, std::floor(_frame.artScale));
 
     std::int32_t order = 0;
     for (const AssetGalleryDrawnBloc& bloc : _frame.drawn) {
@@ -157,20 +206,11 @@ void AssetGalleryRenderer::compose() {
         const float height = static_cast<float>(bloc.rows) * cell;
 
         if (_frame.showGrid && white != nullptr) {
-            for (int column = 0; column <= bloc.columns; ++column) {
-                addRect(_composed, RenderLayer::Background, white,
-                        std::round(bloc.x + static_cast<float>(column) * cell), bloc.y, line,
-                        height, GRID_TINT);
-            }
-            for (int row = 0; row <= bloc.rows; ++row) {
-                addRect(_composed, RenderLayer::Background, white, bloc.x,
-                        std::round(bloc.y + static_cast<float>(row) * cell), width, line,
-                        GRID_TINT);
-            }
+            addGrid(_composed, white, bloc, cell, line);
         }
 
-        const float footprintX = bloc.x + static_cast<float>(bloc.footprintColumn) * cell;
-        const float footprintY = bloc.y + static_cast<float>(bloc.footprintRow) * cell;
+        const float footprintX = bloc.x + (static_cast<float>(bloc.footprintColumn) * cell);
+        const float footprintY = bloc.y + (static_cast<float>(bloc.footprintRow) * cell);
         const float footprintWidth = static_cast<float>(bloc.footprintColumns) * cell;
         const float footprintHeight = static_cast<float>(bloc.footprintRows) * cell;
         if (_frame.showFootprint && white != nullptr) {
@@ -185,32 +225,17 @@ void AssetGalleryRenderer::compose() {
             const bool failed = cached->second.failed || cached->second.texture.texture == nullptr;
             const LoadedTexture& texture = failed ? _missing : cached->second.texture;
             if (texture.texture != nullptr && texture.width > 0 && texture.height > 0) {
-                const int frameWidth = failed || bloc.frameWidth <= 0
-                                           ? texture.width
-                                           : std::min(bloc.frameWidth, texture.width);
-                const int frameHeight = failed || bloc.frameHeight <= 0
-                                            ? texture.height
-                                            : std::min(bloc.frameHeight, texture.height);
-                const int frames = std::max(1, texture.width / std::max(1, frameWidth));
-                const int index = failed ? 0 : std::clamp(bloc.frameIndex, 0, frames - 1);
-
-                SpriteQuad quad;
-                quad.width = static_cast<float>(frameWidth) * _frame.artScale;
-                quad.height = static_cast<float>(frameHeight) * _frame.artScale;
-                // Pieds sur le bas de l'emprise, centré sur elle ; au pixel près, pour la netteté.
-                quad.x = std::round(footprintX + footprintWidth / 2.0f - quad.width / 2.0f);
-                quad.y = std::round(footprintY + footprintHeight - quad.height);
-                quad.u0 =
-                    static_cast<float>(index * frameWidth) / static_cast<float>(texture.width);
-                quad.u1 = static_cast<float>((index + 1) * frameWidth) /
-                          static_cast<float>(texture.width);
-                quad.v1 = static_cast<float>(frameHeight) / static_cast<float>(texture.height);
+                const SpriteQuad quad = artQuad(texture, failed, bloc, _frame.artScale,
+                                                Area{.x = footprintX,
+                                                     .y = footprintY,
+                                                     .width = footprintWidth,
+                                                     .height = footprintHeight});
                 _composed.addSprite(RenderLayer::Tile, texture.handle(), order++, quad);
             }
         }
 
         if (bloc.selected && white != nullptr) {
-            addFrame(_composed, RenderLayer::UI, white, bloc.x, bloc.y, width, height, 2.0f * line,
+            addFrame(_composed, RenderLayer::UI, white, bloc.x, bloc.y, width, height, 2.0F * line,
                      SELECTION_EDGE);
         }
     }
@@ -218,7 +243,7 @@ void AssetGalleryRenderer::compose() {
 }
 
 void AssetGalleryRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-                                  float realDeltaSeconds, const float clear[4]) {
+                                  float realDeltaSeconds, const float* clear) {
     if (!created() || commandBuffer == nullptr || target == nullptr) {
         return;
     }
@@ -227,7 +252,7 @@ void AssetGalleryRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTa
                                                  : _rhi->nextResourceUpdateBatch();
     _resources.setFrameUpdates(updates);
 
-    updateCache(std::max(0.0f, realDeltaSeconds));
+    updateCache(std::max(0.0F, realDeltaSeconds));
     compose();
 
     const QSize pixels = target->pixelSize();

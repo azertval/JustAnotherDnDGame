@@ -50,7 +50,7 @@ LayersPanel::LayersPanel(QWidget* parent)
         }
         const LayerSlot slot = slotOf(item);
         const bool visible = item->checkState() == Qt::Checked;
-        const std::size_t position = static_cast<std::size_t>(_ui->layerList->row(item));
+        const auto position = static_cast<std::size_t>(_ui->layerList->row(item));
         if (position < _snapshot.displays.size() &&
             _snapshot.displays[position].visible != visible) {
             QMetaObject::invokeMethod(
@@ -136,11 +136,12 @@ void LayersPanel::rebuild() {
         }
         item->setFlags(flags);
         item->setCheckState(_snapshot.displays[position].visible ? Qt::Checked : Qt::Unchecked);
-        const QString kindLabel = row.kind == core::LayerKind::Decor
-                                      ? text("layers.kind.decor", QStringLiteral("Décor"))
-                                  : row.kind == core::LayerKind::Ground
-                                      ? text("layers.kind.ground", QStringLiteral("Sol"))
-                                      : rowLabel(row);
+        QString kindLabel = rowLabel(row);
+        if (row.kind == core::LayerKind::Decor) {
+            kindLabel = text("layers.kind.decor", QStringLiteral("Décor"));
+        } else if (row.kind == core::LayerKind::Ground) {
+            kindLabel = text("layers.kind.ground", QStringLiteral("Sol"));
+        }
         item->setToolTip(kindLabel + QStringLiteral(" — ") + text("layers.visible_tooltip", {}));
         if (row.slot == _snapshot.active) {
             _ui->layerList->setCurrentItem(item);
@@ -190,7 +191,7 @@ QString LayersPanel::rowLabel(const LayerRow& row) const {
     return QString::fromStdString(row.name);
 }
 
-LayerSlot LayersPanel::slotOf(const QListWidgetItem* item) const {
+LayerSlot LayersPanel::slotOf(const QListWidgetItem* item) {
     if (item == nullptr) {
         return std::nullopt;
     }
