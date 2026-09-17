@@ -22,7 +22,8 @@
 namespace hmi {
 
 /**
- * @brief La vue-modèle de l'exploration : entrer sur une carte, marcher, parler, franchir.
+ * @brief La vue-modèle de l'exploration — **la partie en cours** : entrer sur une carte, marcher,
+ *        parler, franchir.
  *
  * ## Ce qu'elle tient, et ce qu'elle ne décide pas
  *
@@ -37,6 +38,12 @@ namespace hmi {
 class WorldModel : public QObject {
     Q_OBJECT
     QML_ELEMENT
+    // **Un singleton, et c'est le fond du sujet** : la session d'exploration est LA PARTIE, pas un
+    // objet de l'écran de jeu. La pile d'écrans ne garde qu'un écran vivant à la fois (`Loader`) ;
+    // une session possédée par l'écran mourrait à l'ouverture du dialogue ou du Colisée, et l'on
+    // reviendrait sur une carte neuve, héros à la porte. Ce qui est exactement ce que le lot
+    // interdit : on revient au même endroit (`LOT-09`).
+    QML_SINGLETON
 
     /// Identifiant de la carte courante, vide avant la première entrée.
     Q_PROPERTY(QString mapId READ mapId NOTIFY changed)

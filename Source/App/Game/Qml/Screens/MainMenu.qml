@@ -20,10 +20,9 @@ import Jadg.Runtime
     Le profil est une donnee en attente (`PendingData`, cles `main_menu.profile.*`) : aucun lot ne
     tient encore de profil de joueur.
 
-    « Nouvelle partie » ouvre le COLISEE (LOT-50) : c'est la seule carte jouable du jeu tant que le
-    contenu du vertical slice (LOT-27) n'en livre pas d'autre, et l'arene est un mode du jeu, pas
-    un outil de verification. Le jour ou une partie s'ouvrira sur le monde, c'est ce seul appel qui
-    changera (`openGame`) ; la vue de jeu reste atteignable par `--screen=GameView`.
+    « Nouvelle partie » ouvre la VUE DE JEU sur le Colisee (LOT-09) : le personnage parait a la
+    porte, et l'on parcourt le lieu. Le sable ne se joue plus depuis le menu : c'est le heraut qui
+    y envoie, et l'on en revient sur la carte, au meme endroit.
 */
 MainMenuForm {
     id: root
@@ -73,7 +72,7 @@ MainMenuForm {
         if (!root.entries[root.currentIndex].enabled)
             return;
         switch (root.currentIndex) {
-        case 1: ScreenRouter.openArena(); break
+        case 1: ScreenRouter.openGame(); break
         case 3: ScreenRouter.openOptions(); break
         case 4: ScreenRouter.openCredits(); break
         case 5: Qt.quit(); break

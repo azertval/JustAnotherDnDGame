@@ -35,7 +35,9 @@
           "$ref": "#/$defs/attitude"
         }
       },
-      "required": ["languages"],
+      "required": [
+        "languages"
+      ],
       "additionalProperties": false
     },
     "start": {
@@ -49,7 +51,14 @@
       }
     }
   },
-  "required": ["id", "name", "source", "speaker", "start", "nodes"],
+  "required": [
+    "id",
+    "name",
+    "source",
+    "speaker",
+    "start",
+    "nodes"
+  ],
   "additionalProperties": false,
   "$defs": {
     "nodeId": {
@@ -58,7 +67,11 @@
       "description": "Identifiant de noeud : il fabrique une cle de traduction, d'ou l'alphabet restreint."
     },
     "attitude": {
-      "enum": ["friendly", "indifferent", "hostile"],
+      "enum": [
+        "friendly",
+        "indifferent",
+        "hostile"
+      ],
       "description": "Attitude de l'interlocuteur, dans le vocabulaire des regles (Guide du Maitre, interactions sociales)."
     },
     "flagCondition": {
@@ -73,64 +86,115 @@
           "description": "Absent vaut vrai : la condition tient si le drapeau est leve."
         }
       },
-      "required": ["flag"],
+      "required": [
+        "flag"
+      ],
       "additionalProperties": false
     },
     "node": {
       "type": "object",
-      "required": ["id", "type"],
+      "required": [
+        "id",
+        "type"
+      ],
       "properties": {
         "id": {
           "$ref": "#/$defs/nodeId"
         },
         "type": {
-          "enum": ["line", "condition", "action", "check", "end"]
+          "enum": [
+            "line",
+            "condition",
+            "action",
+            "check",
+            "end"
+          ]
         }
       },
       "oneOf": [
         {
           "properties": {
             "id": true,
-            "type": { "const": "line" },
-            "attitude": { "$ref": "#/$defs/attitude" },
+            "type": {
+              "const": "line"
+            },
+            "attitude": {
+              "$ref": "#/$defs/attitude"
+            },
             "choices": {
               "type": "array",
               "minItems": 1,
               "items": {
                 "type": "object",
                 "properties": {
-                  "id": { "$ref": "#/$defs/nodeId" },
-                  "next": { "$ref": "#/$defs/nodeId" },
-                  "condition": { "$ref": "#/$defs/flagCondition" }
+                  "id": {
+                    "$ref": "#/$defs/nodeId"
+                  },
+                  "next": {
+                    "$ref": "#/$defs/nodeId"
+                  },
+                  "condition": {
+                    "$ref": "#/$defs/flagCondition"
+                  }
                 },
-                "required": ["id", "next"],
+                "required": [
+                  "id",
+                  "next"
+                ],
                 "additionalProperties": false
               }
             },
-            "next": { "$ref": "#/$defs/nodeId" }
+            "next": {
+              "$ref": "#/$defs/nodeId"
+            }
           },
           "oneOf": [
-            { "required": ["choices"] },
-            { "required": ["next"] }
+            {
+              "required": [
+                "choices"
+              ]
+            },
+            {
+              "required": [
+                "next"
+              ]
+            }
           ],
           "additionalProperties": false
         },
         {
           "properties": {
             "id": true,
-            "type": { "const": "condition" },
-            "flag": { "type": "string", "minLength": 1 },
-            "isSet": { "type": "boolean" },
-            "then": { "$ref": "#/$defs/nodeId" },
-            "else": { "$ref": "#/$defs/nodeId" }
+            "type": {
+              "const": "condition"
+            },
+            "flag": {
+              "type": "string",
+              "minLength": 1
+            },
+            "isSet": {
+              "type": "boolean"
+            },
+            "then": {
+              "$ref": "#/$defs/nodeId"
+            },
+            "else": {
+              "$ref": "#/$defs/nodeId"
+            }
           },
-          "required": ["flag", "then", "else"],
+          "required": [
+            "flag",
+            "then",
+            "else"
+          ],
           "additionalProperties": false
         },
         {
           "properties": {
             "id": true,
-            "type": { "const": "action" },
+            "type": {
+              "const": "action"
+            },
             "actions": {
               "type": "array",
               "minItems": 1,
@@ -139,43 +203,94 @@
                   {
                     "type": "object",
                     "properties": {
-                      "type": { "enum": ["setFlag", "clearFlag"] },
-                      "flag": { "type": "string", "minLength": 1 }
+                      "type": {
+                        "enum": [
+                          "setFlag",
+                          "clearFlag"
+                        ]
+                      },
+                      "flag": {
+                        "type": "string",
+                        "minLength": 1
+                      }
                     },
-                    "required": ["type", "flag"],
+                    "required": [
+                      "type",
+                      "flag"
+                    ],
                     "additionalProperties": false
                   },
                   {
                     "type": "object",
                     "properties": {
-                      "type": { "const": "giveItem" },
-                      "item": { "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id" },
-                      "quantity": { "type": "integer", "minimum": 1 }
+                      "type": {
+                        "const": "giveItem"
+                      },
+                      "item": {
+                        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
+                      },
+                      "quantity": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
                     },
-                    "required": ["type", "item"],
+                    "required": [
+                      "type",
+                      "item"
+                    ],
                     "additionalProperties": false
                   },
                   {
                     "type": "object",
                     "properties": {
-                      "type": { "const": "startQuest" },
-                      "quest": { "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id" }
+                      "type": {
+                        "const": "startQuest"
+                      },
+                      "quest": {
+                        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
+                      }
                     },
-                    "required": ["type", "quest"],
+                    "required": [
+                      "type",
+                      "quest"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "const": "startCombat"
+                      },
+                      "arena": {
+                        "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id"
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "arena"
+                    ],
                     "additionalProperties": false
                   }
                 ]
               }
             },
-            "next": { "$ref": "#/$defs/nodeId" }
+            "next": {
+              "$ref": "#/$defs/nodeId"
+            }
           },
-          "required": ["actions", "next"],
+          "required": [
+            "actions",
+            "next"
+          ],
           "additionalProperties": false
         },
         {
           "properties": {
             "id": true,
-            "type": { "const": "check" },
+            "type": {
+              "const": "check"
+            },
             "skill": {
               "$ref": "https://justanotherrpggame.local/rpg/common.schema.json#/$defs/id",
               "description": "Competence (Rpg/skills/)."
@@ -185,16 +300,27 @@
               "minLength": 1,
               "description": "Degre de difficulte NOMME (rules/difficulty.json), jamais un nombre (EX-REG-021)."
             },
-            "success": { "$ref": "#/$defs/nodeId" },
-            "failure": { "$ref": "#/$defs/nodeId" }
+            "success": {
+              "$ref": "#/$defs/nodeId"
+            },
+            "failure": {
+              "$ref": "#/$defs/nodeId"
+            }
           },
-          "required": ["skill", "difficulty", "success", "failure"],
+          "required": [
+            "skill",
+            "difficulty",
+            "success",
+            "failure"
+          ],
           "additionalProperties": false
         },
         {
           "properties": {
             "id": true,
-            "type": { "const": "end" }
+            "type": {
+              "const": "end"
+            }
           },
           "additionalProperties": false
         }

@@ -92,6 +92,10 @@ enum class DialogueActionKind {
     GiveItem,
     /// Démarre une quête : pose `core::questStartedFlag(id)`, que le `LOT-16` lira.
     StartQuest,
+    /// **Envoie sur le sable** (`LOT-09`) : le héraut ouvre l'arène nommée par `target`. Le
+    /// dialogue ne sait pas ce qu'est un combat — il le demande, et c'est l'interface qui ouvre le
+    /// Colisée (`core::DialogueListener::startCombat`).
+    StartCombat,
 };
 
 /// @brief Un effet d'un nœud d'action.
@@ -302,6 +306,12 @@ public:
     [[nodiscard]] virtual std::vector<Modifier> skillModifiers(std::string_view skillId) const = 0;
     /// Reçoit un objet que le PNJ lui donne.
     virtual void receiveItem(std::string_view itemId, int quantity) = 0;
+    /// Le PNJ l'envoie se battre dans l'arène @p arenaId (`LOT-09`). Sans effet par défaut : un
+    /// interlocuteur qui n'a pas d'écran — un test, un rejeu — n'a rien à ouvrir, et l'action reste
+    /// consignée au journal du runner.
+    virtual void startCombat(std::string_view arenaId) {
+        static_cast<void>(arenaId);
+    }
 };
 
 /**

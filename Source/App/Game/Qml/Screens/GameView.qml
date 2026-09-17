@@ -22,9 +22,9 @@ GameViewForm {
     id: root
 
     focus: true
-    pending: !world.loaded
+    pending: !WorldModel.loaded
     // Rien a dire quand la carte est la : le statut ne parle que d'un echec.
-    status: world.status
+    status: WorldModel.status
 
     characterName: PendingData.value("hud.character.name")
     level: PendingData.value("hud.character.level")
@@ -37,23 +37,51 @@ GameViewForm {
     activeMember: -1
     quests: PendingData.rows("hud.quests", 2)
     clock: PendingData.value("hud.clock")
-    location: world.loaded ? world.mapName : PendingData.value("hud.location")
+    location: WorldModel.loaded ? WorldModel.mapName : PendingData.value("hud.location")
     minimap: PendingData.image("hud.minimap")
 
-    /// La session d'exploration : elle s'ouvre sur la carte de depart des que l'ecran parait.
-    WorldModel {
-        id: world
+    // La session d'exploration est un SINGLETON (`WorldModel`) : elle survit a l'ouverture du
+    // dialogue et du Colisee, que la pile d'ecrans construit a la place de cet ecran. Une session
+    // possedee par l'ecran mourrait avec lui, et l'on reviendrait du sable sur une carte neuve.
+    Connections {
+        target: WorldModel
 
-        onDialogueRequested: function (dialogueId) {
-            // Le dialogue gele la carte : elle reste telle quelle, et on la reprendra ou on l'a
-            // laissee. Le dialogue VISE remplacera le heraut ecrit en dur a la phase 5 du LOT-09 ;
-            // ici, l'ecran s'ouvre, et c'est deja ce que le lot promet de la carte.
-            world.frozen = true;
-            ScreenRouter.openRpgScreen(ScreenRouter.Dialogue);
+        function onDialogueRequested(dialogueId) {
+            // Le dialogue gele la carte : elle reste telle quelle, et l'on la reprendra ou on l'a
+            // laissee -- c'est ce qui distingue un monde d'une suite de tableaux.
+            WorldModel.frozen = true;
+            ScreenRouter.openDialogue(dialogueId);
         }
+
+        // Le fondu du passage : a l'entree sur une carte, l'ecran revient de l'obscurite.
+        function onMapEntered(mapId) { fondu.restart() }
     }
 
-    Component.onCompleted: world.startNewGame()
+    // La partie ne recommence pas parce que l'ecran reparait : on revient du sable, du dialogue
+    // ou de l'inventaire sur la carte qu'on a quittee.
+    Component.onCompleted: {
+        if (!WorldModel.loaded)
+            WorldModel.startNewGame();
+        // Et l'on revient de l'obscurite : au premier pas dans le Colisee comme au retour du
+        // sable, la carte se leve d'un fondu plutot que de paraitre d'un coup.
+        fondu.restart();
+    }
+
+    // De retour du dialogue ou du sable : la carte reprend la ou elle s'etait arretee. Le gel
+    // depend du focus et non d'un signal de fermeture : tout ce qui recouvre la vue de jeu --
+    // dialogue, Colisee, pause, inventaire -- lui prend le focus, et un seul chemin vaut mieux
+    // qu'un par ecran.
+    onActiveFocusChanged: {
+        if (root.activeFocus) {
+            WorldModel.frozen = false;
+        } else {
+            held.up = false;
+            held.down = false;
+            held.left = false;
+            held.right = false;
+            root.pushMove();
+        }
+    }
 
     // La surface de rendu QRhi, posee dans l'hote que le formulaire reserve. Elle est ici et non
     // dans le formulaire parce que c'est un type C++ (`Jadg.Runtime`), invisible a l'atelier ; le
@@ -63,7 +91,7 @@ GameViewForm {
 
         parent: root.viewportHost
         anchors.fill: parent
-        model: world
+        model: WorldModel
         // Le vide autour du lieu n'est pas du parchemin : c'est la nuit hors des murs.
         clearColor: Tokens.panel
     }
@@ -88,7 +116,7 @@ GameViewForm {
             x /= length;
             y /= length;
         }
-        world.setMove(x, y);
+        WorldModel.setMove(x, y);
     }
 
     Keys.onPressed: function (event) {
@@ -97,7 +125,7 @@ GameViewForm {
         case Qt.Key_Down: case Qt.Key_S: held.down = true; break
         case Qt.Key_Left: case Qt.Key_A: case Qt.Key_Q: held.left = true; break
         case Qt.Key_Right: case Qt.Key_D: held.right = true; break
-        case Qt.Key_E: case Qt.Key_Space: world.interact(); event.accepted = true; return
+        case Qt.Key_E: case Qt.Key_Space: WorldModel.interact(); event.accepted = true; return
         case Qt.Key_Escape: ScreenRouter.openPause(); event.accepted = true; return
         default: return
         }
@@ -117,15 +145,24 @@ GameViewForm {
         event.accepted = true;
     }
 
-    // L'ecran perd le focus (pause, dialogue) : on relache tout, sans quoi le heros continuerait
-    // de marcher a l'aveugle en revenant.
-    onActiveFocusChanged: {
-        if (!root.activeFocus) {
-            held.up = false;
-            held.down = false;
-            held.left = false;
-            held.right = false;
-            root.pushMove();
+    // Le fondu au noir du passage d'un portail et de l'entree sur une carte. Il vit ici, dans le
+    // jumeau, et non dans le formulaire : c'est une transition de NAVIGATION, pas un ornement.
+    Rectangle {
+        id: voile
+
+        parent: root.viewportHost
+        anchors.fill: parent
+        color: Tokens.panel
+        opacity: 0
+
+        NumberAnimation {
+            id: fondu
+
+            target: voile
+            property: "opacity"
+            from: 1
+            to: 0
+            duration: 320
         }
     }
 

@@ -46,6 +46,11 @@ class ScreenRouter : public QObject {
     Q_PROPERTY(Screen currentScreen READ currentScreen NOTIFY changed)
     Q_PROPERTY(RpgScreen currentRpgScreen READ currentRpgScreen NOTIFY changed)
 
+    /// Le dialogue que l'écran de dialogue doit jouer (`LOT-09`). Le routeur le **transporte** :
+    /// c'est la carte qui le nomme, en ouvrant la conversation du PNJ visé, et l'écran n'a plus de
+    /// dialogue écrit en dur. Vide avant la première conversation.
+    Q_PROPERTY(QString dialogueId READ dialogueId NOTIFY changed)
+
     /// Vrai dans un binaire de developpement, faux dans un binaire livre. Ce qui s'y adosse est un
     /// outil de verification -- le selecteur d'ecrans de `Logic/ScreenProbe.qml` --, et un outil de
     /// verification ne doit pas pouvoir partir avec le jeu. Une liaison QML sur cette propriete le
@@ -102,6 +107,14 @@ public:
     Q_INVOKABLE void openArena();
     Q_INVOKABLE void closeArena();
 
+    /// @brief Ouvre l'écran de dialogue **sur** @p dialogueId : le dialogue du PNJ à qui l'on
+    ///        parle, jamais un identifiant écrit dans l'écran (`LOT-09`).
+    Q_INVOKABLE void openDialogue(const QString& dialogueId);
+
+    [[nodiscard]] QString dialogueId() const {
+        return _dialogueId;
+    }
+
     /// Ouvre un écran du RPG. L'écran d'où l'on vient est retenu par la table : refermer y revient,
     /// qu'on soit venu du menu, du jeu ou de la pause.
     Q_INVOKABLE void openRpgScreen(RpgScreen screen);
@@ -123,6 +136,7 @@ private:
 
     ScreenState _state{};
     RpgScreenId _rpgScreen = RpgScreenId::CharacterSheet;
+    QString _dialogueId;
 };
 
 }  // namespace hmi

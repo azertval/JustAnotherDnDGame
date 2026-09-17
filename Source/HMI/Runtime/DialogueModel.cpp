@@ -3,6 +3,8 @@
 
 #include "HMI/Runtime/DialogueModel.h"
 
+#include <functional>
+
 #include <QStringList>
 #include <QVector>
 #include <cstdint>
@@ -65,6 +67,44 @@ namespace {
     return valides;
 }
 
+/**
+ * @brief L'interlocuteur du PNJ, tel que l'ECRAN l'entend : le personnage, et un rappel de plus.
+ *
+ * `core::CharacterListener` est `final` -- et c'est bien : ce qu'il sait faire d'une fiche et d'un
+ * sac n'a pas a se redefinir. On le DELEGUE donc, et l'on n'ajoute que ce qui regarde l'ecran :
+ * quand le heraut envoie sur le sable (`startCombat`, LOT-09), le modele emet son signal, et c'est
+ * l'ecran qui ouvre le Colisee.
+ */
+class EcouteurDEcran final : public core::DialogueListener {
+public:
+    using SurCombat = std::function<void(std::string)>;
+
+    EcouteurDEcran(const core::CharacterSheet& fiche, core::Inventory& sac,
+                   const core::ExperienceTable& experience, const core::SkillCatalog& competences,
+                   SurCombat surCombat)
+        : _personnage(fiche, sac, experience, competences), _surCombat(std::move(surCombat)) {}
+
+    [[nodiscard]] bool speaks(std::string_view languageId) const override {
+        return _personnage.speaks(languageId);
+    }
+    [[nodiscard]] std::vector<core::Modifier> skillModifiers(
+        std::string_view skillId) const override {
+        return _personnage.skillModifiers(skillId);
+    }
+    void receiveItem(std::string_view itemId, int quantity) override {
+        _personnage.receiveItem(itemId, quantity);
+    }
+    void startCombat(std::string_view arenaId) override {
+        if (_surCombat) {
+            _surCombat(std::string{arenaId});
+        }
+    }
+
+private:
+    core::CharacterListener _personnage;
+    SurCombat _surCombat;
+};
+
 }  // namespace
 
 struct DialogueModel::Session {
@@ -75,7 +115,7 @@ struct DialogueModel::Session {
 
     std::string dialogueId;
     const core::DialogueGraph* graph = nullptr;
-    std::optional<core::CharacterListener> listener;
+    std::optional<EcouteurDEcran> listener;
     std::optional<core::DeterministicRandom> random;
     std::optional<core::DialogueRunner> runner;
     DialogueScreenValues values;
@@ -135,7 +175,9 @@ void DialogueModel::open() {
         return;
     }
     s.listener.emplace(s.character.sheet, s.character.inventory, s.character.experience,
-                       s.character.skills);
+                       s.character.skills, [this](std::string arena) {
+                           emit combatRequested(toQt(arena));
+                       });
     s.random.emplace(graineSuivante());
     s.runner.emplace(*s.graph, drapeauxDeDemonstration(), *s.listener, s.difficulty, *s.random);
     static_cast<void>(s.runner->start());
