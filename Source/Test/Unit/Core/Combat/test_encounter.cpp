@@ -214,7 +214,7 @@ TEST(EncounterTest, LeCatalogueLivreSeCharge) {
             EXPECT_FALSE(combattant.creatureId.empty()) << combat.id;
         }
     }
-    EXPECT_NE(catalogue.find("nuee-de-rats"), nullptr);
+    EXPECT_NE(catalogue.find("colisee-fauves"), nullptr);
     EXPECT_EQ(catalogue.find("rencontre-qui-n-existe-pas"), nullptr);
 }
 
@@ -247,11 +247,11 @@ TEST(EncounterTest, UnEnnemiPosePorteUneCleUneZoneNonN) {
     core::MapEntity pose;
     pose.type = "encounter";
     pose.position = {.column = 5, .row = 8};
-    pose.properties["encounterId"] = std::string{"nuee-de-rats"};
+    pose.properties["encounterId"] = std::string{"colisee-fauves"};
 
     const auto declencheur = core::encounterTriggerFor(pose, "grotte");
     ASSERT_TRUE(declencheur.has_value());
-    EXPECT_EQ(declencheur->encounterId, "nuee-de-rats");
+    EXPECT_EQ(declencheur->encounterId, "colisee-fauves");
     EXPECT_EQ(declencheur->position.column, 5);
     EXPECT_FALSE(declencheur->defeatFlagKey.empty())
         << "sans cle, l'ennemi reapparaitrait a chaque passage";
@@ -279,7 +279,7 @@ TEST(EncounterTest, DeuxDeclencheursNePartagentJamaisLeurCle) {
     core::MapEntity premier;
     premier.type = "encounter";
     premier.position = {.column = 1, .row = 1};
-    premier.properties["encounterId"] = std::string{"nuee-de-rats"};
+    premier.properties["encounterId"] = std::string{"colisee-fauves"};
     core::MapEntity second = premier;
     second.position = {.column = 2, .row = 1};
 
@@ -304,7 +304,7 @@ TEST(EncounterTest, DeuxDeclencheursNePartagentJamaisLeurCle) {
 TEST(EncounterTest, CeQuiNEstPasUnDeclencheurNEnDevientPasUn) {
     core::MapEntity coffre;
     coffre.type = "chest";
-    coffre.properties["encounterId"] = std::string{"nuee-de-rats"};
+    coffre.properties["encounterId"] = std::string{"colisee-fauves"};
     EXPECT_FALSE(core::encounterTriggerFor(coffre, "grotte").has_value());
 
     core::MapEntity sansRencontre;

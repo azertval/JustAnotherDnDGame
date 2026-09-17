@@ -49,6 +49,9 @@ add_library(HmiLib STATIC
     Graphics/SkinCatalog.cpp
     Graphics/ArenaAppearanceCatalog.cpp
     Graphics/ArenaSceneComposer.cpp
+    # Le lieu qu'on parcourt : table d'apparence du lieu, et composition (LOT-09).
+    Graphics/PlaceAppearance.cpp
+    Graphics/WorldSceneComposer.cpp
     Graphics/AssetGallery.cpp
     Graphics/ArenaAnimationDriver.cpp
     Graphics/AnimationCatalog.cpp

@@ -114,9 +114,16 @@ struct Arena {
     std::string source;
     /// Région de l'atlas (`LOT-37`) où l'arène se tient.
     std::string region;
+    /// Lieu de l'atlas (`LOT-37`) où l'arène se tient, plus précis que la région : le quartier
+    /// d'Arenarea, dans la Capitale impériale. Vide si la relecture ne l'a pas encore établi.
+    std::string location;
     /// Nom du fichier de carte dans `Source/Elements/Levels/`, vide si l'arène n'a pas encore de
     /// carte : elle existe dans le monde, pas encore comme lieu jouable.
     std::string map;
+    /// Nom de la **zone de combat** de cette carte (`core::CombatZone`, `LOT-09`) : l'arène joue
+    /// sur elle, et non sur la carte entière — le Colisée est un lieu, et l'on ne se bat que sur
+    /// son sable. Vide : la carte entière est la grille, comme au `LOT-50`.
+    std::string zone;
     /// Vrai si l'on y meurt. Faux par défaut : c'est la règle des Arènes, et une arène létale est
     /// l'exception écrite dans la donnée.
     bool lethal = false;

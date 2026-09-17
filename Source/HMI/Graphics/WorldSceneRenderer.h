@@ -1,0 +1,156 @@
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include <filesystem>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+
+#include "Core/Combat/IsoProjection.h"
+#include "Core/Math/Vector2.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/SceneResources.h"
+#include "HMI/Graphics/ScenePieces.h"
+#include "HMI/Graphics/TextureLoader.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
+
+class QRhi;
+class QRhiCommandBuffer;
+class QRhiRenderTarget;
+class QRhiResourceUpdateBatch;
+
+/**
+ * @file HMI/Graphics/WorldSceneRenderer.h
+ * @brief Le rendu QRhi d'un **lieu qu'on parcourt** : le jumeau d'`hmi::ArenaSceneRenderer`
+ *        (`LOT-09`).
+ *
+ * Même découpage, pour la même raison : tout ce qui peut casser — l'ordre de création, l'ordre de
+ * libération, la recréation sur une autre interface QRhi — vit ici, où un test hors écran le fait
+ * tourner sur un vrai `QRhi` sans fenêtre. L'élément Qt Quick (`hmi::WorldViewportItem`) ne relaie
+ * que trois appels.
+ *
+ * Une différence avec l'arène, et une seule : **les textures ne sont pas connues d'avance**. Une
+ * arène a son catalogue ; un lieu a les pièces de sa carte, et la carte change au passage d'un
+ * portail. Les textures se chargent donc à la demande, quand l'instantané en réclame une que le
+ * rendu n'a pas — sur le fil de rendu, dans le lot de l'image.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Le cadrage d'un lieu : la caméra **suit** le héros, et ne sort pas de la carte.
+ *
+ * Le Colisée ne tient pas dans un écran (`EX-LVL-006`) : le cadrage entier de l'arène ne convient
+ * plus. L'agrandissement est **entier** — le pixel art se brouille dès qu'on le met à une échelle
+ * fractionnaire —, l'art étant dessiné pour 720 lignes ; au-delà, on double. La caméra se centre
+ * ensuite sur le point suivi, puis se ramène dans la scène : sur un axe où la scène est plus petite
+ * que la vue, elle reste centrée, faute de quoi la carte collerait à un bord.
+ *
+ * @param projection  La projection du lieu.
+ * @param focus       Le point suivi, en unités monde (le héros).
+ * @param pixelWidth  Largeur de la surface, en pixels physiques.
+ * @param pixelHeight Hauteur de la surface.
+ */
+[[nodiscard]] Camera2D worldCamera(const core::IsoProjection& projection, core::Vector2 focus,
+                                   int pixelWidth, int pixelHeight);
+
+/// Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
+
+/**
+ * @brief Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la
+ *        scène composée.
+ *
+ * Les trois temps sont ceux de l'arène : `ensureResources(rhi)` sur le fil de rendu,
+ * `setSnapshot(...)` depuis `synchronize()` (fil graphique bloqué, **valeurs** seulement),
+ * `render(...)` sur le fil de rendu.
+ */
+class WorldSceneRenderer {
+public:
+    /**
+     * @param assetsDirectory Dossier des assets (`Source/Elements/Assets`) : les chemins de
+     *                        l'instantané (`Scene/<lieu>/<pièce>.png`, `Npc/<slug>/<bande>.png`)
+     *                        s'y résolvent. Absent : rien à dessiner que le fond, jamais une
+     *                        erreur bloquante (`EX-NFR-040`).
+     */
+    explicit WorldSceneRenderer(std::filesystem::path assetsDirectory);
+    ~WorldSceneRenderer();
+
+    WorldSceneRenderer(const WorldSceneRenderer&) = delete;
+    WorldSceneRenderer& operator=(const WorldSceneRenderer&) = delete;
+
+    /// @brief Garantit que les ressources existent sur @p rhi (voir `ArenaSceneRenderer`).
+    bool ensureResources(QRhi* rhi);
+
+    /// Libère toutes les ressources GPU, dans l'ordre. Sans effet si rien n'est créé.
+    void release() noexcept;
+
+    [[nodiscard]] bool created() const noexcept {
+        return _resources.created();
+    }
+
+    [[nodiscard]] QRhi* rhi() const noexcept {
+        return _rhi;
+    }
+
+    /// @brief Remplace la scène à dessiner. Ne touche pas au GPU : appelable avant les ressources.
+    void setSnapshot(WorldSceneSnapshot snapshot);
+
+    [[nodiscard]] const WorldSceneSnapshot& snapshot() const noexcept {
+        return _snapshot;
+    }
+
+    /// @brief Le point suivi par la caméra, en cases (position continue du héros).
+    void setFocus(core::Vector2 focusCells) noexcept {
+        _focus = focusCells;
+    }
+
+    [[nodiscard]] core::Vector2 focus() const noexcept {
+        return _focus;
+    }
+
+    /// @brief Dessine une image dans @p target : efface à @p clear, puis le lieu cadré sur le héros.
+    void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, const float* clear);
+
+    [[nodiscard]] const ComposedScene& composed() const noexcept {
+        return _composed;
+    }
+
+    [[nodiscard]] const ScenePieceTextures& textures() const noexcept {
+        return _textures;
+    }
+
+    /// @return Les chemins que le rendu a essayé de charger, qu'il ait réussi ou non — ce qui
+    ///         permet de vérifier, en test, qu'une carte ne redemande pas ce qu'elle a déjà.
+    [[nodiscard]] const std::set<std::string>& requested() const noexcept {
+        return _requested;
+    }
+
+private:
+    /// Charge les textures de @p paths qui manquent encore. Sur le fil de rendu.
+    void ensureTextures(const std::vector<std::string>& paths);
+    /// La largeur d'image d'une bande d'animation, lue de son `.anim.json` s'il y en a un.
+    [[nodiscard]] int bandFrameWidth(const std::string& path);
+
+    std::filesystem::path _directory;
+    WorldSceneSnapshot _snapshot;
+    core::Vector2 _focus{};
+    ComposedScene _composed;
+    /// Chemins déjà tentés : une pièce absente ne doit pas être redemandée à chaque image.
+    std::set<std::string> _requested;
+    std::map<std::string, int> _bandFrameWidths;
+
+    QRhi* _rhi = nullptr;
+    QRhiResourceUpdateBatch* _pendingUploads = nullptr;
+    // Déclarées APRÈS les ressources : les textures meurent avant la grappe qui porte le pipeline.
+    SceneResources _resources;
+    std::vector<LoadedTexture> _loaded;
+    LoadedTexture _missing;
+    ScenePieceTextures _textures;
+};
+
+}  // namespace hmi

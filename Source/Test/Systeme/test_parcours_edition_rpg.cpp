@@ -101,9 +101,9 @@ TEST(ParcoursEditionSysteme, ProduitUneCarteDuRpgSansEcrireDeJson) {
     place(draft, core::PORTAL_ENTITY_TYPE, 9, 9,
           {{"targetMap", std::string{"parcours-lot-11"}}, {"arrival", std::string{"puits"}}});
     const std::size_t open =
-        place(draft, "encounter", 5, 6, {{"encounterId", std::string{"nuee-de-rats"}}});
+        place(draft, "encounter", 5, 6, {{"encounterId", std::string{"colisee-fauves"}}});
     const std::size_t corridor =
-        place(draft, "encounter", 15, 6, {{"encounterId", std::string{"nuee-de-rats"}}});
+        place(draft, "encounter", 15, 6, {{"encounterId", std::string{"colisee-fauves"}}});
 
     // 4. Validation contre les catalogues livres, comme le fait le panneau Entites.
     core::EntityReferenceContext context;

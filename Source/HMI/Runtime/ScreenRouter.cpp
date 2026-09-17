@@ -131,6 +131,13 @@ void ScreenRouter::closeArena() {
     static_cast<void>(apply(ScreenEvent::CloseArena));
 }
 
+void ScreenRouter::openDialogue(const QString& dialogueId) {
+    // Le dialogue d'abord, l'ecran ensuite : l'ecran lit `dialogueId` a sa construction, et le
+    // poser apres l'ouverture lui ferait jouer la conversation precedente le temps d'une image.
+    _dialogueId = dialogueId;
+    openRpgScreen(RpgScreen::Dialogue);
+}
+
 void ScreenRouter::openRpgScreen(RpgScreen screen) {
     // L'écran demandé est retenu MÊME si la transition échoue déjà parce qu'on y est : ouvrir la
     // fiche puis l'inventaire depuis le châssis ne repasse pas par un changement d'état global.

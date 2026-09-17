@@ -2,12 +2,15 @@
 
 Cartes du jeu, un fichier **JSON** par carte (`EX-LVL-001`, `EX-LVL-003`).
 
-> **Vidé au `LOT-01`, rouvert au `LOT-50`.** Les 26 tableaux de démonstration du jeu de plateforme
-> dont ce dépôt est dérivé ont été retirés avec leur gameplay. La première carte du RPG est
-> `arena-of-the-future.json`, la piste du Colisée : une enceinte de murs et de gradins, du sable,
-> deux portes (l'entrée à l'ouest, la sortie à l'est) et douze entités `arenaEntry` — six par
-> camp (`side`), rangées par `rank` — que `core::arenaEntryPoints` lit pour poser les combattants.
-> Le contenu du *vertical slice* arrive avec le `LOT-27`.
+> **Vidé au `LOT-01`, rouvert au `LOT-50`, peuplé au `LOT-09`.** Les 26 tableaux de démonstration
+> du jeu de plateforme dont ce dépôt est dérivé ont été retirés avec leur gameplay. La première
+> carte du RPG est `coliseum.json`, **le Colisée en version finale** : 40 × 34 cases, le sable du
+> `LOT-50` (20 × 14) au centre comme **zone de combat déclarée** (`combatZone`, `EX-LVL-018`),
+> l'enceinte et ses quatre portes, deux couloirs sous les gradins, deux vestiaires, les tribunes du
+> nord et du sud, la loge impériale, le grand escalier, le hall et la porte. Elle est posée par un
+> script d'atelier (`Documentation/Lot/LOT-09-colisee-premiere-carte/atelier/carte_colisee.py`) puis
+> retouchable dans l'éditeur ; `arena-of-the-future.json`, la piste nue du `LOT-50`, est partie avec
+> elle. Le contenu du *vertical slice* arrive avec le `LOT-27`.
 
 - Une carte est un objet JSON : `name`, `width`, `height`, et une liste **`tiles`** d'objets
   `{ "x", "y", "type", … }`. Les cases **vides** ne sont pas listées (absence = vide). Une tuile

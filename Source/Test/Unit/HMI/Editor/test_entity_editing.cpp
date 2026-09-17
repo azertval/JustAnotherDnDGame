@@ -250,7 +250,7 @@ TEST(EditionEntitesTest, ChoixProposesParLePanneau) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Lire les references sous Source/Elements.<br/>2. Valider les entites de l'arene du
  * futur.<br/>
- * \tattendu Le dialogue du heraut, la nuee de rats et l'arene sont connus ; aucune entite de
+ * \tattendu Le dialogue du heraut, la rencontre du Colisee et l'arene sont connus ; aucune entite de
  * l'arene n'est signalee.
  * }
  */
@@ -258,14 +258,14 @@ TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
     const hmi::EditorReferences references = hmi::loadEditorReferences(elementsRoot());
     EXPECT_NE(std::ranges::find(references.dialogues, "heraut-colisee"),
               references.dialogues.end());
-    EXPECT_NE(references.encounters.find("nuee-de-rats"), nullptr);
-    ASSERT_NE(references.world.find("arena-of-the-future"), nullptr);
+    EXPECT_NE(references.encounters.find("colisee-fauves"), nullptr);
+    ASSERT_NE(references.world.find("coliseum"), nullptr);
 
     const core::LevelLoadResult arena =
-        core::LevelLoader::loadFromFile(elementsRoot() / "Levels" / "arena-of-the-future.json");
+        core::LevelLoader::loadFromFile(elementsRoot() / "Levels" / "coliseum.json");
     ASSERT_TRUE(arena.ok()) << arena.error;
     const core::EntityReferenceContext context =
-        hmi::referenceContext(references, "arena-of-the-future", arena.level->entities());
+        hmi::referenceContext(references, "coliseum", arena.level->entities());
     EXPECT_TRUE(core::validateMapEntities(arena.level->entities(), context).empty());
 }
 
@@ -291,7 +291,7 @@ TEST(EditionEntitesTest, AvertissementsDeLEditeur) {
                           .value = "absent"}};
     core::EncounterTerrain terrain;
     terrain.entityIndex = 1;
-    terrain.encounterId = "nuee-de-rats";
+    terrain.encounterId = "colisee-fauves";
     terrain.area.resize(5);
     terrain.requiredCells = 24;
     terrain.issues = {core::TacticalIssue{.code = core::TacticalIssueCode::CombatantObstructed,
@@ -311,8 +311,8 @@ TEST(EditionEntitesTest, AvertissementsDeLEditeur) {
                                                .args = {"npc", "dialogue", "absent"}}));
     EXPECT_EQ(lines[1].key, "diagnostic.terrain_obstructed");
     EXPECT_EQ(lines[1].cell, (core::GridPosition{.column = 4, .row = 2}));
-    EXPECT_EQ(lines[1].args, (std::vector<std::string>{"nuee-de-rats", "rat"}));
-    EXPECT_EQ(lines[2].args, (std::vector<std::string>{"nuee-de-rats", "5", "24"}));
+    EXPECT_EQ(lines[1].args, (std::vector<std::string>{"colisee-fauves", "rat"}));
+    EXPECT_EQ(lines[2].args, (std::vector<std::string>{"colisee-fauves", "5", "24"}));
 }
 
 /**

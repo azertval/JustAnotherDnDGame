@@ -66,6 +66,11 @@ add_executable(UnitTests
     Unit/Core/Physics/test_aabb_vs_aabb.cpp
     Unit/Core/World/test_grid_distance_field.cpp
     Unit/Core/World/test_world_graph.cpp
+    Unit/Core/World/test_world_travel.cpp
+    Unit/Core/World/test_exploration_session.cpp
+    # La carte du Colisee LIVREE (LOT-09) : contenu, pas moteur.
+    Unit/Core/World/test_coliseum_map.cpp
+    Unit/Core/World/test_combat_zone.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
@@ -107,6 +112,7 @@ add_executable(UnitTests
     Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
     Unit/HMI/Graphics/test_asset_gallery.cpp
     Unit/HMI/Graphics/test_arena_scene_composer.cpp
+    Unit/HMI/Graphics/test_world_scene_composer.cpp
     Unit/HMI/Graphics/test_arena_animation_driver.cpp
     Unit/HMI/Graphics/test_tile_autotile.cpp
     Unit/HMI/Graphics/test_tile_skin_resolution.cpp
@@ -195,6 +201,10 @@ if(Qt6_FOUND)
         # interface QRhi, liberation, et une image qui n'est pas que le fond.
         Unit/HMI/Graphics/test_arena_scene_renderer.cpp
         ../HMI/Graphics/ArenaSceneRenderer.cpp
+        # Le lieu qu'on parcourt, rendu hors ecran (LOT-09) : cycle de vie, cadrage qui suit le
+        # heros, et une image du Colisee LIVRE -- la capture de reference du lot.
+        Unit/HMI/Graphics/test_world_scene_renderer.cpp
+        ../HMI/Graphics/WorldSceneRenderer.cpp
         # La galerie des assets hors ecran : chargement de ce qui est voulu, liberation du reste.
         Unit/HMI/Graphics/test_asset_gallery_renderer.cpp
         ../HMI/Graphics/AssetGalleryRenderer.cpp

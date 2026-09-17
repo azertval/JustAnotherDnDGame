@@ -129,10 +129,40 @@ TEST(ScreenFlowTest, TransitionInterditeEstRefusee) {
     // Ecrans du RPG (LOT-68) : l'editeur n'y mene pas -- ce sont des ecrans de JOUEUR.
     EXPECT_EQ(resolveTransition(editor, ScreenEvent::OpenRpgScreen), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseRpgScreen), std::nullopt);
-    // L'arene ne s'ouvre pas depuis une partie ni depuis la pause (LOT-50).
-    EXPECT_EQ(resolveTransition(game, ScreenEvent::OpenArena), std::nullopt);
+    // L'arene ne s'ouvre pas depuis la pause : on n'envoie personne sur le sable depuis un menu
+    // pose sur la partie. Depuis la CARTE, si (LOT-09) : c'est le heraut qui y envoie, et le cas
+    // est verifie par `LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie`.
     EXPECT_EQ(resolveTransition(pause, ScreenEvent::OpenArena), std::nullopt);
     EXPECT_EQ(resolveTransition(menu, ScreenEvent::CloseArena), std::nullopt);
+}
+
+/**
+ * @brief Le Colisée revient là d'où il a été ouvert : le menu, ou la carte (`LOT-09`).
+ * \castest{<b>Le Colisee revient sur la carte quand le heraut y envoie.</b><br/>
+ * 	cat Unitaire · Machine à états des écrans<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Ouvrir le Colisee depuis le menu, le refermer.<br/>2. L'ouvrir depuis la carte, le
+ * refermer.<br/>
+ * 	attendu Le menu dans le premier cas, la CARTE dans le second : on revient du sable sur le
+ * lieu qu'on a quitte, et non au menu principal.
+ * }
+ */
+TEST(ScreenFlowTest, LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie) {
+    const ScreenState menu{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};
+    const ScreenState game{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};
+
+    const std::optional<ScreenState> depuisLeMenu = resolveTransition(menu, ScreenEvent::OpenArena);
+    ASSERT_TRUE(depuisLeMenu.has_value());
+    EXPECT_EQ(depuisLeMenu->screen, ScreenId::Arena);
+    EXPECT_EQ(depuisLeMenu->arenaReturnTo, ScreenId::Menu);
+    EXPECT_EQ(resolveTransition(*depuisLeMenu, ScreenEvent::CloseArena)->screen, ScreenId::Menu);
+
+    const std::optional<ScreenState> depuisLaCarte =
+        resolveTransition(game, ScreenEvent::OpenArena);
+    ASSERT_TRUE(depuisLaCarte.has_value());
+    EXPECT_EQ(depuisLaCarte->screen, ScreenId::Arena);
+    EXPECT_EQ(depuisLaCarte->arenaReturnTo, ScreenId::Game);
+    EXPECT_EQ(resolveTransition(*depuisLaCarte, ScreenEvent::CloseArena)->screen, ScreenId::Game);
 }
 
 /**

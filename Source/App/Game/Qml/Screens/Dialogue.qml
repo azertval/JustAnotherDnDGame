@@ -9,10 +9,14 @@ import Jadg.Runtime
     `DialogueModel.choose`. Le modele ne decide rien de la conversation : c'est
     `core::DialogueRunner` qui la joue, et ce qui se voit ici est relu apres chaque geste.
 
-    **Le dialogue ouvert est celui du heraut du Colisee**, dialogue de demonstration provisoire :
-    aucune carte ne sait encore ouvrir la conversation d'un PNJ (l'interaction du LOT-10 n'est pas
-    cablee dans la session de jeu). Le jour ou elle le sera, c'est ce seul identifiant qui viendra
-    du PNJ au lieu d'etre ecrit ici.
+    **Le dialogue ouvert est celui du PNJ a qui l'on parle** (LOT-09) : la carte le nomme, le
+    routeur le transporte (`ScreenRouter.dialogueId`), et cet ecran n'a plus aucun identifiant
+    ecrit en dur. Ouvert depuis le selecteur de developpement, sans PNJ, il n'a rien a jouer et le
+    dit.
+
+    Un PNJ peut ENVOYER SE BATTRE : l'action `startCombat` de son dialogue (le heraut du Colisee)
+    devient `combatRequested`, et l'ecran ouvre alors le Colisee. On y joue sur la zone de combat
+    de la carte, et l'on revient ici -- la carte est restee ce qu'elle etait.
 
     `Echap` quitte la conversation ; `1` a `9` choisissent la reponse de ce rang. La conversation
     terminee, l'ecran se referme de lui-meme.
@@ -23,7 +27,14 @@ DialogueForm {
     focus: true
 
     readonly property DialogueModel conversation: DialogueModel {
-        dialogueId: "heraut-colisee"
+        dialogueId: ScreenRouter.dialogueId
+
+        onCombatRequested: function (arenaId) {
+            // Le dialogue se referme AVANT d'ouvrir le sable : sans quoi l'on reviendrait du
+            // combat sur une conversation finie.
+            ScreenRouter.closeRpgScreen();
+            ScreenRouter.openArena();
+        }
     }
 
     speakerName: conversation.speakerName

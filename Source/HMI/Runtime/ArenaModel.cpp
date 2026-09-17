@@ -14,6 +14,7 @@
 #include "Core/Combat/CombatPreview.h"
 #include "Core/Combat/EnemyAi.h"
 #include "Core/Levels/LevelLoader.h"
+#include "Core/World/CombatZone.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Runtime/DemonstrationCharacter.h"
@@ -140,7 +141,28 @@ void ArenaModel::loadCatalogs() {
         c.problems << QStringLiteral("carte illisible : ") + toQt(loaded.error);
         return;
     }
-    c.level = loaded.level;
+    // L'arene joue sur sa ZONE, pas sur la carte entiere (LOT-09) : le Colisee est un lieu, et
+    // l'on ne se bat que sur son sable. La carte reduite a la zone est la grille tactique, et les
+    // cases du dehors sont inconnues de la session.
+    if (!c.playable->zone.empty()) {
+        const std::vector<core::CombatZone> zones = core::combatZonesOf(*loaded.level);
+        const core::CombatZone* const zone = core::findCombatZone(zones, c.playable->zone);
+        if (zone == nullptr) {
+            HMI_LOG_WARNING("Arene : la carte " + c.playable->map + " n'a pas de zone « " +
+                            c.playable->zone + " ».");
+            c.problems << QStringLiteral("zone de combat inconnue : ") + toQt(c.playable->zone);
+            return;
+        }
+        const std::vector<core::WorldIssue> defauts =
+            core::validateCombatZones(c.playable->map, *loaded.level);
+        if (!defauts.empty()) {
+            c.problems << QStringLiteral("zone de combat invalide : ") + toQt(defauts.front().value);
+            return;
+        }
+        c.level = core::cropLevelToZone(*loaded.level, *zone);
+    } else {
+        c.level = loaded.level;
+    }
     resetSession();
     _status = c.problems.join(QStringLiteral(" ; "));
 }

@@ -92,6 +92,10 @@ struct ScreenState {
     /// Même patron, et même raison, qu'`optionsReturnTo` : la provenance est un attribut de
     /// l'état, jamais une variable « écran précédent » posée à côté de la machine.
     ScreenId rpgReturnTo = ScreenId::Menu;
+    /// Écran vers lequel `CloseArena` revient (`Menu` ou `Game`, `LOT-09`) : le Colisée s'ouvre
+    /// depuis le menu, et désormais aussi **depuis la carte**, quand le héraut envoie sur le
+    /// sable. On revient alors sur la carte, au même endroit, et non au menu.
+    ScreenId arenaReturnTo = ScreenId::Menu;
 
     friend bool operator==(const ScreenState&, const ScreenState&) = default;
 };

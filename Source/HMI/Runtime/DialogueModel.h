@@ -83,6 +83,9 @@ public:
 
 signals:
     void changed();
+    /// Le PNJ envoie se battre : son dialogue a demandé l'arène nommée (`startCombat`, `LOT-09`).
+    /// Le modèle n'ouvre rien — c'est l'écran qui décide, et c'est le routeur qui navigue.
+    void combatRequested(const QString& arenaId);
 
 private:
     struct Session;

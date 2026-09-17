@@ -212,7 +212,9 @@ ArenaCatalog loadArenas(const std::filesystem::path& directory) {
                     .name = lireTexte(racine, "name"),
                     .source = lireTexte(racine, "source"),
                     .region = lireTexte(racine, "region"),
+                    .location = lireTexte(racine, "location"),
                     .map = lireTexte(racine, "map"),
+                    .zone = lireTexte(racine, "zone"),
                     .lethal = lireBooleen(racine, "lethal", false),
                     .heroicMark = lireBooleen(racine, "heroicMark", true),
                     .flanking = lireBooleen(racine, "flanking", false)};

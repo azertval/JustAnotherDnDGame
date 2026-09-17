@@ -92,6 +92,10 @@ enum class DialogueActionKind {
     GiveItem,
     /// Démarre une quête : pose `core::questStartedFlag(id)`, que le `LOT-16` lira.
     StartQuest,
+    /// **Envoie sur le sable** (`LOT-09`) : le héraut ouvre l'arène nommée par `target`. Le
+    /// dialogue ne sait pas ce qu'est un combat — il le demande, et c'est l'interface qui ouvre le
+    /// Colisée (`core::DialogueListener::startCombat`).
+    StartCombat,
 };
 
 /// @brief Un effet d'un nœud d'action.
@@ -302,6 +306,12 @@ public:
     [[nodiscard]] virtual std::vector<Modifier> skillModifiers(std::string_view skillId) const = 0;
     /// Reçoit un objet que le PNJ lui donne.
     virtual void receiveItem(std::string_view itemId, int quantity) = 0;
+    /// Le PNJ l'envoie se battre dans l'arène @p arenaId (`LOT-09`). Sans effet par défaut : un
+    /// interlocuteur qui n'a pas d'écran — un test, un rejeu — n'a rien à ouvrir, et l'action reste
+    /// consignée au journal du runner.
+    virtual void startCombat(std::string_view arenaId) {
+        static_cast<void>(arenaId);
+    }
 };
 
 /**
@@ -467,6 +477,9 @@ private:
 inline constexpr std::string_view NPC_ENTITY_TYPE = "npc";
 /// @brief Propriété d'un PNJ qui nomme son dialogue.
 inline constexpr std::string_view NPC_DIALOGUE_PROPERTY = "dialogue";
+/// @brief Propriété d'un PNJ qui nomme sa **figurine** (`Assets/Npc/<slug>`, atelier du `LOT-91`,
+///        lue au `LOT-09`). Vide : le PNJ n'est pas encore dessiné, et ne se dessine pas.
+inline constexpr std::string_view NPC_FIGURE_PROPERTY = "figure";
 
 /// @brief Un PNJ relevé sur la carte, et le dialogue qu'il ouvre.
 struct DialogueTrigger {

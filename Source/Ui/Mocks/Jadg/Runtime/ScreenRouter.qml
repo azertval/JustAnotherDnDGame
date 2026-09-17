@@ -30,6 +30,10 @@ QtObject {
         CombatHud
     }
 
+    /// Le dialogue que l'ecran de dialogue joue (LOT-09) : dans l'atelier, celui du heraut, pour
+    /// que l'ecran se dessine sur une conversation.
+    readonly property string dialogueId: "heraut-colisee"
+
     readonly property int currentScreen: ScreenRouter.Menu
     readonly property int currentRpgScreen: ScreenRouter.CharacterSheet
     readonly property bool developerBuild: true
@@ -38,6 +42,7 @@ QtObject {
 
     function openMenu() {}
     function openGame() {}
+    function openDialogue(dialogueId) {}
     function openOptions() {}
     function closeOptions() {}
     function openPause() {}
