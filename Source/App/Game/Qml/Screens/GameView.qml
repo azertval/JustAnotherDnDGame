@@ -10,8 +10,8 @@ import Jadg.Runtime
     l'IHM de combat et au groupe (`LOT-24`, `LOT-29`) : ils remplaceront `PendingData` ici, sans
     toucher au formulaire. Les memes cles alimentent le cadre du HUD de combat (`CombatHud.qml`).
 
-    Les raccourcis de navigation ouvrent l'inventaire, le journal, la carte et les options par le
-    routeur.
+    Les raccourcis de navigation ouvrent l'inventaire, le journal et les options par le routeur ;
+    la carte n'a plus d'ecran a ouvrir (LOT-94).
 */
 GameViewForm {
     id: root
@@ -43,6 +43,10 @@ GameViewForm {
         clearColor: Tokens.background
     }
 
+    // Plus de carte du monde a ouvrir (LOT-94) : le bouton garde sa place dans le cadre, eteint,
+    // jusqu'a l'ecran que le LOT-42 dessinera sur une carte generee.
+    mapButton.enabled: false
+
     Keys.onEscapePressed: ScreenRouter.openPause()
 
     Connections {
@@ -52,10 +56,6 @@ GameViewForm {
     Connections {
         target: root.journalButton
         function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.QuestJournal) }
-    }
-    Connections {
-        target: root.mapButton
-        function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.WorldMap) }
     }
     Connections {
         target: root.optionsButton

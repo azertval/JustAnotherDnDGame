@@ -64,7 +64,6 @@ set(JADG_UI_QML_FILES
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
-    Screens/WorldMapForm.ui.qml
     Screens/DialogueForm.ui.qml
     Screens/MerchantForm.ui.qml
     Screens/CombatHudForm.ui.qml
@@ -102,26 +101,27 @@ qt_add_qml_module(JadgUi
     QML_FILES ${JADG_UI_QML_FILES}
 )
 
-# Illustrations extraites du corpus (EX-IHM-076) que les formulaires désignent par un chemin
-# RELATIF À LEUR SOURCE : `../../Elements/Assets/UI/world-map.jpg` depuis Screens/. Le même chemin
+# Illustrations PRODUITES de la charte v2 (LOT-87, EX-IHM-076), que les briques désignent par un
+# chemin RELATIF À LEUR SOURCE (`../../Elements/Assets/UI/<famille>/<pièce>.png`). Le même chemin
 # doit fonctionner dans l'atelier (qui lit Source/), depuis les sources (JADG_QML_FROM_SOURCE=1) et
 # depuis la ressource : l'image est donc embarquée à l'endroit exact où ce chemin relatif la
-# cherche depuis `/qt/qml/Jadg/Ui/Screens/`, c'est-à-dire `/qt/qml/Jadg/Elements/Assets/UI/`.
-# `BASE` est le mécanisme prévu par qt_add_resources pour cela -- pas un alias par fichier.
+# cherche, c'est-à-dire `/qt/qml/Jadg/Elements/Assets/UI/`. `BASE` est le mécanisme prévu par
+# qt_add_resources pour cela -- pas un alias par fichier.
 #
-# Les images PRODUITES de la charte v2 (LOT-87) suivent le même chemin, rangées par famille sous
-# `UI/<famille>/` par scripts/receive_ui_assets.py. Elles sont ramassées par motif et non listées :
-# la liste qui fait foi est le manifeste (`illustrations.json`), et `check_ui_assets.py` refuse
-# déjà tout fichier qu'il ne déclare pas -- une seconde liste ici serait une troisième copie à
-# tenir. `CONFIGURE_DEPENDS` : une livraison est vue à la construction suivante, sans reconfigurer.
+# Rangées par famille sous `UI/<famille>/` par scripts/receive_ui_assets.py, elles sont ramassées
+# par motif et non listées : la liste qui fait foi est le manifeste (`illustrations.json`), et
+# `check_ui_assets.py` refuse déjà tout fichier qu'il ne déclare pas -- une seconde liste ici serait
+# une troisième copie à tenir. `CONFIGURE_DEPENDS` : une livraison est vue à la construction
+# suivante, sans reconfigurer. Aucune image extraite du corpus n'est plus embarquée (LOT-94).
 file(GLOB_RECURSE _jadg_produced_art CONFIGURE_DEPENDS
     "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/*/*.png")
-qt_add_resources(JadgUi "JadgUiIllustrations"
-    PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
-    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
-    FILES "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map.jpg"
-          "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI/world-map-hd.jpg" ${_jadg_produced_art}
-)
+if(_jadg_produced_art)
+    qt_add_resources(JadgUi "JadgUiIllustrations"
+        PREFIX "/qt/qml/Jadg/Elements/Assets/UI"
+        BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/UI"
+        FILES ${_jadg_produced_art}
+    )
+endif()
 
 # Les pieces du Colisee (LOT-50) : decoupees de la planche de production par
 # scripts/extract_coliseum_atlas.py sous Source/Elements/Assets/Coliseum/, et embarquees par le

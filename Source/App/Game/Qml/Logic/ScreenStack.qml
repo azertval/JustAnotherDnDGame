@@ -32,14 +32,14 @@ Item {
     /// Écran imposé au lancement, ou chaîne vide pour laisser le routeur décider.
     property string forcedScreen: ""
 
-    /// Les quinze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
+    /// Les quatorze écrans, dans l'ordre où le sélecteur de développement les fait défiler, puis
     /// la galerie des briques de la charte v2 (LOT-87) -- qui n'est pas un écran du jeu, et que le
     /// routeur ne désigne jamais.
     /// Le même vocabulaire que `--screen=` : deux listes différentes auraient fini par diverger,
     /// et un écran serait devenu joignable par un chemin et pas par l'autre.
     readonly property var screenNames: [
         "MainMenu", "GameView", "Pause", "Options", "Credits",
-        "CharacterSheet", "Skills", "Inventory", "Journal", "WorldMap", "Dialogue",
+        "CharacterSheet", "Skills", "Inventory", "Journal", "Dialogue",
         "Merchant", "Company", "CombatHud", "Arena", "Gallery", "AssetGallery"
     ]
 
@@ -52,7 +52,6 @@ Item {
     Component { id: skillsScreen; Skills {} }
     Component { id: inventoryScreen; Inventory {} }
     Component { id: journalScreen; Journal {} }
-    Component { id: worldMapScreen; WorldMap {} }
     Component { id: dialogueScreen; Dialogue {} }
     Component { id: merchantScreen; Merchant {} }
     Component { id: companyScreen; Company {} }
@@ -130,7 +129,6 @@ Item {
         case ScreenRouter.Skills:         return skillsScreen
         case ScreenRouter.Inventory:      return inventoryScreen
         case ScreenRouter.QuestJournal:   return journalScreen
-        case ScreenRouter.WorldMap:       return worldMapScreen
         case ScreenRouter.Dialogue:       return dialogueScreen
         case ScreenRouter.Merchant:       return merchantScreen
         case ScreenRouter.Company:        return companyScreen
@@ -152,7 +150,6 @@ Item {
         case "Skills":         return skillsScreen
         case "Inventory":      return inventoryScreen
         case "Journal":        return journalScreen
-        case "WorldMap":       return worldMapScreen
         case "Dialogue":       return dialogueScreen
         case "Merchant":       return merchantScreen
         case "Company":        return companyScreen

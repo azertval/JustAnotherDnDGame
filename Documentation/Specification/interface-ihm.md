@@ -283,19 +283,18 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   > découpage d'images — essayée, puis abandonnée au `LOT-76`.
 
 - \anchor EX-IHM-076 **EX-IHM-076** — Une **illustration** d'interface — fond d'écran, carte,
-  portrait — a l'une de deux provenances, et une seule : **extraite du corpus** et livrée telle
-  quelle, jamais redessinée ; ou **produite** depuis une entrée du cahier des assets du
-  [LOT-87](@ref lot-87), comme les ornements (`EX-IHM-075`). La carte du monde et les portraits de
-  démonstration viennent du corpus, qui les a ; les fonds de scène du menu et des options, qu'il n'a
-  pas, sont produits. Ce qui est interdit, c'est l'image **sans provenance** — venue d'ailleurs,
+  portrait — est **produite**, jamais extraite : elle vient d'une entrée du cahier des assets du
+  [LOT-87](@ref lot-87), comme les ornements (`EX-IHM-075`). Le plan de la ville, la carte du monde
+  et les planches du corpus sont des **œuvres** : le jeu ne les affiche pas, et ses écrans ne les
+  recopient pas — une carte se **génère** dans le style du jeu (`LOT-42`, `LOT-95`). Ce qui est
+  interdit, c'est l'image **extraite du corpus** et l'image **sans provenance** — venue d'ailleurs,
   retouchée à la main, ou produite hors du cahier.
   Trois obligations en découlent :
-  - une illustration **extraite** déclare sa région (document, page, rectangle) et l'extraction se
-    rejoue à l'identique (`EX-CNT-020`), par **rendu de région** (`EX-CNT-022`) ; une illustration
-    **produite** déclare l'entrée du cahier, le prompt tel qu'envoyé et la date ;
+  - une illustration **produite** déclare l'entrée du cahier, le prompt tel qu'envoyé et la date ;
+    toute autre provenance, `tanares` en tête, est **refusée** par l'intégration continue
+    (`check_ui_assets.py`, depuis le `LOT-94`) ;
   - ce qui est livré est décrit par un **manifeste** — dimensions, empreinte, provenance — que
-    l'intégration continue recoupe avec les fichiers **et avec le code qui les nomme**. Le corpus
-    étant absent du runner, rien d'autre ne peut dire d'où une image vient ;
+    l'intégration continue recoupe avec les fichiers **et avec le code qui les nomme** ;
   - une illustration **absente** est un cas attendu (`EX-NFR-040`) : l'écran retombe sur un aplat
     des jetons. Aucun écran ne doit dépendre d'un binaire pour s'afficher.
   Un **filigrane** ou un folio présent sur la page source se **recadre**, jamais ne s'efface :
@@ -505,4 +504,5 @@ l'invariant de taille, les portées de thème et les réglages effectifs ; `LOT-
 pour le châssis des écrans du RPG ; `LOT-86` (section 11) pour la séparation de la conception et
 du code — les écrans du **jeu** passent à Qt Quick dans un binaire propre, l'**éditeur** reste en
 Qt Widgets dans le sien ; `LOT-87` (section 8) pour la charte v2 — `EX-IHM-070`, `EX-IHM-075`,
-`EX-IHM-076` et `EX-IHM-081` refondues.
+`EX-IHM-076` et `EX-IHM-081` refondues ; `LOT-94` pour `EX-IHM-076`, refondue à nouveau — une
+illustration est produite, jamais extraite.

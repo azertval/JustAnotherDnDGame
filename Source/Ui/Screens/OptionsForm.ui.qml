@@ -58,27 +58,13 @@ Item {
         color: Tokens.panel
     }
 
-    // Repli du decor : la carte de Tanares, extraite du corpus (EX-IHM-076), comme au menu.
-    Image {
-        anchors.fill: parent
-        visible: !backdropArt.delivered
-        source: "../../Elements/Assets/UI/world-map.jpg"
-        fillMode: Image.PreserveAspectCrop
-        smooth: true
-    }
-
+    // Tant que le decor n'est pas livre, l'aplat `panel` ci-dessus en tient lieu : plus aucune
+    // image du corpus ne sert de repli (LOT-94, EX-IHM-076).
     CoverArt {
         id: backdropArt
 
         anchors.fill: parent
         key: "ui/background/options-backdrop"
-    }
-
-    // Le decor produit est deja flou et sombre ; la carte de repli ne l'est pas.
-    Rectangle {
-        anchors.fill: parent
-        visible: !backdropArt.delivered
-        color: Qt.rgba(Tokens.panel.r, Tokens.panel.g, Tokens.panel.b, 0.7)
     }
 
     // --- Colonne des onglets (maquette : 100, 70 -> 420, 890) ---------------------------------------

@@ -1432,6 +1432,15 @@ menu principal, les crédits et les options s'affichent sur le nouveau fond, à 
 référence près ; l'entrée « Carte du monde » n'existe plus dans le menu ni dans `ScreenRouter` ; le
 jeu et les tests QML passent sans les fichiers retirés ; le `LOT-42` cite ce lot.
 
+*Avancement, 17 septembre 2026* — le retrait est fait : les deux cartes, l'écran de carte du monde
+(formulaire, jumeau, `WorldMapModel`, `WorldMapRegions`, ancres, test, référence), son entrée dans
+`RpgScreenId` et `ScreenRouter`, la commande `sourcebook illustrations` qui les extrayait ;
+`check_ui_assets.py` refuse toute provenance autre que `produced` ; `EX-IHM-076` est refondue. Le
+bouton « Carte » du cadre de jeu garde sa place, éteint, jusqu'au `LOT-42`. Menu, crédits et options
+retombent sur l'aplat `panel` de la charte. **Reste** le fond `ui/background/menu-scene` : deux
+propositions à soumettre à l'auteur (générateur, envois manuels), puis sa livraison par
+`receive_ui_assets.py` et la régénération des trois captures de référence.
+
 ### `LOT-95` — Le plan de la Capitale : régénéré dans le style du jeu, en sous-zones, avec un zoom {#lot-95}
 
 *Prérequis : [LOT-92](@ref lot-92) (le style de scène et l'atelier qui produit le plan), `LOT-94` (la place que

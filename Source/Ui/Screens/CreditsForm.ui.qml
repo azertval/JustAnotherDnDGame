@@ -38,27 +38,13 @@ Item {
         color: Tokens.panel
     }
 
-    Image {
-        anchors.fill: parent
-        visible: !sceneArt.delivered
-        source: "../../Elements/Assets/UI/world-map.jpg"
-        fillMode: Image.PreserveAspectCrop
-        smooth: true
-    }
-
+    // Tant que la scene n'est pas livree, l'aplat `panel` ci-dessus en tient lieu : plus aucune
+    // image du corpus ne sert de repli (LOT-94, EX-IHM-076).
     CoverArt {
         id: sceneArt
 
         anchors.fill: parent
         key: "ui/background/menu-scene"
-    }
-
-    // La carte de repli est claire : un voile garde le logotype et le bouton lisibles. La scene
-    // produite, cadree a droite derriere le panneau, n'en a pas besoin.
-    Rectangle {
-        anchors.fill: parent
-        visible: !sceneArt.delivered
-        color: Qt.rgba(Tokens.panel.r, Tokens.panel.g, Tokens.panel.b, 0.55)
     }
 
     // --- Panneau des credits (maquette : 385, 170 -> 1285, 825) ------------------------------------

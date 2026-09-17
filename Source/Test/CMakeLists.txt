@@ -136,7 +136,6 @@ add_executable(UnitTests
     Unit/HMI/Audio/test_sound_catalog.cpp
     Unit/HMI/Presentation/test_credits_catalog.cpp
     Unit/HMI/Presentation/test_inventory_screen.cpp
-    Unit/HMI/Presentation/test_world_map_regions.cpp
     Unit/HMI/Interface/test_design_tokens.cpp
     Unit/HMI/Interface/test_application_theme.cpp
     Unit/HMI/Interface/test_theme_teardown_guards.cpp
@@ -283,8 +282,6 @@ target_compile_definitions(UnitTests PRIVATE
     # jeu chargera. Une fixture serait une copie, et une copie ne prouve plus rien le jour ou
     # l'extraction change.
     JADG_WORLD_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/World"
-    # Ancres des regions sur la carte du monde (LOT-87, T3.6) : le test joint le fichier REEL a l'atlas.
-    JADG_WORLD_MAP_REGIONS="${PROJECT_SOURCE_DIR}/Source/Elements/Maps/world-map-regions.json"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_AUDIO_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Audio"
     # Deux portees depuis le LOT-73 (EX-IHM-082) : les tests de theme lisent les DEUX, pour que

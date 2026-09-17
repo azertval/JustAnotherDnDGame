@@ -6,6 +6,17 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les images du corpus quittent le dépôt (LOT-94, en cours).** Les deux cartes du monde extraites
+  du corpus étaient les seules images du corpus commises : elles partent, et l'écran de carte du
+  monde avec elles — formulaire, jumeau, modèle, ancres des régions, test et capture de référence,
+  son entrée dans le routeur et dans le cycle des écrans du RPG, qui en compte désormais huit. Le
+  bouton « Carte » du cadre de jeu reste à sa place, éteint, jusqu'à l'écran que le `LOT-42`
+  dessinera sur une carte générée. Menu, crédits et options, qui prenaient la carte pour fond,
+  retombent sur l'aplat de la charte en attendant le fond produit du menu.
+  - **Spécification** : une illustration d'interface est produite, jamais extraite
+    (`EX-IHM-076`, refondue) ; `check_ui_assets.py` refuse désormais toute provenance autre que
+    `produced`, et la commande `sourcebook illustrations`, qui extrayait les cartes, est retirée.
+
 - **Analyse statique : les 113 alertes restantes de Code scanning corrigées.** L'analyse de main
   en relevait encore dans l'éditeur et la galerie des assets, arrivés hors du périmètre de la
   correction précédente. Réécritures mécaniques, quatre fonctions trop complexes découpées,
