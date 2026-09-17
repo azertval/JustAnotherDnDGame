@@ -30,6 +30,9 @@ inline constexpr std::string_view PORTAL_TARGET_MAP_PROPERTY = "targetMap";
 /// @brief Propriété d'un portail : le point d'arrivée **nommé** de la carte cible. Jamais des
 ///        coordonnées, qui se désynchroniseraient au premier redimensionnement de la cible.
 inline constexpr std::string_view PORTAL_ARRIVAL_PROPERTY = "arrival";
+/// @brief Propriété d'un portail : le drapeau de monde qu'il exige pour s'ouvrir (`LOT-16` le
+///        pose ; le `LOT-09` le lit). Absent ou vide, le portail est toujours franchissable.
+inline constexpr std::string_view PORTAL_REQUIRED_FLAG_PROPERTY = "requiresFlag";
 /// @brief Type d'entité d'un point d'arrivée nommé : là où l'on apparaît en entrant par un portail.
 inline constexpr std::string_view SPAWN_POINT_ENTITY_TYPE = "spawnPoint";
 /// @brief Propriété d'un point d'arrivée : son nom, unique dans la carte.

@@ -89,7 +89,16 @@ const std::vector<EntityKind>& knownEntityKinds() {
                    .properties = {choice(PORTAL_TARGET_MAP_PROPERTY, EntityChoiceSource::Maps,
                                          /*required=*/true),
                                   choice(PORTAL_ARRIVAL_PROPERTY, EntityChoiceSource::ArrivalPoints,
-                                         /*required=*/true)}},
+                                         /*required=*/true),
+                                  // Le drapeau exige n'est pas requis : un portail ordinaire
+                                  // s'ouvre toujours, et c'est le LOT-16 qui posera les drapeaux
+                                  // que celui-ci lit (LOT-09).
+                                  EntityPropertySpec{.key = PORTAL_REQUIRED_FLAG_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = false,
+                                                     .defaultValue = std::string{}}}},
         EntityKind{.type = SPAWN_POINT_ENTITY_TYPE,
                    .properties = {EntityPropertySpec{.key = SPAWN_POINT_NAME_PROPERTY,
                                                      .kind = EntityPropertyKind::Text,
