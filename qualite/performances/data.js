@@ -1,6 +1,6 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789526335067,
-  "repoUrl": "https://github.com/azertval/JustAnotherDnDGame",
+  "lastUpdate": 1789612717318,
+  "repoUrl": "https://github.com/azertval/JustAnotherRpgGame",
   "entries": {
     "Combat et niveaux (Release, windows-2022)": [
       {
@@ -58,6 +58,64 @@ window.BENCHMARK_DATA = {
             "value": 907769.5914266576,
             "unit": "ns/iter",
             "extra": "iterations: 1493\ncpu: 900033.4896182184 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "azertval",
+            "username": "azertval",
+            "email": "valentin.eloy@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "d7792a077071db467f10679376a39fbaa20e295f",
+          "message": "Analyse statique — corriger les 896 alertes clang-tidy de Code scanning (#63)\n\n* clang-tidy : corrections mécaniques des alertes Code scanning\n\nFixits clang-tidy appliqués sur les 100 fichiers signalés : suffixes littéraux en majuscules,\nparenthèses des expressions mixtes, initialiseurs désignés, auto, std::ranges, emplace,\nparamètres passés par référence constante, et autres réécritures sans effet de comportement.\n\nFileLogSink : std::endl remplacé par '\\n' suivi d'un flush explicite, pour garder l'écriture\nimmédiate sur disque que les tests exigent.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* clang-tidy : corrections manuelles des alertes Code scanning restantes\n\n- Complexité cognitive : fonctions découpées en étapes nommées (main, LevelWriter::buildJson,\n  CharacterSheet, Dialogue, EnemyAi, MainWindow::buildUi, GameViewport::tick…).\n- Défauts réels : cast élargissant après la multiplication (AssetMarker, LineOfSight), arrondi\n  par std::lround (CharacterSheetValues), compteurs flottants de PixelCanvas, garde nullptr dans\n  MainWindow::raisePanel, cas Key::E manquant dans KeyName.\n- Champs d'agrégats explicites, std::array, unions DirectXMath lues par l'API, qobject_cast,\n  constantes inutilisées supprimées, nommage aligné sur .clang-tidy.\n- JADG_ASSERT n'enveloppe plus la condition dans une négation.\n- 9 NOLINT justifiés : drapeaux MINIDUMP_TYPE, balayage des codes de touche, méthodes lues par\n  QML, reinterpret_cast imposé par QImage.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* CHANGELOG : alertes clang-tidy corrigées\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* MechanismController : documenter les paramètres de setDoorOpen (Doxygen)\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-17T00:18:16Z",
+          "url": "https://github.com/azertval/JustAnotherRpgGame/commit/d7792a077071db467f10679376a39fbaa20e295f"
+        },
+        "date": 1789612715208,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ReachableAreaDashing",
+            "value": 130823.49337082541,
+            "unit": "ns/iter",
+            "extra": "iterations: 9956\ncpu: 130260.64684612294 ns\nthreads: 1"
+          },
+          {
+            "name": "FindPathAcrossGrid",
+            "value": 177600.65622069975,
+            "unit": "ns/iter",
+            "extra": "iterations: 7467\ncpu: 177865.94348466586 ns\nthreads: 1"
+          },
+          {
+            "name": "LineOfSightAcrossGrid",
+            "value": 50729.56688272962,
+            "unit": "ns/iter",
+            "extra": "iterations: 27152\ncpu: 50640.83677077195 ns\nthreads: 1"
+          },
+          {
+            "name": "CoverFromWithInterposed",
+            "value": 147044.3350743485,
+            "unit": "ns/iter",
+            "extra": "iterations: 9956\ncpu: 147524.10606669346 ns\nthreads: 1"
+          },
+          {
+            "name": "PlanTurnFourVersusFour",
+            "value": 909435.8576052382,
+            "unit": "ns/iter",
+            "extra": "iterations: 1545\ncpu: 920307.4433656958 ns\nthreads: 1"
+          },
+          {
+            "name": "LoadShippedLevel",
+            "value": 619398.320537539,
+            "unit": "ns/iter",
+            "extra": "iterations: 2084\ncpu: 622300.8637236084 ns\nthreads: 1"
           }
         ]
       }
