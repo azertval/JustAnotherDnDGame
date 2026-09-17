@@ -329,7 +329,8 @@ def main() -> int:
         return 0
 
     CARTE.parent.mkdir(parents=True, exist_ok=True)
-    CARTE.write_text(texte, encoding="utf-8")
+    # En LF, comme tout le depot : un fichier de donnees commite en CRLF pollue chaque diff.
+    CARTE.write_text(texte, encoding="utf-8", newline="\n")
     franchissables = len(matieres())
     print(
         f"carte_colisee : {CARTE.relative_to(RACINE)} écrite — {LARGEUR} x {HAUTEUR} cases, "
