@@ -286,9 +286,13 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   portrait — est **produite**, jamais extraite : elle vient d'une entrée du cahier des assets du
   [LOT-87](@ref lot-87), comme les ornements (`EX-IHM-075`). Le plan de la ville, la carte du monde
   et les planches du corpus sont des **œuvres** : le jeu ne les affiche pas, et ses écrans ne les
-  recopient pas — une carte se **génère** dans le style du jeu (`LOT-42`, `LOT-95`). Ce qui est
+  recopient pas — une carte est **produite ou peinte pour le jeu**, jamais reprise du livre. Ce qui est
   interdit, c'est l'image **extraite du corpus** et l'image **sans provenance** — venue d'ailleurs,
   retouchée à la main, ou produite hors du cahier.
+  Les **cartes** de l'écran « Carte » (`EX-IHM-106`) sont **peintes par l'auteur**, hors du cahier :
+  elles ont leur dossier (`Source/Elements/Assets/Maps/`), leur manifeste — provenance `author`,
+  fichier d'origine, date, dimensions, empreinte — et leur contrôle (`check_map_assets.py`), qui
+  refuse de même toute autre provenance.
   Trois obligations en découlent :
   - une illustration **produite** déclare l'entrée du cahier, le prompt tel qu'envoyé et la date ;
     toute autre provenance, `tanares` en tête, est **refusée** par l'intégration continue
@@ -492,6 +496,31 @@ serait un mensonge utile à personne. Exposer une **donnée** que le jeu ne calc
 dispose librement de tout ce que le jeu sait déjà dire. C'est la même frontière que dans les moteurs
 du commerce, et c'est la bonne.
 
+## 12. L'écran « Carte » : le monde, une région, une ville (LOT-94) {#ihm-carte}
+
+Le `LOT-94` avait retiré la carte du monde avec les deux images du corpus qui la portaient. Elle
+revient sur des cartes **peintes par l'auteur** — le monde, les treize régions de l'atlas, les plans
+de la Capitale impériale et de Fisherman's Wharf —, en 1 920 × 1 080 et **sans lettrage**.
+
+- \anchor EX-IHM-106 **EX-IHM-106** — L'écran « Carte » a **trois niveaux** — le monde, une région,
+  le plan d'une ville — et l'on passe de l'un à l'autre par un **repère** : une région sur le monde,
+  une ville à plan sur sa région. On ne s'y **déplace** pas et l'on n'y voyage pas : la carte sert à
+  s'orienter, le déplacement se fait sur les cartes de niveau. Les **mêmes commandes** valent aux
+  trois niveaux, au clavier, à la manette et à la souris : choisir le repère voisin, parcourir la
+  liste des lieux, ouvrir, remonter, agrandir, déplacer la carte. Chaque niveau est un formulaire
+  (`EX-IHM-100`) et a sa capture de référence.
+- \anchor EX-IHM-107 **EX-IHM-107** — Une carte ne porte **aucun nom peint** : tout nom est posé
+  par le jeu, dans sa police et dans sa langue. Les positions — repère et cadre d'une région, lieux
+  de l'atlas, quartiers, noms de géographie — sont des **fractions** de l'image, relevées sur la
+  carte et tenues dans un fichier **à part de l'atlas** (`Source/Elements/Maps/world-maps.json`) :
+  l'atlas est extrait du livre, qui ne donne aucune coordonnée, et sa chaîne d'extraction effacerait
+  un champ qu'elle n'a pas produit. Un lieu que le livre ne situe pas, ou qui sort du cadre peint,
+  reste dans la **liste** de sa région, sans repère : le jeu n'**invente** pas une position. Une
+  entrée de l'atlas qui n'est pas un lieu (une règle, un objet, un personnage) est **écartée**
+  nommément. L'intégration continue recoupe le fichier avec l'atlas et avec le manifeste des cartes :
+  une région sans carte, une position qui désigne un lieu inconnu, une ville à plan sans repère sur
+  sa région sont des échecs, pas des silences.
+
 ## Traçabilité
 Tout ceci relève de `Source/HMI` — depuis le `LOT-H-38`, l'unique application Qt `JustAnotherRpgGame` (rendu
 de jeu Direct3D 11 + widgets Qt répartis par domaine) ; les assets Qt déclaratifs vivent dans
@@ -505,4 +534,5 @@ pour le châssis des écrans du RPG ; `LOT-86` (section 11) pour la séparation 
 du code — les écrans du **jeu** passent à Qt Quick dans un binaire propre, l'**éditeur** reste en
 Qt Widgets dans le sien ; `LOT-87` (section 8) pour la charte v2 — `EX-IHM-070`, `EX-IHM-075`,
 `EX-IHM-076` et `EX-IHM-081` refondues ; `LOT-94` pour `EX-IHM-076`, refondue à nouveau — une
-illustration est produite, jamais extraite.
+illustration est produite, jamais extraite ; `LOT-94` (section 12) pour l'écran
+« Carte » à trois niveaux, sur les cartes peintes par l'auteur.

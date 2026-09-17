@@ -55,6 +55,9 @@ CAHIER = ROOT / "Documentation" / "Lot" / "LOT-87-charte-v2" / "assets-brief.jso
 # Les pieces du Colisee (LOT-50) : un autre dossier, un autre manifeste, ecrit par
 # scripts/extract_coliseum_atlas.py depuis la planche de production.
 COLISEUM_MANIFEST = ROOT / "Source" / "Elements" / "Assets" / "Coliseum" / "manifest.json"
+# Les cartes de l'ecran « Carte » (LOT-94, LOT-95) : peintes par l'auteur, sous Assets/Maps/, avec
+# leur propre manifeste, que scripts/check_map_assets.py recoupe.
+MAPS_MANIFEST = ROOT / "Source" / "Elements" / "Assets" / "Maps" / "manifest.json"
 # La table des pieces livrees que les briques consultent (T2.7), et les briques elles-memes.
 ARTWORK = ROOT / "Source" / "Ui" / "Theme" / "Artwork.qml"
 ARTWORK_BEGIN = "// --- DEBUT DE LA TABLE ENGENDREE"
@@ -127,6 +130,13 @@ def read_coliseum_manifest() -> list[str]:
     if not COLISEUM_MANIFEST.is_file():
         return []
     return list(json.loads(COLISEUM_MANIFEST.read_text(encoding="utf-8")).get("files", {}))
+
+
+def read_maps_manifest() -> list[str]:
+    """Les cartes de l'ecran « Carte » (LOT-94, LOT-95), ou rien si le dossier n'existe pas."""
+    if not MAPS_MANIFEST.is_file():
+        return []
+    return [entry["file"] for entry in json.loads(MAPS_MANIFEST.read_text(encoding="utf-8"))["maps"]]
 
 
 def read_cahier() -> dict | None:
@@ -259,6 +269,9 @@ def check_code_keys(declared_files: set[str]) -> None:
     # scripts/extract_coliseum_atlas.py : ce que la scene de l'arene nomme s'y recoupe, pas ici.
     coliseum_names = {Path(name).name for name in read_coliseum_manifest()}
     used -= coliseum_names
+    # De meme les cartes de l'ecran « Carte » : ce que ses formulaires nomment se recoupe avec leur
+    # manifeste, par scripts/check_map_assets.py.
+    used -= set(read_maps_manifest())
     for name in sorted(used - declared_names):
         fail(f"`{name}` nomme par le code, absent du manifeste")
 

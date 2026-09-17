@@ -88,6 +88,11 @@ constexpr std::array EQUIPMENT_SLOTS = {
     RpgField{.labelKey = "rpg.slot.trinket", .valueId = "inventory.slot.trinket"},
 };
 
+constexpr std::array PLACE_FIELDS = {
+    RpgField{.labelKey = "rpg.field.region"},
+    RpgField{.labelKey = "rpg.field.place_type"},
+    RpgField{.labelKey = "rpg.field.danger"},
+};
 
 constexpr std::array SPEAKER_FIELDS = {
     RpgField{.labelKey = "rpg.field.name"},
@@ -162,6 +167,16 @@ constexpr std::array JOURNAL_LEFT = {
 constexpr std::array JOURNAL_RIGHT = {
     RpgContentBlock{.titleKey = "rpg.block.quest_detail", .kind = RpgBlockKind::Prose},
     RpgContentBlock{.titleKey = "rpg.block.objectives", .kind = RpgBlockKind::List, .rows = 4},
+};
+
+constexpr std::array WORLD_MAP_LEFT = {
+    // Treize régions à l'atlas (LOT-37) ; la liste en montre six et défile.
+    RpgContentBlock{.titleKey = "rpg.block.regions", .kind = RpgBlockKind::List, .rows = 6},
+    RpgContentBlock{
+        .titleKey = "rpg.block.place", .kind = RpgBlockKind::Fields, .fields = PLACE_FIELDS},
+};
+constexpr std::array WORLD_MAP_RIGHT = {
+    RpgContentBlock{.titleKey = "rpg.block.map", .kind = RpgBlockKind::Portrait},
 };
 
 constexpr std::array DIALOGUE_LEFT = {
@@ -266,6 +281,13 @@ constexpr std::array<RpgScreenDescriptor, RPG_SCREEN_COUNT> SCREENS = {{
      .titleKey = "rpg.journal.title",
      .superposition = RpgSuperposition::PausesGame,
      .layout = {.leftColumn = JOURNAL_LEFT, .rightColumn = JOURNAL_RIGHT}},
+    // La carte se consulte EN MARCHANT : c'est ce pour quoi on l'ouvre -- savoir où l'on va sans
+    // s'arrêter. Suspendre la simulation en ferait un écran de bilan.
+    {.id = RpgScreenId::WorldMap,
+     .objectName = "RpgWorldMapScreen",
+     .titleKey = "rpg.world_map.title",
+     .superposition = RpgSuperposition::WhileWalking,
+     .layout = {.leftColumn = WORLD_MAP_LEFT, .rightColumn = WORLD_MAP_RIGHT}},
     // Un dialogue suspend : l'interlocuteur attend une réponse, il ne la reçoit pas en courant.
     {.id = RpgScreenId::Dialogue,
      .objectName = "RpgDialogueScreen",

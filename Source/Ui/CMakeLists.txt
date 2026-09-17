@@ -53,6 +53,9 @@ set(JADG_UI_QML_FILES
     Controls/FieldRow.ui.qml
     Controls/SkillRow.ui.qml
     Controls/MapMarker.ui.qml
+    Controls/MapCanvas.ui.qml
+    Controls/MapHud.ui.qml
+    Controls/MapSidePanel.ui.qml
     Controls/LedgerList.ui.qml
     Controls/SpellEntry.ui.qml
     Controls/ScreenPage.ui.qml
@@ -64,6 +67,9 @@ set(JADG_UI_QML_FILES
     Screens/CharacterSheetForm.ui.qml
     Screens/InventoryForm.ui.qml
     Screens/JournalForm.ui.qml
+    Screens/WorldMapForm.ui.qml
+    Screens/RegionMapForm.ui.qml
+    Screens/CityMapForm.ui.qml
     Screens/DialogueForm.ui.qml
     Screens/MerchantForm.ui.qml
     Screens/CombatHudForm.ui.qml
@@ -122,6 +128,19 @@ if(_jadg_produced_art)
         FILES ${_jadg_produced_art}
     )
 endif()
+
+# Les cartes de l'ecran « Carte » (LOT-94, LOT-95) : le monde, les treize regions et les plans de
+# ville, PEINTS PAR L'AUTEUR (aucune image du corpus), sous Source/Elements/Assets/Maps/. Embarquees
+# par le meme mecanisme, a l'endroit ou `../../Elements/Assets/Maps/` les cherche depuis
+# Source/Ui/Controls/. Ramassees par motif : la liste qui fait foi est leur manifeste
+# (`Maps/manifest.json`), que `check_map_assets.py` recoupe avec le dossier.
+file(GLOB _jadg_map_art CONFIGURE_DEPENDS
+    "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Maps/*.jpg")
+qt_add_resources(JadgUi "JadgUiMaps"
+    PREFIX "/qt/qml/Jadg/Elements/Assets/Maps"
+    BASE "${PROJECT_SOURCE_DIR}/Source/Elements/Assets/Maps"
+    FILES ${_jadg_map_art}
+)
 
 # Les pieces du Colisee (LOT-50) : decoupees de la planche de production par
 # scripts/extract_coliseum_atlas.py sous Source/Elements/Assets/Coliseum/, et embarquees par le

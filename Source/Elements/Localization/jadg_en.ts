@@ -228,6 +228,19 @@
     </message>
 </context>
 <context>
+    <name>CityMapForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/CityMapForm.ui.qml" line="74"/>
+        <source>Quartiers et lieux</source>
+        <translation>Districts and sites</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/CityMapForm.ui.qml" line="85"/>
+        <source>Tanares  ›  %1  ›  %2</source>
+        <translation>Tanares  ›  %1  ›  %2</translation>
+    </message>
+</context>
+<context>
     <name>CombatHudForm.ui</name>
     <message>
         <location filename="../../Ui/Screens/CombatHudForm.ui.qml" line="287"/>
@@ -686,6 +699,34 @@
     </message>
 </context>
 <context>
+    <name>MapHud.ui</name>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="298"/>
+        <source>Carte</source>
+        <translation>Map</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="307"/>
+        <source>Quêtes</source>
+        <translation>Quests</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="316"/>
+        <source>Sac</source>
+        <translation>Bag</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="325"/>
+        <source>Équipe</source>
+        <translation>Company</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Controls/MapHud.ui.qml" line="334"/>
+        <source>Options</source>
+        <translation>Options</translation>
+    </message>
+</context>
+<context>
     <name>MerchantForm.ui</name>
     <message>
         <location filename="../../Ui/Screens/MerchantForm.ui.qml" line="27"/>
@@ -830,6 +871,67 @@
     </message>
 </context>
 <context>
+    <name>RegionMap</name>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/RegionMap.qml" line="32"/>
+        <source>%L1 habitants</source>
+        <translation>%L1 inhabitants</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/RegionMap.qml" line="46"/>
+        <source>Le livre ne situe pas ce lieu sur la carte.</source>
+        <translation>The book does not say where this place lies on the map.</translation>
+    </message>
+</context>
+<context>
+    <name>RegionMapForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Liberté</source>
+        <translation>Freedom</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Crime</source>
+        <translation>Crime</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Prospérité</source>
+        <translation>Prosperity</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="79"/>
+        <source>Corruption</source>
+        <translation>Corruption</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Magie</source>
+        <translation>Magic</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Monstres</source>
+        <translation>Monsters</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="80"/>
+        <source>Stabilité</source>
+        <translation>Stability</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="81"/>
+        <source>Lieux</source>
+        <translation>Places</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/RegionMapForm.ui.qml" line="92"/>
+        <source>Tanares  ›  %1</source>
+        <translation>Tanares  ›  %1</translation>
+    </message>
+</context>
+<context>
     <name>ScreenPage.ui</name>
     <message>
         <location filename="../../Ui/Controls/ScreenPage.ui.qml" line="81"/>
@@ -948,6 +1050,47 @@
         <location filename="../../Ui/Screens/SkillsForm.ui.qml" line="356"/>
         <source>Effets spéciaux</source>
         <translation>Special effects</translation>
+    </message>
+</context>
+<context>
+    <name>WorldMap</name>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="274"/>
+        <source>Niv. %1</source>
+        <translation>Lvl %1</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="288"/>
+        <source>Flèches : choisir  ·  Retour : remonter  ·  + / − : agrandir</source>
+        <translation>Arrows: select  ·  Backspace: go up  ·  + / −: zoom</translation>
+    </message>
+    <message>
+        <location filename="../../App/Game/Qml/Screens/WorldMap.qml" line="289"/>
+        <source>Flèches : choisir  ·  Entrée : ouvrir  ·  Retour : remonter  ·  + / − : agrandir</source>
+        <translation>Arrows: select  ·  Enter: open  ·  Backspace: go up  ·  + / −: zoom</translation>
+    </message>
+</context>
+<context>
+    <name>WorldMapForm.ui</name>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="113"/>
+        <source>Lieux : %1</source>
+        <translation>Places: %1</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="121"/>
+        <source>Entrée ou clic : ouvrir la région</source>
+        <translation>Enter or click: open the region</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="133"/>
+        <source>Tanares</source>
+        <translation>Tanares</translation>
+    </message>
+    <message>
+        <location filename="../../Ui/Screens/WorldMapForm.ui.qml" line="134"/>
+        <source>Le monde connu</source>
+        <translation>The known world</translation>
     </message>
 </context>
 <context>

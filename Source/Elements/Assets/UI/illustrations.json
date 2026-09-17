@@ -1,6 +1,21 @@
 {
   "version": 1,
-  "illustrations": [],
+  "illustrations": [
+    {
+      "id": "ui-background-menu-scene",
+      "file": "background/menu-scene.png",
+      "provenance": "produced",
+      "cahier": "ui/background/menu-scene",
+      "prompt": "Game UI asset for a painted dark-fantasy tactical RPG, in the style of a richly illustrated tabletop sourcebook: relief gold and brass filigree, worn enamel, soft light from the top left, fine painterly grain. Front orthographic view, perfectly centred and symmetrical unless stated, no perspective, no cast shadow outside the piece. Painted illustration, full bleed. Keep the darkest values near #0c0c0c, the warm highlights toward #e4a43c and any banner cloth toward #701010, so that dark gold-rimmed panels sit naturally on top. Absolutely no lettering, letters, numbers, runes or glyphs anywhere: the game sets all text itself in Cinzel (titles) and IM Fell English (body). Epic painted landscape at golden-hour sunset: a river valley with a walled castle city on a hill centre-right, misty mountains, dramatic clouds; four adventurers seen from behind on a rocky outcrop in the right third (archer, armoured warrior, fur-clad dwarf, hooded mage with a glowing staff), a campfire and lantern at the bottom right. The left third is darker and quiet, with a tall garnet war standard at the far left edge, leaving room for a menu column. Canvas exactly 1920 x 1080 px, fully opaque. Full-screen background, composed for 16:9, safe to crop 10 % on either side.",
+      "date": "2026-09-17",
+      "size": [
+        1920,
+        1080
+      ],
+      "bytes": 3823310,
+      "sha256": "bfc27ca9a2b821b0126813df33dbcb06318c2d591d4f0d9c23cddd0dc917c355"
+    }
+  ],
   "pending": [
     {
       "reason": "Aucune piece du cahier des assets (LOT-87, T2.4) n'est encore produite : le generateur d'images n'a pas encore tourne. Cette portee generale (sans 'keys') couvre toute cle du cahier qu'aucune entree 'produced' ne cite. scripts/receive_ui_assets.py (T2.6) ajoute ces entrees au fil des livraisons ; elle n'a besoin d'etre retiree ou restreinte que si une piece precise du cahier est deliberement abandonnee avant d'etre produite."

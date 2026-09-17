@@ -23,6 +23,7 @@ QtObject {
         Skills,
         Inventory,
         QuestJournal,
+        WorldMap,
         Dialogue,
         Merchant,
         Company,

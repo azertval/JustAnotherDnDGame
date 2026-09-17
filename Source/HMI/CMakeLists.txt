@@ -130,6 +130,7 @@ add_library(HmiLib STATIC
     Presentation/DialogueScreen.cpp
     Presentation/CreditsCatalog.cpp
     Presentation/InventoryScreen.cpp
+    Presentation/WorldMaps.cpp
     Interface/DesignTokens.cpp
     Interface/StyleSheetTemplate.cpp
     Interface/FontResolution.cpp
@@ -324,10 +325,13 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/Rpg
-    # Atlas du monde (LOT-37).
+    # Atlas du monde (LOT-37) et positions relevees sur les cartes de l'auteur (LOT-94, LOT-95).
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/World
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/World
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${PROJECT_SOURCE_DIR}/Source/Elements/Maps
+        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Maps
     COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
 add_dependencies(LevelEditor CopyGameData)
 

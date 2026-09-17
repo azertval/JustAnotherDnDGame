@@ -59,6 +59,9 @@ qt_add_qml_module(JustAnotherRpgGame
         Game/Qml/Screens/CharacterSheet.qml
         Game/Qml/Screens/Inventory.qml
         Game/Qml/Screens/Journal.qml
+        Game/Qml/Screens/WorldMap.qml
+        Game/Qml/Screens/RegionMap.qml
+        Game/Qml/Screens/CityMap.qml
         Game/Qml/Screens/Dialogue.qml
         Game/Qml/Screens/Merchant.qml
         Game/Qml/Screens/CombatHud.qml

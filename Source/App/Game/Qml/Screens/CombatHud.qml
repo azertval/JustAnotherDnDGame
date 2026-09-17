@@ -60,10 +60,6 @@ CombatHudForm {
         clearColor: Tokens.background
     }
 
-    // Plus de carte du monde a ouvrir (LOT-94) : le bouton garde sa place dans le cadre, eteint,
-    // jusqu'a l'ecran que le LOT-42 dessinera sur une carte generee.
-    mapButton.enabled: false
-
     Keys.onPressed: (event) => {
         const slot = event.key - Qt.Key_1;
         if (slot >= 0 && slot < 8) {
@@ -79,6 +75,10 @@ CombatHudForm {
     Connections {
         target: root.journalButton
         function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.QuestJournal) }
+    }
+    Connections {
+        target: root.mapButton
+        function onClicked() { ScreenRouter.openRpgScreen(ScreenRouter.WorldMap) }
     }
     Connections {
         target: root.optionsButton

@@ -73,7 +73,7 @@ SENS_INVERSE_RE = re.compile(r'Alimente|Prérequis de(?! chacun)|Débloque|Contr
 NOMBRES_FR = {
     1: 'un', 2: 'deux', 3: 'trois', 4: 'quatre', 5: 'cinq', 6: 'six', 7: 'sept', 8: 'huit',
     9: 'neuf', 10: 'dix', 11: 'onze', 12: 'douze', 13: 'treize', 14: 'quatorze', 15: 'quinze',
-    16: 'seize', 20: 'vingt', 30: 'trente', 35: 'trente-cinq', 38: 'trente-huit', 40: 'quarante', 41: 'quarante et un', 42: 'quarante-deux', 43: 'quarante-trois',
+    16: 'seize', 20: 'vingt', 30: 'trente', 35: 'trente-cinq', 38: 'trente-huit', 39: 'trente-neuf', 40: 'quarante', 41: 'quarante et un', 42: 'quarante-deux', 43: 'quarante-trois',
     44: 'quarante-quatre',
     50: 'cinquante',
     45: 'quarante-cinq', 46: 'quarante-six', 47: 'quarante-sept', 48: 'quarante-huit',

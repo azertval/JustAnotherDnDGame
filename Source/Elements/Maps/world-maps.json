@@ -1,0 +1,1658 @@
+{
+  "version": 1,
+  "note": "Positions relevees le 17 septembre 2026 sur les cartes peintes par l'auteur (Source/Elements/Assets/Maps/, 1920 x 1080, sans lettrage), en fractions de la largeur et de la hauteur. 'anchor' : repere de la region sur le monde ; 'frame' : cadre APPROXIMATIF de la region sur le monde (les cartes de region sont repeintes, pas recadrees : il ne sert qu'a l'origine du zoom et a la mini-carte) ; 'places' : lieux de l'atlas (LOT-37) ; 'omitted' : entrees de l'atlas qui ne sont pas des lieux (regles, objets, personnages, doublons) ; 'labels' : noms de geographie sans fiche ; 'sites' : lieux numerotes d'un plan de ville, d'apres la legende du livre. Un lieu de l'atlas absent de 'places' et de 'omitted' parait dans la liste de sa region, sans repere : le livre ne le situe pas, ou il sort du cadre peint. Releve a l'oeil, a retoucher : Ctrl+clic sur la carte journalise la fraction sous le pointeur.",
+  "world": {
+    "image": "world.jpg"
+  },
+  "regions": {
+    "central-empire": {
+      "image": "region-central-empire.jpg",
+      "anchor": [
+        0.634,
+        0.42
+      ],
+      "frame": [
+        0.39,
+        0.19,
+        0.48,
+        0.48
+      ],
+      "places": {
+        "central-empire-ancient-heargs": [
+          0.635,
+          0.445
+        ],
+        "central-empire-cursed-ground": [
+          0.468,
+          0.535
+        ],
+        "central-empire-hajal-city": [
+          0.63,
+          0.19
+        ],
+        "central-empire-odraz-monastery": [
+          0.425,
+          0.305
+        ],
+        "central-empire-phantom-fortress": [
+          0.618,
+          0.568
+        ],
+        "central-empire-skybell-city": [
+          0.477,
+          0.592
+        ],
+        "central-empire-the-capital-city": [
+          0.59,
+          0.565
+        ],
+        "central-empire-the-great-forest-of-bak": [
+          0.605,
+          0.48
+        ]
+      },
+      "omitted": [
+        "central-empire-odraz-monastery-training",
+        "central-empire-orders-of-bauron",
+        "central-empire-orders-of-tamera",
+        "central-empire-the-pilgrimage-to-skybell"
+      ],
+      "labels": [
+        {
+          "name": "Lake Plavo",
+          "kind": "lake",
+          "at": [
+            0.7,
+            0.41
+          ]
+        },
+        {
+          "name": "I.S.H.",
+          "kind": "fortress",
+          "at": [
+            0.573,
+            0.348
+          ]
+        },
+        {
+          "name": "Northcross",
+          "kind": "city",
+          "at": [
+            0.597,
+            0.375
+          ]
+        },
+        {
+          "name": "Tamera's Blessing",
+          "kind": "town",
+          "at": [
+            0.467,
+            0.283
+          ]
+        },
+        {
+          "name": "Fox Crossing",
+          "kind": "town",
+          "at": [
+            0.66,
+            0.25
+          ]
+        },
+        {
+          "name": "Bakurve",
+          "kind": "town",
+          "at": [
+            0.678,
+            0.465
+          ]
+        },
+        {
+          "name": "Deverell, the Split City",
+          "kind": "city",
+          "at": [
+            0.341,
+            0.545
+          ]
+        },
+        {
+          "name": "Mirarc",
+          "kind": "city",
+          "at": [
+            0.27,
+            0.472
+          ]
+        },
+        {
+          "name": "Stonelair",
+          "kind": "city",
+          "at": [
+            0.345,
+            0.13
+          ]
+        },
+        {
+          "name": "Rainbow Dale",
+          "kind": "mountain",
+          "at": [
+            0.41,
+            0.24
+          ]
+        },
+        {
+          "name": "O'Myre",
+          "kind": "sea",
+          "at": [
+            0.605,
+            0.625
+          ]
+        }
+      ]
+    },
+    "imperial-benenet": {
+      "image": "region-imperial-benenet.jpg",
+      "anchor": [
+        0.625,
+        0.168
+      ],
+      "frame": [
+        0.44,
+        0.0,
+        0.36,
+        0.36
+      ],
+      "places": {
+        "imperial-benenet-begraense": [
+          0.526,
+          0.678
+        ],
+        "imperial-benenet-crystal-mountains": [
+          0.77,
+          0.22
+        ]
+      },
+      "omitted": [
+        "imperial-benenet-crystal-mountain-herbs",
+        "imperial-benenet-mists-of-mistvale",
+        "imperial-benenet-oz-stormwind",
+        "imperial-benenet-saezz-skyborn"
+      ],
+      "labels": [
+        {
+          "name": "Septentrional Passing",
+          "kind": "site",
+          "at": [
+            0.545,
+            0.702
+          ]
+        },
+        {
+          "name": "Dark Glacier",
+          "kind": "site",
+          "at": [
+            0.37,
+            0.514
+          ]
+        },
+        {
+          "name": "Plateaus of Eternal Ice",
+          "kind": "site",
+          "at": [
+            0.8,
+            0.6
+          ]
+        },
+        {
+          "name": "Verdens Ende",
+          "kind": "town",
+          "at": [
+            0.19,
+            0.245
+          ]
+        },
+        {
+          "name": "Oath Mountain",
+          "kind": "mountain",
+          "at": [
+            0.17,
+            0.41
+          ]
+        },
+        {
+          "name": "Shadowy Forest",
+          "kind": "forest",
+          "at": [
+            0.19,
+            0.63
+          ]
+        },
+        {
+          "name": "Stonelair",
+          "kind": "city",
+          "at": [
+            0.311,
+            0.778
+          ]
+        }
+      ]
+    },
+    "kingdom-of-kolbjorn": {
+      "image": "region-kingdom-of-kolbjorn.jpg",
+      "anchor": [
+        0.257,
+        0.236
+      ],
+      "frame": [
+        0.13,
+        0.05,
+        0.3,
+        0.3
+      ],
+      "places": {
+        "kingdom-of-kolbjorn-great-valley": [
+          0.517,
+          0.565
+        ],
+        "kingdom-of-kolbjorn-irongauntlet": [
+          0.37,
+          0.854
+        ],
+        "kingdom-of-kolbjorn-northharbor": [
+          0.243,
+          0.674
+        ]
+      },
+      "omitted": [
+        "kingdom-of-kolbjorn-the-giant-kins"
+      ],
+      "labels": [
+        {
+          "name": "Stormbird Islands",
+          "kind": "island",
+          "at": [
+            0.165,
+            0.37
+          ]
+        },
+        {
+          "name": "Lone Man's Island",
+          "kind": "island",
+          "at": [
+            0.375,
+            0.125
+          ]
+        },
+        {
+          "name": "Gazini Island",
+          "kind": "island",
+          "at": [
+            0.07,
+            0.68
+          ]
+        },
+        {
+          "name": "Rapujen Syöjät",
+          "kind": "town",
+          "at": [
+            0.195,
+            0.559
+          ]
+        },
+        {
+          "name": "Twin Heads Forest",
+          "kind": "forest",
+          "at": [
+            0.34,
+            0.5
+          ]
+        },
+        {
+          "name": "Shivering Pines",
+          "kind": "forest",
+          "at": [
+            0.62,
+            0.35
+          ]
+        },
+        {
+          "name": "Storm Valley",
+          "kind": "site",
+          "at": [
+            0.31,
+            0.755
+          ]
+        },
+        {
+          "name": "Hammer Passing",
+          "kind": "site",
+          "at": [
+            0.44,
+            0.78
+          ]
+        }
+      ]
+    },
+    "magocracy-of-mage-tower": {
+      "image": "region-magocracy-of-mage-tower.jpg",
+      "anchor": [
+        0.739,
+        0.252
+      ],
+      "frame": [
+        0.47,
+        0.0,
+        0.4,
+        0.4
+      ],
+      "places": {
+        "magocracy-of-mage-tower-arcane-university": [
+          0.664,
+          0.868
+        ],
+        "magocracy-of-mage-tower-asylum-eberek": [
+          0.744,
+          0.676
+        ],
+        "magocracy-of-mage-tower-crystal-tower": [
+          0.728,
+          0.822
+        ],
+        "magocracy-of-mage-tower-magic-duel-arena": [
+          0.738,
+          0.879
+        ],
+        "magocracy-of-mage-tower-mesoriver": [
+          0.615,
+          0.737
+        ],
+        "magocracy-of-mage-tower-summer-island": [
+          0.893,
+          0.715
+        ]
+      },
+      "labels": [
+        {
+          "name": "Dawn of Light",
+          "kind": "city",
+          "at": [
+            0.667,
+            0.848
+          ]
+        },
+        {
+          "name": "Mountain Blight",
+          "kind": "city",
+          "at": [
+            0.607,
+            0.7
+          ]
+        },
+        {
+          "name": "Hajal",
+          "kind": "city",
+          "at": [
+            0.447,
+            0.64
+          ]
+        },
+        {
+          "name": "Begraense",
+          "kind": "city",
+          "at": [
+            0.34,
+            0.478
+          ]
+        },
+        {
+          "name": "Lake Plavo",
+          "kind": "lake",
+          "at": [
+            0.5,
+            0.82
+          ]
+        },
+        {
+          "name": "Alkira Mountain",
+          "kind": "mountain",
+          "at": [
+            0.705,
+            0.71
+          ]
+        },
+        {
+          "name": "Plateaus of Eternal Ice",
+          "kind": "mountain",
+          "at": [
+            0.63,
+            0.41
+          ]
+        },
+        {
+          "name": "Crystal Mountains",
+          "kind": "mountain",
+          "at": [
+            0.62,
+            0.15
+          ]
+        },
+        {
+          "name": "Wintersheet",
+          "kind": "sea",
+          "at": [
+            0.672,
+            0.8
+          ]
+        }
+      ]
+    },
+    "republic-of-freelands": {
+      "image": "region-republic-of-freelands.jpg",
+      "anchor": [
+        0.406,
+        0.514
+      ],
+      "frame": [
+        0.155,
+        0.268,
+        0.448,
+        0.448
+      ],
+      "places": {
+        "republic-of-freelands-aurindunnum": [
+          0.45,
+          0.405
+        ],
+        "republic-of-freelands-city-of-heroes-rise": [
+          0.548,
+          0.438
+        ],
+        "republic-of-freelands-fisherman-s-wharf": [
+          0.255,
+          0.628
+        ],
+        "republic-of-freelands-outunmoor": [
+          0.375,
+          0.425
+        ],
+        "republic-of-freelands-shortfall-forest": [
+          0.468,
+          0.81
+        ],
+        "republic-of-freelands-the-city-of-aeyefall": [
+          0.503,
+          0.697
+        ],
+        "republic-of-freelands-the-port-city-of-goldraft": [
+          0.622,
+          0.748
+        ],
+        "republic-of-freelands-the-winterhold-city": [
+          0.158,
+          0.642
+        ],
+        "republic-of-freelands-yellow-creek": [
+          0.453,
+          0.28
+        ]
+      },
+      "omitted": [
+        "republic-of-freelands-fisherman-s-wharf-republic-s-capital",
+        "republic-of-freelands-locations-in-fisherman-s-wharf",
+        "republic-of-freelands-random-undead-encounters",
+        "republic-of-freelands-the-creek-s-water",
+        "republic-of-freelands-the-goldraft-plague",
+        "republic-of-freelands-unique-characteristics-of-the-citadel-s-dungeons"
+      ],
+      "labels": [
+        {
+          "name": "Anatar",
+          "kind": "city",
+          "at": [
+            0.459,
+            0.303
+          ]
+        },
+        {
+          "name": "Mirare",
+          "kind": "city",
+          "at": [
+            0.7,
+            0.34
+          ]
+        },
+        {
+          "name": "Gambit",
+          "kind": "town",
+          "at": [
+            0.425,
+            0.5
+          ]
+        },
+        {
+          "name": "Lumbershack",
+          "kind": "town",
+          "at": [
+            0.485,
+            0.762
+          ]
+        },
+        {
+          "name": "Spyvtz's Castle",
+          "kind": "fortress",
+          "at": [
+            0.592,
+            0.295
+          ]
+        },
+        {
+          "name": "Scar Reservoir",
+          "kind": "lake",
+          "at": [
+            0.405,
+            0.31
+          ]
+        },
+        {
+          "name": "Willow Lake",
+          "kind": "lake",
+          "at": [
+            0.512,
+            0.425
+          ]
+        },
+        {
+          "name": "Cragplateaus Mountain Range",
+          "kind": "mountain",
+          "at": [
+            0.49,
+            0.35
+          ]
+        },
+        {
+          "name": "Bentspine",
+          "kind": "mountain",
+          "at": [
+            0.355,
+            0.67
+          ]
+        },
+        {
+          "name": "Grassroot Island",
+          "kind": "island",
+          "at": [
+            0.47,
+            0.595
+          ]
+        },
+        {
+          "name": "Left Island",
+          "kind": "island",
+          "at": [
+            0.63,
+            0.5
+          ]
+        }
+      ]
+    },
+    "seashores": {
+      "image": "region-seashores.jpg",
+      "anchor": [
+        0.557,
+        0.563
+      ],
+      "frame": [
+        0.29,
+        0.384,
+        0.406,
+        0.406
+      ],
+      "places": {
+        "seashores-bluhaven-the-capital": [
+          0.565,
+          0.528
+        ],
+        "seashores-mustardseed": [
+          0.625,
+          0.553
+        ],
+        "seashores-pearl-town": [
+          0.455,
+          0.545
+        ],
+        "seashores-the-whirlpool": [
+          0.645,
+          0.695
+        ],
+        "seashores-uncle-joe-s-tavern": [
+          0.443,
+          0.638
+        ]
+      },
+      "labels": [
+        {
+          "name": "Central Sea",
+          "kind": "sea",
+          "at": [
+            0.44,
+            0.48
+          ]
+        },
+        {
+          "name": "Left Island",
+          "kind": "island",
+          "at": [
+            0.47,
+            0.33
+          ]
+        },
+        {
+          "name": "Turtledragon Island",
+          "kind": "island",
+          "at": [
+            0.7,
+            0.43
+          ]
+        },
+        {
+          "name": "Fire Islands Archipelago",
+          "kind": "island",
+          "at": [
+            0.405,
+            0.68
+          ]
+        },
+        {
+          "name": "Ember Mountains",
+          "kind": "mountain",
+          "at": [
+            0.5,
+            0.74
+          ]
+        },
+        {
+          "name": "Underwater Obelisk",
+          "kind": "site",
+          "at": [
+            0.565,
+            0.44
+          ]
+        },
+        {
+          "name": "Goldraft",
+          "kind": "city",
+          "at": [
+            0.372,
+            0.565
+          ]
+        }
+      ]
+    },
+    "sindile-forest": {
+      "image": "region-sindile-forest.jpg",
+      "anchor": [
+        0.795,
+        0.848
+      ],
+      "frame": [
+        0.6,
+        0.6,
+        0.37,
+        0.37
+      ],
+      "places": {
+        "sindile-forest-cindergrove": [
+          0.52,
+          0.6
+        ],
+        "sindile-forest-hunter-s-nest": [
+          0.585,
+          0.375
+        ],
+        "sindile-forest-mirror-lake": [
+          0.648,
+          0.352
+        ],
+        "sindile-forest-sindile-road": [
+          0.497,
+          0.457
+        ],
+        "sindile-forest-sweetsprings": [
+          0.602,
+          0.64
+        ],
+        "sindile-forest-verdant-colossus": [
+          0.76,
+          0.64
+        ]
+      },
+      "labels": [
+        {
+          "name": "Mother Trees",
+          "kind": "site",
+          "at": [
+            0.78,
+            0.45
+          ]
+        },
+        {
+          "name": "Sindile Forest (Depths)",
+          "kind": "forest",
+          "at": [
+            0.74,
+            0.52
+          ]
+        },
+        {
+          "name": "Sindile Forest (Outskirts)",
+          "kind": "forest",
+          "at": [
+            0.56,
+            0.45
+          ]
+        },
+        {
+          "name": "Yama Bunkatsu",
+          "kind": "mountain",
+          "at": [
+            0.76,
+            0.17
+          ]
+        },
+        {
+          "name": "Wasteland Savannas",
+          "kind": "site",
+          "at": [
+            0.44,
+            0.4
+          ]
+        },
+        {
+          "name": "Wasteland Forest",
+          "kind": "forest",
+          "at": [
+            0.4,
+            0.12
+          ]
+        },
+        {
+          "name": "Eferhild's Cauldron",
+          "kind": "mountain",
+          "at": [
+            0.27,
+            0.45
+          ]
+        }
+      ]
+    },
+    "storm-islands": {
+      "image": "region-storm-islands.jpg",
+      "anchor": [
+        0.115,
+        0.56
+      ],
+      "frame": [
+        0.0,
+        0.45,
+        0.27,
+        0.27
+      ],
+      "places": {},
+      "omitted": [
+        "storm-islands-boneheart",
+        "storm-islands-shrine-of-bas"
+      ]
+    },
+    "stravian-domains": {
+      "image": "region-stravian-domains.jpg",
+      "anchor": [
+        0.405,
+        0.203
+      ],
+      "frame": [
+        0.18,
+        0.01,
+        0.33,
+        0.33
+      ],
+      "places": {
+        "stravian-domains-moolooite-mines": [
+          0.745,
+          0.785
+        ],
+        "stravian-domains-stonelair-city": [
+          0.948,
+          0.821
+        ]
+      },
+      "labels": [
+        {
+          "name": "Swiftwater",
+          "kind": "town",
+          "at": [
+            0.56,
+            0.532
+          ]
+        },
+        {
+          "name": "Gróft Sjó",
+          "kind": "town",
+          "at": [
+            0.467,
+            0.207
+          ]
+        },
+        {
+          "name": "Verdens Ende",
+          "kind": "town",
+          "at": [
+            0.847,
+            0.131
+          ]
+        },
+        {
+          "name": "Borg-Undir",
+          "kind": "site",
+          "at": [
+            0.44,
+            0.465
+          ]
+        },
+        {
+          "name": "Witch's Hut",
+          "kind": "site",
+          "at": [
+            0.675,
+            0.456
+          ]
+        },
+        {
+          "name": "Shivering Pines",
+          "kind": "forest",
+          "at": [
+            0.42,
+            0.4
+          ]
+        },
+        {
+          "name": "Cracked Hoof Tundra Fields",
+          "kind": "site",
+          "at": [
+            0.6,
+            0.42
+          ]
+        },
+        {
+          "name": "Shadowy Forest",
+          "kind": "forest",
+          "at": [
+            0.855,
+            0.615
+          ]
+        },
+        {
+          "name": "Gianthead Valley",
+          "kind": "site",
+          "at": [
+            0.745,
+            0.36
+          ]
+        },
+        {
+          "name": "Oath Mountain",
+          "kind": "mountain",
+          "at": [
+            0.854,
+            0.325
+          ]
+        },
+        {
+          "name": "Stravian Range",
+          "kind": "mountain",
+          "at": [
+            0.66,
+            0.69
+          ]
+        },
+        {
+          "name": "Malland Range",
+          "kind": "mountain",
+          "at": [
+            0.85,
+            0.72
+          ]
+        }
+      ]
+    },
+    "taii-maku-city-states": {
+      "image": "region-taii-maku-city-states.jpg",
+      "anchor": [
+        0.452,
+        0.697
+      ],
+      "frame": [
+        0.268,
+        0.59,
+        0.406,
+        0.406
+      ],
+      "places": {
+        "taii-maku-city-states-awo-irin-illu": [
+          0.362,
+          0.635
+        ],
+        "taii-maku-city-states-g-bagede-illu": [
+          0.34,
+          0.262
+        ],
+        "taii-maku-city-states-ilaorun-illu": [
+          0.48,
+          0.708
+        ],
+        "taii-maku-city-states-ubellian-fire-pits": [
+          0.505,
+          0.455
+        ]
+      },
+      "labels": [
+        {
+          "name": "Okuta Akoko Illu",
+          "kind": "city",
+          "at": [
+            0.412,
+            0.693
+          ]
+        },
+        {
+          "name": "Ina Ina Illu",
+          "kind": "city",
+          "at": [
+            0.35,
+            0.915
+          ]
+        },
+        {
+          "name": "City of North",
+          "kind": "city",
+          "at": [
+            0.705,
+            0.692
+          ]
+        },
+        {
+          "name": "Asterion",
+          "kind": "city",
+          "at": [
+            0.225,
+            0.285
+          ]
+        },
+        {
+          "name": "Ember Mountains",
+          "kind": "mountain",
+          "at": [
+            0.585,
+            0.295
+          ]
+        },
+        {
+          "name": "The Whirlpool",
+          "kind": "sea",
+          "at": [
+            0.7,
+            0.14
+          ]
+        },
+        {
+          "name": "Fire Islands Archipelago",
+          "kind": "island",
+          "at": [
+            0.43,
+            0.145
+          ]
+        },
+        {
+          "name": "Sulfur Path",
+          "kind": "site",
+          "at": [
+            0.6,
+            0.61
+          ]
+        },
+        {
+          "name": "Bauron's Ridge",
+          "kind": "mountain",
+          "at": [
+            0.5,
+            0.85
+          ]
+        }
+      ]
+    },
+    "theocracy-of-kepesh": {
+      "image": "region-theocracy-of-kepesh.jpg",
+      "anchor": [
+        0.319,
+        0.822
+      ],
+      "frame": [
+        0.14,
+        0.61,
+        0.365,
+        0.365
+      ],
+      "places": {
+        "theocracy-of-kepesh-bright-coast": [
+          0.09,
+          0.64
+        ],
+        "theocracy-of-kepesh-brightlight-desert": [
+          0.6,
+          0.275
+        ],
+        "theocracy-of-kepesh-hag-salar": [
+          0.375,
+          0.66
+        ],
+        "theocracy-of-kepesh-pakaitos-the-new-capital": [
+          0.398,
+          0.497
+        ],
+        "theocracy-of-kepesh-the-great-nothing": [
+          0.3,
+          0.78
+        ]
+      },
+      "omitted": [
+        "theocracy-of-kepesh-pakaitos-mystical-enhancement"
+      ],
+      "labels": [
+        {
+          "name": "Asterion",
+          "kind": "city",
+          "at": [
+            0.533,
+            0.16
+          ]
+        },
+        {
+          "name": "Gbagede Illu",
+          "kind": "town",
+          "at": [
+            0.7,
+            0.212
+          ]
+        },
+        {
+          "name": "Nowhere Bridge",
+          "kind": "town",
+          "at": [
+            0.367,
+            0.455
+          ]
+        },
+        {
+          "name": "Sandstorm Fort",
+          "kind": "fortress",
+          "at": [
+            0.497,
+            0.503
+          ]
+        },
+        {
+          "name": "Ipade",
+          "kind": "town",
+          "at": [
+            0.41,
+            0.39
+          ]
+        },
+        {
+          "name": "Alchemist's Oasis",
+          "kind": "site",
+          "at": [
+            0.295,
+            0.685
+          ]
+        },
+        {
+          "name": "Rock Islands",
+          "kind": "island",
+          "at": [
+            0.14,
+            0.37
+          ]
+        },
+        {
+          "name": "Countrysummits",
+          "kind": "mountain",
+          "at": [
+            0.36,
+            0.3
+          ]
+        },
+        {
+          "name": "Malrokian Opening",
+          "kind": "sea",
+          "at": [
+            0.355,
+            0.207
+          ]
+        },
+        {
+          "name": "Shortfall",
+          "kind": "forest",
+          "at": [
+            0.48,
+            0.08
+          ]
+        }
+      ]
+    },
+    "tsvetan": {
+      "image": "region-tsvetan.jpg",
+      "anchor": [
+        0.625,
+        0.84
+      ],
+      "frame": [
+        0.415,
+        0.617,
+        0.365,
+        0.365
+      ],
+      "places": {
+        "tsvetan-bone-fields": [
+          0.41,
+          0.465
+        ],
+        "tsvetan-eferhild-citadel": [
+          0.64,
+          0.315
+        ],
+        "tsvetan-feargus-the-capital": [
+          0.445,
+          0.365
+        ],
+        "tsvetan-obsidian-fortress": [
+          0.567,
+          0.455
+        ],
+        "tsvetan-poison-grounds": [
+          0.545,
+          0.24
+        ],
+        "tsvetan-the-greatwolf-race-course": [
+          0.527,
+          0.335
+        ]
+      },
+      "labels": [
+        {
+          "name": "Hotbloods",
+          "kind": "town",
+          "at": [
+            0.555,
+            0.665
+          ]
+        },
+        {
+          "name": "Stormground",
+          "kind": "site",
+          "at": [
+            0.635,
+            0.655
+          ]
+        },
+        {
+          "name": "City of North",
+          "kind": "city",
+          "at": [
+            0.375,
+            0.685
+          ]
+        },
+        {
+          "name": "Eferhild's Cauldron",
+          "kind": "mountain",
+          "at": [
+            0.61,
+            0.52
+          ]
+        },
+        {
+          "name": "Tsvetan Twinspikes",
+          "kind": "mountain",
+          "at": [
+            0.52,
+            0.56
+          ]
+        },
+        {
+          "name": "Harpoon Chasm",
+          "kind": "lake",
+          "at": [
+            0.715,
+            0.205
+          ]
+        },
+        {
+          "name": "Ember Mountains",
+          "kind": "mountain",
+          "at": [
+            0.25,
+            0.15
+          ]
+        },
+        {
+          "name": "Southern Basin",
+          "kind": "sea",
+          "at": [
+            0.31,
+            0.35
+          ]
+        },
+        {
+          "name": "Sindile Forest",
+          "kind": "forest",
+          "at": [
+            0.9,
+            0.6
+          ]
+        }
+      ]
+    },
+    "yama": {
+      "image": "region-yama.jpg",
+      "anchor": [
+        0.811,
+        0.59
+      ],
+      "frame": [
+        0.62,
+        0.43,
+        0.33,
+        0.33
+      ],
+      "places": {
+        "yama-kagemori-village": [
+          0.752,
+          0.845
+        ],
+        "yama-tengoku-palace-and-kinshi-the-forbidden-city": [
+          0.781,
+          0.767
+        ],
+        "yama-tiger-monastery": [
+          0.795,
+          0.272
+        ],
+        "yama-yama-bunkatsu-forest": [
+          0.705,
+          0.765
+        ],
+        "yama-yamanoma": [
+          0.755,
+          0.706
+        ]
+      },
+      "omitted": [
+        "yama-jade-dragon-statuette"
+      ],
+      "labels": [
+        {
+          "name": "Watchkeeper's Town",
+          "kind": "fortress",
+          "at": [
+            0.518,
+            0.706
+          ]
+        },
+        {
+          "name": "Watcher's Lake",
+          "kind": "lake",
+          "at": [
+            0.445,
+            0.656
+          ]
+        },
+        {
+          "name": "Higashiyama",
+          "kind": "mountain",
+          "at": [
+            0.8,
+            0.45
+          ]
+        }
+      ]
+    }
+  },
+  "cities": {
+    "central-empire-the-capital-city": {
+      "image": "city-central-empire-the-capital-city.jpg",
+      "places": {
+        "central-empire-the-capital-city-sloghood": [
+          0.276,
+          0.7
+        ],
+        "central-empire-the-capital-city-uptown": [
+          0.375,
+          0.745
+        ],
+        "central-empire-the-capital-city-artisansquare": [
+          0.513,
+          0.7
+        ],
+        "central-empire-the-capital-city-scholarnest": [
+          0.62,
+          0.786
+        ],
+        "central-empire-the-capital-city-dweomer": [
+          0.74,
+          0.683
+        ],
+        "central-empire-the-capital-city-martpart": [
+          0.702,
+          0.505
+        ],
+        "central-empire-the-capital-city-arenarea": [
+          0.562,
+          0.337
+        ],
+        "central-empire-the-capital-city-oldtown": [
+          0.685,
+          0.195
+        ],
+        "central-empire-the-capital-city-neckoffoods": [
+          0.78,
+          0.935
+        ],
+        "central-empire-the-capital-city-bloomburgs": [
+          0.396,
+          0.926
+        ],
+        "central-empire-the-capital-city-downtown": [
+          0.556,
+          0.563
+        ],
+        "central-empire-the-capital-city-palacedomain": [
+          0.385,
+          0.475
+        ]
+      },
+      "labels": [
+        {
+          "name": "Arena of Fate",
+          "kind": "site",
+          "at": [
+            0.534,
+            0.236
+          ]
+        },
+        {
+          "name": "Imperial Palace",
+          "kind": "fortress",
+          "at": [
+            0.388,
+            0.426
+          ]
+        },
+        {
+          "name": "Hippodrome",
+          "kind": "site",
+          "at": [
+            0.615,
+            0.375
+          ]
+        },
+        {
+          "name": "Illu Die Arena",
+          "kind": "site",
+          "at": [
+            0.677,
+            0.569
+          ]
+        },
+        {
+          "name": "Torygg's Magic Tower",
+          "kind": "site",
+          "at": [
+            0.693,
+            0.713
+          ]
+        },
+        {
+          "name": "Cathedral of the Eight",
+          "kind": "site",
+          "at": [
+            0.594,
+            0.546
+          ]
+        },
+        {
+          "name": "Municipal Market",
+          "kind": "site",
+          "at": [
+            0.695,
+            0.48
+          ]
+        },
+        {
+          "name": "Imperial University of Light",
+          "kind": "site",
+          "at": [
+            0.565,
+            0.769
+          ]
+        },
+        {
+          "name": "Duke Wigar's War School",
+          "kind": "site",
+          "at": [
+            0.372,
+            0.63
+          ]
+        },
+        {
+          "name": "Central Complex of Capital Portals",
+          "kind": "site",
+          "at": [
+            0.305,
+            0.585
+          ]
+        },
+        {
+          "name": "Docks District",
+          "kind": "site",
+          "at": [
+            0.396,
+            0.278
+          ]
+        },
+        {
+          "name": "Moon Tower",
+          "kind": "site",
+          "at": [
+            0.667,
+            0.1
+          ]
+        },
+        {
+          "name": "Stone Fortress",
+          "kind": "fortress",
+          "at": [
+            0.828,
+            0.193
+          ]
+        },
+        {
+          "name": "Imperium Tigris Lair",
+          "kind": "fortress",
+          "at": [
+            0.365,
+            0.046
+          ]
+        },
+        {
+          "name": "Cyan Fortress",
+          "kind": "fortress",
+          "at": [
+            0.151,
+            0.389
+          ]
+        },
+        {
+          "name": "The Sentinel Tiger",
+          "kind": "site",
+          "at": [
+            0.221,
+            0.13
+          ]
+        },
+        {
+          "name": "Farmer's Market",
+          "kind": "site",
+          "at": [
+            0.623,
+            0.932
+          ]
+        },
+        {
+          "name": "Market Gate",
+          "kind": "site",
+          "at": [
+            0.729,
+            0.481
+          ]
+        },
+        {
+          "name": "Wildelf Gate",
+          "kind": "site",
+          "at": [
+            0.699,
+            0.883
+          ]
+        },
+        {
+          "name": "Tabara Gate",
+          "kind": "site",
+          "at": [
+            0.301,
+            0.85
+          ]
+        }
+      ]
+    },
+    "republic-of-freelands-fisherman-s-wharf": {
+      "image": "city-republic-of-freelands-fisherman-s-wharf.jpg",
+      "sites": [
+        {
+          "number": 1,
+          "name": "The Parliament",
+          "note": "The Republic's political core, a grand white marble edifice symbolising peace and hope; it hosts public debates and confidential chambers.",
+          "at": [
+            0.534,
+            0.431
+          ]
+        },
+        {
+          "number": 2,
+          "name": "Arena of Future",
+          "note": "Popular arena of safe, magical, non-lethal bouts and monthly tournaments; an inactive Vandanamalika lies beneath it.",
+          "at": [
+            0.654,
+            0.412
+          ]
+        },
+        {
+          "number": 3,
+          "name": "Republic Military Fortress",
+          "note": "Built atop a natural plateau, it houses magical cannons and the headquarters of the Freelands' military forces.",
+          "at": [
+            0.404,
+            0.375
+          ]
+        },
+        {
+          "number": 4,
+          "name": "Prime Minister's Palace",
+          "note": "Home of the head of government and administrative heart of many ministries; hosts a monthly gala.",
+          "at": [
+            0.667,
+            0.571
+          ]
+        },
+        {
+          "number": 5,
+          "name": "Celestianist Cathedral of Sun and Moon",
+          "note": "The Republic's primary Celestianist temple under High Cardinal Taram, now the administrative heart of the Church.",
+          "at": [
+            0.486,
+            0.834
+          ]
+        },
+        {
+          "number": 6,
+          "name": "Fisherman's Wharf Port",
+          "note": "The Republic's largest and most militarized port; abundant fish and seafood, most trade ships sail to Kolbjörn.",
+          "at": [
+            0.378,
+            0.676
+          ]
+        },
+        {
+          "number": 7,
+          "name": "Seabreeze District",
+          "note": "Serene middle-class enclave of merchants, artisans, fishing ship owners, military officers and bureaucrats.",
+          "at": [
+            0.418,
+            0.748
+          ]
+        },
+        {
+          "number": 8,
+          "name": "The Six Quarters",
+          "note": "Surrounding the Parliament, the city's priciest estates; its sole non-residential structure is the Relic Hunters Guild headquarters.",
+          "at": [
+            0.529,
+            0.356
+          ]
+        },
+        {
+          "number": 9,
+          "name": "Wallside District",
+          "note": "Inhabited by winter elves and eyed with mistrust; Kemet spies hide among them around a concealed temple to Bás.",
+          "at": [
+            0.411,
+            0.231
+          ]
+        },
+        {
+          "number": 10,
+          "name": "Uptown",
+          "note": "Hilly district of diverse shops and estates, with the open market and the Adventurer's Guild headquarters atop a hill.",
+          "at": [
+            0.66,
+            0.335
+          ]
+        },
+        {
+          "number": 11,
+          "name": "Hope Square",
+          "note": "Home to laborers and farming families resettled after the Kemet Invasion; the Academy of Magic stands on its edge; crime is rife.",
+          "at": [
+            0.593,
+            0.714
+          ]
+        },
+        {
+          "number": 12,
+          "name": "The Cerulean Plaza",
+          "note": "The commercial heart, a bustling market of white and blue facades with inns, taverns and the Cerulean Cross Hotel.",
+          "at": [
+            0.54,
+            0.205
+          ]
+        }
+      ]
+    }
+  }
+}

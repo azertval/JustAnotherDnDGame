@@ -33,6 +33,7 @@ QtObject {
 
     // --- DEBUT DE LA TABLE ENGENDREE (receive_ui_assets.py) -- ne pas editer --------------------
     readonly property var delivered: ({
+        "ui/background/menu-scene": {"file": "background/menu-scene.png"},
     })
     // --- FIN DE LA TABLE ENGENDREE --------------------------------------------------------------
 
