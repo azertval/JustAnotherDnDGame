@@ -148,8 +148,8 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
 <span style = "background-color:#dfd">std::vector&lt;ArenaEntryPoint&gt; arenaEntryPoints(const Level&amp; level) {
     std::vector&lt;ArenaEntryPoint&gt; entrees;
     for (const MapEntity&amp; entite : level.entities()) {
-        if (entite.type != ARENA_ENTRY_ENTITY_TYPE) {</span>
-<span style = "background-color:#fdd">            continue;</span>
+        if (entite.type != ARENA_ENTRY_ENTITY_TYPE) {
+            continue;</span>
         }
 <span style = "background-color:#dfd">        const std::optional&lt;CombatSide&gt; camp = campDepuis(entite.properties);
         if (!camp.has_value()) {
@@ -223,7 +223,9 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
                     .name = lireTexte(racine, "name"),
                     .source = lireTexte(racine, "source"),
                     .region = lireTexte(racine, "region"),
+                    .location = lireTexte(racine, "location"),
                     .map = lireTexte(racine, "map"),
+                    .zone = lireTexte(racine, "zone"),
                     .lethal = lireBooleen(racine, "lethal", false),
                     .heroicMark = lireBooleen(racine, "heroicMark", true),
                     .flanking = lireBooleen(racine, "flanking", false)};

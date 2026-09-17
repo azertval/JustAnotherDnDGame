@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PlaceAppearance.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/TileType.h"
+
+/**
+ * @file HMI/Graphics/PlaceAppearance.h
+ * @brief Ce qu'un **lieu** met sur une case : la table qui traduit un type de tuile en piÃ¨ce de la
+ *        planche de l'atelier des textures (`LOT-92`, `LOT-09`).
+ *
+ * ## La rÃ¨gle, dÃ©cidÃ©e le 17 septembre 2026 (*dÃ©cision de l'auteur*)
+ *
+ * - **Le sol** vient du **type de tuile** de la couche Â« sol Â», traduit par cette table : un sable
+ *   donne `sand`, `sand-2` ou `sand-3`, la variante choisie par la case elle-mÃªme, toujours la
+ *   mÃªme pour la mÃªme case. Le sol est dense â sept mille cases pour le ColisÃ©e â, et le nommer Ã 
+ *   la case rendrait la carte illisible et son tracÃ© interminable.
+ * - **Le relief** (murs, torches, bancs, arches, gradins) nomme sa piÃ¨ce **Ã  la case**, par
+ *   l'assignation de texture que l'Ã©diteur du `LOT-11` sait dÃ©jÃ  poser
+ *   (`core::TileTextureOverride`). Le relief est rare et voulu : c'est lÃ  que l'auteur dÃ©cide.
+ *   Ã dÃ©faut d'assignation, le type de la case de dÃ©cor donne la piÃ¨ce par cette mÃªme table.
+ *
+ * Aucune Ã©volution du format de niveau : ni champ nouveau, ni `version: 4`.
+ */
+
+namespace core {
+struct JsonDocument;
+}
+
+namespace hmi {
+
+/// @brief CatÃ©gorie d'Ã©chec de lecture (mÃªme esprit que `hmi::SkinCatalogError`).
+enum class PlaceAppearanceError : std::uint8_t {
+    None,
+    FileNotFound,
+    ParseError,
+    UnsupportedVersion,
+    MalformedStructure,
+};
+
+struct PlaceAppearanceResult;
+
+/**
+ * @brief La table d'un lieu : type de tuile â piÃ¨ces, pour le sol et pour le relief.
+ *
+ * Logique **pure** (aucun Qt, aucun GPU, `EX-NFR-010`). Aucune lecture ne lÃ¨ve (`EX-NFR-040`) : un
+ * fichier absent donne une table vide, et une case sans piÃ¨ce ne dessine rien plutÃ´t que de tomber
+ * sur un damier sur sept mille cases.
+ */
+class PlaceAppearance {
+public:
+    static constexpr int FORMAT_VERSION = 1;
+
+    [[nodiscard]] static PlaceAppearanceResult loadFromString(std::string_view json);
+    [[nodiscard]] static PlaceAppearanceResult loadFromFile(const std::filesystem::path&amp; path);
+
+    /// @return L'identifiant du lieu (`coliseum`), vide pour une table vide.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; place() const noexcept {
+        return _place;
+    }</span>
+
+    /**
+     * @brief La piÃ¨ce de sol d'une case.
+     *
+     * La variante est choisie par la case : `(colonne Ã 7 + ligne Ã 13) % nombre de variantes`.
+     * Un tirage alÃ©atoire ferait scintiller le sol d'une image Ã  l'autre ; un compteur ferait
+     * dÃ©pendre le sol de l'ordre de parcours.
+     * @return Le nom de la piÃ¨ce (`sand-2`), vide si le type n'a aucune piÃ¨ce dans ce lieu.
+     */
+    [[nodiscard]] std::string_view floorPiece(core::TileType type, core::GridPosition cell) const;
+
+    /// @brief La piÃ¨ce de relief d'une case, mÃªme rÃ¨gle de variante que le sol.
+    [[nodiscard]] std::string_view reliefPiece(core::TileType type, core::GridPosition cell) const;
+
+    /// @return Tous les noms de piÃ¨ce que la table peut rendre, triÃ©s, sans doublon â ce que le
+    ///         rendu doit charger.
+    [[nodiscard]] std::vector&lt;std::string&gt; pieces() const;
+
+    /// @return Vrai si la table ne traduit aucun type.
+    [[nodiscard]] bool empty() const noexcept {
+        return _floors.empty() &amp;&amp; _relief.empty();
+    }
+
+private:
+    using Table = std::map&lt;core::TileType, std::vector&lt;std::string&gt;&gt;;
+
+    [[nodiscard]] static PlaceAppearanceResult fromDocument(const core::JsonDocument&amp; document);
+
+    std::string _place;
+    Table _floors;
+    Table _relief;
+};
+
+/// @brief RÃ©sultat d'une lecture : la table, et ce qui a Ã©chouÃ©.
+struct PlaceAppearanceResult {
+    PlaceAppearance appearance;
+    PlaceAppearanceError error = PlaceAppearanceError::None;
+    /// Message technique, vide en cas de succÃ¨s. Pour les journaux et les tests.
+    std::string message;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return error == PlaceAppearanceError::None;
+    }</span>
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

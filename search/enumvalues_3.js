@@ -16,7 +16,7 @@ var searchData=
   ['defeat_13',['Defeat',['../namespacecore.html#a8825ea64ff05621b7c2c8a073d27577ca570e9d24849e2161b5a969599fb03446',1,'core']]],
   ['deselect_14',['Deselect',['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1a94186070ef6773ba0f1721c19980e487',1,'hmi']]],
   ['dexterity_15',['Dexterity',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273',1,'core']]],
-  ['dialogue_16',['Dialogue',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea359928afdf6c973ee869e1698023a812',1,'hmi::ScreenRouter::Dialogue'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812',1,'hmi::Dialogue']]],
+  ['dialogue_16',['Dialogue',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea359928afdf6c973ee869e1698023a812',1,'hmi::ScreenRouter::Dialogue'],['../namespacecore.html#a90b12b036a2622c3cea570a4b860ec55a359928afdf6c973ee869e1698023a812',1,'core::Dialogue'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a359928afdf6c973ee869e1698023a812',1,'hmi::Dialogue']]],
   ['dialogues_17',['Dialogues',['../namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a7a1e8fd6a793526a49af3c2ce8fe5e52',1,'core']]],
   ['dicerolled_18',['DiceRolled',['../namespacecore.html#ac7bf6427f29bbba33973526a5896c20da66c4c4d61a9bb3202d84d9750ce1d929',1,'core']]],
   ['died_19',['Died',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deab4ee54591aaa4862bf37f75f6839b514',1,'hmi']]],
@@ -31,7 +31,7 @@ var searchData=
   ['dooropened_28',['DoorOpened',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488deae1491bc2cd0348e5a6c5ba7ed811895d',1,'hmi']]],
   ['down_29',['Down',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382a08a38277b0309070706f6652eeae9a53',1,'core::Down'],['../namespacehmi.html#a7bd1f14c12b142d5227ad2560e7c5e88a08a38277b0309070706f6652eeae9a53',1,'hmi::Down'],['../namespacehmi.html#a83c98e56e30eafa606048853f7962e48a08a38277b0309070706f6652eeae9a53',1,'hmi::Down']]],
   ['drawn_30',['Drawn',['../namespacehmi.html#a9bcda977efbe65c2ab28905feb685040ac4816e491f1e2cf4b8c26d844861d8fe',1,'hmi']]],
-  ['duplicatearrivalpoint_31',['DuplicateArrivalPoint',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273',1,'core']]],
+  ['duplicatearrivalpoint_31',['DuplicateArrivalPoint',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273',1,'core::DuplicateArrivalPoint'],['../namespacecore.html#ab0838a20f00473e64466a4e3eb7cfd6aacd7c9ae5e908a19e060bbcbd35f08273',1,'core::DuplicateArrivalPoint']]],
   ['duplicateposition_32',['DuplicatePosition',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae661408101649d629107887d94faf5ba',1,'core']]],
   ['duplicateswitchid_33',['DuplicateSwitchId',['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a835bdc9a85fa21f0e6b00dd269e179bb',1,'core']]]
 ];

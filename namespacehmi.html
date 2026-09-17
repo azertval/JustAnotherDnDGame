@@ -333,6 +333,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jeu de visibilités par calque, pour le mode d'inspection « définition des textures » (<span class="tt">LOT-51</span>).  <a href="classhmi_1_1LayerVisibility.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MechanismVisualState" id="r_MechanismVisualState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MechanismVisualState.html">MechanismVisualState</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État de présentation d'un mécanisme animé, par <b>instance</b> (<span class="tt">LOT-47</span> TACHE-02).  <a href="structhmi_1_1MechanismVisualState.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PlaceAppearance" id="r_PlaceAppearance"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La table d'un lieu : type de tuile → pièces, pour le sol et pour le relief.  <a href="classhmi_1_1PlaceAppearance.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PlaceAppearanceResult" id="r_PlaceAppearanceResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlaceAppearanceResult.html">PlaceAppearanceResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture : la table, et ce qui a échoué.  <a href="structhmi_1_1PlaceAppearanceResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PlaneVisibility" id="r_PlaneVisibility"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PlaneVisibility.html">PlaneVisibility</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Jeu de visibilités des plans picturaux d'un niveau, adressé par <b>rang</b>.  <a href="classhmi_1_1PlaneVisibility.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PlaneTexture" id="r_PlaneTexture"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlaneTexture.html">PlaneTexture</a></td></tr>
@@ -373,6 +377,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rectangle (en cases) d'une salle, borné aux dimensions réelles du niveau.  <a href="structhmi_1_1RoomBounds.html#details">More...</a><br /></td></tr>
 <tr class="memitem:RoomGrid" id="r_RoomGrid"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1RoomGrid.html">RoomGrid</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partitionne une grille de niveau en un tableau de <b>salles</b> de taille fixe, façon <em>Celeste</em> (<span class="tt">LOT-32</span>).  <a href="classhmi_1_1RoomGrid.html#details">More...</a><br /></td></tr>
+<tr class="memitem:SceneTexture" id="r_SceneTexture"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1SceneTexture.html">SceneTexture</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une texture liable et ses dimensions en pixels (pour normaliser les UV).  <a href="structhmi_1_1SceneTexture.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ScenePieceTextures" id="r_ScenePieceTextures"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les textures d'un lieu, adressées par leur <b>chemin</b> tel que la composition l'écrit.  <a href="structhmi_1_1ScenePieceTextures.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SceneResources" id="r_SceneResources"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1SceneResources.html">SceneResources</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins — créés ensemble, libérés ensemble, dans le bon ordre.  <a href="classhmi_1_1SceneResources.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SkinEntry" id="r_SkinEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1SkinEntry.html">SkinEntry</a></td></tr>
@@ -405,6 +413,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'une case dans la planche de raccords, en cases (origine haut-gauche).  <a href="structhmi_1_1AutotileCell.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileSkinTag" id="r_TileSkinTag"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1TileSkinTag.html">TileSkinTag</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de tuile et voisinage solide d'une entité affichée, pour la résolution de son skin.  <a href="structhmi_1_1TileSkinTag.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldFigureSnapshot" id="r_WorldFigureSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une figurine à dessiner sur la carte : sa planche, son image, où elle est.  <a href="structhmi_1_1WorldFigureSnapshot.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldSceneSnapshot" id="r_WorldSceneSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le lieu <b>en valeurs</b> : ce que la composition lit, et rien d'autre.  <a href="structhmi_1_1WorldSceneSnapshot.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldSceneRenderer" id="r_WorldSceneRenderer"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldSceneRenderer.html">WorldSceneRenderer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la scène composée.  <a href="classhmi_1_1WorldSceneRenderer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ButtonRepeat" id="r_ButtonRepeat"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ButtonRepeat.html">ButtonRepeat</a></td></tr>
 <tr class="memitem:EditorKeyBindings" id="r_EditorKeyBindings"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>, <span class="tt">LOT-29</span>).  <a href="classhmi_1_1EditorKeyBindings.html#details">More...</a><br /></td></tr>
@@ -548,6 +562,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste de lignes libellé/valeur, pour un <span class="tt">Repeater</span> ou une <span class="tt">ListView</span>.  <a href="classhmi_1_1SheetRowModel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WorldMapModel" id="r_WorldMapModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldMapModel.html">WorldMapModel</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue-modèle de l'écran « Carte » : le monde, ses treize régions, les plans de ville.  <a href="classhmi_1_1WorldMapModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldModel" id="r_WorldModel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldModel.html">WorldModel</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La vue-modèle de l'exploration — <b>la partie en cours</b> : entrer sur une carte, marcher, parler, franchir.  <a href="classhmi_1_1WorldModel.html#details">More...</a><br /></td></tr>
+<tr class="memitem:WorldViewportItem" id="r_WorldViewportItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldViewportItem.html">WorldViewportItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surface QRhi de la carte courante : le jumeau d'<span class="tt"><a class="el" href="classhmi_1_1ArenaViewportItem.html" title="Surface QRhi de la scène de combat du Colisée : la grille, l&#39;enceinte et les figurines,...">hmi::ArenaViewportItem</a></span> pour le monde.  <a href="classhmi_1_1WorldViewportItem.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -753,6 +771,16 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#aa9ff839f9bcc1bb899b24cb8026ab2b3a4803e6b9e63dabf04de980788d6a13c4">Line</a>
  }</td></tr>
 <tr class="memdesc:aa9ff839f9bcc1bb899b24cb8026ab2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nature d'une primitive composée : rectangle aligné aux axes, ou segment épais orienté.  <a href="#aa9ff839f9bcc1bb899b24cb8026ab2b3">More...</a><br /></td></tr>
+<tr class="memitem:a8d47401595625329c52d918c550d2957" id="r_a8d47401595625329c52d918c550d2957"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a8d47401595625329c52d918c550d2957">PlaceAppearanceError</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a8d47401595625329c52d918c550d2957a6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a8d47401595625329c52d918c550d2957a2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
+, <a class="el" href="#a8d47401595625329c52d918c550d2957ae41199faa7290c167f70f314c5e6c165">ParseError</a>
+, <a class="el" href="#a8d47401595625329c52d918c550d2957a0f89bc98e9b12bdeda0604e57bdc0518">UnsupportedVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="#a8d47401595625329c52d918c550d2957aa809debdbe0cae246d363461916d924d">MalformedStructure</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a8d47401595625329c52d918c550d2957"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture (même esprit que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>).  <a href="#a8d47401595625329c52d918c550d2957">More...</a><br /></td></tr>
 <tr class="memitem:a01d3aca49804e2e7ac13786499fe7bf4" id="r_a01d3aca49804e2e7ac13786499fe7bf4"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a01d3aca49804e2e7ac13786499fe7bf4">PlayerClipKind</a> { <a class="el" href="#a01d3aca49804e2e7ac13786499fe7bf4ae599161956d626eda4cb0a5ffb85271c">Idle</a>
 , <a class="el" href="#a01d3aca49804e2e7ac13786499fe7bf4ac5301693c4e792bcd5a479ef38fb8f8d">Run</a>
 , <a class="el" href="#a01d3aca49804e2e7ac13786499fe7bf4a101f693f72287a2819a364f64ca1c0ed">Jump</a>
@@ -823,6 +851,10 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a904bd9605b7079403b098a5e97e9726ea68f6464eef6db912e7119136d0434a4e">NEIGHBOR_LEFT</a> = 1u &lt;&lt; 3
  }</td></tr>
 <tr class="memdesc:a904bd9605b7079403b098a5e97e9726e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bits du masque de voisinage, un par voisin <b>orthogonal</b> solide.  <a href="#a904bd9605b7079403b098a5e97e9726e">More...</a><br /></td></tr>
+<tr class="memitem:a71e0c7e2c54951699d44b5c6f88f63ca" id="r_a71e0c7e2c54951699d44b5c6f88f63ca"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63ca">WorldDepthSlot</a> : std::int32_t { <a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63caabba4e0ae459283cbc5df0f8ac338fe92">Relief</a> = 0
+, <a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63caa666df2f48cd16f38212c093999248769">Figure</a>
+ }</td></tr>
+<tr class="memdesc:a71e0c7e2c54951699d44b5c6f88f63ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rang d'une pièce dans une même profondeur : le relief, puis la figurine posée dessus.  <a href="#a71e0c7e2c54951699d44b5c6f88f63ca">More...</a><br /></td></tr>
 <tr class="memitem:aa4f5968d7b564d555f29fdc5d2fc9585" id="r_aa4f5968d7b564d555f29fdc5d2fc9585"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585">EditorAction</a> { <br />
 &#160;&#160;<a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585ac9cc8cce247e49bae79f15173ce97354">Save</a>
 , <a class="el" href="#aa4f5968d7b564d555f29fdc5d2fc9585a1cdc076b28f70afac5fcedadf99fa119">Undo</a>
@@ -1378,6 +1410,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a8e40b7d9a122c5304de1782b079c3637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom persisté d'un mode de rendu (valeur écrite dans les préférences).  <br /></td></tr>
 <tr class="memitem:a3159aa4ba6c589c9813db6e524f19785" id="r_a3159aa4ba6c589c9813db6e524f19785"><td class="memItemLeft"><a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3159aa4ba6c589c9813db6e524f19785">renderModeFromName</a> (const std::string &amp;name) noexcept</td></tr>
 <tr class="memdesc:a3159aa4ba6c589c9813db6e524f19785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode de rendu correspondant à un nom persisté.  <br /></td></tr>
+<tr class="memitem:aefe5a3c767ba4b0482688df953007fe1" id="r_aefe5a3c767ba4b0482688df953007fe1"><td class="memItemLeft"><a class="el" href="structhmi_1_1SpriteQuad.html">SpriteQuad</a>&#160;</td><td class="memItemRight"><a class="el" href="#aefe5a3c767ba4b0482688df953007fe1">standingPieceQuad</a> (const <a class="el" href="structhmi_1_1SceneTexture.html">SceneTexture</a> &amp;texture, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> topVertex, float unitsPerScenePixel)</td></tr>
+<tr class="memdesc:aefe5a3c767ba4b0482688df953007fe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose une pièce <b>debout</b> d'une case par son ancre.  <br /></td></tr>
 <tr class="memitem:a2e6c3c847f3e8705f25938eb17ecc2b2" id="r_a2e6c3c847f3e8705f25938eb17ecc2b2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2e6c3c847f3e8705f25938eb17ecc2b2">composeShadows</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, <a class="el" href="classcore_1_1World.html">core::World</a> &amp;world, <a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a> mode, const <a class="el" href="structhmi_1_1SceneTextures.html">SceneTextures</a> &amp;textures, float interpolationAlpha, const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> *doorCollision=nullptr)</td></tr>
 <tr class="memdesc:a2e6c3c847f3e8705f25938eb17ecc2b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose une ombre décalée pour chaque tuile physique visible, sur <span class="tt"><a class="el" href="#a9b5452f2d3a1019a3229b90a4f000919a3f39588bb19e28051d9aedfbb170025c" title="Ombres portées des tuiles solides (LOT-55, EX-REN-045).">RenderLayer::Shadow</a></span>.  <br /></td></tr>
 <tr class="memitem:aacad28238195c8395f4229ab6d861b6d" id="r_aacad28238195c8395f4229ab6d861b6d"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#aacad28238195c8395f4229ab6d861b6d">skinModeName</a> (<a class="el" href="#ac69176e5c8acf86f4990696f7f54f11e">SkinMode</a> mode) noexcept</td></tr>
@@ -1432,6 +1466,18 @@ Functions</h2></td></tr>
 <tr class="memdesc:a597b9471d79c0d524b3dedbf52c2fac6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Région d'atlas (couleur procédurale) associée à un type de tuile.  <br /></td></tr>
 <tr class="memitem:ae8ea482206091a0f850c865f8de6f5fb" id="r_ae8ea482206091a0f850c865f8de6f5fb"><td class="memItemLeft">std::optional&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae8ea482206091a0f850c865f8de6f5fb">textureOverrideAt</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">core::TileTextureOverride</a> &gt; &amp;overrides, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> position)</td></tr>
 <tr class="memdesc:ae8ea482206091a0f850c865f8de6f5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cherche la surcharge de texture assignée à une case précise (<span class="tt">EX-EDIT-043</span>, <span class="tt">LOT-45</span>).  <br /></td></tr>
+<tr class="memitem:abb8a82bb9f00e792f78590f1c2bd788a" id="r_abb8a82bb9f00e792f78590f1c2bd788a"><td class="memItemLeft">std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#abb8a82bb9f00e792f78590f1c2bd788a">worldDepthSortOrder</a> (float footWorldY, <a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63ca">WorldDepthSlot</a> slot) noexcept</td></tr>
+<tr class="memdesc:abb8a82bb9f00e792f78590f1c2bd788a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ordre de tri d'une pièce du lieu.  <br /></td></tr>
+<tr class="memitem:abbf2a2d38ba582981388654fde028bae" id="r_abbf2a2d38ba582981388654fde028bae"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abbf2a2d38ba582981388654fde028bae">scenePlaceOf</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level)</td></tr>
+<tr class="memitem:a8e3a1dcd14a5132e99f15be875c38936" id="r_a8e3a1dcd14a5132e99f15be875c38936"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8e3a1dcd14a5132e99f15be875c38936">snapshotWorldScene</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level, const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> &amp;appearance, std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt; figures)</td></tr>
+<tr class="memdesc:a8e3a1dcd14a5132e99f15be875c38936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire de <code class="param">level</code> l'instantané que la composition dessine.  <br /></td></tr>
+<tr class="memitem:a07929611bf03ab59a2de588feb90ad7d" id="r_a07929611bf03ab59a2de588feb90ad7d"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a07929611bf03ab59a2de588feb90ad7d">worldTexturePaths</a> (const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot)</td></tr>
+<tr class="memitem:a634bad2a915ba6f49caae2a158329bb3" id="r_a634bad2a915ba6f49caae2a158329bb3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a634bad2a915ba6f49caae2a158329bb3">composeWorldScene</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a> &amp;textures)</td></tr>
+<tr class="memdesc:a634bad2a915ba6f49caae2a158329bb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le lieu dans un tampon réutilisé.  <br /></td></tr>
+<tr class="memitem:a14ab42dad3be10394bd6892a8ce39ef4" id="r_a14ab42dad3be10394bd6892a8ce39ef4"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#a14ab42dad3be10394bd6892a8ce39ef4">composeWorldScene</a> (const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a> &amp;textures)</td></tr>
+<tr class="memdesc:a14ab42dad3be10394bd6892a8ce39ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le lieu dans une scène neuve, <b>triée</b> — commodité des tests et des captures.  <br /></td></tr>
+<tr class="memitem:a8efa2a96919dd4bc6675ddc5e0f292ad" id="r_a8efa2a96919dd4bc6675ddc5e0f292ad"><td class="memItemLeft"><a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8efa2a96919dd4bc6675ddc5e0f292ad">worldCamera</a> (const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> focus, int pixelWidth, int pixelHeight)</td></tr>
+<tr class="memdesc:a8efa2a96919dd4bc6675ddc5e0f292ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage d'un lieu : la caméra <b>suit</b> le héros, et ne sort pas de la carte.  <br /></td></tr>
 <tr class="memitem:ae5554638874ee3372dad502cfe2e594e" id="r_ae5554638874ee3372dad502cfe2e594e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae5554638874ee3372dad502cfe2e594e">gamepadButtonDisplayName</a> (<a class="el" href="#a7bd1f14c12b142d5227ad2560e7c5e88">GamepadButton</a> button)</td></tr>
 <tr class="memdesc:ae5554638874ee3372dad502cfe2e594e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'un bouton manette, pour l'affichage dans l'écran de remappage.  <br /></td></tr>
 <tr class="memitem:a3b48baec87107f7a4aec638550bdb941" id="r_a3b48baec87107f7a4aec638550bdb941"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a7bd1f14c12b142d5227ad2560e7c5e88">GamepadButton</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3b48baec87107f7a4aec638550bdb941">capturedGamepadButton</a> (const <a class="el" href="classhmi_1_1InputState.html">InputState</a> &amp;input)</td></tr>
@@ -1629,19 +1675,19 @@ Variables</h2></td></tr>
 <tr class="memitem:ab700512a0b7f60e86d26e14a5dff1dec" id="r_ab700512a0b7f60e86d26e14a5dff1dec"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ab700512a0b7f60e86d26e14a5dff1dec">PLAYTEST_PORTAL_KEY</a> = &quot;playtest.interaction.portal&quot;</td></tr>
 <tr class="memitem:a8df2c09fb720a4b9edcc07dd7c82225f" id="r_a8df2c09fb720a4b9edcc07dd7c82225f"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a8df2c09fb720a4b9edcc07dd7c82225f">PLAYTEST_PORTAL_INCOMPLETE_KEY</a></td></tr>
 <tr class="memitem:a041a8f13453275f41475aaf3013f052c" id="r_a041a8f13453275f41475aaf3013f052c"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a041a8f13453275f41475aaf3013f052c">PLAYTEST_OTHER_KEY</a> = &quot;playtest.interaction.other&quot;</td></tr>
-<tr class="memitem:a65b2c16b6aab8dd5aa2fa49fd1cb872b" id="r_a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a65b2c16b6aab8dd5aa2fa49fd1cb872b">ARENA_FIGURE_FRAME_WIDTH_PIXELS</a> = 48</td></tr>
+<tr class="memitem:a65b2c16b6aab8dd5aa2fa49fd1cb872b" id="r_a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a65b2c16b6aab8dd5aa2fa49fd1cb872b">ARENA_FIGURE_FRAME_WIDTH_PIXELS</a> = <a class="el" href="#a46b9654e0a27fbe317b1b281d1560182">FIGURE_FRAME_WIDTH_PIXELS</a></td></tr>
 <tr class="memdesc:a65b2c16b6aab8dd5aa2fa49fd1cb872b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur d'une image des bandes d'animation de la planche, en pixels (<span class="tt">manifest.json</span>, <span class="tt">frame</span>), quand la bande n'en déclare pas d'autre (<span class="tt"><a class="el" href="structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f" title="Largeur d&#39;une image si la texture est une bande d&#39;animation (frameWidth de son .anim....">ArenaTexture::frameWidth</a></span>).  <br /></td></tr>
-<tr class="memitem:a0752b5fe488b44093f9b2b6bc67f66fb" id="r_a0752b5fe488b44093f9b2b6bc67f66fb"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a0752b5fe488b44093f9b2b6bc67f66fb">ARENA_FIGURE_FRAME_HEIGHT_PIXELS</a> = 64</td></tr>
+<tr class="memitem:a0752b5fe488b44093f9b2b6bc67f66fb" id="r_a0752b5fe488b44093f9b2b6bc67f66fb"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a0752b5fe488b44093f9b2b6bc67f66fb">ARENA_FIGURE_FRAME_HEIGHT_PIXELS</a> = <a class="el" href="#a55c481d635af0b56829a8ccc530af04d">FIGURE_FRAME_HEIGHT_PIXELS</a></td></tr>
 <tr class="memdesc:a0752b5fe488b44093f9b2b6bc67f66fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur d'une image des bandes d'animation, en pixels.  <br /></td></tr>
-<tr class="memitem:ab9ad6be84062fc2abf87c40184677eae" id="r_ab9ad6be84062fc2abf87c40184677eae"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ab9ad6be84062fc2abf87c40184677eae">ARENA_FIGURE_SCALE</a> = 1.25f</td></tr>
+<tr class="memitem:ab9ad6be84062fc2abf87c40184677eae" id="r_ab9ad6be84062fc2abf87c40184677eae"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#ab9ad6be84062fc2abf87c40184677eae">ARENA_FIGURE_SCALE</a> = <a class="el" href="#a65e321902d186ff823f7122c0f3ace7f">FIGURE_SCALE</a></td></tr>
 <tr class="memdesc:ab9ad6be84062fc2abf87c40184677eae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrandissement de la figurine par rapport à la planche (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">1.25</span>).  <br /></td></tr>
 <tr class="memitem:a285a9d5f6120f739e72d9195791c8d22" id="r_a285a9d5f6120f739e72d9195791c8d22"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a285a9d5f6120f739e72d9195791c8d22">ARENA_DOWN_ENEMY_ALPHA</a> = 0.45f</td></tr>
 <tr class="memdesc:a285a9d5f6120f739e72d9195791c8d22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opacité d'un ennemi à terre (<span class="tt">ArenaTile.ui.qml</span>, <span class="tt">0.45</span>).  <br /></td></tr>
-<tr class="memitem:a3538a35944c598123f10fb71bd0ed21b" id="r_a3538a35944c598123f10fb71bd0ed21b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> = 68</td></tr>
+<tr class="memitem:a3538a35944c598123f10fb71bd0ed21b" id="r_a3538a35944c598123f10fb71bd0ed21b"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> = <a class="el" href="#a19b85f07e8096e377cfde7ed43902c89">SCENE_TILE_WIDTH_PIXELS</a></td></tr>
 <tr class="memdesc:a3538a35944c598123f10fb71bd0ed21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur du losange des textures de scène de l'atelier (<span class="tt">LOT-92</span>), en pixels d'art : 68 × 42, le rapport 0,62 d'<span class="tt"><a class="el" href="classcore_1_1IsoProjection.html" title="La projection isométrique d&#39;une grille de combat de columns × rows cases.">core::IsoProjection</a></span>.  <br /></td></tr>
-<tr class="memitem:a81d18f4d5de3c46d8c03d57dbefe6167" id="r_a81d18f4d5de3c46d8c03d57dbefe6167"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a81d18f4d5de3c46d8c03d57dbefe6167">ARENA_SCENE_HALF_TILE_WIDTH_PIXELS</a> = <a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> / 2</td></tr>
+<tr class="memitem:a81d18f4d5de3c46d8c03d57dbefe6167" id="r_a81d18f4d5de3c46d8c03d57dbefe6167"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a81d18f4d5de3c46d8c03d57dbefe6167">ARENA_SCENE_HALF_TILE_WIDTH_PIXELS</a> = <a class="el" href="#a5345cd8ebde1293596b218480d44e233">SCENE_HALF_TILE_WIDTH_PIXELS</a></td></tr>
 <tr class="memdesc:a81d18f4d5de3c46d8c03d57dbefe6167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case.  <br /></td></tr>
-<tr class="memitem:a07630c5687b7a33051770a6bf84123f4" id="r_a07630c5687b7a33051770a6bf84123f4"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a07630c5687b7a33051770a6bf84123f4">ARENA_SCENE_TILE_HEIGHT_PIXELS</a> = 42</td></tr>
+<tr class="memitem:a07630c5687b7a33051770a6bf84123f4" id="r_a07630c5687b7a33051770a6bf84123f4"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a07630c5687b7a33051770a6bf84123f4">ARENA_SCENE_TILE_HEIGHT_PIXELS</a> = <a class="el" href="#adf0a8584471498fee2fd58f1b3526335">SCENE_TILE_HEIGHT_PIXELS</a></td></tr>
 <tr class="memdesc:a07630c5687b7a33051770a6bf84123f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur de ce losange, en pixels d'art : il occupe le bas d'une pièce d'une case.  <br /></td></tr>
 <tr class="memitem:a6eee874c358054b54267845295a6068c" id="r_a6eee874c358054b54267845295a6068c"><td class="memItemLeft">constexpr std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a6eee874c358054b54267845295a6068c">ARENA_DEPTH_SLOTS</a> = 4</td></tr>
 <tr class="memdesc:a6eee874c358054b54267845295a6068c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de rangs par profondeur : le multiplicateur de <span class="tt"><a class="el" href="#a551d45820ca5a6e720a6a89e1c70c120" title="Ordre de profondeur d&#39;une primitive, à partir du pied de son quad.">depthSortOrder</a></span> dans le <span class="tt">sortOrder</span>.  <br /></td></tr>
@@ -1719,6 +1765,18 @@ Variables</h2></td></tr>
 <tr class="memdesc:ab6e44ad3d54b0383ef13f332d290df46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calque appliqué à une entité dépourvue de <span class="tt"><a class="el" href="structhmi_1_1RenderLayerTag.html" title="Composant de présentation fixant le calque de dessin d&#39;une entité.">hmi::RenderLayerTag</a></span>.  <br /></td></tr>
 <tr class="memitem:a6757e25cf3a1020826327afe0dd194d3" id="r_a6757e25cf3a1020826327afe0dd194d3"><td class="memItemLeft">constexpr <a class="el" href="#ace25c100da588ab6050fb0f486d61d54">RenderMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6757e25cf3a1020826327afe0dd194d3">DEFAULT_RENDER_MODE</a> = <a class="el" href="#ace25c100da588ab6050fb0f486d61d54aa3e8ae43188ae76d38f414b2bdb0077b">RenderMode::Texture</a></td></tr>
 <tr class="memdesc:a6757e25cf3a1020826327afe0dd194d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode appliqué au premier lancement et à défaut de préférence exploitable.  <br /></td></tr>
+<tr class="memitem:a19b85f07e8096e377cfde7ed43902c89" id="r_a19b85f07e8096e377cfde7ed43902c89"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a19b85f07e8096e377cfde7ed43902c89">SCENE_TILE_WIDTH_PIXELS</a> = 68</td></tr>
+<tr class="memdesc:a19b85f07e8096e377cfde7ed43902c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur du losange des textures de scène de l'atelier, en pixels d'art.  <br /></td></tr>
+<tr class="memitem:a5345cd8ebde1293596b218480d44e233" id="r_a5345cd8ebde1293596b218480d44e233"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a5345cd8ebde1293596b218480d44e233">SCENE_HALF_TILE_WIDTH_PIXELS</a> = <a class="el" href="#a19b85f07e8096e377cfde7ed43902c89">SCENE_TILE_WIDTH_PIXELS</a> / 2</td></tr>
+<tr class="memdesc:a5345cd8ebde1293596b218480d44e233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case.  <br /></td></tr>
+<tr class="memitem:adf0a8584471498fee2fd58f1b3526335" id="r_adf0a8584471498fee2fd58f1b3526335"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#adf0a8584471498fee2fd58f1b3526335">SCENE_TILE_HEIGHT_PIXELS</a> = 42</td></tr>
+<tr class="memdesc:adf0a8584471498fee2fd58f1b3526335"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur de ce losange : il occupe le bas d'une pièce d'une case.  <br /></td></tr>
+<tr class="memitem:a46b9654e0a27fbe317b1b281d1560182" id="r_a46b9654e0a27fbe317b1b281d1560182"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a46b9654e0a27fbe317b1b281d1560182">FIGURE_FRAME_WIDTH_PIXELS</a> = 48</td></tr>
+<tr class="memdesc:a46b9654e0a27fbe317b1b281d1560182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Largeur d'une image des bandes d'animation des figurines (<span class="tt">Assets/Npc/manifest.json</span>).  <br /></td></tr>
+<tr class="memitem:a55c481d635af0b56829a8ccc530af04d" id="r_a55c481d635af0b56829a8ccc530af04d"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a55c481d635af0b56829a8ccc530af04d">FIGURE_FRAME_HEIGHT_PIXELS</a> = 64</td></tr>
+<tr class="memdesc:a55c481d635af0b56829a8ccc530af04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur d'une image de ces bandes.  <br /></td></tr>
+<tr class="memitem:a65e321902d186ff823f7122c0f3ace7f" id="r_a65e321902d186ff823f7122c0f3ace7f"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a65e321902d186ff823f7122c0f3ace7f">FIGURE_SCALE</a> = 1.25F</td></tr>
+<tr class="memdesc:a65e321902d186ff823f7122c0f3ace7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Agrandissement d'une figurine par rapport à la planche.  <br /></td></tr>
 <tr class="memitem:a5f780954ea0c82a7805ce96374e73399" id="r_a5f780954ea0c82a7805ce96374e73399"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a5f780954ea0c82a7805ce96374e73399">SHADOW_OFFSET_X</a> = 1.0f / 16.0f</td></tr>
 <tr class="memdesc:a5f780954ea0c82a7805ce96374e73399"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage de l'ombre par rapport à sa tuile, en unités monde (1 pixel à 16 px/unité).  <br /></td></tr>
 <tr class="memitem:aa3213a2886118c9513378f9528ebe208" id="r_aa3213a2886118c9513378f9528ebe208"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#aa3213a2886118c9513378f9528ebe208">SHADOW_OFFSET_Y</a> = 1.0f / 16.0f</td></tr>
@@ -1738,6 +1796,14 @@ Variables</h2></td></tr>
 <tr class="memdesc:addf51de4fb2efedfe740f68247706f7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types de tuile dont la matière n'occupe <b>pas</b> toute la case, et qui doivent donc être détourées à l'affichage plutôt que dessinées en carré plein.  <br /></td></tr>
 <tr class="memitem:aa9e6d80a32a4e383a6413ef674feef96" id="r_aa9e6d80a32a4e383a6413ef674feef96"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#aa9e6d80a32a4e383a6413ef674feef96">SILHOUETTE_TILE_TYPE_COUNT</a> = static_cast&lt;int&gt;(SILHOUETTE_TILE_TYPES.size())</td></tr>
 <tr class="memdesc:aa9e6d80a32a4e383a6413ef674feef96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de types de tuile à silhouette (voir <span class="tt"><a class="el" href="#addf51de4fb2efedfe740f68247706f7e" title="Types de tuile dont la matière n&#39;occupe pas toute la case, et qui doivent donc être détourées à l&#39;aff...">SILHOUETTE_TILE_TYPES</a></span>).  <br /></td></tr>
+<tr class="memitem:a7156a1bc50d513bacc4cf9f6bd64916b" id="r_a7156a1bc50d513bacc4cf9f6bd64916b"><td class="memItemLeft">constexpr std::int32_t&#160;</td><td class="memItemRight"><a class="el" href="#a7156a1bc50d513bacc4cf9f6bd64916b">WORLD_DEPTH_SLOTS</a> = 2</td></tr>
+<tr class="memdesc:a7156a1bc50d513bacc4cf9f6bd64916b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de rangs par profondeur.  <br /></td></tr>
+<tr class="memitem:a344f40841fd17a0ce2a36213b84514c9" id="r_a344f40841fd17a0ce2a36213b84514c9"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a344f40841fd17a0ce2a36213b84514c9">WORLD_FIGURE_BOTTOM_MARGIN</a> = 0.42F</td></tr>
+<tr class="memdesc:a344f40841fd17a0ce2a36213b84514c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marge basse d'une figurine, en hauteurs de losange — la même que dans l'arène.  <br /></td></tr>
+<tr class="memitem:a2048c2024daad5842f0d26bbde67482b" id="r_a2048c2024daad5842f0d26bbde67482b"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a2048c2024daad5842f0d26bbde67482b">SCENE_PLACE_PROPERTY</a> = &quot;scene&quot;</td></tr>
+<tr class="memdesc:a2048c2024daad5842f0d26bbde67482b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété de couche qui nomme le <b>lieu</b> dont la carte porte les planches.  <br /></td></tr>
+<tr class="memitem:a010839751f5f86ba20ee3221f0c0c09e" id="r_a010839751f5f86ba20ee3221f0c0c09e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a010839751f5f86ba20ee3221f0c0c09e">WORLD_ART_HEIGHT_PIXELS</a> = 720</td></tr>
+<tr class="memdesc:a010839751f5f86ba20ee3221f0c0c09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double.  <br /></td></tr>
 <tr class="memitem:a9ab13e58906fc19eaceaa84921d13f32" id="r_a9ab13e58906fc19eaceaa84921d13f32"><td class="memItemLeft">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight"><a class="el" href="#a9ab13e58906fc19eaceaa84921d13f32">BUTTON_REPEAT_DELAY</a> {350}</td></tr>
 <tr class="memdesc:a9ab13e58906fc19eaceaa84921d13f32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Délai avant la première répétition d'un bouton tenu.  <br /></td></tr>
 <tr class="memitem:a19c4e889b587eee63318fd97be53024d" id="r_a19c4e889b587eee63318fd97be53024d"><td class="memItemLeft">constexpr std::chrono::milliseconds&#160;</td><td class="memItemRight"><a class="el" href="#a19c4e889b587eee63318fd97be53024d">BUTTON_REPEAT_INTERVAL</a> {110}</td></tr>
@@ -3004,6 +3070,37 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a8d47401595625329c52d918c550d2957" name="a8d47401595625329c52d918c550d2957"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d47401595625329c52d918c550d2957">&#9670;&#160;</a></span>PlaceAppearanceError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a8d47401595625329c52d918c550d2957">hmi::PlaceAppearanceError</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catégorie d'échec de lecture (même esprit que <span class="tt"><a class="el" href="#ae064c48cb814db754a1228bda7b8d77d" title="Catégorie d&#39;échec de lecture d&#39;un skins.json (même esprit que core::LevelValidationError).">hmi::SkinCatalogError</a></span>). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8d47401595625329c52d918c550d2957a6adf97f83acf6453d4a6a4b1070f3754" name="a8d47401595625329c52d918c550d2957a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8d47401595625329c52d918c550d2957a2767828026039e8ba7b38973cbb701f2" name="a8d47401595625329c52d918c550d2957a2767828026039e8ba7b38973cbb701f2"></a>FileNotFound&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8d47401595625329c52d918c550d2957ae41199faa7290c167f70f314c5e6c165" name="a8d47401595625329c52d918c550d2957ae41199faa7290c167f70f314c5e6c165"></a>ParseError&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8d47401595625329c52d918c550d2957a0f89bc98e9b12bdeda0604e57bdc0518" name="a8d47401595625329c52d918c550d2957a0f89bc98e9b12bdeda0604e57bdc0518"></a>UnsupportedVersion&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8d47401595625329c52d918c550d2957aa809debdbe0cae246d363461916d924d" name="a8d47401595625329c52d918c550d2957aa809debdbe0cae246d363461916d924d"></a>MalformedStructure&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="a01d3aca49804e2e7ac13786499fe7bf4" name="a01d3aca49804e2e7ac13786499fe7bf4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a01d3aca49804e2e7ac13786499fe7bf4">&#9670;&#160;</a></span>PlayerClipKind</h2>
 
@@ -3573,6 +3670,34 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9" name="a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9"></a>Corner&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8da4f827dd784b5493dcfb54d285bd2652c" name="a9da4795fe7ae9a1a208f6f8a3348ae8da4f827dd784b5493dcfb54d285bd2652c"></a>BannerSpot&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9da4795fe7ae9a1a208f6f8a3348ae8daef37bb80980786c95c64dfcfbd2943e9" name="a9da4795fe7ae9a1a208f6f8a3348ae8daef37bb80980786c95c64dfcfbd2943e9"></a>TorchSpot&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a71e0c7e2c54951699d44b5c6f88f63ca" name="a71e0c7e2c54951699d44b5c6f88f63ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71e0c7e2c54951699d44b5c6f88f63ca">&#9670;&#160;</a></span>WorldDepthSlot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63ca">hmi::WorldDepthSlot</a> : std::int32_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rang d'une pièce dans une même profondeur : le relief, puis la figurine posée dessus. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a71e0c7e2c54951699d44b5c6f88f63caabba4e0ae459283cbc5df0f8ac338fe92" name="a71e0c7e2c54951699d44b5c6f88f63caabba4e0ae459283cbc5df0f8ac338fe92"></a>Relief&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a71e0c7e2c54951699d44b5c6f88f63caa666df2f48cd16f38212c093999248769" name="a71e0c7e2c54951699d44b5c6f88f63caa666df2f48cd16f38212c093999248769"></a>Figure&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -5828,6 +5953,76 @@ Variables</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a634bad2a915ba6f49caae2a158329bb3" name="a634bad2a915ba6f49caae2a158329bb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a634bad2a915ba6f49caae2a158329bb3">&#9670;&#160;</a></span>composeWorldScene() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::composeWorldScene </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>scene</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>snapshot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>textures</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compose le lieu dans un tampon réutilisé. </p>
+<p>Le tampon n'est <b>ni vidé ni trié</b> : même contrat qu'<span class="tt"><a class="el" href="#afe9a7dccf1cdb4d3819a262d9f62a7ae" title="Compose la scène de combat dans un tampon réutilisé, depuis un instantané.">hmi::composeArenaScene</a></span>, l'appelant enchaîne <span class="tt">clear()</span>, les compositions, puis <span class="tt">sort()</span>. </p>
+
+</div>
+</div>
+<a id="a14ab42dad3be10394bd6892a8ce39ef4" name="a14ab42dad3be10394bd6892a8ce39ef4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14ab42dad3be10394bd6892a8ce39ef4">&#9670;&#160;</a></span>composeWorldScene() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::composeWorldScene </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>snapshot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>textures</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compose le lieu dans une scène neuve, <b>triée</b> — commodité des tests et des captures. </p>
 
 </div>
 </div>
@@ -11802,7 +11997,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1050"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1062"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -11887,6 +12082,32 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true si le fichier a été écrit ; false (récupérable) en cas d'échec d'écriture. </dd></dl>
+
+</div>
+</div>
+<a id="abbf2a2d38ba582981388654fde028bae" name="abbf2a2d38ba582981388654fde028bae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbf2a2d38ba582981388654fde028bae">&#9670;&#160;</a></span>scenePlaceOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::scenePlaceOf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le lieu que déclare <code class="param">level</code> (propriété de couche <span class="tt">scene</span>), vide s'il n'en déclare pas. </dd></dl>
 
 </div>
 </div>
@@ -12302,6 +12523,51 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a8e3a1dcd14a5132e99f15be875c38936" name="a8e3a1dcd14a5132e99f15be875c38936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e3a1dcd14a5132e99f15be875c38936">&#9670;&#160;</a></span>snapshotWorldScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> hmi::snapshotWorldScene </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>appearance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>figures</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tire de <code class="param">level</code> l'instantané que la composition dessine. </p>
+<p>Le sol vient de la couche <b>visuelle de sol</b> (<span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>, à défaut la grille racine), traduit par <code class="param">appearance</code> ; le relief de la couche <b>décor</b>, où une assignation de texture à la case (<span class="tt"><a class="el" href="structcore_1_1TileTextureOverride.html" title="Texture assignée explicitement à une case précise, prioritaire sur le skin de son type (EX-EDIT-043,...">core::TileTextureOverride</a></span>) l'emporte sur la table du lieu.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td>La carte, lue seulement. </td></tr>
+    <tr><td class="paramname">appearance</td><td>La table du lieu. </td></tr>
+    <tr><td class="paramname">figures</td><td>Les figurines à poser, dans l'ordre où l'appelant les veut. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a6d5ae4c4504ac24560454bb394e9ad1a" name="a6d5ae4c4504ac24560454bb394e9ad1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6d5ae4c4504ac24560454bb394e9ad1a">&#9670;&#160;</a></span>solidNeighborMask()</h2>
 
@@ -12510,6 +12776,51 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Son rectangle englobant. </dd></dl>
+
+</div>
+</div>
+<a id="aefe5a3c767ba4b0482688df953007fe1" name="aefe5a3c767ba4b0482688df953007fe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefe5a3c767ba4b0482688df953007fe1">&#9670;&#160;</a></span>standingPieceQuad()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1SpriteQuad.html">SpriteQuad</a> hmi::standingPieceQuad </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1SceneTexture.html">SceneTexture</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>texture</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>topVertex</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>unitsPerScenePixel</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pose une pièce <b>debout</b> d'une case par son ancre. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">texture</td><td>La pièce à poser, déjà chargée (sa taille donne le quad). </td></tr>
+    <tr><td class="paramname">topVertex</td><td>Sommet haut du losange de la case, en unités monde. </td></tr>
+    <tr><td class="paramname">unitsPerScenePixel</td><td>Unités monde par pixel d'art (un losange de <span class="tt"><a class="el" href="#a19b85f07e8096e377cfde7ed43902c89" title="Largeur du losange des textures de scène de l&#39;atelier, en pixels d&#39;art.">SCENE_TILE_WIDTH_PIXELS</a></span> occupe la largeur du losange de la projection). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Le quad à ajouter à la scène ; sa texture est nulle si la pièce ne se dessine pas. </dd></dl>
 
 </div>
 </div>
@@ -13647,6 +13958,88 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a8efa2a96919dd4bc6675ddc5e0f292ad" name="a8efa2a96919dd4bc6675ddc5e0f292ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8efa2a96919dd4bc6675ddc5e0f292ad">&#9670;&#160;</a></span>worldCamera()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a> hmi::worldCamera </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>projection</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>focus</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pixelWidth</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pixelHeight</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le cadrage d'un lieu : la caméra <b>suit</b> le héros, et ne sort pas de la carte. </p>
+<p>Le Colisée ne tient pas dans un écran (<span class="tt">EX-LVL-006</span>) : le cadrage entier de l'arène ne convient plus. L'agrandissement est <b>entier</b> — le pixel art se brouille dès qu'on le met à une échelle fractionnaire —, l'art étant dessiné pour 720 lignes ; au-delà, on double. La caméra se centre ensuite sur le point suivi, puis se ramène dans la scène : sur un axe où la scène est plus petite que la vue, elle reste centrée, faute de quoi la carte collerait à un bord.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">projection</td><td>La projection du lieu. </td></tr>
+    <tr><td class="paramname">focus</td><td>Le point suivi, en unités monde (le héros). </td></tr>
+    <tr><td class="paramname">pixelWidth</td><td>Largeur de la surface, en pixels physiques. </td></tr>
+    <tr><td class="paramname">pixelHeight</td><td>Hauteur de la surface. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abb8a82bb9f00e792f78590f1c2bd788a" name="abb8a82bb9f00e792f78590f1c2bd788a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb8a82bb9f00e792f78590f1c2bd788a">&#9670;&#160;</a></span>worldDepthSortOrder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::worldDepthSortOrder </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>footWorldY</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a71e0c7e2c54951699d44b5c6f88f63ca">WorldDepthSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ordre de tri d'une pièce du lieu. </p>
+
+</div>
+</div>
 <a id="ab5058e349ee1e593ed34274a88dd50fd" name="ab5058e349ee1e593ed34274a88dd50fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab5058e349ee1e593ed34274a88dd50fd">&#9670;&#160;</a></span>worldGraphCircleRadius()</h2>
 
@@ -13704,6 +14097,32 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 <p>Tracé de la flèche <code class="param">edgeIndex</code>. </p>
 <p>Quand la flèche inverse existe (A→B et B→A), chacune est décalée perpendiculairement sur sa droite, pour ne pas se superposer. Une boucle est un cercle posé contre le nœud, en diagonale montante du côté extérieur (à droite pour un nœud au centre ou dans la moitié droite, à gauche sinon) : jamais dessous, où l'étiquette est écrite. </p>
+
+</div>
+</div>
+<a id="a07929611bf03ab59a2de588feb90ad7d" name="a07929611bf03ab59a2de588feb90ad7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07929611bf03ab59a2de588feb90ad7d">&#9670;&#160;</a></span>worldTexturePaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; hmi::worldTexturePaths </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>snapshot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Tous les chemins de texture que <code class="param">snapshot</code> demandera, sans doublon, triés. </dd></dl>
 
 </div>
 </div>
@@ -13834,7 +14253,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64</td>
+          <td class="memname">int hmi::ARENA_FIGURE_FRAME_HEIGHT_PIXELS = <a class="el" href="#a55c481d635af0b56829a8ccc530af04d">FIGURE_FRAME_HEIGHT_PIXELS</a></td>
         </tr>
       </table>
   </td>
@@ -13858,7 +14277,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::ARENA_FIGURE_FRAME_WIDTH_PIXELS = 48</td>
+          <td class="memname">int hmi::ARENA_FIGURE_FRAME_WIDTH_PIXELS = <a class="el" href="#a46b9654e0a27fbe317b1b281d1560182">FIGURE_FRAME_WIDTH_PIXELS</a></td>
         </tr>
       </table>
   </td>
@@ -13869,6 +14288,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Largeur d'une image des bandes d'animation de la planche, en pixels (<span class="tt">manifest.json</span>, <span class="tt">frame</span>), quand la bande n'en déclare pas d'autre (<span class="tt"><a class="el" href="structhmi_1_1ArenaTexture.html#a54b06c2d1e41c3fdeba90bcdbdcbae1f" title="Largeur d&#39;une image si la texture est une bande d&#39;animation (frameWidth de son .anim....">ArenaTexture::frameWidth</a></span>). </p>
+<p>La géométrie des planches de l'atelier est commune à l'arène et aux lieux qu'on parcourt : elle vit dans <span class="tt"><a class="el" href="ScenePieces_8h.html" title="La géométrie des pièces de l&#39;atelier des textures (LOT-92), commune au Colisée en combat et aux lieux...">HMI/Graphics/ScenePieces.h</a></span> (<span class="tt">LOT-09</span>), et ces noms la désignent. </p>
 
 </div>
 </div>
@@ -13882,7 +14302,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float hmi::ARENA_FIGURE_SCALE = 1.25f</td>
+          <td class="memname">float hmi::ARENA_FIGURE_SCALE = <a class="el" href="#a65e321902d186ff823f7122c0f3ace7f">FIGURE_SCALE</a></td>
         </tr>
       </table>
   </td>
@@ -13906,7 +14326,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = <a class="el" href="#a3538a35944c598123f10fb71bd0ed21b">ARENA_SCENE_TILE_WIDTH_PIXELS</a> / 2</td>
+          <td class="memname">int hmi::ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = <a class="el" href="#a5345cd8ebde1293596b218480d44e233">SCENE_HALF_TILE_WIDTH_PIXELS</a></td>
         </tr>
       </table>
   </td>
@@ -13930,7 +14350,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::ARENA_SCENE_TILE_HEIGHT_PIXELS = 42</td>
+          <td class="memname">int hmi::ARENA_SCENE_TILE_HEIGHT_PIXELS = <a class="el" href="#adf0a8584471498fee2fd58f1b3526335">SCENE_TILE_HEIGHT_PIXELS</a></td>
         </tr>
       </table>
   </td>
@@ -13954,7 +14374,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int hmi::ARENA_SCENE_TILE_WIDTH_PIXELS = 68</td>
+          <td class="memname">int hmi::ARENA_SCENE_TILE_WIDTH_PIXELS = <a class="el" href="#a19b85f07e8096e377cfde7ed43902c89">SCENE_TILE_WIDTH_PIXELS</a></td>
         </tr>
       </table>
   </td>
@@ -14500,6 +14920,78 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Identifiant retenu quand le type d'entité ne laisse <b>aucun</b> caractère utilisable (type vide, ou fait uniquement de ponctuation) : <span class="tt">marker/inconnu</span>. </p>
+
+</div>
+</div>
+<a id="a55c481d635af0b56829a8ccc530af04d" name="a55c481d635af0b56829a8ccc530af04d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55c481d635af0b56829a8ccc530af04d">&#9670;&#160;</a></span>FIGURE_FRAME_HEIGHT_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::FIGURE_FRAME_HEIGHT_PIXELS = 64</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur d'une image de ces bandes. </p>
+
+</div>
+</div>
+<a id="a46b9654e0a27fbe317b1b281d1560182" name="a46b9654e0a27fbe317b1b281d1560182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46b9654e0a27fbe317b1b281d1560182">&#9670;&#160;</a></span>FIGURE_FRAME_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::FIGURE_FRAME_WIDTH_PIXELS = 48</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur d'une image des bandes d'animation des figurines (<span class="tt">Assets/Npc/manifest.json</span>). </p>
+
+</div>
+</div>
+<a id="a65e321902d186ff823f7122c0f3ace7f" name="a65e321902d186ff823f7122c0f3ace7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65e321902d186ff823f7122c0f3ace7f">&#9670;&#160;</a></span>FIGURE_SCALE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::FIGURE_SCALE = 1.25F</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Agrandissement d'une figurine par rapport à la planche. </p>
 
 </div>
 </div>
@@ -15926,6 +16418,102 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a5345cd8ebde1293596b218480d44e233" name="a5345cd8ebde1293596b218480d44e233"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5345cd8ebde1293596b218480d44e233">&#9670;&#160;</a></span>SCENE_HALF_TILE_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::SCENE_HALF_TILE_WIDTH_PIXELS = <a class="el" href="#a19b85f07e8096e377cfde7ed43902c89">SCENE_TILE_WIDTH_PIXELS</a> / 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Demi-largeur de ce losange : l'abscisse de l'ancre d'une pièce d'une case. </p>
+
+</div>
+</div>
+<a id="a2048c2024daad5842f0d26bbde67482b" name="a2048c2024daad5842f0d26bbde67482b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2048c2024daad5842f0d26bbde67482b">&#9670;&#160;</a></span>SCENE_PLACE_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::SCENE_PLACE_PROPERTY = &quot;scene&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété de couche qui nomme le <b>lieu</b> dont la carte porte les planches. </p>
+
+</div>
+</div>
+<a id="adf0a8584471498fee2fd58f1b3526335" name="adf0a8584471498fee2fd58f1b3526335"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf0a8584471498fee2fd58f1b3526335">&#9670;&#160;</a></span>SCENE_TILE_HEIGHT_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::SCENE_TILE_HEIGHT_PIXELS = 42</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur de ce losange : il occupe le bas d'une pièce d'une case. </p>
+
+</div>
+</div>
+<a id="a19b85f07e8096e377cfde7ed43902c89" name="a19b85f07e8096e377cfde7ed43902c89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19b85f07e8096e377cfde7ed43902c89">&#9670;&#160;</a></span>SCENE_TILE_WIDTH_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::SCENE_TILE_WIDTH_PIXELS = 68</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Largeur du losange des textures de scène de l'atelier, en pixels d'art. </p>
+
+</div>
+</div>
 <a id="aad0ce653270973d848de764b4fa308d1" name="aad0ce653270973d848de764b4fa308d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad0ce653270973d848de764b4fa308d1">&#9670;&#160;</a></span>SCREEN_SHAKE_DURATION</h2>
 
@@ -16115,6 +16703,78 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 <p>Nombre d'actions <b>hors sélection d'outil</b> admises dans une barre d'outils (<span class="tt">LOT-68</span>). </p>
 <p>Sert de plafond vérifié par test : c'est le nombre au-delà duquel la barre redevient le fourre-tout que ce lot supprime, et un plafond qu'on relève sans y penser ne protège de rien. </p>
+
+</div>
+</div>
+<a id="a010839751f5f86ba20ee3221f0c0c09e" name="a010839751f5f86ba20ee3221f0c0c09e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a010839751f5f86ba20ee3221f0c0c09e">&#9670;&#160;</a></span>WORLD_ART_HEIGHT_PIXELS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::WORLD_ART_HEIGHT_PIXELS = 720</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double. </p>
+
+</div>
+</div>
+<a id="a7156a1bc50d513bacc4cf9f6bd64916b" name="a7156a1bc50d513bacc4cf9f6bd64916b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7156a1bc50d513bacc4cf9f6bd64916b">&#9670;&#160;</a></span>WORLD_DEPTH_SLOTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::int32_t hmi::WORLD_DEPTH_SLOTS = 2</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre de rangs par profondeur. </p>
+
+</div>
+</div>
+<a id="a344f40841fd17a0ce2a36213b84514c9" name="a344f40841fd17a0ce2a36213b84514c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a344f40841fd17a0ce2a36213b84514c9">&#9670;&#160;</a></span>WORLD_FIGURE_BOTTOM_MARGIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::WORLD_FIGURE_BOTTOM_MARGIN = 0.42F</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Marge basse d'une figurine, en hauteurs de losange — la même que dans l'arène. </p>
 
 </div>
 </div>

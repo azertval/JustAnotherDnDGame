@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ExplorationSession.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Ecs/Components/Interactable.h"
+#include "Core/Gameplay/WorldFlags.h"
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/Level.h"
+#include "Core/Math/Vector2.h"
+#include "Core/World/WorldTravel.h"
+
+/**
+ * @file Core/World/ExplorationSession.h
+ * @brief L'exploration du jeu : un hÃ©ros qui marche sur une carte, parle Ã  ce qu'il regarde, et
+ *        passe d'une carte Ã  l'autre (`LOT-09`).
+ *
+ * ## Pourquoi une session Ã  part
+ *
+ * `hmi::GameSession` simule un niveau pour le **banc d'essai de l'Ã©diteur** : elle porte son propre
+ * rendu (atlas de tuiles carrÃ©es, HUD bitmap) et l'hÃ©ritage du jeu de plateforme. Le jeu, lui,
+ * dessine ses lieux comme l'arÃ¨ne, en projection isomÃ©trique et avec les planches de l'atelier des
+ * textures (`LOT-92`). Cette session est donc la **jumelle de `core::ArenaSession`** : de la
+ * simulation pure, sans GPU ni Qt (`EX-NFR-004`), qu'un rendu quelconque met Ã  l'Ã©cran.
+ *
+ * *DÃ©cision de l'auteur, 17 septembre 2026* : la feuille de route demandait de compiler
+ * `hmi::GameSession` dans le jeu, ce qui y aurait amenÃ© un second moteur de rendu. Un lieu et une
+ * arÃ¨ne se dessinent par le **mÃªme** code ; ils se simulent par deux sessions, comme aujourd'hui.
+ *
+ * ## Le repÃ¨re
+ *
+ * La position du hÃ©ros est **continue, en cases** : `{1.5, 2.5}` est le centre de la case (1, 2).
+ * Le pas de simulation ne connaÃ®t donc ni pixels ni projection â c'est le rendu qui projette.
+ * La collision se lit sur la grille racine de la carte, la seule qui porte le masque
+ * (`core::LevelData::tileMap`) : il n'existe jamais deux grilles Ã  tenir d'accord.
+ */
+
+namespace core {
+
+/// @brief Position continue sur la grille, en cases.
+struct CellPoint {
+    float column = 0.0F;
+    float row = 0.0F;
+
+    [[nodiscard]] bool operator==(const CellPoint&amp;) const = default;
+};
+
+/// @return La case qui contient @p point.
+[[nodiscard]] GridPosition cellOf(CellPoint point) noexcept;
+
+/// @return Le centre de @p cell, en cases. (`core::centerOf` existe deja, en
+///         demi-cases de la ligne de vue : deux reperes, deux noms.)
+[[nodiscard]] CellPoint cellCenter(GridPosition cell) noexcept;
+
+/// @brief Ce que le joueur demande d'un pas de simulation.
+struct ExplorationIntent {
+    /// Direction voulue, de longueur au plus 1 (clavier ou manette, dÃ©jÃ  normalisÃ©e).
+    Vector2 move{};
+    /// Vrai le pas oÃ¹ le joueur presse la touche d'interaction (`E`, bouton de manette).
+    bool interact = false;
+};
+
+/// @brief Ce qu'un pas d'exploration a produit et que l'appelant doit jouer.
+enum class ExplorationEventKind {
+    /// Le hÃ©ros est entrÃ© sur une carte. `value` la nomme.
+    MapEntered,
+    /// Un portail exige un drapeau que la partie n'a pas. `value` nomme le drapeau.
+    PortalLocked,
+    /// Un portail ne mÃ¨ne nulle part : la carte ou le point d'arrivÃ©e manque (`EX-NFR-040`).
+    PortalBroken,
+    /// Il faut ouvrir un dialogue. `value` nomme le dialogue.
+    Dialogue,
+    /// Il faut engager une rencontre. `value` la nomme.
+    Encounter,
+    /// Une interaction a eu lieu sans autre consÃ©quence (coffre, panneau). `value` donne le type.
+    Interacted,
+};
+
+/// @brief Un Ã©vÃ©nement du pas, et oÃ¹ il a eu lieu.
+struct ExplorationEvent {
+    ExplorationEventKind kind = ExplorationEventKind::MapEntered;
+    std::string value;
+    GridPosition cell{};
+
+    [[nodiscard]] bool operator==(const ExplorationEvent&amp;) const = default;
+};
+
+/**
+ * @brief Le hÃ©ros sur la carte courante : marche, interaction, portails.
+ *
+ * GelÃ©e (`freeze`), la session ne bouge plus et n'interagit plus : c'est l'Ã©tat de la carte pendant
+ * un dialogue ou un combat, qui la laisse telle quelle sans la dÃ©truire â la reprendre rendra le
+ * lieu comme on l'a quittÃ©.
+ */
+class ExplorationSession {
+public:
+    /// Vitesse de marche, en cases par seconde.
+    static constexpr float WALK_SPEED_CELLS_PER_SECOND = 4.0F;
+    /// Demi-cÃ´tÃ© du gabarit du hÃ©ros, en cases : il ne tient pas tout Ã  fait une case, si bien
+    /// qu'un couloir d'une case se franchit sans frotter les deux murs.
+    static constexpr float HERO_HALF_SIZE_CELLS = 0.3F;
+
+    explicit ExplorationSession(WorldTravel::MapLoader loader);
+
+    /**
+     * @brief Entre sur @p mapId, au point d'arrivÃ©e @p arrival (vide : l'entrÃ©e de la carte).
+     * @return Vrai si la carte est lÃ  et le point d'arrivÃ©e connu ; `travel().lastIssue()` dit
+     *         sinon pourquoi.
+     */
+    bool start(std::string_view mapId, std::string_view arrival);
+
+    /**
+     * @brief Avance d'un pas de @p seconds.
+     *
+     * L'ordre compte : on marche, puis on franchit le portail de la case atteinte, puis on
+     * interagit. Marcher aprÃ¨s avoir franchi ferait faire au hÃ©ros un pas sur la carte d'arrivÃ©e
+     * avec l'intention qui l'a fait entrer.
+     */
+    std::vector&lt;ExplorationEvent&gt; update(const ExplorationIntent&amp; intent, float seconds);
+
+    /// @return La carte courante, ou `nullptr` avant une entrÃ©e rÃ©ussie.
+<span style = "background-color:#dfd">    [[nodiscard]] const Level* map() const {
+        return _travel.currentMap();
+    }</span>
+
+    /// @return L'identifiant de la carte courante.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; mapId() const noexcept {
+        return _travel.currentMapId();
+    }</span>
+
+    /// @return La position continue du hÃ©ros, en cases.
+<span style = "background-color:#dfd">    [[nodiscard]] CellPoint heroPoint() const noexcept {
+        return _hero;
+    }</span>
+
+    /// @brief Pose le hÃ©ros oÃ¹ l'appelant le veut â le retour du sable, Ã  la case relevÃ©e.
+    void placeHero(CellPoint point) noexcept;
+
+    /// @return La case du hÃ©ros.
+<span style = "background-color:#dfd">    [[nodiscard]] GridPosition heroCell() const noexcept {
+        return cellOf(_hero);
+    }</span>
+
+    /// @return L'orientation du hÃ©ros : la derniÃ¨re direction non nulle qu'il a prise.
+    [[nodiscard]] Vector2 facing() const noexcept {
+        return _facing;
+    }
+
+    /// @return La case que le hÃ©ros regarde (`core::aimedCell`).
+    [[nodiscard]] GridPosition aimedCell() const;
+
+    [[nodiscard]] WorldFlags&amp; flags() noexcept {
+        return _flags;
+    }
+    [[nodiscard]] const WorldFlags&amp; flags() const noexcept {
+        return _flags;
+    }
+
+    [[nodiscard]] const WorldTravel&amp; travel() const noexcept {
+        return _travel;
+    }
+
+    /// @brief GÃ¨le ou dÃ©gÃ¨le la carte (dialogue, combat).
+<span style = "background-color:#dfd">    void freeze(bool frozen) noexcept {
+        _frozen = frozen;
+    }</span>
+    [[nodiscard]] bool frozen() const noexcept {
+        return _frozen;
+    }
+
+    /// @return Les entitÃ©s interactives de la carte courante, dans l'ordre des entitÃ©s.
+    [[nodiscard]] const std::vector&lt;Interactable&gt;&amp; interactables() const noexcept {
+        return _interactables;
+    }
+
+private:
+    /// Relit les entitÃ©s interactives de la carte courante (changement de carte).
+    void rebuildInteractables();
+    /// @return Vrai si le gabarit du hÃ©ros tient en @p point sans entrer dans du plein.
+    [[nodiscard]] bool fits(CellPoint point) const;
+    /// Marche d'un pas, axe par axe : un mur pris en biais fait glisser le long, il n'arrÃªte pas.
+    void walk(Vector2 move, float seconds);
+    /// Franchit le portail de la case du hÃ©ros, s'il y en a un.
+    void crossPortal(std::vector&lt;ExplorationEvent&gt;&amp; events);
+    /// RÃ©sout l'interaction demandÃ©e.
+    void resolveInteraction(std::vector&lt;ExplorationEvent&gt;&amp; events);
+
+    WorldTravel _travel;
+    WorldFlags _flags;
+    std::vector&lt;Interactable&gt; _interactables;
+<span style = "background-color:#dfd">    CellPoint _hero{};
+    Vector2 _facing{0.0F, 1.0F};</span>
+    /// Case du hÃ©ros au pas prÃ©cÃ©dent : un portail se franchit **en y arrivant**, pas Ã  chaque pas
+    /// oÃ¹ l'on reste dessus â sans quoi un portail qui ramÃ¨ne sur place bouclerait.
+<span style = "background-color:#dfd">    GridPosition _lastCell{};
+    bool _frozen = false;</span>
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

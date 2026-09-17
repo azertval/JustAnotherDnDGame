@@ -32,6 +32,9 @@ var searchData=
   ['expectedassetkey_29',['ExpectedAssetKey',['../structcore_1_1ExpectedAssetKey.html',1,'core']]],
   ['experiencelevel_30',['ExperienceLevel',['../structcore_1_1ExperienceLevel.html',1,'core']]],
   ['experiencetable_31',['ExperienceTable',['../structcore_1_1ExperienceTable.html',1,'core']]],
-  ['explorationmode_32',['ExplorationMode',['../classhmi_1_1ExplorationMode.html',1,'hmi']]],
-  ['explorationsnapshot_33',['ExplorationSnapshot',['../structcore_1_1ExplorationSnapshot.html',1,'core']]]
+  ['explorationevent_32',['ExplorationEvent',['../structcore_1_1ExplorationEvent.html',1,'core']]],
+  ['explorationintent_33',['ExplorationIntent',['../structcore_1_1ExplorationIntent.html',1,'core']]],
+  ['explorationmode_34',['ExplorationMode',['../classhmi_1_1ExplorationMode.html',1,'hmi']]],
+  ['explorationsession_35',['ExplorationSession',['../classcore_1_1ExplorationSession.html',1,'core']]],
+  ['explorationsnapshot_36',['ExplorationSnapshot',['../structcore_1_1ExplorationSnapshot.html',1,'core']]]
 ];

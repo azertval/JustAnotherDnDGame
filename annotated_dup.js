@@ -201,15 +201,23 @@ var annotated_dup =
       [ "Location", "structcore_1_1Location.html", "structcore_1_1Location" ],
       [ "Region", "structcore_1_1Region.html", "structcore_1_1Region" ],
       [ "Atlas", "structcore_1_1Atlas.html", "structcore_1_1Atlas" ],
+      [ "CombatZone", "structcore_1_1CombatZone.html", "structcore_1_1CombatZone" ],
       [ "EntityPropertySpec", "structcore_1_1EntityPropertySpec.html", "structcore_1_1EntityPropertySpec" ],
       [ "EntityKind", "structcore_1_1EntityKind.html", "structcore_1_1EntityKind" ],
       [ "EntityReferenceContext", "structcore_1_1EntityReferenceContext.html", "structcore_1_1EntityReferenceContext" ],
       [ "EntityIssue", "structcore_1_1EntityIssue.html", "structcore_1_1EntityIssue" ],
+      [ "CellPoint", "structcore_1_1CellPoint.html", "structcore_1_1CellPoint" ],
+      [ "ExplorationIntent", "structcore_1_1ExplorationIntent.html", "structcore_1_1ExplorationIntent" ],
+      [ "ExplorationEvent", "structcore_1_1ExplorationEvent.html", "structcore_1_1ExplorationEvent" ],
+      [ "ExplorationSession", "classcore_1_1ExplorationSession.html", "classcore_1_1ExplorationSession" ],
       [ "GridDistanceField", "classcore_1_1GridDistanceField.html", "classcore_1_1GridDistanceField" ],
       [ "WorldMapInput", "structcore_1_1WorldMapInput.html", "structcore_1_1WorldMapInput" ],
       [ "WorldMapNode", "structcore_1_1WorldMapNode.html", "structcore_1_1WorldMapNode" ],
       [ "WorldPortalLink", "structcore_1_1WorldPortalLink.html", "structcore_1_1WorldPortalLink" ],
-      [ "WorldGraph", "structcore_1_1WorldGraph.html", "structcore_1_1WorldGraph" ]
+      [ "WorldGraph", "structcore_1_1WorldGraph.html", "structcore_1_1WorldGraph" ],
+      [ "PortalTarget", "structcore_1_1PortalTarget.html", "structcore_1_1PortalTarget" ],
+      [ "WorldIssue", "structcore_1_1WorldIssue.html", "structcore_1_1WorldIssue" ],
+      [ "WorldTravel", "classcore_1_1WorldTravel.html", "classcore_1_1WorldTravel" ]
     ] ],
     [ "hmi", "namespacehmi.html", [
       [ "AudioEngine", "classhmi_1_1AudioEngine.html", "classhmi_1_1AudioEngine" ],
@@ -331,6 +339,8 @@ var annotated_dup =
       [ "FollowCameraState", "structhmi_1_1FollowCameraState.html", "structhmi_1_1FollowCameraState" ],
       [ "LayerVisibility", "classhmi_1_1LayerVisibility.html", "classhmi_1_1LayerVisibility" ],
       [ "MechanismVisualState", "structhmi_1_1MechanismVisualState.html", "structhmi_1_1MechanismVisualState" ],
+      [ "PlaceAppearance", "classhmi_1_1PlaceAppearance.html", "classhmi_1_1PlaceAppearance" ],
+      [ "PlaceAppearanceResult", "structhmi_1_1PlaceAppearanceResult.html", "structhmi_1_1PlaceAppearanceResult" ],
       [ "PlaneVisibility", "classhmi_1_1PlaneVisibility.html", "classhmi_1_1PlaneVisibility" ],
       [ "PlaneTexture", "structhmi_1_1PlaneTexture.html", "structhmi_1_1PlaneTexture" ],
       [ "PlaneParallax", "structhmi_1_1PlaneParallax.html", "structhmi_1_1PlaneParallax" ],
@@ -351,6 +361,8 @@ var annotated_dup =
       [ "RhiContext", "structhmi_1_1RhiContext.html", "structhmi_1_1RhiContext" ],
       [ "RoomBounds", "structhmi_1_1RoomBounds.html", "structhmi_1_1RoomBounds" ],
       [ "RoomGrid", "classhmi_1_1RoomGrid.html", "classhmi_1_1RoomGrid" ],
+      [ "SceneTexture", "structhmi_1_1SceneTexture.html", "structhmi_1_1SceneTexture" ],
+      [ "ScenePieceTextures", "structhmi_1_1ScenePieceTextures.html", "structhmi_1_1ScenePieceTextures" ],
       [ "SceneResources", "classhmi_1_1SceneResources.html", "classhmi_1_1SceneResources" ],
       [ "SkinEntry", "structhmi_1_1SkinEntry.html", "structhmi_1_1SkinEntry" ],
       [ "SkinCatalog", "classhmi_1_1SkinCatalog.html", "classhmi_1_1SkinCatalog" ],
@@ -367,6 +379,9 @@ var annotated_dup =
       [ "SceneTextures", "structhmi_1_1SceneTextures.html", "structhmi_1_1SceneTextures" ],
       [ "AutotileCell", "structhmi_1_1AutotileCell.html", "structhmi_1_1AutotileCell" ],
       [ "TileSkinTag", "structhmi_1_1TileSkinTag.html", "structhmi_1_1TileSkinTag" ],
+      [ "WorldFigureSnapshot", "structhmi_1_1WorldFigureSnapshot.html", "structhmi_1_1WorldFigureSnapshot" ],
+      [ "WorldSceneSnapshot", "structhmi_1_1WorldSceneSnapshot.html", "structhmi_1_1WorldSceneSnapshot" ],
+      [ "WorldSceneRenderer", "classhmi_1_1WorldSceneRenderer.html", "classhmi_1_1WorldSceneRenderer" ],
       [ "ButtonRepeat", "classhmi_1_1ButtonRepeat.html", "classhmi_1_1ButtonRepeat" ],
       [ "EditorKeyBindings", "classhmi_1_1EditorKeyBindings.html", "classhmi_1_1EditorKeyBindings" ],
       [ "GameKeyBindings", "classhmi_1_1GameKeyBindings.html", "classhmi_1_1GameKeyBindings" ],
@@ -438,6 +453,8 @@ var annotated_dup =
       [ "ScreenRouter", "classhmi_1_1ScreenRouter.html", "classhmi_1_1ScreenRouter" ],
       [ "SheetRow", "structhmi_1_1SheetRow.html", "structhmi_1_1SheetRow" ],
       [ "SheetRowModel", "classhmi_1_1SheetRowModel.html", "classhmi_1_1SheetRowModel" ],
-      [ "WorldMapModel", "classhmi_1_1WorldMapModel.html", "classhmi_1_1WorldMapModel" ]
+      [ "WorldMapModel", "classhmi_1_1WorldMapModel.html", "classhmi_1_1WorldMapModel" ],
+      [ "WorldModel", "classhmi_1_1WorldModel.html", "classhmi_1_1WorldModel" ],
+      [ "WorldViewportItem", "classhmi_1_1WorldViewportItem.html", "classhmi_1_1WorldViewportItem" ]
     ] ]
 ];

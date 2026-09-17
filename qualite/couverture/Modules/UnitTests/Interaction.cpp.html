@@ -80,8 +80,8 @@ InteractionTarget findInteractionTarget(GridPosition from, Vector2 facing, const
         if (candidat.interactable == nullptr) {</span>
 <span style = "background-color:#fdd">            continue;</span>
         }
-<span style = "background-color:#dfd">        if (candidat.interactable-&gt;position != resultat.aimedCell) {</span>
-<span style = "background-color:#fdd">            continue;</span>
+<span style = "background-color:#dfd">        if (candidat.interactable-&gt;position != resultat.aimedCell) {
+            continue;</span>
         }
 <span style = "background-color:#dfd">        if (candidat.interactable-&gt;isConsumable() &amp;&amp;</span>
             flags.isSet(candidat.interactable-&gt;consumedFlag)) {

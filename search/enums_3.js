@@ -12,5 +12,6 @@ var searchData=
   ['entitygestureaction_9',['EntityGestureAction',['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1',1,'hmi']]],
   ['entityissuecode_10',['EntityIssueCode',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035e',1,'core']]],
   ['entitypropertykind_11',['EntityPropertyKind',['../namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126e',1,'core']]],
-  ['equipmentslot_12',['EquipmentSlot',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6',1,'core']]]
+  ['equipmentslot_12',['EquipmentSlot',['../namespacecore.html#af71085608729d9857e7ee3fd17be6cd6',1,'core']]],
+  ['explorationeventkind_13',['ExplorationEventKind',['../namespacecore.html#a90b12b036a2622c3cea570a4b860ec55',1,'core']]]
 ];

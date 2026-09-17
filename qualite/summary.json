@@ -1,12 +1,12 @@
 {
-  "generated": "2026-09-17 19:43 UTC",
-  "commit": "ef24acbfb",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35265239285",
+  "generated": "2026-09-17 22:00 UTC",
+  "commit": "e32d883e1",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35278658900",
   "coverage": {
-    "percent": 90.87,
-    "covered": 20162,
-    "valid": 22188,
-    "files": 289,
+    "percent": 90.78,
+    "covered": 20876,
+    "valid": 22997,
+    "files": 300,
     "areas": [
       {
         "name": "Core",
@@ -16,9 +16,9 @@
       },
       {
         "name": "Core/Combat",
-        "covered": 3280,
-        "valid": 3468,
-        "percent": 94.58
+        "covered": 3283,
+        "valid": 3470,
+        "percent": 94.61
       },
       {
         "name": "Core/Data",
@@ -40,9 +40,9 @@
       },
       {
         "name": "Core/Gameplay",
-        "covered": 166,
+        "covered": 167,
         "valid": 173,
-        "percent": 95.95
+        "percent": 96.53
       },
       {
         "name": "Core/Levels",
@@ -70,9 +70,9 @@
       },
       {
         "name": "Core/Rpg",
-        "covered": 1964,
-        "valid": 2182,
-        "percent": 90.01
+        "covered": 1972,
+        "valid": 2190,
+        "percent": 90.05
       },
       {
         "name": "Core/Time",
@@ -82,9 +82,9 @@
       },
       {
         "name": "Core/World",
-        "covered": 435,
-        "valid": 485,
-        "percent": 89.69
+        "covered": 775,
+        "valid": 872,
+        "percent": 88.88
       },
       {
         "name": "HMI/Audio",
@@ -112,9 +112,9 @@
       },
       {
         "name": "HMI/Graphics",
-        "covered": 3078,
-        "valid": 3700,
-        "percent": 83.19
+        "covered": 3430,
+        "valid": 4101,
+        "percent": 83.64
       },
       {
         "name": "HMI/Input",
@@ -136,15 +136,15 @@
       },
       {
         "name": "HMI/Platform",
-        "covered": 74,
+        "covered": 72,
         "valid": 128,
-        "percent": 57.81
+        "percent": 56.25
       },
       {
         "name": "HMI/Presentation",
-        "covered": 575,
-        "valid": 629,
-        "percent": 91.41
+        "covered": 578,
+        "valid": 632,
+        "percent": 91.46
       }
     ]
   },

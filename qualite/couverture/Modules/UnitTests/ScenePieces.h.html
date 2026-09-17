@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ScenePieces.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;functional&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Math/Vector2.h"
+#include "HMI/Graphics/Quad.h"
+#include "HMI/Graphics/RenderLayer.h"
+#include "HMI/Graphics/TileAppearance.h"  // hmi::TextureHandle
+
+/**
+ * @file HMI/Graphics/ScenePieces.h
+ * @brief La gÃ©omÃ©trie des **piÃ¨ces de l'atelier des textures** (`LOT-92`), commune au ColisÃ©e en
+ *        combat et aux lieux qu'on parcourt (`LOT-09`).
+ *
+ * L'atelier livre, pour chaque lieu, une planche dÃ©coupÃ©e en piÃ¨ces : un losange de 68 Ã 42 pixels
+ * d'art (le rapport 0,62 d'`core::IsoProjection`), chaque piÃ¨ce posÃ©e par son **ancre**, le sommet
+ * haut du losange de son emprise. Une piÃ¨ce d'une case a donc la largeur du losange, dont les 42
+ * pixels du bas ; ce qui dÃ©passe monte au-dessus de la case.
+ *
+ * Ces constantes vivaient dans `hmi::ArenaSceneComposer`, qui fut le premier Ã  les lire. Le monde
+ * explorÃ© lit les mÃªmes planches : les garder en deux copies ferait de leur Ã©galitÃ© une
+ * coÃ¯ncidence.
+ */
+
+namespace hmi {
+
+/// Largeur du losange des textures de scÃ¨ne de l'atelier, en pixels d'art.
+inline constexpr int SCENE_TILE_WIDTH_PIXELS = 68;
+/// Demi-largeur de ce losange : l'abscisse de l'ancre d'une piÃ¨ce d'une case.
+inline constexpr int SCENE_HALF_TILE_WIDTH_PIXELS = SCENE_TILE_WIDTH_PIXELS / 2;
+/// Hauteur de ce losange : il occupe le bas d'une piÃ¨ce d'une case.
+inline constexpr int SCENE_TILE_HEIGHT_PIXELS = 42;
+
+/// Largeur d'une image des bandes d'animation des figurines (`Assets/Npc/manifest.json`).
+inline constexpr int FIGURE_FRAME_WIDTH_PIXELS = 48;
+/// Hauteur d'une image de ces bandes.
+inline constexpr int FIGURE_FRAME_HEIGHT_PIXELS = 64;
+/// Agrandissement d'une figurine par rapport Ã  la planche.
+inline constexpr float FIGURE_SCALE = 1.25F;
+
+/// @brief Une texture liable et ses dimensions en pixels (pour normaliser les UV).
+struct SceneTexture {
+    TextureHandle texture = nullptr;
+    int width = 0;
+    int height = 0;
+    /// Largeur d'une image si la texture est une bande d'animation ; 0 sinon.
+    int frameWidth = 0;
+};
+
+/**
+ * @brief Les textures d'un lieu, adressÃ©es par leur **chemin** tel que la composition l'Ã©crit.
+ *
+ * La composition ne demande rien au GPU : elle rÃ©sout un chemin en texture dÃ©jÃ  chargÃ©e. Un chemin
+ * absent tombe sur le damier (`EX-NFR-040`) ; si lui aussi manque, la piÃ¨ce n'est pas composÃ©e.
+ */
+struct ScenePieceTextures {
+    /// Comparateur transparent : la recherche se fait sans chaÃ®ne temporaire.
+    std::map&lt;std::string, SceneTexture, std::less&lt;&gt;&gt; byPath;
+    /// Damier de repli.
+    SceneTexture missing;
+
+    /// @return La texture de @p path, le damier si elle n'est pas chargÃ©e.
+<span style = "background-color:#dfd">    [[nodiscard]] const SceneTexture&amp; resolve(std::string_view path) const {
+        const auto found = byPath.find(path);
+        return found != byPath.end() ? found-&gt;second : missing;
+    }</span>
+};
+
+/**
+ * @brief Pose une piÃ¨ce **debout** d'une case par son ancre.
+ *
+ * @param texture La piÃ¨ce Ã  poser, dÃ©jÃ  chargÃ©e (sa taille donne le quad).
+ * @param topVertex Sommet haut du losange de la case, en unitÃ©s monde.
+ * @param unitsPerScenePixel UnitÃ©s monde par pixel d'art (un losange de `SCENE_TILE_WIDTH_PIXELS`
+ *                           occupe la largeur du losange de la projection).
+ * @return Le quad Ã  ajouter Ã  la scÃ¨ne ; sa texture est nulle si la piÃ¨ce ne se dessine pas.
+ */
+[[nodiscard]] inline SpriteQuad standingPieceQuad(const SceneTexture&amp; texture,
+                                                  core::Vector2 topVertex,
+<span style = "background-color:#dfd">                                                  float unitsPerScenePixel) {
+    SpriteQuad quad;
+    const auto height = static_cast&lt;float&gt;(texture.height);
+    quad.x =</span>
+        topVertex.x - (static_cast&lt;float&gt;(SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel);
+<span style = "background-color:#dfd">    quad.y = topVertex.y -</span>
+             ((height - static_cast&lt;float&gt;(SCENE_TILE_HEIGHT_PIXELS)) * unitsPerScenePixel);
+<span style = "background-color:#dfd">    quad.width = static_cast&lt;float&gt;(texture.width) * unitsPerScenePixel;
+    quad.height = height * unitsPerScenePixel;
+    return quad;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

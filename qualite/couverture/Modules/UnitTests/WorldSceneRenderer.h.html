@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldSceneRenderer.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;map&gt;
+#include &lt;set&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Combat/IsoProjection.h"
+#include "Core/Math/Vector2.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/SceneResources.h"
+#include "HMI/Graphics/ScenePieces.h"
+#include "HMI/Graphics/TextureLoader.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
+
+class QRhi;
+class QRhiCommandBuffer;
+class QRhiRenderTarget;
+class QRhiResourceUpdateBatch;
+
+/**
+ * @file HMI/Graphics/WorldSceneRenderer.h
+ * @brief Le rendu QRhi d'un **lieu qu'on parcourt** : le jumeau d'`hmi::ArenaSceneRenderer`
+ *        (`LOT-09`).
+ *
+ * MÃªme dÃ©coupage, pour la mÃªme raison : tout ce qui peut casser â l'ordre de crÃ©ation, l'ordre de
+ * libÃ©ration, la recrÃ©ation sur une autre interface QRhi â vit ici, oÃ¹ un test hors Ã©cran le fait
+ * tourner sur un vrai `QRhi` sans fenÃªtre. L'Ã©lÃ©ment Qt Quick (`hmi::WorldViewportItem`) ne relaie
+ * que trois appels.
+ *
+ * Une diffÃ©rence avec l'arÃ¨ne, et une seule : **les textures ne sont pas connues d'avance**. Une
+ * arÃ¨ne a son catalogue ; un lieu a les piÃ¨ces de sa carte, et la carte change au passage d'un
+ * portail. Les textures se chargent donc Ã  la demande, quand l'instantanÃ© en rÃ©clame une que le
+ * rendu n'a pas â sur le fil de rendu, dans le lot de l'image.
+ */
+
+namespace hmi {
+
+/**
+ * @brief Le cadrage d'un lieu : la camÃ©ra **suit** le hÃ©ros, et ne sort pas de la carte.
+ *
+ * Le ColisÃ©e ne tient pas dans un Ã©cran (`EX-LVL-006`) : le cadrage entier de l'arÃ¨ne ne convient
+ * plus. L'agrandissement est **entier** â le pixel art se brouille dÃ¨s qu'on le met Ã  une Ã©chelle
+ * fractionnaire â, l'art Ã©tant dessinÃ© pour 720 lignes ; au-delÃ , on double. La camÃ©ra se centre
+ * ensuite sur le point suivi, puis se ramÃ¨ne dans la scÃ¨ne : sur un axe oÃ¹ la scÃ¨ne est plus petite
+ * que la vue, elle reste centrÃ©e, faute de quoi la carte collerait Ã  un bord.
+ *
+ * @param projection  La projection du lieu.
+ * @param focus       Le point suivi, en unitÃ©s monde (le hÃ©ros).
+ * @param pixelWidth  Largeur de la surface, en pixels physiques.
+ * @param pixelHeight Hauteur de la surface.
+ */
+[[nodiscard]] Camera2D worldCamera(const core::IsoProjection&amp; projection, core::Vector2 focus,
+                                   int pixelWidth, int pixelHeight);
+
+/// Hauteur d'Ã©cran pour laquelle l'art est dessinÃ© : l'agrandissement est 1 jusque-lÃ , 2 au double.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
+
+/**
+ * @brief Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la
+ *        scÃ¨ne composÃ©e.
+ *
+ * Les trois temps sont ceux de l'arÃ¨ne : `ensureResources(rhi)` sur le fil de rendu,
+ * `setSnapshot(...)` depuis `synchronize()` (fil graphique bloquÃ©, **valeurs** seulement),
+ * `render(...)` sur le fil de rendu.
+ */
+class WorldSceneRenderer {
+public:
+    /**
+     * @param assetsDirectory Dossier des assets (`Source/Elements/Assets`) : les chemins de
+     *                        l'instantanÃ© (`Scene/&lt;lieu&gt;/&lt;piÃ¨ce&gt;.png`, `Npc/&lt;slug&gt;/&lt;bande&gt;.png`)
+     *                        s'y rÃ©solvent. Absent : rien Ã  dessiner que le fond, jamais une
+     *                        erreur bloquante (`EX-NFR-040`).
+     */
+    explicit WorldSceneRenderer(std::filesystem::path assetsDirectory);
+    ~WorldSceneRenderer();
+
+    WorldSceneRenderer(const WorldSceneRenderer&amp;) = delete;
+    WorldSceneRenderer&amp; operator=(const WorldSceneRenderer&amp;) = delete;
+
+    /// @brief Garantit que les ressources existent sur @p rhi (voir `ArenaSceneRenderer`).
+    bool ensureResources(QRhi* rhi);
+
+    /// LibÃ¨re toutes les ressources GPU, dans l'ordre. Sans effet si rien n'est crÃ©Ã©.
+    void release() noexcept;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool created() const noexcept {
+        return _resources.created();
+    }</span>
+
+<span style = "background-color:#dfd">    [[nodiscard]] QRhi* rhi() const noexcept {
+        return _rhi;
+    }</span>
+
+    /// @brief Remplace la scÃ¨ne Ã  dessiner. Ne touche pas au GPU : appelable avant les ressources.
+    void setSnapshot(WorldSceneSnapshot snapshot);
+
+    [[nodiscard]] const WorldSceneSnapshot&amp; snapshot() const noexcept {
+        return _snapshot;
+    }
+
+    /// @brief Le point suivi par la camÃ©ra, en cases (position continue du hÃ©ros).
+<span style = "background-color:#dfd">    void setFocus(core::Vector2 focusCells) noexcept {
+        _focus = focusCells;
+    }</span>
+
+    [[nodiscard]] core::Vector2 focus() const noexcept {
+        return _focus;
+    }
+
+    /// @brief Dessine une image dans @p target : efface Ã  @p clear, puis le lieu cadrÃ© sur le hÃ©ros.
+    void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, const float* clear);
+
+<span style = "background-color:#dfd">    [[nodiscard]] const ComposedScene&amp; composed() const noexcept {
+        return _composed;
+    }</span>
+
+<span style = "background-color:#dfd">    [[nodiscard]] const ScenePieceTextures&amp; textures() const noexcept {
+        return _textures;
+    }</span>
+
+    /// @return Les chemins que le rendu a essayÃ© de charger, qu'il ait rÃ©ussi ou non â ce qui
+    ///         permet de vÃ©rifier, en test, qu'une carte ne redemande pas ce qu'elle a dÃ©jÃ .
+<span style = "background-color:#dfd">    [[nodiscard]] const std::set&lt;std::string&gt;&amp; requested() const noexcept {
+        return _requested;
+    }</span>
+
+private:
+    /// Charge les textures de @p paths qui manquent encore. Sur le fil de rendu.
+    void ensureTextures(const std::vector&lt;std::string&gt;&amp; paths);
+    /// La largeur d'image d'une bande d'animation, lue de son `.anim.json` s'il y en a un.
+    [[nodiscard]] int bandFrameWidth(const std::string&amp; path);
+
+    std::filesystem::path _directory;
+    WorldSceneSnapshot _snapshot;
+<span style = "background-color:#dfd">    core::Vector2 _focus{};</span>
+    ComposedScene _composed;
+    /// Chemins dÃ©jÃ  tentÃ©s : une piÃ¨ce absente ne doit pas Ãªtre redemandÃ©e Ã  chaque image.
+    std::set&lt;std::string&gt; _requested;
+    std::map&lt;std::string, int&gt; _bandFrameWidths;
+
+<span style = "background-color:#dfd">    QRhi* _rhi = nullptr;
+    QRhiResourceUpdateBatch* _pendingUploads = nullptr;</span>
+    // DÃ©clarÃ©es APRÃS les ressources : les textures meurent avant la grappe qui porte le pipeline.
+    SceneResources _resources;
+    std::vector&lt;LoadedTexture&gt; _loaded;
+    LoadedTexture _missing;
+    ScenePieceTextures _textures;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

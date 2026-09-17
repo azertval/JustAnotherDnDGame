@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1285 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1311 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1269)</h1>
+Tests unitaires (1295)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -988,7 +988,7 @@ Vérifie que <span class="tt">combat.id.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">combat.name.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">combat.combatants.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">combattant.creatureId.empty()</span> est faux.<br  />
-Vérifie que <span class="tt">catalogue.find("nuee-de-rats")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">catalogue.find("colisee-fauves")</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">catalogue.find("rencontre-qui-n-existe-pas")</span> vaut <span class="tt">nullptr</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>EncounterTest.UnInstantaneNonReleveSeDistingueDeLOrigine</b> (Majeur)<br  />
@@ -997,7 +997,7 @@ Vérifie que <span class="tt">catalogue.find("rencontre-qui-n-existe-pas")</span
 <td class="markdownTableBodyNone"><b>EncounterTest.UnEnnemiPosePorteUneCleUneZoneNonN</b> (Critique)<br  />
 <sub><span class="tt"><a class="el" href="test__encounter_8cpp.html" title="Tests de l&#39;aller-retour exploration ↔ combat (LOT-18, EX-CBT-001).">Source/Test/Unit/Core/Combat/test_encounter.cpp</a>:239</span></sub>  </td><td class="markdownTableBodyNone">Un ennemi pose porte une cle, une zone n'en porte pas.  </td><td class="markdownTableBodyNone">1. Lire une entite de rencontre posee.<br  />
 2. Lire la meme avec respawns.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">declencheur.has_value()</span> est vrai.<br  />
-Vérifie que <span class="tt">declencheur-&gt;encounterId</span> vaut <span class="tt">"nuee-de-rats"</span>.<br  />
+Vérifie que <span class="tt">declencheur-&gt;encounterId</span> vaut <span class="tt">"colisee-fauves"</span>.<br  />
 Vérifie que <span class="tt">declencheur-&gt;position.column</span> vaut <span class="tt">5</span>.<br  />
 Vérifie que <span class="tt">declencheur-&gt;defeatFlagKey.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">declencheurZone.has_value()</span> est vrai.<br  />
@@ -4584,7 +4584,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
-World (35)</h3>
+World (54)</h3>
 <p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4681,6 +4681,105 @@ Vérifie que <span class="tt">part.species.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">somme</span> est supérieur ou égal à <span class="tt">97</span>.<br  />
 Vérifie que <span class="tt">somme</span> est inférieur ou égal à <span class="tt">103</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">test_coliseum_map.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.LaCarteLivreeSeCharge</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:64</span></sub>  </td><td class="markdownTableBodyNone">coliseum.json se charge : 40 x 34 cases, un sol, un relief, et un lieu nomme.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">Source/Elements/Levels/coliseum.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">carte.name()</span> vaut <span class="tt">"Le Colisée"</span>.<br  />
+Vérifie que <span class="tt">carte.tileMap().width()</span> vaut <span class="tt">40</span>.<br  />
+Vérifie que <span class="tt">carte.tileMap().height()</span> vaut <span class="tt">34</span>.<br  />
+Vérifie que <span class="tt">hmi::scenePlaceOf(carte)</span> vaut <span class="tt">"coliseum"</span>.<br  />
+Vérifie que <span class="tt">carte.cameraFraming().mode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3903aab323863bd2e9b68218a7a65ebd" title="Caméra de suivi du personnage (zone morte, anticipation, bornage).">core::CameraFramingMode::Follow</a></span>.<br  />
+Vérifie que <span class="tt">sol</span> est vrai.<br  />
+Vérifie que <span class="tt">relief</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.tileMap().isSolid(colonne, ligne)</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.LeGrapheLivreNePorteAucunDefaut</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:101</span></sub>  </td><td class="markdownTableBodyNone">Aucun portail orphelin, aucun point d'arrivee en double dans les cartes livrees.  </td><td class="markdownTableBodyNone">1. Lire le graphe du dossier des niveaux livre.<br  />
+ 2. Le valider, puis valider la carte du Colisee elle-meme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff87ea49873961eace1706efc69c8a49" title="Relève ce qu&#39;une carte lue porte de fautif et que le graphe ne peut pas voir.">core::validateWorldMap</a>("coliseum", colisee()).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">noeud</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">noeud-&gt;arrivalPoints</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"porte", "sable"})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.ChaquePnjNommeUnDialogueEtUneFigurineQuiExistent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">Les cinq PNJ du Colisee ont un dialogue du catalogue et une figurine de l'atelier.  </td><td class="markdownTableBodyNone">1. Relever les entites <span class="tt">npc</span> de la carte.<br  />
+ 2. Verifier chaque dialogue contre le catalogue, chaque figurine contre <span class="tt">Assets/Npc/</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalogue.errors.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">catalogue.find(dialogue)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">figurine.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(ASSETS / "Npc" / figurine / "idle.png")</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.tileMap().isSolid(entite.position.column, entite.position.row)</span> est faux.<br  />
+Vérifie que <span class="tt">pnj</span> vaut <span class="tt">5</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.ChaquePieceNommeeExisteSurLaPlanche</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:162</span></sub>  </td><td class="markdownTableBodyNone">Toute piece assignee a une case existe dans Assets/Scene/coliseum/.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane du Colisee avec la table d'apparence livree.<br  />
+ 2. Verifier que chaque chemin de texture qu'il demande existe sur le disque.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">table.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">table.appearance.place()</span> vaut <span class="tt">"coliseum"</span>.<br  />
+Vérifie que <span class="tt">chemins.size()</span> est strictement supérieur à <span class="tt">20U</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(ASSETS / chemin)</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.ToutLeColiseeSeParcourtDepuisSaPorte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Depuis la porte, on atteint le sable, les deux vestiaires, les tribunes et la loge.  </td><td class="markdownTableBodyNone">1. Remplir la carte depuis la case d'entree, en ne passant que par le franchissable.<br  />
+ 2. Verifier qu'une case de chaque lieu est atteinte, et qu'aucune case atteinte n'est hors du batiment.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vues.contains({colonne, ligne})</span> est vrai.<br  />
+Vérifie que <span class="tt">table.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">instantane.floorAt({colonne, ligne}).empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ColiseumMapTest.LesPointsDEntreeDesDeuxCampsSontDansLeSable</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">Source/Test/Unit/Core/World/test_coliseum_map.cpp</a>:249</span></sub>  </td><td class="markdownTableBodyNone">Les huit points d'entree d'arene sont sur le sable, quatre par camp.  </td><td class="markdownTableBodyNone">1. Relever les entites <span class="tt">arenaEntry</span> de la carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">entite.position.column</span> est supérieur ou égal à <span class="tt">10</span>.<br  />
+Vérifie que <span class="tt">entite.position.column</span> est inférieur ou égal à <span class="tt">29</span>.<br  />
+Vérifie que <span class="tt">entite.position.row</span> est supérieur ou égal à <span class="tt">10</span>.<br  />
+Vérifie que <span class="tt">entite.position.row</span> est inférieur ou égal à <span class="tt">23</span>.<br  />
+Vérifie que <span class="tt">allies</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">ennemis</span> vaut <span class="tt">4</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">test_combat_zone.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CombatZoneTest.LaCarteReduiteNEstQueLaZone</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:67</span></sub>  </td><td class="markdownTableBodyNone">La carte reduite a la zone ne porte que la zone, entites translatees.  </td><td class="markdownTableBodyNone">1. Declarer une zone « sable » de 4 x 3 en (4, 4) sur une carte de 12 x 10.<br  />
+ 2. Reduire la carte a la zone.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">zones.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">zones.front()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1CombatZone.html" title="Une zone de combat : son nom, son coin haut-gauche, sa taille.">core::CombatZone</a>{.name = "sable", .origin = {4, 4}, .columns = 4, .rows = 3})</span>.<br  />
+Vérifie que <span class="tt">zones.front().contains({4, 4})</span> est vrai.<br  />
+Vérifie que <span class="tt">zones.front().contains({7, 6})</span> est vrai.<br  />
+Vérifie que <span class="tt">zones.front().contains({8, 6})</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aad245d7e0f83b0197bf751008f87bfe2">core::findCombatZone</a>(zones, "sable")</span> vaut <span class="tt">&amp;zones.front()</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aad245d7e0f83b0197bf751008f87bfe2">core::findCombatZone</a>(zones, "")</span> vaut <span class="tt">&amp;zones.front()</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aad245d7e0f83b0197bf751008f87bfe2">core::findCombatZone</a>(zones, "tribunes")</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">reduite.tileMap().width()</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">reduite.tileMap().height()</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">reduite.cameraFraming().mode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e" title="Le niveau entier tient dans le cadre (EX-REN-013).">core::CameraFramingMode::WholeLevel</a></span>.<br  />
+Vérifie que <span class="tt">reduite.entities().size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">entite.position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 1})</span>.<br  />
+Vérifie que <span class="tt">entite.position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{0, 2})</span>.<br  />
+Vérifie que <span class="tt">pnj</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">reduite.layers().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">reduite.layers().front().tiles.width()</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">reduite.layers().front().tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
+Vérifie que <span class="tt">reduite.textureOverrides().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">reduite.textureOverrides().front().position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 1})</span>.<br  />
+Vérifie que <span class="tt">reduite.textureOverrides().front().assetName</span> vaut <span class="tt">"torch-left"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CombatZoneTest.LaSessionIgnoreLesCasesHorsZone</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">La grille de combat de la carte reduite ne connait que la zone.  </td><td class="markdownTableBodyNone">1. Monter une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> sur la carte reduite a la zone.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">zones.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().width()</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().height()</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">session.combat().grid().inBounds({4, 0})</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CombatZoneTest.ChaqueDefautDeZoneEstReleveAuChargement</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:150</span></sub>  </td><td class="markdownTableBodyNone">Une zone degeneree, debordante ou entierement pleine est refusee, avec son code.  </td><td class="markdownTableBodyNone">1. Declarer une zone de largeur nulle, une zone qui sort de la carte, une zone entierement muree.<br  />
+ 2. Valider la carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", degeneree).size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", degeneree).front().code</span> vaut <span class="tt">WorldIssueCode::CombatZoneDegenerate</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", debordante).size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", debordante).front().code</span> vaut <span class="tt">WorldIssueCode::CombatZoneOutOfBounds</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", muree).size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">defaut.code</span> vaut <span class="tt">WorldIssueCode::CombatZoneBlocked</span>.<br  />
+Vérifie que <span class="tt">defaut.value</span> vaut <span class="tt">"mur"</span>.<br  />
+Vérifie que <span class="tt">defaut.position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 0})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff87ea49873961eace1706efc69c8a49" title="Relève ce qu&#39;une carte lue porte de fautif et que le graphe ne peut pas voir.">core::validateWorldMap</a>("colisee", muree).empty()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff87ea49873961eace1706efc69c8a49" title="Relève ce qu&#39;une carte lue porte de fautif et que le graphe ne peut pas voir.">core::validateWorldMap</a>("colisee", carte({zone("sable", {4, 4}, 4, 3)})).empty()</span> est vrai.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__entity__kinds_8cpp.html" title="Tests unitaires des familles d&#39;entités de carte et de la validation de leurs références (LOT-11).">test_entity_kinds.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4718,6 +4817,46 @@ Vérifie que <span class="tt">issues[3]</span> vaut <span class="tt">(<a class="
 Vérifie que <span class="tt">issues[0].entityIndex</span> vaut <span class="tt">2U</span>.<br  />
 Vérifie que <span class="tt">issues[0].code</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273" title="Deux points d&#39;arrivée de la carte portent le même nom. value.">core::EntityIssueCode::DuplicateArrivalPoint</a></span>.<br  />
 Vérifie que <span class="tt">core::arrivalPointNames(entities)</span> vaut <span class="tt">(std::set&lt;std::string, std::less&lt;&gt;&gt;{"gue", "puits"})</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__exploration__session_8cpp.html" title="Tests de la session d&#39;exploration du jeu (LOT-09) : marcher, buter sur un mur, franchir un portail,...">test_exploration_session.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ExplorationSessionTest.LeHerosMarcheEtLeMurLArrete</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__exploration__session_8cpp.html" title="Tests de la session d&#39;exploration du jeu (LOT-09) : marcher, buter sur un mur, franchir un portail,...">Source/Test/Unit/Core/World/test_exploration_session.cpp</a>:109</span></sub>  </td><td class="markdownTableBodyNone">Le heros marche sur la carte et bute sur le mur, en glissant le long.  </td><td class="markdownTableBodyNone">1. Entrer sur une carte muree, marcher vers la droite jusqu'au mur.<br  />
+ 2. Marcher en diagonale contre ce mur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start("place", "")</span> est vrai.<br  />
+Vérifie que <span class="tt">session.heroPoint()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1CellPoint.html" title="Position continue sur la grille, en cases.">core::CellPoint</a>{1.5F, 1.5F})</span>.<br  />
+Vérifie que <span class="tt">session.heroPoint().column</span> vaut <span class="tt">8.7F</span>, à <span class="tt">0.05F</span> près.<br  />
+Vérifie que <span class="tt">session.heroPoint().row</span> vaut <span class="tt">1.5F</span>, à <span class="tt">0.001F</span> près.<br  />
+Vérifie que <span class="tt">session.heroPoint().row</span> est strictement supérieur à <span class="tt">avant</span>.<br  />
+Vérifie que <span class="tt">session.heroPoint().column</span> vaut <span class="tt">8.7F</span>, à <span class="tt">0.05F</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ExplorationSessionTest.UnPortailDeposeAuPointDArriveeNomme</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__exploration__session_8cpp.html" title="Tests de la session d&#39;exploration du jeu (LOT-09) : marcher, buter sur un mur, franchir un portail,...">Source/Test/Unit/Core/World/test_exploration_session.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Marcher sur un portail depose le heros au point d'arrivee nomme de la cible.  </td><td class="markdownTableBodyNone">1. Marcher jusqu'a la case du portail.<br  />
+ 2. Rester dessus quelques pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start("place", "")</span> est vrai.<br  />
+Vérifie que <span class="tt">vus.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">vus.front().kind</span> vaut <span class="tt">ExplorationEventKind::MapEntered</span>.<br  />
+Vérifie que <span class="tt">vus.front().value</span> vaut <span class="tt">"cave"</span>.<br  />
+Vérifie que <span class="tt">session.mapId()</span> vaut <span class="tt">"cave"</span>.<br  />
+Vérifie que <span class="tt">session.heroPoint()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1CellPoint.html" title="Position continue sur la grille, en cases.">core::CellPoint</a>{6.5F, 7.5F})</span>.<br  />
+Vérifie que <span class="tt">session.update(<a class="el" href="structcore_1_1ExplorationIntent.html" title="Ce que le joueur demande d&#39;un pas de simulation.">core::ExplorationIntent</a>{.move = {}, .interact = false}, 1.0F / 60.0F) .empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ExplorationSessionTest.OnParleAuPnjQueLOnRegarde</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__exploration__session_8cpp.html" title="Tests de la session d&#39;exploration du jeu (LOT-09) : marcher, buter sur un mur, franchir un portail,...">Source/Test/Unit/Core/World/test_exploration_session.cpp</a>:181</span></sub>  </td><td class="markdownTableBodyNone">L'interaction ouvre le dialogue du PNJ vise, pas celui d'un autre.  </td><td class="markdownTableBodyNone">1. Poser deux PNJ de part et d'autre du heros.<br  />
+ 2. Regarder l'un, interagir ; puis regarder l'autre, interagir.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start("place", "")</span> est vrai.<br  />
+Vérifie que <span class="tt">vus.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">vus.front().kind</span> vaut <span class="tt">ExplorationEventKind::Dialogue</span>.<br  />
+Vérifie que <span class="tt">vus.front().value</span> vaut <span class="tt">"heraut-colisee"</span>.<br  />
+Vérifie que <span class="tt">vus.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">vus.front().value</span> vaut <span class="tt">"myr-marche"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ExplorationSessionTest.UneCarteGeleeNeBougePlus</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__exploration__session_8cpp.html" title="Tests de la session d&#39;exploration du jeu (LOT-09) : marcher, buter sur un mur, franchir un portail,...">Source/Test/Unit/Core/World/test_exploration_session.cpp</a>:214</span></sub>  </td><td class="markdownTableBodyNone">Gelee, la session ne deplace plus le heros et n'ouvre plus rien.  </td><td class="markdownTableBodyNone">1. Geler la session, marcher et interagir.<br  />
+ 2. Degeler, refaire les memes gestes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">session.start("place", "")</span> est vrai.<br  />
+Vérifie que <span class="tt">session.heroPoint()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a99be71340077821d583e53bf779c689d">core::cellCenter</a>({4, 4})</span>.<br  />
+Vérifie que <span class="tt">session.update(<a class="el" href="structcore_1_1ExplorationIntent.html" title="Ce que le joueur demande d&#39;un pas de simulation.">core::ExplorationIntent</a>{.move = {}, .interact = true}, 1.0F / 60.0F) .empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">session.heroPoint().column</span> est strictement supérieur à <span class="tt">4.5F</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__grid__distance__field_8cpp.html" title="Tests unitaires de core::GridDistanceField (amendement LOT-ANNEXE-08, EX-IA-023).">test_grid_distance_field.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4842,6 +4981,65 @@ Vérifie que <span class="tt">graphe.unreachableFrom("village")</span> vaut <spa
 <sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:321</span></sub>  </td><td class="markdownTableBodyNone">Un dossier absent donne un graphe vide.  </td><td class="markdownTableBodyNone">1. Charger le graphe d'un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone"><span class="tt">EXPECT_NO_THROW(graphe = <a class="el" href="namespacecore.html#a3a51a927bbd51ec10f45120e41fcab27" title="Lit chaque *.json de levelsDir (identifiant = nom sans extension) ; une carte illisible reste un nœud...">core::loadWorldGraph</a>(dir / "inexistant"))</span><br  />
 Vérifie que <span class="tt">graphe.maps.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">graphe.portals.empty()</span> est vrai.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">test_world_travel.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.CinqCartesSeParcourentDansLesDeuxSens</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Un parcours de cinq cartes, aller et retour, par points d'arrivee nommes.  </td><td class="markdownTableBodyNone">1. Entrer sur la premiere carte, puis franchir quatre portails a la file.<br  />
+ 2. Revenir par les portails de retour jusqu'a la premiere carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">voyage.enter("un", "")</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 1})</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({6, 2}, drapeaux)</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">attendue</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{3, 3})</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({0, 3}, drapeaux)</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">attendue</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{2, 2})</span>.<br  />
+Vérifie que <span class="tt">voyage.loadedMapCount()</span> vaut <span class="tt">5U</span>.<br  />
+Vérifie que <span class="tt">dossier.lectures(nom)</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.UneCaseSansPortailNEstPasUneTraversee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:179</span></sub>  </td><td class="markdownTableBodyNone">Une case ordinaire ne declenche aucune traversee.  </td><td class="markdownTableBodyNone">1. Entrer sur une carte, puis tenter de franchir une case vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">voyage.enter("un", "")</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({4, 4}, drapeaux)</span> vaut <span class="tt">TravelResult::NoPortal</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"un"</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 1})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.UnPortailADrapeauResteFermeSansLeDrapeau</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:199</span></sub>  </td><td class="markdownTableBodyNone">Un portail exigeant un drapeau ne s'ouvre qu'une fois le drapeau pose.  </td><td class="markdownTableBodyNone">1. Franchir un portail qui exige un drapeau absent.<br  />
+ 2. Poser le drapeau, puis franchir le meme portail.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">voyage.enter("place", "")</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({5, 5}, drapeaux)</span> vaut <span class="tt">TravelResult::Locked</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"place"</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({5, 5}, drapeaux)</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"repaire"</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 4})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.UnPortailOrphelinEstRefuseAuChargement</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:228</span></sub>  </td><td class="markdownTableBodyNone">Chaque defaut de portail devient un code exploitable au chargement.  </td><td class="markdownTableBodyNone">1. Batir un dossier ou un portail vise une carte absente et un autre un point d'arrivee absent.<br  />
+ 2. Valider le graphe.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">defauts.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">defauts[0]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1WorldIssue.html" title="Un défaut relevé sur une carte, et où.">core::WorldIssue</a>{.mapId = "place", .position = {5, 5}, .code = WorldIssueCode::UnknownTargetMap, .value = "nulle-part"})</span>.<br  />
+Vérifie que <span class="tt">defauts[1]</span> vaut <span class="tt">(<a class="el" href="structcore_1_1WorldIssue.html" title="Un défaut relevé sur une carte, et où.">core::WorldIssue</a>{.mapId = "place", .position = {6, 5}, .code = WorldIssueCode::UnknownArrivalPoint, .value = "cave"})</span>.<br  />
+Vérifie que <span class="tt">defauts[2].code</span> vaut <span class="tt">WorldIssueCode::MissingTargetMap</span>.<br  />
+Vérifie que <span class="tt">voyage.enter("place", "")</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.cross({5, 5}, <a class="el" href="classcore_1_1WorldFlags.html" title="L&#39;ensemble des faits acquis d&#39;une partie : coffres ouverts, quêtes franchies, portes déverrouillées.">core::WorldFlags</a>{})</span> vaut <span class="tt">TravelResult::UnreadableMap</span>.<br  />
+Vérifie que <span class="tt">voyage.lastIssue().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">voyage.lastIssue()-&gt;code</span> vaut <span class="tt">WorldIssueCode::UnreadableMap</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.UnPointDArriveeEnDoubleEstReleveSurLaCarte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:266</span></sub>  </td><td class="markdownTableBodyNone">Deux points d'arrivee du meme nom sont un defaut de la carte.  </td><td class="markdownTableBodyNone">1. Poser deux points d'arrivee « seuil » sur la meme carte.<br  />
+ 2. Valider la carte lue, puis le graphe.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">defauts.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">defauts.front()</span> vaut <span class="tt">(<a class="el" href="structcore_1_1WorldIssue.html" title="Un défaut relevé sur une carte, et où.">core::WorldIssue</a>{.mapId = "place", .position = {6, 6}, .code = WorldIssueCode::DuplicateArrivalPoint, .value = "seuil"})</span>.<br  />
+Vérifie que <span class="tt">premier.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*premier</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 4})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldTravelTest.UneArriveeInconnueRefuseLEntree</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__travel_8cpp.html" title="Tests du graphe du monde JOUE (LOT-09) : franchir un portail, arriver a un point nomme,...">Source/Test/Unit/Core/World/test_world_travel.cpp</a>:292</span></sub>  </td><td class="markdownTableBodyNone">Entrer par un point d'arrivee absent est refuse, le nom cite.  </td><td class="markdownTableBodyNone">1. Entrer sur une carte par un point d'arrivee qu'elle n'offre pas.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">voyage.enter("un", "")</span> vaut <span class="tt">TravelResult::Moved</span>.<br  />
+Vérifie que <span class="tt">voyage.enter("deux", "cave")</span> vaut <span class="tt">TravelResult::UnknownArrival</span>.<br  />
+Vérifie que <span class="tt">voyage.lastIssue().has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">voyage.lastIssue()-&gt;code</span> vaut <span class="tt">WorldIssueCode::UnknownArrivalPoint</span>.<br  />
+Vérifie que <span class="tt">voyage.lastIssue()-&gt;value</span> vaut <span class="tt">"cave"</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"un"</span>.  </td></tr>
 </table>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md19"></a>
 HMI</h2>
@@ -5176,8 +5374,8 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8e6e1ef57fd
 <td class="markdownTableBodyNone"><b>EditionEntitesTest.CataloguesLivresAlimententLEditeur</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:248</span></sub>  </td><td class="markdownTableBodyNone">Les catalogues livres alimentent l'editeur.  </td><td class="markdownTableBodyNone">1. Lire les references sous Source/Elements.<br  />
 2. Valider les entites de l'arene du futur.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::find(references.dialogues, "heraut-colisee")</span> diffère de <span class="tt">references.dialogues.end()</span>.<br  />
-Vérifie que <span class="tt">references.encounters.find("nuee-de-rats")</span> diffère de <span class="tt">nullptr</span>.<br  />
-Vérifie que <span class="tt">references.world.find("arena-of-the-future")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">references.encounters.find("colisee-fauves")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">references.world.find("coliseum")</span> diffère de <span class="tt">nullptr</span>.<br  />
 Vérifie que <span class="tt">arena.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a0482bd5ffd0165e722879709e592607e" title="Relève ce que les entités de entities référencent sans l&#39;atteindre.">core::validateMapEntities</a>(arena.level-&gt;entities(), context).empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
@@ -5186,8 +5384,8 @@ Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a0482bd5ffd
 Vérifie que <span class="tt">lines[0]</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1EditorDiagnostic.html" title="Un avertissement prêt à traduire : une clé de hmi::Localization et ses arguments, dans l&#39;ordre des %1...">hmi::EditorDiagnostic</a>{.kind = <a class="el" href="namespacehmi.html#a90a0b3556896d17a7c1ff5d1a0c23b4ea63d5049791d9d79d86e9a108b0a999ca">hmi::EditorDiagnosticKind::Reference</a>, .entityIndex = 0, .cell = {.column = 1, .row = 1}, .key = "diagnostic.unknown_dialogue", .args = {"npc", "dialogue", "absent"}})</span>.<br  />
 Vérifie que <span class="tt">lines[1].key</span> vaut <span class="tt">"diagnostic.terrain_obstructed"</span>.<br  />
 Vérifie que <span class="tt">lines[1].cell</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 4, .row = 2})</span>.<br  />
-Vérifie que <span class="tt">lines[1].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"nuee-de-rats", "rat"})</span>.<br  />
-Vérifie que <span class="tt">lines[2].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"nuee-de-rats", "5", "24"})</span>.  </td></tr>
+Vérifie que <span class="tt">lines[1].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"colisee-fauves", "rat"})</span>.<br  />
+Vérifie que <span class="tt">lines[2].args</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"colisee-fauves", "5", "24"})</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>EditionEntitesTest.ClesTraduitesDansLesDeuxCatalogues</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">Source/Test/Unit/HMI/Editor/test_entity_editing.cpp</a>:320</span></sub>  </td><td class="markdownTableBodyNone">Les cles de l'edition de couches et d'entites sont traduites.  </td><td class="markdownTableBodyNone">1. Charger fr.lang puis en.lang.<br  />
@@ -6347,7 +6545,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdb
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Graphics (314)</h3>
+Graphics (320)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -8579,6 +8777,92 @@ Vérifie que <span class="tt">textures.textureFor(appearance)</span> vaut <span 
 Vérifie que <span class="tt">textures.widthFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.<br  />
 Vérifie que <span class="tt">textures.heightFor(broken)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a75cfef1e5eb0b5569ebd42c004d73ce3" title="Côté, en pixels, du damier de repli généré par défaut (une case, EX-ARCH-021).">hmi::MISSING_TEXTURE_SIZE</a></span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">test_world_scene_composer.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:92</span></sub>  </td><td class="markdownTableBodyNone">Le sol vient du type de tuile, le relief de la piece nommee a la case.  </td><td class="markdownTableBodyNone">1. Batir une carte de sable avec une case de pierre, un mur de decor et une assignation de texture a la case.<br  />
+ 2. En tirer l'instantane.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">instantane.columns</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">instantane.rows</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">instantane.place</span> vaut <span class="tt">"coliseum"</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({0, 0})</span> vaut <span class="tt">"sand"</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({1, 0})</span> vaut <span class="tt">"sand-2"</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({2, 0})</span> vaut <span class="tt">"sand-3"</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({3, 0})</span> vaut <span class="tt">"stone-slab"</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({0, 0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a8e3a1dcd14a5132e99f15be875c38936" title="Tire de level l&#39;instantané que la composition dessine.">hmi::snapshotWorldScene</a>(carte(), table(), {}).floorAt({0, 0})</span>.<br  />
+Vérifie que <span class="tt">instantane.reliefAt({0, 0})</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt">instantane.reliefAt({2, 2})</span> vaut <span class="tt">"torch-left"</span>.<br  />
+Vérifie que <span class="tt">instantane.reliefAt({1, 1}).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">instantane.floorAt({9, 9}).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LesCheminsCouvrentLeLieuEtLesFigurines</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:125</span></sub>  </td><td class="markdownTableBodyNone">La liste des textures a charger couvre exactement ce que la composition resout.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane d'une carte avec une figurine.<br  />
+ 2. Lister les chemins de texture.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::is_sorted(chemins)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/sand.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/stone-slab.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/wall-left.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/torch-left.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Npc/anariel/idle.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::find(chemins, "Npc/anariel/walk.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
+Vérifie que <span class="tt">std::ranges::count(chemins, "Scene/coliseum/sand.png")</span> vaut <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LaCompositionPoseChaquePieceSurSonCalque</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:152</span></sub>  </td><td class="markdownTableBodyNone">Sol, relief et figurine tombent sur les calques Tile, Object et Player.  </td><td class="markdownTableBodyNone">1. Composer une carte de douze cases avec un mur, une torche et une figurine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sols</span> vaut <span class="tt">12</span>.<br  />
+Vérifie que <span class="tt">reliefs</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">figurines</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">quad.sprite.y + quad.sprite.height</span> est strictement inférieur à <span class="tt">piedDeLaCase</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">test_world_scene_renderer.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldSceneRendererTest.CreationLiberationRecreation</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:129</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de vie des ressources QRhi d'un lieu est sur.  </td><td class="markdownTableBodyNone">1. Creer les ressources hors ecran, sans dessiner.<br  />
+ 2. Liberer, puis liberer encore.<br  />
+ 3. Recreer, dessiner une image du Colisee livre, detruire le rendu avant l'interface.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(nullptr)</span> est faux.<br  />
+Vérifie que <span class="tt">renderer.created()</span> est faux.<br  />
+Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.created()</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.rhi()</span> vaut <span class="tt">rhi.get()</span>.<br  />
+Vérifie que <span class="tt">renderer.textures().missing.texture</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">renderer.textures().byPath.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.textures().byPath.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">renderer.textures().byPath.size()</span> vaut <span class="tt">chargees</span>.<br  />
+Vérifie que <span class="tt">renderer.requested().size()</span> vaut <span class="tt">demandees</span>.<br  />
+Vérifie que <span class="tt">renderer.created()</span> est faux.<br  />
+Vérifie que <span class="tt">renderer.rhi()</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">renderer.textures().byPath.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.requested().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldSceneRendererTest.LeColiseeLivreDevientDesPixels</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Le Colisee livre se dessine, sans une seule piece manquante.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">coliseum.json</span> et la table d'apparence du lieu.<br  />
+ 2. Dessiner une image hors ecran, cadree sur le heros a la porte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.<br  />
+Vérifie que <span class="tt">renderer.composed().size()</span> est strictement supérieur à <span class="tt">700U</span>.<br  />
+Vérifie que <span class="tt">quad.texture</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">quad.texture</span> diffère de <span class="tt">renderer.textures().missing.texture</span>.<br  />
+Vérifie que <span class="tt">paintedPixels(image)</span> est strictement supérieur à <span class="tt">static_cast&lt;std::size_t&gt;(TARGET_SIZE * TARGET_SIZE / 4)</span>.<br  />
+Vérifie que <span class="tt">renderer.composed().size()</span> vaut <span class="tt">0U</span>.<br  />
+Vérifie que <span class="tt">paintedPixels(empty)</span> vaut <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldSceneRendererTest.LaCameraSuitLeHerosSansSortirDeLaCarte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:231</span></sub>  </td><td class="markdownTableBodyNone">Le cadrage d'un lieu suit le heros, borne a la scene, a un agrandissement entier.  </td><td class="markdownTableBodyNone">1. Cadrer une grande carte sur son centre, puis sur un coin.<br  />
+ 2. Cadrer une carte plus petite que la vue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">suivie.zoom()</span> vaut <span class="tt">1.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">suivie.center().x</span> vaut <span class="tt">centre.x</span>, à <span class="tt">0.001F</span> près.<br  />
+Vérifie que <span class="tt">suivie.center().y</span> vaut <span class="tt">centre.y</span>, à <span class="tt">0.001F</span> près.<br  />
+Vérifie que <span class="tt">bornee.center().x</span> est strictement supérieur à <span class="tt">coin.x</span>.<br  />
+Vérifie que <span class="tt">bornee.visibleBounds().position.x</span> est supérieur ou égal à <span class="tt">-0.001F</span>.<br  />
+Vérifie que <span class="tt">bornee.visibleBounds().position.x + bornee.visibleBounds().size.x</span> est inférieur ou égal à <span class="tt">grande.sceneSize().x + 0.001F</span>.<br  />
+Vérifie que <span class="tt">petiteVue.zoom()</span> vaut <span class="tt">2.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">petiteVue.center().x</span> vaut <span class="tt">petite.sceneSize().x / 2.0F</span>, à <span class="tt">0.001F</span> près.<br  />
+Vérifie que <span class="tt">petiteVue.center().y</span> vaut <span class="tt">petite.sceneSize().y / 2.0F</span>, à <span class="tt">0.001F</span> près.  </td></tr>
+</table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Input (82)</h3>
 <p><b><span class="tt"><a class="el" href="test__button__repeat_8cpp.html" title="Tests unitaires de la répétition d&#39;un bouton de manette tenu (LOT-24).">test_button_repeat.cpp</a></span></b></p>
@@ -9110,7 +9394,7 @@ Vérifie que <span class="tt">hmi::qtKeyToHmiKey(Qt::Key_Home).has_value()</span
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d" title="Traduit un code Qt::Key en hmi::Key.">hmi::qtKeyToHmiKey</a>(-1).has_value()</span> est faux.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md26"></a>
-Interface (62)</h3>
+Interface (63)</h3>
 <p><b><span class="tt"><a class="el" href="test__application__theme_8cpp.html" title="Tests unitaires du thème de l&#39;IHM : modèle de feuille de style (LOT-56 TACHE-02, EX-IHM-050,...">test_application_theme.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -9547,18 +9831,27 @@ Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenCredits
 Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenCredits)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(editor, ScreenEvent::OpenRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseRpgScreen)</span> vaut <span class="tt">std::nullopt</span>.<br  />
-Vérifie que <span class="tt">resolveTransition(game, ScreenEvent::OpenArena)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(pause, ScreenEvent::OpenArena)</span> vaut <span class="tt">std::nullopt</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(menu, ScreenEvent::CloseArena)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ScreenFlowTest.LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:141</span></sub>  </td><td class="markdownTableBodyNone">Le Colisee revient sur la carte quand le heraut y envoie. cat Unitaire · Machine à états des écrans crit Critique etapes 1. Ouvrir le Colisee depuis le menu, le refermer. 2. L'ouvrir depuis la carte, le refermer. attendu Le menu dans le premier cas, la CARTE dans le second : on revient du sable sur le lieu qu'on a quitte, et non au menu principal.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">depuisLeMenu.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">depuisLeMenu-&gt;screen</span> vaut <span class="tt">ScreenId::Arena</span>.<br  />
+Vérifie que <span class="tt">depuisLeMenu-&gt;arenaReturnTo</span> vaut <span class="tt">ScreenId::Menu</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(*depuisLeMenu, ScreenEvent::CloseArena)-&gt;screen</span> vaut <span class="tt">ScreenId::Menu</span>.<br  />
+Vérifie que <span class="tt">depuisLaCarte.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">depuisLaCarte-&gt;screen</span> vaut <span class="tt">ScreenId::Arena</span>.<br  />
+Vérifie que <span class="tt">depuisLaCarte-&gt;arenaReturnTo</span> vaut <span class="tt">ScreenId::Game</span>.<br  />
+Vérifie que <span class="tt">resolveTransition(*depuisLaCarte, ScreenEvent::CloseArena)-&gt;screen</span> vaut <span class="tt">ScreenId::Game</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.EcranDuRpgRevientVersSonEcranDOrigine</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:141</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:171</span></sub>  </td><td class="markdownTableBodyNone">Un ecran du RPG revient vers son ecran d'origine (Menu, Game ou Pause).  </td><td class="markdownTableBodyNone">1. Ouvrir un ecran du RPG depuis le menu, le jeu puis la pause.<br  />
 2. Le fermer a chaque fois et verifier l'ecran atteint.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">opened.has_value()</span> est vrai.<br  />
 Vérifie que <span class="tt">opened-&gt;rpgReturnTo</span> vaut <span class="tt">expected</span>.<br  />
 Vérifie que <span class="tt">resolveTransition(*opened, ScreenEvent::CloseRpgScreen)-&gt;screen</span> vaut <span class="tt">expected</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>ScreenFlowTest.HabillageDeFenetreEstCeluiAttenduParEcran</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:169</span></sub>  </td><td class="markdownTableBodyNone">L'habillage de fenêtre est celui attendu pour chaque écran.  </td><td class="markdownTableBodyNone">1. Interroger l'habillage de chacun des sept écrans.<br  />
+<sub><span class="tt"><a class="el" href="test__screen__flow_8cpp.html" title="Tests unitaires de la machine à états des écrans (LOT-59 TACHE-01, EX-GP-041).">Source/Test/Unit/HMI/Interface/test_screen_flow.cpp</a>:199</span></sub>  </td><td class="markdownTableBodyNone">L'habillage de fenêtre est celui attendu pour chaque écran.  </td><td class="markdownTableBodyNone">1. Interroger l'habillage de chacun des sept écrans.<br  />
 2. Vérifier chaque champ.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">menu.docksVisible</span> est faux.<br  />
 Vérifie que <span class="tt">menu.menuBarVisible</span> est faux.<br  />
 Vérifie que <span class="tt">menu.toolBarVisible</span> est faux.<br  />

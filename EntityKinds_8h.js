@@ -35,6 +35,7 @@ var EntityKinds_8h =
     [ "core::validateMapEntities", "namespacecore.html#a0482bd5ffd0165e722879709e592607e", null ],
     [ "core::PORTAL_ARRIVAL_PROPERTY", "namespacecore.html#a2bdd68935267992786c0b5e9fcb2b153", null ],
     [ "core::PORTAL_ENTITY_TYPE", "namespacecore.html#ae8c8163510cf5011c7db67f7f96ea761", null ],
+    [ "core::PORTAL_REQUIRED_FLAG_PROPERTY", "namespacecore.html#a109d5133c9ae9af8f88a4c4b40267419", null ],
     [ "core::PORTAL_TARGET_MAP_PROPERTY", "namespacecore.html#a01ea80a94b6d563987d5ff486a2dcd31", null ],
     [ "core::SPAWN_POINT_ENTITY_TYPE", "namespacecore.html#a14b37b629c559f3f0bcc2481f4178393", null ],
     [ "core::SPAWN_POINT_NAME_PROPERTY", "namespacecore.html#a4cd504e13e1cafd2e4759e9c0f3a9970", null ]

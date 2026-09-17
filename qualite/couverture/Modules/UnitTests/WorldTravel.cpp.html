@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldTravel.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/World/WorldTravel.h"
+
+#include &lt;iterator&gt;
+#include &lt;set&gt;
+#include &lt;utility&gt;
+#include &lt;variant&gt;
+
+#include "Core/Gameplay/WorldFlags.h"
+#include "Core/World/CombatZone.h"
+#include "Core/World/EntityKinds.h"
+
+namespace core {
+
+namespace {
+
+// Meme regle que le graphe : une propriete ne vaut que si elle est du texte. Un entier la ou l'on
+// attend un nom de carte est une saisie fautive, et la traiter comme vide la fait signaler.
+<span style = "background-color:#dfd">[[nodiscard]] std::string texteDe(const MapEntity&amp; entite, std::string_view cle) {
+    const auto trouvee = entite.properties.find(std::string{cle});
+    if (trouvee == entite.properties.end()) {
+        return {};</span>
+    }
+<span style = "background-color:#dfd">    const std::string* texte = std::get_if&lt;std::string&gt;(&amp;trouvee-&gt;second);
+    return texte != nullptr ? *texte : std::string{};
+}</span>
+
+// Le code de defaut correspondant au statut d'un portail. Un portail resolu n'en a pas.
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;WorldIssueCode&gt; defautDe(PortalLinkStatus statut) {
+    switch (statut) {</span>
+        case PortalLinkStatus::Resolved:
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        case PortalLinkStatus::MissingTarget:
+<span style = "background-color:#dfd">            return WorldIssueCode::MissingTargetMap;</span>
+        case PortalLinkStatus::UnknownMap:
+<span style = "background-color:#dfd">            return WorldIssueCode::UnknownTargetMap;</span>
+        case PortalLinkStatus::MissingArrival:
+<span style = "background-color:#fdd">            return WorldIssueCode::MissingArrivalPoint;</span>
+        case PortalLinkStatus::UnknownArrival:
+<span style = "background-color:#dfd">            return WorldIssueCode::UnknownArrivalPoint;</span>
+        case PortalLinkStatus::TargetUnreadable:
+<span style = "background-color:#fdd">            return WorldIssueCode::UnreadableTargetMap;</span>
+    }
+<span style = "background-color:#fdd">    return std::nullopt;</span>
+<span style = "background-color:#dfd">}</span>
+
+// Ce qu'un defaut de portail doit citer pour que le message soit exploitable : la carte quand
+// c'est elle qui manque, le point d'arrivee quand c'est lui.
+<span style = "background-color:#dfd">[[nodiscard]] std::string valeurCitee(const WorldPortalLink&amp; portail, WorldIssueCode code) {
+    switch (code) {</span>
+        case WorldIssueCode::UnknownTargetMap:
+        case WorldIssueCode::UnreadableTargetMap:
+<span style = "background-color:#dfd">            return portail.toMap;</span>
+        case WorldIssueCode::UnknownArrivalPoint:
+<span style = "background-color:#dfd">            return portail.arrival;</span>
+        case WorldIssueCode::MissingTargetMap:
+        case WorldIssueCode::MissingArrivalPoint:
+        case WorldIssueCode::UnreadableMap:
+        case WorldIssueCode::DuplicateArrivalPoint:
+        case WorldIssueCode::CombatZoneDegenerate:
+        case WorldIssueCode::CombatZoneOutOfBounds:
+        case WorldIssueCode::CombatZoneBlocked:
+<span style = "background-color:#dfd">            return {};</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::optional&lt;PortalTarget&gt; portalAt(const Level&amp; level, GridPosition position) {
+    for (const MapEntity&amp; entite : level.entities()) {
+        if (entite.type != PORTAL_ENTITY_TYPE || entite.position != position) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        return PortalTarget{.map = texteDe(entite, PORTAL_TARGET_MAP_PROPERTY),</span>
+                            .arrival = texteDe(entite, PORTAL_ARRIVAL_PROPERTY),
+                            .requiredFlag = texteDe(entite, PORTAL_REQUIRED_FLAG_PROPERTY)};
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;GridPosition&gt; arrivalPointAt(const Level&amp; level, std::string_view name) {
+    if (name.empty()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    for (const MapEntity&amp; entite : level.entities()) {
+        if (entite.type == SPAWN_POINT_ENTITY_TYPE &amp;&amp;</span>
+            texteDe(entite, SPAWN_POINT_NAME_PROPERTY) == name) {
+<span style = "background-color:#dfd">            return entite.position;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;WorldIssue&gt; validateWorldGraph(const WorldGraph&amp; graph) {
+    std::vector&lt;WorldIssue&gt; defauts;
+    for (const WorldMapNode&amp; carte : graph.maps) {
+        if (!carte.loadError.empty()) {</span>
+<span style = "background-color:#fdd">            defauts.push_back(WorldIssue{.mapId = carte.mapId,</span>
+                                         .position = {},
+                                         .code = WorldIssueCode::UnreadableMap,
+                                         .value = carte.loadError});
+        }
+<span style = "background-color:#dfd">    }
+    for (const WorldPortalLink&amp; portail : graph.portals) {
+        const std::optional&lt;WorldIssueCode&gt; code = defautDe(portail.status);
+        if (!code.has_value()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        defauts.push_back(WorldIssue{.mapId = portail.fromMap,</span>
+                                     .position = portail.position,
+                                     .code = *code,
+                                     .value = valeurCitee(portail, *code)});
+<span style = "background-color:#dfd">    }
+    return defauts;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;WorldIssue&gt; validateWorldMap(std::string_view mapId, const Level&amp; level) {
+    std::vector&lt;WorldIssue&gt; defauts;
+    std::set&lt;std::string, std::less&lt;&gt;&gt; vus;
+    for (const MapEntity&amp; entite : level.entities()) {
+        if (entite.type != SPAWN_POINT_ENTITY_TYPE) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        std::string nom = texteDe(entite, SPAWN_POINT_NAME_PROPERTY);
+        if (nom.empty() || vus.insert(nom).second) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        defauts.push_back(WorldIssue{.mapId = std::string{mapId},</span>
+                                     .position = entite.position,
+                                     .code = WorldIssueCode::DuplicateArrivalPoint,
+                                     .value = std::move(nom)});
+<span style = "background-color:#dfd">    }</span>
+    // Les zones de combat de la carte (`EX-LVL-018`) : une zone qui deborde ou qui n'a aucune case
+    // libre est un defaut de la CARTE, du meme ordre que le point d'arrivee en double.
+<span style = "background-color:#dfd">    std::vector&lt;WorldIssue&gt; zones = validateCombatZones(mapId, level);
+    defauts.insert(defauts.end(), std::make_move_iterator(zones.begin()),</span>
+                   std::make_move_iterator(zones.end()));
+<span style = "background-color:#dfd">    return defauts;
+}</span>
+
+<span style = "background-color:#fdd">WorldTravel::MapLoader WorldTravel::directoryLoader(std::filesystem::path levelsDir) {
+    return [dossier = std::move(levelsDir)](std::string_view mapId) {
+        return LevelLoader::loadFromFile(dossier / (std::string{mapId} + ".json"));
+    };
+}</span>
+
+<span style = "background-color:#dfd">WorldTravel::WorldTravel(MapLoader loader) : _loader(std::move(loader)) {}</span>
+
+<span style = "background-color:#dfd">const Level* WorldTravel::currentMap() const {
+    const auto trouvee = _maps.find(_currentMapId);
+    return trouvee != _maps.end() ? trouvee-&gt;second.get() : nullptr;
+}</span>
+
+<span style = "background-color:#dfd">const Level* WorldTravel::mapFor(std::string_view mapId) {
+    if (const auto deja = _maps.find(mapId); deja != _maps.end()) {
+        return deja-&gt;second.get();
+    }
+    if (!_loader) {</span>
+<span style = "background-color:#fdd">        return nullptr;</span>
+    }
+<span style = "background-color:#dfd">    LevelLoadResult lu = _loader(mapId);
+    if (!lu.ok()) {
+        _lastIssue = WorldIssue{.mapId = std::string{mapId},</span>
+                                .position = {},
+                                .code = WorldIssueCode::UnreadableMap,
+                                .value = std::move(lu.error)};
+<span style = "background-color:#dfd">        return nullptr;</span>
+    }
+<span style = "background-color:#dfd">    const auto posee =</span>
+        _maps.emplace(std::string{mapId}, std::make_shared&lt;Level&gt;(std::move(*lu.level))).first;
+<span style = "background-color:#dfd">    return posee-&gt;second.get();
+}</span>
+
+<span style = "background-color:#dfd">TravelResult WorldTravel::enter(std::string_view mapId, std::string_view arrival) {
+    _lastIssue.reset();
+    const Level* carte = mapFor(mapId);
+    if (carte == nullptr) {
+        return TravelResult::UnreadableMap;</span>
+    }
+    // Une arrivee vide pose le personnage sur l'entree de la carte : c'est Â« Nouvelle partie Â»,
+    // qui n'arrive par aucun portail.
+<span style = "background-color:#dfd">    GridPosition ou = carte-&gt;entry();
+    if (!arrival.empty()) {
+        const std::optional&lt;GridPosition&gt; point = arrivalPointAt(*carte, arrival);
+        if (!point.has_value()) {
+            _lastIssue = WorldIssue{.mapId = std::string{mapId},</span>
+                                    .position = {},
+                                    .code = WorldIssueCode::UnknownArrivalPoint,
+                                    .value = std::string{arrival}};
+<span style = "background-color:#dfd">            return TravelResult::UnknownArrival;</span>
+        }
+<span style = "background-color:#dfd">        ou = *point;</span>
+    }
+<span style = "background-color:#dfd">    _currentMapId = std::string{mapId};
+    _position = ou;
+    return TravelResult::Moved;
+}</span>
+
+<span style = "background-color:#dfd">TravelResult WorldTravel::cross(GridPosition from, const WorldFlags&amp; flags) {
+    _lastIssue.reset();
+    const Level* carte = currentMap();
+    if (carte == nullptr) {</span>
+<span style = "background-color:#fdd">        return TravelResult::NoPortal;</span>
+    }
+<span style = "background-color:#dfd">    const std::optional&lt;PortalTarget&gt; portail = portalAt(*carte, from);
+    if (!portail.has_value()) {
+        return TravelResult::NoPortal;</span>
+    }
+    // Le drapeau exige du monde, pas de la carte : la porte d'Arenarea s'ouvre quand la quete l'a
+    // ouverte (LOT-16), et le portail se contente de le lire.
+<span style = "background-color:#dfd">    if (!portail-&gt;requiredFlag.empty() &amp;&amp; !flags.isSet(portail-&gt;requiredFlag)) {
+        return TravelResult::Locked;</span>
+    }
+<span style = "background-color:#dfd">    if (portail-&gt;map.empty()) {</span>
+<span style = "background-color:#fdd">        _lastIssue = WorldIssue{.mapId = _currentMapId,</span>
+                                .position = from,
+                                .code = WorldIssueCode::MissingTargetMap,
+                                .value = {}};
+<span style = "background-color:#fdd">        return TravelResult::UnreadableMap;</span>
+    }
+<span style = "background-color:#dfd">    return enter(portail-&gt;map, portail-&gt;arrival);
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

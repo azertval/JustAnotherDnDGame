@@ -29,5 +29,7 @@ var searchData=
   ['_7esceneresources_26',['~SceneResources',['../classhmi_1_1SceneResources.html#ad2fb3cc3d380a87edc4daf992545d24b',1,'hmi::SceneResources']]],
   ['_7escopedloglevel_27',['~ScopedLogLevel',['../classcore_1_1ScopedLogLevel.html#a5eef4059dd4d37f99de622b55d6e854c',1,'core::ScopedLogLevel']]],
   ['_7espritebatch_28',['~SpriteBatch',['../classhmi_1_1SpriteBatch.html#a8beb3b957f3cccf4960939d0b203c5fb',1,'hmi::SpriteBatch']]],
-  ['_7etexturepanel_29',['~TexturePanel',['../classhmi_1_1TexturePanel.html#af9948eba8e1ae33c5f2dcf1cc3d42790',1,'hmi::TexturePanel']]]
+  ['_7etexturepanel_29',['~TexturePanel',['../classhmi_1_1TexturePanel.html#af9948eba8e1ae33c5f2dcf1cc3d42790',1,'hmi::TexturePanel']]],
+  ['_7eworldmodel_30',['~WorldModel',['../classhmi_1_1WorldModel.html#a57bf1374060f4024ab4990f52249d636',1,'hmi::WorldModel']]],
+  ['_7eworldscenerenderer_31',['~WorldSceneRenderer',['../classhmi_1_1WorldSceneRenderer.html#a08d587730ca8f5097ca017f69ea2e388',1,'hmi::WorldSceneRenderer']]]
 ];

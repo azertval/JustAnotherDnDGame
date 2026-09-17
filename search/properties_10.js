@@ -16,5 +16,5 @@ var searchData=
   ['speakername_13',['speakerName',['../classhmi_1_1DialogueModel.html#a5be7ee1780c414a9cf0768e408fdb26d',1,'hmi::DialogueModel']]],
   ['species_14',['species',['../classhmi_1_1CharacterSheetModel.html#ab635485894fcf0cf7a1c8de1c797b2ee',1,'hmi::CharacterSheetModel']]],
   ['speed_15',['speed',['../classhmi_1_1AssetGalleryItem.html#afdaf2c3d4043aca33b47d6fed1c84cea',1,'hmi::AssetGalleryItem::speed'],['../classhmi_1_1CharacterSheetModel.html#a74bf7012708a91997d29350295273131',1,'hmi::CharacterSheetModel::speed'],['../classhmi_1_1InventoryModel.html#adad1d72b86b6dd6522ac591573fd5c81',1,'hmi::InventoryModel::speed']]],
-  ['status_16',['status',['../classhmi_1_1ArenaModel.html#a195ccb33e5a9636011376256b395e93c',1,'hmi::ArenaModel::status'],['../classhmi_1_1DialogueModel.html#a20a3f6d2a4ed028340251c4bf9c65d34',1,'hmi::DialogueModel::status']]]
+  ['status_16',['status',['../classhmi_1_1ArenaModel.html#a195ccb33e5a9636011376256b395e93c',1,'hmi::ArenaModel::status'],['../classhmi_1_1DialogueModel.html#a20a3f6d2a4ed028340251c4bf9c65d34',1,'hmi::DialogueModel::status'],['../classhmi_1_1WorldModel.html#ad35b39b91404a26834204600e488b698',1,'hmi::WorldModel::status']]]
 ];

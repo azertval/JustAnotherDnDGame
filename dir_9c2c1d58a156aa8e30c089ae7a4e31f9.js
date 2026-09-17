@@ -42,5 +42,7 @@ var dir_9c2c1d58a156aa8e30c089ae7a4e31f9 =
     [ "test_texture_resolution.cpp", "test__texture__resolution_8cpp.html", "test__texture__resolution_8cpp" ],
     [ "test_tile_autotile.cpp", "test__tile__autotile_8cpp.html", "test__tile__autotile_8cpp" ],
     [ "test_tile_skin_resolution.cpp", "test__tile__skin__resolution_8cpp.html", "test__tile__skin__resolution_8cpp" ],
-    [ "test_tile_visuals.cpp", "test__tile__visuals_8cpp.html", null ]
+    [ "test_tile_visuals.cpp", "test__tile__visuals_8cpp.html", null ],
+    [ "test_world_scene_composer.cpp", "test__world__scene__composer_8cpp.html", "test__world__scene__composer_8cpp" ],
+    [ "test_world_scene_renderer.cpp", "test__world__scene__renderer_8cpp.html", "test__world__scene__renderer_8cpp" ]
 ];

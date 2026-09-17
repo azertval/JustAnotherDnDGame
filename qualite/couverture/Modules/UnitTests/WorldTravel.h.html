@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldTravel.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;filesystem&gt;
+#include &lt;functional&gt;
+#include &lt;map&gt;
+#include &lt;memory&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Levels/Level.h"
+#include "Core/Levels/LevelLoader.h"
+#include "Core/World/EntityKinds.h"
+#include "Core/World/WorldGraph.h"
+
+/**
+ * @file Core/World/WorldTravel.h
+ * @brief Le graphe du monde **jouÃ©** : franchir un portail, arriver Ã  un point nommÃ©, et refuser
+ *        au chargement ce qui ne mÃ¨ne nulle part (`LOT-09`).
+ *
+ * `core::WorldGraph` lit le dossier des niveaux et dit ce que vaut chaque portail ; ce fichier
+ * s'en sert pour **jouer** : il charge la carte courante, la garde, et dÃ©place le personnage d'une
+ * carte Ã  l'autre par des points d'arrivÃ©e **nommÃ©s** â jamais par des coordonnÃ©es, qui se
+ * dÃ©synchroniseraient au premier redimensionnement de la carte cible.
+ *
+ * Deux rÃ¨gles tiennent tout le fichier :
+ *
+ * - **Une carte chargÃ©e n'est pas rechargÃ©e.** Le coffre pris et la porte ouverte vivent hors des
+ *   entitÃ©s (`core::WorldFlags`), mais la carte elle-mÃªme est conservÃ©e d'un passage Ã  l'autre :
+ *   revenir du sable doit rendre le lieu tel qu'on l'a laissÃ©, pas un lieu neuf.
+ * - **Un dÃ©faut est un code, pas un texte** (`EX-NFR-011`) : `Core` n'Ã©crit aucun message, et
+ *   l'IHM traduit `WorldIssueCode`. Un portail orphelin est relevÃ© au **chargement**, pas Ã  la
+ *   traversÃ©e (`EX-NFR-040`).
+ */
+
+namespace core {
+
+class WorldFlags;
+
+/// @brief Ce qu'un portail nomme : sa carte cible, son point d'arrivÃ©e, son drapeau Ã©ventuel.
+struct PortalTarget {
+    std::string map;
+    std::string arrival;
+    /// Drapeau exigÃ©, vide si le portail s'ouvre toujours.
+    std::string requiredFlag;
+
+    [[nodiscard]] bool operator==(const PortalTarget&amp;) const = default;
+};
+
+/// @return Le portail posÃ© sur @p position, s'il y en a un.
+[[nodiscard]] std::optional&lt;PortalTarget&gt; portalAt(const Level&amp; level, GridPosition position);
+
+/// @return La case du point d'arrivÃ©e nommÃ© @p name, s'il existe. Deux points de mÃªme nom sont un
+///         dÃ©faut du graphe : le **premier** dans l'ordre des entitÃ©s l'emporte ici.
+[[nodiscard]] std::optional&lt;GridPosition&gt; arrivalPointAt(const Level&amp; level,
+                                                         std::string_view name);
+
+/// @brief Ce qui empÃªche une carte d'Ãªtre jouÃ©e. `Core` n'Ã©crit pas de texte : l'IHM traduit.
+enum class WorldIssueCode {
+    /// La carte n'a pas pu Ãªtre lue. `value` porte le message technique du chargeur.
+    UnreadableMap,
+    /// Un portail ne nomme aucune carte cible.
+    MissingTargetMap,
+    /// La carte cible d'un portail n'est pas dans le dossier. `value` la nomme.
+    UnknownTargetMap,
+    /// La carte cible existe mais n'a pas pu Ãªtre lue. `value` la nomme.
+    UnreadableTargetMap,
+    /// Un portail ne nomme aucun point d'arrivÃ©e.
+    MissingArrivalPoint,
+    /// La carte cible n'offre pas ce point d'arrivÃ©e. `value` le nomme.
+    UnknownArrivalPoint,
+    /// Deux points d'arrivÃ©e d'une mÃªme carte portent le mÃªme nom. `value` le nomme.
+    DuplicateArrivalPoint,
+    /// Une zone de combat est dÃ©gÃ©nÃ©rÃ©e : largeur ou hauteur nulle. `value` la nomme.
+    CombatZoneDegenerate,
+    /// Une zone de combat dÃ©borde de la carte. `value` la nomme.
+    CombatZoneOutOfBounds,
+    /// Une zone de combat n'a aucune case libre : on ne s'y bat pas. `value` la nomme.
+    CombatZoneBlocked,
+};
+
+/// @brief Un dÃ©faut relevÃ© sur une carte, et oÃ¹.
+struct WorldIssue {
+    /// Carte qui porte le dÃ©faut.
+    std::string mapId;
+    /// Case du portail ou du point d'arrivÃ©e fautif ; `{0, 0}` pour un dÃ©faut de carte entiÃ¨re.
+    GridPosition position;
+    WorldIssueCode code = WorldIssueCode::UnreadableMap;
+    /// Ce qu'il faut citer pour que le message soit exploitable : nom de carte, de point
+    /// d'arrivÃ©e, ou message du chargeur.
+    std::string value;
+
+    [[nodiscard]] bool operator==(const WorldIssue&amp;) const = default;
+};
+
+/**
+ * @brief RelÃ¨ve tout ce qui, dans @p graph, ne mÃ¨ne nulle part.
+ *
+ * C'est la validation **au chargement** qu'exige `EX-NFR-040` : un portail orphelin est une erreur
+ * explicite au dÃ©marrage, et non un plantage le jour oÃ¹ le joueur marche dessus.
+ *
+ * @return Les dÃ©fauts, cartes par identifiant puis portails dans l'ordre des entitÃ©s.
+ */
+[[nodiscard]] std::vector&lt;WorldIssue&gt; validateWorldGraph(const WorldGraph&amp; graph);
+
+/**
+ * @brief RelÃ¨ve ce qu'une carte **lue** porte de fautif et que le graphe ne peut pas voir.
+ *
+ * Le graphe dÃ©duplique les points d'arrivÃ©e d'une carte : deux entitÃ©s du mÃªme nom y entrent comme
+ * un seul point, et le dÃ©faut s'y perd. Il se voit ici, sur la carte elle-mÃªme â et il compte,
+ * parce que `arrivalPointAt` prend le premier, c'est-Ã -dire un des deux au hasard du tracÃ©.
+ */
+[[nodiscard]] std::vector&lt;WorldIssue&gt; validateWorldMap(std::string_view mapId, const Level&amp; level);
+
+/// @brief Ce qu'une traversÃ©e a donnÃ©.
+enum class TravelResult {
+    /// Le personnage est sur la carte demandÃ©e, Ã  son point d'arrivÃ©e.
+    Moved,
+    /// Aucun portail sur cette case : le pas est ordinaire, il n'y a rien Ã  faire.
+    NoPortal,
+    /// Le portail exige un drapeau que la partie n'a pas encore.
+    Locked,
+    /// La carte cible n'existe pas, ou n'a pas pu Ãªtre lue.
+    UnreadableMap,
+    /// La carte cible n'offre pas le point d'arrivÃ©e nommÃ©.
+    UnknownArrival,
+};
+
+/**
+ * @brief La carte courante, et le passage d'une carte Ã  l'autre.
+ *
+ * Le chargement est injectÃ© (`MapLoader`) plutÃ´t que codÃ© sur `std::filesystem` : les tests
+ * dÃ©crivent leurs cinq cartes en mÃ©moire, et le jeu passe `directoryLoader`. `Core` ne connaÃ®t
+ * ainsi toujours qu'un dossier qu'on lui nomme, jamais l'arborescence du dÃ©pÃ´t.
+ */
+class WorldTravel {
+public:
+    /// @brief Rend la carte d'identifiant donnÃ©, lue ou en Ã©chec.
+    using MapLoader = std::function&lt;LevelLoadResult(std::string_view mapId)&gt;;
+
+    /// @brief Le chargeur du jeu : `&lt;levelsDir&gt;/&lt;mapId&gt;.json`.
+    [[nodiscard]] static MapLoader directoryLoader(std::filesystem::path levelsDir);
+
+    explicit WorldTravel(MapLoader loader);
+
+    /**
+     * @brief Entre sur @p mapId au point d'arrivÃ©e @p arrival.
+     *
+     * Une carte dÃ©jÃ  visitÃ©e n'est **pas rechargÃ©e** : on retrouve celle qu'on a quittÃ©e. Un nom
+     * d'arrivÃ©e vide pose le personnage sur l'entrÃ©e de la carte (`core::Level::entry`), ce que
+     * fait Â« Nouvelle partie Â».
+     */
+    TravelResult enter(std::string_view mapId, std::string_view arrival);
+
+    /**
+     * @brief Franchit le portail posÃ© sur @p from, si les drapeaux l'ouvrent.
+     *
+     * @return `NoPortal` si la case n'en porte pas â c'est le cas ordinaire d'un pas â, `Locked`
+     *         si le drapeau exigÃ© manque, sinon le rÃ©sultat de l'entrÃ©e sur la carte cible.
+     */
+    TravelResult cross(GridPosition from, const WorldFlags&amp; flags);
+
+    /// @return L'identifiant de la carte courante, vide avant la premiÃ¨re entrÃ©e.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; currentMapId() const noexcept {
+        return _currentMapId;
+    }</span>
+
+    /// @return La carte courante, ou `nullptr` avant la premiÃ¨re entrÃ©e rÃ©ussie.
+    [[nodiscard]] const Level* currentMap() const;
+
+    /// @return La case du personnage sur la carte courante.
+<span style = "background-color:#dfd">    [[nodiscard]] GridPosition position() const noexcept {
+        return _position;
+    }</span>
+
+    /// @brief Suit le personnage sur sa carte : c'est le dÃ©placement qui dÃ©cide, pas ce fichier.
+    void setPosition(GridPosition position) noexcept {
+        _position = position;
+    }
+
+    /// @return Le dÃ©faut de la derniÃ¨re traversÃ©e refusÃ©e, s'il y en a un.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::optional&lt;WorldIssue&gt;&amp; lastIssue() const noexcept {
+        return _lastIssue;
+    }</span>
+
+    /// @return Le nombre de cartes gardÃ©es en mÃ©moire â ce qui prouve, en test, qu'un retour ne
+    ///         recharge rien.
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t loadedMapCount() const noexcept {
+        return _maps.size();
+    }</span>
+
+private:
+    /// @return La carte @p mapId, chargÃ©e Ã  la demande, ou `nullptr` si elle est illisible.
+    const Level* mapFor(std::string_view mapId);
+
+    MapLoader _loader;
+    std::map&lt;std::string, std::shared_ptr&lt;Level&gt;, std::less&lt;&gt;&gt; _maps;
+    std::string _currentMapId;
+<span style = "background-color:#dfd">    GridPosition _position{};</span>
+    std::optional&lt;WorldIssue&gt; _lastIssue;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

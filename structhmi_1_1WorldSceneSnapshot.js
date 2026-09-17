@@ -1,0 +1,12 @@
+var structhmi_1_1WorldSceneSnapshot =
+[
+    [ "floorAt", "structhmi_1_1WorldSceneSnapshot.html#a2b717139245b148aa15cf831e841731d", null ],
+    [ "operator==", "structhmi_1_1WorldSceneSnapshot.html#a3f6c0391bfc11e05301d320ae3f0630a", null ],
+    [ "reliefAt", "structhmi_1_1WorldSceneSnapshot.html#a3c086c039001eafcaab43b72e6aacf6d", null ],
+    [ "columns", "structhmi_1_1WorldSceneSnapshot.html#a95e88a2e9b961547d3a734ccc985b626", null ],
+    [ "figures", "structhmi_1_1WorldSceneSnapshot.html#a37330b8f96036726b4e3ea1030de098d", null ],
+    [ "floors", "structhmi_1_1WorldSceneSnapshot.html#a07a1eb5f4f5b3137b943484975173f06", null ],
+    [ "place", "structhmi_1_1WorldSceneSnapshot.html#a5853266b18d8062e8cbe6287485f8e80", null ],
+    [ "relief", "structhmi_1_1WorldSceneSnapshot.html#a213f244b1a103b590845ed397e41ee24", null ],
+    [ "rows", "structhmi_1_1WorldSceneSnapshot.html#a4743f05edf51069ee2f6a2e693b646be", null ]
+];

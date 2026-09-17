@@ -8,6 +8,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-06-deplacement-top-down", "dir_237f5dfcdbe74c60cf488649f4af7eda.html", null ],
     [ "LOT-07-rendu-tri-par-y", "dir_f8b7e8d4ca3133a56858706d968618a8.html", null ],
     [ "LOT-08-tuiles-rpg", "dir_ae0f6326bcc3735836795f204f9b206f.html", null ],
+    [ "LOT-09-colisee-premiere-carte", "dir_283d1c936b072b67be035c0c10954065.html", null ],
     [ "LOT-10-entites-de-carte", "dir_3ba36e1027d6bd1aaaf62b6e593712ad.html", null ],
     [ "LOT-11-editeur-multicouches", "dir_c94de2c9f23b4ba3167bec52a91e6c87.html", null ],
     [ "LOT-12-des-caracteristiques-jets", "dir_27a68e08a72146ed4a04cb6cd5a2797d.html", null ],

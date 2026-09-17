@@ -8,6 +8,7 @@ var classhmi_1_1DialogueModel =
     [ "checkOutcome", "classhmi_1_1DialogueModel.html#a7fd2026f6d06834369a764f6d97d4a74", null ],
     [ "choose", "classhmi_1_1DialogueModel.html#ac725f335856ecabd4341e3a9d94b501d", null ],
     [ "chooseAt", "classhmi_1_1DialogueModel.html#aaaa6233b29c562241df0945b608ea9b1", null ],
+    [ "combatRequested", "classhmi_1_1DialogueModel.html#a80189a0fb6f159dc7c10a2253da86494", null ],
     [ "dialogueId", "classhmi_1_1DialogueModel.html#a5b3abb0445ed29d6fc01d9eee257de51", null ],
     [ "finished", "classhmi_1_1DialogueModel.html#aa45f645683377e57eb468b4308ced157", null ],
     [ "line", "classhmi_1_1DialogueModel.html#adb7ff43722d893b9912cfe78bd25fe56", null ],

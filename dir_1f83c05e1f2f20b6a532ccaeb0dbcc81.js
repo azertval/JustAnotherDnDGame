@@ -46,6 +46,8 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "Parallax.h", "Parallax_8h.html", "Parallax_8h" ],
     [ "ParticleRenderer.cpp", "ParticleRenderer_8cpp.html", "ParticleRenderer_8cpp" ],
     [ "ParticleRenderer.h", "ParticleRenderer_8h.html", "ParticleRenderer_8h" ],
+    [ "PlaceAppearance.cpp", "PlaceAppearance_8cpp.html", null ],
+    [ "PlaceAppearance.h", "PlaceAppearance_8h.html", "PlaceAppearance_8h" ],
     [ "PlaneVisibility.h", "PlaneVisibility_8h.html", "PlaneVisibility_8h" ],
     [ "PlaneVisuals.cpp", "PlaneVisuals_8cpp.html", "PlaneVisuals_8cpp" ],
     [ "PlaneVisuals.h", "PlaneVisuals_8h.html", "PlaneVisuals_8h" ],
@@ -66,6 +68,7 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "RhiContext.h", "RhiContext_8h.html", "RhiContext_8h" ],
     [ "RoomGrid.cpp", "RoomGrid_8cpp.html", null ],
     [ "RoomGrid.h", "RoomGrid_8h.html", "RoomGrid_8h" ],
+    [ "ScenePieces.h", "ScenePieces_8h.html", "ScenePieces_8h" ],
     [ "SceneResources.cpp", "SceneResources_8cpp.html", null ],
     [ "SceneResources.h", "SceneResources_8h.html", "SceneResources_8h" ],
     [ "ShadowRenderer.cpp", "ShadowRenderer_8cpp.html", "ShadowRenderer_8cpp" ],
@@ -93,5 +96,9 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "TileSilhouette.h", "TileSilhouette_8h.html", "TileSilhouette_8h" ],
     [ "TileSkinTag.h", "TileSkinTag_8h.html", "TileSkinTag_8h" ],
     [ "TileVisuals.cpp", "TileVisuals_8cpp.html", "TileVisuals_8cpp" ],
-    [ "TileVisuals.h", "TileVisuals_8h.html", "TileVisuals_8h" ]
+    [ "TileVisuals.h", "TileVisuals_8h.html", "TileVisuals_8h" ],
+    [ "WorldSceneComposer.cpp", "WorldSceneComposer_8cpp.html", "WorldSceneComposer_8cpp" ],
+    [ "WorldSceneComposer.h", "WorldSceneComposer_8h.html", "WorldSceneComposer_8h" ],
+    [ "WorldSceneRenderer.cpp", "WorldSceneRenderer_8cpp.html", "WorldSceneRenderer_8cpp" ],
+    [ "WorldSceneRenderer.h", "WorldSceneRenderer_8h.html", "WorldSceneRenderer_8h" ]
 ];

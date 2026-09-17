@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CombatZone.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/World/CombatZone.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cstdint&gt;
+#include &lt;utility&gt;
+#include &lt;variant&gt;
+
+#include "Core/Levels/TileLayer.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
+
+namespace core {
+
+namespace {
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string texteDe(const MapEntity&amp; entite, std::string_view cle) {
+    const auto trouvee = entite.properties.find(std::string{cle});
+    if (trouvee == entite.properties.end()) {</span>
+<span style = "background-color:#fdd">        return {};</span>
+    }
+<span style = "background-color:#dfd">    const std::string* texte = std::get_if&lt;std::string&gt;(&amp;trouvee-&gt;second);
+    return texte != nullptr ? *texte : std::string{};
+}</span>
+
+// Un entier de propriete, ou 0 : une taille ecrite en texte est une saisie fautive, pas une taille
+// a deviner -- la zone sera signalee degeneree.
+<span style = "background-color:#dfd">[[nodiscard]] int entierDe(const MapEntity&amp; entite, std::string_view cle) {
+    const auto trouvee = entite.properties.find(std::string{cle});
+    if (trouvee == entite.properties.end()) {</span>
+<span style = "background-color:#fdd">        return 0;</span>
+    }
+<span style = "background-color:#dfd">    const std::int64_t* entier = std::get_if&lt;std::int64_t&gt;(&amp;trouvee-&gt;second);
+    return entier != nullptr ? static_cast&lt;int&gt;(*entier) : 0;
+}</span>
+
+// La grille decoupee sur la zone : les cases du dehors n'y sont pas.
+<span style = "background-color:#dfd">[[nodiscard]] TileMap decouper(const TileMap&amp; source, const CombatZone&amp; zone) {
+    TileMap grille{std::max(1, zone.columns), std::max(1, zone.rows)};
+    for (int ligne = 0; ligne &lt; grille.height(); ++ligne) {
+        for (int colonne = 0; colonne &lt; grille.width(); ++colonne) {
+            const int x = zone.origin.column + colonne;
+            const int y = zone.origin.row + ligne;
+            if (source.inBounds(x, y)) {
+                grille.setTile(colonne, ligne, source.tile(x, y));</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+    return grille;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">bool CombatZone::contains(GridPosition cell) const noexcept {
+    return cell.column &gt;= origin.column &amp;&amp; cell.row &gt;= origin.row &amp;&amp;</span>
+           cell.column &lt; origin.column + columns &amp;&amp; cell.row &lt; origin.row + rows;
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;CombatZone&gt; combatZonesOf(const Level&amp; level) {
+    std::vector&lt;CombatZone&gt; zones;
+    for (const MapEntity&amp; entite : level.entities()) {
+        if (entite.type != COMBAT_ZONE_ENTITY_TYPE) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        zones.push_back(CombatZone{.name = texteDe(entite, COMBAT_ZONE_NAME_PROPERTY),</span>
+                                   .origin = entite.position,
+                                   .columns = entierDe(entite, COMBAT_ZONE_WIDTH_PROPERTY),
+                                   .rows = entierDe(entite, COMBAT_ZONE_HEIGHT_PROPERTY)});
+<span style = "background-color:#dfd">    }
+    return zones;
+}</span>
+
+<span style = "background-color:#dfd">const CombatZone* findCombatZone(const std::vector&lt;CombatZone&gt;&amp; zones, std::string_view name) {
+    if (zones.empty()) {</span>
+<span style = "background-color:#fdd">        return nullptr;</span>
+    }
+<span style = "background-color:#dfd">    if (name.empty()) {
+        return &amp;zones.front();</span>
+    }
+<span style = "background-color:#dfd">    const auto trouvee = std::ranges::find(zones, name, &amp;CombatZone::name);
+    return trouvee != zones.end() ? &amp;*trouvee : nullptr;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;WorldIssue&gt; validateCombatZones(std::string_view mapId, const Level&amp; level) {
+    std::vector&lt;WorldIssue&gt; defauts;
+    const TileMap&amp; collision = level.tileMap();
+    for (const CombatZone&amp; zone : combatZonesOf(level)) {
+        const auto signaler = [&amp;](WorldIssueCode code) {
+            defauts.push_back(WorldIssue{.mapId = std::string{mapId},</span>
+                                         .position = zone.origin,
+                                         .code = code,
+                                         .value = zone.name});
+<span style = "background-color:#dfd">        };
+        if (zone.columns &lt;= 0 || zone.rows &lt;= 0) {
+            signaler(WorldIssueCode::CombatZoneDegenerate);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (!collision.inBounds(zone.origin.column, zone.origin.row) ||</span>
+            !collision.inBounds(zone.origin.column + zone.columns - 1,
+                                zone.origin.row + zone.rows - 1)) {
+<span style = "background-color:#dfd">            signaler(WorldIssueCode::CombatZoneOutOfBounds);
+            continue;</span>
+        }
+        // Une zone entierement pleine n'est pas un terrain tactique : personne ne peut s'y poser.
+<span style = "background-color:#dfd">        bool libre = false;
+        for (int ligne = 0; ligne &lt; zone.rows &amp;&amp; !libre; ++ligne) {
+            for (int colonne = 0; colonne &lt; zone.columns &amp;&amp; !libre; ++colonne) {
+                libre = !collision.isSolid(zone.origin.column + colonne, zone.origin.row + ligne);
+            }
+        }
+        if (!libre) {
+            signaler(WorldIssueCode::CombatZoneBlocked);
+        }
+    }
+    return defauts;
+}</span>
+
+<span style = "background-color:#dfd">Level cropLevelToZone(const Level&amp; level, const CombatZone&amp; zone) {
+    LevelData reduite{.name = level.name(), .tileMap = decouper(level.tileMap(), zone)};</span>
+
+<span style = "background-color:#dfd">    for (const TileLayer&amp; couche : level.layers()) {</span>
+        // La grille racine est promue en tete des couches par le chargeur : la redecouper ici en
+        // ferait une seconde copie, et la carte reduite porterait deux fois sa collision.
+<span style = "background-color:#dfd">        if (couche.kind == LayerKind::Collision || couche.kind == LayerKind::Legacy) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        reduite.layers.push_back(TileLayer{.name = couche.name,</span>
+                                           .kind = couche.kind,
+                                           .tiles = decouper(couche.tiles, zone),
+                                           .properties = couche.properties});
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    for (const MapEntity&amp; entite : level.entities()) {
+        if (!zone.contains(entite.position)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        MapEntity translatee = entite;
+        translatee.position = GridPosition{entite.position.column - zone.origin.column,</span>
+                                           entite.position.row - zone.origin.row};
+<span style = "background-color:#dfd">        reduite.entities.push_back(std::move(translatee));
+    }</span>
+
+<span style = "background-color:#dfd">    for (const TileTextureOverride&amp; assignee : level.textureOverrides()) {
+        if (!zone.contains(assignee.position)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        reduite.textureOverrides.push_back(TileTextureOverride{</span>
+            .position = GridPosition{assignee.position.column - zone.origin.column,
+                                     assignee.position.row - zone.origin.row},
+            .assetName = assignee.assetName});
+<span style = "background-color:#dfd">    }</span>
+
+    // L'entree et la sortie de la carte reduite : celles de la carte si elles sont dans la zone,
+    // son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
+    // leurs points d'entree --, mais un champ menteur finirait par etre lu.
+<span style = "background-color:#dfd">    if (zone.contains(level.entry())) {</span>
+<span style = "background-color:#fdd">        reduite.entry = GridPosition{level.entry().column - zone.origin.column,</span>
+                                     level.entry().row - zone.origin.row};
+    }
+<span style = "background-color:#dfd">    if (zone.contains(level.exit())) {</span>
+<span style = "background-color:#fdd">        reduite.exit = GridPosition{level.exit().column - zone.origin.column,</span>
+                                    level.exit().row - zone.origin.row};
+    }
+
+<span style = "background-color:#dfd">    reduite.background = level.background();
+    reduite.skinSet = level.skinSet();</span>
+    // Une grille de combat tient dans l'ecran : c'est tout l'interet de la borner.
+<span style = "background-color:#dfd">    reduite.cameraFraming = CameraFramingConfig{.mode = CameraFramingMode::WholeLevel};
+    reduite.parallaxEnabled = level.parallaxEnabled();
+    return Level{std::move(reduite)};
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

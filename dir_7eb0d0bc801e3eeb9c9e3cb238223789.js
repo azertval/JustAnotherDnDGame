@@ -31,5 +31,9 @@ var dir_7eb0d0bc801e3eeb9c9e3cb238223789 =
     [ "SheetRowModel.cpp", "SheetRowModel_8cpp.html", null ],
     [ "SheetRowModel.h", "SheetRowModel_8h.html", "SheetRowModel_8h" ],
     [ "WorldMapModel.cpp", "WorldMapModel_8cpp.html", null ],
-    [ "WorldMapModel.h", "WorldMapModel_8h.html", "WorldMapModel_8h" ]
+    [ "WorldMapModel.h", "WorldMapModel_8h.html", "WorldMapModel_8h" ],
+    [ "WorldModel.cpp", "WorldModel_8cpp.html", null ],
+    [ "WorldModel.h", "WorldModel_8h.html", "WorldModel_8h" ],
+    [ "WorldViewportItem.cpp", "WorldViewportItem_8cpp.html", "WorldViewportItem_8cpp" ],
+    [ "WorldViewportItem.h", "WorldViewportItem_8h.html", "WorldViewportItem_8h" ]
 ];

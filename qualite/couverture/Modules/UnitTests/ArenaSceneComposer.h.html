@@ -26,6 +26,7 @@
 #include "Core/Levels/GridPosition.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/RenderLayer.h"
+#include "HMI/Graphics/ScenePieces.h"
 
 /**
  * @file HMI/Graphics/ArenaSceneComposer.h
@@ -98,22 +99,24 @@ class ArenaAppearanceCatalog;
 struct ArenaAnimationState;
 
 /// Largeur d'une image des bandes d'animation de la planche, en pixels (`manifest.json`, `frame`),
-/// quand la bande n'en dÃ©clare pas d'autre (`ArenaTexture::frameWidth`).
-inline constexpr int ARENA_FIGURE_FRAME_WIDTH_PIXELS = 48;
+/// quand la bande n'en dÃ©clare pas d'autre (`ArenaTexture::frameWidth`). La gÃ©omÃ©trie des planches
+/// de l'atelier est commune Ã  l'arÃ¨ne et aux lieux qu'on parcourt : elle vit dans
+/// `HMI/Graphics/ScenePieces.h` (`LOT-09`), et ces noms la dÃ©signent.
+inline constexpr int ARENA_FIGURE_FRAME_WIDTH_PIXELS = FIGURE_FRAME_WIDTH_PIXELS;
 /// Hauteur d'une image des bandes d'animation, en pixels.
-inline constexpr int ARENA_FIGURE_FRAME_HEIGHT_PIXELS = 64;
+inline constexpr int ARENA_FIGURE_FRAME_HEIGHT_PIXELS = FIGURE_FRAME_HEIGHT_PIXELS;
 /// Agrandissement de la figurine par rapport Ã  la planche (`ArenaTile.ui.qml`, `1.25`).
-inline constexpr float ARENA_FIGURE_SCALE = 1.25f;
+inline constexpr float ARENA_FIGURE_SCALE = FIGURE_SCALE;
 /// OpacitÃ© d'un ennemi Ã  terre (`ArenaTile.ui.qml`, `0.45`).
 inline constexpr float ARENA_DOWN_ENEMY_ALPHA = 0.45f;
 /// Largeur du losange des textures de scÃ¨ne de l'atelier (`LOT-92`), en pixels d'art : 68 Ã 42, le
 /// rapport 0,62 d'`core::IsoProjection`. Une piÃ¨ce se pose par son ancre, le sommet haut de son
 /// emprise (`anchor` de `Assets/Scene/&lt;lieu&gt;/manifest.json`).
-inline constexpr int ARENA_SCENE_TILE_WIDTH_PIXELS = 68;
+inline constexpr int ARENA_SCENE_TILE_WIDTH_PIXELS = SCENE_TILE_WIDTH_PIXELS;
 /// Demi-largeur de ce losange : l'abscisse de l'ancre d'une piÃ¨ce d'une case.
-inline constexpr int ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = ARENA_SCENE_TILE_WIDTH_PIXELS / 2;
+inline constexpr int ARENA_SCENE_HALF_TILE_WIDTH_PIXELS = SCENE_HALF_TILE_WIDTH_PIXELS;
 /// Hauteur de ce losange, en pixels d'art : il occupe le bas d'une piÃ¨ce d'une case.
-inline constexpr int ARENA_SCENE_TILE_HEIGHT_PIXELS = 42;
+inline constexpr int ARENA_SCENE_TILE_HEIGHT_PIXELS = SCENE_TILE_HEIGHT_PIXELS;
 
 /**
  * @brief Rang d'une piÃ¨ce Ã  l'intÃ©rieur d'une mÃªme profondeur : l'ordre d'empilement de la brique

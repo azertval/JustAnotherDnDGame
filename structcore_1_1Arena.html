@@ -105,8 +105,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ad4d692eb5c63a83d3f7fc4a36fb53967" id="r_ad4d692eb5c63a83d3f7fc4a36fb53967"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ad4d692eb5c63a83d3f7fc4a36fb53967">source</a></td></tr>
 <tr class="memitem:a2010fc18af618e4eeb116842082bb2ba" id="r_a2010fc18af618e4eeb116842082bb2ba"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a2010fc18af618e4eeb116842082bb2ba">region</a></td></tr>
 <tr class="memdesc:a2010fc18af618e4eeb116842082bb2ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Région de l'atlas (<span class="tt">LOT-37</span>) où l'arène se tient.  <br /></td></tr>
+<tr class="memitem:a8b3831f24746eeef78dc451696f5261b" id="r_a8b3831f24746eeef78dc451696f5261b"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a8b3831f24746eeef78dc451696f5261b">location</a></td></tr>
+<tr class="memdesc:a8b3831f24746eeef78dc451696f5261b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lieu de l'atlas (<span class="tt">LOT-37</span>) où l'arène se tient, plus précis que la région : le quartier d'Arenarea, dans la Capitale impériale.  <br /></td></tr>
 <tr class="memitem:a1731b51aadd03a1b441dbb669a04d6d8" id="r_a1731b51aadd03a1b441dbb669a04d6d8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1731b51aadd03a1b441dbb669a04d6d8">map</a></td></tr>
 <tr class="memdesc:a1731b51aadd03a1b441dbb669a04d6d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom du fichier de carte dans <span class="tt">Source/Elements/Levels/</span>, vide si l'arène n'a pas encore de carte : elle existe dans le monde, pas encore comme lieu jouable.  <br /></td></tr>
+<tr class="memitem:a0b2ef682b0d58558aebdcb150a85bda5" id="r_a0b2ef682b0d58558aebdcb150a85bda5"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0b2ef682b0d58558aebdcb150a85bda5">zone</a></td></tr>
+<tr class="memdesc:a0b2ef682b0d58558aebdcb150a85bda5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de la <b>zone de combat</b> de cette carte (<span class="tt"><a class="el" href="structcore_1_1CombatZone.html" title="Une zone de combat : son nom, son coin haut-gauche, sa taille.">core::CombatZone</a></span>, <span class="tt">LOT-09</span>) : l'arène joue sur elle, et non sur la carte entière — le Colisée est un lieu, et l'on ne se bat que sur son sable.  <br /></td></tr>
 <tr class="memitem:a8478b7a828a592fc2e494a63a47521d9" id="r_a8478b7a828a592fc2e494a63a47521d9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8478b7a828a592fc2e494a63a47521d9">lethal</a> = false</td></tr>
 <tr class="memdesc:a8478b7a828a592fc2e494a63a47521d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'on y meurt.  <br /></td></tr>
 <tr class="memitem:ac94004109e28fd4008da32a510627f51" id="r_ac94004109e28fd4008da32a510627f51"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac94004109e28fd4008da32a510627f51">heroicMark</a> = true</td></tr>
@@ -182,6 +186,23 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8b3831f24746eeef78dc451696f5261b" name="a8b3831f24746eeef78dc451696f5261b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b3831f24746eeef78dc451696f5261b">&#9670;&#160;</a></span>location</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::Arena::location</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Lieu de l'atlas (<span class="tt">LOT-37</span>) où l'arène se tient, plus précis que la région : le quartier d'Arenarea, dans la Capitale impériale. </p>
+<p>Vide si la relecture ne l'a pas encore établi. </p>
+
+</div>
+</div>
 <a id="a1731b51aadd03a1b441dbb669a04d6d8" name="a1731b51aadd03a1b441dbb669a04d6d8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1731b51aadd03a1b441dbb669a04d6d8">&#9670;&#160;</a></span>map</h2>
 
@@ -239,6 +260,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0b2ef682b0d58558aebdcb150a85bda5" name="a0b2ef682b0d58558aebdcb150a85bda5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b2ef682b0d58558aebdcb150a85bda5">&#9670;&#160;</a></span>zone</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::Arena::zone</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Nom de la <b>zone de combat</b> de cette carte (<span class="tt"><a class="el" href="structcore_1_1CombatZone.html" title="Une zone de combat : son nom, son coin haut-gauche, sa taille.">core::CombatZone</a></span>, <span class="tt">LOT-09</span>) : l'arène joue sur elle, et non sur la carte entière — le Colisée est un lieu, et l'on ne se bat que sur son sable. </p>
+<p>Vide : la carte entière est la grille, comme au <span class="tt">LOT-50</span>. </p>
 
 </div>
 </div>

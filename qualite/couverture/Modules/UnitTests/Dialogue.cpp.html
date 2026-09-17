@@ -252,10 +252,13 @@ private:
     } else if (type == "startQuest") {
         action.kind = DialogueActionKind::StartQuest;
         champ = "quest";
+    } else if (type == "startCombat") {
+        action.kind = DialogueActionKind::StartCombat;
+        champ = "arena";
     } else {</span>
 <span style = "background-color:#fdd">        rapport.noeud(noeudId,</span>
                       "action de type inconnu (setFlag, clearFlag, giveItem, "
-                      "startQuest).");
+                      "startQuest, startCombat).");
 <span style = "background-color:#fdd">        return std::nullopt;</span>
     }
 <span style = "background-color:#dfd">    action.target = exiger(effet, champ, noeudId, rapport);
@@ -959,7 +962,11 @@ DialogueRunner::DialogueRunner(const DialogueGraph&amp; graph, WorldFlags&amp; f
 <span style = "background-color:#dfd">            break;</span>
         case DialogueActionKind::StartQuest:
 <span style = "background-color:#dfd">            _flags.set(questStartedFlag(action.target));
-            _journal.push_back("quete demarree : " + action.target);</span>
+            _journal.push_back("quete demarree : " + action.target);
+            break;</span>
+        case DialogueActionKind::StartCombat:
+<span style = "background-color:#dfd">            _listener.startCombat(action.target);
+            _journal.push_back("combat demande : " + action.target);</span>
             break;
     }
 <span style = "background-color:#dfd">}</span>

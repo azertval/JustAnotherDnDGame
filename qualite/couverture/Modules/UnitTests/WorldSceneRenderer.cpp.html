@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldSceneRenderer.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/WorldSceneRenderer.h"
+
+#include &lt;algorithm&gt;
+#include &lt;optional&gt;
+#include &lt;utility&gt;
+
+#include &lt;rhi/qrhi.h&gt;
+
+#include "HMI/Graphics/AnimationCatalog.h"
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/MissingTexture.h"
+#include "HMI/Graphics/SpriteBatch.h"
+#include "HMI/Graphics/SpriteRenderer.h"
+
+namespace hmi {
+
+namespace {
+
+/// Le chemin du `.anim.json` d'une bande : `idle.png` -&gt; `idle.anim.json`.
+<span style = "background-color:#dfd">[[nodiscard]] std::filesystem::path animationDescriptionOf(const std::filesystem::path&amp; band) {
+    std::filesystem::path description = band;
+    description.replace_extension();
+    description += ".anim.json";
+    return description;
+}</span>
+
+}  // namespace
+
+Camera2D worldCamera(const core::IsoProjection&amp; projection, core::Vector2 focus, int pixelWidth,
+<span style = "background-color:#dfd">                     int pixelHeight) {
+    const int width = std::max(1, pixelWidth);
+    const int height = std::max(1, pixelHeight);
+    Camera2D camera(width, height);</span>
+
+    // Un agrandissement ENTIER, jamais un cadrage ajuste : le pixel art se brouille des qu'on le
+    // met a l'echelle 0,62. L'art est dessine pour 720 lignes ; au-dela, on double.
+<span style = "background-color:#dfd">    camera.setZoom(static_cast&lt;float&gt;(std::max(1, height / WORLD_ART_HEIGHT_PIXELS)));</span>
+
+    // Le point suivi, ramene dans la scene : la vue ne montre pas le vide autour de la carte. Sur
+    // un axe ou la scene est plus petite que la vue, elle reste centree. La scene occupe
+    // [0, sceneSize] en unites monde (`core::IsoProjection::gridToWorld` y place la case (0, 0)).
+<span style = "background-color:#dfd">    const core::Vector2 scene = projection.sceneSize();
+    const core::Rect visible = camera.visibleBounds();
+    core::Vector2 centre = focus;
+    centre.x = scene.x &lt;= visible.size.x</span>
+                   ? scene.x / 2.0F
+                   : std::clamp(centre.x, visible.size.x / 2.0F, scene.x - (visible.size.x / 2.0F));
+<span style = "background-color:#dfd">    centre.y = scene.y &lt;= visible.size.y</span>
+                   ? scene.y / 2.0F
+                   : std::clamp(centre.y, visible.size.y / 2.0F, scene.y - (visible.size.y / 2.0F));
+<span style = "background-color:#dfd">    camera.setCenter(centre);
+    return camera;
+}</span>
+
+WorldSceneRenderer::WorldSceneRenderer(std::filesystem::path assetsDirectory)
+<span style = "background-color:#dfd">    : _directory(std::move(assetsDirectory)) {}</span>
+
+<span style = "background-color:#dfd">WorldSceneRenderer::~WorldSceneRenderer() {
+    release();
+}</span>
+
+<span style = "background-color:#dfd">bool WorldSceneRenderer::ensureResources(QRhi* rhi) {
+    if (rhi == nullptr) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    if (created() &amp;&amp; _rhi == rhi) {
+        return true;</span>
+    }
+    // Une autre interface : tout ce qui a ete cree appartient a l'ancienne et ne doit plus servir.
+<span style = "background-color:#dfd">    release();</span>
+
+<span style = "background-color:#dfd">    _rhi = rhi;
+    _pendingUploads = rhi-&gt;nextResourceUpdateBatch();
+    _resources.create(rhi, _pendingUploads);</span>
+
+<span style = "background-color:#dfd">    const ProceduralAtlasImage checker = buildMissingTextureImage();
+    if (std::optional&lt;LoadedTexture&gt; missing =</span>
+            createTexture(_resources.context(), checker.width, checker.height, checker.pixels)) {
+<span style = "background-color:#dfd">        _missing = std::move(*missing);
+        _textures.missing = SceneTexture{</span>
+            .texture = _missing.handle(), .width = _missing.width, .height = _missing.height};
+<span style = "background-color:#dfd">    }
+    _resources.setFrameUpdates(nullptr);
+    GRAPHICS_LOG_INFO("Lieu : ressources QRhi creees (" + std::string(rhi-&gt;backendName()) + ").");
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">int WorldSceneRenderer::bandFrameWidth(const std::string&amp; path) {
+    const auto connue = _bandFrameWidths.find(path);
+    if (connue != _bandFrameWidths.end()) {
+        return connue-&gt;second;</span>
+    }
+    // Seules les figurines ont un `.anim.json` ; une piece de decor n'en a pas, et son absence est
+    // un cas legitime, pas une anomalie.
+<span style = "background-color:#dfd">    const AnimationDescriptionResult lue =</span>
+        AnimationCatalog::loadFromFile(animationDescriptionOf(_directory / path));
+<span style = "background-color:#dfd">    const int largeur = lue.ok() ? lue.description-&gt;frameWidth : 0;
+    _bandFrameWidths.emplace(path, largeur);
+    return largeur;
+}</span>
+
+<span style = "background-color:#dfd">void WorldSceneRenderer::ensureTextures(const std::vector&lt;std::string&gt;&amp; paths) {
+    for (const std::string&amp; path : paths) {</span>
+        // Deja tente : une piece absente ne doit pas etre redemandee a chaque image.
+<span style = "background-color:#dfd">        if (!_requested.insert(path).second) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        std::optional&lt;LoadedTexture&gt; texture =</span>
+            loadTextureFromFile(_resources.context(), _directory / path);
+<span style = "background-color:#dfd">        if (!texture.has_value()) {</span>
+            // La composition retombe sur le damier : une piece manquante se voit, sans planter.
+<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING(missingTextureWarning(path));
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        _textures.byPath[path] = SceneTexture{.texture = texture-&gt;handle(),</span>
+                                              .width = texture-&gt;width,
+                                              .height = texture-&gt;height,
+                                              .frameWidth = bandFrameWidth(path)};
+<span style = "background-color:#dfd">        _loaded.push_back(std::move(*texture));
+    }
+}</span>
+
+<span style = "background-color:#dfd">void WorldSceneRenderer::release() noexcept {</span>
+    // L'ordre : ce qui designe une texture, puis les textures, puis la grappe qui porte le
+    // pipeline. Le lot de creation jamais soumis est rendu a QRhi.
+<span style = "background-color:#dfd">    _composed.clear();
+    _textures.byPath.clear();
+    _textures.missing = SceneTexture{};
+    _loaded.clear();
+    _missing = LoadedTexture{};
+    _requested.clear();
+    if (_pendingUploads != nullptr) {</span>
+<span style = "background-color:#fdd">        _pendingUploads-&gt;release();
+        _pendingUploads = nullptr;</span>
+    }
+<span style = "background-color:#dfd">    _resources.release();
+    _rhi = nullptr;
+}</span>
+
+<span style = "background-color:#dfd">void WorldSceneRenderer::setSnapshot(WorldSceneSnapshot snapshot) {
+    _snapshot = std::move(snapshot);
+}</span>
+
+void WorldSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
+<span style = "background-color:#dfd">                                const float* clear) {
+    if (!created() || commandBuffer == nullptr || target == nullptr) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+    // Le lot de cette image : celui de la creation s'il attend encore, sinon un neuf.
+<span style = "background-color:#dfd">    QRhiResourceUpdateBatch* const updates = _pendingUploads != nullptr</span>
+                                                 ? std::exchange(_pendingUploads, nullptr)
+                                                 : _rhi-&gt;nextResourceUpdateBatch();
+<span style = "background-color:#dfd">    _resources.setFrameUpdates(updates);</span>
+
+    // Les textures du lieu ne sont pas connues d'avance : la carte change au passage d'un portail,
+    // et ce sont ses pieces qui disent quoi charger.
+<span style = "background-color:#dfd">    ensureTextures(worldTexturePaths(_snapshot));</span>
+
+<span style = "background-color:#dfd">    const core::IsoProjection projection(_snapshot.columns, _snapshot.rows);
+    _composed.clear();
+    composeWorldScene(_composed, _snapshot, projection, _textures);
+    _composed.sort();</span>
+
+<span style = "background-color:#dfd">    const QSize pixels = target-&gt;pixelSize();</span>
+    const Camera2D camera =
+<span style = "background-color:#dfd">        worldCamera(projection, projection.gridToWorld(_focus), pixels.width(), pixels.height());</span>
+
+<span style = "background-color:#dfd">    SpriteBatch&amp; sprites = _resources.sprites();
+    sprites.beginFrame();
+    submitComposedScene(sprites, camera.projectionMatrix(), _composed);
+    sprites.submit(commandBuffer, target, updates, clear);
+    _resources.setFrameUpdates(nullptr);
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -119,6 +119,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1fc1a28c794da999536f32d771399596" id="r_a1fc1a28c794da999536f32d771399596"><td class="memItemLeft">virtual std::vector&lt; <a class="el" href="structcore_1_1Modifier.html">Modifier</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1fc1a28c794da999536f32d771399596">skillModifiers</a> (std::string_view skillId) const =0</td></tr>
 <tr class="memitem:ab913b0303d4a9067ea84fcca7b082c9f" id="r_ab913b0303d4a9067ea84fcca7b082c9f"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#ab913b0303d4a9067ea84fcca7b082c9f">receiveItem</a> (std::string_view itemId, int quantity)=0</td></tr>
 <tr class="memdesc:ab913b0303d4a9067ea84fcca7b082c9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reçoit un objet que le PNJ lui donne.  <br /></td></tr>
+<tr class="memitem:a6ce049b4a2a48f8ac02c979a3caf0c14" id="r_a6ce049b4a2a48f8ac02c979a3caf0c14"><td class="memItemLeft">virtual void&#160;</td><td class="memItemRight"><a class="el" href="#a6ce049b4a2a48f8ac02c979a3caf0c14">startCombat</a> (std::string_view arenaId)</td></tr>
+<tr class="memdesc:a6ce049b4a2a48f8ac02c979a3caf0c14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le PNJ l'envoie se battre dans l'arène <code class="param">arenaId</code> (<span class="tt">LOT-09</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Celui qui parle <b>au</b> PNJ, tel que le runner a besoin de le connaître. </p>
@@ -361,6 +363,34 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Vrai s'il parle cette langue. </dd></dl>
 
 <p>Implemented in <a class="el" href="classcore_1_1CharacterListener.html#a73985ab1e3e42d37b4320cc0d422b6f9">core::CharacterListener</a>.</p>
+
+</div>
+</div>
+<a id="a6ce049b4a2a48f8ac02c979a3caf0c14" name="a6ce049b4a2a48f8ac02c979a3caf0c14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce049b4a2a48f8ac02c979a3caf0c14">&#9670;&#160;</a></span>startCombat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void core::DialogueListener::startCombat </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>arenaId</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel virtual">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le PNJ l'envoie se battre dans l'arène <code class="param">arenaId</code> (<span class="tt">LOT-09</span>). </p>
+<p>Sans effet par défaut : un interlocuteur qui n'a pas d'écran — un test, un rejeu — n'a rien à ouvrir, et l'action reste consignée au journal du runner. </p>
 
 </div>
 </div>

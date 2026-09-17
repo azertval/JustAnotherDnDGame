@@ -106,6 +106,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5e96e99192c8a210e3dae14966e99548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options revient vers l'écran d'où il a été ouvert : Menu si ouvert depuis Menu, Pause si ouvert depuis Pause &ndash; porté par l'état, pas par une variable à part.  <br /></td></tr>
 <tr class="memitem:a82e6c5b8936c42e92fc5e5922497fcde" id="r_a82e6c5b8936c42e92fc5e5922497fcde"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a82e6c5b8936c42e92fc5e5922497fcde">TEST</a> (ScreenFlowTest, TransitionInterditeEstRefusee)</td></tr>
 <tr class="memdesc:a82e6c5b8936c42e92fc5e5922497fcde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une transition interdite est refusée (std::nullopt), notamment Editor -&gt; Pause et Menu -&gt; Pause.  <br /></td></tr>
+<tr class="memitem:a69338d297d4959611f8b9065cb20bd65" id="r_a69338d297d4959611f8b9065cb20bd65"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a69338d297d4959611f8b9065cb20bd65">TEST</a> (ScreenFlowTest, LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie)</td></tr>
+<tr class="memdesc:a69338d297d4959611f8b9065cb20bd65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le Colisée revient là d'où il a été ouvert : le menu, ou la carte (<span class="tt">LOT-09</span>).  <br /></td></tr>
 <tr class="memitem:afd13917847198910e165696de035e043" id="r_afd13917847198910e165696de035e043"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#afd13917847198910e165696de035e043">TEST</a> (ScreenFlowTest, EcranDuRpgRevientVersSonEcranDOrigine)</td></tr>
 <tr class="memdesc:afd13917847198910e165696de035e043"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un écran du RPG revient vers l'écran d'où il a été ouvert &ndash; menu, jeu ou pause &ndash; porté par l'état, comme la provenance d'Options (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-090</span>).  <br /></td></tr>
 <tr class="memitem:a5a63566b44429b7d441036fe010c8e8c" id="r_a5a63566b44429b7d441036fe010c8e8c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5a63566b44429b7d441036fe010c8e8c">TEST</a> (ScreenFlowTest, HabillageDeFenetreEstCeluiAttenduParEcran)</td></tr>
@@ -116,7 +118,7 @@ Functions</h2></td></tr>
 <p>Logique pure, sans Qt. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="afd13917847198910e165696de035e043" name="afd13917847198910e165696de035e043"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd13917847198910e165696de035e043">&#9670;&#160;</a></span>TEST() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afd13917847198910e165696de035e043">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,7 +148,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a5a63566b44429b7d441036fe010c8e8c" name="a5a63566b44429b7d441036fe010c8e8c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a63566b44429b7d441036fe010c8e8c">&#9670;&#160;</a></span>TEST() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a63566b44429b7d441036fe010c8e8c">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,8 +177,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a69338d297d4959611f8b9065cb20bd65" name="a69338d297d4959611f8b9065cb20bd65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69338d297d4959611f8b9065cb20bd65">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ScreenFlowTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeColiseeRevientSurLaCarteQuandLeHerautYEnvoie</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le Colisée revient là d'où il a été ouvert : le menu, ou la carte (<span class="tt">LOT-09</span>). </p>
+<p><b>Cas de test :</b> <b>Le Colisee revient sur la carte quand le heraut y envoie.</b><br  />
+ cat Unitaire · Machine à états des écrans<br  />
+ crit Critique<br  />
+ etapes 1. Ouvrir le Colisee depuis le menu, le refermer.<br  />
+2. L'ouvrir depuis la carte, le refermer.<br  />
+ attendu Le menu dans le premier cas, la CARTE dans le second : on revient du sable sur le lieu qu'on a quitte, et non au menu principal. </p>
+
+</div>
+</div>
 <a id="a5e96e99192c8a210e3dae14966e99548" name="a5e96e99192c8a210e3dae14966e99548"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e96e99192c8a210e3dae14966e99548">&#9670;&#160;</a></span>TEST() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e96e99192c8a210e3dae14966e99548">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +237,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a82e6c5b8936c42e92fc5e5922497fcde" name="a82e6c5b8936c42e92fc5e5922497fcde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82e6c5b8936c42e92fc5e5922497fcde">&#9670;&#160;</a></span>TEST() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a82e6c5b8936c42e92fc5e5922497fcde">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +268,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8ad7b24104228d05765fe56eebb26e76" name="a8ad7b24104228d05765fe56eebb26e76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ad7b24104228d05765fe56eebb26e76">&#9670;&#160;</a></span>TEST() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ad7b24104228d05765fe56eebb26e76">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -170,6 +170,9 @@ var NAVTREEINDEX0 =
 "CombatTransition_8cpp.html":[17,0,3,2,0,16],
 "CombatTransition_8h.html":[17,0,3,2,0,17],
 "CombatTransition_8h_source.html":[17,0,3,2,0,17],
+"CombatZone_8cpp.html":[17,0,3,2,11,2],
+"CombatZone_8h.html":[17,0,3,2,11,3],
+"CombatZone_8h_source.html":[17,0,3,2,11,3],
 "ComponentPool_8h.html":[17,0,3,2,3,4],
 "ComponentPool_8h_source.html":[17,0,3,2,3,4],
 "ComposedScene_8cpp.html":[17,0,3,5,4,28],
@@ -246,8 +249,5 @@ var NAVTREEINDEX0 =
 "EditorKeyBindings_8h.html":[17,0,3,5,5,2],
 "EditorKeyBindings_8h_source.html":[17,0,3,5,5,2],
 "EditorKeybindingsWidget_8cpp.html":[17,0,3,5,6,8],
-"EditorKeybindingsWidget_8h.html":[17,0,3,5,6,9],
-"EditorKeybindingsWidget_8h_source.html":[17,0,3,5,6,9],
-"EditorStatus_8cpp.html":[17,0,3,5,2,11],
-"EditorStatus_8h.html":[17,0,3,5,2,12]
+"EditorKeybindingsWidget_8h.html":[17,0,3,5,6,9]
 };

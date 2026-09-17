@@ -182,8 +182,8 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
 // Cree (ou recree) le pipeline pour la passe de rendu donnee.
 <span style = "background-color:#dfd">bool SpriteBatch::ensurePipeline(QRhiRenderTarget* target) {
     QRhiRenderPassDescriptor* const pass = target-&gt;renderPassDescriptor();
-    if (_pipeline &amp;&amp; _pipelinePass == pass) {</span>
-<span style = "background-color:#fdd">        return true;</span>
+    if (_pipeline &amp;&amp; _pipelinePass == pass) {
+        return true;</span>
     }
 
     // Liaisons de reference : jamais utilisees pour dessiner, seulement pour decrire la

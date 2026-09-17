@@ -26,11 +26,12 @@ var searchData=
   ['sprite_23',['Sprite',['../namespacehmi.html#aa9ff839f9bcc1bb899b24cb8026ab2b3a51f2b7b14433aa22c67d1f4fc18943cd',1,'hmi']]],
   ['stairs_24',['Stairs',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae',1,'core']]],
   ['standing_25',['Standing',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382aa66b284e632fb96f19e27dca96b78fd7',1,'core']]],
-  ['starting_26',['Starting',['../namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840ac2efe4bbd13e6cb0db293e72884273c0',1,'core']]],
-  ['startquest_27',['StartQuest',['../namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2',1,'core']]],
-  ['strength_28',['Strength',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a',1,'core']]],
-  ['stunned_29',['Stunned',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aeb8ab7d98634514cc61c2b0a0c8d93a2',1,'core']]],
-  ['switch_30',['Switch',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875abbc155fb2b111bf61c4f5ff892915e6b',1,'core']]],
-  ['switchtoggled_31',['SwitchToggled',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea72a3a593829fd89da615aad7cb957d3a',1,'hmi']]],
-  ['system_32',['System',['../namespacehmi.html#a796b5dfcf1d9de2fb2552d51af677646aa45da96d0bf6575970f2d27af22be28a',1,'hmi']]]
+  ['startcombat_26',['StartCombat',['../namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680a850d807d3f4b1d4aef7903b1745e3159',1,'core']]],
+  ['starting_27',['Starting',['../namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840ac2efe4bbd13e6cb0db293e72884273c0',1,'core']]],
+  ['startquest_28',['StartQuest',['../namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2',1,'core']]],
+  ['strength_29',['Strength',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a',1,'core']]],
+  ['stunned_30',['Stunned',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493aeb8ab7d98634514cc61c2b0a0c8d93a2',1,'core']]],
+  ['switch_31',['Switch',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875abbc155fb2b111bf61c4f5ff892915e6b',1,'core']]],
+  ['switchtoggled_32',['SwitchToggled',['../namespacehmi.html#a3a61aed1c8e95c289c829398d48488dea72a3a593829fd89da615aad7cb957d3a',1,'hmi']]],
+  ['system_33',['System',['../namespacehmi.html#a796b5dfcf1d9de2fb2552d51af677646aa45da96d0bf6575970f2d27af22be28a',1,'hmi']]]
 ];

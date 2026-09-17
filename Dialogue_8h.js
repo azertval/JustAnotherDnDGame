@@ -23,7 +23,8 @@ var Dialogue_8h =
       [ "core::DialogueActionKind::SetFlag", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680af7728eea36126ba401b5df30bb93f528", null ],
       [ "core::DialogueActionKind::ClearFlag", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680ac23574157c4f45657c36e9ce5d40eab7", null ],
       [ "core::DialogueActionKind::GiveItem", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680aeaa3a4cb48824c4da06052ae4b8822ee", null ],
-      [ "core::DialogueActionKind::StartQuest", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2", null ]
+      [ "core::DialogueActionKind::StartQuest", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680ab4acbcc4471115237765689879d1aeb2", null ],
+      [ "core::DialogueActionKind::StartCombat", "namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680a850d807d3f4b1d4aef7903b1745e3159", null ]
     ] ],
     [ "core::DialogueAttitude", "namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7", [
       [ "core::DialogueAttitude::Friendly", "namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7a03fdbf12e03a4cd1409b84abe2b631df", null ],
@@ -58,5 +59,6 @@ var Dialogue_8h =
     [ "core::DIALOGUE_CONTINUE_CHOICE", "namespacecore.html#a006cfa27ffaf19379846a0d2c1963c00", null ],
     [ "core::DIALOGUE_CONTINUE_KEY", "namespacecore.html#af7ee0f1291696687c17746182965ce8a", null ],
     [ "core::NPC_DIALOGUE_PROPERTY", "namespacecore.html#ae2e3fb1ff10ddbebb4cdf1b1636afb25", null ],
-    [ "core::NPC_ENTITY_TYPE", "namespacecore.html#a9d88411f2638378a427c3aeb435d7590", null ]
+    [ "core::NPC_ENTITY_TYPE", "namespacecore.html#a9d88411f2638378a427c3aeb435d7590", null ],
+    [ "core::NPC_FIGURE_PROPERTY", "namespacecore.html#a319ef53aa8e54d8b5a6e045b39461f73", null ]
 ];

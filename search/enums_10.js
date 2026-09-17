@@ -7,5 +7,6 @@ var searchData=
   ['textureassignaction_4',['TextureAssignAction',['../namespacehmi.html#a76066d550faf628786294c82cd2d12a4',1,'hmi']]],
   ['textverticalanchor_5',['TextVerticalAnchor',['../namespacehmi.html#aad6be73525ade97eef38c10c8ba51be7',1,'hmi']]],
   ['tiletype_6',['TileType',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875',1,'core']]],
-  ['turnaction_7',['TurnAction',['../namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11d',1,'core']]]
+  ['travelresult_7',['TravelResult',['../namespacecore.html#a2375e547c47a4b8a313cc967bdcac487',1,'core']]],
+  ['turnaction_8',['TurnAction',['../namespacecore.html#a004daf868d7dad4026ff9b7d3d75a11d',1,'core']]]
 ];

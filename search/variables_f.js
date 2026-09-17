@@ -15,7 +15,7 @@ var searchData=
   ['opportunitytaken_12',['opportunityTaken',['../structcore_1_1BehaviorProfile.html#a1069744a21512a8a1c7c8b2c42c5cabb',1,'core::BehaviorProfile']]],
   ['options_13',['options',['../structhmi_1_1CharacterSheetContext.html#a7f50322612711e989b75474c9291a9e6',1,'hmi::CharacterSheetContext::options'],['../structhmi_1_1DemonstrationState.html#abd063b0080db76a16d1cc9521e2b8360',1,'hmi::DemonstrationState::options']]],
   ['optionsreturnto_14',['optionsReturnTo',['../structhmi_1_1ScreenState.html#a1120d4bbb5ce909eea650a2ae5a7ae29',1,'hmi::ScreenState']]],
-  ['origin_15',['origin',['../structcore_1_1AreaOfEffect.html#a5fd3598ebbe1d013b3f291f395ace3e3',1,'core::AreaOfEffect']]],
+  ['origin_15',['origin',['../structcore_1_1AreaOfEffect.html#a5fd3598ebbe1d013b3f291f395ace3e3',1,'core::AreaOfEffect::origin'],['../structcore_1_1CombatZone.html#aff91481e882cb15d0cbd91ce1b39aaba',1,'core::CombatZone::origin']]],
   ['otherpercent_16',['otherPercent',['../structcore_1_1RegionPopulation.html#a0f8f13b808b437e0283dba47d3368a86',1,'core::RegionPopulation']]],
   ['outcome_17',['outcome',['../structcore_1_1ArenaAttack.html#a132666f2ae9aa71e512b582003eb70a3',1,'core::ArenaAttack']]],
   ['overflow_18',['overflow',['../structcore_1_1CombatEvent.html#aca4ca7b9c011cd32b9ba814043162516',1,'core::CombatEvent::overflow'],['../structcore_1_1DamageReport.html#ae06f13af66682a6bba8f5305e70db49c',1,'core::DamageReport::overflow']]],

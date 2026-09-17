@@ -6,7 +6,7 @@ var searchData=
   ['editoroverlay_3',['EditorOverlay',['../namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751',1,'hmi']]],
   ['empty_4',['Empty',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07',1,'core']]],
   ['enchantment_5',['Enchantment',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2a447db9728259fc904c3299cd973ccb75',1,'core']]],
-  ['encounter_6',['Encounter',['../namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0',1,'core']]],
+  ['encounter_6',['Encounter',['../namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2ad1e9f9f891de8f9a655739a01fbf68f0',1,'core::Encounter'],['../namespacecore.html#a90b12b036a2622c3cea570a4b860ec55ad1e9f9f891de8f9a655739a01fbf68f0',1,'core::Encounter']]],
   ['encounters_7',['Encounters',['../namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a89faa52485aadb6d1181384f88d20014',1,'core']]],
   ['encumbered_8',['Encumbered',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a3352f503cd5d323c5d6588fab6b4d9ae',1,'core']]],
   ['end_9',['End',['../namespacecore.html#a5e072fb2a50712986a2e81fa54b3fc73a87557f11575c0ad78e4e28abedc13b6e',1,'core']]],

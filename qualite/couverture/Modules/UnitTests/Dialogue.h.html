@@ -103,6 +103,10 @@ enum class DialogueActionKind {
     GiveItem,
     /// DÃ©marre une quÃªte : pose `core::questStartedFlag(id)`, que le `LOT-16` lira.
     StartQuest,
+    /// **Envoie sur le sable** (`LOT-09`) : le hÃ©raut ouvre l'arÃ¨ne nommÃ©e par `target`. Le
+    /// dialogue ne sait pas ce qu'est un combat â il le demande, et c'est l'interface qui ouvre le
+    /// ColisÃ©e (`core::DialogueListener::startCombat`).
+    StartCombat,
 };
 
 /// @brief Un effet d'un nÅud d'action.
@@ -313,6 +317,12 @@ public:
     [[nodiscard]] virtual std::vector&lt;Modifier&gt; skillModifiers(std::string_view skillId) const = 0;
     /// ReÃ§oit un objet que le PNJ lui donne.
     virtual void receiveItem(std::string_view itemId, int quantity) = 0;
+    /// Le PNJ l'envoie se battre dans l'arÃ¨ne @p arenaId (`LOT-09`). Sans effet par dÃ©faut : un
+    /// interlocuteur qui n'a pas d'Ã©cran â un test, un rejeu â n'a rien Ã  ouvrir, et l'action reste
+    /// consignÃ©e au journal du runner.
+<span style = "background-color:#dfd">    virtual void startCombat(std::string_view arenaId) {</span>
+        static_cast&lt;void&gt;(arenaId);
+<span style = "background-color:#dfd">    }</span>
 };
 
 /**
@@ -478,6 +488,9 @@ private:
 inline constexpr std::string_view NPC_ENTITY_TYPE = "npc";
 /// @brief PropriÃ©tÃ© d'un PNJ qui nomme son dialogue.
 inline constexpr std::string_view NPC_DIALOGUE_PROPERTY = "dialogue";
+/// @brief PropriÃ©tÃ© d'un PNJ qui nomme sa **figurine** (`Assets/Npc/&lt;slug&gt;`, atelier du `LOT-91`,
+///        lue au `LOT-09`). Vide : le PNJ n'est pas encore dessinÃ©, et ne se dessine pas.
+inline constexpr std::string_view NPC_FIGURE_PROPERTY = "figure";
 
 /// @brief Un PNJ relevÃ© sur la carte, et le dialogue qu'il ouvre.
 struct DialogueTrigger {

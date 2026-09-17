@@ -103,6 +103,10 @@ struct ScreenState {
     /// MÃªme patron, et mÃªme raison, qu'`optionsReturnTo` : la provenance est un attribut de
     /// l'Ã©tat, jamais une variable Â« Ã©cran prÃ©cÃ©dent Â» posÃ©e Ã  cÃ´tÃ© de la machine.
 <span style = "background-color:#dfd">    ScreenId rpgReturnTo = ScreenId::Menu;</span>
+    /// Ãcran vers lequel `CloseArena` revient (`Menu` ou `Game`, `LOT-09`) : le ColisÃ©e s'ouvre
+    /// depuis le menu, et dÃ©sormais aussi **depuis la carte**, quand le hÃ©raut envoie sur le
+    /// sable. On revient alors sur la carte, au mÃªme endroit, et non au menu.
+<span style = "background-color:#dfd">    ScreenId arenaReturnTo = ScreenId::Menu;</span>
 
     friend bool operator==(const ScreenState&amp;, const ScreenState&amp;) = default;
 };

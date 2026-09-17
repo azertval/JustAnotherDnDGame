@@ -30,9 +30,11 @@ var classhmi_1_1ScreenRouter =
     [ "currentRpgScreen", "classhmi_1_1ScreenRouter.html#a91e63c6aa637ff5aee2b3981609441f8", null ],
     [ "currentScreen", "classhmi_1_1ScreenRouter.html#a6723c5bdb4ac5876eae37b87f3918fd2", null ],
     [ "developerBuild", "classhmi_1_1ScreenRouter.html#ac6014c18529417527360f273fe9e39f3", null ],
+    [ "dialogueId", "classhmi_1_1ScreenRouter.html#a400495598bce472d73a8673d7e9601df", null ],
     [ "nextRpgScreen", "classhmi_1_1ScreenRouter.html#aba7714a748fe5539eb4c69e6b87dc169", null ],
     [ "openArena", "classhmi_1_1ScreenRouter.html#a2494cbca36808d307ae0cf26336e5c78", null ],
     [ "openCredits", "classhmi_1_1ScreenRouter.html#a72a1fbefbc533cfa55a1baebd0a68615", null ],
+    [ "openDialogue", "classhmi_1_1ScreenRouter.html#a6f0915e029b9531574965cd7f24f9b5c", null ],
     [ "openGame", "classhmi_1_1ScreenRouter.html#a10a7ce61538fe188b0f4151a44f61595", null ],
     [ "openMenu", "classhmi_1_1ScreenRouter.html#aadd3bd3f7a84530fbd3c139dfc4011d0", null ],
     [ "openOptions", "classhmi_1_1ScreenRouter.html#a726babaae9dd3059829d58646ade1efc", null ],
@@ -41,9 +43,11 @@ var classhmi_1_1ScreenRouter =
     [ "previousRpgScreen", "classhmi_1_1ScreenRouter.html#a11c974d1ecc02dc6164d96347e09e1ae", null ],
     [ "quitToMenu", "classhmi_1_1ScreenRouter.html#aab3e0450a627326cf2d67b565214589a", null ],
     [ "resume", "classhmi_1_1ScreenRouter.html#aa8fed1e22f7cfd03742406907e388676", null ],
+    [ "_dialogueId", "classhmi_1_1ScreenRouter.html#a5b9b9bdca132c589d8f8060f4e95f9d4", null ],
     [ "_rpgScreen", "classhmi_1_1ScreenRouter.html#a324e160a25a802626ac8a46e17f88357", null ],
     [ "_state", "classhmi_1_1ScreenRouter.html#a21433fbad1393d4d8d0d39190c672290", null ],
     [ "currentRpgScreen", "classhmi_1_1ScreenRouter.html#a68efd81277570018b5f1043310abb730", null ],
     [ "currentScreen", "classhmi_1_1ScreenRouter.html#ae6f4f69704239e7f7561382ecb88426c", null ],
-    [ "developerBuild", "classhmi_1_1ScreenRouter.html#ae1d233ca79a137451b3d598b29aae659", null ]
+    [ "developerBuild", "classhmi_1_1ScreenRouter.html#ae1d233ca79a137451b3d598b29aae659", null ],
+    [ "dialogueId", "classhmi_1_1ScreenRouter.html#aa9ba1f7e1f16121dc41686cc69ee0dea", null ]
 ];

@@ -12,5 +12,5 @@ var searchData=
   ['fontmetricsresult_9',['FontMetricsResult',['../structhmi_1_1FontMetricsResult.html',1,'hmi']]],
   ['footprint_10',['Footprint',['../structcore_1_1Footprint.html',1,'core']]],
   ['framerateaverage_11',['FrameRateAverage',['../classhmi_1_1FrameRateAverage.html',1,'hmi']]],
-  ['framing_12',['Framing',['../structhmi_1_1ArenaViewportItem_1_1Framing.html',1,'hmi::ArenaViewportItem']]]
+  ['framing_12',['Framing',['../structhmi_1_1ArenaViewportItem_1_1Framing.html',1,'hmi::ArenaViewportItem::Framing'],['../structhmi_1_1WorldViewportItem_1_1Framing.html',1,'hmi::WorldViewportItem::Framing']]]
 ];
