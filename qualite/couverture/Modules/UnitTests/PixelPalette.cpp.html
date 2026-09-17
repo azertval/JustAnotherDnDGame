@@ -46,7 +46,7 @@ constexpr const char* FIELD_COLOR = "color";
                   static_cast&lt;unsigned&gt;(color &amp; 0xFFU), static_cast&lt;unsigned&gt;((color &gt;&gt; 8) &amp; 0xFFU),
                   static_cast&lt;unsigned&gt;((color &gt;&gt; 16) &amp; 0xFFU),
                   static_cast&lt;unsigned&gt;((color &gt;&gt; 24) &amp; 0xFFU));
-<span style = "background-color:#dfd">    return std::string(buffer.data());
+<span style = "background-color:#dfd">    return {buffer.data()};
 }</span>
 
 // Chiffre hexadecimal -&gt; valeur, sans lever (contrairement a std::stoul) : aucune exception ne

@@ -123,8 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:afb2cf10826482b3ad8d503a829a8ed5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute un segment épais (orienté librement) au lot courant.  <br /></td></tr>
 <tr class="memitem:aac9e3e6a4b2e84a4b24b617d6b4ce58d" id="r_aac9e3e6a4b2e84a4b24b617d6b4ce58d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aac9e3e6a4b2e84a4b24b617d6b4ce58d">end</a> ()</td></tr>
 <tr class="memdesc:aac9e3e6a4b2e84a4b24b617d6b4ce58d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Termine le lot : fige la plage de quads enregistrée. Un lot vide n'émettra aucun dessin.  <br /></td></tr>
-<tr class="memitem:a7e2fa26a9366aeb8105586a2939ee4b6" id="r_a7e2fa26a9366aeb8105586a2939ee4b6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7e2fa26a9366aeb8105586a2939ee4b6">submit</a> (QRhiCommandBuffer *commandBuffer, QRhiRenderTarget *target, QRhiResourceUpdateBatch *updates, const float clear[4])</td></tr>
-<tr class="memdesc:a7e2fa26a9366aeb8105586a2939ee4b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Téléverse l'image enregistrée et l'émet en une passe de rendu.  <br /></td></tr>
+<tr class="memitem:a271469045e5d3087caadd4dcaf4ebbe1" id="r_a271469045e5d3087caadd4dcaf4ebbe1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a271469045e5d3087caadd4dcaf4ebbe1">submit</a> (QRhiCommandBuffer *commandBuffer, QRhiRenderTarget *target, QRhiResourceUpdateBatch *updates, const float *clear)</td></tr>
+<tr class="memdesc:a271469045e5d3087caadd4dcaf4ebbe1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Téléverse l'image enregistrée et l'émet en une passe de rendu.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -164,7 +164,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:afc8925a480944a5b8050e03860a630cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot en cours d'enregistrement (entre <span class="tt"><a class="el" href="#a6c70d3f90ced34e448c7e20c824db8ea" title="Démarre un lot : fixe la texture échantillonnée et la projection.">begin()</a></span> et <span class="tt"><a class="el" href="#aac9e3e6a4b2e84a4b24b617d6b4ce58d" title="Termine le lot : fige la plage de quads enregistrée. Un lot vide n&#39;émettra aucun dessin.">end()</a></span>), s'il y en a un.  <br /></td></tr>
 <tr class="memitem:a1ceed8db38d36076d3009c40ff4c9bfc" id="r_a1ceed8db38d36076d3009c40ff4c9bfc"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1ceed8db38d36076d3009c40ff4c9bfc">_recording</a> = false</td></tr>
 <tr class="memitem:acd5e3d6033293b21d2c82e68ea1f8b5d" id="r_acd5e3d6033293b21d2c82e68ea1f8b5d"><td class="memItemLeft">std::vector&lt; DirectX::XMFLOAT4X4 &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acd5e3d6033293b21d2c82e68ea1f8b5d">_projections</a></td></tr>
-<tr class="memdesc:acd5e3d6033293b21d2c82e68ea1f8b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Projections des lots, dans l'ordre d'enregistrement (téléversées d'un bloc au <span class="tt"><a class="el" href="#a7e2fa26a9366aeb8105586a2939ee4b6" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit</a></span>).  <br /></td></tr>
+<tr class="memdesc:acd5e3d6033293b21d2c82e68ea1f8b5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Projections des lots, dans l'ordre d'enregistrement (téléversées d'un bloc au <span class="tt"><a class="el" href="#a271469045e5d3087caadd4dcaf4ebbe1" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit</a></span>).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-attribs" class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
@@ -174,7 +174,7 @@ Static Private Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Dessine des quads texturés au travers de QRhi, avec transparence et échantillonnage <em>nearest</em> (pixel art). </p>
 <p>Usage inchangé pour les appelants : <span class="tt">begin(projection, texture)</span>, un ou plusieurs <span class="tt">draw(quad)</span>, puis <span class="tt"><a class="el" href="#aac9e3e6a4b2e84a4b24b617d6b4ce58d" title="Termine le lot : fige la plage de quads enregistrée. Un lot vide n&#39;émettra aucun dessin.">end()</a></span>. Ce qui change est <b>quand</b> le GPU voit ces quads.</p>
-<p><b>Deux phases, contrairement à la version Direct3D 11.</b> QRhi interdit de téléverser un tampon pendant une passe de rendu : impossible donc de réécrire le tampon de sommets entre deux <span class="tt">drawIndexed</span>, comme le faisait <span class="tt">Map(WRITE_DISCARD)</span>. La classe <b>enregistre</b> donc toute l'image côté CPU — sommets accumulés bout à bout, plus une liste de lots (texture, projection, plage de quads) — et n'émet quoi que ce soit qu'au <span class="tt"><a class="el" href="#a7e2fa26a9366aeb8105586a2939ee4b6" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit()</a></span> final : un téléversement unique, puis une passe contenant un appel de dessin par lot. Le découpage en lots, et donc le nombre d'appels, est <b>strictement le même</b> qu'avant : c'est <span class="tt"><a class="el" href="classhmi_1_1ComposedScene.html" title="Liste ordonnée des primitives d&#39;une image, indépendante de Direct3D.">hmi::ComposedScene</a></span> qui le décide, pas ce fichier.</p>
+<p><b>Deux phases, contrairement à la version Direct3D 11.</b> QRhi interdit de téléverser un tampon pendant une passe de rendu : impossible donc de réécrire le tampon de sommets entre deux <span class="tt">drawIndexed</span>, comme le faisait <span class="tt">Map(WRITE_DISCARD)</span>. La classe <b>enregistre</b> donc toute l'image côté CPU — sommets accumulés bout à bout, plus une liste de lots (texture, projection, plage de quads) — et n'émet quoi que ce soit qu'au <span class="tt"><a class="el" href="#a271469045e5d3087caadd4dcaf4ebbe1" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit()</a></span> final : un téléversement unique, puis une passe contenant un appel de dessin par lot. Le découpage en lots, et donc le nombre d'appels, est <b>strictement le même</b> qu'avant : c'est <span class="tt"><a class="el" href="classhmi_1_1ComposedScene.html" title="Liste ordonnée des primitives d&#39;une image, indépendante de Direct3D.">hmi::ComposedScene</a></span> qui le décide, pas ce fichier.</p>
 <p>La projection est portée <b>par lot</b> et non par image : le HUD (<span class="tt">EX-REN-047</span>) se dessine en coordonnées écran dans la même image que le monde. Elle transite par un tampon uniforme adressé à décalage dynamique, un emplacement par lot. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a08e69f624887237958d145b9050b433d" name="a08e69f624887237958d145b9050b433d"></a>
@@ -564,8 +564,8 @@ Static Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7e2fa26a9366aeb8105586a2939ee4b6" name="a7e2fa26a9366aeb8105586a2939ee4b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e2fa26a9366aeb8105586a2939ee4b6">&#9670;&#160;</a></span>submit()</h2>
+<a id="a271469045e5d3087caadd4dcaf4ebbe1" name="a271469045e5d3087caadd4dcaf4ebbe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a271469045e5d3087caadd4dcaf4ebbe1">&#9670;&#160;</a></span>submit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -588,7 +588,7 @@ Static Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float</td>          <td class="paramname"><span class="paramname"><em>clear</em></span>[4]&#160;)</td>
+          <td class="paramtype">const float *</td>          <td class="paramname"><span class="paramname"><em>clear</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -599,7 +599,7 @@ Static Private Attributes</h2></td></tr>
     <tr><td class="paramname">commandBuffer</td><td>Tampon de commandes de l'image (fourni par <span class="tt">QRhiWidget::render</span>). </td></tr>
     <tr><td class="paramname">target</td><td>Cible de rendu de l'image. </td></tr>
     <tr><td class="paramname">updates</td><td>Lot de mises à jour à soumettre avec les sommets (téléversements de textures accumulés pendant la composition) ; peut être <span class="tt">nullptr</span>. </td></tr>
-    <tr><td class="paramname">clear</td><td>Couleur d'effacement, composantes <span class="tt">[0, 1]</span>. </td></tr>
+    <tr><td class="paramname">clear</td><td>Couleur d'effacement : quatre composantes RGBA <span class="tt">[0, 1]</span>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -813,7 +813,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Projections des lots, dans l'ordre d'enregistrement (téléversées d'un bloc au <span class="tt"><a class="el" href="#a7e2fa26a9366aeb8105586a2939ee4b6" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit</a></span>). </p>
+<p>Projections des lots, dans l'ordre d'enregistrement (téléversées d'un bloc au <span class="tt"><a class="el" href="#a271469045e5d3087caadd4dcaf4ebbe1" title="Téléverse l&#39;image enregistrée et l&#39;émet en une passe de rendu.">submit</a></span>). </p>
 
 </div>
 </div>

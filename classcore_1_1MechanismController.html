@@ -112,6 +112,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abdebc78caac7d3422fde00cb3e0a7574" id="r_abdebc78caac7d3422fde00cb3e0a7574"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abdebc78caac7d3422fde00cb3e0a7574">isContinuous</a> (std::size_t index) const</td></tr>
 <tr class="memitem:a96f020f6cd83b43d380229e91868d0c4" id="r_a96f020f6cd83b43d380229e91868d0c4"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a96f020f6cd83b43d380229e91868d0c4">isKey</a> (std::size_t index) const</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a013b1a8724abaefcbb14d4080ad31ee2" id="r_a013b1a8724abaefcbb14d4080ad31ee2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a013b1a8724abaefcbb14d4080ad31ee2">pickUpKey</a> (std::size_t index)</td></tr>
+<tr class="memdesc:a013b1a8724abaefcbb14d4080ad31ee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre DEFINITIVEMENT la porte de la cle <code class="param">index</code> (EX-GP-023).  <br /></td></tr>
+<tr class="memitem:afc56b57fa4a43e4158a5338ff4684e95" id="r_afc56b57fa4a43e4158a5338ff4684e95"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afc56b57fa4a43e4158a5338ff4684e95">setDoorOpen</a> (std::size_t index, bool open, const <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &amp;playerBox, const char *triggerLabel)</td></tr>
+<tr class="memdesc:afc56b57fa4a43e4158a5338ff4684e95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Passe la porte du mecanisme <code class="param">index</code> a l'etat <code class="param">open</code>, et signale un ecrasement.  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:ab5263ae67a408e39332909d5fb974e63" id="r_ab5263ae67a408e39332909d5fb974e63"><td class="memItemLeft"><a class="el" href="classcore_1_1TileMap.html">TileMap</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab5263ae67a408e39332909d5fb974e63">_collision</a></td></tr>
@@ -323,6 +330,83 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Les liaisons de mécanismes (positions interrupteur/porte). </dd></dl>
+
+</div>
+</div>
+<a id="a013b1a8724abaefcbb14d4080ad31ee2" name="a013b1a8724abaefcbb14d4080ad31ee2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a013b1a8724abaefcbb14d4080ad31ee2">&#9670;&#160;</a></span>pickUpKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::MechanismController::pickUpKey </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ouvre DEFINITIVEMENT la porte de la cle <code class="param">index</code> (EX-GP-023). </p>
+
+</div>
+</div>
+<a id="afc56b57fa4a43e4158a5338ff4684e95" name="afc56b57fa4a43e4158a5338ff4684e95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc56b57fa4a43e4158a5338ff4684e95">&#9670;&#160;</a></span>setDoorOpen()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::MechanismController::setDoorOpen </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>open</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1Aabb.html">Aabb</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>playerBox</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>triggerLabel</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Passe la porte du mecanisme <code class="param">index</code> a l'etat <code class="param">open</code>, et signale un ecrasement. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Indice du mecanisme dont la porte change d'etat. </td></tr>
+    <tr><td class="paramname">open</td><td>Vrai pour ouvrir la porte, faux pour la fermer. </td></tr>
+    <tr><td class="paramname">playerBox</td><td>Boite du personnage : une porte qui se referme dessus l'ecrase. </td></tr>
+    <tr><td class="paramname">triggerLabel</td><td>Nom du declencheur pour la trace (« Interrupteur », « Plaque... »). </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

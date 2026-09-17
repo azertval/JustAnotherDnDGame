@@ -41,6 +41,27 @@ struct Fraction {
     return a.num * b.den == b.num * a.den;
 }</span>
 
+/// Releve la borne basse de l'intervalle des t si @p entree la depasse ; a egalite, la borne
+/// n'est stricte que si les deux l'etaient.
+<span style = "background-color:#dfd">void resserrerBas(Fraction&amp; bas, bool&amp; basStrict, Fraction entree, bool fermee) noexcept {
+    if (inferieur(bas, entree)) {
+        bas = entree;
+        basStrict = !fermee;
+    } else if (egal(bas, entree)) {
+        basStrict = basStrict || !fermee;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+/// Abaisse la borne haute de l'intervalle des t si @p sortie passe dessous ; meme regle d'egalite.
+<span style = "background-color:#dfd">void resserrerHaut(Fraction&amp; haut, bool&amp; hautStrict, Fraction sortie, bool fermee) noexcept {
+    if (inferieur(sortie, haut)) {
+        haut = sortie;
+        hautStrict = !fermee;
+    } else if (egal(sortie, haut)) {
+        hautStrict = hautStrict || !fermee;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
 /**
  * Vrai si le segment ]a, b[ rencontre la boite [x0, x1] x [y0, y1] (fermee) ou ]x0, x1[ x ]y0, y1[
  * (ouverte). Les extremites du segment ne comptent jamais : un tir part d'un coin de sa propre
@@ -74,19 +95,9 @@ struct Fraction {
 <span style = "background-color:#dfd">            d &gt; 0 ? Fraction{.num = lo - p, .den = d} : Fraction{.num = p - hi, .den = -d};</span>
         const Fraction sortie =
 <span style = "background-color:#dfd">            d &gt; 0 ? Fraction{.num = hi - p, .den = d} : Fraction{.num = p - lo, .den = -d};
-        if (inferieur(bas, entree)) {
-            bas = entree;
-            basStrict = !fermee;
-        } else if (egal(bas, entree)) {
-            basStrict = basStrict || !fermee;</span>
-        }
-<span style = "background-color:#dfd">        if (inferieur(sortie, haut)) {
-            haut = sortie;
-            hautStrict = !fermee;
-        } else if (egal(sortie, haut)) {
-            hautStrict = hautStrict || !fermee;</span>
-        }
-<span style = "background-color:#dfd">    }
+        resserrerBas(bas, basStrict, entree, fermee);
+        resserrerHaut(haut, hautStrict, sortie, fermee);
+    }
     if (inferieur(bas, haut)) {
         return true;</span>
     }
@@ -106,7 +117,8 @@ struct Fraction {
 /// Les cases de la grille dont la boite fermee peut toucher le segment : la case c couvre
 /// [2c, 2c + 2], et touche [min, max] si 2c &lt;= max et 2c + 2 &gt;= min.
 template &lt;typename Visiteur&gt;
-<span style = "background-color:#dfd">bool pourChaqueCaseTouchee(const BattleGrid&amp; grille, GridPoint a, GridPoint b, Visiteur&amp;&amp; visiter) {
+bool pourChaqueCaseTouchee(const BattleGrid&amp; grille, GridPoint a, GridPoint b,
+<span style = "background-color:#dfd">                           const Visiteur&amp; visiter) {
     const int colonneMin = std::max(0, divHaut(std::min(a.x, b.x) - 2, 2));
     const int colonneMax = std::min(grille.width() - 1, divBas(std::max(a.x, b.x), 2));
     const int ligneMin = std::max(0, divHaut(std::min(a.y, b.y) - 2, 2));
@@ -125,7 +137,7 @@ template &lt;typename Visiteur&gt;
 <span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;GridPoint&gt; pointsDe(Footprint emprise) {
     std::vector&lt;GridPoint&gt; points;
     const int cote = std::max(1, emprise.side);
-    points.reserve(static_cast&lt;std::size_t&gt;((cote + 1) * (cote + 1)));
+    points.reserve(static_cast&lt;std::size_t&gt;(cote + 1) * static_cast&lt;std::size_t&gt;(cote + 1));
     for (int j = 0; j &lt;= cote; ++j) {
         for (int i = 0; i &lt;= cote; ++i) {
             points.push_back(</span>
@@ -166,14 +178,14 @@ public:
         }
 <span style = "background-color:#dfd">        return pourChaqueCaseTouchee(_grille, a, b, [&amp;](GridPosition cellule) {
             return _masque[indice(cellule)] &amp;&amp;</span>
-                   rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, 2 * cellule.column + 2,
-                                  2 * cellule.row + 2, false);
+                   rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row,
+                                  (2 * cellule.column) + 2, (2 * cellule.row) + 2, false);
 <span style = "background-color:#dfd">        });
     }</span>
 
 private:
 <span style = "background-color:#dfd">    [[nodiscard]] std::size_t indice(GridPosition cellule) const noexcept {
-        return static_cast&lt;std::size_t&gt;(cellule.row) * static_cast&lt;std::size_t&gt;(_grille.width()) +</span>
+        return (static_cast&lt;std::size_t&gt;(cellule.row) * static_cast&lt;std::size_t&gt;(_grille.width())) +</span>
                static_cast&lt;std::size_t&gt;(cellule.column);
 <span style = "background-color:#dfd">    }</span>
 
@@ -193,11 +205,8 @@ private:
 <span style = "background-color:#dfd">    return coupees == 3 ? Cover::ThreeQuarters : Cover::Total;
 }</span>
 
-[[nodiscard]] Cover abriDepuis(const BattleGrid&amp; grille, const std::vector&lt;GridPoint&gt;&amp; origines,
-<span style = "background-color:#dfd">                               Footprint cible, std::span&lt;const Footprint&gt; interposes) {
-    Famille vue(grille, Cover::Total);
-    Famille important(grille, Cover::ThreeQuarters);
-    Famille partiel(grille, Cover::Half);
+/// Marque les cases dont l'objet abrite, chacune dans la famille de son niveau.
+<span style = "background-color:#dfd">void marquerObjets(const BattleGrid&amp; grille, Famille&amp; important, Famille&amp; partiel) {
     for (int ligne = 0; ligne &lt; grille.height(); ++ligne) {
         for (int colonne = 0; colonne &lt; grille.width(); ++colonne) {
             const GridPosition cellule{.column = colonne, .row = ligne};
@@ -214,6 +223,10 @@ private:
             }
 <span style = "background-color:#dfd">        }
     }
+}</span>
+
+/// Marque les cases des corps interposes : un abri partiel.
+<span style = "background-color:#dfd">void marquerCorps(std::span&lt;const Footprint&gt; interposes, Famille&amp; partiel) {
     for (const Footprint&amp; corps : interposes) {
         for (int j = 0; j &lt; corps.side; ++j) {
             for (int i = 0; i &lt; corps.side; ++i) {
@@ -221,6 +234,42 @@ private:
             }
         }
     }
+}</span>
+
+/// L'abri qu'une famille donne pour @p coupees lignes coupees sur quatre.
+<span style = "background-color:#dfd">[[nodiscard]] Cover abriDeFamille(const Famille&amp; famille, int coupees) {</span>
+    // Un mur abrite selon les lignes qu'il coupe ; un corps declare abrite de son
+    // niveau des qu'il en coupe une.
+<span style = "background-color:#dfd">    if (famille.plafond() == Cover::Total) {
+        return abriPourLignesCoupees(coupees);</span>
+    }
+<span style = "background-color:#dfd">    return coupees &gt; 0 ? famille.plafond() : Cover::None;
+}</span>
+
+/// L'abri de la case dont le coin haut-gauche est (@p x, @p y), vue depuis @p origine : le
+/// meilleur abri des familles, jamais leur somme.
+[[nodiscard]] Cover abriVersCase(const std::vector&lt;const Famille*&gt;&amp; familles, GridPoint origine,
+<span style = "background-color:#dfd">                                 int x, int y) {</span>
+    const std::array&lt;GridPoint, 4&gt; coins{
+<span style = "background-color:#dfd">        {{.x = x, .y = y}, {.x = x + 2, .y = y}, {.x = x, .y = y + 2}, {.x = x + 2, .y = y + 2}}};
+    Cover ici = Cover::None;
+    for (const Famille* famille : familles) {
+        int coupees = 0;
+        for (const GridPoint coin : coins) {
+            coupees += famille-&gt;coupe(origine, coin) ? 1 : 0;
+        }
+        ici = std::max(ici, abriDeFamille(*famille, coupees));
+    }
+    return ici;
+}</span>
+
+[[nodiscard]] Cover abriDepuis(const BattleGrid&amp; grille, const std::vector&lt;GridPoint&gt;&amp; origines,
+<span style = "background-color:#dfd">                               Footprint cible, std::span&lt;const Footprint&gt; interposes) {
+    Famille vue(grille, Cover::Total);
+    Famille important(grille, Cover::ThreeQuarters);
+    Famille partiel(grille, Cover::Half);
+    marquerObjets(grille, important, partiel);
+    marquerCorps(interposes, partiel);
     std::vector&lt;const Famille*&gt; familles{&amp;vue};
     for (const Famille* famille : {&amp;important, &amp;partiel}) {
         if (!famille-&gt;vide()) {
@@ -235,26 +284,9 @@ private:
     for (const GridPoint origine : origines) {
         for (int j = 0; j &lt; cote; ++j) {
             for (int i = 0; i &lt; cote; ++i) {
-                const int x = 2 * (cible.anchor.column + i);
-                const int y = 2 * (cible.anchor.row + j);
-                const std::array&lt;GridPoint, 4&gt; coins{{{.x = x, .y = y},
-                                                      {.x = x + 2, .y = y},
-                                                      {.x = x, .y = y + 2},
-                                                      {.x = x + 2, .y = y + 2}}};
-                Cover ici = Cover::None;
-                for (const Famille* famille : familles) {
-                    int coupees = 0;
-                    for (const GridPoint coin : coins) {
-                        coupees += famille-&gt;coupe(origine, coin) ? 1 : 0;
-                    }</span>
-                    // Un mur abrite selon les lignes qu'il coupe ; un corps declare abrite de son
-                    // niveau des qu'il en coupe une.
-<span style = "background-color:#dfd">                    const Cover abri = famille-&gt;plafond() == Cover::Total</span>
-                                           ? abriPourLignesCoupees(coupees)
-                                           : (coupees &gt; 0 ? famille-&gt;plafond() : Cover::None);
-<span style = "background-color:#dfd">                    ici = std::max(ici, abri);
-                }
-                meilleur = std::min(meilleur, ici);
+                const Cover ici = abriVersCase(familles, origine, 2 * (cible.anchor.column + i),</span>
+                                               2 * (cible.anchor.row + j));
+<span style = "background-color:#dfd">                meilleur = std::min(meilleur, ici);
                 if (meilleur == Cover::None) {
                     return meilleur;</span>
                 }
@@ -297,10 +329,10 @@ private:
         if (p.x % 2 != 0 || p.y % 2 != 0 || q.x == p.x || q.y == p.y) {
             continue;</span>
         }
-<span style = "background-color:#dfd">        const int colonneVers = q.x &gt; p.x ? p.x / 2 : p.x / 2 - 1;
-        const int colonneAutre = q.x &gt; p.x ? p.x / 2 - 1 : p.x / 2;
-        const int ligneVers = q.y &gt; p.y ? p.y / 2 : p.y / 2 - 1;
-        const int ligneAutre = q.y &gt; p.y ? p.y / 2 - 1 : p.y / 2;
+<span style = "background-color:#dfd">        const int colonneVers = q.x &gt; p.x ? p.x / 2 : (p.x / 2) - 1;
+        const int colonneAutre = q.x &gt; p.x ? (p.x / 2) - 1 : p.x / 2;
+        const int ligneVers = q.y &gt; p.y ? p.y / 2 : (p.y / 2) - 1;
+        const int ligneAutre = q.y &gt; p.y ? (p.y / 2) - 1 : p.y / 2;
         if (grid.blocksSight({.column = colonneVers, .row = ligneAutre}) &amp;&amp;</span>
             grid.blocksSight({.column = colonneAutre, .row = ligneVers})) {
 <span style = "background-color:#dfd">            return false;</span>
@@ -308,8 +340,8 @@ private:
 <span style = "background-color:#dfd">    }
     return !pourChaqueCaseTouchee(grid, a, b, [&amp;](GridPosition cellule) {
         return grid.blocksSight(cellule) &amp;&amp;</span>
-               rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, 2 * cellule.column + 2,
-                              2 * cellule.row + 2, true);
+               rencontreBoite(a, b, 2 * cellule.column, 2 * cellule.row, (2 * cellule.column) + 2,
+                              (2 * cellule.row) + 2, true);
 <span style = "background-color:#dfd">    });
 }</span>
 

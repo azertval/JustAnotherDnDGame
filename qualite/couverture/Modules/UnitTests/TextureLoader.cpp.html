@@ -52,6 +52,34 @@ namespace hmi {
     return decoded;
 }</span>
 
+namespace {
+
+// Ecriture atomique : fichier temporaire dans le meme dossier (donc le meme volume, condition
+// pour que le remplacement soit atomique), puis remplacement en une seule operation. Un
+// QFileSystemWatcher de rechargement a chaud (LOT-43) ne voit ainsi jamais de fichier tronque.
+bool savePngAtomically(const QImage&amp; output, const std::filesystem::path&amp; path,
+<span style = "background-color:#dfd">                       const std::filesystem::path&amp; directory) {
+    std::error_code error;
+    const std::filesystem::path temporary =</span>
+        directory / (path.stem().wstring() + L".tmp" + path.extension().wstring());
+<span style = "background-color:#dfd">    if (!output.save(QString::fromStdWString(temporary.wstring()), "PNG")) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("TextureLoader : echec d'ecriture temporaire pour '" + path.string() +</span>
+                             "'");
+<span style = "background-color:#fdd">        std::filesystem::remove(temporary, error);
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    std::filesystem::rename(temporary, path, error);
+    if (error) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("TextureLoader : echec du remplacement atomique pour '" +</span>
+                             path.string() + "'");
+<span style = "background-color:#fdd">        std::filesystem::remove(temporary, error);
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    return true;
+}</span>
+
+}  // namespace
+
 // Ãcrit un fichier PNG depuis des pixels RGBA dÃ©jÃ  en mÃ©moire â symÃ©trique de decodeImageFile.
 <span style = "background-color:#dfd">bool encodeImageFile(const std::filesystem::path&amp; path, const DecodedImage&amp; image) {
     if (image.width &lt;= 0 || image.height &lt;= 0 ||</span>
@@ -72,29 +100,14 @@ namespace hmi {
 
     // Format_RGBA8888 : le meme format non premultiplie que decodeImageFile lit -- aucune
     // conversion de canal, l'aller-retour restitue exactement les memes pixels.
+    // QImage n'accepte qu'un tampon d'octets : relire les pixels 32 bits octet par octet est
+    // l'usage voulu (et le passage par void* est refuse par bugprone-casting-through-void).
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
 <span style = "background-color:#dfd">    const QImage output(reinterpret_cast&lt;const uchar*&gt;(image.pixels.data()), image.width,</span>
                         image.height, static_cast&lt;int&gt;(image.width * sizeof(std::uint32_t)),
                         QImage::Format_RGBA8888);
 
-    // Ecriture atomique : fichier temporaire dans le meme dossier (donc le meme volume, condition
-    // pour que le remplacement soit atomique), puis remplacement en une seule operation. Un
-    // QFileSystemWatcher de rechargement a chaud (LOT-43) ne voit ainsi jamais de fichier tronque.
-<span style = "background-color:#dfd">    const std::filesystem::path temporary =</span>
-        directory / (path.stem().wstring() + L".tmp" + path.extension().wstring());
-<span style = "background-color:#dfd">    if (!output.save(QString::fromStdWString(temporary.wstring()), "PNG")) {</span>
-<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("TextureLoader : echec d'ecriture temporaire pour '" + path.string() +</span>
-                             "'");
-<span style = "background-color:#fdd">        std::filesystem::remove(temporary, error);
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    std::filesystem::rename(temporary, path, error);
-    if (error) {</span>
-<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("TextureLoader : echec du remplacement atomique pour '" +</span>
-                             path.string() + "'");
-<span style = "background-color:#fdd">        std::filesystem::remove(temporary, error);
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    return true;
+<span style = "background-color:#dfd">    return savePngAtomically(output, path, directory);
 }</span>
 
 // CrÃ©e une texture GPU Ã  partir de pixels RGBA dÃ©jÃ  dÃ©codÃ©s.

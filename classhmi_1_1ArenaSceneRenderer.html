@@ -113,8 +113,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af609d92a5a1af3018846643e3cf8d3f6" id="r_af609d92a5a1af3018846643e3cf8d3f6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af609d92a5a1af3018846643e3cf8d3f6">setSnapshot</a> (<a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a> <a class="el" href="#abc5b0b2897753622f6694b2de12e42d7">snapshot</a>)</td></tr>
 <tr class="memdesc:af609d92a5a1af3018846643e3cf8d3f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace la scène à dessiner.  <br /></td></tr>
 <tr class="memitem:abc5b0b2897753622f6694b2de12e42d7" id="r_abc5b0b2897753622f6694b2de12e42d7"><td class="memItemLeft">const <a class="el" href="structhmi_1_1ArenaSceneSnapshot.html">ArenaSceneSnapshot</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#abc5b0b2897753622f6694b2de12e42d7">snapshot</a> () const noexcept</td></tr>
-<tr class="memitem:af5f31df3f12493ab238f27fd5b381aa5" id="r_af5f31df3f12493ab238f27fd5b381aa5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af5f31df3f12493ab238f27fd5b381aa5">render</a> (QRhiCommandBuffer *commandBuffer, QRhiRenderTarget *target, float realDeltaSeconds, const float clear[4])</td></tr>
-<tr class="memdesc:af5f31df3f12493ab238f27fd5b381aa5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine une image dans <code class="param">target</code> : efface à <code class="param">clear</code>, puis la scène cadrée entière.  <br /></td></tr>
+<tr class="memitem:a59c3cd6297d47d1e78f8196cdafbf63a" id="r_a59c3cd6297d47d1e78f8196cdafbf63a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a59c3cd6297d47d1e78f8196cdafbf63a">render</a> (QRhiCommandBuffer *commandBuffer, QRhiRenderTarget *target, float realDeltaSeconds, const float *clear)</td></tr>
+<tr class="memdesc:a59c3cd6297d47d1e78f8196cdafbf63a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine une image dans <code class="param">target</code> : efface à <code class="param">clear</code>, puis la scène cadrée entière.  <br /></td></tr>
 <tr class="memitem:a95037537400af6a16d4b5f404856bc5e" id="r_a95037537400af6a16d4b5f404856bc5e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a95037537400af6a16d4b5f404856bc5e">animating</a> () const noexcept</td></tr>
 <tr class="memitem:a7ca1a14a630b60586c92a232f1de702d" id="r_a7ca1a14a630b60586c92a232f1de702d"><td class="memItemLeft">const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7ca1a14a630b60586c92a232f1de702d">composed</a> () const noexcept</td></tr>
 <tr class="memitem:abfaeb27c9547c5be2e62a9d3ba1748bf" id="r_abfaeb27c9547c5be2e62a9d3ba1748bf"><td class="memItemLeft">const <a class="el" href="structhmi_1_1ArenaSceneTextures.html">ArenaSceneTextures</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#abfaeb27c9547c5be2e62a9d3ba1748bf">textures</a> () const noexcept</td></tr>
@@ -138,7 +138,7 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a02dc2b80093547585c6b43efd8ced406"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tampon de composition réutilisé d'une image à l'autre.  <br /></td></tr>
 <tr class="memitem:ac042916570c07e60d766789e6e3483de" id="r_ac042916570c07e60d766789e6e3483de"><td class="memItemLeft">QRhi *&#160;</td><td class="memItemRight"><a class="el" href="#ac042916570c07e60d766789e6e3483de">_rhi</a> = nullptr</td></tr>
 <tr class="memitem:a1c945d7cf491124dcd5626a6653f3a0e" id="r_a1c945d7cf491124dcd5626a6653f3a0e"><td class="memItemLeft">QRhiResourceUpdateBatch *&#160;</td><td class="memItemRight"><a class="el" href="#a1c945d7cf491124dcd5626a6653f3a0e">_pendingUploads</a> = nullptr</td></tr>
-<tr class="memdesc:a1c945d7cf491124dcd5626a6653f3a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot des téléversements de création, en attente du premier <span class="tt"><a class="el" href="#af5f31df3f12493ab238f27fd5b381aa5" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span> — ou de <span class="tt"><a class="el" href="#ae6d35aab7141037ba8112d047f5e85f6" title="Libère toutes les ressources GPU, dans l&#39;ordre. Sans effet si rien n&#39;est créé.">release</a></span>.  <br /></td></tr>
+<tr class="memdesc:a1c945d7cf491124dcd5626a6653f3a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lot des téléversements de création, en attente du premier <span class="tt"><a class="el" href="#a59c3cd6297d47d1e78f8196cdafbf63a" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span> — ou de <span class="tt"><a class="el" href="#ae6d35aab7141037ba8112d047f5e85f6" title="Libère toutes les ressources GPU, dans l&#39;ordre. Sans effet si rien n&#39;est créé.">release</a></span>.  <br /></td></tr>
 <tr class="memitem:a2181ba95ba6e072456572eabbb56f47d" id="r_a2181ba95ba6e072456572eabbb56f47d"><td class="memItemLeft"><a class="el" href="classhmi_1_1SceneResources.html">SceneResources</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2181ba95ba6e072456572eabbb56f47d">_resources</a></td></tr>
 <tr class="memitem:af8355dd72e7a89c831316a04ec71176e" id="r_af8355dd72e7a89c831316a04ec71176e"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af8355dd72e7a89c831316a04ec71176e">_loaded</a></td></tr>
 <tr class="memitem:a15c68917f5b6d543d06b70af1e620b50" id="r_a15c68917f5b6d543d06b70af1e620b50"><td class="memItemLeft"><a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a>&#160;</td><td class="memItemRight"><a class="el" href="#a15c68917f5b6d543d06b70af1e620b50">_missing</a></td></tr>
@@ -355,7 +355,7 @@ L'ordre de libération</h2>
 </div><div class="memdoc">
 
 <p>Garantit que les ressources existent sur <code class="param">rhi</code>. </p>
-<p>Sans effet si elles y existent déjà ; libère puis recrée si elles existent sur une <b>autre</b> interface. Les pixels des textures partent dans un lot soumis par le prochain <span class="tt"><a class="el" href="#af5f31df3f12493ab238f27fd5b381aa5" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span>. </p><dl class="section return"><dt>Returns</dt><dd>Vrai si les ressources sont prêtes sur <code class="param">rhi</code> (faux si <code class="param">rhi</code> est nul). </dd></dl>
+<p>Sans effet si elles y existent déjà ; libère puis recrée si elles existent sur une <b>autre</b> interface. Les pixels des textures partent dans un lot soumis par le prochain <span class="tt"><a class="el" href="#a59c3cd6297d47d1e78f8196cdafbf63a" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span>. </p><dl class="section return"><dt>Returns</dt><dd>Vrai si les ressources sont prêtes sur <code class="param">rhi</code> (faux si <code class="param">rhi</code> est nul). </dd></dl>
 
 </div>
 </div>
@@ -436,8 +436,8 @@ L'ordre de libération</h2>
 
 </div>
 </div>
-<a id="af5f31df3f12493ab238f27fd5b381aa5" name="af5f31df3f12493ab238f27fd5b381aa5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5f31df3f12493ab238f27fd5b381aa5">&#9670;&#160;</a></span>render()</h2>
+<a id="a59c3cd6297d47d1e78f8196cdafbf63a" name="a59c3cd6297d47d1e78f8196cdafbf63a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59c3cd6297d47d1e78f8196cdafbf63a">&#9670;&#160;</a></span>render()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -460,7 +460,7 @@ L'ordre de libération</h2>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float</td>          <td class="paramname"><span class="paramname"><em>clear</em></span>[4]&#160;)</td>
+          <td class="paramtype">const float *</td>          <td class="paramname"><span class="paramname"><em>clear</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -471,7 +471,7 @@ L'ordre de libération</h2>
     <tr><td class="paramname">commandBuffer</td><td>Tampon de commandes de l'image. </td></tr>
     <tr><td class="paramname">target</td><td>Cible de rendu ; sa taille en pixels fixe le cadrage. </td></tr>
     <tr><td class="paramname">realDeltaSeconds</td><td>Temps écoulé depuis l'image précédente, pour l'animation. </td></tr>
-    <tr><td class="paramname">clear</td><td>Couleur d'effacement, composantes <span class="tt">[0, 1]</span>. </td></tr>
+    <tr><td class="paramname">clear</td><td>Couleur d'effacement : quatre composantes RGBA <span class="tt">[0, 1]</span>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -779,7 +779,7 @@ L'ordre de libération</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Lot des téléversements de création, en attente du premier <span class="tt"><a class="el" href="#af5f31df3f12493ab238f27fd5b381aa5" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span> — ou de <span class="tt"><a class="el" href="#ae6d35aab7141037ba8112d047f5e85f6" title="Libère toutes les ressources GPU, dans l&#39;ordre. Sans effet si rien n&#39;est créé.">release</a></span>. </p>
+<p>Lot des téléversements de création, en attente du premier <span class="tt"><a class="el" href="#a59c3cd6297d47d1e78f8196cdafbf63a" title="Dessine une image dans target : efface à clear, puis la scène cadrée entière.">render</a></span> — ou de <span class="tt"><a class="el" href="#ae6d35aab7141037ba8112d047f5e85f6" title="Libère toutes les ressources GPU, dans l&#39;ordre. Sans effet si rien n&#39;est créé.">release</a></span>. </p>
 
 </div>
 </div>

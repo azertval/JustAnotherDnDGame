@@ -33,7 +33,7 @@ var classhmi_1_1GameSession =
     [ "snapshotPreviousPositions", "classhmi_1_1GameSession.html#a939c5208095fec70c440afdc97eb8c53", null ],
     [ "spawnPlayer", "classhmi_1_1GameSession.html#a4db26f5baed613a962f368bc27c4dbe8", null ],
     [ "spawnPlaytestEntities", "classhmi_1_1GameSession.html#a1e800b4c872dd86b6ad33e88660c4b1d", null ],
-    [ "update", "classhmi_1_1GameSession.html#ace6500a9583c80a0f6f8f0d805a15144", null ],
+    [ "update", "classhmi_1_1GameSession.html#aa7b378858bb59db7980c1c54d608c314", null ],
     [ "update", "classhmi_1_1GameSession.html#a890870ab22ce42a6b1d67f20e7209aa2", null ],
     [ "updateCamera", "classhmi_1_1GameSession.html#ad50a91bcda601187ad4ed65add9ac3cd", null ],
     [ "updateCurrentCameraZone", "classhmi_1_1GameSession.html#a3070fe308ff868f747fd5fe8ac8098d4", null ],

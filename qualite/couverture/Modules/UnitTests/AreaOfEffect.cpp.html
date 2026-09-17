@@ -61,13 +61,13 @@ template &lt;typename Garder, typename Couper&gt;
     const auto surX = [](double bord) {
         return [bord](const Point&amp; a, const Point&amp; b) {
             const double t = (bord - a.x) / (b.x - a.x);
-            return Point{.x = bord, .y = a.y + t * (b.y - a.y)};
+            return Point{.x = bord, .y = a.y + (t * (b.y - a.y))};
         };
     };
     const auto surY = [](double bord) {
         return [bord](const Point&amp; a, const Point&amp; b) {
             const double t = (bord - a.y) / (b.y - a.y);
-            return Point{.x = a.x + t * (b.x - a.x), .y = bord};
+            return Point{.x = a.x + (t * (b.x - a.x)), .y = bord};
         };
     };
     polygone = decouper(polygone, [x0](const Point&amp; p) { return p.x &gt;= x0; }, surX(x0));
@@ -78,7 +78,7 @@ template &lt;typename Garder, typename Couper&gt;
     for (std::size_t i = 0; i &lt; polygone.size(); ++i) {
         const Point&amp; a = polygone[i];
         const Point&amp; b = polygone[(i + 1) % polygone.size()];
-        doubleSurface += a.x * b.y - b.x * a.y;
+        doubleSurface += (a.x * b.y) - (b.x * a.y);
     }
     return std::abs(doubleSurface) / 2.0;
 }</span>
@@ -86,8 +86,8 @@ template &lt;typename Garder, typename Couper&gt;
 /// Primitive de sqrt(r^2 - x^2).
 <span style = "background-color:#dfd">[[nodiscard]] double primitiveDemiDisque(double x, double rayon) {
     const double borne = std::clamp(x / rayon, -1.0, 1.0);
-    return 0.5 *</span>
-           (x * std::sqrt(std::max(0.0, rayon * rayon - x * x)) + rayon * rayon * std::asin(borne));
+    return 0.5 * ((x * std::sqrt(std::max(0.0, (rayon * rayon) - (x * x)))) +</span>
+                  (rayon * rayon * std::asin(borne)));
 <span style = "background-color:#dfd">}</span>
 
 /**
@@ -106,7 +106,7 @@ template &lt;typename Garder, typename Couper&gt;
 <span style = "background-color:#dfd">    std::vector&lt;double&gt; bornes{a, b};
     for (const double y : {y0, y1}) {
         if (std::abs(y) &lt; rayon) {
-            const double q = std::sqrt(rayon * rayon - y * y);
+            const double q = std::sqrt((rayon * rayon) - (y * y));
             for (const double x : {-q, q}) {
                 if (x &gt; a &amp;&amp; x &lt; b) {
                     bornes.push_back(x);</span>
@@ -123,7 +123,7 @@ template &lt;typename Garder, typename Couper&gt;
             continue;</span>
         }
 <span style = "background-color:#dfd">        const double milieu = (p + q) / 2.0;
-        const double s = std::sqrt(std::max(0.0, rayon * rayon - milieu * milieu));
+        const double s = std::sqrt(std::max(0.0, (rayon * rayon) - (milieu * milieu)));
         const bool hautSurArc = s &lt; y1;
         const bool basSurArc = -s &gt; y0;
         if ((hautSurArc ? s : y1) &lt;= (basSurArc ? -s : y0)) {
@@ -137,8 +137,8 @@ template &lt;typename Garder, typename Couper&gt;
 
 /// La forme en polygone (cone, cube, ligne), en cases ; vide si elle n'a pas de direction.
 <span style = "background-color:#dfd">[[nodiscard]] Polygone polygoneDe(const AreaOfEffect&amp; zone) {
-    const double dx = static_cast&lt;double&gt;(zone.toward.x - zone.origin.x);
-    const double dy = static_cast&lt;double&gt;(zone.toward.y - zone.origin.y);
+    const auto dx = static_cast&lt;double&gt;(zone.toward.x - zone.origin.x);
+    const auto dy = static_cast&lt;double&gt;(zone.toward.y - zone.origin.y);
     const double norme = std::hypot(dx, dy);
     if (norme == 0.0 || zone.size &lt;= 0) {
         return {};</span>
@@ -155,8 +155,8 @@ template &lt;typename Garder, typename Couper&gt;
 <span style = "background-color:#fdd">        return {};</span>
     }
 <span style = "background-color:#dfd">    const auto point = [&amp;](double leLong, double enTravers) {
-        return Point{.x = o.x + leLong * u.x + enTravers * n.x,</span>
-                     .y = o.y + leLong * u.y + enTravers * n.y};
+        return Point{.x = o.x + (leLong * u.x) + (enTravers * n.x),</span>
+                     .y = o.y + (leLong * u.y) + (enTravers * n.y)};
 <span style = "background-color:#dfd">    };
     if (zone.shape == AreaShape::Cone) {
         return {o, point(longueur, demiLargeur), point(longueur, -demiLargeur)};</span>

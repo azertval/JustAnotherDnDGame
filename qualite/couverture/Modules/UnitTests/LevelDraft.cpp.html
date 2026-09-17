@@ -339,7 +339,7 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
 
 <span style = "background-color:#dfd">void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
     pushUndo();
-    _cameraFraming = cameraFraming;
+    _cameraFraming = std::move(cameraFraming);
 }</span>
 
 <span style = "background-color:#dfd">void LevelDraft::addCameraZone(CameraZone zone) {
@@ -623,12 +623,9 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
             return true;</span>
         }
 <span style = "background-color:#dfd">    }
-    for (const MapEntity&amp; entity : _entities) {</span>
-<span style = "background-color:#fdd">        if (outOfBounds(entity.position)) {
-            return true;</span>
-        }
-<span style = "background-color:#fdd">    }</span>
-<span style = "background-color:#dfd">    return false;
+    return std::ranges::any_of(_entities, [&amp;outOfBounds](const MapEntity&amp; entity) {</span>
+<span style = "background-color:#fdd">        return outOfBounds(entity.position);</span>
+<span style = "background-color:#dfd">    });
 }</span>
 
 <span style = "background-color:#dfd">bool LevelDraft::undo() {

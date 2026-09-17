@@ -30,12 +30,12 @@ namespace core {
     // n'ecrit pas de texte affichable (EX-NFR-011).
 <span style = "background-color:#dfd">    static const std::vector&lt;InteractableKind&gt; familles = {</span>
         // Le coffre ne se prend qu'une fois -- c'est le piege que ce lot doit tenir.
-        {"chest", true, "interaction.chest"},
+        {.type = "chest", .consumable = true, .promptKey = "interaction.chest"},
         // Le panneau se relit indefiniment : rien a consommer.
-        {"sign", false, "interaction.sign"},
+        {.type = "sign", .consumable = false, .promptKey = "interaction.sign"},
         // Le PNJ se reparle : ce qu'il dit depend des drapeaux, pas d'un Â« deja fait Â» (LOT-15).
         // Son dialogue se lit de la carte par `core::dialogueTriggerFor`.
-        {"npc", false, "interaction.npc"},
+        {.type = "npc", .consumable = false, .promptKey = "interaction.npc"},
     };
 <span style = "background-color:#dfd">    return familles;
 }</span>
@@ -45,8 +45,8 @@ std::size_t spawnMapEntities(World&amp; world, const Level&amp; level, std::stri
     std::size_t creees = 0;
     for (const MapEntity&amp; objet : level.entities()) {
         const Entity entite = world.createEntity();
-        world.addComponent(entite, Transform{{static_cast&lt;float&gt;(objet.position.column),</span>
-                                              static_cast&lt;float&gt;(objet.position.row)}});
+        world.addComponent(entite, Transform{.position = {static_cast&lt;float&gt;(objet.position.column),</span>
+                                                          static_cast&lt;float&gt;(objet.position.row)}});
 
 <span style = "background-color:#dfd">        const auto famille =</span>
             std::ranges::find(knownInteractableKinds(), objet.type, &amp;InteractableKind::type);

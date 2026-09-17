@@ -74,16 +74,14 @@ namespace core {
 }</span>
 
 <span style = "background-color:#dfd">ActionResource* ActionEconomy::find(std::string_view id) {
-    const auto found =</span>
-        std::find_if(_resources.begin(), _resources.end(),
-<span style = "background-color:#dfd">                     [id](const ActionResource&amp; resource) { return resource.id == id; });
+    const auto found = std::ranges::find_if(
+        _resources, [id](const ActionResource&amp; resource) { return resource.id == id; });
     return found == _resources.end() ? nullptr : &amp;*found;
 }</span>
 
 <span style = "background-color:#dfd">const ActionResource* ActionEconomy::find(std::string_view id) const {
-    const auto found =</span>
-        std::find_if(_resources.begin(), _resources.end(),
-<span style = "background-color:#dfd">                     [id](const ActionResource&amp; resource) { return resource.id == id; });
+    const auto found = std::ranges::find_if(
+        _resources, [id](const ActionResource&amp; resource) { return resource.id == id; });
     return found == _resources.end() ? nullptr : &amp;*found;
 }</span>
 

@@ -33,11 +33,13 @@ std::optional&lt;AttackPreview&gt; previewAttack(const ArenaSession&amp; session
 <span style = "background-color:#dfd">    const AttackProfile&amp; profil = (*attaques)[attackIndex];
     AttackPreview apercu{.check = checkTarget(combat, *actif, target, profil),
                          .attackIndex = attackIndex,
-                         .label = profil.label};</span>
+                         .label = profil.label,
+                         .advantages = {},
+                         .disadvantages = {}};</span>
     // Les memes sources que resolveAttack, dans le meme ordre : la grille, puis la session.
 <span style = "background-color:#dfd">    const AttackCircumstances grille = attackCircumstances(combat, *actif, target, profil);
-    const AttackCircumstances session_ = session.circumstancesAgainst(*actif, target, profil);
-    for (const AttackCircumstances* source : {&amp;grille, &amp;session_}) {
+    const AttackCircumstances parSession = session.circumstancesAgainst(*actif, target, profil);
+    for (const AttackCircumstances* source : {&amp;grille, &amp;parSession}) {
         apercu.advantages.insert(apercu.advantages.end(), source-&gt;advantages.begin(),</span>
                                  source-&gt;advantages.end());
 <span style = "background-color:#dfd">        apercu.disadvantages.insert(apercu.disadvantages.end(), source-&gt;disadvantages.begin(),</span>

@@ -16,6 +16,7 @@
 
 #include &lt;algorithm&gt;
 #include &lt;cctype&gt;
+#include &lt;ranges&gt;
 
 #include "Core/Levels/Plane.h"
 
@@ -35,8 +36,9 @@ namespace {
     if (widthUnits &lt;= 0 || heightUnits &lt;= 0 || !core::isValidPlaneDensity(pixelsPerUnit)) {
         return PlanePixelSize{};</span>
     }
-<span style = "background-color:#dfd">    return PlanePixelSize{widthUnits * pixelsPerUnit, heightUnits * pixelsPerUnit};
-}</span>
+<span style = "background-color:#dfd">    return PlanePixelSize{.width = widthUnits * pixelsPerUnit,</span>
+                          .height = heightUnits * pixelsPerUnit};
+<span style = "background-color:#dfd">}</span>
 
 // Reduit un nom libre a ce qu'un nom de fichier de plan accepte.
 <span style = "background-color:#dfd">std::string sanitizePlaneBaseName(const std::string&amp; name) {
@@ -59,12 +61,12 @@ namespace {
     // Tirets de bord : sans interet, et un nom commencant par un tiret se confond avec une option
     // en ligne de commande.
 <span style = "background-color:#dfd">    const auto notDash = [](char character) { return character != '-'; };
-    const auto first = std::find_if(result.begin(), result.end(), notDash);
-    const auto last = std::find_if(result.rbegin(), result.rend(), notDash).base();
+    const auto first = std::ranges::find_if(result, notDash);
+    const auto last = std::ranges::find_if(std::views::reverse(result), notDash).base();
     if (first &gt;= last) {
         return {};</span>
     }
-<span style = "background-color:#dfd">    return std::string(first, last);
+<span style = "background-color:#dfd">    return {first, last};
 }</span>
 
 // Compose un nom de fichier de plan unique pour un niveau donne.
@@ -75,7 +77,7 @@ std::string uniquePlaneFileName(const std::string&amp; levelName,
         return {};</span>
     }
 <span style = "background-color:#dfd">    const auto taken = [&amp;existing](const std::string&amp; candidate) {
-        return std::find(existing.begin(), existing.end(), candidate) != existing.end();
+        return std::ranges::find(existing, candidate) != existing.end();
     };</span>
 
 <span style = "background-color:#dfd">    std::string candidate = base + PLANE_FILE_EXTENSION;
@@ -85,7 +87,10 @@ std::string uniquePlaneFileName(const std::string&amp; levelName,
     // Suffixe numerique croissant, jamais un identifiant aleatoire : un dossier de plans doit
     // rester lisible a l'oeil, et un plan se retrouver sans ouvrir l'editeur.
 <span style = "background-color:#dfd">    for (std::size_t index = 2; index &lt;= existing.size() + 2; ++index) {
-        candidate = base + '-' + std::to_string(index) + PLANE_FILE_EXTENSION;
+        candidate = base;
+        candidate += '-';
+        candidate += std::to_string(index);
+        candidate += PLANE_FILE_EXTENSION;
         if (!taken(candidate)) {
             return candidate;</span>
         }

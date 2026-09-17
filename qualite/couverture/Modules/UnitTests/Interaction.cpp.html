@@ -52,9 +52,9 @@ namespace {
     // case de droite. Viser en diagonale rendrait la cible imprevisible a la manette analogique.
     // A egalite exacte, l'horizontale l'emporte -- il faut un depart, et celui-la est ecrit.
 <span style = "background-color:#dfd">    if (horizontal &gt;= vertical) {
-        return {from.column + (facing.x &gt;= 0.0F ? 1 : -1), from.row};</span>
+        return {.column = from.column + (facing.x &gt;= 0.0F ? 1 : -1), .row = from.row};</span>
     }
-<span style = "background-color:#dfd">    return {from.column, from.row + (facing.y &gt;= 0.0F ? 1 : -1)};
+<span style = "background-color:#dfd">    return {.column = from.column, .row = from.row + (facing.y &gt;= 0.0F ? 1 : -1)};
 }</span>
 
 InteractionTarget findInteractionTarget(GridPosition from, Vector2 facing, const TileMap&amp; map,

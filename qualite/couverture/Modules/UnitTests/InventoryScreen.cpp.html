@@ -138,9 +138,12 @@ std::vector&lt;InventoryCell&gt; backpackCells(const core::Inventory&amp; invent
         return sheet;</span>
     }
 <span style = "background-color:#dfd">    if (const core::Item* const item = findItem(lookup, itemId); item != nullptr) {
-        sheet.kind = item-&gt;category == "tool"</span>
-                         ? "Outil"
-                         : (item-&gt;category == "mount" ? "Monture" : "MatÃ©riel");
+        sheet.kind = "MatÃ©riel";
+        if (item-&gt;category == "tool") {</span>
+<span style = "background-color:#fdd">            sheet.kind = "Outil";</span>
+<span style = "background-color:#dfd">        } else if (item-&gt;category == "mount") {</span>
+<span style = "background-color:#fdd">            sheet.kind = "Monture";</span>
+        }
 <span style = "background-color:#dfd">        sheet.weight = kilograms(item-&gt;weightGrams);
         sheet.text = item-&gt;text;</span>
     }
@@ -190,13 +193,12 @@ bool equipFromBackpack(core::Inventory&amp; inventory, std::string_view itemId,
 }</span>
 
 <span style = "background-color:#dfd">void sortBackpack(core::Inventory&amp; inventory, const core::ItemLookup&amp; lookup) {
-    std::stable_sort(</span>
-        inventory.backpack.begin(), inventory.backpack.end(),
-<span style = "background-color:#dfd">        [&amp;lookup](const core::InventoryStack&amp; left, const core::InventoryStack&amp; right) {
-            const std::string leftName = nameOf(lookup, left.itemId);
-            const std::string rightName = nameOf(lookup, right.itemId);
-            return leftName != rightName ? leftName &lt; rightName : left.itemId &lt; right.itemId;
-        });
+    std::ranges::stable_sort(inventory.backpack, [&amp;lookup](const core::InventoryStack&amp; left,
+                                                           const core::InventoryStack&amp; right) {
+        const std::string leftName = nameOf(lookup, left.itemId);
+        const std::string rightName = nameOf(lookup, right.itemId);
+        return leftName != rightName ? leftName &lt; rightName : left.itemId &lt; right.itemId;
+    });
 }</span>
 
 }  // namespace hmi</pre>

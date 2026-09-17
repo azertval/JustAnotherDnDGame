@@ -114,15 +114,18 @@ $(function(){initNavTree('Assert_8h_source.html','',''); });
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#ifdef NDEBUG</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#define JADG_ASSERT(condition, message) ((void)0)</span></div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#else</span></div>
-<div class="foldopen" id="foldopen00047" data-start="" data-end="">
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="Assert_8h.html#a2811f3d423b22f1a90179b4ed095f054">   47</a></span><span class="preprocessor">#define JADG_ASSERT(condition, message)                                              \</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">    do {                                                                             \</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">        if (!(condition)) {                                                          \</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">            ::core::handleAssertionFailure(#condition, message, __FILE__, __LINE__); \</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">        }                                                                            \</span></div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">    } while (false)</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// La branche vide plutot qu&#39;un `if (!(condition))` : une condition composee (`a &amp;&amp; b`) ne se</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="comment">// lit plus, une fois niee par la macro, comme une expression a simplifier par De Morgan.</span></div>
+<div class="foldopen" id="foldopen00049" data-start="" data-end="">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="Assert_8h.html#a2811f3d423b22f1a90179b4ed095f054">   49</a></span><span class="preprocessor">#define JADG_ASSERT(condition, message)                                              \</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">    do {                                                                             \</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">        if (static_cast&lt;bool&gt;(condition)) {                                          \</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">        } else {                                                                     \</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">            ::core::handleAssertionFailure(#condition, message, __FILE__, __LINE__); \</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">        }                                                                            \</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">    } while (false)</span></div>
 </div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="anamespacecore_html"><div class="ttname"><a href="namespacecore.html">core</a></div><div class="ttdoc">Espace de noms du moteur et de la logique de jeu.</div><div class="ttdef"><b>Definition</b> Bootstrap.h:9</div></div>
 <div class="ttc" id="anamespacecore_html_a0b2fde01c38742c460acb176220332ff"><div class="ttname"><a href="namespacecore.html#a0b2fde01c38742c460acb176220332ff">core::setAssertionHandler</a></div><div class="ttdeci">void setAssertionHandler(AssertionHandler handler)</div><div class="ttdoc">Remplace le gestionnaire d&#39;échec d&#39;assertion (utile pour les tests).</div><div class="ttdef"><b>Definition</b> Assert.cpp:30</div></div>
 <div class="ttc" id="anamespacecore_html_a7278ef05514b62dcd5241984197dfb23"><div class="ttname"><a href="namespacecore.html#a7278ef05514b62dcd5241984197dfb23">core::handleAssertionFailure</a></div><div class="ttdeci">void handleAssertionFailure(const char *condition, const char *message, const char *file, int line)</div><div class="ttdoc">Invoque le gestionnaire d&#39;échec d&#39;assertion courant.</div><div class="ttdef"><b>Definition</b> Assert.cpp:34</div></div>

@@ -74,15 +74,16 @@ struct StepRules {
         // Le coin d'un mur : on regarde les deux places orthogonales que la diagonale enjambe. Le
         // coin se juge en vol â seule la matiÃ¨re qui Â« remplit l'espace Â» l'interdit, pas une eau
         // profonde qu'on ne fait que longer.
-<span style = "background-color:#dfd">        if (diagonal &amp;&amp; (!grid.isClear({to.column, from.row}, side, Locomotion::Fly) ||</span>
-                         !grid.isClear({from.column, to.row}, side, Locomotion::Fly))) {
+<span style = "background-color:#dfd">        if (diagonal &amp;&amp;</span>
+            (!grid.isClear({.column = to.column, .row = from.row}, side, Locomotion::Fly) ||
+             !grid.isClear({.column = from.column, .row = to.row}, side, Locomotion::Fly))) {
 <span style = "background-color:#dfd">            return std::nullopt;</span>
         }
 <span style = "background-color:#dfd">        bool difficult = false;
         bool crowded = false;
         for (int row = to.row; row &lt; to.row + side; ++row) {
             for (int column = to.column; column &lt; to.column + side; ++column) {
-                const GridPosition cell{column, row};
+                const GridPosition cell{.column = column, .row = row};
                 const std::optional&lt;CombatantId&gt; occupant = grid.occupantAt(cell);
                 if (occupant.has_value() &amp;&amp; *occupant != mover.combatant) {
                     if (!(mover.canPassThrough &amp;&amp; mover.canPassThrough(*occupant))) {
@@ -147,7 +148,7 @@ bool relax(std::vector&lt;int&gt;&amp; costs, Predecessors&amp; predecessors, st
 [[nodiscard]] Path rebuild(const std::vector&lt;int&gt;&amp; costs, const Predecessors&amp; predecessors,
 <span style = "background-color:#dfd">                           GridPosition origin, GridPosition target, int width) {
     const auto indexOf = [width](GridPosition cell) {
-        return static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(width) +</span>
+        return (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(width)) +</span>
                static_cast&lt;std::size_t&gt;(cell.column);
 <span style = "background-color:#dfd">    };
     const long long axisColumn = target.column - origin.column;
@@ -155,7 +156,7 @@ bool relax(std::vector&lt;int&gt;&amp; costs, Predecessors&amp; predecessors, st
     const auto deviation = [&amp;](GridPosition cell) {
         const long long column = cell.column - origin.column;
         const long long row = cell.row - origin.row;
-        return std::llabs(axisColumn * row - axisRow * column);
+        return std::llabs((axisColumn * row) - (axisRow * column));
     };</span>
 
 <span style = "background-color:#dfd">    Path path;
@@ -170,8 +171,8 @@ bool relax(std::vector&lt;int&gt;&amp; costs, Predecessors&amp; predecessors, st
                 continue;</span>
             }
             // Le bit dit d'oÃ¹ l'on vient : le prÃ©dÃ©cesseur est Ã  l'opposÃ© du pas relÃ¢chÃ©.
-<span style = "background-color:#dfd">            const GridPosition candidate{current.column - NEIGHBOURS[rank].first,
-                                         current.row - NEIGHBOURS[rank].second};
+<span style = "background-color:#dfd">            const GridPosition candidate{.column = current.column - NEIGHBOURS[rank].first,
+                                         .row = current.row - NEIGHBOURS[rank].second};
             if (!best.has_value() || deviation(candidate) &lt; deviation(*best) ||</span>
                 (deviation(candidate) == deviation(*best) &amp;&amp; indexOf(candidate) &lt; indexOf(*best))) {
 <span style = "background-color:#dfd">                best = candidate;</span>
@@ -182,7 +183,7 @@ bool relax(std::vector&lt;int&gt;&amp; costs, Predecessors&amp; predecessors, st
         }
 <span style = "background-color:#dfd">        current = *best;
     }
-    std::reverse(path.steps.begin(), path.steps.end());
+    std::ranges::reverse(path.steps);
     return path;
 }</span>
 
@@ -225,18 +226,19 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
 
 <span style = "background-color:#dfd">    MinQueue frontier;
     _costs[indexOf(_origin)] = 0;
-    frontier.push({0, indexOf(_origin)});
+    frontier.emplace(0, indexOf(_origin));
     while (!frontier.empty()) {
         const auto [cost, index] = frontier.top();
         frontier.pop();
         if (cost &gt; _costs[index]) {</span>
 <span style = "background-color:#fdd">            continue;  // EntrÃ©e pÃ©rimÃ©e : la case a Ã©tÃ© atteinte moins cher depuis.</span>
         }
-<span style = "background-color:#dfd">        const GridPosition current{static_cast&lt;int&gt;(index) % _width,
-                                   static_cast&lt;int&gt;(index) / _width};
+<span style = "background-color:#dfd">        const GridPosition current{.column = static_cast&lt;int&gt;(index) % _width,
+                                   .row = static_cast&lt;int&gt;(index) / _width};
         for (std::size_t rank = 0; rank &lt; NEIGHBOURS.size(); ++rank) {
             const auto [deltaColumn, deltaRow] = NEIGHBOURS[rank];
-            const GridPosition next{current.column + deltaColumn, current.row + deltaRow};
+            const GridPosition next{.column = current.column + deltaColumn,
+                                    .row = current.row + deltaRow};
             if (!grid.inBounds(next)) {
                 continue;</span>
             }
@@ -248,21 +250,21 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
             }
 <span style = "background-color:#dfd">            const std::size_t nextIndex = indexOf(next);
             if (relax(_costs, _predecessors, nextIndex, rank, cost + *step)) {
-                frontier.push({_costs[nextIndex], nextIndex});</span>
+                frontier.emplace(_costs[nextIndex], nextIndex);</span>
             }
 <span style = "background-color:#dfd">        }
     }</span>
 
 <span style = "background-color:#dfd">    for (std::size_t index = 0; index &lt; _costs.size(); ++index) {
-        const GridPosition anchor{static_cast&lt;int&gt;(index) % _width,
-                                  static_cast&lt;int&gt;(index) / _width};
+        const GridPosition anchor{.column = static_cast&lt;int&gt;(index) % _width,
+                                  .row = static_cast&lt;int&gt;(index) / _width};
         _endable[index] = _costs[index] != UNREACHED &amp;&amp; anchor != _origin &amp;&amp;</span>
                           grid.canStand(anchor, rules.side, mover.combatant, mover.locomotion);
 <span style = "background-color:#dfd">    }
 }</span>
 
 <span style = "background-color:#dfd">std::size_t ReachableArea::indexOf(GridPosition cell) const noexcept {
-    return static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(_width) +</span>
+    return (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(_width)) +</span>
            static_cast&lt;std::size_t&gt;(cell.column);
 <span style = "background-color:#dfd">}</span>
 
@@ -285,7 +287,8 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
     std::vector&lt;GridPosition&gt; cells;
     for (std::size_t index = 0; index &lt; _endable.size(); ++index) {
         if (_endable[index]) {
-            cells.push_back({static_cast&lt;int&gt;(index) % _width, static_cast&lt;int&gt;(index) / _width});</span>
+            cells.push_back({.column = static_cast&lt;int&gt;(index) % _width,</span>
+                             .row = static_cast&lt;int&gt;(index) / _width});
         }
 <span style = "background-color:#dfd">    }
     return cells;
@@ -307,7 +310,7 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
     }
 <span style = "background-color:#dfd">    const int width = grid.width();
     const auto indexOf = [width](GridPosition cell) {
-        return static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(width) +</span>
+        return (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(width)) +</span>
                static_cast&lt;std::size_t&gt;(cell.column);
 <span style = "background-color:#dfd">    };</span>
     // Distance de Tchebychev : chaque pas coÃ»te au moins 1 et avance d'au plus une case sur chaque
@@ -326,7 +329,7 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
 
 <span style = "background-color:#dfd">    MinQueue frontier;
     costs[indexOf(*start)] = 0;
-    frontier.push({estimate(*start), indexOf(*start)});
+    frontier.emplace(estimate(*start), indexOf(*start));
     while (!frontier.empty()) {
         const auto [priority, index] = frontier.top();</span>
         // On ne s'arrÃªte pas Ã  la premiÃ¨re sortie de la destination : tant qu'une case de mÃªme
@@ -337,14 +340,15 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
             break;</span>
         }
 <span style = "background-color:#dfd">        frontier.pop();
-        const GridPosition current{static_cast&lt;int&gt;(index) % width,
-                                   static_cast&lt;int&gt;(index) / width};
+        const GridPosition current{.column = static_cast&lt;int&gt;(index) % width,
+                                   .row = static_cast&lt;int&gt;(index) / width};
         if (priority - estimate(current) &gt; costs[index]) {
             continue;  // EntrÃ©e pÃ©rimÃ©e.</span>
         }
 <span style = "background-color:#dfd">        for (std::size_t rank = 0; rank &lt; NEIGHBOURS.size(); ++rank) {
             const auto [deltaColumn, deltaRow] = NEIGHBOURS[rank];
-            const GridPosition next{current.column + deltaColumn, current.row + deltaRow};
+            const GridPosition next{.column = current.column + deltaColumn,
+                                    .row = current.row + deltaRow};
             if (!grid.inBounds(next)) {
                 continue;</span>
             }
@@ -354,7 +358,7 @@ ReachableArea::ReachableArea(const BattleGrid&amp; grid, const Mover&amp; mover,
             }
 <span style = "background-color:#dfd">            const std::size_t nextIndex = indexOf(next);
             if (relax(costs, predecessors, nextIndex, rank, costs[index] + *step)) {
-                frontier.push({costs[nextIndex] + estimate(next), nextIndex});</span>
+                frontier.emplace(costs[nextIndex] + estimate(next), nextIndex);</span>
             }
 <span style = "background-color:#dfd">        }
     }</span>

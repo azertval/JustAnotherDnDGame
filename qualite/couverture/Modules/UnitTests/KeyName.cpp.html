@@ -61,6 +61,8 @@ constexpr int KEY_CODE_COUNT = 256;
 <span style = "background-color:#fdd">            return "C";</span>
         case Key::D:
 <span style = "background-color:#fdd">            return "D";</span>
+        case Key::E:
+<span style = "background-color:#fdd">            return "E";</span>
         case Key::P:
 <span style = "background-color:#fdd">            return "P";</span>
         case Key::Q:
@@ -89,10 +91,10 @@ constexpr int KEY_CODE_COUNT = 256;
 
 <span style = "background-color:#dfd">    const int code = static_cast&lt;int&gt;(key);
     if (code &gt;= '0' &amp;&amp; code &lt;= '9') {
-        return std::string(1, static_cast&lt;char&gt;(code));</span>
+        return {static_cast&lt;char&gt;(code)};  // une chaine d'un seul caractere</span>
     }
 <span style = "background-color:#dfd">    if (code &gt;= 'A' &amp;&amp; code &lt;= 'Z') {
-        return std::string(1, static_cast&lt;char&gt;(code));</span>
+        return {static_cast&lt;char&gt;(code)};  // une chaine d'un seul caractere</span>
     }
 <span style = "background-color:#dfd">    std::ostringstream stream;
     stream &lt;&lt; "Touche 0x" &lt;&lt; std::hex &lt;&lt; std::uppercase &lt;&lt; std::setw(2) &lt;&lt; std::setfill('0')</span>
@@ -101,8 +103,11 @@ constexpr int KEY_CODE_COUNT = 256;
 }</span>
 
 <span style = "background-color:#dfd">std::optional&lt;Key&gt; capturedKey(const InputState&amp; input) {
-    for (int code = 1; code &lt; KEY_CODE_COUNT; ++code) {
-        const Key candidate = static_cast&lt;Key&gt;(code);
+    for (int code = 1; code &lt; KEY_CODE_COUNT; ++code) {</span>
+        // Tous les codes suivis par InputState, nommes ou non : une touche sans enumerateur doit
+        // pouvoir etre capturee, et keyPressed ne prend qu'une Key.
+        // NOLINTNEXTLINE(clang-analyzer-optin.core.EnumCastOutOfRange)
+<span style = "background-color:#dfd">        const Key candidate = static_cast&lt;Key&gt;(code);
         if (candidate == Key::Escape || candidate == Key::Enter) {
             continue;  // reservees a la navigation globale : jamais capturees (LOT-29).</span>
         }

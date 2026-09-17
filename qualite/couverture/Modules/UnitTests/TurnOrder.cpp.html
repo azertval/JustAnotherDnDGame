@@ -65,15 +65,15 @@ namespace {
     if (contains(entry.combatant)) {
         return false;</span>
     }
-<span style = "background-color:#dfd">    const auto place = std::upper_bound(_entries.begin(), _entries.end(), entry, actsBefore);
+<span style = "background-color:#dfd">    const auto place = std::ranges::upper_bound(_entries, entry, actsBefore);
     _entries.insert(place, entry);
     return true;
 }</span>
 
 <span style = "background-color:#dfd">bool TurnOrder::remove(CombatantId combatant) {
-    const auto found = std::find_if(</span>
-        _entries.begin(), _entries.end(),
-<span style = "background-color:#dfd">        [combatant](const InitiativeEntry&amp; entry) { return entry.combatant == combatant; });
+    const auto found = std::ranges::find_if(_entries, [combatant](const InitiativeEntry&amp; entry) {
+        return entry.combatant == combatant;
+    });
     if (found == _entries.end()) {
         return false;</span>
     }
@@ -82,14 +82,13 @@ namespace {
 }</span>
 
 <span style = "background-color:#dfd">bool TurnOrder::addMarker(InitiativeMarker marker) {
-    const bool duplicate =
-        std::any_of(_markers.begin(), _markers.end(), [&amp;marker](const InitiativeMarker&amp; other) {
-            return other.count == marker.count &amp;&amp; other.name == marker.name;
-        });
+    const bool duplicate = std::ranges::any_of(_markers, [&amp;marker](const InitiativeMarker&amp; other) {
+        return other.count == marker.count &amp;&amp; other.name == marker.name;
+    });
     if (duplicate) {
         return false;</span>
     }
-<span style = "background-color:#dfd">    const auto place = std::upper_bound(_markers.begin(), _markers.end(), marker, markerBefore);
+<span style = "background-color:#dfd">    const auto place = std::ranges::upper_bound(_markers, marker, markerBefore);
     _markers.insert(place, std::move(marker));
     return true;
 }</span>
@@ -99,9 +98,9 @@ namespace {
 }</span>
 
 <span style = "background-color:#dfd">const InitiativeEntry* TurnOrder::find(CombatantId combatant) const {
-    const auto found = std::find_if(</span>
-        _entries.begin(), _entries.end(),
-<span style = "background-color:#dfd">        [combatant](const InitiativeEntry&amp; entry) { return entry.combatant == combatant; });
+    const auto found = std::ranges::find_if(_entries, [combatant](const InitiativeEntry&amp; entry) {
+        return entry.combatant == combatant;
+    });
     return found == _entries.end() ? nullptr : &amp;*found;
 }</span>
 

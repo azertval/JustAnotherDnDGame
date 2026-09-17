@@ -4,6 +4,7 @@ var classhmi_1_1PlanesPanel =
     [ "~PlanesPanel", "classhmi_1_1PlanesPanel.html#aa0070b1f44bf8aaeb7ea7113f5b24e7d", null ],
     [ "addRequested", "classhmi_1_1PlanesPanel.html#a0f194d8364574ef70e6f3be2e4608dbe", null ],
     [ "connectControls", "classhmi_1_1PlanesPanel.html#ada2956a24b91589ec330707fdd5929f9", null ],
+    [ "connectSettingControls", "classhmi_1_1PlanesPanel.html#a62dc0343e006adfef766e920e67b8d4b", null ],
     [ "densityChangeRequested", "classhmi_1_1PlanesPanel.html#a1f3e62d3b023bdd1e081983184091778", null ],
     [ "depthChangeRequested", "classhmi_1_1PlanesPanel.html#ad19b57c599d7954b725092ef82826da5", null ],
     [ "isolateToggled", "classhmi_1_1PlanesPanel.html#a4b4f4c39b82e5e9ecec648e586cc50fa", null ],

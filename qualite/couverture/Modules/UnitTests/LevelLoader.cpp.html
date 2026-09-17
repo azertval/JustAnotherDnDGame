@@ -167,7 +167,7 @@ struct LockedDoorLink {
 void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::string&gt;&amp; known,
 <span style = "background-color:#dfd">                       PropertyMap&amp; properties) {
     for (const auto&amp; [key, value] : object.items()) {
-        if (known.count(key) != 0) {
+        if (known.contains(key)) {
             continue;</span>
         }
 <span style = "background-color:#dfd">        if (value.is_boolean()) {
@@ -488,6 +488,63 @@ struct TileParseState {
 <span style = "background-color:#dfd">    return std::nullopt;
 }</span>
 
+// RÃ©sout les liaisons interrupteurâporte par identifiant. Une porte sans 'opensWith'
+// est une simple tuile (pas de mÃ©canisme).
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; resolveDoorMechanisms(
+    const std::vector&lt;DoorLink&gt;&amp; doors,
+    const std::unordered_map&lt;std::string, GridPosition&gt;&amp; switchesById,
+<span style = "background-color:#dfd">    std::vector&lt;Mechanism&gt;&amp; mechanisms) {
+    for (const DoorLink&amp; door : doors) {
+        if (door.opensWith.empty()) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto found = switchesById.find(door.opensWith);
+        if (found == switchesById.end()) {</span>
+<span style = "background-color:#fdd">            return failure("Porte liee a un interrupteur inexistant : " + door.opensWith,</span>
+                           LevelValidationError::UnresolvedMechanism);
+        }
+<span style = "background-color:#dfd">        mechanisms.push_back(</span>
+            Mechanism{.switchPosition = found-&gt;second, .doorPosition = door.position});
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
+// RÃ©sout les liaisons clÃ©âporte verrouillÃ©e (EX-GP-023), append Ã  la MÃME liste que
+// les portes classiques (aucune nouvelle notion de liaison) : `MechanismController` distingue leur
+// comportement au type de la tuile dÃ©clencheur, pas Ã  leur provenance dans ce vecteur.
+// Contrairement Ã  une porte classique, le lien est OBLIGATOIRE dans les deux sens : une
+// porte verrouillÃ©e sans 'opensWith' (ou vers une clÃ© inexistante) et une clÃ© qu'aucune
+// porte ne referme sont toutes deux des niveaux invalides.
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; resolveLockedDoorMechanisms(
+    const std::vector&lt;LockedDoorLink&gt;&amp; lockedDoors,
+    const std::unordered_map&lt;std::string, GridPosition&gt;&amp; keysById,
+<span style = "background-color:#dfd">    std::vector&lt;Mechanism&gt;&amp; mechanisms) {
+    std::set&lt;std::string&gt; usedKeyIds;
+    for (const LockedDoorLink&amp; lockedDoor : lockedDoors) {
+        if (lockedDoor.opensWith.empty()) {</span>
+<span style = "background-color:#fdd">            return failure("Porte verrouillee sans cle liee en (" +</span>
+                               std::to_string(lockedDoor.position.column) + ", " +
+                               std::to_string(lockedDoor.position.row) + ")",
+                           LevelValidationError::UnresolvedMechanism);
+        }
+<span style = "background-color:#dfd">        const auto found = keysById.find(lockedDoor.opensWith);
+        if (found == keysById.end()) {</span>
+<span style = "background-color:#fdd">            return failure("Porte verrouillee liee a une cle inexistante : " + lockedDoor.opensWith,</span>
+                           LevelValidationError::UnresolvedMechanism);
+        }
+<span style = "background-color:#dfd">        usedKeyIds.insert(lockedDoor.opensWith);
+        mechanisms.push_back(</span>
+            Mechanism{.switchPosition = found-&gt;second, .doorPosition = lockedDoor.position});
+<span style = "background-color:#dfd">    }
+    for (const auto&amp; keyEntry : keysById) {
+        if (!usedKeyIds.contains(keyEntry.first)) {</span>
+<span style = "background-color:#fdd">            return failure("Cle sans porte verrouillee liee : " + keyEntry.first,</span>
+                           LevelValidationError::UnresolvedMechanism);
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
 }  // namespace
 
 // Charge un niveau depuis une chaine JSON.
@@ -540,9 +597,17 @@ struct TileParseState {
         std::vector&lt;TileTextureOverride&gt; textureOverrides;</span>
 
         // Chaque objet de 'tiles' place une tuile dans la grille.
-<span style = "background-color:#dfd">        TileParseState tileState{</span>
-            map,          entry, exit,     entryCount,  exitCount,       occupiedPositions,
-            switchesById, doors, keysById, lockedDoors, textureOverrides};
+<span style = "background-color:#dfd">        TileParseState tileState{.map = map,</span>
+                                 .entry = entry,
+                                 .exit = exit,
+                                 .entryCount = entryCount,
+                                 .exitCount = exitCount,
+                                 .occupiedPositions = occupiedPositions,
+                                 .switchesById = switchesById,
+                                 .doors = doors,
+                                 .keysById = keysById,
+                                 .lockedDoors = lockedDoors,
+                                 .textureOverrides = textureOverrides};
 <span style = "background-color:#dfd">        for (const nlohmann::json&amp; tile : root.at("tiles")) {
             std::optional&lt;LevelLoadResult&gt; tileError = parseTile(tile, tileState);
             if (tileError) {</span>
@@ -555,51 +620,14 @@ struct TileParseState {
 <span style = "background-color:#dfd">            return std::move(*countError);
         }</span>
 
-        // RÃ©sout les liaisons interrupteurâporte par identifiant. Une porte sans 'opensWith'
-        // est une simple tuile (pas de mÃ©canisme).
 <span style = "background-color:#dfd">        std::vector&lt;Mechanism&gt; mechanisms;
-        for (const DoorLink&amp; door : doors) {
-            if (door.opensWith.empty()) {
-                continue;</span>
-            }
-<span style = "background-color:#dfd">            const auto found = switchesById.find(door.opensWith);
-            if (found == switchesById.end()) {</span>
-<span style = "background-color:#fdd">                return failure("Porte liee a un interrupteur inexistant : " + door.opensWith,</span>
-                               LevelValidationError::UnresolvedMechanism);
-            }
-<span style = "background-color:#dfd">            mechanisms.push_back(</span>
-                Mechanism{.switchPosition = found-&gt;second, .doorPosition = door.position});
-<span style = "background-color:#dfd">        }</span>
-
-        // RÃ©sout les liaisons clÃ©âporte verrouillÃ©e (EX-GP-023), append Ã  la MÃME liste que
-        // ci-dessus (aucune nouvelle notion de liaison) : `MechanismController` distingue leur
-        // comportement au type de la tuile dÃ©clencheur, pas Ã  leur provenance dans ce vecteur.
-        // Contrairement Ã  une porte classique, le lien est OBLIGATOIRE dans les deux sens : une
-        // porte verrouillÃ©e sans 'opensWith' (ou vers une clÃ© inexistante) et une clÃ© qu'aucune
-        // porte ne referme sont toutes deux des niveaux invalides.
-<span style = "background-color:#dfd">        std::set&lt;std::string&gt; usedKeyIds;
-        for (const LockedDoorLink&amp; lockedDoor : lockedDoors) {
-            if (lockedDoor.opensWith.empty()) {</span>
-<span style = "background-color:#fdd">                return failure("Porte verrouillee sans cle liee en (" +</span>
-                                   std::to_string(lockedDoor.position.column) + ", " +
-                                   std::to_string(lockedDoor.position.row) + ")",
-                               LevelValidationError::UnresolvedMechanism);
-            }
-<span style = "background-color:#dfd">            const auto found = keysById.find(lockedDoor.opensWith);
-            if (found == keysById.end()) {</span>
-<span style = "background-color:#fdd">                return failure(</span>
-                    "Porte verrouillee liee a une cle inexistante : " + lockedDoor.opensWith,
-                    LevelValidationError::UnresolvedMechanism);
-            }
-<span style = "background-color:#dfd">            usedKeyIds.insert(lockedDoor.opensWith);
-            mechanisms.push_back(</span>
-                Mechanism{.switchPosition = found-&gt;second, .doorPosition = lockedDoor.position});
+        if (std::optional&lt;LevelLoadResult&gt; doorError =</span>
+                resolveDoorMechanisms(doors, switchesById, mechanisms)) {
+<span style = "background-color:#fdd">            return std::move(*doorError);</span>
 <span style = "background-color:#dfd">        }
-        for (const auto&amp; keyEntry : keysById) {
-            if (usedKeyIds.find(keyEntry.first) == usedKeyIds.end()) {</span>
-<span style = "background-color:#fdd">                return failure("Cle sans porte verrouillee liee : " + keyEntry.first,</span>
-                               LevelValidationError::UnresolvedMechanism);
-            }
+        if (std::optional&lt;LevelLoadResult&gt; lockedDoorError =</span>
+                resolveLockedDoorMechanisms(lockedDoors, keysById, mechanisms)) {
+<span style = "background-color:#fdd">            return std::move(*lockedDoorError);</span>
 <span style = "background-color:#dfd">        }</span>
 
 <span style = "background-color:#dfd">        warnOnObsoleteDecors(root, name);</span>

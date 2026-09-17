@@ -71,10 +71,10 @@ void updateTopDownMovement(World&amp; world, Entity actor, const PlayerInput&amp
         return;  // entite incomplete : rien a deplacer, jamais un plantage (EX-NFR-040)</span>
     }
 
-<span style = "background-color:#dfd">    Transform&amp; transform = world.getComponent&lt;Transform&gt;(actor);
-    Velocity&amp; velocity = world.getComponent&lt;Velocity&gt;(actor);
+<span style = "background-color:#dfd">    auto&amp; transform = world.getComponent&lt;Transform&gt;(actor);
+    auto&amp; velocity = world.getComponent&lt;Velocity&gt;(actor);
     const Collider&amp; collider = world.getComponent&lt;Collider&gt;(actor);
-    Actor&amp; actorState = world.getComponent&lt;Actor&gt;(actor);</span>
+    auto&amp; actorState = world.getComponent&lt;Actor&gt;(actor);</span>
 
     // 1. Intention -&gt; vitesse visee. A intention nulle, la cible est l'arret, et c'est la friction
     // -- plus vive que l'acceleration -- qui gouverne le rapprochement.

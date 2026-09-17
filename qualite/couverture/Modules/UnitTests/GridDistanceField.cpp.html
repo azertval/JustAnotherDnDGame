@@ -33,7 +33,7 @@ GridDistanceField::GridDistanceField(const core::TileMap&amp; tileMap,
       _distances(static_cast&lt;std::size_t&gt;(_width) * static_cast&lt;std::size_t&gt;(_height),
                  UNREACHABLE) {
     const auto index = [this](int column, int row) {
-        return static_cast&lt;std::size_t&gt;(row) * static_cast&lt;std::size_t&gt;(_width) +</span>
+        return (static_cast&lt;std::size_t&gt;(row) * static_cast&lt;std::size_t&gt;(_width)) +</span>
                static_cast&lt;std::size_t&gt;(column);
 <span style = "background-color:#dfd">    };</span>
 
@@ -73,7 +73,7 @@ GridDistanceField::GridDistanceField(const core::TileMap&amp; tileMap,
                 continue;</span>
             }
 <span style = "background-color:#dfd">            _distances[neighborIndex] = currentDistance + 1;
-            frontier.push(core::GridPosition{neighborColumn, neighborRow});
+            frontier.push(core::GridPosition{.column = neighborColumn, .row = neighborRow});
         }
     }
 }</span>
@@ -85,7 +85,7 @@ GridDistanceField::GridDistanceField(const core::TileMap&amp; tileMap,
 <span style = "background-color:#dfd">        return sentinel;</span>
     }
 <span style = "background-color:#dfd">    const std::size_t linearIndex =</span>
-        static_cast&lt;std::size_t&gt;(position.row) * static_cast&lt;std::size_t&gt;(_width) +
+        (static_cast&lt;std::size_t&gt;(position.row) * static_cast&lt;std::size_t&gt;(_width)) +
         static_cast&lt;std::size_t&gt;(position.column);
 <span style = "background-color:#dfd">    const int value = _distances[linearIndex];
     return value == UNREACHABLE ? sentinel : value;
@@ -97,7 +97,7 @@ GridDistanceField::GridDistanceField(const core::TileMap&amp; tileMap,
 <span style = "background-color:#fdd">        return false;</span>
     }
 <span style = "background-color:#fdd">    const std::size_t linearIndex =</span>
-        static_cast&lt;std::size_t&gt;(position.row) * static_cast&lt;std::size_t&gt;(_width) +
+        (static_cast&lt;std::size_t&gt;(position.row) * static_cast&lt;std::size_t&gt;(_width)) +
         static_cast&lt;std::size_t&gt;(position.column);
 <span style = "background-color:#fdd">    return _distances[linearIndex] != UNREACHABLE;
 }</span>

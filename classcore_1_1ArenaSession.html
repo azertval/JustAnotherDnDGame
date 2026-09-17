@@ -160,6 +160,10 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:ab563d9e39c8b115dc54cede1df612899"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">reactor</code> frappe <code class="param">mover</code> quand il passe de <code class="param">from</code> à <code class="param">to</code> : hostile, debout, la réaction disponible, l'allonge quittée, le fuyard vu, et ni le joueur ni la politique ne la déclinent.  <br /></td></tr>
 <tr class="memitem:a811a05394f43e2e01cf02d55fc5c0d3b" id="r_a811a05394f43e2e01cf02d55fc5c0d3b"><td class="memItemLeft">const <a class="el" href="structcore_1_1AttackProfile.html">AttackProfile</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a811a05394f43e2e01cf02d55fc5c0d3b">meleeAttack</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant) const</td></tr>
 <tr class="memdesc:a811a05394f43e2e01cf02d55fc5c0d3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">La première attaque au corps à corps d'un combattant, ou <span class="tt">nullptr</span>.  <br /></td></tr>
+<tr class="memitem:a96121b0c949d240b5ca16b1dbfdbb42b" id="r_a96121b0c949d240b5ca16b1dbfdbb42b"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a96121b0c949d240b5ca16b1dbfdbb42b">firstProvokingStep</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> mover, const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;cases, std::vector&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt; &amp;reactors) const</td></tr>
+<tr class="memdesc:a96121b0c949d240b5ca16b1dbfdbb42b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le premier pas de <code class="param">cases</code> qui sort de l'allonge d'un ennemi, et ceux qu'il provoque, ajoutés à <code class="param">reactors</code> ; vide pour un combattant désengagé.  <br /></td></tr>
+<tr class="memitem:ae2175f68b5c450d3c2e09b7a9fc8ebbe" id="r_ae2175f68b5c450d3c2e09b7a9fc8ebbe"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae2175f68b5c450d3c2e09b7a9fc8ebbe">takeOpportunities</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> mover, const std::vector&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt; &amp;reactors)</td></tr>
+<tr class="memdesc:ae2175f68b5c450d3c2e09b7a9fc8ebbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les attaques d'opportunité de <code class="param">reactors</code> contre <code class="param">mover</code>, tant qu'il est debout, que le combat dure et que l'opportuniste l'est aussi.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -569,6 +573,42 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Termine le tour actif. </p>
+
+</div>
+</div>
+<a id="a96121b0c949d240b5ca16b1dbfdbb42b" name="a96121b0c949d240b5ca16b1dbfdbb42b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96121b0c949d240b5ca16b1dbfdbb42b">&#9670;&#160;</a></span>firstProvokingStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; core::ArenaSession::firstProvokingStep </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>mover</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>cases</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>reactors</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le premier pas de <code class="param">cases</code> qui sort de l'allonge d'un ennemi, et ceux qu'il provoque, ajoutés à <code class="param">reactors</code> ; vide pour un combattant désengagé. </p>
 
 </div>
 </div>
@@ -1045,6 +1085,37 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2175f68b5c450d3c2e09b7a9fc8ebbe" name="ae2175f68b5c450d3c2e09b7a9fc8ebbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2175f68b5c450d3c2e09b7a9fc8ebbe">&#9670;&#160;</a></span>takeOpportunities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::ArenaSession::takeOpportunities </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a></td>          <td class="paramname"><span class="paramname"><em>mover</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>reactors</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les attaques d'opportunité de <code class="param">reactors</code> contre <code class="param">mover</code>, tant qu'il est debout, que le combat dure et que l'opportuniste l'est aussi. </p>
 
 </div>
 </div>

@@ -132,6 +132,10 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a3b9f10f8a953701f7d08ece10da950ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le masque de collision d'une carte à couches (voiles par catégorie, <span class="tt">LOT-11</span>).  <br /></td></tr>
 <tr class="memitem:a0041e4af2f4351b8345561e6bddeb2b3" id="r_a0041e4af2f4351b8345561e6bddeb2b3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0041e4af2f4351b8345561e6bddeb2b3">composeEntities</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const <a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a> &amp;overlay)</td></tr>
 <tr class="memdesc:a0041e4af2f4351b8345561e6bddeb2b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose les entités (marqueur généré du <span class="tt">LOT-39</span> par famille), la sélection, et le terrain de la rencontre sélectionnée (<span class="tt">LOT-11</span>).  <br /></td></tr>
+<tr class="memitem:ab59d52f5a159ebf802e90542aa03229f" id="r_ab59d52f5a159ebf802e90542aa03229f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab59d52f5a159ebf802e90542aa03229f">composeEncounterTerrain</a> (const <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &amp;terrain)</td></tr>
+<tr class="memdesc:ab59d52f5a159ebf802e90542aa03229f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le terrain d'une rencontre : sa zone, puis la case voulue de chaque combattant.  <br /></td></tr>
+<tr class="memitem:a426ade18a8938eb9aac820569403ca75" id="r_a426ade18a8938eb9aac820569403ca75"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a426ade18a8938eb9aac820569403ca75">composeEntityMarker</a> (const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;entity, bool selected)</td></tr>
+<tr class="memdesc:a426ade18a8938eb9aac820569403ca75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le marqueur d'une entité et, si <code class="param">selected</code>, son cadre de sélection.  <br /></td></tr>
 <tr class="memitem:afd7acfcb598433abf472fd34a722bf93" id="r_afd7acfcb598433abf472fd34a722bf93"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afd7acfcb598433abf472fd34a722bf93">addOverlayRect</a> (float x, float y, float width, float height, float r, float g, float b, float a, std::int32_t order)</td></tr>
 <tr class="memdesc:afd7acfcb598433abf472fd34a722bf93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute un quad uni teinté <code class="param"></code>(x, y, w, h) au calque d'édition, rang <code class="param">order</code>.  <br /></td></tr>
 </table><table class="memberdecls">
@@ -307,6 +311,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab59d52f5a159ebf802e90542aa03229f" name="ab59d52f5a159ebf802e90542aa03229f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab59d52f5a159ebf802e90542aa03229f">&#9670;&#160;</a></span>composeEncounterTerrain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::DraftRenderer::composeEncounterTerrain </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>terrain</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compose le terrain d'une rencontre : sa zone, puis la case voulue de chaque combattant. </p>
+
+</div>
+</div>
 <a id="a0041e4af2f4351b8345561e6bddeb2b3" name="a0041e4af2f4351b8345561e6bddeb2b3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0041e4af2f4351b8345561e6bddeb2b3">&#9670;&#160;</a></span>composeEntities()</h2>
 
@@ -335,6 +366,37 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compose les entités (marqueur généré du <span class="tt">LOT-39</span> par famille), la sélection, et le terrain de la rencontre sélectionnée (<span class="tt">LOT-11</span>). </p>
+
+</div>
+</div>
+<a id="a426ade18a8938eb9aac820569403ca75" name="a426ade18a8938eb9aac820569403ca75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a426ade18a8938eb9aac820569403ca75">&#9670;&#160;</a></span>composeEntityMarker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::DraftRenderer::composeEntityMarker </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>selected</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compose le marqueur d'une entité et, si <code class="param">selected</code>, son cadre de sélection. </p>
 
 </div>
 </div>

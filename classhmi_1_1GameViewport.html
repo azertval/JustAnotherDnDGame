@@ -326,6 +326,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:ad80bbcaacca07a11747eea2ad8566b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée l'atlas, la police, le cache de textures et le pipeline de dessin sur l'interface de rendu courante, puis ouvre le brouillon de départ.  <br /></td></tr>
 <tr class="memitem:a0c668d277f3854cf4a91b8ffe2053597" id="r_a0c668d277f3854cf4a91b8ffe2053597"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597">tick</a> (float elapsedSeconds)</td></tr>
 <tr class="memdesc:a0c668d277f3854cf4a91b8ffe2053597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance la simulation d'une image (entrées, pas fixes, sons) — sans rien dessiner.  <br /></td></tr>
+<tr class="memitem:a44ba3b6c3b3d73502283ca6be7521974" id="r_a44ba3b6c3b3d73502283ca6be7521974"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a44ba3b6c3b3d73502283ca6be7521974">advanceSimulation</a> (float elapsedSeconds)</td></tr>
+<tr class="memdesc:a44ba3b6c3b3d73502283ca6be7521974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Consomme les pas fixes dus à <code class="param">elapsedSeconds</code> (hors pause), appelée par <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick</a></span>.  <br /></td></tr>
+<tr class="memitem:a43f533f01e46228cbe9f20067da45b95" id="r_a43f533f01e46228cbe9f20067da45b95"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a43f533f01e46228cbe9f20067da45b95">simulateStep</a> (float fixedDelta)</td></tr>
+<tr class="memdesc:a43f533f01e46228cbe9f20067da45b95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exécute un pas fixe (simulation, sons, fin de carte) ; faux si la carte vient de se terminer et que les pas restants de l'image doivent être abandonnés.  <br /></td></tr>
+<tr class="memitem:a3833bab2ee55f0509365e0ddcdf496e0" id="r_a3833bab2ee55f0509365e0ddcdf496e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3833bab2ee55f0509365e0ddcdf496e0">handleSessionKeyPress</a> (QKeyEvent *<a class="el" href="#a5d3760d8afacd89cccc12dff1f843a9b">event</a>)</td></tr>
+<tr class="memdesc:a3833bab2ee55f0509365e0ddcdf496e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Traite un appui de touche pendant une session de jeu ou d'essai (voir <span class="tt"><a class="el" href="#ac3bad1f6d1f1e5f61bbb4e35283ad308">keyPressEvent</a></span>).  <br /></td></tr>
 <tr class="memitem:a429e3a6ba571a469b45d3dc1e4662991" id="r_a429e3a6ba571a469b45d3dc1e4662991"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a429e3a6ba571a469b45d3dc1e4662991">renderFrame</a> (QRhiCommandBuffer *commandBuffer, float deltaSeconds)</td></tr>
 <tr class="memdesc:a429e3a6ba571a469b45d3dc1e4662991"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose et soumet une image sur <code class="param">commandBuffer</code>.  <br /></td></tr>
 <tr class="memitem:a740b15fef3dea457881dafea9e533187" id="r_a740b15fef3dea457881dafea9e533187"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a740b15fef3dea457881dafea9e533187">renderDiagnosticsOverlay</a> (int viewportWidth, int viewportHeight)</td></tr>
@@ -773,6 +779,33 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Ajoute <code class="param">plane</code> à la fin de la liste et le sélectionne. </p>
+
+</div>
+</div>
+<a id="a44ba3b6c3b3d73502283ca6be7521974" name="a44ba3b6c3b3d73502283ca6be7521974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44ba3b6c3b3d73502283ca6be7521974">&#9670;&#160;</a></span>advanceSimulation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::advanceSimulation </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>elapsedSeconds</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Consomme les pas fixes dus à <code class="param">elapsedSeconds</code> (hors pause), appelée par <span class="tt"><a class="el" href="#a0c668d277f3854cf4a91b8ffe2053597" title="Avance la simulation d&#39;une image (entrées, pas fixes, sons) — sans rien dessiner.">tick</a></span>. </p>
 
 </div>
 </div>
@@ -1426,6 +1459,33 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Résout le clic de l'outil Lien (<span class="tt"><a class="el" href="namespacehmi.html#a7f0f0f4f71e52b8deb6fb88a8d6411d9" title="Résout le clic de l&#39;outil « Lien » sur clickedCell selon l&#39;attente courante.">hmi::resolveLinkClick</a></span>) et l'applique (attente, liaison). </p>
+
+</div>
+</div>
+<a id="a3833bab2ee55f0509365e0ddcdf496e0" name="a3833bab2ee55f0509365e0ddcdf496e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3833bab2ee55f0509365e0ddcdf496e0">&#9670;&#160;</a></span>handleSessionKeyPress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::GameViewport::handleSessionKeyPress </td>
+          <td>(</td>
+          <td class="paramtype">QKeyEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Traite un appui de touche pendant une session de jeu ou d'essai (voir <span class="tt"><a class="el" href="#ac3bad1f6d1f1e5f61bbb4e35283ad308">keyPressEvent</a></span>). </p>
 
 </div>
 </div>
@@ -3715,6 +3775,33 @@ paintTile</span>) ; <span class="tt">Ctrl+Z</span>/<span class="tt">Ctrl+Y</span
 </div><div class="memdoc">
 
 <p>Rétablit la visibilité de tous les calques (action « tout afficher », TACHE-03). </p>
+
+</div>
+</div>
+<a id="a43f533f01e46228cbe9f20067da45b95" name="a43f533f01e46228cbe9f20067da45b95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43f533f01e46228cbe9f20067da45b95">&#9670;&#160;</a></span>simulateStep()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::GameViewport::simulateStep </td>
+          <td>(</td>
+          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>fixedDelta</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Exécute un pas fixe (simulation, sons, fin de carte) ; faux si la carte vient de se terminer et que les pas restants de l'image doivent être abandonnés. </p>
 
 </div>
 </div>

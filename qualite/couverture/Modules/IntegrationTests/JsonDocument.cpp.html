@@ -68,7 +68,7 @@ namespace {
             ++column;</span>
         }
 <span style = "background-color:#dfd">    }
-    return {line, column};
+    return {.line = line, .column = column};
 }</span>
 
 JsonDocument readJsonObject(std::string_view json, int supportedVersion, std::string_view origin,

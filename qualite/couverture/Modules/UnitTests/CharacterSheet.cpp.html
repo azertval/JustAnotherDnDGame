@@ -113,11 +113,113 @@ constexpr int GAIN_MINIMAL_PAR_NIVEAU = 1;
 <span style = "background-color:#fdd">            table.errors.push_back(path.string() + " : ligne de table incomplete.");
             continue;</span>
         }
-<span style = "background-color:#dfd">        table.levels.push_back({niveau-&gt;get&lt;int&gt;(), px-&gt;get&lt;int&gt;(), bonus-&gt;get&lt;int&gt;()});
-    }
+<span style = "background-color:#dfd">        table.levels.push_back({.level = niveau-&gt;get&lt;int&gt;(),</span>
+                                .experience = px-&gt;get&lt;int&gt;(),
+                                .proficiencyBonus = bonus-&gt;get&lt;int&gt;()});
+<span style = "background-color:#dfd">    }
     std::ranges::sort(table.levels, {}, &amp;ExperienceLevel::level);
     return table;
 }</span>
+
+namespace {
+
+// Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
+// cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
+// de -5 que rien ne signalerait.
+[[nodiscard]] std::array&lt;int, 6&gt; lireCaracteristiquesDeBase(const nlohmann::json&amp; racine,
+                                                            const std::filesystem::path&amp; path,
+<span style = "background-color:#dfd">                                                            std::vector&lt;std::string&gt;&amp; erreurs) {
+    std::array&lt;int, 6&gt; base{};
+    const auto caracteristiques = racine.find("baseAbilities");
+    if (caracteristiques == racine.end() || !caracteristiques-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
+        return base;</span>
+    }
+<span style = "background-color:#dfd">    for (const Ability caracteristique : allAbilities()) {
+        const std::string nom{abilityName(caracteristique)};
+        const auto valeur = caracteristiques-&gt;find(nom);
+        if (valeur == caracteristiques-&gt;end() || !valeur-&gt;is_number_integer()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(path.string() + " : caracteristique '" + nom + "' absente.");
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        base[static_cast&lt;std::size_t&gt;(caracteristique)] = valeur-&gt;get&lt;int&gt;();
+    }
+    return base;
+}</span>
+
+// Les chaines du tableau @p champ de @p racine, ajoutees a @p sortie ; le reste est ignore.
+void lireEnsembleDeTextes(const nlohmann::json&amp; racine, const char* champ,
+<span style = "background-color:#dfd">                          std::set&lt;std::string&gt;&amp; sortie) {
+    const auto tableau = racine.find(champ);
+    if (tableau == racine.end() || !tableau-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *tableau) {
+        if (element.is_string()) {
+            sortie.insert(element.get&lt;std::string&gt;());
+        }
+    }
+}</span>
+
+// Les objets portes, par emplacement ; un emplacement inconnu est signale et ignore.
+void lireEquipes(const nlohmann::json&amp; inventaire, const std::filesystem::path&amp; path,
+<span style = "background-color:#dfd">                 LoadedCharacterSheet&amp; resultat) {
+    const auto portes = inventaire.find("equipped");
+    if (portes == inventaire.end() || !portes-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [nom, valeur] : portes-&gt;items()) {
+        const std::optional&lt;EquipmentSlot&gt; emplacement = parseEquipmentSlot(nom);
+        if (!emplacement.has_value()) {</span>
+<span style = "background-color:#fdd">            resultat.errors.push_back(path.string() + " : emplacement d'equipement '" + nom +</span>
+                                      "' inconnu du moteur.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (valeur.is_string()) {
+            static_cast&lt;void&gt;(equip(resultat.inventory, *emplacement, valeur.get&lt;std::string&gt;()));
+        }
+    }
+}</span>
+
+// Le contenu du sac ; une ligne sans identifiant est ignoree, une quantite absente vaut 1.
+<span style = "background-color:#dfd">void lireSac(const nlohmann::json&amp; inventaire, Inventory&amp; sortie) {
+    const auto sac = inventaire.find("backpack");
+    if (sac == inventaire.end() || !sac-&gt;is_array()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; ligne : *sac) {
+        if (!ligne.is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto identifiant = ligne.find("itemId");
+        if (identifiant == ligne.end() || !identifiant-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto quantite = ligne.find("quantity");
+        addToBackpack(</span>
+            sortie, identifiant-&gt;get&lt;std::string&gt;(),
+            (quantite != ligne.end() &amp;&amp; quantite-&gt;is_number_integer()) ? quantite-&gt;get&lt;int&gt;() : 1);
+<span style = "background-color:#dfd">    }
+}</span>
+
+// Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
+// total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
+// lecture, et c'est ce qui les empeche de deriver.
+void lireInventaire(const nlohmann::json&amp; racine, const std::filesystem::path&amp; path,
+<span style = "background-color:#dfd">                    LoadedCharacterSheet&amp; resultat) {
+    const auto inventaire = racine.find("inventory");
+    if (inventaire == racine.end() || !inventaire-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    lireEquipes(*inventaire, path, resultat);
+    lireSac(*inventaire, resultat.inventory);
+    if (const auto bourse = inventaire-&gt;find("purseCopper");
+        bourse != inventaire-&gt;end() &amp;&amp; bourse-&gt;is_number_integer()) {
+        resultat.inventory.purseCopper = bourse-&gt;get&lt;int&gt;();
+    }
+}</span>
+
+}  // namespace
 
 LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path&amp; path,
                                         const CharacterOptions&amp; options,
@@ -136,25 +238,8 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path&amp; path,
                                                                       : std::string{};
 <span style = "background-color:#dfd">    };</span>
 
-    // Les six valeurs de BASE, avant augmentation d'espece. Les six sont exigees : une fiche a
-    // cinq caracteristiques n'existe pas, et laisser la sixieme a zero donnerait un modificateur
-    // de -5 que rien ne signalerait.
-<span style = "background-color:#dfd">    std::array&lt;int, 6&gt; base{};
-    const auto caracteristiques = document.root.find("baseAbilities");
-    if (caracteristiques == document.root.end() || !caracteristiques-&gt;is_object()) {</span>
-<span style = "background-color:#fdd">        resultat.errors.push_back(path.string() + " : champ 'baseAbilities' absent ou non objet.");
-    } else {</span>
-<span style = "background-color:#dfd">        for (const Ability caracteristique : allAbilities()) {
-            const std::string nom{abilityName(caracteristique)};
-            const auto valeur = caracteristiques-&gt;find(nom);
-            if (valeur == caracteristiques-&gt;end() || !valeur-&gt;is_number_integer()) {</span>
-<span style = "background-color:#fdd">                resultat.errors.push_back(path.string() + " : caracteristique '" + nom +</span>
-                                          "' absente.");
-<span style = "background-color:#fdd">                continue;</span>
-            }
-<span style = "background-color:#dfd">            base[static_cast&lt;std::size_t&gt;(caracteristique)] = valeur-&gt;get&lt;int&gt;();
-        }</span>
-    }
+    const std::array&lt;int, 6&gt; base =
+<span style = "background-color:#dfd">        lireCaracteristiquesDeBase(document.root, path, resultat.errors);</span>
 
     // Les trois choix sont resolus DANS LE CATALOGUE, et un identifiant inconnu est signale : une
     // fiche qui reference une espece absente s'afficherait sans vitesse ni augmentation, ce qui
@@ -193,68 +278,13 @@ LoadedCharacterSheet loadCharacterSheet(const std::filesystem::path&amp; path,
         }
     }
 
-<span style = "background-color:#dfd">    const auto competences = document.root.find("skillProficiencies");
-    if (competences != document.root.end() &amp;&amp; competences-&gt;is_array()) {
-        for (const auto&amp; element : *competences) {
-            if (element.is_string()) {
-                resultat.sheet.skillProficiencies.insert(element.get&lt;std::string&gt;());
-            }
-        }</span>
-    }
+<span style = "background-color:#dfd">    lireEnsembleDeTextes(document.root, "skillProficiencies", resultat.sheet.skillProficiencies);</span>
 
     // Les langues CHOISIES (LOT-15) : un historique en accorde un nombre, et la fiche dit
     // lesquelles. Celles de l'espece sont deja la, recopiees par `buildCharacterSheet`.
-<span style = "background-color:#dfd">    const auto langues = document.root.find("languages");
-    if (langues != document.root.end() &amp;&amp; langues-&gt;is_array()) {
-        for (const auto&amp; element : *langues) {
-            if (element.is_string()) {
-                resultat.sheet.languages.insert(element.get&lt;std::string&gt;());
-            }
-        }</span>
-    }
+<span style = "background-color:#dfd">    lireEnsembleDeTextes(document.root, "languages", resultat.sheet.languages);</span>
 
-    // Ce que le personnage PORTE (LOT-14). Rien n'en est derive ici : ni classe d'armure, ni poids
-    // total, ni encombrement. `core::derivedStatsFor` les recalcule depuis ce contenu a chaque
-    // lecture, et c'est ce qui les empeche de deriver.
-<span style = "background-color:#dfd">    const auto inventaire = document.root.find("inventory");
-    if (inventaire != document.root.end() &amp;&amp; inventaire-&gt;is_object()) {
-        if (const auto portes = inventaire-&gt;find("equipped");
-            portes != inventaire-&gt;end() &amp;&amp; portes-&gt;is_object()) {
-            for (const auto&amp; [nom, valeur] : portes-&gt;items()) {
-                const std::optional&lt;EquipmentSlot&gt; emplacement = parseEquipmentSlot(nom);
-                if (!emplacement.has_value()) {</span>
-<span style = "background-color:#fdd">                    resultat.errors.push_back(path.string() + " : emplacement d'equipement '" +</span>
-                                              nom + "' inconnu du moteur.");
-<span style = "background-color:#fdd">                    continue;</span>
-                }
-<span style = "background-color:#dfd">                if (valeur.is_string()) {
-                    static_cast&lt;void&gt;(</span>
-                        equip(resultat.inventory, *emplacement, valeur.get&lt;std::string&gt;()));
-<span style = "background-color:#dfd">                }
-            }
-        }
-        if (const auto sac = inventaire-&gt;find("backpack");
-            sac != inventaire-&gt;end() &amp;&amp; sac-&gt;is_array()) {
-            for (const auto&amp; ligne : *sac) {
-                if (!ligne.is_object()) {</span>
-<span style = "background-color:#fdd">                    continue;</span>
-                }
-<span style = "background-color:#dfd">                const auto identifiant = ligne.find("itemId");
-                if (identifiant == ligne.end() || !identifiant-&gt;is_string()) {</span>
-<span style = "background-color:#fdd">                    continue;</span>
-                }
-<span style = "background-color:#dfd">                const auto quantite = ligne.find("quantity");
-                addToBackpack(resultat.inventory, identifiant-&gt;get&lt;std::string&gt;(),</span>
-                              (quantite != ligne.end() &amp;&amp; quantite-&gt;is_number_integer())
-                                  ? quantite-&gt;get&lt;int&gt;()
-                                  : 1);
-<span style = "background-color:#dfd">            }
-        }
-        if (const auto bourse = inventaire-&gt;find("purseCopper");
-            bourse != inventaire-&gt;end() &amp;&amp; bourse-&gt;is_number_integer()) {
-            resultat.inventory.purseCopper = bourse-&gt;get&lt;int&gt;();
-        }</span>
-    }
+<span style = "background-color:#dfd">    lireInventaire(document.root, path, resultat);</span>
 
 <span style = "background-color:#dfd">    return resultat;
 }</span>

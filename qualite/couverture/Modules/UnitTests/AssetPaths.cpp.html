@@ -23,7 +23,7 @@ namespace hmi {
 
 // RÃ©sout un nom de fichier logique vers un chemin existant dans le dossier d'assets.
 <span style = "background-color:#dfd">std::optional&lt;std::filesystem::path&gt; AssetPaths::resolve(const std::string&amp; fileName) const {
-    const std::filesystem::path candidate = _directory / fileName;
+    std::filesystem::path candidate = _directory / fileName;
     std::error_code error;
     if (!std::filesystem::is_regular_file(candidate, error) || error) {
         return std::nullopt;</span>

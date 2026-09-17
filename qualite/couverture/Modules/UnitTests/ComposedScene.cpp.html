@@ -49,8 +49,8 @@ namespace hmi {
 <span style = "background-color:#dfd">void ComposedScene::setVisibleBounds(const core::Rect&amp; worldBounds) noexcept {
     _visibleBounds = core::Rect{core::Vector2{worldBounds.position.x - CULLING_MARGIN_UNITS,</span>
                                               worldBounds.position.y - CULLING_MARGIN_UNITS},
-                                core::Vector2{worldBounds.size.x + 2.0f * CULLING_MARGIN_UNITS,
-                                              worldBounds.size.y + 2.0f * CULLING_MARGIN_UNITS}};
+                                core::Vector2{worldBounds.size.x + (2.0F * CULLING_MARGIN_UNITS),
+                                              worldBounds.size.y + (2.0F * CULLING_MARGIN_UNITS)}};
 <span style = "background-color:#dfd">}</span>
 
 // Desactive le culling : toutes les primitives ajoutees sont conservees.
@@ -67,7 +67,7 @@ namespace hmi {
 // textures distinctes par image se compte sur les doigts d'une main : une recherche lineaire est
 // plus rapide (et bien plus simple) qu'une table de hachage.
 <span style = "background-color:#dfd">int ComposedScene::textureRank(TextureHandle texture) {
-    const auto found = std::find(_textureOrder.begin(), _textureOrder.end(), texture);
+    const auto found = std::ranges::find(_textureOrder, texture);
     if (found != _textureOrder.end()) {
         return static_cast&lt;int&gt;(std::distance(_textureOrder.begin(), found));</span>
     }
@@ -140,24 +140,23 @@ bool ComposedScene::addLine(RenderLayer layer, TextureHandle texture, std::int32
     //    un arbre plus haut, les deux n'ayant jamais la meme texture que lui (EX-REN-018) ;
     //  - partout ailleurs : la texture regroupe d'abord (une passe de dessin par groupe), le
     //    sortOrder ne departageant que l'interieur d'un groupe -- comportement d'avant le lot.
-<span style = "background-color:#dfd">    std::stable_sort(_quads.begin(), _quads.end(),
-                     [](const ComposedQuad&amp; lhs, const ComposedQuad&amp; rhs) {
-                         const std::int32_t leftBand = renderBand(lhs.layer);
-                         const std::int32_t rightBand = renderBand(rhs.layer);
-                         if (leftBand != rightBand) {
-                             return leftBand &lt; rightBand;</span>
-                         }
-<span style = "background-color:#dfd">                         if (sortsByDepth(lhs.layer)) {
-                             if (lhs.sortOrder != rhs.sortOrder) {
-                                 return lhs.sortOrder &lt; rhs.sortOrder;</span>
-                             }
-<span style = "background-color:#dfd">                             return lhs.textureRank &lt; rhs.textureRank;</span>
-                         }
-<span style = "background-color:#dfd">                         if (lhs.textureRank != rhs.textureRank) {
-                             return lhs.textureRank &lt; rhs.textureRank;</span>
-                         }
-<span style = "background-color:#dfd">                         return lhs.sortOrder &lt; rhs.sortOrder;
-                     });
+<span style = "background-color:#dfd">    std::ranges::stable_sort(_quads, [](const ComposedQuad&amp; lhs, const ComposedQuad&amp; rhs) {
+        const std::int32_t leftBand = renderBand(lhs.layer);
+        const std::int32_t rightBand = renderBand(rhs.layer);
+        if (leftBand != rightBand) {
+            return leftBand &lt; rightBand;</span>
+        }
+<span style = "background-color:#dfd">        if (sortsByDepth(lhs.layer)) {
+            if (lhs.sortOrder != rhs.sortOrder) {
+                return lhs.sortOrder &lt; rhs.sortOrder;</span>
+            }
+<span style = "background-color:#dfd">            return lhs.textureRank &lt; rhs.textureRank;</span>
+        }
+<span style = "background-color:#dfd">        if (lhs.textureRank != rhs.textureRank) {
+            return lhs.textureRank &lt; rhs.textureRank;</span>
+        }
+<span style = "background-color:#dfd">        return lhs.sortOrder &lt; rhs.sortOrder;
+    });
 }</span>
 
 // Le nombre de passes begin/end : groupes contigus de meme texture.
@@ -198,24 +197,24 @@ bool ComposedScene::addLine(RenderLayer layer, TextureHandle texture, std::int32
 // doit donc le juger sur ce rectangle-la, jamais sur (x, y, width, height) brut (une entite pivotee
 // pres du bord du cadrage disparaitrait sinon a tort).
 <span style = "background-color:#dfd">core::Rect spriteQuadBounds(const SpriteQuad&amp; quad) noexcept {
-    if (quad.rotation == 0.0f) {
+    if (quad.rotation == 0.0F) {
         return core::Rect{core::Vector2{quad.x, quad.y}, core::Vector2{quad.width, quad.height}};</span>
     }
-<span style = "background-color:#dfd">    const float halfWidth = quad.width * 0.5f;
-    const float halfHeight = quad.height * 0.5f;
+<span style = "background-color:#dfd">    const float halfWidth = quad.width * 0.5F;
+    const float halfHeight = quad.height * 0.5F;
     const float centerX = quad.x + halfWidth;
     const float centerY = quad.y + halfHeight;
     const float cosR = std::fabs(std::cos(quad.rotation));
     const float sinR = std::fabs(std::sin(quad.rotation));
-    const float extentX = halfWidth * cosR + halfHeight * sinR;
-    const float extentY = halfWidth * sinR + halfHeight * cosR;
+    const float extentX = (halfWidth * cosR) + (halfHeight * sinR);
+    const float extentY = (halfWidth * sinR) + (halfHeight * cosR);
     return core::Rect{core::Vector2{centerX - extentX, centerY - extentY},</span>
-                      core::Vector2{extentX * 2.0f, extentY * 2.0f}};
+                      core::Vector2{extentX * 2.0F, extentY * 2.0F}};
 <span style = "background-color:#dfd">}</span>
 
 // Boite englobante d'un segment epais, en unites monde (extremites elargies d'une demi-epaisseur).
 <span style = "background-color:#dfd">core::Rect lineQuadBounds(const LineQuad&amp; quad) noexcept {
-    const float half = quad.thickness * 0.5f;
+    const float half = quad.thickness * 0.5F;
     const float left = (std::min)(quad.ax, quad.bx) - half;
     const float top = (std::min)(quad.ay, quad.by) - half;
     const float right = (std::max)(quad.ax, quad.bx) + half;
@@ -230,11 +229,11 @@ namespace {
 struct SpriteAppearance {
     core::AtlasRegion region;
     TextureHandle texture = nullptr;
-    float atlasWidth = 0.0f;
-    float atlasHeight = 0.0f;
-    float worldWidth = 0.0f;
-    float worldHeight = 0.0f;
-    core::Vector2 quadOffset{};
+    float atlasWidth = 0.0F;
+    float atlasHeight = 0.0F;
+    float worldWidth = 0.0F;
+    float worldHeight = 0.0F;
+    core::Vector2 quadOffset;
 };
 
 // Resout l'apparence (texture, region, taille monde) d'une entite affichable selon sa nature --

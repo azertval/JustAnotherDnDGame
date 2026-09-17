@@ -108,6 +108,185 @@ namespace {
     return layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy;
 }</span>
 
+// Position (colonne, ligne) -&gt; chaine associee (identifiant, texture...).
+using PositionMap = std::map&lt;std::pair&lt;int, int&gt;, std::string&gt;;
+
+// Cadrage de camera (EX-LVL-006, LOT-64) au format JSON : seuls le mode et les champs renseignes.
+<span style = "background-color:#dfd">[[nodiscard]] nlohmann::json cameraFramingJson(const CameraFramingConfig&amp; cameraFraming) {
+    nlohmann::json framingJson;
+    framingJson["mode"] = std::string(cameraFramingModeName(cameraFraming.mode));
+    if (cameraFraming.roomWidthTiles) {
+        framingJson["roomWidthTiles"] = *cameraFraming.roomWidthTiles;</span>
+    }
+<span style = "background-color:#dfd">    if (cameraFraming.roomHeightTiles) {
+        framingJson["roomHeightTiles"] = *cameraFraming.roomHeightTiles;</span>
+    }
+<span style = "background-color:#dfd">    if (!cameraFraming.zones.empty()) {
+        nlohmann::json zonesJson = nlohmann::json::array();
+        for (const CameraZone&amp; zone : cameraFraming.zones) {
+            nlohmann::json zoneJson;
+            zoneJson["x"] = zone.x;
+            zoneJson["y"] = zone.y;
+            zoneJson["width"] = zone.width;
+            zoneJson["height"] = zone.height;
+            zonesJson.push_back(std::move(zoneJson));
+        }
+        framingJson["zones"] = std::move(zonesJson);
+    }
+    return framingJson;
+}</span>
+
+// Identifiants de dÃ©clencheurs (interrupteur ou plaque de pression) rÃ©gÃ©nÃ©rÃ©s de faÃ§on
+// dÃ©terministe (balayage ligne par ligne) : ni Level ni LevelDraft ne conservent les
+// identifiants du fichier d'origine.
+<span style = "background-color:#dfd">[[nodiscard]] PositionMap triggerIds(const TileMap&amp; tileMap) {
+    PositionMap switchIds;
+    int nextSwitchId = 0;
+    for (int row = 0; row &lt; tileMap.height(); ++row) {
+        for (int column = 0; column &lt; tileMap.width(); ++column) {
+            if (isTriggerType(tileMap.tile(column, row))) {
+                switchIds.emplace(std::make_pair(column, row),</span>
+                                  "s" + std::to_string(nextSwitchId++));
+            }
+<span style = "background-color:#dfd">        }
+    }
+    return switchIds;
+}</span>
+
+// Position de porte -&gt; identifiant de l'interrupteur qui l'ouvre, d'aprÃ¨s les mÃ©canismes.
+[[nodiscard]] PositionMap doorOpensWithIds(const std::vector&lt;Mechanism&gt;&amp; mechanisms,
+<span style = "background-color:#dfd">                                           const PositionMap&amp; switchIds) {
+    PositionMap doorOpensWith;
+    for (const Mechanism&amp; mechanism : mechanisms) {
+        const auto found = switchIds.find(</span>
+            std::make_pair(mechanism.switchPosition.column, mechanism.switchPosition.row));
+<span style = "background-color:#dfd">        if (found != switchIds.end()) {
+            doorOpensWith.emplace(</span>
+                std::make_pair(mechanism.doorPosition.column, mechanism.doorPosition.row),
+                found-&gt;second);
+        }
+<span style = "background-color:#dfd">    }
+    return doorOpensWith;
+}</span>
+
+// Position -&gt; nom d'asset de la texture assignee par instance (EX-EDIT-043), independamment
+// du type de la tuile a cette position.
+[[nodiscard]] PositionMap textureOverridesByPosition(
+<span style = "background-color:#dfd">    const std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides) {
+    PositionMap textureOverrideByPosition;
+    for (const TileTextureOverride&amp; override : textureOverrides) {
+        textureOverrideByPosition.emplace(</span>
+            std::make_pair(override.position.column, override.position.row), override.assetName);
+<span style = "background-color:#dfd">    }
+    return textureOverrideByPosition;
+}</span>
+
+// Valeur associee a @p key dans @p values, ecrite sous @p field de @p object si elle existe.
+void writeIfFound(const PositionMap&amp; values, const std::pair&lt;int, int&gt;&amp; key, const char* field,
+<span style = "background-color:#dfd">                  nlohmann::json&amp; object) {
+    const auto found = values.find(key);
+    if (found != values.end()) {
+        object[field] = found-&gt;second;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+// Tableau racine "tiles" : grille de collision, identifiants de declencheurs, liaisons de portes et
+// textures par instance.
+[[nodiscard]] nlohmann::json rootTilesJson(const TileMap&amp; tileMap, const PositionMap&amp; switchIds,
+                                           const PositionMap&amp; doorOpensWith,
+<span style = "background-color:#dfd">                                           const PositionMap&amp; textureOverrideByPosition) {
+    nlohmann::json tiles = nlohmann::json::array();
+    for (int row = 0; row &lt; tileMap.height(); ++row) {
+        for (int column = 0; column &lt; tileMap.width(); ++column) {
+            const TileType type = tileMap.tile(column, row);
+            if (type == TileType::Empty) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            nlohmann::json tile;
+            tile["x"] = column;
+            tile["y"] = row;
+            tile["type"] = tileTypeName(type);
+            const std::pair&lt;int, int&gt; position = std::make_pair(column, row);
+            if (isTriggerType(type)) {
+                writeIfFound(switchIds, position, "id", tile);
+            } else if (isDoorLikeType(type)) {
+                writeIfFound(doorOpensWith, position, "opensWith", tile);</span>
+            }
+            // Texture assignee par instance (EX-EDIT-043) : independante du type, peut
+            // accompagner n'importe quel champ ci-dessus.
+<span style = "background-color:#dfd">            writeIfFound(textureOverrideByPosition, position, "texture", tile);
+            tiles.push_back(std::move(tile));
+        }
+    }
+    return tiles;
+}</span>
+
+// Tableau racine optionnel "layers" (EX-LVL-016, LOT-04) : les couches VISIBLES uniquement,
+// dans leur ordre de superposition, du sol vers le decor. La grille racine, promue en couche
+// au chargement, en est exclue -- elle est deja "tiles". Rien a ecrire, pas de
+// champ : une carte plate reste une carte plate.
+<span style = "background-color:#dfd">[[nodiscard]] nlohmann::json visibleLayersJson(const std::vector&lt;TileLayer&gt;&amp; layers) {
+    nlohmann::json layersJson = nlohmann::json::array();
+    for (const TileLayer&amp; layer : layers) {
+        if (!isPromotedRootLayer(layer)) {
+            nlohmann::json layerJson;</span>
+            // Le nom est libre et facultatif : omis quand il est vide, comme tout champ a sa
+            // valeur par defaut. Le role, lui, est toujours ecrit -- c'est la raison d'etre de la
+            // couche, jamais du bruit.
+<span style = "background-color:#dfd">            if (!layer.name.empty()) {
+                layerJson["name"] = layer.name;</span>
+            }
+<span style = "background-color:#dfd">            layerJson["kind"] = layerKindName(layer.kind);
+            layerJson["tiles"] = layerTilesJson(layer.tiles);
+            writeProperties(layer.properties, layerJson);
+            layersJson.push_back(std::move(layerJson));
+        }
+    }
+    return layersJson;
+}</span>
+
+// Tableau racine "entities" (EX-LVL-017, LOT-04). Le type est ecrit meme vide : une entite sans
+// type est une donnee fautive qu'il vaut mieux voir dans le fichier que faire disparaitre a
+// l'enregistrement.
+<span style = "background-color:#dfd">[[nodiscard]] nlohmann::json entitiesJson(const std::vector&lt;MapEntity&gt;&amp; entities) {
+    nlohmann::json array = nlohmann::json::array();
+    for (const MapEntity&amp; entity : entities) {
+        nlohmann::json entityJson;
+        entityJson["type"] = entity.type;
+        entityJson["x"] = entity.position.column;
+        entityJson["y"] = entity.position.row;
+        writeProperties(entity.properties, entityJson);
+        array.push_back(std::move(entityJson));
+    }
+    return array;
+}</span>
+
+// Un plan (EX-DEC-040, LOT-69). Chaque champ a sa valeur par defaut est omis, comme partout
+// ailleurs dans ce format (convention du LOT-67) -- un plan solidaire du niveau a densite native
+// ne produit donc qu'un seul champ, "file".
+<span style = "background-color:#dfd">[[nodiscard]] nlohmann::json planeJson(const Plane&amp; plane) {
+    nlohmann::json entry;
+    entry["file"] = plane.fileName;
+    if (plane.pixelsPerUnit != PLANE_NATIVE_PIXELS_PER_UNIT) {
+        entry["pixelsPerUnit"] = plane.pixelsPerUnit;</span>
+    }
+<span style = "background-color:#dfd">    if (plane.parallaxX != 1.0F) {
+        entry["parallaxX"] = plane.parallaxX;</span>
+    }
+    // parallaxY n'est ecrit que s'il differe de parallaxX : le chargeur le fait retomber
+    // sur ce dernier, ecrire les deux quand ils sont egaux serait du bruit.
+<span style = "background-color:#dfd">    if (plane.parallaxY != plane.parallaxX) {
+        entry["parallaxY"] = plane.parallaxY;</span>
+    }
+<span style = "background-color:#dfd">    if (plane.opacity != 1.0F) {
+        entry["opacity"] = plane.opacity;</span>
+    }
+<span style = "background-color:#dfd">    if (plane.depth != PlaneDepth::Behind) {
+        entry["depth"] = planeDepthName(plane.depth);</span>
+    }
+<span style = "background-color:#dfd">    return entry;
+}</span>
+
 }  // namespace
 
 <span style = "background-color:#dfd">std::string LevelWriter::toJsonString(const Level&amp; level) {</span>
@@ -140,14 +319,11 @@ namespace {
 
 <span style = "background-color:#dfd">std::string LevelWriter::buildJson(const LevelData&amp; data) {</span>
     // Composantes lues sous leur nom court. Des references, jamais des copies : le seul but est
-    // que le corps ci-dessous -- inchange depuis que la signature a cesse d'etre positionnelle --
-    // se lise sans un "data." sur chaque ligne.
+    // que le corps ci-dessous se lise sans un "data." sur chaque ligne.
 <span style = "background-color:#dfd">    const std::string&amp; name = data.name;
     const TileMap&amp; tileMap = data.tileMap;
-    const std::vector&lt;Mechanism&gt;&amp; mechanisms = data.mechanisms;
     const std::optional&lt;std::string&gt;&amp; background = data.background;
     const std::optional&lt;std::string&gt;&amp; skinSet = data.skinSet;
-    const std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides = data.textureOverrides;
     const CameraFramingConfig&amp; cameraFraming = data.cameraFraming;
     const std::vector&lt;Plane&gt;&amp; planes = data.planes;
     const bool parallaxEnabled = data.parallaxEnabled;</span>
@@ -170,163 +346,29 @@ namespace {
     // background/skinSet ci-dessus, condition necessaire pour qu'un niveau jamais
     // retouche sur ce point reste sans le champ apres un aller-retour editeur.
 <span style = "background-color:#dfd">    if (cameraFraming != resolveCameraFraming(std::nullopt, tileMap.width(), tileMap.height())) {
-        nlohmann::json framingJson;
-        framingJson["mode"] = std::string(cameraFramingModeName(cameraFraming.mode));
-        if (cameraFraming.roomWidthTiles) {
-            framingJson["roomWidthTiles"] = *cameraFraming.roomWidthTiles;</span>
-        }
-<span style = "background-color:#dfd">        if (cameraFraming.roomHeightTiles) {
-            framingJson["roomHeightTiles"] = *cameraFraming.roomHeightTiles;</span>
-        }
-<span style = "background-color:#dfd">        if (!cameraFraming.zones.empty()) {
-            nlohmann::json zonesJson = nlohmann::json::array();
-            for (const CameraZone&amp; zone : cameraFraming.zones) {
-                nlohmann::json zoneJson;
-                zoneJson["x"] = zone.x;
-                zoneJson["y"] = zone.y;
-                zoneJson["width"] = zone.width;
-                zoneJson["height"] = zone.height;
-                zonesJson.push_back(std::move(zoneJson));
-            }
-            framingJson["zones"] = std::move(zonesJson);
-        }
-        root["cameraFraming"] = std::move(framingJson);
-    }</span>
-
-    // Identifiants de dÃ©clencheurs (interrupteur ou plaque de pression) rÃ©gÃ©nÃ©rÃ©s de faÃ§on
-    // dÃ©terministe (balayage ligne par ligne) : ni Level ni LevelDraft ne conservent les
-    // identifiants du fichier d'origine.
-<span style = "background-color:#dfd">    std::map&lt;std::pair&lt;int, int&gt;, std::string&gt; switchIds;
-    int nextSwitchId = 0;
-    for (int row = 0; row &lt; tileMap.height(); ++row) {
-        for (int column = 0; column &lt; tileMap.width(); ++column) {
-            if (isTriggerType(tileMap.tile(column, row))) {
-                switchIds.emplace(std::make_pair(column, row),</span>
-                                  "s" + std::to_string(nextSwitchId++));
-            }
-<span style = "background-color:#dfd">        }
-    }</span>
-
-    // Position de porte -&gt; identifiant de l'interrupteur qui l'ouvre, d'aprÃ¨s les mÃ©canismes.
-<span style = "background-color:#dfd">    std::map&lt;std::pair&lt;int, int&gt;, std::string&gt; doorOpensWith;
-    for (const Mechanism&amp; mechanism : mechanisms) {
-        const auto found = switchIds.find(</span>
-            std::make_pair(mechanism.switchPosition.column, mechanism.switchPosition.row));
-<span style = "background-color:#dfd">        if (found != switchIds.end()) {
-            doorOpensWith.emplace(</span>
-                std::make_pair(mechanism.doorPosition.column, mechanism.doorPosition.row),
-                found-&gt;second);
-        }
-<span style = "background-color:#dfd">    }</span>
-
-    // Position -&gt; nom d'asset de la texture assignee par instance (EX-EDIT-043), independamment
-    // du type de la tuile a cette position.
-<span style = "background-color:#dfd">    std::map&lt;std::pair&lt;int, int&gt;, std::string&gt; textureOverrideByPosition;
-    for (const TileTextureOverride&amp; override : textureOverrides) {
-        textureOverrideByPosition.emplace(</span>
-            std::make_pair(override.position.column, override.position.row), override.assetName);
-<span style = "background-color:#dfd">    }</span>
-
-<span style = "background-color:#dfd">    nlohmann::json tiles = nlohmann::json::array();
-    for (int row = 0; row &lt; tileMap.height(); ++row) {
-        for (int column = 0; column &lt; tileMap.width(); ++column) {
-            const TileType type = tileMap.tile(column, row);
-            if (type == TileType::Empty) {
-                continue;</span>
-            }
-<span style = "background-color:#dfd">            nlohmann::json tile;
-            tile["x"] = column;
-            tile["y"] = row;
-            tile["type"] = tileTypeName(type);
-            if (isTriggerType(type)) {
-                const auto found = switchIds.find(std::make_pair(column, row));
-                if (found != switchIds.end()) {
-                    tile["id"] = found-&gt;second;</span>
-                }
-<span style = "background-color:#dfd">            } else if (isDoorLikeType(type)) {
-                const auto found = doorOpensWith.find(std::make_pair(column, row));
-                if (found != doorOpensWith.end()) {
-                    tile["opensWith"] = found-&gt;second;</span>
-                }
-<span style = "background-color:#dfd">            }</span>
-            // Texture assignee par instance (EX-EDIT-043) : independante du type, peut
-            // accompagner n'importe quel champ ci-dessus.
-<span style = "background-color:#dfd">            const auto overrideFound = textureOverrideByPosition.find(std::make_pair(column, row));
-            if (overrideFound != textureOverrideByPosition.end()) {
-                tile["texture"] = overrideFound-&gt;second;</span>
-            }
-<span style = "background-color:#dfd">            tiles.push_back(std::move(tile));
-        }
+        root["cameraFraming"] = cameraFramingJson(cameraFraming);</span>
     }
-    root["tiles"] = std::move(tiles);</span>
 
-    // Tableau racine optionnel "layers" (EX-LVL-016, LOT-04) : les couches VISIBLES uniquement,
-    // dans leur ordre de superposition, du sol vers le decor. La grille racine, promue en couche
-    // au chargement, en est exclue -- elle est deja "tiles" ci-dessus. Rien a ecrire, pas de
-    // champ : une carte plate reste une carte plate.
-<span style = "background-color:#dfd">    nlohmann::json layersJson = nlohmann::json::array();
-    for (const TileLayer&amp; layer : data.layers) {
-        if (!isPromotedRootLayer(layer)) {
-            nlohmann::json layerJson;</span>
-            // Le nom est libre et facultatif : omis quand il est vide, comme tout champ a sa
-            // valeur par defaut. Le role, lui, est toujours ecrit -- c'est la raison d'etre de la
-            // couche, jamais du bruit.
-<span style = "background-color:#dfd">            if (!layer.name.empty()) {
-                layerJson["name"] = layer.name;</span>
-            }
-<span style = "background-color:#dfd">            layerJson["kind"] = layerKindName(layer.kind);
-            layerJson["tiles"] = layerTilesJson(layer.tiles);
-            writeProperties(layer.properties, layerJson);
-            layersJson.push_back(std::move(layerJson));
-        }
-    }
+<span style = "background-color:#dfd">    const PositionMap switchIds = triggerIds(tileMap);
+    root["tiles"] = rootTilesJson(tileMap, switchIds, doorOpensWithIds(data.mechanisms, switchIds),</span>
+                                  textureOverridesByPosition(data.textureOverrides));
+
+<span style = "background-color:#dfd">    nlohmann::json layersJson = visibleLayersJson(data.layers);
     if (!layersJson.empty()) {
         root["layers"] = std::move(layersJson);</span>
     }
 
-    // Tableau racine optionnel "entities" (EX-LVL-017, LOT-04), omis si vide. Le type est ecrit
-    // meme vide : une entite sans type est une donnee fautive qu'il vaut mieux voir dans le
-    // fichier que faire disparaitre a l'enregistrement.
+    // Tableau racine optionnel "entities" (EX-LVL-017, LOT-04), omis si vide.
 <span style = "background-color:#dfd">    if (!data.entities.empty()) {
-        nlohmann::json entitiesJson = nlohmann::json::array();
-        for (const MapEntity&amp; entity : data.entities) {
-            nlohmann::json entityJson;
-            entityJson["type"] = entity.type;
-            entityJson["x"] = entity.position.column;
-            entityJson["y"] = entity.position.row;
-            writeProperties(entity.properties, entityJson);
-            entitiesJson.push_back(std::move(entityJson));
-        }
-        root["entities"] = std::move(entitiesJson);
-    }</span>
+        root["entities"] = entitiesJson(data.entities);</span>
+    }
 
     // Tableau racine optionnel "planes" (EX-DEC-040, LOT-69), omis si vide : l'ordre du vecteur
-    // est preserve (rang = superposition). Chaque champ a sa valeur par defaut est omis, comme
-    // partout ailleurs dans ce format (convention du LOT-67) -- un plan solidaire du niveau a
-    // densite native ne produit donc qu'un seul champ, "file".
+    // est preserve (rang = superposition).
 <span style = "background-color:#dfd">    if (!planes.empty()) {
         nlohmann::json planesJson = nlohmann::json::array();
         for (const Plane&amp; plane : planes) {
-            nlohmann::json entry;
-            entry["file"] = plane.fileName;
-            if (plane.pixelsPerUnit != PLANE_NATIVE_PIXELS_PER_UNIT) {
-                entry["pixelsPerUnit"] = plane.pixelsPerUnit;</span>
-            }
-<span style = "background-color:#dfd">            if (plane.parallaxX != 1.0F) {
-                entry["parallaxX"] = plane.parallaxX;</span>
-            }
-            // parallaxY n'est ecrit que s'il differe de parallaxX : le chargeur le fait retomber
-            // sur ce dernier, ecrire les deux quand ils sont egaux serait du bruit.
-<span style = "background-color:#dfd">            if (plane.parallaxY != plane.parallaxX) {
-                entry["parallaxY"] = plane.parallaxY;</span>
-            }
-<span style = "background-color:#dfd">            if (plane.opacity != 1.0F) {
-                entry["opacity"] = plane.opacity;</span>
-            }
-<span style = "background-color:#dfd">            if (plane.depth != PlaneDepth::Behind) {
-                entry["depth"] = planeDepthName(plane.depth);</span>
-            }
-<span style = "background-color:#dfd">            planesJson.push_back(std::move(entry));
+            planesJson.push_back(planeJson(plane));
         }
         root["planes"] = std::move(planesJson);
     }</span>

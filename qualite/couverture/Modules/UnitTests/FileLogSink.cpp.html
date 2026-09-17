@@ -18,7 +18,7 @@
 
 namespace core {
 
-<span style = "background-color:#dfd">FileLogSink::FileLogSink(std::filesystem::path path, bool append) {</span>
+<span style = "background-color:#dfd">FileLogSink::FileLogSink(const std::filesystem::path&amp; path, bool append) {</span>
     // Cree les dossiers parents au besoin ; ignore silencieusement une erreur (ex. chemin deja
     // existant ou droits insuffisants) et laisse l'ouverture du flux ci-dessous echouer/reussir
     // pour son propre compte -- journaliser ne doit jamais faire echouer l'appelant.
@@ -39,7 +39,8 @@ namespace core {
 <span style = "background-color:#dfd">    if (!_stream.is_open()) {
         return;</span>
     }
-<span style = "background-color:#dfd">    _stream &lt;&lt; message &lt;&lt; std::endl;
+<span style = "background-color:#dfd">    _stream &lt;&lt; message &lt;&lt; '\n';
+    _stream.flush();
 }</span>
 
 <span style = "background-color:#dfd">bool FileLogSink::isOpen() const {

@@ -97,7 +97,7 @@ constexpr std::uint32_t FNV_PREMIER = 16777619U;
     image.pixels.resize(static_cast&lt;std::size_t&gt;(width) * static_cast&lt;std::size_t&gt;(height));</span>
 
 <span style = "background-color:#dfd">    const std::uint32_t empreinte = stableAssetHash(key);
-    const double teinte = static_cast&lt;double&gt;(empreinte % 360U);
+    const auto teinte = static_cast&lt;double&gt;(empreinte % 360U);
     const MarkerColor fond = depuisTeinte(teinte, 0.42);
     const MarkerColor trait = depuisTeinte(teinte, 0.78);</span>
 
@@ -115,8 +115,9 @@ constexpr std::uint32_t FNV_PREMIER = 16777619U;
                 std::fabs(static_cast&lt;double&gt;(y) - attendueMontante) &lt;= epaisseur;
             // Deux diagonales barrent la vignette : un marqueur doit se voir COMME un marqueur, et
             // ne jamais passer pour une illustration definitive livree un peu vite.
-<span style = "background-color:#dfd">            image.pixels[static_cast&lt;std::size_t&gt;((y * width) + x)] = surDiagonale ? trait : fond;
-        }
+<span style = "background-color:#dfd">            image.pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(width)) +</span>
+                         static_cast&lt;std::size_t&gt;(x)] = surDiagonale ? trait : fond;
+<span style = "background-color:#dfd">        }
     }
     return image;
 }</span>

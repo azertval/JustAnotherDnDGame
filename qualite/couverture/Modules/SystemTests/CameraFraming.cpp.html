@@ -54,10 +54,42 @@ CameraFramingConfig resolveCameraFraming(const std::optional&lt;CameraFramingCon
         return *declared;</span>
     }
 <span style = "background-color:#dfd">    if (levelWidth &lt;= DEFAULT_ROOM_WIDTH_TILES &amp;&amp; levelHeight &lt;= DEFAULT_ROOM_HEIGHT_TILES) {
-        return CameraFramingConfig{.mode = CameraFramingMode::WholeLevel};</span>
+        return CameraFramingConfig{.mode = CameraFramingMode::WholeLevel,</span>
+                                   .roomWidthTiles = std::nullopt,
+                                   .roomHeightTiles = std::nullopt,
+                                   .zones = {}};
     }
-<span style = "background-color:#dfd">    return CameraFramingConfig{.mode = CameraFramingMode::PerRoom};
+<span style = "background-color:#dfd">    return CameraFramingConfig{.mode = CameraFramingMode::PerRoom,</span>
+                               .roomWidthTiles = std::nullopt,
+                               .roomHeightTiles = std::nullopt,
+                               .zones = {}};
+<span style = "background-color:#dfd">}</span>
+
+namespace {
+
+// Une zone dessinee a la main doit etre entierement dans le niveau et de taille non nulle.
+std::optional&lt;std::string&gt; validateCameraZone(const CameraZone&amp; zone, std::size_t index,
+<span style = "background-color:#dfd">                                              int levelWidth, int levelHeight) {
+    const std::string prefix = "cameraFraming.zones[" + std::to_string(index) + "]";
+    if (zone.width &lt;= 0) {
+        return prefix + ".width doit etre superieur a zero";</span>
+    }
+<span style = "background-color:#dfd">    if (zone.height &lt;= 0) {</span>
+<span style = "background-color:#fdd">        return prefix + ".height doit etre superieur a zero";</span>
+    }
+<span style = "background-color:#dfd">    if (zone.x &lt; 0 || zone.y &lt; 0) {
+        return prefix + " a une position negative";</span>
+    }
+<span style = "background-color:#dfd">    if (zone.x + zone.width &gt; levelWidth) {
+        return prefix + " depasse la largeur du niveau";</span>
+    }
+<span style = "background-color:#dfd">    if (zone.y + zone.height &gt; levelHeight) {</span>
+<span style = "background-color:#fdd">        return prefix + " depasse la hauteur du niveau";</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
 }</span>
+
+}  // namespace
 
 // Valide un cadrage declare (EX-LVL-004, voir en-tete).
 std::optional&lt;std::string&gt; validateCameraFramingConfig(const CameraFramingConfig&amp; config,
@@ -68,24 +100,11 @@ std::optional&lt;std::string&gt; validateCameraFramingConfig(const CameraFraming
         return "cameraFraming.zones renseigne pour un mode qui n'est pas 'perRoom'";</span>
     }
 <span style = "background-color:#dfd">    for (std::size_t index = 0; index &lt; config.zones.size(); ++index) {
-        const CameraZone&amp; zone = config.zones[index];
-        const std::string prefix = "cameraFraming.zones[" + std::to_string(index) + "]";
-        if (zone.width &lt;= 0) {
-            return prefix + ".width doit etre superieur a zero";</span>
+        if (std::optional&lt;std::string&gt; error =</span>
+                validateCameraZone(config.zones[index], index, levelWidth, levelHeight)) {
+<span style = "background-color:#dfd">            return error;
         }
-<span style = "background-color:#dfd">        if (zone.height &lt;= 0) {</span>
-<span style = "background-color:#fdd">            return prefix + ".height doit etre superieur a zero";</span>
-        }
-<span style = "background-color:#dfd">        if (zone.x &lt; 0 || zone.y &lt; 0) {
-            return prefix + " a une position negative";</span>
-        }
-<span style = "background-color:#dfd">        if (zone.x + zone.width &gt; levelWidth) {
-            return prefix + " depasse la largeur du niveau";</span>
-        }
-<span style = "background-color:#dfd">        if (zone.y + zone.height &gt; levelHeight) {</span>
-<span style = "background-color:#fdd">            return prefix + " depasse la hauteur du niveau";</span>
-        }
-<span style = "background-color:#dfd">    }</span>
+    }</span>
 
     // Taille de vue : mode PerRoom (salle de la grille automatique) ou Follow (zone de suivi).
 <span style = "background-color:#dfd">    if (config.mode != CameraFramingMode::PerRoom &amp;&amp; config.mode != CameraFramingMode::Follow) {

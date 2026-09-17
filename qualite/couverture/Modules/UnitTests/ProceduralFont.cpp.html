@@ -16,6 +16,7 @@
 
 #include &lt;algorithm&gt;
 #include &lt;array&gt;
+#include &lt;cstdint&gt;
 #include &lt;fstream&gt;
 #include &lt;ios&gt;
 #include &lt;sstream&gt;
@@ -149,7 +150,7 @@ constexpr std::array&lt;Pattern, (ASCII_LAST - ASCII_FIRST) + 1&gt; ASCII_FONT =
 }};
 
 // Signe diacritique appliquÃ© a une lettre de base pour former une lettre accentuee.
-enum class Accent { ACUTE, GRAVE, CIRCUMFLEX, DIAERESIS, CEDILLA };
+enum class Accent : std::uint8_t { ACUTE, GRAVE, CIRCUMFLEX, DIAERESIS, CEDILLA };
 
 // Motif d'un accent superieur (2 lignes de 5 pixels), place au-dessus du corps.
 using TopAccent = std::array&lt;std::uint8_t, 2&gt;;
@@ -300,6 +301,61 @@ constexpr std::uint32_t GLYPH_PIXEL = 0xFFFFFFFFU;  // blanc opaque, colorable p
     return extent;
 }</span>
 
+namespace {
+
+// Allume le pixel (x, y) de l'atlas de largeur textureWidth.
+<span style = "background-color:#dfd">void litGlyphPixel(std::vector&lt;std::uint32_t&gt;&amp; pixels, int textureWidth, int x, int y) {
+    pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
+           static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
+<span style = "background-color:#dfd">}</span>
+
+// Dessine le corps 5x7 d'une lettre dans la cellule d'indice donne.
+void blitBody(std::vector&lt;std::uint32_t&gt;&amp; pixels, int textureWidth, int cellIndex,
+<span style = "background-color:#dfd">              const Pattern&amp; pattern) {
+    const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+    const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+    for (int row = 0; row &lt; GLYPH_ROWS; ++row) {
+        for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+            const bool lit = (pattern[static_cast&lt;std::size_t&gt;(row)] &amp;</span>
+                              (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+<span style = "background-color:#dfd">            if (lit) {
+                litGlyphPixel(pixels, textureWidth, originX + column, originY + BODY_TOP + row);</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+}</span>
+
+// Ajoute un accent superieur (2 lignes) au-dessus du corps, dans la meme cellule.
+void blitTopAccent(std::vector&lt;std::uint32_t&gt;&amp; pixels, int textureWidth, int cellIndex,
+<span style = "background-color:#dfd">                   const TopAccent&amp; accent) {
+    const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+    const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+    for (int row = 0; std::cmp_less(row, accent.size()); ++row) {
+        for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+            const bool lit =</span>
+                (accent[static_cast&lt;std::size_t&gt;(row)] &amp; (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+<span style = "background-color:#dfd">            if (lit) {
+                litGlyphPixel(pixels, textureWidth, originX + column, originY + row);</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+}</span>
+
+// Ajoute une cedille sous le corps (derniere ligne de la cellule).
+<span style = "background-color:#dfd">void blitCedilla(std::vector&lt;std::uint32_t&gt;&amp; pixels, int textureWidth, int cellIndex) {
+    const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
+    const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
+    constexpr std::uint8_t CEDILLA = 0b01100;
+    for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
+        const bool lit = (CEDILLA &amp; (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
+        if (lit) {
+            litGlyphPixel(pixels, textureWidth, originX + column, originY + CELL_HEIGHT - 1);</span>
+        }
+<span style = "background-color:#dfd">    }
+}</span>
+
+}  // namespace
+
 // Genere, en memoire, une police bitmap minimale et deterministe.
 <span style = "background-color:#dfd">ProceduralFont buildProceduralFont() {
     const int asciiCount = static_cast&lt;int&gt;(ASCII_FONT.size());
@@ -318,58 +374,6 @@ constexpr std::uint32_t GLYPH_PIXEL = 0xFFFFFFFFU;  // blanc opaque, colorable p
 <span style = "background-color:#dfd">    auto&amp; pixels = result.image.pixels;
     const int textureWidth = result.image.width;</span>
 
-    // Dessine le corps 5x7 d'une lettre dans la cellule d'indice donne.
-<span style = "background-color:#dfd">    const auto blitBody = [&amp;](int cellIndex, const Pattern&amp; pattern) {
-        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
-        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
-        for (int row = 0; row &lt; GLYPH_ROWS; ++row) {
-            for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
-                const bool lit = (pattern[static_cast&lt;std::size_t&gt;(row)] &amp;</span>
-                                  (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
-<span style = "background-color:#dfd">                if (lit) {
-                    const int x = originX + column;
-                    const int y = originY + BODY_TOP + row;
-                    pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
-                           static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
-                }
-<span style = "background-color:#dfd">            }
-        }
-    };</span>
-
-    // Ajoute un accent superieur (2 lignes) au-dessus du corps, dans la meme cellule.
-<span style = "background-color:#dfd">    const auto blitTopAccent = [&amp;](int cellIndex, const TopAccent&amp; accent) {
-        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
-        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
-        for (int row = 0; std::cmp_less(row, accent.size()); ++row) {
-            for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
-                const bool lit = (accent[static_cast&lt;std::size_t&gt;(row)] &amp;</span>
-                                  (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
-<span style = "background-color:#dfd">                if (lit) {
-                    const int x = originX + column;
-                    const int y = originY + row;
-                    pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
-                           static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
-                }
-<span style = "background-color:#dfd">            }
-        }
-    };</span>
-
-    // Ajoute une cedille sous le corps (derniere ligne de la cellule).
-<span style = "background-color:#dfd">    const auto blitCedilla = [&amp;](int cellIndex) {
-        const int originX = (cellIndex % COLUMNS) * CELL_WIDTH;
-        const int originY = (cellIndex / COLUMNS) * CELL_HEIGHT;
-        constexpr std::uint8_t CEDILLA = 0b01100;
-        for (int column = 0; column &lt; GLYPH_COLUMNS; ++column) {
-            const bool lit = (CEDILLA &amp; (1U &lt;&lt; (GLYPH_COLUMNS - 1 - column))) != 0;
-            if (lit) {
-                const int x = originX + column;
-                const int y = originY + CELL_HEIGHT - 1;
-                pixels[(static_cast&lt;std::size_t&gt;(y) * static_cast&lt;std::size_t&gt;(textureWidth)) +</span>
-                       static_cast&lt;std::size_t&gt;(x)] = GLYPH_PIXEL;
-            }
-<span style = "background-color:#dfd">        }
-    };</span>
-
 <span style = "background-color:#dfd">    const auto registerGlyph = [&amp;](char32_t codePoint, int cellIndex) {
         GlyphMetrics metrics;
         metrics.x = (cellIndex % COLUMNS) * CELL_WIDTH;
@@ -381,18 +385,19 @@ constexpr std::uint32_t GLYPH_PIXEL = 0xFFFFFFFFU;  // blanc opaque, colorable p
     };</span>
 
 <span style = "background-color:#dfd">    for (int glyph = 0; glyph &lt; asciiCount; ++glyph) {
-        blitBody(glyph, ASCII_FONT[static_cast&lt;std::size_t&gt;(glyph)]);
+        blitBody(pixels, textureWidth, glyph, ASCII_FONT[static_cast&lt;std::size_t&gt;(glyph)]);
         registerGlyph(ASCII_FIRST + static_cast&lt;char32_t&gt;(glyph), glyph);
     }</span>
 
 <span style = "background-color:#dfd">    for (int accented = 0; std::cmp_less(accented, ACCENTED_GLYPHS.size()); ++accented) {
         const AccentedGlyph&amp; entry = ACCENTED_GLYPHS[static_cast&lt;std::size_t&gt;(accented)];
         const int cellIndex = asciiCount + accented;
-        blitBody(cellIndex, ASCII_FONT[static_cast&lt;std::size_t&gt;(entry.base - ASCII_FIRST)]);
-        if (entry.accent == Accent::CEDILLA) {
-            blitCedilla(cellIndex);
+        blitBody(pixels, textureWidth, cellIndex,</span>
+                 ASCII_FONT[static_cast&lt;std::size_t&gt;(entry.base - ASCII_FIRST)]);
+<span style = "background-color:#dfd">        if (entry.accent == Accent::CEDILLA) {
+            blitCedilla(pixels, textureWidth, cellIndex);
         } else {
-            blitTopAccent(cellIndex, topAccentPattern(entry.accent));</span>
+            blitTopAccent(pixels, textureWidth, cellIndex, topAccentPattern(entry.accent));</span>
         }
 <span style = "background-color:#dfd">        registerGlyph(entry.codePoint, cellIndex);
     }</span>
@@ -439,6 +444,39 @@ constexpr const char* FIELD_ADVANCE = "advance";
 <span style = "background-color:#fdd">        return std::nullopt;  // plus d'un point de code : champ invalide</span>
     }
 <span style = "background-color:#dfd">    return codePoint;
+}</span>
+
+// Lit la position et les dimensions d'un glyphe (champ Â« char Â» deja valide). Rend l'echec, ou
+// std::nullopt apres avoir rempli @p out.
+[[nodiscard]] std::optional&lt;FontMetricsResult&gt; parseGlyphGeometry(const nlohmann::json&amp; glyphJson,
+<span style = "background-color:#dfd">                                                                  GlyphMetrics&amp; out) {
+    const bool hasIntegerFields =</span>
+        glyphJson.contains(FIELD_X) &amp;&amp; glyphJson[FIELD_X].is_number_integer() &amp;&amp;
+        glyphJson.contains(FIELD_Y) &amp;&amp; glyphJson[FIELD_Y].is_number_integer() &amp;&amp;
+        glyphJson.contains(FIELD_WIDTH) &amp;&amp; glyphJson[FIELD_WIDTH].is_number_integer() &amp;&amp;
+        glyphJson.contains(FIELD_HEIGHT) &amp;&amp; glyphJson[FIELD_HEIGHT].is_number_integer() &amp;&amp;
+        glyphJson.contains(FIELD_ADVANCE) &amp;&amp; glyphJson[FIELD_ADVANCE].is_number_integer();
+<span style = "background-color:#dfd">    if (!hasIntegerFields) {</span>
+<span style = "background-color:#fdd">        return metricsFailure(</span>
+            "Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +
+                " Â» n'a pas tous les champs Â« x/y/width/height/advance Â» exploitables "
+                "(entiers).",
+            FontMetricsError::MalformedStructure);
+    }
+
+<span style = "background-color:#dfd">    GlyphMetrics glyph;
+    glyph.x = glyphJson[FIELD_X].get&lt;int&gt;();
+    glyph.y = glyphJson[FIELD_Y].get&lt;int&gt;();
+    glyph.width = glyphJson[FIELD_WIDTH].get&lt;int&gt;();
+    glyph.height = glyphJson[FIELD_HEIGHT].get&lt;int&gt;();
+    glyph.advance = glyphJson[FIELD_ADVANCE].get&lt;int&gt;();
+    if (glyph.x &lt; 0 || glyph.y &lt; 0 || glyph.width &lt;= 0 || glyph.height &lt;= 0 || glyph.advance &lt; 0) {</span>
+<span style = "background-color:#fdd">        return metricsFailure("Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +</span>
+                                  " Â» a des dimensions ou une position invalides.",
+                              FontMetricsError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    out = glyph;
+    return std::nullopt;
 }</span>
 
 }  // namespace
@@ -514,33 +552,11 @@ constexpr const char* FIELD_ADVANCE = "advance";
                 FontMetricsError::MalformedStructure);
         }
 
-<span style = "background-color:#dfd">        const bool hasIntegerFields =</span>
-            glyphJson.contains(FIELD_X) &amp;&amp; glyphJson[FIELD_X].is_number_integer() &amp;&amp;
-            glyphJson.contains(FIELD_Y) &amp;&amp; glyphJson[FIELD_Y].is_number_integer() &amp;&amp;
-            glyphJson.contains(FIELD_WIDTH) &amp;&amp; glyphJson[FIELD_WIDTH].is_number_integer() &amp;&amp;
-            glyphJson.contains(FIELD_HEIGHT) &amp;&amp; glyphJson[FIELD_HEIGHT].is_number_integer() &amp;&amp;
-            glyphJson.contains(FIELD_ADVANCE) &amp;&amp; glyphJson[FIELD_ADVANCE].is_number_integer();
-<span style = "background-color:#dfd">        if (!hasIntegerFields) {</span>
-<span style = "background-color:#fdd">            return metricsFailure(</span>
-                "Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +
-                    " Â» n'a pas tous les champs Â« x/y/width/height/advance Â» exploitables "
-                    "(entiers).",
-                FontMetricsError::MalformedStructure);
-        }
-
 <span style = "background-color:#dfd">        GlyphMetrics glyph;
-        glyph.x = glyphJson[FIELD_X].get&lt;int&gt;();
-        glyph.y = glyphJson[FIELD_Y].get&lt;int&gt;();
-        glyph.width = glyphJson[FIELD_WIDTH].get&lt;int&gt;();
-        glyph.height = glyphJson[FIELD_HEIGHT].get&lt;int&gt;();
-        glyph.advance = glyphJson[FIELD_ADVANCE].get&lt;int&gt;();
-        if (glyph.x &lt; 0 || glyph.y &lt; 0 || glyph.width &lt;= 0 || glyph.height &lt;= 0 ||</span>
-            glyph.advance &lt; 0) {
-<span style = "background-color:#fdd">            return metricsFailure("Le glyphe Â« " + glyphJson[FIELD_CHAR].get&lt;std::string&gt;() +</span>
-                                      " Â» a des dimensions ou une position invalides.",
-                                  FontMetricsError::MalformedStructure);
-        }
-<span style = "background-color:#dfd">        metrics.glyphs[*codePoint] = glyph;
+        if (std::optional&lt;FontMetricsResult&gt; failure = parseGlyphGeometry(glyphJson, glyph)) {</span>
+<span style = "background-color:#fdd">            return std::move(*failure);</span>
+<span style = "background-color:#dfd">        }
+        metrics.glyphs[*codePoint] = glyph;
     }</span>
 
 <span style = "background-color:#dfd">    return FontMetricsResult{</span>

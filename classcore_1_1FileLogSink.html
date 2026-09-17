@@ -109,8 +109,8 @@ Inheritance diagram for core::FileLogSink:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aab0be49602593bb39ed5a15cc1ceb150" id="r_aab0be49602593bb39ed5a15cc1ceb150"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aab0be49602593bb39ed5a15cc1ceb150">FileLogSink</a> (std::filesystem::path path, bool append=false)</td></tr>
-<tr class="memdesc:aab0be49602593bb39ed5a15cc1ceb150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre (ou crée) le fichier de destination en écriture.  <br /></td></tr>
+<tr class="memitem:a5962403e0fcfe8415e1d08d13d97ab32" id="r_a5962403e0fcfe8415e1d08d13d97ab32"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5962403e0fcfe8415e1d08d13d97ab32">FileLogSink</a> (const std::filesystem::path &amp;path, bool append=false)</td></tr>
+<tr class="memdesc:a5962403e0fcfe8415e1d08d13d97ab32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre (ou crée) le fichier de destination en écriture.  <br /></td></tr>
 <tr class="memitem:a5edba3663d5a45d0e7de1ddf5a9caf03" id="r_a5edba3663d5a45d0e7de1ddf5a9caf03"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5edba3663d5a45d0e7de1ddf5a9caf03">write</a> (<a class="el" href="namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3">LogLevel</a> level, std::string_view message) override</td></tr>
 <tr class="memdesc:a5edba3663d5a45d0e7de1ddf5a9caf03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restitue un message.  <br /></td></tr>
 <tr class="memitem:acbca4e3fe9e44cdfbf8c047364fa6f6b" id="r_acbca4e3fe9e44cdfbf8c047364fa6f6b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#acbca4e3fe9e44cdfbf8c047364fa6f6b">isOpen</a> () const</td></tr>
@@ -125,8 +125,8 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Sink qui écrit chaque message dans un fichier, ligne par ligne. </p>
 <p>Flush immédiat à chaque message (comme <span class="tt"><a class="el" href="classcore_1_1ConsoleLogSink.html" title="Sink qui écrit les messages sur la sortie standard et, sous Windows, vers le débogueur.">ConsoleLogSink</a></span>) : un arrêt brutal du processus (crash, <span class="tt">std::abort()</span> déclenché par <span class="tt"><a class="el" href="Assert_8h.html#a2811f3d423b22f1a90179b4ed095f054" title="Vérifie une précondition.">JADG_ASSERT</a></span>) ne perd pas les dernières lignes écrites avant l'incident — c'est la raison d'être principale de ce sink par rapport à <span class="tt"><a class="el" href="classcore_1_1MemoryLogSink.html" title="Sink de test : mémorise les messages reçus pour inspection.">MemoryLogSink</a></span> (perdu à la fermeture) ou à un export manuel. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aab0be49602593bb39ed5a15cc1ceb150" name="aab0be49602593bb39ed5a15cc1ceb150"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab0be49602593bb39ed5a15cc1ceb150">&#9670;&#160;</a></span>FileLogSink()</h2>
+<a id="a5962403e0fcfe8415e1d08d13d97ab32" name="a5962403e0fcfe8415e1d08d13d97ab32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5962403e0fcfe8415e1d08d13d97ab32">&#9670;&#160;</a></span>FileLogSink()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -137,7 +137,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">core::FileLogSink::FileLogSink </td>
           <td>(</td>
-          <td class="paramtype">std::filesystem::path</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>

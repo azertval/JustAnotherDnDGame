@@ -45,13 +45,14 @@ struct ParticleColor {
 <span style = "background-color:#dfd">ParticleColor colorForKind(core::ParticleKind kind) {
     switch (kind) {</span>
         case core::ParticleKind::DashTrail:
-<span style = "background-color:#dfd">            return ParticleColor{0.75f, 0.9f, 1.0f};  // trainee claire et froide</span>
+<span style = "background-color:#dfd">            return ParticleColor{.r = 0.75F, .g = 0.9F, .b = 1.0F};  // trainee claire et froide</span>
         case core::ParticleKind::LandingDust:
-<span style = "background-color:#dfd">            return ParticleColor{0.75f, 0.65f, 0.45f};  // poussiere terreuse</span>
+<span style = "background-color:#dfd">            return ParticleColor{.r = 0.75F, .g = 0.65F, .b = 0.45F};  // poussiere terreuse</span>
         case core::ParticleKind::Death:
-<span style = "background-color:#dfd">            return ParticleColor{0.95f, 0.25f, 0.2f};  // eclat rouge</span>
+<span style = "background-color:#dfd">            return ParticleColor{.r = 0.95F, .g = 0.25F, .b = 0.2F};  // eclat rouge</span>
     }
-<span style = "background-color:#fdd">    return ParticleColor{1.0f, 1.0f, 1.0f};  // inatteignable : le switch couvre tout l'enum.</span>
+<span style = "background-color:#fdd">    return ParticleColor{</span>
+        .r = 1.0F, .g = 1.0F, .b = 1.0F};  // inatteignable : le switch couvre tout l'enum.
 <span style = "background-color:#dfd">}</span>
 
 }  // namespace
@@ -65,20 +66,20 @@ void composeParticles(ComposedScene&amp; scene, core::World&amp; world, RenderMo
     // Region opaque unie (teintee), meme patron que les segments unis de hmi::DraftRenderer :
     // aucun asset dedie, la teinte porte l'effet.
 <span style = "background-color:#dfd">    const core::AtlasRegion solid = TextureAtlas::tile(0, 0);
-    const float atlasWidth = static_cast&lt;float&gt;(textures.atlasWidth);
-    const float atlasHeight = static_cast&lt;float&gt;(textures.atlasHeight);
+    const auto atlasWidth = static_cast&lt;float&gt;(textures.atlasWidth);
+    const auto atlasHeight = static_cast&lt;float&gt;(textures.atlasHeight);
     const float u0 = static_cast&lt;float&gt;(solid.x) / atlasWidth;
     const float v0 = static_cast&lt;float&gt;(solid.y) / atlasHeight;
     const float u1 = static_cast&lt;float&gt;(solid.x + solid.width) / atlasWidth;
     const float v1 = static_cast&lt;float&gt;(solid.y + solid.height) / atlasHeight;</span>
 
 <span style = "background-color:#dfd">    world.view&lt;core::Particle&gt;().each([&amp;](core::Entity, const core::Particle&amp; particle) {
-        const float fade = (particle.maxLife &gt; 0.0f) ? (particle.life / particle.maxLife) : 0.0f;
+        const float fade = (particle.maxLife &gt; 0.0F) ? (particle.life / particle.maxLife) : 0.0F;
         const ParticleColor color = colorForKind(particle.kind);</span>
 
 <span style = "background-color:#dfd">        SpriteQuad quad;
-        quad.x = particle.position.x - (PARTICLE_QUAD_SIZE * 0.5f);
-        quad.y = particle.position.y - (PARTICLE_QUAD_SIZE * 0.5f);
+        quad.x = particle.position.x - (PARTICLE_QUAD_SIZE * 0.5F);
+        quad.y = particle.position.y - (PARTICLE_QUAD_SIZE * 0.5F);
         quad.width = PARTICLE_QUAD_SIZE;
         quad.height = PARTICLE_QUAD_SIZE;
         quad.u0 = u0;

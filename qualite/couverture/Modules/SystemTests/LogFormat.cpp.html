@@ -14,6 +14,7 @@
 
 #include "Core/Diagnostics/LogFormat.h"
 
+#include &lt;array&gt;
 #include &lt;ctime&gt;
 
 namespace core {
@@ -60,9 +61,9 @@ std::string formatLogLine(std::string_view timestamp, LogLevel level, std::strin
 #else
     localtime_r(&amp;now, &amp;localTime);
 #endif
-<span style = "background-color:#dfd">    char buffer[16] = {};
-    std::strftime(buffer, sizeof(buffer), "%H:%M:%S", &amp;localTime);
-    return buffer;
+<span style = "background-color:#dfd">    std::array&lt;char, 16&gt; buffer{};
+    std::strftime(buffer.data(), buffer.size(), "%H:%M:%S", &amp;localTime);
+    return buffer.data();
 }</span>
 
 }  // namespace core</pre>

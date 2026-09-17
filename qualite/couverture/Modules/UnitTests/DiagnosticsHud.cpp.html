@@ -14,6 +14,7 @@
 
 #include "HMI/Game/DiagnosticsHud.h"
 
+#include &lt;array&gt;
 #include &lt;cstdio&gt;
 
 #include "HMI/Localization/Localization.h"
@@ -47,10 +48,10 @@ std::string formatPlaceholder(const std::string&amp; templateText, const std::st
 <span style = "background-color:#dfd">}</span>
 
 // Une decimale, sans dependance Qt/locale (std::to_string tronque a l'entier pour un float).
-<span style = "background-color:#dfd">std::string formatOneDecimal(float value) {</span>
-    char buffer[32];
-<span style = "background-color:#dfd">    std::snprintf(buffer, sizeof(buffer), "%.1f", static_cast&lt;double&gt;(value));
-    return std::string(buffer);
+<span style = "background-color:#dfd">std::string formatOneDecimal(float value) {
+    std::array&lt;char, 32&gt; buffer{};
+    std::snprintf(buffer.data(), buffer.size(), "%.1f", static_cast&lt;double&gt;(value));
+    return {buffer.data()};
 }</span>
 
 }  // namespace
@@ -58,7 +59,7 @@ std::string formatPlaceholder(const std::string&amp; templateText, const std::st
 // Ajoute la duree d'une image ecoulee et purge les echantillons sortis de la fenetre (voir
 // en-tete).
 <span style = "background-color:#dfd">void FrameRateAverage::addSample(float deltaSeconds) noexcept {
-    if (deltaSeconds &lt;= 0.0f) {
+    if (deltaSeconds &lt;= 0.0F) {
         return;  // robustesse : un appelant ne doit jamais en produire (cf. contrat de l'en-tete).</span>
     }
 <span style = "background-color:#dfd">    _recentDeltas.push_back(deltaSeconds);
@@ -71,8 +72,8 @@ std::string formatPlaceholder(const std::string&amp; templateText, const std::st
 
 // Cadence moyenne sur la fenetre courante (voir en-tete : 0 si aucun echantillon).
 <span style = "background-color:#dfd">float FrameRateAverage::framesPerSecond() const noexcept {
-    if (_recentDeltas.empty() || _accumulatedSeconds &lt;= 0.0f) {
-        return 0.0f;</span>
+    if (_recentDeltas.empty() || _accumulatedSeconds &lt;= 0.0F) {
+        return 0.0F;</span>
     }
 <span style = "background-color:#dfd">    return static_cast&lt;float&gt;(_recentDeltas.size()) / _accumulatedSeconds;
 }</span>
@@ -80,7 +81,7 @@ std::string formatPlaceholder(const std::string&amp; templateText, const std::st
 // Oublie tous les echantillons (voir en-tete).
 <span style = "background-color:#dfd">void FrameRateAverage::reset() noexcept {
     _recentDeltas.clear();
-    _accumulatedSeconds = 0.0f;
+    _accumulatedSeconds = 0.0F;
 }</span>
 
 // Compose les lignes du compteur de diagnostic a partir de valeurs deja mesurees (voir en-tete).

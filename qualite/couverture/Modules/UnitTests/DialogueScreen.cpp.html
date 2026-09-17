@@ -39,7 +39,7 @@ namespace {
 
 <span style = "background-color:#dfd">std::string skillLabelKey(std::string_view skillId) {
     std::string cle = "rpg.skill." + std::string(skillId);
-    std::replace(cle.begin(), cle.end(), '-', '_');
+    std::ranges::replace(cle, '-', '_');
     return cle;
 }</span>
 
@@ -51,8 +51,9 @@ DialogueScreenValues dialogueScreenValues(const core::DialogueRunner&amp; runner
     valeurs.attitude = text(core::dialogueAttitudeKey(runner.attitude()));</span>
 
 <span style = "background-color:#dfd">    const auto quitter = [&amp;text]() {
-        return DialogueReply{std::string(DIALOGUE_LEAVE_REPLY), text("dialogue.leave"), {}};
-    };</span>
+        return DialogueReply{</span>
+            .id = std::string(DIALOGUE_LEAVE_REPLY), .label = text("dialogue.leave"), .value = {}};
+<span style = "background-color:#dfd">    };</span>
 
 <span style = "background-color:#dfd">    switch (runner.state()) {</span>
         case core::DialogueState::Refused:
@@ -70,7 +71,7 @@ DialogueScreenValues dialogueScreenValues(const core::DialogueRunner&amp; runner
 
 <span style = "background-color:#dfd">    valeurs.line = text(runner.lineKey());
     for (const core::AvailableChoice&amp; choix : runner.choices()) {
-        DialogueReply reponse{choix.id, text(choix.textKey), {}};
+        DialogueReply reponse{.id = choix.id, .label = text(choix.textKey), .value = {}};
         if (!choix.checkSkill.empty()) {</span>
             // Annonce le jet AVANT qu'on le choisisse, comme une table l'annonce : un joueur qui
             // decouvre apres coup qu'il jouait sa Persuasion n'a pas choisi, il a subi.

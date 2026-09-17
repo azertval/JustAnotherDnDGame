@@ -46,6 +46,22 @@ constexpr int MAX_MODIFIER = 999;
 <span style = "background-color:#dfd">    return valeur;
 }</span>
 
+/// Le modificateur signe qui suit un de (`+2`, `-1`), ecrit dans @p dice. @return false si la
+/// notation est invalide a cet endroit.
+<span style = "background-color:#dfd">[[nodiscard]] bool lireModificateur(std::string_view notation, std::size_t&amp; position, Dice&amp; dice) {
+    const char signe = notation[position];
+    if (signe != '+' &amp;&amp; signe != '-') {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    ++position;
+    const std::optional&lt;int&gt; modificateur = lireEntier(notation, position);
+    if (!modificateur.has_value() || *modificateur &gt; MAX_MODIFIER) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    dice.modifier = signe == '-' ? -*modificateur : *modificateur;
+    return true;
+}</span>
+
 }  // namespace
 
 <span style = "background-color:#dfd">std::optional&lt;Dice&gt; parseDice(std::string_view notation) {
@@ -82,17 +98,8 @@ constexpr int MAX_MODIFIER = 999;
         return position == notation.size() ? std::optional&lt;Dice&gt;{dice} : std::nullopt;</span>
     }
 
-<span style = "background-color:#dfd">    if (position &lt; notation.size()) {
-        const char signe = notation[position];
-        if (signe != '+' &amp;&amp; signe != '-') {</span>
-<span style = "background-color:#fdd">            return std::nullopt;</span>
-        }
-<span style = "background-color:#dfd">        ++position;
-        const std::optional&lt;int&gt; modificateur = lireEntier(notation, position);
-        if (!modificateur.has_value() || *modificateur &gt; MAX_MODIFIER) {</span>
-<span style = "background-color:#fdd">            return std::nullopt;</span>
-        }
-<span style = "background-color:#dfd">        dice.modifier = signe == '-' ? -*modificateur : *modificateur;</span>
+<span style = "background-color:#dfd">    if (position &lt; notation.size() &amp;&amp; !lireModificateur(notation, position, dice)) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
 
     // Un residu apres le modificateur -- Â« 1d6+2x Â» -- n'est pas une notation a moitie valide :

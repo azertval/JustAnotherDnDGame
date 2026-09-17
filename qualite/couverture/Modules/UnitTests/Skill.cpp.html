@@ -79,8 +79,9 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
                                        "' inconnue du moteur.");
 <span style = "background-color:#fdd">            continue;</span>
         }
-<span style = "background-color:#dfd">        catalogue.skills.push_back(</span>
-            {identifiant-&gt;get&lt;std::string&gt;(), libelle-&gt;get&lt;std::string&gt;(), *lue});
+<span style = "background-color:#dfd">        catalogue.skills.push_back({.id = identifiant-&gt;get&lt;std::string&gt;(),</span>
+                                    .name = libelle-&gt;get&lt;std::string&gt;(),
+                                    .ability = *lue});
 <span style = "background-color:#dfd">    }
     std::ranges::sort(catalogue.skills, {}, &amp;SkillDefinition::id);
     return catalogue;

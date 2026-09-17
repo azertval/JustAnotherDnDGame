@@ -36,7 +36,7 @@ namespace {
     if (n &lt; 0 || n &gt; dx) {
         return false;</span>
     }
-<span style = "background-color:#dfd">    const long long y = static_cast&lt;long long&gt;(p.y) * dx + n * (q.y - p.y);
+<span style = "background-color:#dfd">    const long long y = (static_cast&lt;long long&gt;(p.y) * dx) + (n * (q.y - p.y));
     return y &gt;= static_cast&lt;long long&gt;(y0) * dx &amp;&amp; y &lt;= static_cast&lt;long long&gt;(y1) * dx;
 }</span>
 
@@ -102,21 +102,19 @@ bool isFlankedFrom(const CombatState&amp; combat, CombatantId attacker, GridPosi
         !hasLineOfSight(grille, moi, emplacement)) {
 <span style = "background-color:#fdd">        return false;</span>
     }
-<span style = "background-color:#dfd">    for (const CombatantId autre : combat.combatants()) {
+<span style = "background-color:#dfd">    const auto prendEnTenaille = [&amp;](const CombatantId autre) {
         const Combatant* allie = combat.find(autre);
         const std::optional&lt;GridPosition&gt; ancre = grille.positionOf(autre);</span>
         if (autre == attacker || autre == target || allie == nullptr || !ancre.has_value() ||
 <span style = "background-color:#dfd">            allie-&gt;status != CombatantStatus::Standing ||</span>
             allie-&gt;profile.side != assaillant-&gt;profile.side) {
-<span style = "background-color:#dfd">            continue;</span>
+<span style = "background-color:#dfd">            return false;</span>
         }
-<span style = "background-color:#dfd">        const Footprint lui{.anchor = *ancre, .side = footprintSide(allie-&gt;profile.size)};</span>
-        if (ecart(lui.anchor, lui.side, emplacement) == 1 &amp;&amp;
-<span style = "background-color:#dfd">            hasLineOfSight(grille, lui, emplacement) &amp;&amp; alignees(moi, lui, emplacement)) {
-            return true;
-        }
-    }
-    return false;
+<span style = "background-color:#dfd">        const Footprint lui{.anchor = *ancre, .side = footprintSide(allie-&gt;profile.size)};
+        return ecart(lui.anchor, lui.side, emplacement) == 1 &amp;&amp;</span>
+               hasLineOfSight(grille, lui, emplacement) &amp;&amp; alignees(moi, lui, emplacement);
+<span style = "background-color:#dfd">    };
+    return std::ranges::any_of(combat.combatants(), prendEnTenaille);
 }</span>
 
 <span style = "background-color:#dfd">bool isFlanked(const CombatState&amp; combat, CombatantId attacker, CombatantId target) {

@@ -25,6 +25,30 @@
 
 namespace hmi {
 
+namespace {
+
+// Decodage d'abord : la validation des dimensions (pure, EX-REN-007) doit s'intercaler entre
+// le decodage et l'upload GPU, sinon un asset de travers est deja devenu une texture. Rend
+// std::nullopt (avec journal) si l'image est illisible ou non conforme.
+std::optional&lt;DecodedImage&gt; decodeValidatedImage(const std::filesystem::path&amp; path,
+<span style = "background-color:#fdd">                                                 const std::string&amp; fileName, AssetFamily family) {
+    std::optional&lt;DecodedImage&gt; image = decodeImageFile(path);
+    if (!image) {
+        GRAPHICS_LOG_WARNING("Asset " + fileName + " illisible ou format non supporte (" +</span>
+                             path.string() + ").");
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+
+<span style = "background-color:#fdd">    const AssetValidation validation = validateAsset(family, fileName, image-&gt;width, image-&gt;height);
+    if (!validation.valid) {
+        GRAPHICS_LOG_WARNING(validation.message);
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#fdd">    return image;
+}</span>
+
+}  // namespace
+
 // Construit un cache vide pour un device et un dossier d'assets donnes.
 TextureCache::TextureCache(const RhiContext&amp; context, AssetPaths paths)
 <span style = "background-color:#dfd">    : _context(context), _paths(std::move(paths)) {}</span>
@@ -40,18 +64,8 @@ std::optional&lt;LoadedTexture&gt; TextureCache::load(const std::string&amp; fil
         return std::nullopt;</span>
     }
 
-    // Decodage d'abord : la validation des dimensions (pure, EX-REN-007) doit s'intercaler entre
-    // le decodage et l'upload GPU, sinon un asset de travers est deja devenu une texture.
-<span style = "background-color:#fdd">    const std::optional&lt;DecodedImage&gt; image = decodeImageFile(*path);
+<span style = "background-color:#fdd">    const std::optional&lt;DecodedImage&gt; image = decodeValidatedImage(*path, fileName, family);
     if (!image) {
-        GRAPHICS_LOG_WARNING("Asset " + fileName + " illisible ou format non supporte (" +</span>
-                             path-&gt;string() + ").");
-<span style = "background-color:#fdd">        return std::nullopt;</span>
-    }
-
-<span style = "background-color:#fdd">    const AssetValidation validation = validateAsset(family, fileName, image-&gt;width, image-&gt;height);
-    if (!validation.valid) {
-        GRAPHICS_LOG_WARNING(validation.message);
         return std::nullopt;</span>
     }
 

@@ -19,6 +19,7 @@
 #include &lt;QMatrix4x4&gt;
 #include &lt;QSize&gt;
 #include &lt;algorithm&gt;
+#include &lt;array&gt;
 #include &lt;cmath&gt;
 #include &lt;cstdint&gt;
 #include &lt;cstring&gt;
@@ -58,10 +59,10 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
 // la ramene a celle du backend (Direct3D 11 sous Windows).
 <span style = "background-color:#dfd">QMatrix4x4 toClipMatrix(QRhi* rhi, const DirectX::XMFLOAT4X4&amp; projection) {
     const QMatrix4x4 columnMajor(</span>
-        projection.m[0][0], projection.m[1][0], projection.m[2][0], projection.m[3][0],
-        projection.m[0][1], projection.m[1][1], projection.m[2][1], projection.m[3][1],
-        projection.m[0][2], projection.m[1][2], projection.m[2][2], projection.m[3][2],
-        projection.m[0][3], projection.m[1][3], projection.m[2][3], projection.m[3][3]);
+        projection(0, 0), projection(1, 0), projection(2, 0), projection(3, 0),  //
+        projection(0, 1), projection(1, 1), projection(2, 1), projection(3, 1),  //
+        projection(0, 2), projection(1, 2), projection(2, 2), projection(3, 2),  //
+        projection(0, 3), projection(1, 3), projection(2, 3), projection(3, 3));
 <span style = "background-color:#dfd">    return rhi-&gt;clipSpaceCorrMatrix() * columnMajor;
 }</span>
 
@@ -143,7 +144,7 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
 
 // Redimensionne le tampon de sommets si l'image enregistree n'y tient pas.
 <span style = "background-color:#dfd">bool SpriteBatch::ensureVertexCapacity(std::size_t quadCount) {
-    const quint32 needed = static_cast&lt;quint32&gt;(quadCount * 4 * sizeof(Vertex));
+    const auto needed = static_cast&lt;quint32&gt;(quadCount * 4 * sizeof(Vertex));
     if (_vertexBuffer &amp;&amp; _vertexBuffer-&gt;size() &gt;= needed) {
         return true;</span>
     }
@@ -268,7 +269,7 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
     if (!_recording) {
         return;</span>
     }
-<span style = "background-color:#dfd">    _current.quadCount = _vertices.size() / 4 - _current.firstQuad;
+<span style = "background-color:#dfd">    _current.quadCount = (_vertices.size() / 4) - _current.firstQuad;
     if (_current.quadCount &gt; 0 &amp;&amp; _current.texture != nullptr) {
         _batches.push_back(_current);</span>
     }
@@ -277,8 +278,8 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
 
 // Ajoute un quad au lot courant.
 <span style = "background-color:#dfd">void SpriteBatch::draw(const SpriteQuad&amp; quad) {
-    const float halfWidth = quad.width * 0.5f;
-    const float halfHeight = quad.height * 0.5f;
+    const float halfWidth = quad.width * 0.5F;
+    const float halfHeight = quad.height * 0.5F;
     const float centerX = quad.x + halfWidth;
     const float centerY = quad.y + halfHeight;
     const float cosR = std::cos(quad.rotation);
@@ -288,40 +289,71 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
     // `rotation` radians autour du centre -- a rotation nulle (cosR=1, sinR=0), coincide avec le
     // rectangle aligne d'origine (meme formule que draw(LineQuad), coins pousses dans le meme
     // ordre attendu par le tampon d'indices).
-<span style = "background-color:#dfd">    const float offsetsX[4] = {-halfWidth, halfWidth, halfWidth, -halfWidth};
-    const float offsetsY[4] = {-halfHeight, -halfHeight, halfHeight, halfHeight};
-    const float us[4] = {quad.u0, quad.u1, quad.u1, quad.u0};
-    const float vs[4] = {quad.v0, quad.v0, quad.v1, quad.v1};
-    for (int i = 0; i &lt; 4; ++i) {
-        const float x = centerX + offsetsX[i] * cosR - offsetsY[i] * sinR;
-        const float y = centerY + offsetsX[i] * sinR + offsetsY[i] * cosR;
-        _vertices.push_back(Vertex{x, y, us[i], vs[i], quad.r, quad.g, quad.b, quad.a});
-    }
+<span style = "background-color:#dfd">    const std::array&lt;float, 4&gt; offsetsX = {-halfWidth, halfWidth, halfWidth, -halfWidth};
+    const std::array&lt;float, 4&gt; offsetsY = {-halfHeight, -halfHeight, halfHeight, halfHeight};
+    const std::array&lt;float, 4&gt; us = {quad.u0, quad.u1, quad.u1, quad.u0};
+    const std::array&lt;float, 4&gt; vs = {quad.v0, quad.v0, quad.v1, quad.v1};
+    for (std::size_t i = 0; i &lt; 4; ++i) {
+        const float x = centerX + (offsetsX[i] * cosR) - (offsetsY[i] * sinR);
+        const float y = centerY + (offsetsX[i] * sinR) + (offsetsY[i] * cosR);
+        _vertices.push_back(Vertex{.x = x,</span>
+                                   .y = y,
+                                   .u = us[i],
+                                   .v = vs[i],
+                                   .r = quad.r,
+                                   .g = quad.g,
+                                   .b = quad.b,
+                                   .a = quad.a});
+<span style = "background-color:#dfd">    }
 }</span>
 
 // Ajoute un segment epais (oriente librement) au lot courant.
 <span style = "background-color:#fdd">void SpriteBatch::draw(const LineQuad&amp; line) {
     const float dx = line.bx - line.ax;
     const float dy = line.by - line.ay;
-    const float length = std::sqrt(dx * dx + dy * dy);
-    if (length &lt; 1e-6f) {
+    const float length = std::sqrt((dx * dx) + (dy * dy));
+    if (length &lt; 1e-6F) {
         return;  // segment degenere : rien a dessiner.</span>
     }
 
     // Decalage perpendiculaire (normale unitaire x demi-epaisseur), de part et d'autre du segment.
-<span style = "background-color:#fdd">    const float nx = -dy / length * (line.thickness * 0.5f);
-    const float ny = dx / length * (line.thickness * 0.5f);</span>
+<span style = "background-color:#fdd">    const float nx = -dy / length * (line.thickness * 0.5F);
+    const float ny = dx / length * (line.thickness * 0.5F);</span>
 
     // Quatre coins, meme ordre que draw(SpriteQuad) (le tampon d'indices attend un quadrilatere
     // convexe coherent, peu importe son orientation) : a+n, b+n, b-n, a-n.
-<span style = "background-color:#fdd">    _vertices.push_back(</span>
-        Vertex{line.ax + nx, line.ay + ny, line.u0, line.v0, line.r, line.g, line.b, line.a});
-<span style = "background-color:#fdd">    _vertices.push_back(</span>
-        Vertex{line.bx + nx, line.by + ny, line.u1, line.v0, line.r, line.g, line.b, line.a});
-<span style = "background-color:#fdd">    _vertices.push_back(</span>
-        Vertex{line.bx - nx, line.by - ny, line.u1, line.v1, line.r, line.g, line.b, line.a});
-<span style = "background-color:#fdd">    _vertices.push_back(</span>
-        Vertex{line.ax - nx, line.ay - ny, line.u0, line.v1, line.r, line.g, line.b, line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(Vertex{.x = line.ax + nx,</span>
+                               .y = line.ay + ny,
+                               .u = line.u0,
+                               .v = line.v0,
+                               .r = line.r,
+                               .g = line.g,
+                               .b = line.b,
+                               .a = line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(Vertex{.x = line.bx + nx,</span>
+                               .y = line.by + ny,
+                               .u = line.u1,
+                               .v = line.v0,
+                               .r = line.r,
+                               .g = line.g,
+                               .b = line.b,
+                               .a = line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(Vertex{.x = line.bx - nx,</span>
+                               .y = line.by - ny,
+                               .u = line.u1,
+                               .v = line.v1,
+                               .r = line.r,
+                               .g = line.g,
+                               .b = line.b,
+                               .a = line.a});
+<span style = "background-color:#fdd">    _vertices.push_back(Vertex{.x = line.ax - nx,</span>
+                               .y = line.ay - ny,
+                               .u = line.u0,
+                               .v = line.v1,
+                               .r = line.r,
+                               .g = line.g,
+                               .b = line.b,
+                               .a = line.a});
 <span style = "background-color:#fdd">}</span>
 
 // Termine le lot : fige la plage de quads enregistree.
@@ -331,7 +363,7 @@ constexpr int PROJECTION_BYTES = 16 * static_cast&lt;int&gt;(sizeof(float));
 
 // Televerse l'image enregistree et l'emet en une passe de rendu.
 void SpriteBatch::submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-<span style = "background-color:#dfd">                         QRhiResourceUpdateBatch* updates, const float clear[4]) {
+<span style = "background-color:#dfd">                         QRhiResourceUpdateBatch* updates, const float* clear) {
     closeBatch();</span>
 
 <span style = "background-color:#dfd">    const QColor clearColor = QColor::fromRgbF(clear[0], clear[1], clear[2], clear[3]);
@@ -366,11 +398,11 @@ void SpriteBatch::submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* tar
 <span style = "background-color:#dfd">        }</span>
     }
 
-<span style = "background-color:#dfd">    commandBuffer-&gt;beginPass(target, clearColor, {1.0f, 0}, updates);
+<span style = "background-color:#dfd">    commandBuffer-&gt;beginPass(target, clearColor, {1.0F, 0}, updates);
     if (drawable) {
         const QSize pixelSize = target-&gt;pixelSize();
         commandBuffer-&gt;setGraphicsPipeline(_pipeline.get());
-        commandBuffer-&gt;setViewport({0.0f, 0.0f, static_cast&lt;float&gt;(pixelSize.width()),</span>
+        commandBuffer-&gt;setViewport({0.0F, 0.0F, static_cast&lt;float&gt;(pixelSize.width()),</span>
                                     static_cast&lt;float&gt;(pixelSize.height())});
 <span style = "background-color:#dfd">        for (const Batch&amp; batch : _batches) {
             QRhiShaderResourceBindings* const bindings = bindingsFor(batch.texture);
@@ -380,7 +412,7 @@ void SpriteBatch::submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* tar
 <span style = "background-color:#dfd">            const QRhiCommandBuffer::DynamicOffset offset{</span>
                 0, static_cast&lt;quint32&gt;(batch.uniformOffset)};
 <span style = "background-color:#dfd">            commandBuffer-&gt;setShaderResources(bindings, 1, &amp;offset);
-            const quint32 vertexOffset = static_cast&lt;quint32&gt;(batch.firstQuad * 4 * sizeof(Vertex));
+            const auto vertexOffset = static_cast&lt;quint32&gt;(batch.firstQuad * 4 * sizeof(Vertex));
             const QRhiCommandBuffer::VertexInput vertexInput(_vertexBuffer.get(), vertexOffset);
             commandBuffer-&gt;setVertexInput(0, 1, &amp;vertexInput, _indexBuffer.get(), 0,</span>
                                           QRhiCommandBuffer::IndexUInt16);

@@ -68,7 +68,7 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
     const double mebibytes = static_cast&lt;double&gt;(bytes) / (1024.0 * 1024.0);
     std::array&lt;char, 32&gt; buffer{};
     std::snprintf(buffer.data(), buffer.size(), "%.2f", mebibytes);
-    return std::string(buffer.data());
+    return {buffer.data()};
 }</span>
 
 // Cle de traduction du libelle d'un mode de cadrage (LOT-64) -- memes cles que TexturePanel.cpp
@@ -171,7 +171,7 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
                   static_cast&lt;unsigned&gt;(color &amp; 0xFFU), static_cast&lt;unsigned&gt;((color &gt;&gt; 8) &amp; 0xFFU),
                   static_cast&lt;unsigned&gt;((color &gt;&gt; 16) &amp; 0xFFU),
                   static_cast&lt;unsigned&gt;((color &gt;&gt; 24) &amp; 0xFFU));
-<span style = "background-color:#dfd">    return std::string(buffer.data());
+<span style = "background-color:#dfd">    return {buffer.data()};
 }</span>
 
 }  // namespace

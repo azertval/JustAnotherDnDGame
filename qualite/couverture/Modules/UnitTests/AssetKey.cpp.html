@@ -87,6 +87,109 @@ constexpr int VERSION_ATTENDUE = 1;
 <span style = "background-color:#dfd">    return std::string(family) + "/" + std::string(id);
 }</span>
 
+namespace {
+
+/// Une entree de la table des familles, lue champ par champ ; un champ absent garde son defaut.
+<span style = "background-color:#dfd">[[nodiscard]] AssetFamilyDefinition readFamilyDefinition(const nlohmann::json&amp; entree) {
+    AssetFamilyDefinition famille;
+    if (const auto nom = entree.find("name"); nom != entree.end() &amp;&amp; nom-&gt;is_string()) {
+        famille.name = nom-&gt;get&lt;std::string&gt;();
+    }
+    if (const auto largeur = entree.find("width");
+        largeur != entree.end() &amp;&amp; largeur-&gt;is_number_integer()) {
+        famille.width = largeur-&gt;get&lt;int&gt;();
+    }
+    if (const auto hauteur = entree.find("height");
+        hauteur != entree.end() &amp;&amp; hauteur-&gt;is_number_integer()) {
+        famille.height = hauteur-&gt;get&lt;int&gt;();
+    }
+    if (const auto dossiers = entree.find("catalogues");
+        dossiers != entree.end() &amp;&amp; dossiers-&gt;is_array()) {
+        for (const nlohmann::json&amp; dossier : *dossiers) {
+            if (dossier.is_string()) {
+                famille.catalogues.push_back(dossier.get&lt;std::string&gt;());
+            }
+        }
+    }
+    return famille;
+}</span>
+
+/// Le champ texte @p champ de @p racine, ou une chaine vide s'il est absent ou d'un autre type.
+<span style = "background-color:#dfd">[[nodiscard]] std::string champTexte(const nlohmann::json&amp; racine, const char* champ) {
+    if (const auto trouve = racine.find(champ); trouve != racine.end() &amp;&amp; trouve-&gt;is_string()) {
+        return trouve-&gt;get&lt;std::string&gt;();
+    }
+    return {};
+}</span>
+
+/// Les fichiers `.json` d'un dossier de catalogue, tries.
+[[nodiscard]] std::vector&lt;std::filesystem::path&gt; fichiersDeCatalogue(
+<span style = "background-color:#dfd">    const std::filesystem::path&amp; chemin, std::error_code&amp; code) {
+    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(chemin, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);
+    return fichiers;
+}</span>
+
+/// La cle qu'attend le fichier de catalogue @p fichier de la famille @p famille, ou rien (erreur
+/// consignee dans @p errors).
+[[nodiscard]] std::optional&lt;ExpectedAssetKey&gt; cleAttenduePour(const std::filesystem::path&amp; fichier,
+                                                              const AssetFamilyDefinition&amp; famille,
+                                                              const AssetFamilyTable&amp; families,
+<span style = "background-color:#dfd">                                                              std::vector&lt;std::string&gt;&amp; errors) {
+    const JsonDocument document = readJsonObjectFromFile(fichier, 0);
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        errors.push_back(document.message);
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const std::string identifiant = champTexte(document.root, "id");
+    if (identifiant.empty()) {</span>
+<span style = "background-color:#fdd">        errors.push_back(fichier.filename().string() + " : entree sans identifiant.");
+        return std::nullopt;</span>
+    }
+
+    // Une DEROGATION explicite l'emporte : deux entrees peuvent partager une
+    // illustration. Elle doit en revanche etre bien formee et nommer une famille
+    // connue -- c'est la seule chose qui fasse echouer la verification, une cle sans
+    // image n'etant qu'un etat d'avancement (EX-CNT-041).
+<span style = "background-color:#dfd">    const std::string ecrite = champTexte(document.root, "asset");
+    if (!ecrite.empty()) {</span>
+<span style = "background-color:#fdd">        const std::optional&lt;AssetKey&gt; decomposee = parseAssetKey(ecrite);
+        if (!decomposee.has_value()) {
+            errors.push_back(fichier.filename().string() + " : cle d'asset malformee ('" + ecrite +</span>
+                             "').");
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#fdd">        if (families.find(decomposee-&gt;family) == nullptr) {
+            errors.push_back(fichier.filename().string() +</span>
+                             " : cle d'asset orpheline, famille inconnue ('" + decomposee-&gt;family +
+                             "').");
+<span style = "background-color:#fdd">            return std::nullopt;</span>
+        }
+<span style = "background-color:#fdd">        return ExpectedAssetKey{.key = ecrite,</span>
+                                .family = decomposee-&gt;family,
+                                .sourceFile = fichier.filename().string(),
+                                .explicitKey = true};
+    }
+
+<span style = "background-color:#dfd">    const std::string defaut = defaultAssetKeyFor(famille.name, identifiant);
+    if (defaut.empty()) {</span>
+<span style = "background-color:#fdd">        errors.push_back(fichier.filename().string() + " : identifiant '" + identifiant +</span>
+                         "' ne peut pas former une cle d'asset.");
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return ExpectedAssetKey{.key = defaut,</span>
+                            .family = famille.name,
+                            .sourceFile = fichier.filename().string(),
+                            .explicitKey = false};
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
 <span style = "background-color:#dfd">AssetFamilyTable loadAssetFamilies(const std::filesystem::path&amp; familiesFile) {
     AssetFamilyTable table;
     const JsonDocument document = readJsonObjectFromFile(familiesFile, VERSION_ATTENDUE);
@@ -104,26 +207,7 @@ constexpr int VERSION_ATTENDUE = 1;
         if (!entree.is_object()) {</span>
 <span style = "background-color:#fdd">            continue;</span>
         }
-<span style = "background-color:#dfd">        AssetFamilyDefinition famille;
-        if (const auto nom = entree.find("name"); nom != entree.end() &amp;&amp; nom-&gt;is_string()) {
-            famille.name = nom-&gt;get&lt;std::string&gt;();
-        }
-        if (const auto largeur = entree.find("width");
-            largeur != entree.end() &amp;&amp; largeur-&gt;is_number_integer()) {
-            famille.width = largeur-&gt;get&lt;int&gt;();
-        }
-        if (const auto hauteur = entree.find("height");
-            hauteur != entree.end() &amp;&amp; hauteur-&gt;is_number_integer()) {
-            famille.height = hauteur-&gt;get&lt;int&gt;();
-        }
-        if (const auto dossiers = entree.find("catalogues");
-            dossiers != entree.end() &amp;&amp; dossiers-&gt;is_array()) {
-            for (const nlohmann::json&amp; dossier : *dossiers) {
-                if (dossier.is_string()) {
-                    famille.catalogues.push_back(dossier.get&lt;std::string&gt;());
-                }
-            }
-        }
+<span style = "background-color:#dfd">        AssetFamilyDefinition famille = readFamilyDefinition(entree);
         if (famille.name.empty() || !segmentValide(famille.name)) {</span>
 <span style = "background-color:#fdd">            table.errors.push_back(familiesFile.string() + " : famille au nom invalide ('" +</span>
                                    famille.name + "').");
@@ -158,70 +242,12 @@ std::vector&lt;ExpectedAssetKey&gt; expectedAssetKeys(const std::filesystem::pat
                                  famille.name + "').");
 <span style = "background-color:#fdd">                continue;</span>
             }
-<span style = "background-color:#dfd">            std::vector&lt;std::filesystem::path&gt; fichiers;
-            for (const auto&amp; entree : std::filesystem::directory_iterator(chemin, code)) {
-                if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
-                    fichiers.push_back(entree.path());
+<span style = "background-color:#dfd">            for (const std::filesystem::path&amp; fichier : fichiersDeCatalogue(chemin, code)) {
+                if (std::optional&lt;ExpectedAssetKey&gt; attendue =</span>
+                        cleAttenduePour(fichier, famille, families, errors)) {
+<span style = "background-color:#dfd">                    attendues.push_back(std::move(*attendue));
                 }
             }
-            std::ranges::sort(fichiers);</span>
-
-<span style = "background-color:#dfd">            for (const std::filesystem::path&amp; fichier : fichiers) {
-                const JsonDocument document = readJsonObjectFromFile(fichier, 0);
-                if (!document.ok()) {</span>
-<span style = "background-color:#fdd">                    errors.push_back(document.message);
-                    continue;</span>
-                }
-<span style = "background-color:#dfd">                std::string identifiant;
-                if (const auto id = document.root.find("id");
-                    id != document.root.end() &amp;&amp; id-&gt;is_string()) {
-                    identifiant = id-&gt;get&lt;std::string&gt;();
-                }
-                if (identifiant.empty()) {</span>
-<span style = "background-color:#fdd">                    errors.push_back(fichier.filename().string() + " : entree sans identifiant.");
-                    continue;</span>
-                }
-
-                // Une DEROGATION explicite l'emporte : deux entrees peuvent partager une
-                // illustration. Elle doit en revanche etre bien formee et nommer une famille
-                // connue -- c'est la seule chose qui fasse echouer la verification, une cle sans
-                // image n'etant qu'un etat d'avancement (EX-CNT-041).
-<span style = "background-color:#dfd">                std::string ecrite;
-                if (const auto asset = document.root.find("asset");
-                    asset != document.root.end() &amp;&amp; asset-&gt;is_string()) {</span>
-<span style = "background-color:#fdd">                    ecrite = asset-&gt;get&lt;std::string&gt;();</span>
-<span style = "background-color:#dfd">                }
-                if (!ecrite.empty()) {</span>
-<span style = "background-color:#fdd">                    const std::optional&lt;AssetKey&gt; decomposee = parseAssetKey(ecrite);
-                    if (!decomposee.has_value()) {
-                        errors.push_back(fichier.filename().string() +</span>
-                                         " : cle d'asset malformee ('" + ecrite + "').");
-<span style = "background-color:#fdd">                        continue;</span>
-                    }
-<span style = "background-color:#fdd">                    if (families.find(decomposee-&gt;family) == nullptr) {
-                        errors.push_back(fichier.filename().string() +</span>
-                                         " : cle d'asset orpheline, famille inconnue ('" +
-                                         decomposee-&gt;family + "').");
-<span style = "background-color:#fdd">                        continue;</span>
-                    }
-<span style = "background-color:#fdd">                    attendues.push_back({.key = ecrite,</span>
-                                         .family = decomposee-&gt;family,
-                                         .sourceFile = fichier.filename().string(),
-                                         .explicitKey = true});
-<span style = "background-color:#fdd">                    continue;
-                }</span>
-
-<span style = "background-color:#dfd">                const std::string defaut = defaultAssetKeyFor(famille.name, identifiant);
-                if (defaut.empty()) {</span>
-<span style = "background-color:#fdd">                    errors.push_back(fichier.filename().string() + " : identifiant '" +</span>
-                                     identifiant + "' ne peut pas former une cle d'asset.");
-<span style = "background-color:#fdd">                    continue;</span>
-                }
-<span style = "background-color:#dfd">                attendues.push_back({.key = defaut,</span>
-                                     .family = famille.name,
-                                     .sourceFile = fichier.filename().string(),
-                                     .explicitKey = false});
-<span style = "background-color:#dfd">            }
         }
     }
     return attendues;

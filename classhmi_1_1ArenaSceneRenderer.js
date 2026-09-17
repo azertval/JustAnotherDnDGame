@@ -11,7 +11,7 @@ var classhmi_1_1ArenaSceneRenderer =
     [ "loadTextures", "classhmi_1_1ArenaSceneRenderer.html#a3bfbdd2a46aa772f05af8202cad69c2a", null ],
     [ "operator=", "classhmi_1_1ArenaSceneRenderer.html#a67931499a02511e00d24b33edc32aec8", null ],
     [ "release", "classhmi_1_1ArenaSceneRenderer.html#ae6d35aab7141037ba8112d047f5e85f6", null ],
-    [ "render", "classhmi_1_1ArenaSceneRenderer.html#af5f31df3f12493ab238f27fd5b381aa5", null ],
+    [ "render", "classhmi_1_1ArenaSceneRenderer.html#a59c3cd6297d47d1e78f8196cdafbf63a", null ],
     [ "rhi", "classhmi_1_1ArenaSceneRenderer.html#a0aa7fd703d2d54de7b460083dca8df41", null ],
     [ "setSnapshot", "classhmi_1_1ArenaSceneRenderer.html#af609d92a5a1af3018846643e3cf8d3f6", null ],
     [ "snapshot", "classhmi_1_1ArenaSceneRenderer.html#abc5b0b2897753622f6694b2de12e42d7", null ],

@@ -14,17 +14,14 @@
 
 #include "HMI/Graphics/TileSilhouette.h"
 
+#include &lt;algorithm&gt;
 #include &lt;cstddef&gt;
 
 namespace hmi {
 
 <span style = "background-color:#dfd">bool hasSilhouette(core::TileType type) noexcept {
-    for (const core::TileType candidate : SILHOUETTE_TILE_TYPES) {</span>
-<span style = "background-color:#fdd">        if (candidate == type) {
-            return true;</span>
-        }
-<span style = "background-color:#fdd">    }</span>
-<span style = "background-color:#dfd">    return false;
+    return std::ranges::any_of(SILHOUETTE_TILE_TYPES,
+                               [type](core::TileType candidate) { return candidate == type; });
 }</span>
 
 <span style = "background-color:#fdd">bool isInsideSilhouette(core::TileType type, int localX, int localY, int tileSize) noexcept {</span>

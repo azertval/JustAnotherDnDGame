@@ -32,7 +32,7 @@ namespace hmi {
 namespace {
 
 /// Marge du cadrage : la scÃ¨ne entiÃ¨re tient dans la surface, sans toucher ses bords.
-constexpr float FRAMING_MARGIN = 0.95f;
+constexpr float FRAMING_MARGIN = 0.95F;
 
 }  // namespace
 
@@ -41,9 +41,9 @@ constexpr float FRAMING_MARGIN = 0.95f;
     const int height = std::max(1, pixelHeight);
     const core::Vector2 size = projection.sceneSize();
     Camera2D camera(width, height);
-    camera.setCenter({size.x / 2.0f, size.y / 2.0f});
+    camera.setCenter({size.x / 2.0F, size.y / 2.0F});
     camera.setZoom(Camera2D::fitZoom(static_cast&lt;float&gt;(width), static_cast&lt;float&gt;(height),</span>
-                                     std::max(size.x, 1.0f), std::max(size.y, 1.0f),
+                                     std::max(size.x, 1.0F), std::max(size.y, 1.0F),
                                      FRAMING_MARGIN));
 <span style = "background-color:#dfd">    return camera;
 }</span>
@@ -71,8 +71,11 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
         const std::string directory = _catalog.sheetDirectory(sheet, side);
         ArenaFigureAnimationLoad load = loadArenaFigureAnimations(_directory / directory);
         for (const std::string&amp; error : load.errors) {</span>
-<span style = "background-color:#fdd">            GRAPHICS_LOG_WARNING("Arene : animation de " + sheet + ", " + error);</span>
-        }
+<span style = "background-color:#fdd">            std::string message = "Arene : animation de " + sheet;
+            message += ", ";
+            message += error;
+            GRAPHICS_LOG_WARNING(message);
+        }</span>
 <span style = "background-color:#dfd">        _bandFrameWidths[directory + "/idle.png"] = load.idleFrameWidth;
         _bandFrameWidths[directory + "/death.png"] = load.deathFrameWidth;
         _animation.setFigureAnimations(sheet, std::move(load.clips));
@@ -116,8 +119,9 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
     if (std::optional&lt;LoadedTexture&gt; missing =</span>
             createTexture(context, checker.width, checker.height, checker.pixels)) {
 <span style = "background-color:#dfd">        _missing = std::move(*missing);
-        _textures.missing = ArenaTexture{_missing.handle(), _missing.width, _missing.height};
-    }</span>
+        _textures.missing = ArenaTexture{</span>
+            .texture = _missing.handle(), .width = _missing.width, .height = _missing.height};
+<span style = "background-color:#dfd">    }</span>
 
 <span style = "background-color:#dfd">    const std::vector&lt;std::string&gt; paths = arenaTexturePaths(_catalog);
     _loaded.reserve(paths.size());
@@ -129,8 +133,11 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
             continue;</span>
         }
 <span style = "background-color:#dfd">        const auto band = _bandFrameWidths.find(path);
-        _textures.byPath[path] = ArenaTexture{texture-&gt;handle(), texture-&gt;width, texture-&gt;height,</span>
-                                              band != _bandFrameWidths.end() ? band-&gt;second : 0};
+        _textures.byPath[path] =</span>
+            ArenaTexture{.texture = texture-&gt;handle(),
+                         .width = texture-&gt;width,
+                         .height = texture-&gt;height,
+                         .frameWidth = band != _bandFrameWidths.end() ? band-&gt;second : 0};
 <span style = "background-color:#dfd">        _loaded.push_back(std::move(*texture));
     }
 }</span>
@@ -173,7 +180,7 @@ ArenaSceneRenderer::ArenaSceneRenderer(std::filesystem::path coliseumDirectory)
 }</span>
 
 void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-<span style = "background-color:#dfd">                                float realDeltaSeconds, const float clear[4]) {
+<span style = "background-color:#dfd">                                float realDeltaSeconds, const float* clear) {
     if (!created() || commandBuffer == nullptr || target == nullptr) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
@@ -184,7 +191,7 @@ void ArenaSceneRenderer::render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarg
                                                  : _rhi-&gt;nextResourceUpdateBatch();
 <span style = "background-color:#dfd">    _resources.setFrameUpdates(updates);</span>
 
-<span style = "background-color:#dfd">    _animation.advance(std::max(0.0f, realDeltaSeconds));
+<span style = "background-color:#dfd">    _animation.advance(std::max(0.0F, realDeltaSeconds));
     const ArenaAnimationState animation = _animation.snapshot();
     const core::IsoProjection projection(_snapshot.columns, _snapshot.rows);</span>
 

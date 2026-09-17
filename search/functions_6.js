@@ -42,5 +42,6 @@ var searchData=
   ['griddistancefield_39',['GridDistanceField',['../classcore_1_1GridDistanceField.html#aa0b7fd04da8d60f9017fe0ada4f81fa6',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const core::GridPosition &amp;target)'],['../classcore_1_1GridDistanceField.html#ab912a545dae807922fa5a0fc74685338',1,'core::GridDistanceField::GridDistanceField(const core::TileMap &amp;tileMap, const std::vector&lt; core::GridPosition &gt; &amp;targets)']]],
   ['griddistancefrom_40',['gridDistanceFrom',['../namespacecore.html#ad19e2dfeb2158624471c2a07e5a776e6',1,'core']]],
   ['gridrows_41',['gridRows',['../classhmi_1_1ArenaModel.html#a954d10c7baddb00eec90076dab3823ab',1,'hmi::ArenaModel']]],
-  ['gridtoworld_42',['gridToWorld',['../classcore_1_1IsoProjection.html#aee928bb53e2b5d1bbee3820ece456c47',1,'core::IsoProjection']]]
+  ['gridtoworld_42',['gridToWorld',['../classcore_1_1IsoProjection.html#aee928bb53e2b5d1bbee3820ece456c47',1,'core::IsoProjection']]],
+  ['groupdockpanels_43',['groupDockPanels',['../classhmi_1_1MainWindow.html#ae846811693c28d55e5177cf9ac4a161e',1,'hmi::MainWindow']]]
 ];

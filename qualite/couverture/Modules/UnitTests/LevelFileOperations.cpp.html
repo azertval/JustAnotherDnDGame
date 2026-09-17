@@ -71,7 +71,7 @@ LevelFileOperations::LevelFileOperations(std::filesystem::path levelsDir)
         // Ãªtre un : les exclure Ã©vite qu'ils apparaissent comme un niveau ouvrable dans ce
         // panneau (le format ne correspond pas, l'ouverture Ã©chouerait).
 <span style = "background-color:#dfd">        if (entry.is_regular_file(error) &amp;&amp; entry.path().extension() == ".json" &amp;&amp;</span>
-            entry.path().filename().string().rfind("sequence-", 0) != 0) {
+            !entry.path().filename().string().starts_with("sequence-")) {
 <span style = "background-color:#dfd">            levels.push_back(entry.path());
         }
     }

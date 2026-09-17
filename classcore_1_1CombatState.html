@@ -183,6 +183,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a60abc195d90cdbaf8f966905338a5006" id="r_a60abc195d90cdbaf8f966905338a5006"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a60abc195d90cdbaf8f966905338a5006">dispatch</a> (const <a class="el" href="structcore_1_1CombatEvent.html">CombatEvent</a> &amp;event)</td></tr>
 <tr class="memitem:ae34d81af106fe34f4bbaef2d07db203f" id="r_ae34d81af106fe34f4bbaef2d07db203f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae34d81af106fe34f4bbaef2d07db203f">settle</a> ()</td></tr>
 <tr class="memitem:aa078e84132bf19acbac3fcc06fa7505c" id="r_aa078e84132bf19acbac3fcc06fa7505c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa078e84132bf19acbac3fcc06fa7505c">reachEndIfDecided</a> ()</td></tr>
+<tr class="memitem:aeb13a57913e704ff4902893a9dc1a456" id="r_aeb13a57913e704ff4902893a9dc1a456"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeb13a57913e704ff4902893a9dc1a456">startInterjection</a> ()</td></tr>
+<tr class="memdesc:aeb13a57913e704ff4902893a9dc1a456"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre le tour du premier acteur intercalé encore debout ; faux s'il n'y en a pas.  <br /></td></tr>
 <tr class="memitem:a9deb9814c21893b2e4731a7fcda8542b" id="r_a9deb9814c21893b2e4731a7fcda8542b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9deb9814c21893b2e4731a7fcda8542b">step</a> ()</td></tr>
 <tr class="memitem:a52af7bc3bd2bb2916b131a8214ab57d8" id="r_a52af7bc3bd2bb2916b131a8214ab57d8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a52af7bc3bd2bb2916b131a8214ab57d8">startTurn</a> (<a class="el" href="namespacecore.html#a91235fd72a18c305c494723774630841">CombatantId</a> combatant)</td></tr>
 <tr class="memitem:a7c8e2542cf6057e92c18ad47a1e793d3" id="r_a7c8e2542cf6057e92c18ad47a1e793d3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7c8e2542cf6057e92c18ad47a1e793d3">finishTurn</a> ()</td></tr>
@@ -1399,6 +1401,33 @@ Sans héros unique</h2>
 <p>Jette l'initiative de chacun et ouvre le premier tour. </p>
 <p>Les jets se font par identifiant croissant : à graine égale, les mêmes dés tombent sur les mêmes combattants, et le rejeu est exact.</p>
 <dl class="section return"><dt>Returns</dt><dd>Faux si le combat n'est plus en montage, ou si l'appel vient d'un abonné. </dd></dl>
+
+</div>
+</div>
+<a id="aeb13a57913e704ff4902893a9dc1a456" name="aeb13a57913e704ff4902893a9dc1a456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb13a57913e704ff4902893a9dc1a456">&#9670;&#160;</a></span>startInterjection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::CombatState::startInterjection </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ouvre le tour du premier acteur intercalé encore debout ; faux s'il n'y en a pas. </p>
 
 </div>
 </div>

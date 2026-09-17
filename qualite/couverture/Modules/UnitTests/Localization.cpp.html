@@ -123,7 +123,7 @@ void Localization::setActiveCatalog(std::string language,
 // rÃ©apparaÃ®t dans la langue par dÃ©faut, et une clÃ© inconnue s'affiche telle quelle (utile
 // pour repÃ©rer un oubli sans planter).
 <span style = "background-color:#dfd">std::string Localization::text(std::string_view key) const {
-    const std::string lookup(key);
+    std::string lookup(key);  // non const : rendu par dÃ©placement quand la clÃ© est inconnue
     if (const auto active = _activeStrings.find(lookup); active != _activeStrings.end()) {
         return active-&gt;second;
     }

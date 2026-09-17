@@ -37,18 +37,15 @@ namespace {
 // position en pixels en coordonnees de clip [-1, 1], l'axe Y etant inverse pour que l'ordonnee
 // croisse vers le bas de l'ecran.
 <span style = "background-color:#dfd">DirectX::XMFLOAT4X4 screenProjectionMatrix(int viewportWidth, int viewportHeight) noexcept {
-    const float width = viewportWidth &gt; 0 ? static_cast&lt;float&gt;(viewportWidth) : 1.0f;
-    const float height = viewportHeight &gt; 0 ? static_cast&lt;float&gt;(viewportHeight) : 1.0f;</span>
+    const float width = viewportWidth &gt; 0 ? static_cast&lt;float&gt;(viewportWidth) : 1.0F;
+    const float height = viewportHeight &gt; 0 ? static_cast&lt;float&gt;(viewportHeight) : 1.0F;</span>
 
-<span style = "background-color:#dfd">    DirectX::XMFLOAT4X4 projection{};
-    projection._11 = 2.0f / width;
-    projection._22 = -2.0f / height;
-    projection._33 = 1.0f;
-    projection._41 = -1.0f;
-    projection._42 = 1.0f;
-    projection._44 = 1.0f;
-    return projection;
-}</span>
+    // Lignes de la matrice (_11.._14, _21.._24, ...), les autres coefficients a zero.
+<span style = "background-color:#dfd">    return {2.0F / width, 0.0F,           0.0F, 0.0F,  //</span>
+            0.0F,         -2.0F / height, 0.0F, 0.0F,  //
+            0.0F,         0.0F,           1.0F, 0.0F,  //
+            -1.0F,        1.0F,           0.0F, 1.0F};
+<span style = "background-color:#dfd">}</span>
 
 // Compose une chaine en quads sur le calque UI, ancree a une position ecran.
 void composeText(ComposedScene&amp; scene, const FontMetrics&amp; metrics, TextureHandle texture,
@@ -67,7 +64,7 @@ void composeText(ComposedScene&amp; scene, const FontMetrics&amp; metrics, Textu
         case TextHorizontalAnchor::Left:
 <span style = "background-color:#fdd">            break;</span>
         case TextHorizontalAnchor::Center:
-<span style = "background-color:#dfd">            originX -= extent.width * 0.5f;
+<span style = "background-color:#dfd">            originX -= extent.width * 0.5F;
             break;</span>
         case TextHorizontalAnchor::Right:
 <span style = "background-color:#dfd">            originX -= extent.width;</span>
@@ -78,7 +75,7 @@ void composeText(ComposedScene&amp; scene, const FontMetrics&amp; metrics, Textu
         case TextVerticalAnchor::Top:
 <span style = "background-color:#fdd">            break;</span>
         case TextVerticalAnchor::Middle:
-<span style = "background-color:#dfd">            originY -= extent.height * 0.5f;
+<span style = "background-color:#dfd">            originY -= extent.height * 0.5F;
             break;</span>
         case TextVerticalAnchor::Bottom:
 <span style = "background-color:#dfd">            originY -= extent.height;</span>
@@ -87,8 +84,8 @@ void composeText(ComposedScene&amp; scene, const FontMetrics&amp; metrics, Textu
 <span style = "background-color:#dfd">    originX = roundToPixel(originX);
     originY = roundToPixel(originY);</span>
 
-<span style = "background-color:#dfd">    const float invTextureWidth = 1.0f / static_cast&lt;float&gt;(textureWidth);
-    const float invTextureHeight = 1.0f / static_cast&lt;float&gt;(textureHeight);
+<span style = "background-color:#dfd">    const float invTextureWidth = 1.0F / static_cast&lt;float&gt;(textureWidth);
+    const float invTextureHeight = 1.0F / static_cast&lt;float&gt;(textureHeight);
     const float lineAdvance = static_cast&lt;float&gt;(metrics.lineHeight) * scale;</span>
 
 <span style = "background-color:#dfd">    float penX = originX;

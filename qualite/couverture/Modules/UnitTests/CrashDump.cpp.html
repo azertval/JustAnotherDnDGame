@@ -115,11 +115,15 @@ struct DumpJob {
     auto* const job = static_cast&lt;DumpJob*&gt;(parameter);</span>
     // Piles, contexte, modules chargÃ©s et dÃ©chargÃ©s, et la mÃ©moire que les piles dÃ©signent : de
     // quoi lire les variables locales et un objet pointÃ©, pour quelques Mio plutÃ´t que tout le tas.
+    // NOLINTBEGIN(clang-analyzer-optin.core.EnumCastOutOfRange)
+    // MINIDUMP_TYPE est un ensemble de drapeaux : leur union n'est aucun Ã©numÃ©rateur, et c'est
+    // ainsi que l'API dbghelp la demande.
 <span style = "background-color:#dfd">    const auto rich =</span>
         static_cast&lt;MINIDUMP_TYPE&gt;(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory |
                                    MiniDumpWithThreadInfo | MiniDumpWithUnloadedModules);
 <span style = "background-color:#dfd">    const auto reduced = static_cast&lt;MINIDUMP_TYPE&gt;(MiniDumpNormal | MiniDumpWithThreadInfo |</span>
                                                     MiniDumpWithUnloadedModules);
+    // NOLINTEND(clang-analyzer-optin.core.EnumCastOutOfRange)
 
     // Sur une partie des runners de CI (et jamais sur le poste, sans AVX-512), MiniDumpWriteDump
     // refuse le contexte d'exception d'origine : ERROR_INVALID_USER_BUFFER. Le contexte porte alors
@@ -132,9 +136,11 @@ struct DumpJob {
         BOOL clientPointers;
     };
     const std::array&lt;Attempt, 3&gt; attempts = {{
-<span style = "background-color:#dfd">        {rich, job-&gt;original, FALSE},
-        {reduced, job-&gt;original != nullptr ? &amp;job-&gt;pointersCopy : nullptr, FALSE},
-        {reduced, job-&gt;original, TRUE},</span>
+<span style = "background-color:#dfd">        {.type = rich, .pointers = job-&gt;original, .clientPointers = FALSE},
+        {.type = reduced,
+         .pointers = job-&gt;original != nullptr ? &amp;job-&gt;pointersCopy : nullptr,
+         .clientPointers = FALSE},
+        {.type = reduced, .pointers = job-&gt;original, .clientPointers = TRUE},</span>
     }};
 <span style = "background-color:#dfd">    for (const Attempt&amp; attempt : attempts) {
         LARGE_INTEGER start{};
@@ -151,9 +157,9 @@ struct DumpJob {
             job-&gt;error = ERROR_SUCCESS;
             return 0;</span>
         }
-<span style = "background-color:#dfd">        job-&gt;error = GetLastError();
-    }</span>
-<span style = "background-color:#fdd">    return 0;</span>
+<span style = "background-color:#fdd">        job-&gt;error = GetLastError();
+    }
+    return 0;</span>
 <span style = "background-color:#dfd">}</span>
 
 }  // namespace

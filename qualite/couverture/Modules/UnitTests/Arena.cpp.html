@@ -129,6 +129,18 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
 <span style = "background-color:#fdd">    return "?";</span>
 <span style = "background-color:#dfd">}</span>
 
+/// La derniere case ou l'on peut se tenir, au plus tard @p sortie : on ne s'arrete pas sur la case
+/// d'un allie qu'on traverse. Zero si aucune avant.
+[[nodiscard]] std::size_t derniereCaseTenable(const ReachableArea&amp; zone,
+                                              const std::vector&lt;GridPosition&gt;&amp; cases,
+<span style = "background-color:#dfd">                                              std::size_t sortie) {
+    std::size_t arret = sortie;
+    while (arret &gt; 0 &amp;&amp; !zone.canEndAt(cases[arret])) {
+        --arret;
+    }
+    return arret;
+}</span>
+
 }  // namespace
 
 // --- Points d'entree --------------------------------------------------------------------------
@@ -618,21 +630,9 @@ AttackCircumstances ArenaSession::circumstancesAgainst(CombatantId attacker, Com
         // Les cases successives de l'ancre, depart compris, et la premiere sortie d'allonge.
 <span style = "background-color:#dfd">        std::vector&lt;GridPosition&gt; cases{zone-&gt;origin()};
         cases.insert(cases.end(), chemin-&gt;steps.begin(), chemin-&gt;steps.end());
-        std::optional&lt;std::size_t&gt; sortie;
         std::vector&lt;CombatantId&gt; opportunistes;
-        if (!_disengaged.contains(*actif)) {
-            for (std::size_t i = 0; i + 1 &lt; cases.size() &amp;&amp; !sortie.has_value(); ++i) {
-                for (const CombatantId autre : _combat-&gt;combatants()) {
-                    if (provokes(*actif, autre, cases[i], cases[i + 1])) {
-                        opportunistes.push_back(autre);
-                    }
-                }
-                if (!opportunistes.empty()) {
-                    sortie = i;</span>
-                }
-<span style = "background-color:#dfd">            }</span>
-        }
-<span style = "background-color:#dfd">        if (!sortie.has_value()) {
+        const std::optional&lt;std::size_t&gt; sortie = firstProvokingStep(*actif, cases, opportunistes);
+        if (!sortie.has_value()) {
             const MoveOutcome pas = _combat-&gt;move(destination);
             if (pas.result == MoveResult::Moved) {
                 noterPas(pas, destination);
@@ -643,10 +643,7 @@ AttackCircumstances ArenaSession::circumstancesAgainst(CombatantId attacker, Com
 
         // On ne s'arrete pas sur la case d'un allie qu'on traverse : l'attaque tombe a la derniere
         // case ou l'on peut se tenir avant la sortie.
-<span style = "background-color:#dfd">        std::size_t arret = *sortie;
-        while (arret &gt; 0 &amp;&amp; !zone-&gt;canEndAt(cases[arret])) {
-            --arret;
-        }
+<span style = "background-color:#dfd">        const std::size_t arret = derniereCaseTenable(*zone, cases, *sortie);
         if (arret &gt; 0) {
             const MoveOutcome pas = _combat-&gt;move(cases[arret]);
             if (pas.result == MoveResult::Moved) {
@@ -654,21 +651,45 @@ AttackCircumstances ArenaSession::circumstancesAgainst(CombatantId attacker, Com
                 cumuler(pas);</span>
             }
 <span style = "background-color:#dfd">        }
-        for (const CombatantId opportuniste : opportunistes) {
-            const Combatant* cible = _combat-&gt;find(*actif);
-            const Combatant* c = _combat-&gt;find(opportuniste);</span>
-            if (cible == nullptr || cible-&gt;status != CombatantStatus::Standing ||
-<span style = "background-color:#dfd">                _combat-&gt;phase() == CombatPhase::Ended || c == nullptr ||</span>
-                c-&gt;status != CombatantStatus::Standing) {
-<span style = "background-color:#fdd">                break;</span>
-            }
-<span style = "background-color:#dfd">            const AttackProfile coup = *meleeAttack(opportuniste);
-            static_cast&lt;void&gt;(_combat-&gt;economy(opportuniste)-&gt;spend(REACTION_RESOURCE));
-            static_cast&lt;void&gt;(resolveAndRecord(opportuniste, *actif, coup, "opportunite : "));
-        }
+        takeOpportunities(*actif, opportunistes);
     }</span>
 <span style = "background-color:#fdd">    return parcours;</span>
 <span style = "background-color:#dfd">}</span>
+
+std::optional&lt;std::size_t&gt; ArenaSession::firstProvokingStep(
+    CombatantId mover, const std::vector&lt;GridPosition&gt;&amp; cases,
+<span style = "background-color:#dfd">    std::vector&lt;CombatantId&gt;&amp; reactors) const {
+    std::optional&lt;std::size_t&gt; sortie;
+    if (_disengaged.contains(mover)) {
+        return sortie;</span>
+    }
+<span style = "background-color:#dfd">    for (std::size_t i = 0; i + 1 &lt; cases.size() &amp;&amp; !sortie.has_value(); ++i) {
+        for (const CombatantId autre : _combat-&gt;combatants()) {
+            if (provokes(mover, autre, cases[i], cases[i + 1])) {
+                reactors.push_back(autre);
+            }
+        }
+        if (!reactors.empty()) {
+            sortie = i;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return sortie;
+}</span>
+
+<span style = "background-color:#dfd">void ArenaSession::takeOpportunities(CombatantId mover, const std::vector&lt;CombatantId&gt;&amp; reactors) {
+    for (const CombatantId opportuniste : reactors) {
+        const Combatant* cible = _combat-&gt;find(mover);
+        const Combatant* c = _combat-&gt;find(opportuniste);</span>
+        if (cible == nullptr || cible-&gt;status != CombatantStatus::Standing ||
+<span style = "background-color:#dfd">            _combat-&gt;phase() == CombatPhase::Ended || c == nullptr ||</span>
+            c-&gt;status != CombatantStatus::Standing) {
+<span style = "background-color:#fdd">            break;</span>
+        }
+<span style = "background-color:#dfd">        const AttackProfile coup = *meleeAttack(opportuniste);
+        static_cast&lt;void&gt;(_combat-&gt;economy(opportuniste)-&gt;spend(REACTION_RESOURCE));
+        static_cast&lt;void&gt;(resolveAndRecord(opportuniste, mover, coup, "opportunite : "));
+    }
+}</span>
 
 <span style = "background-color:#dfd">bool ArenaSession::endTurn() {
     return _combat-&gt;endTurn();

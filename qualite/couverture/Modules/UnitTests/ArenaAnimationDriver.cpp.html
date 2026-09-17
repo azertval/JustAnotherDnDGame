@@ -51,7 +51,7 @@ namespace {
         if (frameWidth != nullptr) {
             *frameWidth = result.description-&gt;frameWidth;</span>
         }
-<span style = "background-color:#dfd">        return std::make_shared&lt;const core::ClipSet&gt;(std::move(result.description-&gt;clips));</span>
+<span style = "background-color:#dfd">        return std::make_shared&lt;const core::ClipSet&gt;(result.description-&gt;clips);</span>
     }
 <span style = "background-color:#dfd">    if (result.errorCode != AnimationCatalogError::FileNotFound) {</span>
 <span style = "background-color:#fdd">        errors.push_back(path.string() + " : " + result.error);</span>

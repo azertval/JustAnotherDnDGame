@@ -115,22 +115,33 @@ private:
 <span style = "background-color:#dfd">    }
     _phase = CombatPhase::Starting;
     _advancePending = true;
-    dispatch({.hook = CombatHook::BeforeFirstTurn, .round = 0});
-    return true;
+    dispatch({.hook = CombatHook::BeforeFirstTurn,</span>
+              .round = 0,
+              .combatant = std::nullopt,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    return true;
 }</span>
 
 // --- Lecture ---------------------------------------------------------------------------------
 
-<span style = "background-color:#dfd">const Combatant* CombatState::find(CombatantId combatant) const {
+namespace {
+
+/// L'identifiant vaut sa position plus un : la mÃªme recherche, constante ou non.
+template &lt;typename Combatants&gt;
+<span style = "background-color:#dfd">auto* findIn(Combatants&amp; combatants, CombatantId combatant) {
     const auto index = static_cast&lt;std::size_t&gt;(combatant);
-    if (index == 0 || index &gt; _combatants.size()) {
-        return nullptr;</span>
-    }
-<span style = "background-color:#dfd">    return &amp;_combatants[index - 1];
+    return index == 0 || index &gt; combatants.size() ? nullptr : &amp;combatants[index - 1];
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">const Combatant* CombatState::find(CombatantId combatant) const {
+    return findIn(_combatants, combatant);
 }</span>
 
 <span style = "background-color:#dfd">Combatant* CombatState::findMutable(CombatantId combatant) {
-    return const_cast&lt;Combatant*&gt;(std::as_const(*this).find(combatant));
+    return findIn(_combatants, combatant);
 }</span>
 
 <span style = "background-color:#dfd">std::vector&lt;CombatantId&gt; CombatState::combatants() const {
@@ -220,7 +231,8 @@ private:
     dispatch({.hook = CombatHook::AttackDeclared,</span>
               .round = _round,
               .combatant = attacker,
-              .target = target});
+              .target = target,
+              .marker = {}});
 <span style = "background-color:#dfd">    return true;
 }</span>
 
@@ -240,8 +252,12 @@ EnlistResult CombatState::join(CombatantProfile profile, GridPosition anchor,
     if (!joined.profile.floating) {
         rollInitiative(joined, random);</span>
     }
-<span style = "background-color:#dfd">    dispatch({.hook = CombatHook::CombatantJoined, .round = _round, .combatant = result.combatant});
-    return result;
+<span style = "background-color:#dfd">    dispatch({.hook = CombatHook::CombatantJoined,</span>
+              .round = _round,
+              .combatant = result.combatant,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    return result;
 }</span>
 
 EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPosition anchor,
@@ -258,8 +274,12 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
     if (!joined.profile.floating) {
         takeFixedInitiative(joined, initiative);</span>
     }
-<span style = "background-color:#dfd">    dispatch({.hook = CombatHook::CombatantJoined, .round = _round, .combatant = result.combatant});
-    return result;
+<span style = "background-color:#dfd">    dispatch({.hook = CombatHook::CombatantJoined,</span>
+              .round = _round,
+              .combatant = result.combatant,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    return result;
 }</span>
 
 <span style = "background-color:#dfd">WithdrawResult CombatState::withdraw(CombatantId combatant) {
@@ -275,8 +295,12 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
     static_cast&lt;void&gt;(_grid.remove(combatant));
     static_cast&lt;void&gt;(_order.remove(combatant));
     std::erase(_interjections, combatant);
-    dispatch({.hook = CombatHook::CombatantLeft, .round = _round, .combatant = combatant});
-    return WithdrawResult::Withdrawn;
+    dispatch({.hook = CombatHook::CombatantLeft,</span>
+              .round = _round,
+              .combatant = combatant,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    return WithdrawResult::Withdrawn;
 }</span>
 
 <span style = "background-color:#dfd">void CombatState::applyDamage(CombatantId combatant, int amount) {
@@ -358,7 +382,8 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
                            .status = status,
                            .economy = ActionEconomy::standard(movement),
                            .initiativeRoll = std::nullopt,
-                           .actedThisRound = false});
+                           .actedThisRound = false,
+                           .reserves = {}});
 <span style = "background-color:#dfd">    return {.combatant = id, .placement = PlacementResult::Placed};</span>
 <span style = "background-color:#fdd">}</span>
 
@@ -476,25 +501,36 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
     _active.reset();
     _interjections.clear();
     _advancePending = false;
-    dispatch({.hook = CombatHook::CombatEnded, .round = _round});
-    _counters.clear(CounterScope::Turn);
+    dispatch({.hook = CombatHook::CombatEnded,</span>
+              .round = _round,
+              .combatant = std::nullopt,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    _counters.clear(CounterScope::Turn);
     _counters.clear(CounterScope::Round);
     _counters.clear(CounterScope::Encounter);
     return true;
 }</span>
 
-<span style = "background-color:#dfd">void CombatState::step() {
-    _advancePending = false;</span>
-
-<span style = "background-color:#dfd">    while (!_interjections.empty()) {
+<span style = "background-color:#dfd">bool CombatState::startInterjection() {
+    while (!_interjections.empty()) {
         const CombatantId actor = _interjections.front();
         _interjections.pop_front();
         const Combatant* found = find(actor);
         if (found != nullptr &amp;&amp; found-&gt;status == CombatantStatus::Standing) {
             startTurn(actor);
-            return;</span>
+            return true;</span>
         }
 <span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return false;
+}</span>
+
+<span style = "background-color:#dfd">void CombatState::step() {
+    _advancePending = false;</span>
+
+<span style = "background-color:#dfd">    if (startInterjection()) {
+        return;</span>
+    }
 
 <span style = "background-color:#dfd">    std::optional&lt;TurnSlot&gt; next;
     if (_round &gt; 0) {
@@ -531,16 +567,23 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
         _counters.clear(CounterScope::Round);
         _phase = CombatPhase::RoundStart;
         _advancePending = true;
-        dispatch({.hook = CombatHook::RoundStart, .round = _round});
-        return;</span>
+        dispatch({.hook = CombatHook::RoundStart,</span>
+                  .round = _round,
+                  .combatant = std::nullopt,
+                  .target = std::nullopt,
+                  .marker = {}});
+<span style = "background-color:#dfd">        return;</span>
     }
 
 <span style = "background-color:#dfd">    _cursor = next;
     _advancePending = true;
     if (!next-&gt;entry.has_value()) {
         _phase = CombatPhase::RoundStart;
-        dispatch(</span>
-            {.hook = CombatHook::InitiativeCount, .round = _round, .marker = next-&gt;marker.name});
+        dispatch({.hook = CombatHook::InitiativeCount,</span>
+                  .round = _round,
+                  .combatant = std::nullopt,
+                  .target = std::nullopt,
+                  .marker = next-&gt;marker.name});
 <span style = "background-color:#dfd">        return;</span>
     }
 <span style = "background-color:#dfd">    const Combatant* found = find(next-&gt;entry-&gt;combatant);
@@ -558,14 +601,22 @@ EnlistResult CombatState::joinAtInitiative(CombatantProfile profile, GridPositio
     // autre (`EX-CBT-011`).
 <span style = "background-color:#dfd">    actor-&gt;economy.refresh();
     _phase = CombatPhase::TurnActive;
-    dispatch({.hook = CombatHook::TurnStart, .round = _round, .combatant = combatant});
-}</span>
+    dispatch({.hook = CombatHook::TurnStart,</span>
+              .round = _round,
+              .combatant = combatant,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">void CombatState::finishTurn() {
     const CombatantId ending = *_active;
     _phase = CombatPhase::TurnEnd;
-    dispatch({.hook = CombatHook::TurnEnd, .round = _round, .combatant = ending});
-    _counters.clear(CounterScope::Turn);
+    dispatch({.hook = CombatHook::TurnEnd,</span>
+              .round = _round,
+              .combatant = ending,
+              .target = std::nullopt,
+              .marker = {}});
+<span style = "background-color:#dfd">    _counters.clear(CounterScope::Turn);
     _active.reset();
 }</span>
 

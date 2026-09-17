@@ -38,6 +38,26 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
     return (trouve != objet.end() &amp;&amp; trouve-&gt;is_number_integer()) ? trouve-&gt;get&lt;int&gt;() : 0;
 }</span>
 
+/// Les combattants d'une rencontre ; une entree sans creature est signalee puis ignoree.
+void lireCombattants(const nlohmann::json&amp; combattants, const std::filesystem::path&amp; chemin,
+<span style = "background-color:#dfd">                     Encounter&amp; rencontre, std::vector&lt;std::string&gt;&amp; erreurs) {
+    for (const nlohmann::json&amp; entree : combattants) {
+        if (!entree.is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        EncounterCombatant combattant;
+        combattant.creatureId = lireTexte(entree, "creatureId");
+        combattant.columnOffset = lireEntier(entree, "columnOffset");
+        combattant.rowOffset = lireEntier(entree, "rowOffset");
+        if (combattant.creatureId.empty()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(chemin.filename().string() +</span>
+                              " : combattant sans identifiant de creature.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        rencontre.combatants.push_back(std::move(combattant));
+    }
+}</span>
+
 }  // namespace
 
 <span style = "background-color:#dfd">const Encounter* EncounterCatalog::find(std::string_view id) const {
@@ -90,21 +110,7 @@ constexpr int SANS_GARDE_DE_VERSION = 0;
                                        " : rencontre sans aucun combattant.");
 <span style = "background-color:#fdd">            continue;</span>
         }
-<span style = "background-color:#dfd">        for (const nlohmann::json&amp; entree : *combattants) {
-            if (!entree.is_object()) {</span>
-<span style = "background-color:#fdd">                continue;</span>
-            }
-<span style = "background-color:#dfd">            EncounterCombatant combattant;
-            combattant.creatureId = lireTexte(entree, "creatureId");
-            combattant.columnOffset = lireEntier(entree, "columnOffset");
-            combattant.rowOffset = lireEntier(entree, "rowOffset");
-            if (combattant.creatureId.empty()) {</span>
-<span style = "background-color:#fdd">                catalogue.errors.push_back(chemin.filename().string() +</span>
-                                           " : combattant sans identifiant de creature.");
-<span style = "background-color:#fdd">                continue;</span>
-            }
-<span style = "background-color:#dfd">            rencontre.combatants.push_back(std::move(combattant));
-        }
+<span style = "background-color:#dfd">        lireCombattants(*combattants, chemin, rencontre, catalogue.errors);
         if (rencontre.combatants.empty()) {</span>
 <span style = "background-color:#fdd">            continue;  // deja signale ci-dessus</span>
         }

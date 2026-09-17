@@ -14,6 +14,7 @@
 
 #include "HMI/Editor/PixelOperations.h"
 
+#include &lt;array&gt;
 #include &lt;cstdlib&gt;
 #include &lt;utility&gt;
 #include &lt;vector&gt;
@@ -46,7 +47,7 @@ namespace {
 // l'enveloppe des regions touchees. Partagee par drawLine (pose une couleur) et eraseLine (efface)
 // pour que les deux gestes de glisser restent alignes sur le meme trace, sans dupliquer le pas.
 template &lt;typename PerPixel&gt;
-<span style = "background-color:#dfd">PixelRegion walkLine(int x0, int y0, int x1, int y1, PerPixel&amp;&amp; perPixel) {
+<span style = "background-color:#dfd">PixelRegion walkLine(int x0, int y0, int x1, int y1, const PerPixel&amp; perPixel) {
     const int dx = std::abs(x1 - x0);
     const int sx = x0 &lt; x1 ? 1 : -1;
     const int dy = -std::abs(y1 - y0);
@@ -127,7 +128,8 @@ template &lt;typename PerPixel&gt;
         const auto [currentX, currentY] = pending.back();
         pending.pop_back();</span>
 
-        static constexpr int NEIGHBOR_OFFSETS[4][2] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        static constexpr std::array&lt;std::array&lt;int, 2&gt;, 4&gt; NEIGHBOR_OFFSETS = {
+            {{1, 0}, {-1, 0}, {0, 1}, {0, -1}}};
 <span style = "background-color:#dfd">        for (const auto&amp; offset : NEIGHBOR_OFFSETS) {
             const int neighborX = currentX + offset[0];
             const int neighborY = currentY + offset[1];

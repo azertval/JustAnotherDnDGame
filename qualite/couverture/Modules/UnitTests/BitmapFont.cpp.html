@@ -35,58 +35,87 @@ namespace hmi {
 <span style = "background-color:#dfd">    generateProcedural(context);
 }</span>
 
-// Essaie de charger Assets/Fonts/font.png + font.json. true si les deux ont ete charges, valides,
-// et la texture creee avec succes.
-<span style = "background-color:#dfd">bool BitmapFont::loadFromAssets(const RhiContext&amp; context) {
-    const AssetPaths assetPaths(executableDirectory() / "Assets");</span>
+namespace {
 
-<span style = "background-color:#dfd">    const std::optional&lt;std::filesystem::path&gt; imagePath =</span>
-        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME);
+// Charge l'image de la police et valide ses dimensions. std::nullopt (avec journal) si l'asset est
+// absent, illisible ou hors contrat.
+std::optional&lt;LoadedTexture&gt; loadFontImage(const RhiContext&amp; context, const AssetPaths&amp; assetPaths,
+<span style = "background-color:#dfd">                                           std::filesystem::path&amp; imagePathOut) {
+    const std::optional&lt;std::filesystem::path&gt; imagePath =</span>
+        assetPaths.resolve(FONTS_SUBDIRECTORY + BitmapFont::FONT_ASSET_FILE_NAME);
 <span style = "background-color:#dfd">    if (!imagePath) {
-        GRAPHICS_LOG_INFO("BitmapFont : asset '" + FONTS_SUBDIRECTORY + FONT_ASSET_FILE_NAME +</span>
+        GRAPHICS_LOG_INFO("BitmapFont : asset '" + FONTS_SUBDIRECTORY +</span>
+                          BitmapFont::FONT_ASSET_FILE_NAME +
                           "' absent, repli sur la police procedurale");
-<span style = "background-color:#dfd">        return false;</span>
+<span style = "background-color:#dfd">        return std::nullopt;</span>
     }
 <span style = "background-color:#fdd">    std::optional&lt;LoadedTexture&gt; loaded = loadTextureFromFile(context, *imagePath);
     if (!loaded) {
         GRAPHICS_LOG_WARNING("BitmapFont : echec du chargement de '" + imagePath-&gt;string() +</span>
                              "', repli sur la police procedurale");
-<span style = "background-color:#fdd">        return false;</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
-<span style = "background-color:#fdd">    const AssetValidation dimensionValidation =</span>
-        validateAsset(AssetFamily::Font, FONT_ASSET_FILE_NAME, loaded-&gt;width, loaded-&gt;height);
+<span style = "background-color:#fdd">    const AssetValidation dimensionValidation = validateAsset(</span>
+        AssetFamily::Font, BitmapFont::FONT_ASSET_FILE_NAME, loaded-&gt;width, loaded-&gt;height);
 <span style = "background-color:#fdd">    if (!dimensionValidation.valid) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + dimensionValidation.message +</span>
                              " Repli sur la police procedurale.");
-<span style = "background-color:#fdd">        return false;</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
+<span style = "background-color:#fdd">    imagePathOut = *imagePath;
+    return loaded;</span>
+<span style = "background-color:#dfd">}</span>
 
-<span style = "background-color:#fdd">    const std::optional&lt;std::filesystem::path&gt; metricsPath =</span>
-        assetPaths.resolve(FONTS_SUBDIRECTORY + FONT_METRICS_FILE_NAME);
+// Charge les metriques de la police et verifie leur coherence avec la texture. std::nullopt (avec
+// journal) si le fichier est absent, invalide ou incoherent.
+std::optional&lt;FontMetrics&gt; loadFontMetrics(const AssetPaths&amp; assetPaths, int textureWidth,
+<span style = "background-color:#fdd">                                           int textureHeight) {
+    const std::optional&lt;std::filesystem::path&gt; metricsPath =</span>
+        assetPaths.resolve(FONTS_SUBDIRECTORY + BitmapFont::FONT_METRICS_FILE_NAME);
 <span style = "background-color:#fdd">    if (!metricsPath) {
         GRAPHICS_LOG_WARNING("BitmapFont : fichier de metriques '" + FONTS_SUBDIRECTORY +</span>
-                             FONT_METRICS_FILE_NAME + "' absent, repli sur la police procedurale");
-<span style = "background-color:#fdd">        return false;</span>
+                             BitmapFont::FONT_METRICS_FILE_NAME +
+                             "' absent, repli sur la police procedurale");
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
 <span style = "background-color:#fdd">    const FontMetricsResult metricsResult = loadFontMetricsFromFile(*metricsPath);
     if (!metricsResult.ok()) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + metricsResult.error +</span>
                              " Repli sur la police procedurale.");
-<span style = "background-color:#fdd">        return false;</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
 <span style = "background-color:#fdd">    const AssetValidation coherence = validateFontMetricsAgainstTexture(</span>
-        *metricsResult.metrics, FONT_ASSET_FILE_NAME, loaded-&gt;width, loaded-&gt;height);
+        *metricsResult.metrics, BitmapFont::FONT_ASSET_FILE_NAME, textureWidth, textureHeight);
 <span style = "background-color:#fdd">    if (!coherence.valid) {
         GRAPHICS_LOG_WARNING("BitmapFont : " + coherence.message +</span>
                              " Repli sur la police procedurale.");
-<span style = "background-color:#fdd">        return false;</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#fdd">    return *metricsResult.metrics;
+}</span>
+
+}  // namespace
+
+// Essaie de charger Assets/Fonts/font.png + font.json. true si les deux ont ete charges, valides,
+// et la texture creee avec succes.
+<span style = "background-color:#dfd">bool BitmapFont::loadFromAssets(const RhiContext&amp; context) {
+    const AssetPaths assetPaths(executableDirectory() / "Assets");</span>
+
+<span style = "background-color:#dfd">    std::filesystem::path imagePath;
+    std::optional&lt;LoadedTexture&gt; loaded = loadFontImage(context, assetPaths, imagePath);
+    if (!loaded) {
+        return false;</span>
+    }
+<span style = "background-color:#fdd">    std::optional&lt;FontMetrics&gt; metrics = loadFontMetrics(assetPaths, loaded-&gt;width, loaded-&gt;height);
+    if (!metrics) {
+        return false;</span>
     }
 
 <span style = "background-color:#fdd">    _textureWidth = loaded-&gt;width;
     _textureHeight = loaded-&gt;height;
     _texture = std::move(loaded-&gt;texture);
-    _metrics = *metricsResult.metrics;
-    GRAPHICS_LOG_INFO("BitmapFont : police chargee depuis '" + imagePath-&gt;string() + "'");
+    _metrics = std::move(*metrics);
+    GRAPHICS_LOG_INFO("BitmapFont : police chargee depuis '" + imagePath.string() + "'");
     return true;</span>
 <span style = "background-color:#dfd">}</span>
 

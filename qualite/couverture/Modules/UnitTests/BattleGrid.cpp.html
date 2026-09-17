@@ -62,7 +62,7 @@ BattleGrid::BattleGrid(const TileMap&amp; collision)
             // arrÃªte aussi un volant, y compris une porte fermÃ©e, que le contrÃ´leur de mÃ©canismes
             // Ã©crit comme de la matiÃ¨re pleine.
 <span style = "background-color:#dfd">            const bool groundOnly = type == TileType::DeepWater || type == TileType::Cliff;
-            _terrain[indexOf({column, row})] =</span>
+            _terrain[indexOf({.column = column, .row = row})] =</span>
                 groundOnly ? Terrain::GroundObstacle : Terrain::Solid;
 <span style = "background-color:#dfd">        }
     }
@@ -88,7 +88,7 @@ BattleGrid::BattleGrid(const TileMap&amp; collision)
                 if (layer.tiles.tile(column, row) == TileType::Empty) {
                     continue;</span>
                 }
-<span style = "background-color:#dfd">                const std::size_t index = indexOf({column, row});
+<span style = "background-color:#dfd">                const std::size_t index = indexOf({.column = column, .row = row});
                 zone.cells[index] = true;
                 if (difficult) {
                     _difficult[index] = true;</span>
@@ -100,7 +100,7 @@ BattleGrid::BattleGrid(const TileMap&amp; collision)
 }</span>
 
 <span style = "background-color:#dfd">std::size_t BattleGrid::indexOf(GridPosition cell) const noexcept {
-    return static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(_width) +</span>
+    return (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(_width)) +</span>
            static_cast&lt;std::size_t&gt;(cell.column);
 <span style = "background-color:#dfd">}</span>
 
@@ -165,7 +165,7 @@ BattleGrid::BattleGrid(const TileMap&amp; collision)
     }
 <span style = "background-color:#dfd">    for (int row = anchor.row; row &lt; anchor.row + side; ++row) {
         for (int column = anchor.column; column &lt; anchor.column + side; ++column) {
-            if (isObstructed({column, row}, locomotion)) {
+            if (isObstructed({.column = column, .row = row}, locomotion)) {
                 return false;</span>
             }
 <span style = "background-color:#dfd">        }
@@ -180,8 +180,9 @@ bool BattleGrid::canStand(GridPosition anchor, int side, std::optional&lt;Combat
     }
 <span style = "background-color:#dfd">    for (int row = anchor.row; row &lt; anchor.row + side; ++row) {
         for (int column = anchor.column; column &lt; anchor.column + side; ++column) {
-            const std::optional&lt;CombatantId&gt;&amp; occupant = _occupants[indexOf({column, row})];
-            if (occupant.has_value() &amp;&amp; occupant != self) {
+            const std::optional&lt;CombatantId&gt;&amp; occupant =</span>
+                _occupants[indexOf({.column = column, .row = row})];
+<span style = "background-color:#dfd">            if (occupant.has_value() &amp;&amp; occupant != self) {
                 return false;</span>
             }
 <span style = "background-color:#dfd">        }
@@ -191,7 +192,7 @@ bool BattleGrid::canStand(GridPosition anchor, int side, std::optional&lt;Combat
 
 PlacementResult BattleGrid::check(GridPosition anchor, int side, CombatantId self,
 <span style = "background-color:#dfd">                                  Locomotion locomotion) const {
-    const GridPosition farCorner{anchor.column + side - 1, anchor.row + side - 1};
+    const GridPosition farCorner{.column = anchor.column + side - 1, .row = anchor.row + side - 1};
     if (!inBounds(anchor) || !inBounds(farCorner)) {
         return PlacementResult::OutOfBounds;</span>
     }
@@ -210,7 +211,7 @@ PlacementResult BattleGrid::check(GridPosition anchor, int side, CombatantId sel
     for (int row = placement.anchor.row; row &lt; placement.anchor.row + placement.side; ++row) {
         for (int column = placement.anchor.column;
              column &lt; placement.anchor.column + placement.side; ++column) {
-            _occupants[indexOf({column, row})] = occupant;
+            _occupants[indexOf({.column = column, .row = row})] = occupant;
         }
     }
 }</span>

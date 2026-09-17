@@ -49,7 +49,7 @@ constexpr std::string_view CORNER = "wall-corner";
 constexpr std::string_view PILLAR = "pillar";
 
 // Marge basse d'une figurine, en hauteurs de losange (anchors.bottomMargin de ArenaTile.ui.qml).
-constexpr float FIGURE_BOTTOM_MARGIN = 0.42f;
+constexpr float FIGURE_BOTTOM_MARGIN = 0.42F;
 
 /// Le chemin d'une piece de scene : `../Scene/coliseum/&lt;nom&gt;&lt;suffixe&gt;.png`.
 <span style = "background-color:#dfd">void scenePath(std::string&amp; path, std::string_view name, std::string_view suffix = {}) {
@@ -85,8 +85,8 @@ struct Composer {
      * @brief Une piece de scene d'une case, posee par son ancre : le sommet haut du losange de sa
      *        case tombe sur le pixel (34, hauteur - 42) de la texture.
      *
-     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture a
-     * la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
+     * C'est l'`anchor` du manifeste de l'atelier (LOT-92) pour une emprise d'une case : la texture
+     * a la largeur du losange, le losange en occupe les 42 pixels du bas, le reste monte au-dessus.
      */
     void addStanding(RenderLayer layer, std::string_view path, core::Vector2 topVertex,
 <span style = "background-color:#dfd">                     std::int32_t sortOrder) const {
@@ -94,12 +94,12 @@ struct Composer {
         if (texture.texture == nullptr) {
             return;</span>
         }
-<span style = "background-color:#dfd">        const float height = static_cast&lt;float&gt;(texture.height);
+<span style = "background-color:#dfd">        const auto height = static_cast&lt;float&gt;(texture.height);
         SpriteQuad quad;
         quad.x = topVertex.x -</span>
-                 static_cast&lt;float&gt;(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel;
-<span style = "background-color:#dfd">        quad.y = topVertex.y -</span>
-                 (height - static_cast&lt;float&gt;(ARENA_SCENE_TILE_HEIGHT_PIXELS)) * unitsPerScenePixel;
+                 (static_cast&lt;float&gt;(ARENA_SCENE_HALF_TILE_WIDTH_PIXELS) * unitsPerScenePixel);
+<span style = "background-color:#dfd">        quad.y = topVertex.y - ((height - static_cast&lt;float&gt;(ARENA_SCENE_TILE_HEIGHT_PIXELS)) *</span>
+                                unitsPerScenePixel);
 <span style = "background-color:#dfd">        quad.width = static_cast&lt;float&gt;(texture.width) * unitsPerScenePixel;
         quad.height = height * unitsPerScenePixel;
         scene.addSprite(layer, texture.texture, sortOrder, quad);
@@ -126,8 +126,9 @@ void composeTile(const Composer&amp; composer, const ArenaAppearanceCatalog&amp;
     } else if (appearance.gateSpot) {
         scenePath(path, THRESHOLD);
     } else if (appearance.slab) {</span>
-<span style = "background-color:#fdd">        scenePath(path, SAND_VARIANTS[static_cast&lt;std::size_t&gt;(appearance.slabVariant) %</span>
-                                      SAND_VARIANTS.size()]);
+<span style = "background-color:#fdd">        scenePath(</span>
+            path,
+            SAND_VARIANTS[static_cast&lt;std::size_t&gt;(appearance.slabVariant) % SAND_VARIANTS.size()]);
 <span style = "background-color:#fdd">    } else {</span>
 <span style = "background-color:#dfd">        scenePath(path, SAND);</span>
     }
@@ -142,8 +143,8 @@ void composeTile(const Composer&amp; composer, const ArenaAppearanceCatalog&amp;
     }
 
     // --- L'enceinte : une piece debout par case, triee au pied de la case --------------------
-    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan decore,
-    // pas une decoration posee sur un pan.
+    // Une piece de l'atelier porte son mur : une torche, une banniere, une arche sont un pan
+    // decore, pas une decoration posee sur un pan.
 <span style = "background-color:#dfd">    const std::string_view edge = edgeSuffix(cell, snapshot.rows);
     if (appearance.gateSpot) {
         scenePath(path, ARCH, edge);
@@ -206,10 +207,10 @@ void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&am
     // l'emprise.
 <span style = "background-color:#dfd">    const core::GridPosition anchor = combatant.anchor;
     const int footprint = std::max(1, combatant.footprint);
-    const float extent = static_cast&lt;float&gt;(footprint);</span>
+    const auto extent = static_cast&lt;float&gt;(footprint);</span>
     const core::Vector2 center =
-<span style = "background-color:#dfd">        composer.projection.gridToWorld({static_cast&lt;float&gt;(anchor.column) + extent / 2.0f,</span>
-                                         static_cast&lt;float&gt;(anchor.row) + extent / 2.0f});
+<span style = "background-color:#dfd">        composer.projection.gridToWorld({static_cast&lt;float&gt;(anchor.column) + (extent / 2.0F),</span>
+                                         static_cast&lt;float&gt;(anchor.row) + (extent / 2.0F)});
 <span style = "background-color:#dfd">    const float footY =</span>
         composer.projection
             .gridToWorld(gridPoint(anchor.column + footprint, anchor.row + footprint))
@@ -222,14 +223,14 @@ void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&am
     SpriteQuad quad;
     quad.width = static_cast&lt;float&gt;(frameWidthPixels) * scale;
     quad.height = static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) * scale;
-    quad.x = center.x - quad.width / 2.0f;
-    quad.y = footY - tileHeight * FIGURE_BOTTOM_MARGIN * extent - quad.height;
+    quad.x = center.x - (quad.width / 2.0F);
+    quad.y = footY - (tileHeight * FIGURE_BOTTOM_MARGIN * extent) - quad.height;
     if (texture.width &gt; 0 &amp;&amp; texture.height &gt; 0) {
-        const float frameWidth = static_cast&lt;float&gt;(frameWidthPixels);
+        const auto frameWidth = static_cast&lt;float&gt;(frameWidthPixels);
         quad.u0 = static_cast&lt;float&gt;(frame) * frameWidth / static_cast&lt;float&gt;(texture.width);
         quad.u1 = static_cast&lt;float&gt;(frame + 1) * frameWidth / static_cast&lt;float&gt;(texture.width);
-        quad.v0 = 0.0f;
-        quad.v1 = std::min(1.0f, static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) /</span>
+        quad.v0 = 0.0F;
+        quad.v1 = std::min(1.0F, static_cast&lt;float&gt;(ARENA_FIGURE_FRAME_HEIGHT_PIXELS) /</span>
                                      static_cast&lt;float&gt;(texture.height));
     }
 <span style = "background-color:#dfd">    if (down &amp;&amp; !ally) {
@@ -242,7 +243,7 @@ void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&am
 }  // namespace
 
 <span style = "background-color:#dfd">std::int32_t arenaDepthSortOrder(float footWorldY, ArenaDepthSlot slot) noexcept {
-    return depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS + static_cast&lt;std::int32_t&gt;(slot);
+    return (depthSortOrder(footWorldY) * ARENA_DEPTH_SLOTS) + static_cast&lt;std::int32_t&gt;(slot);
 }</span>
 
 <span style = "background-color:#dfd">std::vector&lt;std::string&gt; arenaTexturePaths(const ArenaAppearanceCatalog&amp; catalog) {
@@ -281,7 +282,7 @@ void composeFigure(const Composer&amp; composer, const ArenaAppearanceCatalog&am
 <span style = "background-color:#fdd">        return false;</span>
     }
 <span style = "background-color:#dfd">    const std::size_t index =</span>
-        static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(columns) +
+        (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(columns)) +
         static_cast&lt;std::size_t&gt;(cell.column);
 <span style = "background-color:#dfd">    return index &lt; obstructed.size() &amp;&amp; obstructed[index];
 }</span>

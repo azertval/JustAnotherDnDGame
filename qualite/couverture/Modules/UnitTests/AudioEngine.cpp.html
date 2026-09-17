@@ -27,7 +27,7 @@ namespace hmi {
 
 namespace {
 <span style = "background-color:#dfd">[[nodiscard]] float clampVolume(float volume) noexcept {
-    return std::clamp(volume, 0.0f, 1.0f);
+    return std::clamp(volume, 0.0F, 1.0F);
 }</span>
 }  // namespace
 
@@ -41,7 +41,7 @@ namespace {
     }
 <span style = "background-color:#fdd">}</span>
 
-<span style = "background-color:#dfd">AudioEngine::AudioEngine(ForceMuted) : _muted(true) {}</span>
+<span style = "background-color:#dfd">AudioEngine::AudioEngine(ForceMuted /*unused*/) : _muted(true) {}</span>
 
 <span style = "background-color:#dfd">AudioEngine::~AudioEngine() = default;</span>
 

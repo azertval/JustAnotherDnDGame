@@ -82,10 +82,65 @@ std::vector&lt;PlaneTexture&gt; resolvePlaneTextures(TextureCache&amp; cache,
             textures.push_back(PlaneTexture{});  // meme le damier a echoue : plan muet.
             continue;</span>
         }
-<span style = "background-color:#fdd">        textures.push_back(PlaneTexture{loaded-&gt;handle(), loaded-&gt;width, loaded-&gt;height});
-    }
+<span style = "background-color:#fdd">        textures.push_back(PlaneTexture{</span>
+            .texture = loaded-&gt;handle(), .width = loaded-&gt;width, .height = loaded-&gt;height});
+<span style = "background-color:#fdd">    }
     return textures;
 }</span>
+
+namespace {
+
+// Charge les surcharges de texture par instance (EX-EDIT-043, LOT-45), independamment du
+// catalogue de skins : plusieurs cases peuvent partager le meme asset, charge une seule fois.
+void loadOverrideTextures(SceneTextures&amp; textures, TextureCache&amp; cache,
+<span style = "background-color:#fdd">                          const std::vector&lt;core::TileTextureOverride&gt;&amp; textureOverrides) {
+    for (const core::TileTextureOverride&amp; override : textureOverrides) {
+        if (textures.objectIndexOf(override.assetName) &gt;= 0) {
+            continue;  // asset deja charge.</span>
+        }
+<span style = "background-color:#fdd">        const LoadedTexture* loaded =</span>
+            cache.get(OBJECTS_SUBDIRECTORY + override.assetName, AssetFamily::Object);
+<span style = "background-color:#fdd">        if (loaded == nullptr) {
+            continue;  // absent/illisible/refuse : la resolution retombera sur le damier.</span>
+        }
+<span style = "background-color:#fdd">        textures.objects.push_back(SkinTexture{.asset = override.assetName,</span>
+                                               .maskType = std::nullopt,
+                                               .texture = loaded-&gt;handle(),
+                                               .width = loaded-&gt;width,
+                                               .height = loaded-&gt;height,
+                                               .animatedFrame = std::nullopt});
+<span style = "background-color:#fdd">    }
+}</span>
+
+// Region de l'image courante d'un asset de skin anime, d'apres son horloge partagee ;
+// std::nullopt si l'asset n'a pas d'horloge ou pas de description d'animation.
+std::optional&lt;core::AtlasRegion&gt; currentAnimatedFrame(
+    TextureCache&amp; cache, const std::string&amp; asset, const LoadedTexture&amp; loaded,
+<span style = "background-color:#fdd">    const std::unordered_map&lt;std::string, core::Animation&gt;&amp; tileAnimations) {
+    const auto animationEntry = tileAnimations.find(asset);
+    if (animationEntry == tileAnimations.end()) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#fdd">    const AnimationDescription* description =</span>
+        cache.getAnimation(SKINS_SUBDIRECTORY + asset, loaded.width, loaded.height);
+<span style = "background-color:#fdd">    if (description == nullptr) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#fdd">    return AnimationCatalog::currentFrameRegion(*description, animationEntry-&gt;second);
+}</span>
+
+// Avertit UNE fois par asset qu'une animation est ignoree (bitmask16 ou silhouette detouree).
+<span style = "background-color:#fdd">void warnAnimationExcluded(const SkinEntry&amp; entry, std::set&lt;std::string&gt;&amp; warnedExclusions) {
+    if (!warnedExclusions.insert(entry.asset).second) {
+        return;</span>
+    }
+<span style = "background-color:#fdd">    GRAPHICS_LOG_WARNING(</span>
+        "Animation de '" + entry.asset + "' ignoree : combinaison non supportee (" +
+        std::string(entry.mode == SkinMode::Bitmask16 ? "mode bitmask16" : "silhouette detouree") +
+        " + animation, LOT-46).");
+<span style = "background-color:#fdd">}</span>
+
+}  // namespace
 
 // Textures liables par la composition d'une scene : atlas, damier de repli et skins (point unique).
 SceneTextures sceneTextures(
@@ -114,20 +169,7 @@ SceneTextures sceneTextures(
         textures.characterSheetHeight = sheet-&gt;height;</span>
     }
 
-    // Charge les surcharges de texture par instance (EX-EDIT-043, LOT-45), independamment du
-    // catalogue de skins : plusieurs cases peuvent partager le meme asset, charge une seule fois.
-<span style = "background-color:#fdd">    for (const core::TileTextureOverride&amp; override : textureOverrides) {
-        if (textures.objectIndexOf(override.assetName) &gt;= 0) {
-            continue;  // asset deja charge.</span>
-        }
-<span style = "background-color:#fdd">        const LoadedTexture* loaded =</span>
-            cache.get(OBJECTS_SUBDIRECTORY + override.assetName, AssetFamily::Object);
-<span style = "background-color:#fdd">        if (loaded == nullptr) {
-            continue;  // absent/illisible/refuse : la resolution retombera sur le damier.</span>
-        }
-<span style = "background-color:#fdd">        textures.objects.push_back(SkinTexture{override.assetName, std::nullopt, loaded-&gt;handle(),</span>
-                                               loaded-&gt;width, loaded-&gt;height});
-<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#fdd">    loadOverrideTextures(textures, cache, textureOverrides);</span>
 
 <span style = "background-color:#fdd">    textures.skinCatalog = skins;
     textures.skinSet = skinSet;
@@ -160,20 +202,17 @@ SceneTextures sceneTextures(
         // silhouette : bitmask16 et le detourage de silhouette excluent l'animation (limite
         // assumee, cf. GameSession::updateTileAnimations qui la signale). L'horloge partagee est
         // deja avancee au pas fixe ; ici on ne fait QUE traduire son etat courant en region.
-<span style = "background-color:#fdd">        std::optional&lt;core::AtlasRegion&gt; animatedFrame;
-        if (!animationExcludedForTile(entry.mode, type)) {
-            const auto animationEntry = tileAnimations.find(entry.asset);
-            if (animationEntry != tileAnimations.end()) {
-                if (const AnimationDescription* description = cache.getAnimation(</span>
-                        SKINS_SUBDIRECTORY + entry.asset, loaded-&gt;width, loaded-&gt;height)) {
-<span style = "background-color:#fdd">                    animatedFrame =</span>
-                        AnimationCatalog::currentFrameRegion(*description, animationEntry-&gt;second);
-                }
-            }
-<span style = "background-color:#fdd">        }</span>
+<span style = "background-color:#fdd">        const std::optional&lt;core::AtlasRegion&gt; animatedFrame =</span>
+            animationExcludedForTile(entry.mode, type)
+                ? std::nullopt
+                : currentAnimatedFrame(cache, entry.asset, *loaded, tileAnimations);
 
-<span style = "background-color:#fdd">        textures.skins.push_back(SkinTexture{entry.asset, maskType, loaded-&gt;handle(), loaded-&gt;width,</span>
-                                             loaded-&gt;height, animatedFrame});
+<span style = "background-color:#fdd">        textures.skins.push_back(SkinTexture{.asset = entry.asset,</span>
+                                             .maskType = maskType,
+                                             .texture = loaded-&gt;handle(),
+                                             .width = loaded-&gt;width,
+                                             .height = loaded-&gt;height,
+                                             .animatedFrame = animatedFrame});
 <span style = "background-color:#fdd">    }
     return textures;
 }</span>
@@ -191,8 +230,9 @@ BackgroundTexture resolveBackgroundTexture(const std::optional&lt;std::string&gt
 <span style = "background-color:#fdd">    if (texture == nullptr) {
         return {};  // meme le damier de repli n'a pas pu etre cree (device perdu).</span>
     }
-<span style = "background-color:#fdd">    return BackgroundTexture{texture-&gt;handle(), texture-&gt;width, texture-&gt;height};
-}</span>
+<span style = "background-color:#fdd">    return BackgroundTexture{</span>
+        .texture = texture-&gt;handle(), .width = texture-&gt;width, .height = texture-&gt;height};
+<span style = "background-color:#fdd">}</span>
 
 // Avance l'horloge d'animation partagee des tuiles animees d'un jeu de skins courant (voir
 // en-tete).
@@ -220,14 +260,8 @@ void advanceTileAnimations(const SkinCatalog* skins, const std::string&amp; skin
         // bitmask16 et silhouette detouree excluent l'animation (limite assumee, epic LOT-46
         // TACHE-05) : signale UNE fois par asset plutot que silencieusement ignore.
 <span style = "background-color:#fdd">        if (animationExcludedForTile(entry.mode, type)) {
-            if (warnedExclusions.insert(entry.asset).second) {
-                GRAPHICS_LOG_WARNING(</span>
-                    "Animation de '" + entry.asset + "' ignoree : combinaison non supportee (" +
-                    std::string(entry.mode == SkinMode::Bitmask16 ? "mode bitmask16"
-                                                                  : "silhouette detouree") +
-                    " + animation, LOT-46).");
-            }
-<span style = "background-color:#fdd">            continue;</span>
+            warnAnimationExcluded(entry, warnedExclusions);
+            continue;</span>
         }
 
 <span style = "background-color:#fdd">        core::Animation&amp; animation = tileAnimations[entry.asset];

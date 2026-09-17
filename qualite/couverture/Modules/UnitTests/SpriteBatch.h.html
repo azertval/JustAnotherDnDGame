@@ -122,10 +122,10 @@ public:
      * @param target        Cible de rendu de l'image.
      * @param updates       Lot de mises Ã  jour Ã  soumettre avec les sommets (tÃ©lÃ©versements de
      *                      textures accumulÃ©s pendant la composition) ; peut Ãªtre `nullptr`.
-     * @param clear         Couleur d'effacement, composantes `[0, 1]`.
+     * @param clear         Couleur d'effacement : quatre composantes RGBA `[0, 1]`.
      */
     void submit(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target,
-                QRhiResourceUpdateBatch* updates, const float clear[4]);
+                QRhiResourceUpdateBatch* updates, const float* clear);
 
 private:
     /// Sommet envoyÃ© au GPU : position monde (x, y), UV, couleur RVBA.

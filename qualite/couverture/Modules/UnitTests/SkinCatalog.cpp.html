@@ -66,6 +66,60 @@ constexpr const char* FIELD_MODE = "mode";
 
 }  // namespace
 
+namespace {
+
+// Lit le mode d'une entree. Mode absent : Â« single Â», le mode qui convient a tout type dont le
+// voisinage n'a pas de sens. Mode present mais inconnu : refus, jamais un mode devine. Rend
+// l'echec, ou std::nullopt apres avoir renseigne @p entry.
+[[nodiscard]] std::optional&lt;SkinCatalogResult&gt; parseSkinMode(const std::string&amp; setName,
+                                                             const std::string&amp; typeName,
+                                                             const nlohmann::json&amp; entryJson,
+<span style = "background-color:#dfd">                                                             SkinEntry&amp; entry) {
+    if (!entryJson.contains(FIELD_MODE)) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (!entryJson[FIELD_MODE].is_string()) {</span>
+<span style = "background-color:#fdd">        return failure("Le champ Â« mode Â» de Â« " + typeName + " Â» (jeu Â« " + setName +</span>
+                           " Â») n'est pas une chaine.",
+                       SkinCatalogError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    const std::string modeName = entryJson[FIELD_MODE].get&lt;std::string&gt;();
+    const std::optional&lt;SkinMode&gt; mode = skinModeFromName(modeName);
+    if (!mode.has_value()) {
+        return failure("Mode inconnu Â« " + modeName + " Â» pour Â« " + typeName + " Â» (jeu Â« " +</span>
+                           setName + " Â»).",
+                       SkinCatalogError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    entry.mode = *mode;
+    return std::nullopt;
+}</span>
+
+// Lit une entree Â« type -&gt; asset Â» d'un jeu. Rend l'echec, ou std::nullopt apres avoir renseigne
+// @p type et @p entry.
+[[nodiscard]] std::optional&lt;SkinCatalogResult&gt; parseSkinEntry(const std::string&amp; setName,
+                                                              const std::string&amp; typeName,
+                                                              const nlohmann::json&amp; entryJson,
+                                                              core::TileType&amp; type,
+<span style = "background-color:#dfd">                                                              SkinEntry&amp; entry) {
+    const std::optional&lt;core::TileType&gt; parsedType = core::parseTileType(typeName);
+    if (!parsedType.has_value()) {
+        return failure(</span>
+            "Type de tuile inconnu Â« " + typeName + " Â» dans le jeu Â« " + setName + " Â».",
+            SkinCatalogError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    if (!entryJson.is_object() || !entryJson.contains(FIELD_ASSET) ||</span>
+        !entryJson[FIELD_ASSET].is_string()) {
+<span style = "background-color:#dfd">        return failure("Entree Â« " + typeName + " Â» du jeu Â« " + setName +</span>
+                           " Â» sans champ Â« asset Â» exploitable.",
+                       SkinCatalogError::MalformedStructure);
+    }
+<span style = "background-color:#dfd">    type = *parsedType;
+    entry.asset = entryJson[FIELD_ASSET].get&lt;std::string&gt;();
+    return parseSkinMode(setName, typeName, entryJson, entry);
+}</span>
+
+}  // namespace
+
 <span style = "background-color:#dfd">const char* skinModeName(SkinMode mode) noexcept {</span>
     // switch exhaustif sans default : un mode ajoute sans nom casse la compilation.
 <span style = "background-color:#dfd">    switch (mode) {</span>
@@ -111,39 +165,13 @@ constexpr const char* FIELD_MODE = "mode";
             }
 <span style = "background-color:#dfd">            catalog.addSet(setName);
             for (const auto&amp; [typeName, entryJson] : setJson.items()) {
-                const std::optional&lt;core::TileType&gt; type = core::parseTileType(typeName);
-                if (!type.has_value()) {
-                    return failure("Type de tuile inconnu Â« " + typeName + " Â» dans le jeu Â« " +</span>
-                                       setName + " Â».",
-                                   SkinCatalogError::MalformedStructure);
+                core::TileType type{};
+                SkinEntry entry;
+                if (std::optional&lt;SkinCatalogResult&gt; error =</span>
+                        parseSkinEntry(setName, typeName, entryJson, type, entry)) {
+<span style = "background-color:#dfd">                    return std::move(*error);
                 }
-<span style = "background-color:#dfd">                if (!entryJson.is_object() || !entryJson.contains(FIELD_ASSET) ||</span>
-                    !entryJson[FIELD_ASSET].is_string()) {
-<span style = "background-color:#dfd">                    return failure("Entree Â« " + typeName + " Â» du jeu Â« " + setName +</span>
-                                       " Â» sans champ Â« asset Â» exploitable.",
-                                   SkinCatalogError::MalformedStructure);
-                }
-
-<span style = "background-color:#dfd">                SkinEntry entry;
-                entry.asset = entryJson[FIELD_ASSET].get&lt;std::string&gt;();</span>
-                // Mode absent : Â« single Â», le mode qui convient a tout type dont le voisinage n'a
-                // pas de sens. Mode present mais inconnu : refus, jamais un mode devine.
-<span style = "background-color:#dfd">                if (entryJson.contains(FIELD_MODE)) {
-                    if (!entryJson[FIELD_MODE].is_string()) {</span>
-<span style = "background-color:#fdd">                        return failure("Le champ Â« mode Â» de Â« " + typeName + " Â» (jeu Â« " +</span>
-                                           setName + " Â») n'est pas une chaine.",
-                                       SkinCatalogError::MalformedStructure);
-                    }
-<span style = "background-color:#dfd">                    const std::string modeName = entryJson[FIELD_MODE].get&lt;std::string&gt;();
-                    const std::optional&lt;SkinMode&gt; mode = skinModeFromName(modeName);
-                    if (!mode.has_value()) {
-                        return failure("Mode inconnu Â« " + modeName + " Â» pour Â« " + typeName +</span>
-                                           " Â» (jeu Â« " + setName + " Â»).",
-                                       SkinCatalogError::MalformedStructure);
-                    }
-<span style = "background-color:#dfd">                    entry.mode = *mode;
-                }
-                catalog.assign(setName, *type, std::move(entry));
+                catalog.assign(setName, type, std::move(entry));
             }
         }</span>
     }

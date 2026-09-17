@@ -110,7 +110,7 @@ constexpr std::array&lt;std::string_view, kRegionAxisCount&gt; NOMS_D_AXE{
 <span style = "background-color:#fdd">            return false;</span>
         }
 <span style = "background-color:#dfd">        sortie.appraisals.push_back(</span>
-            RegionAppraisal{*valeur, lireTexteFacultatif(element, "scope")});
+            RegionAppraisal{.grade = *valeur, .scope = lireTexteFacultatif(element, "scope")});
 <span style = "background-color:#dfd">    }
     return true;
 }</span>
@@ -134,7 +134,7 @@ constexpr std::array&lt;std::string_view, kRegionAxisCount&gt; NOMS_D_AXE{
         RegionSpeciesShare part;
         if (!element.is_object() || !lireTexte(element, "species", part.species, raison) ||</span>
             !lireTexte(element, "label", part.label, raison)) {
-<span style = "background-color:#fdd">            raison = "population/species : " + raison;
+<span style = "background-color:#fdd">            raison.insert(0, "population/species : ");
             return false;</span>
         }
 <span style = "background-color:#dfd">        const std::optional&lt;int&gt; pourcent = lireEntierFacultatif(element, "percent");
@@ -168,7 +168,11 @@ constexpr std::array&lt;std::string_view, kRegionAxisCount&gt; NOMS_D_AXE{
     }
 <span style = "background-color:#dfd">    for (std::size_t rang = 0; rang &lt; kRegionAxisCount; ++rang) {
         if (!lireStatistique(*statistiques, NOMS_D_AXE[rang], sortie.statistics[rang], raison)) {</span>
-<span style = "background-color:#fdd">            erreurs.push_back(fichier + " : " + raison + '.');
+<span style = "background-color:#fdd">            std::string message = fichier;
+            message += " : ";
+            message += raison;
+            message += '.';
+            erreurs.push_back(std::move(message));
             return false;</span>
         }
 <span style = "background-color:#dfd">    }</span>

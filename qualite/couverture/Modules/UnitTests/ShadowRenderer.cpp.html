@@ -66,8 +66,8 @@ void composeShadows(ComposedScene&amp; scene, core::World&amp; world, RenderMode
             // opaque exactement la ou la matiere est presente, transparente ailleurs -- reutilisee
             // telle quelle, jamais un skin (l'ombre ignore le jeu de skins courant).
 <span style = "background-color:#dfd">            const core::AtlasRegion region = regionForTile(tag.type);
-            const float atlasWidth = static_cast&lt;float&gt;(textures.atlasWidth);
-            const float atlasHeight = static_cast&lt;float&gt;(textures.atlasHeight);
+            const auto atlasWidth = static_cast&lt;float&gt;(textures.atlasWidth);
+            const auto atlasHeight = static_cast&lt;float&gt;(textures.atlasHeight);
             const float worldWidth =</span>
                 static_cast&lt;float&gt;(region.width) / Camera2D::PIXELS_PER_UNIT * transform.scale.x;
 <span style = "background-color:#dfd">            const float worldHeight =</span>
@@ -92,9 +92,9 @@ void composeShadows(ComposedScene&amp; scene, core::World&amp; world, RenderMode
             quad.v0 = static_cast&lt;float&gt;(region.y) / atlasHeight;
             quad.u1 = static_cast&lt;float&gt;(region.x + region.width) / atlasWidth;
             quad.v1 = static_cast&lt;float&gt;(region.y + region.height) / atlasHeight;
-            quad.r = 0.0f;
-            quad.g = 0.0f;
-            quad.b = 0.0f;
+            quad.r = 0.0F;
+            quad.g = 0.0F;
+            quad.b = 0.0F;
             quad.a = SHADOW_OPACITY;
             scene.addSprite(RenderLayer::Shadow, textures.atlas, 0, quad);
         });

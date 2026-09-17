@@ -133,13 +133,28 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:aeee6162d90a0c35a8a805ddab8ac92e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les panneaux « Couches » et « Entités » (<span class="tt">LOT-11</span>) : même partage des rôles.  <br /></td></tr>
 <tr class="memitem:a952381c794fe3fd8003e5177ae7b42c4" id="r_a952381c794fe3fd8003e5177ae7b42c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a952381c794fe3fd8003e5177ae7b42c4">reloadEditorReferences</a> ()</td></tr>
 <tr class="memdesc:a952381c794fe3fd8003e5177ae7b42c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire, cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au rechargement des assets.  <br /></td></tr>
-<tr class="memitem:aecde93c971ddc897c53a114cfbcba9ef" id="r_aecde93c971ddc897c53a114cfbcba9ef"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aecde93c971ddc897c53a114cfbcba9ef">planesDirectory</a> () const</td></tr>
 <tr class="memitem:ac0d13c9ba2e418481dad5e0f6d3fc107" id="r_ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0d13c9ba2e418481dad5e0f6d3fc107">createPlane</a> ()</td></tr>
 <tr class="memdesc:ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le brouillon.  <br /></td></tr>
 <tr class="memitem:a6bfd4b9ec349f01e4c52e210c7b6e1ed" id="r_a6bfd4b9ec349f01e4c52e210c7b6e1ed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6bfd4b9ec349f01e4c52e210c7b6e1ed">changePlaneDensity</a> (std::size_t index, int pixelsPerUnit)</td></tr>
 <tr class="memdesc:a6bfd4b9ec349f01e4c52e210c7b6e1ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change la densité d'un plan : <b>rééchantillonne l'image</b> puis met à jour la déclaration, sans quoi le fichier et le format diraient deux choses différentes.  <br /></td></tr>
 <tr class="memitem:a2be2a6b71ee9770ab402e16bf8d61666" id="r_a2be2a6b71ee9770ab402e16bf8d61666"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666">buildUi</a> ()</td></tr>
 <tr class="memdesc:a2be2a6b71ee9770ab402e16bf8d61666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée les panneaux (contenu des docks du <span class="tt">.ui</span>) et branche les actions de la barre de menus.  <br /></td></tr>
+<tr class="memitem:ae846811693c28d55e5177cf9ac4a161e" id="r_ae846811693c28d55e5177cf9ac4a161e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae846811693c28d55e5177cf9ac4a161e">groupDockPanels</a> ()</td></tr>
+<tr class="memdesc:ae846811693c28d55e5177cf9ac4a161e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regroupe les docks en onglets par domaine et suit les choix d'onglet de l'utilisateur.  <br /></td></tr>
+<tr class="memitem:afc4b819c2eae833e1e44a701397724f7" id="r_afc4b819c2eae833e1e44a701397724f7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afc4b819c2eae833e1e44a701397724f7">connectToolActions</a> ()</td></tr>
+<tr class="memdesc:afc4b819c2eae833e1e44a701397724f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relie les actions d'outils (niveau et pixel art) et les signaux du canevas pixel art.  <br /></td></tr>
+<tr class="memitem:a39e10dbe859571691899000e40b26936" id="r_a39e10dbe859571691899000e40b26936"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a39e10dbe859571691899000e40b26936">buildPixelPalette</a> ()</td></tr>
+<tr class="memdesc:a39e10dbe859571691899000e40b26936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge la palette de projet de l'atelier pixel art et branche son panneau.  <br /></td></tr>
+<tr class="memitem:a433902be9f471a0caab8b3c8e30e303a" id="r_a433902be9f471a0caab8b3c8e30e303a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a433902be9f471a0caab8b3c8e30e303a">connectPixelCommands</a> ()</td></tr>
+<tr class="memdesc:a433902be9f471a0caab8b3c8e30e303a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les commandes de fichier et de région de l'atelier pixel art et leur menu.  <br /></td></tr>
+<tr class="memitem:a37e95ca3d6986d05acf01204beec6c7e" id="r_a37e95ca3d6986d05acf01204beec6c7e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a37e95ca3d6986d05acf01204beec6c7e">connectEditorCommands</a> ()</td></tr>
+<tr class="memdesc:a37e95ca3d6986d05acf01204beec6c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les commandes principales de l'éditeur et les répartit dans les menus.  <br /></td></tr>
+<tr class="memitem:a6c9c1ff579895f58b8e5e41020d30b02" id="r_a6c9c1ff579895f58b8e5e41020d30b02"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6c9c1ff579895f58b8e5e41020d30b02">buildThemeMenu</a> ()</td></tr>
+<tr class="memdesc:a6c9c1ff579895f58b8e5e41020d30b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit le sélecteur de thème clair/sombre de l'éditeur. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>.  <br /></td></tr>
+<tr class="memitem:a3a54e02e87fd3a48160e2776f73b68d3" id="r_a3a54e02e87fd3a48160e2776f73b68d3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3a54e02e87fd3a48160e2776f73b68d3">buildViewMenu</a> ()</td></tr>
+<tr class="memdesc:a3a54e02e87fd3a48160e2776f73b68d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplit le menu Affichage : vue, panneaux, espaces de travail, calques.  <br /></td></tr>
+<tr class="memitem:a871837448750fb40e380fe52af2f666f" id="r_a871837448750fb40e380fe52af2f666f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a871837448750fb40e380fe52af2f666f">buildStatusBar</a> ()</td></tr>
+<tr class="memdesc:a871837448750fb40e380fe52af2f666f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée les zones permanentes de la barre d'état. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>.  <br /></td></tr>
 <tr class="memitem:aef77702f265c861ebec3ef8c62c9cbf9" id="r_aef77702f265c861ebec3ef8c62c9cbf9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aef77702f265c861ebec3ef8c62c9cbf9">restoreLayout</a> ()</td></tr>
 <tr class="memitem:a3b35aad4874b9a25e9c680e44945fec4" id="r_a3b35aad4874b9a25e9c680e44945fec4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3b35aad4874b9a25e9c680e44945fec4">saveLayout</a> ()</td></tr>
 <tr class="memitem:abb2b5a4ae54723c485af101667fc2f23" id="r_abb2b5a4ae54723c485af101667fc2f23"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abb2b5a4ae54723c485af101667fc2f23">openResizeDialog</a> ()</td></tr>
@@ -195,8 +210,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:acfd88f3e6576c175480e4eeac406ea93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre les journaux de session accumulés dans un fichier horodaté.  <br /></td></tr>
 <tr class="memitem:a23d7033f2e1cfe842e9d3c9f6f6f6db8" id="r_a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a23d7033f2e1cfe842e9d3c9f6f6f6db8">text</a> (const char *key) const</td></tr>
 <tr class="memdesc:a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci : texte localisé d'une clé, en <span class="tt">QString</span>.  <br /></td></tr>
-<tr class="memitem:a841fbf5b4353177a821eeb443c9ea55b" id="r_a841fbf5b4353177a821eeb443c9ea55b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a841fbf5b4353177a821eeb443c9ea55b">showEditor</a> ()</td></tr>
-<tr class="memdesc:a841fbf5b4353177a821eeb443c9ea55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche l'éditeur (viewport + docks + barre de menu).  <br /></td></tr>
 <tr class="memitem:ad46f19e154147f414a4ca0817086c2ac" id="r_ad46f19e154147f414a4ca0817086c2ac"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad46f19e154147f414a4ca0817086c2ac">setDocksVisible</a> (bool visible)</td></tr>
 <tr class="memdesc:ad46f19e154147f414a4ca0817086c2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montre/masque tous les panneaux dockables.  <br /></td></tr>
 <tr class="memitem:a2b36a89653f47498553ff68af07c8de2" id="r_a2b36a89653f47498553ff68af07c8de2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b36a89653f47498553ff68af07c8de2">playInterfaceSound</a> (<a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> event)</td></tr>
@@ -207,6 +220,9 @@ Static Private Member Functions</h2></td></tr>
 <tr class="memitem:aaed7c2d32c2c0fcfd68f9bdf62c7b4bb" id="r_aaed7c2d32c2c0fcfd68f9bdf62c7b4bb"><td class="memItemLeft">static QString&#160;</td><td class="memItemRight"><a class="el" href="#aaed7c2d32c2c0fcfd68f9bdf62c7b4bb">layoutKeyFor</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
 <tr class="memitem:a5136cda0984d0b96d9ae1c6051adb0ea" id="r_a5136cda0984d0b96d9ae1c6051adb0ea"><td class="memItemLeft">static QString&#160;</td><td class="memItemRight"><a class="el" href="#a5136cda0984d0b96d9ae1c6051adb0ea">workspaceSettingsName</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
 <tr class="memitem:abc59a0bb011931c1f52b4e75cd5d28b3" id="r_abc59a0bb011931c1f52b4e75cd5d28b3"><td class="memItemLeft">static <a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a>&#160;</td><td class="memItemRight"><a class="el" href="#abc59a0bb011931c1f52b4e75cd5d28b3">workspaceFromSettingsName</a> (const QString &amp;name)</td></tr>
+<tr class="memitem:aee31c2dccce9794cb49b7b65c61777f8" id="r_aee31c2dccce9794cb49b7b65c61777f8"><td class="memItemLeft">static std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aee31c2dccce9794cb49b7b65c61777f8">planesDirectory</a> ()</td></tr>
+<tr class="memitem:a841fbf5b4353177a821eeb443c9ea55b" id="r_a841fbf5b4353177a821eeb443c9ea55b"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a841fbf5b4353177a821eeb443c9ea55b">showEditor</a> ()</td></tr>
+<tr class="memdesc:a841fbf5b4353177a821eeb443c9ea55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche l'éditeur (viewport + docks + barre de menu).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -438,6 +454,88 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a39e10dbe859571691899000e40b26936" name="a39e10dbe859571691899000e40b26936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39e10dbe859571691899000e40b26936">&#9670;&#160;</a></span>buildPixelPalette()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::buildPixelPalette </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge la palette de projet de l'atelier pixel art et branche son panneau. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
+
+</div>
+</div>
+<a id="a871837448750fb40e380fe52af2f666f" name="a871837448750fb40e380fe52af2f666f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a871837448750fb40e380fe52af2f666f">&#9670;&#160;</a></span>buildStatusBar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::buildStatusBar </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Crée les zones permanentes de la barre d'état. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
+
+</div>
+</div>
+<a id="a6c9c1ff579895f58b8e5e41020d30b02" name="a6c9c1ff579895f58b8e5e41020d30b02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c9c1ff579895f58b8e5e41020d30b02">&#9670;&#160;</a></span>buildThemeMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::buildThemeMenu </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Construit le sélecteur de thème clair/sombre de l'éditeur. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
+
+</div>
+</div>
 <a id="a2be2a6b71ee9770ab402e16bf8d61666" name="a2be2a6b71ee9770ab402e16bf8d61666"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2be2a6b71ee9770ab402e16bf8d61666">&#9670;&#160;</a></span>buildUi()</h2>
 
@@ -462,6 +560,34 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Crée les panneaux (contenu des docks du <span class="tt">.ui</span>) et branche les actions de la barre de menus. </p>
+
+</div>
+</div>
+<a id="a3a54e02e87fd3a48160e2776f73b68d3" name="a3a54e02e87fd3a48160e2776f73b68d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a54e02e87fd3a48160e2776f73b68d3">&#9670;&#160;</a></span>buildViewMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::buildViewMenu </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remplit le menu Affichage : vue, panneaux, espaces de travail, calques. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
 
 </div>
 </div>
@@ -629,6 +755,34 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a37e95ca3d6986d05acf01204beec6c7e" name="a37e95ca3d6986d05acf01204beec6c7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37e95ca3d6986d05acf01204beec6c7e">&#9670;&#160;</a></span>connectEditorCommands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::connectEditorCommands </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Branche les commandes principales de l'éditeur et les répartit dans les menus. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
+
+</div>
+</div>
 <a id="aeee6162d90a0c35a8a805ddab8ac92e0" name="aeee6162d90a0c35a8a805ddab8ac92e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aeee6162d90a0c35a8a805ddab8ac92e0">&#9670;&#160;</a></span>connectMapPanels()</h2>
 
@@ -656,6 +810,34 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a433902be9f471a0caab8b3c8e30e303a" name="a433902be9f471a0caab8b3c8e30e303a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a433902be9f471a0caab8b3c8e30e303a">&#9670;&#160;</a></span>connectPixelCommands()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::connectPixelCommands </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Branche les commandes de fichier et de région de l'atelier pixel art et leur menu. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
+
+</div>
+</div>
 <a id="a9366e2431a72f64f6fd73414bc2421e5" name="a9366e2431a72f64f6fd73414bc2421e5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9366e2431a72f64f6fd73414bc2421e5">&#9670;&#160;</a></span>connectPlanesPanel()</h2>
 
@@ -680,6 +862,34 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Branche le panneau « Plans » (<span class="tt">LOT-69</span> TACHE-08) : il demande, le viewport applique. </p>
+
+</div>
+</div>
+<a id="afc4b819c2eae833e1e44a701397724f7" name="afc4b819c2eae833e1e44a701397724f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc4b819c2eae833e1e44a701397724f7">&#9670;&#160;</a></span>connectToolActions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::connectToolActions </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Relie les actions d'outils (niveau et pixel art) et les signaux du canevas pixel art. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
 
 </div>
 </div>
@@ -739,6 +949,34 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Suit la taille du viewport pour les recouvrements qui s'y superposent (pause, fin de niveau) : enfants ordinaires depuis le <span class="tt">LOT-69</span> TACHE-02, ils se redimensionnent avec leur parent plutôt que d'être repositionnés en coordonnées écran. </p>
+
+</div>
+</div>
+<a id="ae846811693c28d55e5177cf9ac4a161e" name="ae846811693c28d55e5177cf9ac4a161e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae846811693c28d55e5177cf9ac4a161e">&#9670;&#160;</a></span>groupDockPanels()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::groupDockPanels </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Regroupe les docks en onglets par domaine et suit les choix d'onglet de l'utilisateur. </p>
+<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
 
 </div>
 </div>
@@ -1011,8 +1249,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aecde93c971ddc897c53a114cfbcba9ef" name="aecde93c971ddc897c53a114cfbcba9ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aecde93c971ddc897c53a114cfbcba9ef">&#9670;&#160;</a></span>planesDirectory()</h2>
+<a id="aee31c2dccce9794cb49b7b65c61777f8" name="aee31c2dccce9794cb49b7b65c61777f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee31c2dccce9794cb49b7b65c61777f8">&#9670;&#160;</a></span>planesDirectory()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1024,12 +1262,12 @@ Private Attributes</h2></td></tr>
           <td class="memname">std::filesystem::path hmi::MainWindow::planesDirectory </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1432,7 +1670,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

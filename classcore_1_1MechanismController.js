@@ -7,6 +7,8 @@ var classcore_1_1MechanismController =
     [ "isDoorOpen", "classcore_1_1MechanismController.html#af75b708d821d8c882969d7bac6ea2e41", null ],
     [ "isKey", "classcore_1_1MechanismController.html#a96f020f6cd83b43d380229e91868d0c4", null ],
     [ "mechanisms", "classcore_1_1MechanismController.html#adb0a0f83d8a5302a84bc3c67386c09e7", null ],
+    [ "pickUpKey", "classcore_1_1MechanismController.html#a013b1a8724abaefcbb14d4080ad31ee2", null ],
+    [ "setDoorOpen", "classcore_1_1MechanismController.html#afc56b57fa4a43e4158a5338ff4684e95", null ],
     [ "update", "classcore_1_1MechanismController.html#ae58f158d3609cc2c267ce0f77e62d7a5", null ],
     [ "_collision", "classcore_1_1MechanismController.html#ab5263ae67a408e39332909d5fb974e63", null ],
     [ "_continuous", "classcore_1_1MechanismController.html#ab1931cd8166cc70b22896b338017a538", null ],

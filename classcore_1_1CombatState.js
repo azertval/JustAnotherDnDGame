@@ -47,6 +47,7 @@ var classcore_1_1CombatState =
     [ "settle", "classcore_1_1CombatState.html#ae34d81af106fe34f4bbaef2d07db203f", null ],
     [ "spend", "classcore_1_1CombatState.html#a5b6c2527f4086d3e128ecccf78889768", null ],
     [ "start", "classcore_1_1CombatState.html#a311f1bd4157e775aaa91f3fc8c43d2bb", null ],
+    [ "startInterjection", "classcore_1_1CombatState.html#aeb13a57913e704ff4902893a9dc1a456", null ],
     [ "startTurn", "classcore_1_1CombatState.html#a52af7bc3bd2bb2916b131a8214ab57d8", null ],
     [ "step", "classcore_1_1CombatState.html#a9deb9814c21893b2e4731a7fcda8542b", null ],
     [ "subscribe", "classcore_1_1CombatState.html#aea633b2feb4807ca7db6870344dfb56d", null ],

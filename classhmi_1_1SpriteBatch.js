@@ -17,7 +17,7 @@ var classhmi_1_1SpriteBatch =
     [ "ensureVertexCapacity", "classhmi_1_1SpriteBatch.html#ae6d118ec18752d51ceb6e4ed428925dd", null ],
     [ "operator=", "classhmi_1_1SpriteBatch.html#a5cdb243248c1ab453f1e00278c3b63f0", null ],
     [ "rhi", "classhmi_1_1SpriteBatch.html#a7cf3b7de85ca3bfd5e083cfda5c4e9ba", null ],
-    [ "submit", "classhmi_1_1SpriteBatch.html#a7e2fa26a9366aeb8105586a2939ee4b6", null ],
+    [ "submit", "classhmi_1_1SpriteBatch.html#a271469045e5d3087caadd4dcaf4ebbe1", null ],
     [ "_batches", "classhmi_1_1SpriteBatch.html#a4f3d7e2dfacde53efd24514ec025dc3b", null ],
     [ "_bindings", "classhmi_1_1SpriteBatch.html#ab55b02a4ffd9e4000d63693f62690c98", null ],
     [ "_current", "classhmi_1_1SpriteBatch.html#afc8925a480944a5b8050e03860a630cc", null ],

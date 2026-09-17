@@ -60,10 +60,10 @@ void composePlanes(ComposedScene&amp; scene, const std::vector&lt;core::Plane&gt
         // 3. l'arrondi au pixel ecran, sans lequel le pixel art tremblerait.
         // Inverser 2 et 3 laisserait un decalage borne fractionnaire : l'arrondi doit venir en
         // dernier.
-<span style = "background-color:#dfd">        core::Vector2 origin{0.0f, 0.0f};
+<span style = "background-color:#dfd">        core::Vector2 origin{0.0F, 0.0F};
         if (parallax.active) {</span>
 <span style = "background-color:#fdd">            const core::Rect planeBounds{</span>
-                core::Vector2{0.0f, 0.0f},
+                core::Vector2{0.0F, 0.0F},
                 core::Vector2{static_cast&lt;float&gt;(levelWidth), static_cast&lt;float&gt;(levelHeight)}};
 <span style = "background-color:#fdd">            const core::Vector2 factor{plane.parallaxX, plane.parallaxY};</span>
             const core::Vector2 rendered =
@@ -79,13 +79,13 @@ void composePlanes(ComposedScene&amp; scene, const std::vector&lt;core::Plane&gt
         quad.width = static_cast&lt;float&gt;(levelWidth);
         quad.height = static_cast&lt;float&gt;(levelHeight);</span>
         // UV pleines, quelle que soit la densite : l'image EST le niveau a son echelle propre.
-<span style = "background-color:#dfd">        quad.u0 = 0.0f;
-        quad.v0 = 0.0f;
-        quad.u1 = 1.0f;
-        quad.v1 = 1.0f;</span>
+<span style = "background-color:#dfd">        quad.u0 = 0.0F;
+        quad.v0 = 0.0F;
+        quad.u1 = 1.0F;
+        quad.v1 = 1.0F;</span>
         // Opacite (EX-DEC-040) portee par la teinte : le pipeline multiplie deja texture x teinte,
         // aucun etat de melange supplementaire n'est necessaire.
-<span style = "background-color:#dfd">        quad.a = std::clamp(plane.opacity, 0.0f, 1.0f);</span>
+<span style = "background-color:#dfd">        quad.a = std::clamp(plane.opacity, 0.0F, 1.0F);</span>
 
         // `sortOrder` = rang du plan : depart le tri fin a l'interieur d'un calque quand deux plans
         // partagent la meme image, cas ou le rang de texture ne les departage pas.
