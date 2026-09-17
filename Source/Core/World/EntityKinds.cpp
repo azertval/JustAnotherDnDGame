@@ -73,7 +73,15 @@ const std::vector<EntityKind>& knownEntityKinds() {
         // PNJ (LOT-15) : un figurant sans dialogue est legal, d'ou `required = false`.
         EntityKind{.type = NPC_ENTITY_TYPE,
                    .properties = {choice(NPC_DIALOGUE_PROPERTY, EntityChoiceSource::Dialogues,
-                                         /*required=*/false)}},
+                                         /*required=*/false),
+                                  // La figurine de l'atelier (LOT-91) que la carte lui donne : un
+                                  // PNJ sans figurine se parle et ne se dessine pas (LOT-09).
+                                  EntityPropertySpec{.key = NPC_FIGURE_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = false,
+                                                     .defaultValue = std::string{}}}},
         // Rencontre (LOT-18) : sans rencontre nommee, le declencheur n'en est pas un.
         EntityKind{.type = ENCOUNTER_ENTITY_TYPE,
                    .properties = {choice(ENCOUNTER_ID_PROPERTY, EntityChoiceSource::Encounters,

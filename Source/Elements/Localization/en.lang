@@ -767,6 +767,7 @@ entities.property.respawns = Retriggers
 entities.property.targetMap = Target map
 entities.property.arrival = Arrival point
 entities.property.requiresFlag = Required flag
+entities.property.figure = Figure
 entities.property.name = Name
 entities.property.side = Side
 entities.property.rank = Rank

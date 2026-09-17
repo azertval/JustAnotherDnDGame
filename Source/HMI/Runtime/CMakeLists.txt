@@ -15,7 +15,7 @@
 # à la main, et ajouter un type se fait en écrivant la macro dans son en-tête.
 #
 # Les vues-modèles ne connaissent ni Quick ni Widgets (EX-IHM-101, `check_ui_layers.py`) ; seule
-# `GameViewportItem` et `ArenaViewportItem`, les surfaces de rendu, lient Quick -- ce sont des items de
+# `GameViewportItem`, `ArenaViewportItem` et `WorldViewportItem`, les surfaces de rendu, lient Quick -- ce sont des items de
 # scène, pas des modèles.
 
 qt_add_qml_module(JadgRuntime
@@ -39,6 +39,12 @@ qt_add_qml_module(JadgRuntime
         # est le premier ecran du jeu a faire tourner -- jusqu'ici compile dans l'editeur seul.
         ArenaViewportItem.h ArenaViewportItem.cpp
         ../Graphics/ArenaSceneRenderer.cpp
+        # Le lieu qu'on parcourt (LOT-09) : la vue-modele de l'exploration, sa surface de rendu, et
+        # le rendu QRhi du lieu -- le meme pipeline 2D que l'arene, sur une carte au lieu d'une
+        # grille de combat.
+        WorldModel.h WorldModel.cpp
+        WorldViewportItem.h WorldViewportItem.cpp
+        ../Graphics/WorldSceneRenderer.cpp
         # La galerie des assets : un outil de debug, pas un ecran du jeu (`--screen=AssetGallery`).
         AssetGalleryItem.h AssetGalleryItem.cpp
         ../Graphics/AssetGalleryRenderer.cpp

@@ -52,8 +52,9 @@ struct CellPoint {
 /// @return La case qui contient @p point.
 [[nodiscard]] GridPosition cellOf(CellPoint point) noexcept;
 
-/// @return Le centre de @p cell.
-[[nodiscard]] CellPoint centerOf(GridPosition cell) noexcept;
+/// @return Le centre de @p cell, en cases. (`core::centerOf` existe deja, en
+///         demi-cases de la ligne de vue : deux reperes, deux noms.)
+[[nodiscard]] CellPoint cellCenter(GridPosition cell) noexcept;
 
 /// @brief Ce que le joueur demande d'un pas de simulation.
 struct ExplorationIntent {

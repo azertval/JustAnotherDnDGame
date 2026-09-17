@@ -192,7 +192,7 @@ TEST(ExplorationSessionTest, OnParleAuPnjQueLOnRegarde) {
                                                 pnj("myr-marche", {3, 4})}));
     core::ExplorationSession session{dossier.chargeur()};
     ASSERT_TRUE(session.start("place", ""));
-    session.placeHero(core::centerOf({4, 4}));
+    session.placeHero(core::cellCenter({4, 4}));
 
     // Regarder a droite : le heraut.
     session.update(core::ExplorationIntent{.move = {1.0F, 0.0F}, .interact = false}, 0.0001F);
@@ -224,11 +224,11 @@ TEST(ExplorationSessionTest, UneCarteGeleeNeBougePlus) {
     dossier.poser("place", carteMuree("place", {pnj("heraut-colisee", {5, 4})}));
     core::ExplorationSession session{dossier.chargeur()};
     ASSERT_TRUE(session.start("place", ""));
-    session.placeHero(core::centerOf({4, 4}));
+    session.placeHero(core::cellCenter({4, 4}));
 
     session.freeze(true);
     marcher(session, {1.0F, 0.0F}, 30);
-    EXPECT_EQ(session.heroPoint(), core::centerOf({4, 4}));
+    EXPECT_EQ(session.heroPoint(), core::cellCenter({4, 4}));
     EXPECT_TRUE(session.update(core::ExplorationIntent{.move = {}, .interact = true}, 1.0F / 60.0F)
                     .empty());
 

@@ -22,7 +22,7 @@ GridPosition cellOf(CellPoint point) noexcept {
                         static_cast<int>(std::floor(point.row))};
 }
 
-CellPoint centerOf(GridPosition cell) noexcept {
+CellPoint cellCenter(GridPosition cell) noexcept {
     return CellPoint{static_cast<float>(cell.column) + 0.5F,
                      static_cast<float>(cell.row) + 0.5F};
 }
@@ -35,7 +35,7 @@ bool ExplorationSession::start(std::string_view mapId, std::string_view arrival)
         return false;
     }
     rebuildInteractables();
-    _hero = centerOf(_travel.position());
+    _hero = cellCenter(_travel.position());
     _lastCell = _travel.position();
     return true;
 }
@@ -131,7 +131,7 @@ void ExplorationSession::crossPortal(std::vector<ExplorationEvent>& events) {
     switch (_travel.cross(ici, _flags)) {
         case TravelResult::Moved:
             rebuildInteractables();
-            _hero = centerOf(_travel.position());
+            _hero = cellCenter(_travel.position());
             _lastCell = _travel.position();
             events.push_back(ExplorationEvent{.kind = ExplorationEventKind::MapEntered,
                                               .value = mapId(),

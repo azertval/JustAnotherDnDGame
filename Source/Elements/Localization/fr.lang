@@ -770,6 +770,7 @@ entities.property.respawns = Se redéclenche
 entities.property.targetMap = Carte cible
 entities.property.arrival = Point d'arrivée
 entities.property.requiresFlag = Drapeau exigé
+entities.property.figure = Figurine
 entities.property.name = Nom
 entities.property.side = Camp
 entities.property.rank = Rang
