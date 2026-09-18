@@ -4,8 +4,8 @@
 #include "HMI/Graphics/PlaceAppearance.h"
 
 #include <algorithm>
-#include <set>
 #include <optional>
+#include <set>
 #include <utility>
 
 #include "Core/Data/JsonDocument.h"
@@ -36,8 +36,7 @@ constexpr std::string_view FIELD_RELIEF = "relief";
 }
 
 [[nodiscard]] PlaceAppearanceResult failure(std::string message, PlaceAppearanceError error) {
-    return PlaceAppearanceResult{
-        .appearance = {}, .error = error, .message = std::move(message)};
+    return PlaceAppearanceResult{.appearance = {}, .error = error, .message = std::move(message)};
 }
 
 // Lit un objet « type de tuile -> liste de pieces ». Un type inconnu est une donnee fautive, pas
@@ -80,8 +79,8 @@ constexpr std::string_view FIELD_RELIEF = "relief";
 // parcours. Les deux facteurs sont premiers entre eux et avec les petits nombres de variantes, si
 // bien que les voisines ne tombent pas toutes sur la meme.
 [[nodiscard]] std::size_t variantOf(core::GridPosition cell, std::size_t count) {
-    const long long melange = static_cast<long long>(cell.column) * 7 +
-                              static_cast<long long>(cell.row) * 13;
+    const long long melange =
+        (static_cast<long long>(cell.column) * 7) + (static_cast<long long>(cell.row) * 13);
     const long long positif = melange < 0 ? -melange : melange;
     return count == 0 ? 0 : static_cast<std::size_t>(positif) % count;
 }
@@ -122,7 +121,7 @@ PlaceAppearanceResult PlaceAppearance::fromDocument(const core::JsonDocument& do
         !readTable(document.root, FIELD_RELIEF, appearance._relief, error)) {
         return failure(std::move(error), PlaceAppearanceError::MalformedStructure);
     }
-    return PlaceAppearanceResult{
+    return {
         .appearance = std::move(appearance), .error = PlaceAppearanceError::None, .message = {}};
 }
 
@@ -141,7 +140,7 @@ std::vector<std::string> PlaceAppearance::pieces() const {
             uniques.insert(noms.begin(), noms.end());
         }
     }
-    return std::vector<std::string>(uniques.begin(), uniques.end());
+    return {uniques.begin(), uniques.end()};
 }
 
 }  // namespace hmi

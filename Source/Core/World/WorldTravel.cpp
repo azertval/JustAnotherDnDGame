@@ -125,7 +125,11 @@ std::vector<WorldIssue> validateWorldMap(std::string_view mapId, const Level& le
             continue;
         }
         std::string nom = texteDe(entite, SPAWN_POINT_NAME_PROPERTY);
-        if (nom.empty() || vus.insert(nom).second) {
+        if (nom.empty()) {
+            continue;
+        }
+        const bool premiereFois = vus.insert(nom).second;
+        if (premiereFois) {
             continue;
         }
         defauts.push_back(WorldIssue{.mapId = std::string{mapId},

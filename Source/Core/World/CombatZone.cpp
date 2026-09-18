@@ -118,7 +118,23 @@ std::vector<WorldIssue> validateCombatZones(std::string_view mapId, const Level&
 }
 
 Level cropLevelToZone(const Level& level, const CombatZone& zone) {
-    LevelData reduite{.name = level.name(), .tileMap = decouper(level.tileMap(), zone)};
+    // Une grille de combat tient dans l'ecran : c'est tout l'interet de la borner.
+    LevelData reduite{.name = level.name(),
+                      .tileMap = decouper(level.tileMap(), zone),
+                      .layers = {},
+                      .entities = {},
+                      .entry = {},
+                      .exit = {},
+                      .mechanisms = {},
+                      .background = level.background(),
+                      .skinSet = level.skinSet(),
+                      .textureOverrides = {},
+                      .cameraFraming = CameraFramingConfig{.mode = CameraFramingMode::WholeLevel,
+                                                           .roomWidthTiles = std::nullopt,
+                                                           .roomHeightTiles = std::nullopt,
+                                                           .zones = {}},
+                      .planes = {},
+                      .parallaxEnabled = level.parallaxEnabled()};
 
     for (const TileLayer& couche : level.layers()) {
         // La grille racine est promue en tete des couches par le chargeur : la redecouper ici en
@@ -137,8 +153,8 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
             continue;
         }
         MapEntity translatee = entite;
-        translatee.position = GridPosition{entite.position.column - zone.origin.column,
-                                           entite.position.row - zone.origin.row};
+        translatee.position = GridPosition{.column = entite.position.column - zone.origin.column,
+                                           .row = entite.position.row - zone.origin.row};
         reduite.entities.push_back(std::move(translatee));
     }
 
@@ -147,8 +163,8 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
             continue;
         }
         reduite.textureOverrides.push_back(TileTextureOverride{
-            .position = GridPosition{assignee.position.column - zone.origin.column,
-                                     assignee.position.row - zone.origin.row},
+            .position = GridPosition{.column = assignee.position.column - zone.origin.column,
+                                     .row = assignee.position.row - zone.origin.row},
             .assetName = assignee.assetName});
     }
 
@@ -156,19 +172,14 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
     // son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
     // leurs points d'entree --, mais un champ menteur finirait par etre lu.
     if (zone.contains(level.entry())) {
-        reduite.entry = GridPosition{level.entry().column - zone.origin.column,
-                                     level.entry().row - zone.origin.row};
+        reduite.entry = GridPosition{.column = level.entry().column - zone.origin.column,
+                                     .row = level.entry().row - zone.origin.row};
     }
     if (zone.contains(level.exit())) {
-        reduite.exit = GridPosition{level.exit().column - zone.origin.column,
-                                    level.exit().row - zone.origin.row};
+        reduite.exit = GridPosition{.column = level.exit().column - zone.origin.column,
+                                    .row = level.exit().row - zone.origin.row};
     }
 
-    reduite.background = level.background();
-    reduite.skinSet = level.skinSet();
-    // Une grille de combat tient dans l'ecran : c'est tout l'interet de la borner.
-    reduite.cameraFraming = CameraFramingConfig{.mode = CameraFramingMode::WholeLevel};
-    reduite.parallaxEnabled = level.parallaxEnabled();
     return Level{std::move(reduite)};
 }
 

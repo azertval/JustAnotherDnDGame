@@ -100,24 +100,7 @@ void ArenaModel::loadCatalogs() {
         c.problems << QStringLiteral("bestiaire vide");
     }
 
-    // Le personnage de démonstration, par le même chemin que la fiche : un seul chargement, une
-    // seule vérité sur ce qu'il porte (LOT-87).
-    const DemonstrationState demonstration = loadDemonstrationState();
-    if (!demonstration.sheet.name.empty()) {
-        c.character = demonstration.sheet;
-        c.characterProficiency =
-            core::proficiencyBonus(demonstration.sheet, demonstration.experience);
-        c.characterArmorClass = core::derivedStatsFor(demonstration.sheet, demonstration.inventory,
-                                                      demonstration.lookup(), demonstration.rules,
-                                                      demonstration.encumbrance)
-                                    .armorClass;
-        if (const core::Weapon* weapon = demonstration.equipment.findWeapon(
-                demonstration.inventory.at(core::EquipmentSlot::MainHand))) {
-            c.characterWeapon = *weapon;
-        }
-    } else {
-        c.problems << QStringLiteral("personnage de demonstration absent");
-    }
+    loadCharacterCatalog();
 
     c.arenas = core::loadArenas(root / "World" / "arena");
     logErrors("Arene : catalogue, ", c.arenas.errors);
@@ -129,42 +112,71 @@ void ArenaModel::loadCatalogs() {
         c.problems << QStringLiteral("aucun profil d'IA : les ennemis se commandent a la main");
     }
 
+    if (!loadPlayableLevel()) {
+        return;
+    }
+    resetSession();
+    _status = c.problems.join(QStringLiteral(" ; "));
+}
+
+void ArenaModel::loadCharacterCatalog() {
+    Catalogs& c = *_catalogs;
+    // Le personnage de démonstration, par le même chemin que la fiche : un seul chargement, une
+    // seule vérité sur ce qu'il porte (LOT-87).
+    const DemonstrationState demonstration = loadDemonstrationState();
+    if (demonstration.sheet.name.empty()) {
+        c.problems << QStringLiteral("personnage de demonstration absent");
+        return;
+    }
+    c.character = demonstration.sheet;
+    c.characterProficiency = core::proficiencyBonus(demonstration.sheet, demonstration.experience);
+    c.characterArmorClass =
+        core::derivedStatsFor(demonstration.sheet, demonstration.inventory, demonstration.lookup(),
+                              demonstration.rules, demonstration.encumbrance)
+            .armorClass;
+    if (const core::Weapon* weapon = demonstration.equipment.findWeapon(
+            demonstration.inventory.at(core::EquipmentSlot::MainHand))) {
+        c.characterWeapon = *weapon;
+    }
+}
+
+bool ArenaModel::loadPlayableLevel() {
+    Catalogs& c = *_catalogs;
     c.playable = firstPlayableArena(c.arenas);
     if (c.playable == nullptr) {
         c.problems << QStringLiteral("aucune arene n'a de carte");
-        return;
+        return false;
     }
     const core::LevelLoadResult loaded =
-        core::LevelLoader::loadFromFile(root / "Levels" / c.playable->map);
+        core::LevelLoader::loadFromFile(executableDirectory() / "Levels" / c.playable->map);
     if (!loaded.ok()) {
         HMI_LOG_WARNING("Arene : carte " + c.playable->map + ", " + loaded.error);
         c.problems << QStringLiteral("carte illisible : ") + toQt(loaded.error);
-        return;
+        return false;
     }
     // L'arene joue sur sa ZONE, pas sur la carte entiere (LOT-09) : le Colisee est un lieu, et
     // l'on ne se bat que sur son sable. La carte reduite a la zone est la grille tactique, et les
     // cases du dehors sont inconnues de la session.
-    if (!c.playable->zone.empty()) {
-        const std::vector<core::CombatZone> zones = core::combatZonesOf(*loaded.level);
-        const core::CombatZone* const zone = core::findCombatZone(zones, c.playable->zone);
-        if (zone == nullptr) {
-            HMI_LOG_WARNING("Arene : la carte " + c.playable->map + " n'a pas de zone « " +
-                            c.playable->zone + " ».");
-            c.problems << QStringLiteral("zone de combat inconnue : ") + toQt(c.playable->zone);
-            return;
-        }
-        const std::vector<core::WorldIssue> defauts =
-            core::validateCombatZones(c.playable->map, *loaded.level);
-        if (!defauts.empty()) {
-            c.problems << QStringLiteral("zone de combat invalide : ") + toQt(defauts.front().value);
-            return;
-        }
-        c.level = core::cropLevelToZone(*loaded.level, *zone);
-    } else {
+    if (c.playable->zone.empty()) {
         c.level = loaded.level;
+        return true;
     }
-    resetSession();
-    _status = c.problems.join(QStringLiteral(" ; "));
+    const std::vector<core::CombatZone> zones = core::combatZonesOf(*loaded.level);
+    const core::CombatZone* const zone = core::findCombatZone(zones, c.playable->zone);
+    if (zone == nullptr) {
+        HMI_LOG_WARNING("Arene : la carte " + c.playable->map + " n'a pas de zone « " +
+                        c.playable->zone + " ».");
+        c.problems << QStringLiteral("zone de combat inconnue : ") + toQt(c.playable->zone);
+        return false;
+    }
+    const std::vector<core::WorldIssue> defauts =
+        core::validateCombatZones(c.playable->map, *loaded.level);
+    if (!defauts.empty()) {
+        c.problems << QStringLiteral("zone de combat invalide : ") + toQt(defauts.front().value);
+        return false;
+    }
+    c.level = core::cropLevelToZone(*loaded.level, *zone);
+    return true;
 }
 
 void ArenaModel::resetSession() {

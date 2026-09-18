@@ -62,8 +62,8 @@ void WorldViewportRenderer::synchronize(QQuickRhiItem* item) {
     }
     // Le point suivi traverse à chaque image : la caméra suit le héros entre deux changements de
     // scène, et c'est une paire de flottants, pas une scène à recomposer.
-    _world.setFocus({static_cast<float>(model->heroColumn()),
-                     static_cast<float>(model->heroRow())});
+    _world.setFocus(
+        {static_cast<float>(model->heroColumn()), static_cast<float>(model->heroRow())});
     if (model->sceneRevision() == _sceneRevision) {
         return;
     }
@@ -104,14 +104,14 @@ WorldViewportItem::Framing WorldViewportItem::framing() const {
         pixels = QSize(qRound(width() * ratio), qRound(height() * ratio));
     }
     const core::Vector2 focus =
-        model != nullptr
-            ? projection.gridToWorld({static_cast<float>(model->heroColumn()),
-                                      static_cast<float>(model->heroRow())})
-            : core::Vector2{};
-    return Framing{.projection = projection,
-                   .camera = worldCamera(projection, focus, pixels.width(), pixels.height()),
-                   .pixelsPerItemX = width() > 0.0 ? std::max(1, pixels.width()) / width() : 1.0,
-                   .pixelsPerItemY = height() > 0.0 ? std::max(1, pixels.height()) / height() : 1.0};
+        model != nullptr ? projection.gridToWorld({static_cast<float>(model->heroColumn()),
+                                                   static_cast<float>(model->heroRow())})
+                         : core::Vector2{};
+    return Framing{
+        .projection = projection,
+        .camera = worldCamera(projection, focus, pixels.width(), pixels.height()),
+        .pixelsPerItemX = width() > 0.0 ? std::max(1, pixels.width()) / width() : 1.0,
+        .pixelsPerItemY = height() > 0.0 ? std::max(1, pixels.height()) / height() : 1.0};
 }
 
 qreal WorldViewportItem::tileWidth() const {
@@ -150,7 +150,7 @@ QPointF WorldViewportItem::pointAt(qreal column, qreal row) const {
     const Framing f = framing();
     const core::Vector2 screen = f.camera.worldToScreen(
         f.projection.gridToWorld({static_cast<float>(column), static_cast<float>(row)}));
-    return QPointF(screen.x / f.pixelsPerItemX, screen.y / f.pixelsPerItemY);
+    return {screen.x / f.pixelsPerItemX, screen.y / f.pixelsPerItemY};
 }
 
 void WorldViewportItem::setModel(WorldModel* model) {

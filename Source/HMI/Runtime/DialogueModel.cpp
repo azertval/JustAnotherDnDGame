@@ -3,12 +3,11 @@
 
 #include "HMI/Runtime/DialogueModel.h"
 
-#include <functional>
-
 #include <QStringList>
 #include <QVector>
 #include <cstdint>
 #include <filesystem>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -175,9 +174,8 @@ void DialogueModel::open() {
         return;
     }
     s.listener.emplace(s.character.sheet, s.character.inventory, s.character.experience,
-                       s.character.skills, [this](std::string arena) {
-                           emit combatRequested(toQt(arena));
-                       });
+                       s.character.skills,
+                       [this](const std::string& arena) { emit combatRequested(toQt(arena)); });
     s.random.emplace(graineSuivante());
     s.runner.emplace(*s.graph, drapeauxDeDemonstration(), *s.listener, s.difficulty, *s.random);
     static_cast<void>(s.runner->start());

@@ -26,7 +26,7 @@ public:
 };
 
 [[nodiscard]] ReadFailure failure(const std::string& where, const std::string& what) {
-    return ReadFailure(std::string(ORIGIN) + " : " + where + " — " + what);
+    return ReadFailure{std::string(ORIGIN) + " : " + where + " — " + what};
 }
 
 [[nodiscard]] bool isFraction(const nlohmann::json& value) {
@@ -85,7 +85,10 @@ public:
         throw failure(where, "le champ « places » n'est pas un objet.");
     }
     for (const auto& [id, position] : found->items()) {
-        places.emplace(id, readPoint(position, where + " / " + id));
+        std::string sousChemin = where;
+        sousChemin += " / ";
+        sousChemin += id;
+        places.emplace(id, readPoint(position, sousChemin));
     }
     return places;
 }

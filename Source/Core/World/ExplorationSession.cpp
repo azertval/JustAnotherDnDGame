@@ -4,6 +4,7 @@
 #include "Core/World/ExplorationSession.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <optional>
 #include <utility>
@@ -18,13 +19,13 @@
 namespace core {
 
 GridPosition cellOf(CellPoint point) noexcept {
-    return GridPosition{static_cast<int>(std::floor(point.column)),
-                        static_cast<int>(std::floor(point.row))};
+    return {.column = static_cast<int>(std::floor(point.column)),
+            .row = static_cast<int>(std::floor(point.row))};
 }
 
 CellPoint cellCenter(GridPosition cell) noexcept {
-    return CellPoint{static_cast<float>(cell.column) + 0.5F,
-                     static_cast<float>(cell.row) + 0.5F};
+    return {.column = static_cast<float>(cell.column) + 0.5F,
+            .row = static_cast<float>(cell.row) + 0.5F};
 }
 
 ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
@@ -83,10 +84,11 @@ bool ExplorationSession::fits(CellPoint point) const {
     const TileMap& collision = carte->tileMap();
     // Les quatre coins du gabarit : un heros qui tient dans un couloir d'une case ne doit pas
     // pouvoir couper l'angle d'un mur par sa moitie de case.
-    const float cotes[2] = {-HERO_HALF_SIZE_CELLS, HERO_HALF_SIZE_CELLS};
+    const std::array<float, 2> cotes = {-HERO_HALF_SIZE_CELLS, HERO_HALF_SIZE_CELLS};
     for (const float dx : cotes) {
         for (const float dy : cotes) {
-            const GridPosition coin = cellOf(CellPoint{point.column + dx, point.row + dy});
+            const GridPosition coin =
+                cellOf(CellPoint{.column = point.column + dx, .row = point.row + dy});
             if (!collision.inBounds(coin.column, coin.row) ||
                 collision.isSolid(coin.column, coin.row)) {
                 return false;
@@ -104,11 +106,11 @@ void ExplorationSession::walk(Vector2 move, float seconds) {
     const float pas = WALK_SPEED_CELLS_PER_SECOND * seconds;
     // Axe par axe : un mur pris en biais fait glisser le long au lieu d'arreter net, ce qui est la
     // difference entre un couloir jouable et un couloir ou l'on s'accroche.
-    const CellPoint enX{_hero.column + move.x * pas, _hero.row};
+    const CellPoint enX{.column = _hero.column + (move.x * pas), .row = _hero.row};
     if (fits(enX)) {
         _hero = enX;
     }
-    const CellPoint enY{_hero.column, _hero.row + move.y * pas};
+    const CellPoint enY{.column = _hero.column, .row = _hero.row + (move.y * pas)};
     if (fits(enY)) {
         _hero = enY;
     }
@@ -144,9 +146,8 @@ void ExplorationSession::crossPortal(std::vector<ExplorationEvent>& events) {
             break;
         case TravelResult::UnreadableMap:
         case TravelResult::UnknownArrival:
-            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::PortalBroken,
-                                              .value = portail->map,
-                                              .cell = ici});
+            events.push_back(ExplorationEvent{
+                .kind = ExplorationEventKind::PortalBroken, .value = portail->map, .cell = ici});
             break;
         case TravelResult::NoPortal:
             break;
@@ -164,8 +165,8 @@ void ExplorationSession::resolveInteraction(std::vector<ExplorationEvent>& event
         candidats.push_back(
             InteractionCandidate{.interactable = &_interactables[rang], .index = rang});
     }
-    const InteractionTarget cible = findInteractionTarget(heroCell(), _facing, carte->tileMap(),
-                                                          candidats, _flags);
+    const InteractionTarget cible =
+        findInteractionTarget(heroCell(), _facing, carte->tileMap(), candidats, _flags);
     if (!cible.found()) {
         return;
     }
@@ -183,22 +184,20 @@ void ExplorationSession::resolveInteraction(std::vector<ExplorationEvent>& event
         }
         if (const std::optional<DialogueTrigger> parole = dialogueTriggerFor(objet);
             parole.has_value()) {
-            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::Dialogue,
-                                              .value = parole->dialogueId,
-                                              .cell = ou});
+            events.push_back(ExplorationEvent{
+                .kind = ExplorationEventKind::Dialogue, .value = parole->dialogueId, .cell = ou});
             return;
         }
         if (const std::optional<EncounterTrigger> combat = encounterTriggerFor(objet, mapId());
             combat.has_value()) {
-            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::Encounter,
-                                              .value = combat->encounterId,
-                                              .cell = ou});
+            events.push_back(ExplorationEvent{
+                .kind = ExplorationEventKind::Encounter, .value = combat->encounterId, .cell = ou});
             return;
         }
         break;
     }
-    events.push_back(
-        ExplorationEvent{.kind = ExplorationEventKind::Interacted, .value = issue.type, .cell = ou});
+    events.push_back(ExplorationEvent{
+        .kind = ExplorationEventKind::Interacted, .value = issue.type, .cell = ou});
 }
 
 std::vector<ExplorationEvent> ExplorationSession::update(const ExplorationIntent& intent,
