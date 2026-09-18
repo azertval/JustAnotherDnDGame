@@ -6,6 +6,14 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Analyse statique : les 27 alertes restantes de Code scanning corrigées.** Les fichiers
+  arrivés avec `LOT-09`/`LOT-94` (exploration, zones de combat, carte du monde) et une alerte
+  plus ancienne d'`ArenaModel` étaient hors du périmètre des corrections précédentes.
+  Initialiseurs désignés complets, tableau C remplacé par `std::array`, parenthèses explicites
+  sur des calculs mélangeant les opérateurs, `return {...}` pour les constructions déjà typées,
+  concaténation de chaîne sans copies intermédiaires, un usage après déplacement détecté par
+  l'analyseur corrigé, deux branches identiques fusionnées, un paramètre pris par référence, et
+  `ArenaModel::loadCatalogs` découpée pour réduire sa complexité cognitive.
 - **Le Colisée se parcourt : l'exploration dans le jeu, et la première carte (LOT-09).**
   « Nouvelle partie » ouvre le **Colisée en version finale** à sa porte : 40 × 34 cases, dont le
   sable du `LOT-50` (20 × 14) au centre comme **zone de combat déclarée**. On parcourt au clavier
