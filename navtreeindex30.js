@@ -1,5 +1,6 @@
 var NAVTREEINDEX30 =
 {
+"structcore_1_1CreatureSpeed.html#a2b416bcbeaa0806afa62407f8094cc9e":[14,0,0,123,4],
 "structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[13,0,1,123,2],
 "structcore_1_1CreatureSpeed.html#a37c2fa80536e700482b1f3272bcdc38f":[14,0,0,123,2],
 "structcore_1_1CreatureSpeed.html#a9d1b93d9919b9222738ca0430dd1c991":[13,0,1,123,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX30 =
 "structcore_1_1Encounter.html#a07cc40ace619d05297aabaa2e1e6901e":[14,0,0,52,1],
 "structcore_1_1Encounter.html#a298473b999129748666d542af304f87b":[13,0,1,52,3],
 "structcore_1_1Encounter.html#a298473b999129748666d542af304f87b":[14,0,0,52,3],
-"structcore_1_1Encounter.html#a6b215e6093dbb5a9ae913139cb45a846":[13,0,1,52,4],
-"structcore_1_1Encounter.html#a6b215e6093dbb5a9ae913139cb45a846":[14,0,0,52,4]
+"structcore_1_1Encounter.html#a6b215e6093dbb5a9ae913139cb45a846":[13,0,1,52,4]
 };

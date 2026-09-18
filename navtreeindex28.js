@@ -1,5 +1,6 @@
 var NAVTREEINDEX28 =
 {
+"structcore_1_1AttackPreview.html#af660b4efb38177a42c7bf812f994239e":[14,0,0,25,1],
 "structcore_1_1AttackPreview.html#afd8448294bfe575eaaa458f849251b7d":[13,0,1,25,9],
 "structcore_1_1AttackPreview.html#afd8448294bfe575eaaa458f849251b7d":[14,0,0,25,9],
 "structcore_1_1AttackProfile.html":[13,0,1,14],
@@ -248,6 +249,5 @@ var NAVTREEINDEX28 =
 "structcore_1_1CheckResult.html#a6a87d200ae59fcdd179e04eca64d3548":[14,0,0,141,0],
 "structcore_1_1CheckResult.html#a91e2afea9f996676da1015b5cab1ccca":[13,0,1,141,6],
 "structcore_1_1CheckResult.html#a91e2afea9f996676da1015b5cab1ccca":[14,0,0,141,6],
-"structcore_1_1CheckResult.html#a95e31f441d5128742068fb841a5a3ce8":[13,0,1,141,5],
-"structcore_1_1CheckResult.html#a95e31f441d5128742068fb841a5a3ce8":[14,0,0,141,5]
+"structcore_1_1CheckResult.html#a95e31f441d5128742068fb841a5a3ce8":[13,0,1,141,5]
 };

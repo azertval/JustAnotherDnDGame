@@ -1,5 +1,6 @@
 var NAVTREEINDEX31 =
 {
+"structcore_1_1Encounter.html#a6b215e6093dbb5a9ae913139cb45a846":[14,0,0,52,4],
 "structcore_1_1Encounter.html#acda5e9848de4a0732cc062d13193953d":[13,0,1,52,0],
 "structcore_1_1Encounter.html#acda5e9848de4a0732cc062d13193953d":[14,0,0,52,0],
 "structcore_1_1Encounter.html#ada4e40f492122dec0b76e69bbe5c339d":[13,0,1,52,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX31 =
 "structcore_1_1GridPoint.html#ab0ed336a179d44df4a199e249cf6820e":[14,0,0,60,0],
 "structcore_1_1GridPosition.html":[13,0,1,101],
 "structcore_1_1GridPosition.html":[14,0,0,101],
-"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[13,0,1,101,0],
-"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[14,0,0,101,0]
+"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[13,0,1,101,0]
 };

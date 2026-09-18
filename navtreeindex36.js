@@ -1,5 +1,6 @@
 var NAVTREEINDEX36 =
 {
+"structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c":[14,0,1,56,2],
 "structhmi_1_1AssetGalleryFrame.html#ac1b7a00c05ff59bbd28c99a19e847baa":[13,0,2,56,1],
 "structhmi_1_1AssetGalleryFrame.html#ac1b7a00c05ff59bbd28c99a19e847baa":[14,0,1,56,1],
 "structhmi_1_1AssetGalleryFrame.html#aeaec0892b8bbd0fc350f673ced821210":[13,0,2,56,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX36 =
 "structhmi_1_1DialogueScreenValues.html#a4b59187e06129e3bf78ba18bd4e97d2f":[14,0,1,111,4],
 "structhmi_1_1DialogueScreenValues.html#a515752f6d5edba54fff347cacb0372e6":[13,0,2,111,5],
 "structhmi_1_1DialogueScreenValues.html#a515752f6d5edba54fff347cacb0372e6":[14,0,1,111,5],
-"structhmi_1_1DialogueScreenValues.html#a611a234a545d4a010c0f71eaed6ec6f4":[13,0,2,111,1],
-"structhmi_1_1DialogueScreenValues.html#a611a234a545d4a010c0f71eaed6ec6f4":[14,0,1,111,1]
+"structhmi_1_1DialogueScreenValues.html#a611a234a545d4a010c0f71eaed6ec6f4":[13,0,2,111,1]
 };

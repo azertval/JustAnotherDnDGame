@@ -45,6 +45,7 @@ var lot_87 =
       [ "T5.1 — Le pack de maquettes", "lot-87.html#autotoc_md692", null ],
       [ "T5.2 — L'ancienne charte", "lot-87.html#autotoc_md693", null ]
     ] ],
+    [ "La réception des images produites (18 septembre 2026)", "lot-87.html#lot-87-reception", null ],
     [ "Exigences couvertes", "lot-87.html#autotoc_md694", null ],
     [ "Où en est le lot", "lot-87.html#autotoc_md695", null ],
     [ "Critères d'acceptation de la phase 0", "lot-87.html#autotoc_md696", null ],

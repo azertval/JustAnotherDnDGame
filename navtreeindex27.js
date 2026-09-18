@@ -1,5 +1,6 @@
 var NAVTREEINDEX27 =
 {
+"spec-vision.html#autotoc_md300":[5,1,6],
 "specifications.html":[5],
 "specifications.html#autotoc_md292":[5,0],
 "structcore_1_1ActionResource.html":[13,0,1,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX27 =
 "structcore_1_1AttackPreview.html#a95e4e708dfa8d9be4a5ace384f842c25":[14,0,0,25,5],
 "structcore_1_1AttackPreview.html#add5a42d183ddc7d4ae467c83f4c0867f":[13,0,1,25,7],
 "structcore_1_1AttackPreview.html#add5a42d183ddc7d4ae467c83f4c0867f":[14,0,0,25,7],
-"structcore_1_1AttackPreview.html#af660b4efb38177a42c7bf812f994239e":[13,0,1,25,1],
-"structcore_1_1AttackPreview.html#af660b4efb38177a42c7bf812f994239e":[14,0,0,25,1]
+"structcore_1_1AttackPreview.html#af660b4efb38177a42c7bf812f994239e":[13,0,1,25,1]
 };

@@ -1,5 +1,6 @@
 var NAVTREEINDEX35 =
 {
+"structhmi_1_1ArenaAppearanceCatalogResult.html#ac159783cd18af395b0532ae9f706fa51":[14,0,1,41,3],
 "structhmi_1_1ArenaCombatantAnimation.html":[13,0,2,34],
 "structhmi_1_1ArenaCombatantAnimation.html":[14,0,1,34],
 "structhmi_1_1ArenaCombatantAnimation.html#a1b36c7a8ab8e2cf2eaf73a84a2ed1eb7":[13,0,2,34,5],
@@ -248,6 +249,5 @@ var NAVTREEINDEX35 =
 "structhmi_1_1AssetGalleryFrame.html#a2739396cf1ad041260d0ec8f51a1dd99":[14,0,1,56,5],
 "structhmi_1_1AssetGalleryFrame.html#a791c16e34fe474b5e43190d1076ce846":[13,0,2,56,3],
 "structhmi_1_1AssetGalleryFrame.html#a791c16e34fe474b5e43190d1076ce846":[14,0,1,56,3],
-"structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c":[13,0,2,56,2],
-"structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c":[14,0,1,56,2]
+"structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c":[13,0,2,56,2]
 };

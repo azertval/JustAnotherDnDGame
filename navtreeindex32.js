@@ -1,5 +1,6 @@
 var NAVTREEINDEX32 =
 {
+"structcore_1_1GridPosition.html#ab0574e45a221418d1a0ea6e1b67c6bc0":[14,0,0,101,0],
 "structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589":[13,0,1,101,1],
 "structcore_1_1GridPosition.html#ac6f7abc29fe595daf6d2efc341701589":[14,0,0,101,1],
 "structcore_1_1HeroicMark.html":[13,0,1,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX32 =
 "structcore_1_1Location.html#ad48a501b624c00c7c70183c3f12963c4":[14,0,0,178,1],
 "structcore_1_1Location.html#adf9bd9b3c549243b625112c0623dfff3":[13,0,1,178,2],
 "structcore_1_1Location.html#adf9bd9b3c549243b625112c0623dfff3":[14,0,0,178,2],
-"structcore_1_1Location.html#af82580580fcf327bd9a3286244d96f29":[13,0,1,178,0],
-"structcore_1_1Location.html#af82580580fcf327bd9a3286244d96f29":[14,0,0,178,0]
+"structcore_1_1Location.html#af82580580fcf327bd9a3286244d96f29":[13,0,1,178,0]
 };

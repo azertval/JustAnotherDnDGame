@@ -60,6 +60,6 @@ var searchData=
   ['17_20septembre_202026_57',['Ce que le dépôt contenait à l&apos;ouverture (17 septembre 2026)',['../lot-09.html#autotoc_md358',1,'']]],
   ['17_20septembre_202026_20décision_20de_20l_20auteur_58',['La règle, décidée le 17 septembre 2026 (&lt;em&gt;décision de l&apos;auteur&lt;/em&gt;)',['../PlaceAppearance_8h.html#autotoc_md929',1,'']]],
   ['18_20—_20bascule_20exploration_20↔_20combat_59',['LOT-18 — Bascule exploration ↔ combat',['../lot-18.html',1,'lots']]],
-  ['18_20septembre_202026_60',['18 septembre 2026',['../lot-96.html#autotoc_md750',1,'Ce que le dépôt contenait à l&apos;ouverture (18 septembre 2026)'],['../lot-88.html#autotoc_md698',1,'Décisions de l&apos;auteur (18 septembre 2026)']]],
+  ['18_20septembre_202026_60',['18 septembre 2026',['../lot-96.html#autotoc_md750',1,'Ce que le dépôt contenait à l&apos;ouverture (18 septembre 2026)'],['../lot-88.html#autotoc_md698',1,'Décisions de l&apos;auteur (18 septembre 2026)'],['../lot-87.html#lot-87-reception',1,'La réception des images produites (18 septembre 2026)']]],
   ['19_20—_20grille_20tactique_20et_20déplacement_61',['LOT-19 — Grille tactique et déplacement',['../lot-19.html',1,'lots']]]
 ];

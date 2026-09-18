@@ -1,5 +1,6 @@
 var NAVTREEINDEX33 =
 {
+"structcore_1_1Location.html#af82580580fcf327bd9a3286244d96f29":[14,0,0,178,0],
 "structcore_1_1MapEntity.html":[13,0,1,109],
 "structcore_1_1MapEntity.html":[14,0,0,109],
 "structcore_1_1MapEntity.html#a0585fa6522c09d42c879ed8bd9c32550":[13,0,1,109,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX33 =
 "structcore_1_1SkillDefinition.html#a9aedb7c4bd5783c3670058fdb8171af3":[14,0,0,171,0],
 "structcore_1_1Species.html":[13,0,1,128],
 "structcore_1_1Species.html":[14,0,0,128],
-"structcore_1_1Species.html#a31a3b3acff71e71ac832918d5fd09d59":[13,0,1,128,9],
-"structcore_1_1Species.html#a31a3b3acff71e71ac832918d5fd09d59":[14,0,0,128,9]
+"structcore_1_1Species.html#a31a3b3acff71e71ac832918d5fd09d59":[13,0,1,128,9]
 };
