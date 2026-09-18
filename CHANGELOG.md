@@ -6,6 +6,11 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'éditeur de cartes a sa feuille de route (`Documentation/Editeur/feuille-de-route.md`).**
+  Quatorze lots `LOT-EDITOR`, une piste à part de celle du jeu : édition en iso avec les pièces du
+  lieu, format de carte version 4, pilotage sans fenêtre, fin des cartes écrites par script. Aucun
+  code ne change encore.
+
 - **Les écrans du jeu portent leurs images peintes : les 213 pièces de la charte v2 (LOT-87).**
   Cadres, plaques, boutons, onglets, contrôles, médaillons, emplacements, jauges, ornements et
   icônes remplacent les aplats de repli sur les dix-neuf écrans, sans qu'un formulaire change.

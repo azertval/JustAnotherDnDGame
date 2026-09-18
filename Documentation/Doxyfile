@@ -19,6 +19,7 @@ INPUT                  = index.md \
                          Guide \
                          Specification \
                          Lot \
+                         Editeur \
                          Manuel \
                          ../Source
 RECURSIVE              = YES
