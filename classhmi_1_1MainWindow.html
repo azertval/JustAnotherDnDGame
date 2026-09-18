@@ -93,7 +93,7 @@ $(function(){initNavTree('classhmi_1_1MainWindow.html','','classhmi_1_1MainWindo
 </div><!--header-->
 <div class="contents">
 
-<p>Fenêtre principale de l'application Qt : <b>poste de travail d'éditeur</b> à panneaux dockables autour du viewport Direct3D 11.  
+<p>Fenêtre principale de l'éditeur (Qt Widgets).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="MainWindow_8h_source.html">MainWindow.h</a>&gt;</code></p>
@@ -106,243 +106,78 @@ Inheritance diagram for hmi::MainWindow:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a846dc46b97c2b6eaeddc5c4e987d47c6" id="r_a846dc46b97c2b6eaeddc5c4e987d47c6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a846dc46b97c2b6eaeddc5c4e987d47c6">MainWindow</a> (<a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *sessionLog=nullptr)</td></tr>
+<tr class="memitem:aa343d39ed242a21ab96e2423c4b134b3" id="r_aa343d39ed242a21ab96e2423c4b134b3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> ()</td></tr>
 <tr class="memitem:a9217cc93491089761355a98056939638" id="r_a9217cc93491089761355a98056939638"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9217cc93491089761355a98056939638">~MainWindow</a> () override</td></tr>
+<tr class="memitem:ab4c8e259baea81d2f887f07b47582e19" id="r_ab4c8e259baea81d2f887f07b47582e19"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab4c8e259baea81d2f887f07b47582e19">MainWindow</a> (const MainWindow &amp;)=delete</td></tr>
+<tr class="memitem:ab6940837dc62d495d934ae0d0e4e4284" id="r_ab6940837dc62d495d934ae0d0e4e4284"><td class="memItemLeft"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab6940837dc62d495d934ae0d0e4e4284">operator=</a> (const <a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;)=delete</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a6dab05769a6e7f213d8e55d9a6b2d446" id="r_a6dab05769a6e7f213d8e55d9a6b2d446"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6dab05769a6e7f213d8e55d9a6b2d446">closeEvent</a> (QCloseEvent *event) override</td></tr>
-<tr class="memdesc:a6dab05769a6e7f213d8e55d9a6b2d446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarde la disposition avant fermeture.  <br /></td></tr>
-<tr class="memitem:a0c75214acd44c6e1bef12db335abd37f" id="r_a0c75214acd44c6e1bef12db335abd37f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c75214acd44c6e1bef12db335abd37f">resizeEvent</a> (QResizeEvent *event) override</td></tr>
-<tr class="memdesc:a0c75214acd44c6e1bef12db335abd37f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repris de <span class="tt">QMainWindow</span>.  <br /></td></tr>
-<tr class="memitem:a8f4ec20153d8d14d3ab9a602f56a466b" id="r_a8f4ec20153d8d14d3ab9a602f56a466b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8f4ec20153d8d14d3ab9a602f56a466b">moveEvent</a> (QMoveEvent *event) override</td></tr>
-<tr class="memitem:a2d1f33de682c39a3c520bfc344b5ab59" id="r_a2d1f33de682c39a3c520bfc344b5ab59"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a2d1f33de682c39a3c520bfc344b5ab59">eventFilter</a> (QObject *watched, QEvent *event) override</td></tr>
-<tr class="memdesc:a2d1f33de682c39a3c520bfc344b5ab59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Suit la taille du viewport pour les recouvrements qui s'y superposent (pause, fin de niveau) : enfants ordinaires depuis le <span class="tt">LOT-69</span> TACHE-02, ils se redimensionnent avec leur parent plutôt que d'être repositionnés en coordonnées écran.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a99822a539e006f30711402f737385bff" id="r_a99822a539e006f30711402f737385bff"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a99822a539e006f30711402f737385bff">applyWorkspace</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
-<tr class="memdesc:a99822a539e006f30711402f737385bff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique l'espace de travail <code class="param">workspace</code> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-073</span>) : masque les panneaux de l'autre espace, bascule barre d'outils et menu, restaure la disposition propre à cet espace.  <br /></td></tr>
-<tr class="memitem:a59c679aa42691272befe551088c8b4e3" id="r_a59c679aa42691272befe551088c8b4e3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a59c679aa42691272befe551088c8b4e3">switchToWorkspace</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
-<tr class="memdesc:a59c679aa42691272befe551088c8b4e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bascule sur <code class="param">workspace</code> <b>s'il n'est pas déjà actif</b>, en synchronisant le sélecteur du menu sans réémettre.  <br /></td></tr>
-<tr class="memitem:a027b04a3b312514563ce3a0d81600192" id="r_a027b04a3b312514563ce3a0d81600192"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a027b04a3b312514563ce3a0d81600192">workspaceSelector</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace) const</td></tr>
-<tr class="memitem:a75703620647423eab281de7ea851ec34" id="r_a75703620647423eab281de7ea851ec34"><td class="memItemLeft">std::array&lt; std::pair&lt; QDockWidget *, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> &gt;, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">hmi::PANEL_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a75703620647423eab281de7ea851ec34">workspacePanels</a> () const</td></tr>
-<tr class="memitem:a9366e2431a72f64f6fd73414bc2421e5" id="r_a9366e2431a72f64f6fd73414bc2421e5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9366e2431a72f64f6fd73414bc2421e5">connectPlanesPanel</a> ()</td></tr>
-<tr class="memdesc:a9366e2431a72f64f6fd73414bc2421e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche le panneau « Plans » (<span class="tt">LOT-69</span> TACHE-08) : il demande, le viewport applique.  <br /></td></tr>
-<tr class="memitem:aeee6162d90a0c35a8a805ddab8ac92e0" id="r_aeee6162d90a0c35a8a805ddab8ac92e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aeee6162d90a0c35a8a805ddab8ac92e0">connectMapPanels</a> ()</td></tr>
-<tr class="memdesc:aeee6162d90a0c35a8a805ddab8ac92e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les panneaux « Couches » et « Entités » (<span class="tt">LOT-11</span>) : même partage des rôles.  <br /></td></tr>
-<tr class="memitem:a952381c794fe3fd8003e5177ae7b42c4" id="r_a952381c794fe3fd8003e5177ae7b42c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a952381c794fe3fd8003e5177ae7b42c4">reloadEditorReferences</a> ()</td></tr>
-<tr class="memdesc:a952381c794fe3fd8003e5177ae7b42c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire, cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au rechargement des assets.  <br /></td></tr>
-<tr class="memitem:ac0d13c9ba2e418481dad5e0f6d3fc107" id="r_ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0d13c9ba2e418481dad5e0f6d3fc107">createPlane</a> ()</td></tr>
-<tr class="memdesc:ac0d13c9ba2e418481dad5e0f6d3fc107"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le brouillon.  <br /></td></tr>
-<tr class="memitem:a6bfd4b9ec349f01e4c52e210c7b6e1ed" id="r_a6bfd4b9ec349f01e4c52e210c7b6e1ed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6bfd4b9ec349f01e4c52e210c7b6e1ed">changePlaneDensity</a> (std::size_t index, int pixelsPerUnit)</td></tr>
-<tr class="memdesc:a6bfd4b9ec349f01e4c52e210c7b6e1ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change la densité d'un plan : <b>rééchantillonne l'image</b> puis met à jour la déclaration, sans quoi le fichier et le format diraient deux choses différentes.  <br /></td></tr>
 <tr class="memitem:a2be2a6b71ee9770ab402e16bf8d61666" id="r_a2be2a6b71ee9770ab402e16bf8d61666"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666">buildUi</a> ()</td></tr>
-<tr class="memdesc:a2be2a6b71ee9770ab402e16bf8d61666"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée les panneaux (contenu des docks du <span class="tt">.ui</span>) et branche les actions de la barre de menus.  <br /></td></tr>
-<tr class="memitem:ae846811693c28d55e5177cf9ac4a161e" id="r_ae846811693c28d55e5177cf9ac4a161e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae846811693c28d55e5177cf9ac4a161e">groupDockPanels</a> ()</td></tr>
-<tr class="memdesc:ae846811693c28d55e5177cf9ac4a161e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Regroupe les docks en onglets par domaine et suit les choix d'onglet de l'utilisateur.  <br /></td></tr>
+<tr class="memitem:aeee6162d90a0c35a8a805ddab8ac92e0" id="r_aeee6162d90a0c35a8a805ddab8ac92e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aeee6162d90a0c35a8a805ddab8ac92e0">connectMapPanels</a> ()</td></tr>
 <tr class="memitem:afc4b819c2eae833e1e44a701397724f7" id="r_afc4b819c2eae833e1e44a701397724f7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afc4b819c2eae833e1e44a701397724f7">connectToolActions</a> ()</td></tr>
-<tr class="memdesc:afc4b819c2eae833e1e44a701397724f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relie les actions d'outils (niveau et pixel art) et les signaux du canevas pixel art.  <br /></td></tr>
-<tr class="memitem:a39e10dbe859571691899000e40b26936" id="r_a39e10dbe859571691899000e40b26936"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a39e10dbe859571691899000e40b26936">buildPixelPalette</a> ()</td></tr>
-<tr class="memdesc:a39e10dbe859571691899000e40b26936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge la palette de projet de l'atelier pixel art et branche son panneau.  <br /></td></tr>
-<tr class="memitem:a433902be9f471a0caab8b3c8e30e303a" id="r_a433902be9f471a0caab8b3c8e30e303a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a433902be9f471a0caab8b3c8e30e303a">connectPixelCommands</a> ()</td></tr>
-<tr class="memdesc:a433902be9f471a0caab8b3c8e30e303a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les commandes de fichier et de région de l'atelier pixel art et leur menu.  <br /></td></tr>
 <tr class="memitem:a37e95ca3d6986d05acf01204beec6c7e" id="r_a37e95ca3d6986d05acf01204beec6c7e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a37e95ca3d6986d05acf01204beec6c7e">connectEditorCommands</a> ()</td></tr>
-<tr class="memdesc:a37e95ca3d6986d05acf01204beec6c7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Branche les commandes principales de l'éditeur et les répartit dans les menus.  <br /></td></tr>
 <tr class="memitem:a6c9c1ff579895f58b8e5e41020d30b02" id="r_a6c9c1ff579895f58b8e5e41020d30b02"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6c9c1ff579895f58b8e5e41020d30b02">buildThemeMenu</a> ()</td></tr>
-<tr class="memdesc:a6c9c1ff579895f58b8e5e41020d30b02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit le sélecteur de thème clair/sombre de l'éditeur. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>.  <br /></td></tr>
 <tr class="memitem:a3a54e02e87fd3a48160e2776f73b68d3" id="r_a3a54e02e87fd3a48160e2776f73b68d3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3a54e02e87fd3a48160e2776f73b68d3">buildViewMenu</a> ()</td></tr>
-<tr class="memdesc:a3a54e02e87fd3a48160e2776f73b68d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplit le menu Affichage : vue, panneaux, espaces de travail, calques.  <br /></td></tr>
 <tr class="memitem:a871837448750fb40e380fe52af2f666f" id="r_a871837448750fb40e380fe52af2f666f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a871837448750fb40e380fe52af2f666f">buildStatusBar</a> ()</td></tr>
-<tr class="memdesc:a871837448750fb40e380fe52af2f666f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée les zones permanentes de la barre d'état. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>.  <br /></td></tr>
+<tr class="memitem:a952381c794fe3fd8003e5177ae7b42c4" id="r_a952381c794fe3fd8003e5177ae7b42c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a952381c794fe3fd8003e5177ae7b42c4">reloadEditorReferences</a> ()</td></tr>
 <tr class="memitem:aef77702f265c861ebec3ef8c62c9cbf9" id="r_aef77702f265c861ebec3ef8c62c9cbf9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aef77702f265c861ebec3ef8c62c9cbf9">restoreLayout</a> ()</td></tr>
 <tr class="memitem:a3b35aad4874b9a25e9c680e44945fec4" id="r_a3b35aad4874b9a25e9c680e44945fec4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3b35aad4874b9a25e9c680e44945fec4">saveLayout</a> ()</td></tr>
 <tr class="memitem:abb2b5a4ae54723c485af101667fc2f23" id="r_abb2b5a4ae54723c485af101667fc2f23"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abb2b5a4ae54723c485af101667fc2f23">openResizeDialog</a> ()</td></tr>
-<tr class="memdesc:abb2b5a4ae54723c485af101667fc2f23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre la boîte de dialogue de redimensionnement du niveau (avec confirmation si destructeur).  <br /></td></tr>
 <tr class="memitem:a0c0f25275caa45e3ab0fdab1575520f0" id="r_a0c0f25275caa45e3ab0fdab1575520f0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c0f25275caa45e3ab0fdab1575520f0">openShortcutsDialog</a> ()</td></tr>
-<tr class="memdesc:a0c0f25275caa45e3ab0fdab1575520f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre l'aperçu des raccourcis (<span class="tt">ShortcutsDialog.ui</span>).  <br /></td></tr>
 <tr class="memitem:a1ed419815e2ff1739411e9b7597f6734" id="r_a1ed419815e2ff1739411e9b7597f6734"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1ed419815e2ff1739411e9b7597f6734">retranslateUi</a> ()</td></tr>
-<tr class="memdesc:a1ed419815e2ff1739411e9b7597f6734"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active à tous les textes de l'IHM (fenêtre, menus, docks, panneaux).  <br /></td></tr>
 <tr class="memitem:ace1ef846c7704477a23af655b4f78e74" id="r_ace1ef846c7704477a23af655b4f78e74"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ace1ef846c7704477a23af655b4f78e74">refreshStatusHelp</a> ()</td></tr>
-<tr class="memdesc:ace1ef846c7704477a23af655b4f78e74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalcule et réaffiche la barre d'état (zones permanentes + aide contextuelle) depuis l'état courant du viewport (<span class="tt">LOT-57</span> TACHE-01, <span class="tt"><a class="el" href="namespacehmi.html#a8a9b5847205047e29cd377960c0ff15c" title="Décide le contenu de la barre d&#39;état de l&#39;éditeur pour context.">hmi::editorStatusLines</a></span>) — seule voie de mise à jour, appelée par tout changement pertinent (outil, survol, zoom, brouillon) ainsi qu'à l'expiration d'un message transitoire, pour la restaurer.  <br /></td></tr>
 <tr class="memitem:a77025d20fbce06f8f0fd55455cc6eca8" id="r_a77025d20fbce06f8f0fd55455cc6eca8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a77025d20fbce06f8f0fd55455cc6eca8">showTransientStatusMessage</a> (const QString &amp;message, int timeoutMs)</td></tr>
-<tr class="memdesc:a77025d20fbce06f8f0fd55455cc6eca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche <code class="param">message</code> pour <code class="param">timeoutMs</code> dans la barre d'état, puis restaure l'aide contextuelle (<span class="tt"><a class="el" href="#ace1ef846c7704477a23af655b4f78e74" title="Recalcule et réaffiche la barre d&#39;état (zones permanentes + aide contextuelle) depuis l&#39;état courant ...">refreshStatusHelp</a></span>).  <br /></td></tr>
 <tr class="memitem:a79a0a32f6374cffe570e60650baadca4" id="r_a79a0a32f6374cffe570e60650baadca4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a79a0a32f6374cffe570e60650baadca4">applyPanelFocus</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> tool)</td></tr>
-<tr class="memdesc:a79a0a32f6374cffe570e60650baadca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Met en avant le panneau associé à <code class="param">tool</code> (<span class="tt"><a class="el" href="namespacehmi.html#a581615846aad015aff0e0a17e4f997c4">hmi::panelForTool</a></span>), si le réglage est actif et que l'utilisateur n'a rien imposé lui-même (<span class="tt">LOT-57</span> TACHE-02) — jamais un masquage, une simple suggestion de premier plan parmi les onglets regroupés.  <br /></td></tr>
-<tr class="memitem:a8cbad498c7c99b413ae8352e9ab30f06" id="r_a8cbad498c7c99b413ae8352e9ab30f06"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8cbad498c7c99b413ae8352e9ab30f06">applyPixelPanelFocus</a> (<a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571">hmi::PixelTool</a> tool)</td></tr>
-<tr class="memdesc:a8cbad498c7c99b413ae8352e9ab30f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Équivalent pour les outils du canevas pixel art (<span class="tt"><a class="el" href="namespacehmi.html#ab2bc0ec0306fbff43f717277d659cd16">hmi::panelForPixelTool</a></span>, <span class="tt">LOT-54</span> TACHE-04) — même garde, même règle de non-masquage.  <br /></td></tr>
-<tr class="memitem:a79815fd4671818f84de9e9b199526451" id="r_a79815fd4671818f84de9e9b199526451"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a79815fd4671818f84de9e9b199526451">raisePanel</a> (<a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> panel)</td></tr>
-<tr class="memdesc:a79815fd4671818f84de9e9b199526451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Met en avant <code class="param">panel</code> (résolution <span class="tt"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726" title="Panneau dockable de l&#39;éditeur.">PanelId</a></span> -&gt; <span class="tt">QDockWidget*</span>), sans jamais voler le focus clavier — factorisé entre <span class="tt"><a class="el" href="#a79a0a32f6374cffe570e60650baadca4" title="Met en avant le panneau associé à tool (hmi::panelForTool), si le réglage est actif et que l&#39;utilisat...">applyPanelFocus</a></span> et <span class="tt"><a class="el" href="#a8cbad498c7c99b413ae8352e9ab30f06" title="Équivalent pour les outils du canevas pixel art (hmi::panelForPixelTool, LOT-54 TACHE-04) — même gard...">applyPixelPanelFocus</a></span>.  <br /></td></tr>
-<tr class="memitem:aef651eacf7d4b0696a0ec0bfbc1d0483" id="r_aef651eacf7d4b0696a0ec0bfbc1d0483"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aef651eacf7d4b0696a0ec0bfbc1d0483">updateActiveEditContext</a> (QWidget *focused)</td></tr>
-<tr class="memdesc:aef651eacf7d4b0696a0ec0bfbc1d0483"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réassigne le contexte d'édition actif (<span class="tt"><a class="el" href="#acdb82ee8e5a56236705ceec1908982ff" title="Contexte d&#39;édition actif, cible d&#39;Annuler/Refaire/Copier/Coller (LOT-57 TACHE-04) :  _viewport (nivea...">_editContext</a></span>) et le contexte de la barre d'état selon le widget qui vient de recevoir le focus clavier (<span class="tt">LOT-54</span> TACHE-04, <span class="tt">EX-IHM-062</span>) : le canevas pixel art si le focus y entre, le niveau sinon.  <br /></td></tr>
-<tr class="memitem:aab330acfe884d7b8fef9583592f41a03" id="r_aab330acfe884d7b8fef9583592f41a03"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aab330acfe884d7b8fef9583592f41a03">confirmDiscardPixelChanges</a> ()</td></tr>
-<tr class="memitem:a8ed05d0fa3bc00be3ee6e349e292f7a2" id="r_a8ed05d0fa3bc00be3ee6e349e292f7a2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8ed05d0fa3bc00be3ee6e349e292f7a2">openPixelAssetOpenDialog</a> ()</td></tr>
-<tr class="memdesc:a8ed05d0fa3bc00be3ee6e349e292f7a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre un asset existant choisi par l'utilisateur (bibliothèque <span class="tt">Assets/</span>), après le garde-fou de perte de travail.  <br /></td></tr>
-<tr class="memitem:ad32a46642735fa5056ea258df35b2847" id="r_ad32a46642735fa5056ea258df35b2847"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad32a46642735fa5056ea258df35b2847">openPixelAssetCreateDialog</a> ()</td></tr>
-<tr class="memdesc:ad32a46642735fa5056ea258df35b2847"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un nouvel asset à une taille choisie parmi celles admises par le contrat de sa famille (<span class="tt"><a class="el" href="namespacehmi.html#ad4e08bbde577c00ef32757d631d79922" title="Tailles proposées à la création d&#39;un asset de la famille donnée.">hmi::validAssetSizes</a></span>), après le garde-fou de perte de travail.  <br /></td></tr>
-<tr class="memitem:a642e967ee46ac21ec8880d51589e93da" id="r_a642e967ee46ac21ec8880d51589e93da"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a642e967ee46ac21ec8880d51589e93da">savePixelAsset</a> (bool saveAs)</td></tr>
-<tr class="memdesc:a642e967ee46ac21ec8880d51589e93da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre l'asset ouvert.  <br /></td></tr>
-<tr class="memitem:a0c2030c04ec61b66dcf517d9d337049f" id="r_a0c2030c04ec61b66dcf517d9d337049f"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0c2030c04ec61b66dcf517d9d337049f">pixelAssetCacheKey</a> () const</td></tr>
-<tr class="memdesc:a0c2030c04ec61b66dcf517d9d337049f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom logique de l'asset ouvert, relatif à <span class="tt">Assets/</span> (ex.  <br /></td></tr>
-<tr class="memitem:a7581f0e4c9e3019b782e5ecf3cf1401c" id="r_a7581f0e4c9e3019b782e5ecf3cf1401c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7581f0e4c9e3019b782e5ecf3cf1401c">updateLivePreview</a> ()</td></tr>
-<tr class="memdesc:a7581f0e4c9e3019b782e5ecf3cf1401c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit l'image en cours sur <span class="tt"><a class="el" href="#a8693f7156ad8338ea1e88913cf266855" title="Chemin complet du fichier de l&#39;asset ouvert dans l&#39;atelier, vide si aucun ou pas encore enregistré (L...">_pixelAssetPath</a></span> et invalide son entrée de <span class="tt"><a class="el" href="classhmi_1_1TextureCache.html" title="Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique.">TextureCache</a></span>, pour que le niveau affiché reflète l'édition en cours — sans effet tant qu'aucun chemin n'est associé (asset pas encore enregistré une première fois, TACHE-05).  <br /></td></tr>
-<tr class="memitem:ae2b6d081350501e8eff3e2915235dc08" id="r_ae2b6d081350501e8eff3e2915235dc08"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae2b6d081350501e8eff3e2915235dc08">loadPlaneIntoCanvas</a> (std::size_t index)</td></tr>
-<tr class="memdesc:ae2b6d081350501e8eff3e2915235dc08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le PNG du plan <code class="param">index</code> dans <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span>, avec ses repères (pelure d'oignon des tuiles sous le plan, plans voisins aplatis dessous et dessus, grille de tuiles).  <br /></td></tr>
-<tr class="memitem:a57124ac2472d9e372b444d41b17c6438" id="r_a57124ac2472d9e372b444d41b17c6438"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a57124ac2472d9e372b444d41b17c6438">savePlaneImage</a> ()</td></tr>
-<tr class="memdesc:a57124ac2472d9e372b444d41b17c6438"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit l'image du canevas dans le PNG du plan ouvert (<span class="tt">Ctrl+S</span> dans l'espace « Plans »).  <br /></td></tr>
-<tr class="memitem:adbb90fc80102c6f01e232b7134e30f57" id="r_adbb90fc80102c6f01e232b7134e30f57"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adbb90fc80102c6f01e232b7134e30f57">closePlaneInCanvas</a> ()</td></tr>
-<tr class="memdesc:adbb90fc80102c6f01e232b7134e30f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vide le canevas de son plan et retire les repères — l'atelier pixel art retrouve alors son comportement du <span class="tt">LOT-54</span>, sans repère hérité du mode création.  <br /></td></tr>
-<tr class="memitem:adff4abfa93ae5ca39e57e306f9786a69" id="r_adff4abfa93ae5ca39e57e306f9786a69"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adff4abfa93ae5ca39e57e306f9786a69">refreshPlaneReferences</a> ()</td></tr>
-<tr class="memdesc:adff4abfa93ae5ca39e57e306f9786a69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reconstruit les repères du plan ouvert depuis le brouillon courant : appelé après toute mutation qui les périme (ordre, densité, opacité, visibilité, taille du niveau).  <br /></td></tr>
-<tr class="memitem:af1529048d81c811d567b00408037cde0" id="r_af1529048d81c811d567b00408037cde0"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af1529048d81c811d567b00408037cde0">confirmDiscardPlaneChanges</a> ()</td></tr>
-<tr class="memitem:a07b944975d592b5ec452733b50827789" id="r_a07b944975d592b5ec452733b50827789"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a07b944975d592b5ec452733b50827789">planeFilePath</a> (std::size_t index) const</td></tr>
-<tr class="memitem:a2a42277558bb0f0e66662cd61fdf789e" id="r_a2a42277558bb0f0e66662cd61fdf789e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2a42277558bb0f0e66662cd61fdf789e">openPixelColorPicker</a> ()</td></tr>
-<tr class="memdesc:a2a42277558bb0f0e66662cd61fdf789e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre un sélecteur de couleur (<span class="tt">QColorDialog</span>) pour choisir librement la couleur courante du canevas — seul moyen d'atteindre une couleur absente à la fois de l'image ouverte (pipette) et de la palette de projet (pastilles).  <br /></td></tr>
-<tr class="memitem:a3b786cda76b1c4b3c58cfe1d926711c2" id="r_a3b786cda76b1c4b3c58cfe1d926711c2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3b786cda76b1c4b3c58cfe1d926711c2">updatePixelColorButtonIcon</a> (std::uint32_t color)</td></tr>
-<tr class="memdesc:a3b786cda76b1c4b3c58cfe1d926711c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Met à jour le témoin de couleur de la barre d'outils du canevas (pastille de <span class="tt"><a class="el" href="#ab3583f6b0d511a1a585c4ae6621942fd" title="Témoin + sélecteur de couleur courante (canevas).">_pixelColorButton</a></span>).  <br /></td></tr>
-<tr class="memitem:a995770117dd47f09b9d2754a0216e9bb" id="r_a995770117dd47f09b9d2754a0216e9bb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a995770117dd47f09b9d2754a0216e9bb">syncPaletteToCanvas</a> ()</td></tr>
-<tr class="memdesc:a995770117dd47f09b9d2754a0216e9bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recopie les couleurs de <span class="tt"><a class="el" href="#aea2c791ab6d35fa22a0f186c128de6af" title="Palette de projet, chargée/enregistrée dans Assets/palettes.json.">_pixelPalette</a></span> vers <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (mode contraint) — à appeler après toute mutation qui change les couleurs ou leur ordre (l'ordre affecte le départage à distance égale, <span class="tt"><a class="el" href="namespacehmi.html#aa3ad36cdfd66f4029481e164b0ccb66c" title="Couleur de palette la plus proche de color (mode « contraindre à la palette »).">hmi::nearestPaletteColor</a></span>).  <br /></td></tr>
-<tr class="memitem:ac76d0f9ba39d1a52d33fbaecf7f777d0" id="r_ac76d0f9ba39d1a52d33fbaecf7f777d0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac76d0f9ba39d1a52d33fbaecf7f777d0">savePixelPalette</a> ()</td></tr>
-<tr class="memdesc:ac76d0f9ba39d1a52d33fbaecf7f777d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre <span class="tt"><a class="el" href="#aea2c791ab6d35fa22a0f186c128de6af" title="Palette de projet, chargée/enregistrée dans Assets/palettes.json.">_pixelPalette</a></span> dans <span class="tt">Assets/palettes.json</span>, journalise un échec éventuel.  <br /></td></tr>
-<tr class="memitem:abe9a3497ec9660b8c35097456cd7c181" id="r_abe9a3497ec9660b8c35097456cd7c181"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abe9a3497ec9660b8c35097456cd7c181">changeLanguage</a> (const QString &amp;code)</td></tr>
-<tr class="memdesc:abe9a3497ec9660b8c35097456cd7c181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change la langue active (recharge le catalogue, persiste, retraduit tout).  <br /></td></tr>
-<tr class="memitem:acfd88f3e6576c175480e4eeac406ea93" id="r_acfd88f3e6576c175480e4eeac406ea93"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acfd88f3e6576c175480e4eeac406ea93">saveSessionLogs</a> ()</td></tr>
-<tr class="memdesc:acfd88f3e6576c175480e4eeac406ea93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre les journaux de session accumulés dans un fichier horodaté.  <br /></td></tr>
 <tr class="memitem:a23d7033f2e1cfe842e9d3c9f6f6f6db8" id="r_a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a23d7033f2e1cfe842e9d3c9f6f6f6db8">text</a> (const char *key) const</td></tr>
-<tr class="memdesc:a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raccourci : texte localisé d'une clé, en <span class="tt">QString</span>.  <br /></td></tr>
-<tr class="memitem:ad46f19e154147f414a4ca0817086c2ac" id="r_ad46f19e154147f414a4ca0817086c2ac"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad46f19e154147f414a4ca0817086c2ac">setDocksVisible</a> (bool visible)</td></tr>
-<tr class="memdesc:ad46f19e154147f414a4ca0817086c2ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montre/masque tous les panneaux dockables.  <br /></td></tr>
-<tr class="memitem:a2b36a89653f47498553ff68af07c8de2" id="r_a2b36a89653f47498553ff68af07c8de2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b36a89653f47498553ff68af07c8de2">playInterfaceSound</a> (<a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a> event)</td></tr>
-<tr class="memdesc:a2b36a89653f47498553ff68af07c8de2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le son associé à <code class="param">event</code> (<span class="tt">hmi::SoundTriggers</span>), sans effet si aucun son ne lui est associé (<span class="tt">LOT-60</span> TACHE-03) &ndash; point d'appel unique pour tous les sons d'interface.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:aaed7c2d32c2c0fcfd68f9bdf62c7b4bb" id="r_aaed7c2d32c2c0fcfd68f9bdf62c7b4bb"><td class="memItemLeft">static QString&#160;</td><td class="memItemRight"><a class="el" href="#aaed7c2d32c2c0fcfd68f9bdf62c7b4bb">layoutKeyFor</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
-<tr class="memitem:a5136cda0984d0b96d9ae1c6051adb0ea" id="r_a5136cda0984d0b96d9ae1c6051adb0ea"><td class="memItemLeft">static QString&#160;</td><td class="memItemRight"><a class="el" href="#a5136cda0984d0b96d9ae1c6051adb0ea">workspaceSettingsName</a> (<a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> workspace)</td></tr>
-<tr class="memitem:abc59a0bb011931c1f52b4e75cd5d28b3" id="r_abc59a0bb011931c1f52b4e75cd5d28b3"><td class="memItemLeft">static <a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a>&#160;</td><td class="memItemRight"><a class="el" href="#abc59a0bb011931c1f52b4e75cd5d28b3">workspaceFromSettingsName</a> (const QString &amp;name)</td></tr>
-<tr class="memitem:aee31c2dccce9794cb49b7b65c61777f8" id="r_aee31c2dccce9794cb49b7b65c61777f8"><td class="memItemLeft">static std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aee31c2dccce9794cb49b7b65c61777f8">planesDirectory</a> ()</td></tr>
-<tr class="memitem:a841fbf5b4353177a821eeb443c9ea55b" id="r_a841fbf5b4353177a821eeb443c9ea55b"><td class="memItemLeft">static void&#160;</td><td class="memItemRight"><a class="el" href="#a841fbf5b4353177a821eeb443c9ea55b">showEditor</a> ()</td></tr>
-<tr class="memdesc:a841fbf5b4353177a821eeb443c9ea55b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Affiche l'éditeur (viewport + docks + barre de menu).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:abbf193c38db62a49872c5a57b1b61cce" id="r_abbf193c38db62a49872c5a57b1b61cce"><td class="memItemLeft">std::unique_ptr&lt; Ui::EditorMainWindow &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abbf193c38db62a49872c5a57b1b61cce">_ui</a></td></tr>
-<tr class="memdesc:abbf193c38db62a49872c5a57b1b61cce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mise en page (MainWindow.ui : menubar + docks).  <br /></td></tr>
-<tr class="memitem:a1ed57ff25b1be1c311886896b1ae444f" id="r_a1ed57ff25b1be1c311886896b1ae444f"><td class="memItemLeft"><a class="el" href="classhmi_1_1GameViewport.html">GameViewport</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f">_viewport</a></td></tr>
-<tr class="memdesc:a1ed57ff25b1be1c311886896b1ae444f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surface de rendu QRhi, et <b>widget central</b> depuis le <span class="tt">LOT-86</span>.  <br /></td></tr>
+<tr class="memitem:ad74bf30c7bc994b07bfd93e4c39b5a93" id="r_ad74bf30c7bc994b07bfd93e4c39b5a93"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorViewport.html">EditorViewport</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ad74bf30c7bc994b07bfd93e4c39b5a93">_viewport</a></td></tr>
+<tr class="memdesc:ad74bf30c7bc994b07bfd93e4c39b5a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canevas (possédé par la fenêtre, widget central).  <br /></td></tr>
 <tr class="memitem:acdb82ee8e5a56236705ceec1908982ff" id="r_acdb82ee8e5a56236705ceec1908982ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditContextTarget.html">EditContextTarget</a> *&#160;</td><td class="memItemRight"><a class="el" href="#acdb82ee8e5a56236705ceec1908982ff">_editContext</a> = nullptr</td></tr>
-<tr class="memdesc:acdb82ee8e5a56236705ceec1908982ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contexte d'édition actif, cible d'Annuler/Refaire/Copier/Coller (<span class="tt">LOT-57</span> TACHE-04) : <span class="tt">
-<a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Surface de rendu QRhi, et widget central depuis le LOT-86.">_viewport</a></span> (niveau) ou <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (atelier pixel art, <span class="tt">LOT-54</span> TACHE-04), selon le widget qui a le focus clavier (<span class="tt"><a class="el" href="#aef651eacf7d4b0696a0ec0bfbc1d0483" title="Réassigne le contexte d&#39;édition actif (_editContext) et le contexte de la barre d&#39;état selon le widge...">updateActiveEditContext</a></span>) — le dispatch lui-même ne change jamais.  <br /></td></tr>
-<tr class="memitem:af1127880bfad8cb9a4e49eb5c072ca08" id="r_af1127880bfad8cb9a4e49eb5c072ca08"><td class="memItemLeft"><a class="el" href="classhmi_1_1PalettePanel.html">PalettePanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af1127880bfad8cb9a4e49eb5c072ca08">_palette</a></td></tr>
-<tr class="memdesc:af1127880bfad8cb9a4e49eb5c072ca08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arbre de sélection du type de tuile (contenu du dock Palette).  <br /></td></tr>
-<tr class="memitem:ad7b5a4376b4b8147c28a8b586ca98b4c" id="r_ad7b5a4376b4b8147c28a8b586ca98b4c"><td class="memItemLeft"><a class="el" href="classhmi_1_1PlanesPanel.html">PlanesPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ad7b5a4376b4b8147c28a8b586ca98b4c">_planes</a></td></tr>
-<tr class="memdesc:ad7b5a4376b4b8147c28a8b586ca98b4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste des plans picturaux (<span class="tt">LOT-69</span>, contenu du dock Plans).  <br /></td></tr>
-<tr class="memitem:aa3a6277e15086fc09f3ba9b42dfc86e2" id="r_aa3a6277e15086fc09f3ba9b42dfc86e2"><td class="memItemLeft"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa3a6277e15086fc09f3ba9b42dfc86e2">_levels</a></td></tr>
-<tr class="memdesc:aa3a6277e15086fc09f3ba9b42dfc86e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Liste/gestion des fichiers de niveaux (contenu du dock Niveaux).  <br /></td></tr>
-<tr class="memitem:a25b7f8b81604897b4eb8e29bdf3fd85e" id="r_a25b7f8b81604897b4eb8e29bdf3fd85e"><td class="memItemLeft"><a class="el" href="classhmi_1_1LinkPanel.html">LinkPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a25b7f8b81604897b4eb8e29bdf3fd85e">_links</a></td></tr>
-<tr class="memdesc:a25b7f8b81604897b4eb8e29bdf3fd85e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Placement/inspection de décors (dock Décors, <span class="tt">LOT-57</span> amendement) — contenait déjà tout ce qui concerne les décors (<span class="tt">ToolPanel</span>, <span class="tt">LOT-56</span> TACHE-04) avant d'y accueillir aussi l'inspecteur déplacé du panneau Textures.  <br /></td></tr>
+<tr class="memitem:af1127880bfad8cb9a4e49eb5c072ca08" id="r_af1127880bfad8cb9a4e49eb5c072ca08"><td class="memItemLeft"><a class="el" href="classhmi_1_1PalettePanel.html">PalettePanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#af1127880bfad8cb9a4e49eb5c072ca08">_palette</a> = nullptr</td></tr>
+<tr class="memitem:aa3a6277e15086fc09f3ba9b42dfc86e2" id="r_aa3a6277e15086fc09f3ba9b42dfc86e2"><td class="memItemLeft"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa3a6277e15086fc09f3ba9b42dfc86e2">_levels</a> = nullptr</td></tr>
 <tr class="memitem:a2ca20212f1ccc0c2df74dde270e8a6ff" id="r_a2ca20212f1ccc0c2df74dde270e8a6ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1LayersPanel.html">LayersPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a2ca20212f1ccc0c2df74dde270e8a6ff">_layers</a> = nullptr</td></tr>
-<tr class="memdesc:a2ca20212f1ccc0c2df74dde270e8a6ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couches de la carte (dock Couches, LOT-11).  <br /></td></tr>
 <tr class="memitem:abe2762f58f8dd3bcbe6ecfc081072e88" id="r_abe2762f58f8dd3bcbe6ecfc081072e88"><td class="memItemLeft"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#abe2762f58f8dd3bcbe6ecfc081072e88">_entities</a> = nullptr</td></tr>
-<tr class="memdesc:abe2762f58f8dd3bcbe6ecfc081072e88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entités de la carte (dock Entités, LOT-11).  <br /></td></tr>
 <tr class="memitem:a1740570708e810c8d14a9f85988296fb" id="r_a1740570708e810c8d14a9f85988296fb"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1740570708e810c8d14a9f85988296fb">_references</a></td></tr>
-<tr class="memdesc:a1740570708e810c8d14a9f85988296fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogues référencés par les entités (<span class="tt">LOT-11</span>), possédés ici et prêtés au viewport.  <br /></td></tr>
-<tr class="memitem:a5602a56b2b14b4139a7512c0acf75a3e" id="r_a5602a56b2b14b4139a7512c0acf75a3e"><td class="memItemLeft"><a class="el" href="classhmi_1_1TexturePanel.html">TexturePanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a5602a56b2b14b4139a7512c0acf75a3e">_textures</a></td></tr>
-<tr class="memdesc:a5602a56b2b14b4139a7512c0acf75a3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Habillage : jeu de skins et assignations (dock Textures, LOT-42).  <br /></td></tr>
-<tr class="memitem:a82d3a9dc41ae7d2ec973430715219e5e" id="r_a82d3a9dc41ae7d2ec973430715219e5e"><td class="memItemLeft"><a class="el" href="classhmi_1_1PixelCanvas.html">PixelCanvas</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e">_pixelCanvas</a></td></tr>
-<tr class="memdesc:a82d3a9dc41ae7d2ec973430715219e5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglages de gameplay de l'élément sélectionné et du tableau (dock Propriétés, <span class="tt">LOT-67</span>).  <br /></td></tr>
-<tr class="memitem:ada4e70102abcb89f966532432b0dfa79" id="r_ada4e70102abcb89f966532432b0dfa79"><td class="memItemLeft"><a class="el" href="classhmi_1_1PixelHistoryPanel.html">PixelHistoryPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ada4e70102abcb89f966532432b0dfa79">_pixelHistoryPanel</a></td></tr>
-<tr class="memdesc:ada4e70102abcb89f966532432b0dfa79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Historique visuel de l'atelier (dock, LOT-54 TACHE-04).  <br /></td></tr>
-<tr class="memitem:aa1e36a973715fe3eec66812c2ff30349" id="r_aa1e36a973715fe3eec66812c2ff30349"><td class="memItemLeft"><a class="el" href="classhmi_1_1PixelPalettePanel.html">PixelPalettePanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa1e36a973715fe3eec66812c2ff30349">_pixelPalettePanel</a></td></tr>
-<tr class="memdesc:aa1e36a973715fe3eec66812c2ff30349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Édition de la palette de projet (dock, LOT-54 TACHE-07).  <br /></td></tr>
-<tr class="memitem:aea2c791ab6d35fa22a0f186c128de6af" id="r_aea2c791ab6d35fa22a0f186c128de6af"><td class="memItemLeft"><a class="el" href="classhmi_1_1PixelPalette.html">PixelPalette</a>&#160;</td><td class="memItemRight"><a class="el" href="#aea2c791ab6d35fa22a0f186c128de6af">_pixelPalette</a></td></tr>
-<tr class="memdesc:aea2c791ab6d35fa22a0f186c128de6af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Palette de projet, chargée/enregistrée dans Assets/palettes.json.  <br /></td></tr>
-<tr class="memitem:a8693f7156ad8338ea1e88913cf266855" id="r_a8693f7156ad8338ea1e88913cf266855"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a8693f7156ad8338ea1e88913cf266855">_pixelAssetPath</a></td></tr>
-<tr class="memdesc:a8693f7156ad8338ea1e88913cf266855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chemin complet du fichier de l'asset ouvert dans l'atelier, vide si aucun ou pas encore enregistré (LOT-54 TACHE-05) — <span class="tt"><a class="el" href="classhmi_1_1PixelCanvas.html#ad6eeb984190cd8c1ea473a2eb85c98a4">PixelCanvas::assetName()</a></span> n'en garde que le nom de fichier, pour l'affichage ; ce chemin sert à <span class="tt"><a class="el" href="#a642e967ee46ac21ec8880d51589e93da" title="Enregistre l&#39;asset ouvert.">savePixelAsset</a></span> pour retrouver le dossier.  <br /></td></tr>
-<tr class="memitem:a4fdeb032e52fa354689e76c11872980f" id="r_a4fdeb032e52fa354689e76c11872980f"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4fdeb032e52fa354689e76c11872980f">_paintedPlane</a></td></tr>
-<tr class="memdesc:a4fdeb032e52fa354689e76c11872980f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rang du plan actuellement peint dans <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (mode création, <span class="tt">LOT-69</span> TACHE-08) ; absent dès que le canevas sert à l'atelier pixel art.  <br /></td></tr>
-<tr class="memitem:aa11ea4bf8bdc5815fc36bee49cd1c0ed" id="r_aa11ea4bf8bdc5815fc36bee49cd1c0ed"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed">_actions</a></td></tr>
-<tr class="memdesc:aa11ea4bf8bdc5815fc36bee49cd1c0ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outils et commandes principales, barre d'outils (LOT-56 TACHE-04).  <br /></td></tr>
-<tr class="memitem:ace98668ce84ee3ba4f9a9ae17ff17a67" id="r_ace98668ce84ee3ba4f9a9ae17ff17a67"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ace98668ce84ee3ba4f9a9ae17ff17a67">_closing</a> = false</td></tr>
-<tr class="memdesc:ace98668ce84ee3ba4f9a9ae17ff17a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Espace de travail actif (<span class="tt">LOT-68</span>).  <br /></td></tr>
-<tr class="memitem:ab63833717c37aaa1a0c3622f2827677e" id="r_ab63833717c37aaa1a0c3622f2827677e"><td class="memItemLeft"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab63833717c37aaa1a0c3622f2827677e">_workspace</a> = <a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91daa0db49ba470c1c9ae2128c3470339153">EditorWorkspace::Level</a></td></tr>
-<tr class="memitem:ab33c6cdb6968b9fb8550383780597a57" id="r_ab33c6cdb6968b9fb8550383780597a57"><td class="memItemLeft">QToolBar *&#160;</td><td class="memItemRight"><a class="el" href="#ab33c6cdb6968b9fb8550383780597a57">_toolBar</a></td></tr>
-<tr class="memdesc:ab33c6cdb6968b9fb8550383780597a57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Barre d'outils de l'éditeur, alimentée par <span class="tt"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed" title="Outils et commandes principales, barre d&#39;outils (LOT-56 TACHE-04).">_actions</a></span>.  <br /></td></tr>
-<tr class="memitem:a3ad6d124626e17702946ecd76561c760" id="r_a3ad6d124626e17702946ecd76561c760"><td class="memItemLeft">QToolBar *&#160;</td><td class="memItemRight"><a class="el" href="#a3ad6d124626e17702946ecd76561c760">_pixelToolBar</a></td></tr>
-<tr class="memdesc:a3ad6d124626e17702946ecd76561c760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Barre d'outils du canevas pixel art (LOT-54 TACHE-04).  <br /></td></tr>
-<tr class="memitem:ab3583f6b0d511a1a585c4ae6621942fd" id="r_ab3583f6b0d511a1a585c4ae6621942fd"><td class="memItemLeft">QToolButton *&#160;</td><td class="memItemRight"><a class="el" href="#ab3583f6b0d511a1a585c4ae6621942fd">_pixelColorButton</a></td></tr>
-<tr class="memdesc:ab3583f6b0d511a1a585c4ae6621942fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Témoin + sélecteur de couleur courante (canevas).  <br /></td></tr>
-<tr class="memitem:a8a5241297f9f8dbaf7195e8a56934b0c" id="r_a8a5241297f9f8dbaf7195e8a56934b0c"><td class="memItemLeft">QMenu *&#160;</td><td class="memItemRight"><a class="el" href="#a8a5241297f9f8dbaf7195e8a56934b0c">_pixelMenu</a></td></tr>
-<tr class="memdesc:a8a5241297f9f8dbaf7195e8a56934b0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Menu « Atelier » : ouvrir/créer/enregistrer (LOT-54 TACHE-05).  <br /></td></tr>
-<tr class="memitem:ae097a0ee2d4a9bc2d23c7fa2ae069bb1" id="r_ae097a0ee2d4a9bc2d23c7fa2ae069bb1"><td class="memItemLeft">QMenu *&#160;</td><td class="memItemRight"><a class="el" href="#ae097a0ee2d4a9bc2d23c7fa2ae069bb1">_themeMenu</a></td></tr>
-<tr class="memdesc:ae097a0ee2d4a9bc2d23c7fa2ae069bb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sous-menu Affichage &gt; Thème (LOT-56 TACHE-06).  <br /></td></tr>
-<tr class="memitem:abe297cceab56ce35aee224b3de06c902" id="r_abe297cceab56ce35aee224b3de06c902"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#abe297cceab56ce35aee224b3de06c902">_themeSystemAction</a></td></tr>
-<tr class="memitem:a31c3e06650b7a935b3dbd786cb74cd57" id="r_a31c3e06650b7a935b3dbd786cb74cd57"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a31c3e06650b7a935b3dbd786cb74cd57">_themeLightAction</a></td></tr>
-<tr class="memitem:a2733313b50df77944124432621620597" id="r_a2733313b50df77944124432621620597"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a2733313b50df77944124432621620597">_themeDarkAction</a></td></tr>
+<tr class="memitem:aa11ea4bf8bdc5815fc36bee49cd1c0ed" id="r_aa11ea4bf8bdc5815fc36bee49cd1c0ed"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed">_actions</a> = nullptr</td></tr>
+<tr class="memitem:ab33c6cdb6968b9fb8550383780597a57" id="r_ab33c6cdb6968b9fb8550383780597a57"><td class="memItemLeft">QToolBar *&#160;</td><td class="memItemRight"><a class="el" href="#ab33c6cdb6968b9fb8550383780597a57">_toolBar</a> = nullptr</td></tr>
 <tr class="memitem:aa0f18b423a6be1bda623de58166a835f" id="r_aa0f18b423a6be1bda623de58166a835f"><td class="memItemLeft">QByteArray&#160;</td><td class="memItemRight"><a class="el" href="#aa0f18b423a6be1bda623de58166a835f">_defaultState</a></td></tr>
 <tr class="memdesc:aa0f18b423a6be1bda623de58166a835f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposition par défaut (pour « Réinitialiser la disposition »).  <br /></td></tr>
 <tr class="memitem:a5ef79dfc7f245f466e3b459838b93d23" id="r_a5ef79dfc7f245f466e3b459838b93d23"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a5ef79dfc7f245f466e3b459838b93d23">_actFollowActiveTool</a> = nullptr</td></tr>
 <tr class="memdesc:a5ef79dfc7f245f466e3b459838b93d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglage persisté (menu Affichage).  <br /></td></tr>
 <tr class="memitem:a324f91fcd0352eb34be747deb6beb0d3" id="r_a324f91fcd0352eb34be747deb6beb0d3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a324f91fcd0352eb34be747deb6beb0d3">_userPickedTab</a> = false</td></tr>
-<tr class="memdesc:a324f91fcd0352eb34be747deb6beb0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">true</span> dès que l'utilisateur a choisi un onglet ou déplacé un panneau lui-même : la mise en avant automatique cesse alors pour la session (jamais persisté, cf.  <br /></td></tr>
-<tr class="memitem:aff2cc741a88013d0821f5ed556409b71" id="r_aff2cc741a88013d0821f5ed556409b71"><td class="memItemLeft">std::array&lt; QAction *, 7 &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aff2cc741a88013d0821f5ed556409b71">_layerVisibilityActions</a> {}</td></tr>
-<tr class="memitem:a6419d84811721041185969be8dc8b105" id="r_a6419d84811721041185969be8dc8b105"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a6419d84811721041185969be8dc8b105">_actShowAllLayers</a> = nullptr</td></tr>
+<tr class="memdesc:a324f91fcd0352eb34be747deb6beb0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'utilisateur a choisi un onglet lui-même : la mise en avant automatique s'efface.  <br /></td></tr>
 <tr class="memitem:af383ac40d93b51725b361d72e2342292" id="r_af383ac40d93b51725b361d72e2342292"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af383ac40d93b51725b361d72e2342292">_suppressPanelFocusTracking</a> = false</td></tr>
-<tr class="memdesc:af383ac40d93b51725b361d72e2342292"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">true</span> pendant un changement de visibilité <b>provoqué par le code</b> (mise en avant automatique, bascule de mode, restauration de disposition) : évite qu'un tel changement soit pris pour un choix explicite de l'utilisateur (<span class="tt">QDockWidget::visibilityChanged</span>).  <br /></td></tr>
-<tr class="memitem:a01b3c1deb648798f61f0989a06c496cc" id="r_a01b3c1deb648798f61f0989a06c496cc"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#a01b3c1deb648798f61f0989a06c496cc">_statusLevel</a> = nullptr</td></tr>
-<tr class="memitem:aab94b7069d9eace8a98eba480934326c" id="r_aab94b7069d9eace8a98eba480934326c"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#aab94b7069d9eace8a98eba480934326c">_statusDirty</a> = nullptr</td></tr>
-<tr class="memitem:a02c5b9584d57d6c6dbefb74d1090ee7b" id="r_a02c5b9584d57d6c6dbefb74d1090ee7b"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#a02c5b9584d57d6c6dbefb74d1090ee7b">_statusTool</a> = nullptr</td></tr>
-<tr class="memitem:a7131e45a37b5aba9918d58d9f34643d1" id="r_a7131e45a37b5aba9918d58d9f34643d1"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#a7131e45a37b5aba9918d58d9f34643d1">_statusHover</a> = nullptr</td></tr>
-<tr class="memitem:ab10226b2c497c611d347ae6ecbc20763" id="r_ab10226b2c497c611d347ae6ecbc20763"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#ab10226b2c497c611d347ae6ecbc20763">_statusZoom</a> = nullptr</td></tr>
-<tr class="memitem:a36d71bc9d8b83de33fdead9b658943fb" id="r_a36d71bc9d8b83de33fdead9b658943fb"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#a36d71bc9d8b83de33fdead9b658943fb">_statusColor</a> = nullptr</td></tr>
-<tr class="memdesc:a36d71bc9d8b83de33fdead9b658943fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Couleur courante de l'atelier pixel art (<span class="tt">LOT-54</span> TACHE-04) ; vide hors contexte d'atelier.  <br /></td></tr>
-<tr class="memitem:acf7d0c1b8c6c9f77858c847276140b68" id="r_acf7d0c1b8c6c9f77858c847276140b68"><td class="memItemLeft">QLabel *&#160;</td><td class="memItemRight"><a class="el" href="#acf7d0c1b8c6c9f77858c847276140b68">_statusCameraFraming</a> = nullptr</td></tr>
-<tr class="memdesc:acf7d0c1b8c6c9f77858c847276140b68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode de cadrage de caméra du niveau courant (<span class="tt">EX-EDIT-028</span>, LOT-64) ; vide hors contexte de niveau.  <br /></td></tr>
+<tr class="memitem:a61eca251db0d158933e6eb7dbd5e1200" id="r_a61eca251db0d158933e6eb7dbd5e1200"><td class="memItemLeft">std::array&lt; QLabel *, 5 &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a61eca251db0d158933e6eb7dbd5e1200">_statusZones</a> {}</td></tr>
 <tr class="memitem:a2d4fd479e6168cd919c7f22208347a5e" id="r_a2d4fd479e6168cd919c7f22208347a5e"><td class="memItemLeft">QTimer *&#160;</td><td class="memItemRight"><a class="el" href="#a2d4fd479e6168cd919c7f22208347a5e">_statusMessageTimer</a> = nullptr</td></tr>
-<tr class="memdesc:a2d4fd479e6168cd919c7f22208347a5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restaure l'aide contextuelle à l'expiration d'un message transitoire (<span class="tt"><a class="el" href="#a77025d20fbce06f8f0fd55455cc6eca8" title="Affiche message pour timeoutMs dans la barre d&#39;état, puis restaure l&#39;aide contextuelle (refreshStatus...">showTransientStatusMessage</a></span>).  <br /></td></tr>
 <tr class="memitem:a5caf9b64fbcd7d83d4b9473221e6af09" id="r_a5caf9b64fbcd7d83d4b9473221e6af09"><td class="memItemLeft"><a class="el" href="classhmi_1_1Localization.html">Localization</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5caf9b64fbcd7d83d4b9473221e6af09">_loc</a></td></tr>
 <tr class="memdesc:a5caf9b64fbcd7d83d4b9473221e6af09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de traduction (i18n), source de tous les textes.  <br /></td></tr>
-<tr class="memitem:a7faaac5cfddbb72f2302f76fbb2abe44" id="r_a7faaac5cfddbb72f2302f76fbb2abe44"><td class="memItemLeft"><a class="el" href="classhmi_1_1AudioEngine.html">hmi::AudioEngine</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7faaac5cfddbb72f2302f76fbb2abe44">_audio</a></td></tr>
-<tr class="memdesc:a7faaac5cfddbb72f2302f76fbb2abe44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moteur audio (<span class="tt">LOT-60</span>) : ouvert au démarrage (<span class="tt">EX-REN-047</span>), dégrade en silence sans périphérique (<span class="tt">EX-NFR-040</span>).  <br /></td></tr>
-<tr class="memitem:acae74ad8bf6c06ab8aec868ab0de3b22" id="r_acae74ad8bf6c06ab8aec868ab0de3b22"><td class="memItemLeft"><a class="el" href="classhmi_1_1SoundCatalog.html">hmi::SoundCatalog</a>&#160;</td><td class="memItemRight"><a class="el" href="#acae74ad8bf6c06ab8aec868ab0de3b22">_sounds</a></td></tr>
-<tr class="memdesc:acae74ad8bf6c06ab8aec868ab0de3b22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de sons (<span class="tt">LOT-60</span> TACHE-02), lu une fois au démarrage depuis <span class="tt">Audio/sounds.json</span> et entièrement préchargé dans <span class="tt"><a class="el" href="#a7faaac5cfddbb72f2302f76fbb2abe44" title="Moteur audio (LOT-60) : ouvert au démarrage (EX-REN-047), dégrade en silence sans périphérique (EX-NF...">_audio</a></span>.  <br /></td></tr>
-<tr class="memitem:a48ba153acc890d6de84fe2847b5162a9" id="r_a48ba153acc890d6de84fe2847b5162a9"><td class="memItemLeft"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a48ba153acc890d6de84fe2847b5162a9">_sessionLog</a></td></tr>
-<tr class="memdesc:a48ba153acc890d6de84fe2847b5162a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sink mémoire des logs (nul en Release).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Fenêtre principale de l'application Qt : <b>poste de travail d'éditeur</b> à panneaux dockables autour du viewport Direct3D 11. </p>
-<p>Le <b>widget central</b> est le viewport (<span class="tt"><a class="el" href="classhmi_1_1GameViewport.html" title="Widget de rendu (QRhiWidget) où la scène est dessinée, composé avec le reste de l&#39;interface.">GameViewport</a></span>, LOT-34), non dockable. Autour, des <span class="tt">QDockWidget</span> (Palette, Outils, Statut) <b>déplaçables, redimensionnables, détachables</b> (<span class="tt">EX-IHM-010</span>). La <b>disposition</b> (géométrie + agencement des docks) est <b>persistée hors code</b> via <span class="tt">QSettings</span> (<span class="tt">EX-IHM-011</span>) : restaurée au lancement, sauvegardée à la fermeture, et réinitialisable à une disposition par défaut (menu « Affichage »).</p>
-<p>À cette tâche (LOT-35 TACHE-01), les panneaux sont des <b>coquilles</b> : leur contenu (arbre de palette, barre d'outils, barre d'état) est rempli aux tâches suivantes. </p>
+<div class="textblock"><p>Fenêtre principale de l'éditeur (Qt Widgets). </p>
+<p>Le canevas (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>) est le widget central ; la palette, le navigateur de cartes, les couches et les entités sont des docks détachables dont la disposition est persistée (<span class="tt">EX-IHM-010</span>/<span class="tt">011</span>). La fenêtre ne possède aucune donnée d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a846dc46b97c2b6eaeddc5c4e987d47c6" name="a846dc46b97c2b6eaeddc5c4e987d47c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a846dc46b97c2b6eaeddc5c4e987d47c6">&#9670;&#160;</a></span>MainWindow()</h2>
+<a id="aa343d39ed242a21ab96e2423c4b134b3" name="aa343d39ed242a21ab96e2423c4b134b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa343d39ed242a21ab96e2423c4b134b3">&#9670;&#160;</a></span>MainWindow() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">hmi::MainWindow::MainWindow </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *</td>          <td class="paramname"><span class="paramname"><em>sessionLog</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">sessionLog</td><td>Sink mémoire des logs (build développement) pour « Enregistrer les journaux » ; <span class="tt">nullptr</span> en Release (bouton indisponible). </td></tr>
-  </table>
-  </dd>
-</dl>
-<p>&lt; Seule implémentation aujourd'hui (LOT-57 TACHE-04).</p>
 
 </div>
 </div>
@@ -365,6 +200,31 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel override">override</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab4c8e259baea81d2f887f07b47582e19" name="ab4c8e259baea81d2f887f07b47582e19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4c8e259baea81d2f887f07b47582e19">&#9670;&#160;</a></span>MainWindow() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">hmi::MainWindow::MainWindow </td>
+          <td>(</td>
+          <td class="paramtype">const MainWindow &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -395,91 +255,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Met en avant le panneau associé à <code class="param">tool</code> (<span class="tt"><a class="el" href="namespacehmi.html#a581615846aad015aff0e0a17e4f997c4">hmi::panelForTool</a></span>), si le réglage est actif et que l'utilisateur n'a rien imposé lui-même (<span class="tt">LOT-57</span> TACHE-02) — jamais un masquage, une simple suggestion de premier plan parmi les onglets regroupés. </p>
-
-</div>
-</div>
-<a id="a8cbad498c7c99b413ae8352e9ab30f06" name="a8cbad498c7c99b413ae8352e9ab30f06"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8cbad498c7c99b413ae8352e9ab30f06">&#9670;&#160;</a></span>applyPixelPanelFocus()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::applyPixelPanelFocus </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571">hmi::PixelTool</a></td>          <td class="paramname"><span class="paramname"><em>tool</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Équivalent pour les outils du canevas pixel art (<span class="tt"><a class="el" href="namespacehmi.html#ab2bc0ec0306fbff43f717277d659cd16">hmi::panelForPixelTool</a></span>, <span class="tt">LOT-54</span> TACHE-04) — même garde, même règle de non-masquage. </p>
-
-</div>
-</div>
-<a id="a99822a539e006f30711402f737385bff" name="a99822a539e006f30711402f737385bff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99822a539e006f30711402f737385bff">&#9670;&#160;</a></span>applyWorkspace()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::applyWorkspace </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a></td>          <td class="paramname"><span class="paramname"><em>workspace</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Applique l'espace de travail <code class="param">workspace</code> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-073</span>) : masque les panneaux de l'autre espace, bascule barre d'outils et menu, restaure la disposition propre à cet espace. </p>
-<p>N'enregistre <b>pas</b> la disposition qu'on quitte — c'est <span class="tt"><a class="el" href="#a59c679aa42691272befe551088c8b4e3" title="Bascule sur workspace s&#39;il n&#39;est pas déjà actif, en synchronisant le sélecteur du menu sans réémettre...">switchToWorkspace</a></span> qui sait qu'on quitte vraiment un espace, et l'initialisation n'a rien à enregistrer. </p>
-
-</div>
-</div>
-<a id="a39e10dbe859571691899000e40b26936" name="a39e10dbe859571691899000e40b26936"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39e10dbe859571691899000e40b26936">&#9670;&#160;</a></span>buildPixelPalette()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::buildPixelPalette </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Charge la palette de projet de l'atelier pixel art et branche son panneau. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
 </div>
 </div>
 <a id="a871837448750fb40e380fe52af2f666f" name="a871837448750fb40e380fe52af2f666f"></a>
@@ -504,8 +279,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Crée les zones permanentes de la barre d'état. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
 
 </div>
 </div>
@@ -532,8 +305,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Construit le sélecteur de thème clair/sombre de l'éditeur. Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
 </div>
 </div>
 <a id="a2be2a6b71ee9770ab402e16bf8d61666" name="a2be2a6b71ee9770ab402e16bf8d61666"></a>
@@ -558,8 +329,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Crée les panneaux (contenu des docks du <span class="tt">.ui</span>) et branche les actions de la barre de menus. </p>
 
 </div>
 </div>
@@ -586,67 +355,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Remplit le menu Affichage : vue, panneaux, espaces de travail, calques. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
-</div>
-</div>
-<a id="abe9a3497ec9660b8c35097456cd7c181" name="abe9a3497ec9660b8c35097456cd7c181"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe9a3497ec9660b8c35097456cd7c181">&#9670;&#160;</a></span>changeLanguage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::changeLanguage </td>
-          <td>(</td>
-          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>code</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Change la langue active (recharge le catalogue, persiste, retraduit tout). </p>
-
-</div>
-</div>
-<a id="a6bfd4b9ec349f01e4c52e210c7b6e1ed" name="a6bfd4b9ec349f01e4c52e210c7b6e1ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bfd4b9ec349f01e4c52e210c7b6e1ed">&#9670;&#160;</a></span>changePlaneDensity()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::changePlaneDensity </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>pixelsPerUnit</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Change la densité d'un plan : <b>rééchantillonne l'image</b> puis met à jour la déclaration, sans quoi le fichier et le format diraient deux choses différentes. </p>
-
 </div>
 </div>
 <a id="a6dab05769a6e7f213d8e55d9a6b2d446" name="a6dab05769a6e7f213d8e55d9a6b2d446"></a>
@@ -671,87 +379,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Sauvegarde la disposition avant fermeture. </p>
-
-</div>
-</div>
-<a id="adbb90fc80102c6f01e232b7134e30f57" name="adbb90fc80102c6f01e232b7134e30f57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbb90fc80102c6f01e232b7134e30f57">&#9670;&#160;</a></span>closePlaneInCanvas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::closePlaneInCanvas </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Vide le canevas de son plan et retire les repères — l'atelier pixel art retrouve alors son comportement du <span class="tt">LOT-54</span>, sans repère hérité du mode création. </p>
-
-</div>
-</div>
-<a id="aab330acfe884d7b8fef9583592f41a03" name="aab330acfe884d7b8fef9583592f41a03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab330acfe884d7b8fef9583592f41a03">&#9670;&#160;</a></span>confirmDiscardPixelChanges()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::MainWindow::confirmDiscardPixelChanges </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si l'on peut poursuivre (rien à perdre, ou perte confirmée) — même patron que le garde-fou d'ouverture de niveau (<span class="tt">EX-EDIT-021</span>). </dd></dl>
-
-</div>
-</div>
-<a id="af1529048d81c811d567b00408037cde0" name="af1529048d81c811d567b00408037cde0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1529048d81c811d567b00408037cde0">&#9670;&#160;</a></span>confirmDiscardPlaneChanges()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::MainWindow::confirmDiscardPlaneChanges </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si l'on peut poursuivre : rien à perdre dans le canevas, ou perte confirmée. Même garde que <span class="tt"><a class="el" href="#aab330acfe884d7b8fef9583592f41a03">confirmDiscardPixelChanges</a></span>, message propre au plan — un plan perdu est un dessin perdu, pas un asset qu'on retrouve dans la bibliothèque. </dd></dl>
 
 </div>
 </div>
@@ -778,9 +405,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Branche les commandes principales de l'éditeur et les répartit dans les menus. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
 </div>
 </div>
 <a id="aeee6162d90a0c35a8a805ddab8ac92e0" name="aeee6162d90a0c35a8a805ddab8ac92e0"></a>
@@ -805,63 +429,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Branche les panneaux « Couches » et « Entités » (<span class="tt">LOT-11</span>) : même partage des rôles. </p>
-
-</div>
-</div>
-<a id="a433902be9f471a0caab8b3c8e30e303a" name="a433902be9f471a0caab8b3c8e30e303a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a433902be9f471a0caab8b3c8e30e303a">&#9670;&#160;</a></span>connectPixelCommands()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::connectPixelCommands </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Branche les commandes de fichier et de région de l'atelier pixel art et leur menu. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
-</div>
-</div>
-<a id="a9366e2431a72f64f6fd73414bc2421e5" name="a9366e2431a72f64f6fd73414bc2421e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9366e2431a72f64f6fd73414bc2421e5">&#9670;&#160;</a></span>connectPlanesPanel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::connectPlanesPanel </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Branche le panneau « Plans » (<span class="tt">LOT-69</span> TACHE-08) : il demande, le viewport applique. </p>
 
 </div>
 </div>
@@ -888,256 +455,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Relie les actions d'outils (niveau et pixel art) et les signaux du canevas pixel art. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
-</div>
-</div>
-<a id="ac0d13c9ba2e418481dad5e0f6d3fc107" name="ac0d13c9ba2e418481dad5e0f6d3fc107"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0d13c9ba2e418481dad5e0f6d3fc107">&#9670;&#160;</a></span>createPlane()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::createPlane </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Crée un plan : un PNG entièrement transparent aux dimensions exactes, puis l'entrée dans le brouillon. </p>
-<p>Les deux vont ensemble — une entrée sans fichier afficherait un damier. </p>
-
-</div>
-</div>
-<a id="a2d1f33de682c39a3c520bfc344b5ab59" name="a2d1f33de682c39a3c520bfc344b5ab59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2d1f33de682c39a3c520bfc344b5ab59">&#9670;&#160;</a></span>eventFilter()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::MainWindow::eventFilter </td>
-          <td>(</td>
-          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>watched</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">QEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Suit la taille du viewport pour les recouvrements qui s'y superposent (pause, fin de niveau) : enfants ordinaires depuis le <span class="tt">LOT-69</span> TACHE-02, ils se redimensionnent avec leur parent plutôt que d'être repositionnés en coordonnées écran. </p>
-
-</div>
-</div>
-<a id="ae846811693c28d55e5177cf9ac4a161e" name="ae846811693c28d55e5177cf9ac4a161e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae846811693c28d55e5177cf9ac4a161e">&#9670;&#160;</a></span>groupDockPanels()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::groupDockPanels </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Regroupe les docks en onglets par domaine et suit les choix d'onglet de l'utilisateur. </p>
-<p>Appelée par <span class="tt"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666" title="Crée les panneaux (contenu des docks du .ui) et branche les actions de la barre de menus.">buildUi</a></span>. </p>
-
-</div>
-</div>
-<a id="aaed7c2d32c2c0fcfd68f9bdf62c7b4bb" name="aaed7c2d32c2c0fcfd68f9bdf62c7b4bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaed7c2d32c2c0fcfd68f9bdf62c7b4bb">&#9670;&#160;</a></span>layoutKeyFor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::MainWindow::layoutKeyFor </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a></td>          <td class="paramname"><span class="paramname"><em>workspace</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>La clé <span class="tt">QSettings</span> de la disposition de <code class="param">workspace</code>. Chaque espace persiste la sienne : une disposition unique rouvrirait les docks de l'atelier par-dessus l'édition. </dd></dl>
-
-</div>
-</div>
-<a id="ae2b6d081350501e8eff3e2915235dc08" name="ae2b6d081350501e8eff3e2915235dc08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae2b6d081350501e8eff3e2915235dc08">&#9670;&#160;</a></span>loadPlaneIntoCanvas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::loadPlaneIntoCanvas </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Charge le PNG du plan <code class="param">index</code> dans <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span>, avec ses repères (pelure d'oignon des tuiles sous le plan, plans voisins aplatis dessous et dessus, grille de tuiles). </p>
-<p>Sans effet — et le canevas est refermé — si le rang n'existe pas. Le garde-fou de perte de travail est à la charge de l'appelant : cette méthode écrase le contenu du canevas. </p>
-
-</div>
-</div>
-<a id="a8f4ec20153d8d14d3ab9a602f56a466b" name="a8f4ec20153d8d14d3ab9a602f56a466b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f4ec20153d8d14d3ab9a602f56a466b">&#9670;&#160;</a></span>moveEvent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::moveEvent </td>
-          <td>(</td>
-          <td class="paramtype">QMoveEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad32a46642735fa5056ea258df35b2847" name="ad32a46642735fa5056ea258df35b2847"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad32a46642735fa5056ea258df35b2847">&#9670;&#160;</a></span>openPixelAssetCreateDialog()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::openPixelAssetCreateDialog </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Crée un nouvel asset à une taille choisie parmi celles admises par le contrat de sa famille (<span class="tt"><a class="el" href="namespacehmi.html#ad4e08bbde577c00ef32757d631d79922" title="Tailles proposées à la création d&#39;un asset de la famille donnée.">hmi::validAssetSizes</a></span>), après le garde-fou de perte de travail. </p>
-
-</div>
-</div>
-<a id="a8ed05d0fa3bc00be3ee6e349e292f7a2" name="a8ed05d0fa3bc00be3ee6e349e292f7a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ed05d0fa3bc00be3ee6e349e292f7a2">&#9670;&#160;</a></span>openPixelAssetOpenDialog()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::openPixelAssetOpenDialog </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Ouvre un asset existant choisi par l'utilisateur (bibliothèque <span class="tt">Assets/</span>), après le garde-fou de perte de travail. </p>
-
-</div>
-</div>
-<a id="a2a42277558bb0f0e66662cd61fdf789e" name="a2a42277558bb0f0e66662cd61fdf789e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a42277558bb0f0e66662cd61fdf789e">&#9670;&#160;</a></span>openPixelColorPicker()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::openPixelColorPicker </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Ouvre un sélecteur de couleur (<span class="tt">QColorDialog</span>) pour choisir librement la couleur courante du canevas — seul moyen d'atteindre une couleur absente à la fois de l'image ouverte (pipette) et de la palette de projet (pastilles). </p>
-
 </div>
 </div>
 <a id="abb2b5a4ae54723c485af101667fc2f23" name="abb2b5a4ae54723c485af101667fc2f23"></a>
@@ -1162,8 +479,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Ouvre la boîte de dialogue de redimensionnement du niveau (avec confirmation si destructeur). </p>
 
 </div>
 </div>
@@ -1190,13 +505,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Ouvre l'aperçu des raccourcis (<span class="tt">ShortcutsDialog.ui</span>). </p>
-<p>Le tableau est rempli depuis les raccourcis <b>effectifs</b> des actions, jamais un texte figé : il reste juste après un remappage. </p>
-
 </div>
 </div>
-<a id="a0c2030c04ec61b66dcf517d9d337049f" name="a0c2030c04ec61b66dcf517d9d337049f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c2030c04ec61b66dcf517d9d337049f">&#9670;&#160;</a></span>pixelAssetCacheKey()</h2>
+<a id="ab6940837dc62d495d934ae0d0e4e4284" name="ab6940837dc62d495d934ae0d0e4e4284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6940837dc62d495d934ae0d0e4e4284">&#9670;&#160;</a></span>operator=()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1205,154 +517,18 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string hmi::MainWindow::pixelAssetCacheKey </td>
+          <td class="memname"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp; hmi::MainWindow::operator= </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Nom logique de l'asset ouvert, relatif à <span class="tt">Assets/</span> (ex. </p>
-<p><span class="tt">"Skins/mur.png"</span>) : la clé sous laquelle <span class="tt"><a class="el" href="classhmi_1_1TextureCache.html" title="Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique.">hmi::TextureCache</a></span>/<span class="tt"><a class="el" href="classhmi_1_1GameViewport.html#a447c144c52c54657cb29e4b7473e8f3b" title="Rechargement à chaud ciblé d&#39;un seul asset (LOT-43 TACHE-03).">GameViewport::invalidateAsset</a></span> connaissent cet asset — un simple nom de fichier ne suffit pas, le cache est indexé par chemin complet (préfixe de sous-dossier compris). </p>
-
-</div>
-</div>
-<a id="a07b944975d592b5ec452733b50827789" name="a07b944975d592b5ec452733b50827789"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07b944975d592b5ec452733b50827789">&#9670;&#160;</a></span>planeFilePath()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::filesystem::path hmi::MainWindow::planeFilePath </td>
-          <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le chemin du PNG du plan de rang <code class="param">index</code>, vide si le rang n'existe pas. </dd></dl>
-
-</div>
-</div>
-<a id="aee31c2dccce9794cb49b7b65c61777f8" name="aee31c2dccce9794cb49b7b65c61777f8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee31c2dccce9794cb49b7b65c61777f8">&#9670;&#160;</a></span>planesDirectory()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::filesystem::path hmi::MainWindow::planesDirectory </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel delete">delete</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le dossier des images de plans, à côté des niveaux. </dd></dl>
-
-</div>
-</div>
-<a id="a2b36a89653f47498553ff68af07c8de2" name="a2b36a89653f47498553ff68af07c8de2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b36a89653f47498553ff68af07c8de2">&#9670;&#160;</a></span>playInterfaceSound()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::playInterfaceSound </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#a3a61aed1c8e95c289c829398d48488de">GameEvent</a></td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Joue le son associé à <code class="param">event</code> (<span class="tt">hmi::SoundTriggers</span>), sans effet si aucun son ne lui est associé (<span class="tt">LOT-60</span> TACHE-03) &ndash; point d'appel unique pour tous les sons d'interface. </p>
-
-</div>
-</div>
-<a id="a79815fd4671818f84de9e9b199526451" name="a79815fd4671818f84de9e9b199526451"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79815fd4671818f84de9e9b199526451">&#9670;&#160;</a></span>raisePanel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::raisePanel </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a></td>          <td class="paramname"><span class="paramname"><em>panel</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Met en avant <code class="param">panel</code> (résolution <span class="tt"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726" title="Panneau dockable de l&#39;éditeur.">PanelId</a></span> -&gt; <span class="tt">QDockWidget*</span>), sans jamais voler le focus clavier — factorisé entre <span class="tt"><a class="el" href="#a79a0a32f6374cffe570e60650baadca4" title="Met en avant le panneau associé à tool (hmi::panelForTool), si le réglage est actif et que l&#39;utilisat...">applyPanelFocus</a></span> et <span class="tt"><a class="el" href="#a8cbad498c7c99b413ae8352e9ab30f06" title="Équivalent pour les outils du canevas pixel art (hmi::panelForPixelTool, LOT-54 TACHE-04) — même gard...">applyPixelPanelFocus</a></span>. </p>
-
-</div>
-</div>
-<a id="adff4abfa93ae5ca39e57e306f9786a69" name="adff4abfa93ae5ca39e57e306f9786a69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adff4abfa93ae5ca39e57e306f9786a69">&#9670;&#160;</a></span>refreshPlaneReferences()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::refreshPlaneReferences </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reconstruit les repères du plan ouvert depuis le brouillon courant : appelé après toute mutation qui les périme (ordre, densité, opacité, visibilité, taille du niveau). </p>
 
 </div>
 </div>
@@ -1379,8 +555,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Recalcule et réaffiche la barre d'état (zones permanentes + aide contextuelle) depuis l'état courant du viewport (<span class="tt">LOT-57</span> TACHE-01, <span class="tt"><a class="el" href="namespacehmi.html#a8a9b5847205047e29cd377960c0ff15c" title="Décide le contenu de la barre d&#39;état de l&#39;éditeur pour context.">hmi::editorStatusLines</a></span>) — seule voie de mise à jour, appelée par tout changement pertinent (outil, survol, zoom, brouillon) ainsi qu'à l'expiration d'un message transitoire, pour la restaurer. </p>
-
 </div>
 </div>
 <a id="a952381c794fe3fd8003e5177ae7b42c4" name="a952381c794fe3fd8003e5177ae7b42c4"></a>
@@ -1405,36 +579,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Relit les catalogues que les entités référencent (dialogues, rencontres, bestiaire, cartes) et les confie au viewport — au démarrage, après un enregistrement de carte et au rechargement des assets. </p>
-
-</div>
-</div>
-<a id="a0c75214acd44c6e1bef12db335abd37f" name="a0c75214acd44c6e1bef12db335abd37f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c75214acd44c6e1bef12db335abd37f">&#9670;&#160;</a></span>resizeEvent()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::resizeEvent </td>
-          <td>(</td>
-          <td class="paramtype">QResizeEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Repris de <span class="tt">QMainWindow</span>. </p>
-<p>Il resynchronisait la géométrie des recouvrements d'écran, qui appartiennent au jeu depuis le <span class="tt">LOT-86</span> ; il ne reste que le comportement de base. </p>
 
 </div>
 </div>
@@ -1486,8 +630,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Applique la langue active à tous les textes de l'IHM (fenêtre, menus, docks, panneaux). </p>
-
 </div>
 </div>
 <a id="a3b35aad4874b9a25e9c680e44945fec4" name="a3b35aad4874b9a25e9c680e44945fec4"></a>
@@ -1512,170 +654,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a642e967ee46ac21ec8880d51589e93da" name="a642e967ee46ac21ec8880d51589e93da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a642e967ee46ac21ec8880d51589e93da">&#9670;&#160;</a></span>savePixelAsset()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::savePixelAsset </td>
-          <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>saveAs</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Enregistre l'asset ouvert. </p>
-<p><code class="param">saveAs</code> force le choix d'un nouveau chemin (copie), même sans chemin existant ; sans <code class="param">saveAs</code>, réutilise le chemin d'ouverture s'il y en a un. Un écrasement d'asset référencé demande confirmation, nommant les références (<span class="tt">LOT-43</span>). </p>
-
-</div>
-</div>
-<a id="ac76d0f9ba39d1a52d33fbaecf7f777d0" name="ac76d0f9ba39d1a52d33fbaecf7f777d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac76d0f9ba39d1a52d33fbaecf7f777d0">&#9670;&#160;</a></span>savePixelPalette()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::savePixelPalette </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Enregistre <span class="tt"><a class="el" href="#aea2c791ab6d35fa22a0f186c128de6af" title="Palette de projet, chargée/enregistrée dans Assets/palettes.json.">_pixelPalette</a></span> dans <span class="tt">Assets/palettes.json</span>, journalise un échec éventuel. </p>
-
-</div>
-</div>
-<a id="a57124ac2472d9e372b444d41b17c6438" name="a57124ac2472d9e372b444d41b17c6438"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57124ac2472d9e372b444d41b17c6438">&#9670;&#160;</a></span>savePlaneImage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::savePlaneImage </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Écrit l'image du canevas dans le PNG du plan ouvert (<span class="tt">Ctrl+S</span> dans l'espace « Plans »). </p>
-<p>Sans effet si aucun plan n'y est chargé. </p>
-
-</div>
-</div>
-<a id="acfd88f3e6576c175480e4eeac406ea93" name="acfd88f3e6576c175480e4eeac406ea93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acfd88f3e6576c175480e4eeac406ea93">&#9670;&#160;</a></span>saveSessionLogs()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::saveSessionLogs </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Enregistre les journaux de session accumulés dans un fichier horodaté. </p>
-
-</div>
-</div>
-<a id="ad46f19e154147f414a4ca0817086c2ac" name="ad46f19e154147f414a4ca0817086c2ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad46f19e154147f414a4ca0817086c2ac">&#9670;&#160;</a></span>setDocksVisible()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::setDocksVisible </td>
-          <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>visible</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Montre/masque tous les panneaux dockables. </p>
-
-</div>
-</div>
-<a id="a841fbf5b4353177a821eeb443c9ea55b" name="a841fbf5b4353177a821eeb443c9ea55b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a841fbf5b4353177a821eeb443c9ea55b">&#9670;&#160;</a></span>showEditor()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::showEditor </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Affiche l'éditeur (viewport + docks + barre de menu). </p>
 
 </div>
 </div>
@@ -1706,64 +684,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Affiche <code class="param">message</code> pour <code class="param">timeoutMs</code> dans la barre d'état, puis restaure l'aide contextuelle (<span class="tt"><a class="el" href="#ace1ef846c7704477a23af655b4f78e74" title="Recalcule et réaffiche la barre d&#39;état (zones permanentes + aide contextuelle) depuis l&#39;état courant ...">refreshStatusHelp</a></span>). </p>
-<p>La barre d'état n'est jamais laissée vide : à l'expiration d'un message transitoire, elle reprend l'aide du contexte courant. C'est pourquoi le minuteur est porté ici et non délégué à <span class="tt">QStatusBar::showMessage</span>, dont l'expiration ne rappelle rien. </p>
-
-</div>
-</div>
-<a id="a59c679aa42691272befe551088c8b4e3" name="a59c679aa42691272befe551088c8b4e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59c679aa42691272befe551088c8b4e3">&#9670;&#160;</a></span>switchToWorkspace()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::switchToWorkspace </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a></td>          <td class="paramname"><span class="paramname"><em>workspace</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Bascule sur <code class="param">workspace</code> <b>s'il n'est pas déjà actif</b>, en synchronisant le sélecteur du menu sans réémettre. </p>
-<p>Point d'entrée unique : <span class="tt"><a class="el" href="#a99822a539e006f30711402f737385bff" title="Applique l&#39;espace de travail workspace (LOT-68, EX-IHM-073) : masque les panneaux de l&#39;autre espace,...">applyWorkspace</a></span> applique, celle-ci décide. </p>
-
-</div>
-</div>
-<a id="a995770117dd47f09b9d2754a0216e9bb" name="a995770117dd47f09b9d2754a0216e9bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a995770117dd47f09b9d2754a0216e9bb">&#9670;&#160;</a></span>syncPaletteToCanvas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::syncPaletteToCanvas </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Recopie les couleurs de <span class="tt"><a class="el" href="#aea2c791ab6d35fa22a0f186c128de6af" title="Palette de projet, chargée/enregistrée dans Assets/palettes.json.">_pixelPalette</a></span> vers <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (mode contraint) — à appeler après toute mutation qui change les couleurs ou leur ordre (l'ordre affecte le départage à distance égale, <span class="tt"><a class="el" href="namespacehmi.html#aa3ad36cdfd66f4029481e164b0ccb66c" title="Couleur de palette la plus proche de color (mode « contraindre à la palette »).">hmi::nearestPaletteColor</a></span>). </p>
-
 </div>
 </div>
 <a id="a23d7033f2e1cfe842e9d3c9f6f6f6db8" name="a23d7033f2e1cfe842e9d3c9f6f6f6db8"></a>
@@ -1788,193 +708,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Raccourci : texte localisé d'une clé, en <span class="tt">QString</span>. </p>
-
-</div>
-</div>
-<a id="aef651eacf7d4b0696a0ec0bfbc1d0483" name="aef651eacf7d4b0696a0ec0bfbc1d0483"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef651eacf7d4b0696a0ec0bfbc1d0483">&#9670;&#160;</a></span>updateActiveEditContext()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::updateActiveEditContext </td>
-          <td>(</td>
-          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>focused</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Réassigne le contexte d'édition actif (<span class="tt"><a class="el" href="#acdb82ee8e5a56236705ceec1908982ff" title="Contexte d&#39;édition actif, cible d&#39;Annuler/Refaire/Copier/Coller (LOT-57 TACHE-04) :  _viewport (nivea...">_editContext</a></span>) et le contexte de la barre d'état selon le widget qui vient de recevoir le focus clavier (<span class="tt">LOT-54</span> TACHE-04, <span class="tt">EX-IHM-062</span>) : le canevas pixel art si le focus y entre, le niveau sinon. </p>
-
-</div>
-</div>
-<a id="a7581f0e4c9e3019b782e5ecf3cf1401c" name="a7581f0e4c9e3019b782e5ecf3cf1401c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7581f0e4c9e3019b782e5ecf3cf1401c">&#9670;&#160;</a></span>updateLivePreview()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::updateLivePreview </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Écrit l'image en cours sur <span class="tt"><a class="el" href="#a8693f7156ad8338ea1e88913cf266855" title="Chemin complet du fichier de l&#39;asset ouvert dans l&#39;atelier, vide si aucun ou pas encore enregistré (L...">_pixelAssetPath</a></span> et invalide son entrée de <span class="tt"><a class="el" href="classhmi_1_1TextureCache.html" title="Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique.">TextureCache</a></span>, pour que le niveau affiché reflète l'édition en cours — sans effet tant qu'aucun chemin n'est associé (asset pas encore enregistré une première fois, TACHE-05). </p>
-
-</div>
-</div>
-<a id="a3b786cda76b1c4b3c58cfe1d926711c2" name="a3b786cda76b1c4b3c58cfe1d926711c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b786cda76b1c4b3c58cfe1d926711c2">&#9670;&#160;</a></span>updatePixelColorButtonIcon()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::MainWindow::updatePixelColorButtonIcon </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>color</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Met à jour le témoin de couleur de la barre d'outils du canevas (pastille de <span class="tt"><a class="el" href="#ab3583f6b0d511a1a585c4ae6621942fd" title="Témoin + sélecteur de couleur courante (canevas).">_pixelColorButton</a></span>). </p>
-
-</div>
-</div>
-<a id="abc59a0bb011931c1f52b4e75cd5d28b3" name="abc59a0bb011931c1f52b4e75cd5d28b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc59a0bb011931c1f52b4e75cd5d28b3">&#9670;&#160;</a></span>workspaceFromSettingsName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> hmi::MainWindow::workspaceFromSettingsName </td>
-          <td>(</td>
-          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>L'espace nommé <code class="param">name</code> ; l'édition de niveau si le nom est inconnu (y compris les anciens <span class="tt">0</span>/<span class="tt">1</span> du <span class="tt">LOT-68</span>). </dd></dl>
-
-</div>
-</div>
-<a id="a75703620647423eab281de7ea851ec34" name="a75703620647423eab281de7ea851ec34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75703620647423eab281de7ea851ec34">&#9670;&#160;</a></span>workspacePanels()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt; std::pair&lt; QDockWidget *, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> &gt;, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">hmi::PANEL_COUNT</a> &gt; hmi::MainWindow::workspacePanels </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>La table des neuf panneaux et de leur identité, relue par <span class="tt"><a class="el" href="#ad46f19e154147f414a4ca0817086c2ac" title="Montre/masque tous les panneaux dockables.">setDocksVisible</a></span> <b>et</b> par <span class="tt"><a class="el" href="#a99822a539e006f30711402f737385bff" title="Applique l&#39;espace de travail workspace (LOT-68, EX-IHM-073) : masque les panneaux de l&#39;autre espace,...">applyWorkspace</a></span>. Une seule table : deux listes divergeraient au premier dock ajouté, et le dock oublié resterait affiché dans les deux espaces. </dd></dl>
-
-</div>
-</div>
-<a id="a027b04a3b312514563ce3a0d81600192" name="a027b04a3b312514563ce3a0d81600192"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a027b04a3b312514563ce3a0d81600192">&#9670;&#160;</a></span>workspaceSelector()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QAction * hmi::MainWindow::workspaceSelector </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a></td>          <td class="paramname"><span class="paramname"><em>workspace</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>L'entrée de menu exclusive qui sélectionne <code class="param">workspace</code>. </dd></dl>
-
-</div>
-</div>
-<a id="a5136cda0984d0b96d9ae1c6051adb0ea" name="a5136cda0984d0b96d9ae1c6051adb0ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5136cda0984d0b96d9ae1c6051adb0ea">&#9670;&#160;</a></span>workspaceSettingsName()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::MainWindow::workspaceSettingsName </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a></td>          <td class="paramname"><span class="paramname"><em>workspace</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le nom sous lequel <code class="param">workspace</code> est persisté. Un <b>nom</b>, jamais l'indice de l'énumération : le <span class="tt">LOT-68</span> écrivait 0/1, et insérer « Plans » entre les deux aurait fait rouvrir en mode création l'éditeur laissé dans l'atelier. </dd></dl>
 
 </div>
 </div>
@@ -2013,7 +746,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a>* hmi::MainWindow::_actions</td>
+          <td class="memname"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a>* hmi::MainWindow::_actions = nullptr</td>
         </tr>
       </table>
   </td>
@@ -2022,80 +755,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Outils et commandes principales, barre d'outils (LOT-56 TACHE-04). </p>
-
-</div>
-</div>
-<a id="a6419d84811721041185969be8dc8b105" name="a6419d84811721041185969be8dc8b105"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6419d84811721041185969be8dc8b105">&#9670;&#160;</a></span>_actShowAllLayers</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QAction* hmi::MainWindow::_actShowAllLayers = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7faaac5cfddbb72f2302f76fbb2abe44" name="a7faaac5cfddbb72f2302f76fbb2abe44"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7faaac5cfddbb72f2302f76fbb2abe44">&#9670;&#160;</a></span>_audio</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1AudioEngine.html">hmi::AudioEngine</a> hmi::MainWindow::_audio</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Moteur audio (<span class="tt">LOT-60</span>) : ouvert au démarrage (<span class="tt">EX-REN-047</span>), dégrade en silence sans périphérique (<span class="tt">EX-NFR-040</span>). </p>
-<p>Partagé avec <span class="tt"><a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Surface de rendu QRhi, et widget central depuis le LOT-86.">_viewport</a></span> (<span class="tt">setAudioEngine</span>), qui déclenche les sons de jeu ; les sons d'interface se jouent directement d'ici (<span class="tt"><a class="el" href="#a2b36a89653f47498553ff68af07c8de2" title="Joue le son associé à event (hmi::SoundTriggers), sans effet si aucun son ne lui est associé (LOT-60 ...">playInterfaceSound</a></span>). </p>
-
-</div>
-</div>
-<a id="ace98668ce84ee3ba4f9a9ae17ff17a67" name="ace98668ce84ee3ba4f9a9ae17ff17a67"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ace98668ce84ee3ba4f9a9ae17ff17a67">&#9670;&#160;</a></span>_closing</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::MainWindow::_closing = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Espace de travail actif (<span class="tt">LOT-68</span>). </p>
-<p>Persisté : on rouvre l'éditeur là où on l'a laissé. Vrai dès que la fenêtre a reçu sa demande de fermeture. Coupe les traitements différés qui toucheraient au thème ou à la disposition pendant le démontage. </p>
 
 </div>
 </div>
@@ -2143,9 +802,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Contexte d'édition actif, cible d'Annuler/Refaire/Copier/Coller (<span class="tt">LOT-57</span> TACHE-04) : <span class="tt">
-<a class="el" href="#a1ed57ff25b1be1c311886896b1ae444f" title="Surface de rendu QRhi, et widget central depuis le LOT-86.">_viewport</a></span> (niveau) ou <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (atelier pixel art, <span class="tt">LOT-54</span> TACHE-04), selon le widget qui a le focus clavier (<span class="tt"><a class="el" href="#aef651eacf7d4b0696a0ec0bfbc1d0483" title="Réassigne le contexte d&#39;édition actif (_editContext) et le contexte de la barre d&#39;état selon le widge...">updateActiveEditContext</a></span>) — le dispatch lui-même ne change jamais. </p>
-
 </div>
 </div>
 <a id="abe2762f58f8dd3bcbe6ecfc081072e88" name="abe2762f58f8dd3bcbe6ecfc081072e88"></a>
@@ -2167,8 +823,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Entités de la carte (dock Entités, LOT-11). </p>
 
 </div>
 </div>
@@ -2192,30 +846,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Couches de la carte (dock Couches, LOT-11). </p>
-
-</div>
-</div>
-<a id="aff2cc741a88013d0821f5ed556409b71" name="aff2cc741a88013d0821f5ed556409b71"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff2cc741a88013d0821f5ed556409b71">&#9670;&#160;</a></span>_layerVisibilityActions</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::array&lt;QAction*, 7&gt; hmi::MainWindow::_layerVisibilityActions {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
 </div>
 </div>
 <a id="aa3a6277e15086fc09f3ba9b42dfc86e2" name="aa3a6277e15086fc09f3ba9b42dfc86e2"></a>
@@ -2228,7 +858,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a>* hmi::MainWindow::_levels</td>
+          <td class="memname"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a>* hmi::MainWindow::_levels = nullptr</td>
         </tr>
       </table>
   </td>
@@ -2237,33 +867,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Liste/gestion des fichiers de niveaux (contenu du dock Niveaux). </p>
-
-</div>
-</div>
-<a id="a25b7f8b81604897b4eb8e29bdf3fd85e" name="a25b7f8b81604897b4eb8e29bdf3fd85e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25b7f8b81604897b4eb8e29bdf3fd85e">&#9670;&#160;</a></span>_links</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1LinkPanel.html">LinkPanel</a>* hmi::MainWindow::_links</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Placement/inspection de décors (dock Décors, <span class="tt">LOT-57</span> amendement) — contenait déjà tout ce qui concerne les décors (<span class="tt">ToolPanel</span>, <span class="tt">LOT-56</span> TACHE-04) avant d'y accueillir aussi l'inspecteur déplacé du panneau Textures. </p>
-<p>La barre d'outils reste hors de ce panneau. Liste/gestion des liaisons de mécanismes (dock Liens, LOT-37). </p>
 
 </div>
 </div>
@@ -2291,31 +894,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4fdeb032e52fa354689e76c11872980f" name="a4fdeb032e52fa354689e76c11872980f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fdeb032e52fa354689e76c11872980f">&#9670;&#160;</a></span>_paintedPlane</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt;std::size_t&gt; hmi::MainWindow::_paintedPlane</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Rang du plan actuellement peint dans <span class="tt"><a class="el" href="#a82d3a9dc41ae7d2ec973430715219e5e" title="Réglages de gameplay de l&#39;élément sélectionné et du tableau (dock Propriétés, LOT-67).">_pixelCanvas</a></span> (mode création, <span class="tt">LOT-69</span> TACHE-08) ; absent dès que le canevas sert à l'atelier pixel art. </p>
-<p>C'est ce qui distingue les deux usages du <b>même</b> canevas : où <span class="tt">Ctrl+S</span> écrit, quels repères afficher, et ce que la barre d'état annonce. Un plan et un asset n'y sont jamais ouverts en même temps. </p>
-
-</div>
-</div>
 <a id="af1127880bfad8cb9a4e49eb5c072ca08" name="af1127880bfad8cb9a4e49eb5c072ca08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1127880bfad8cb9a4e49eb5c072ca08">&#9670;&#160;</a></span>_palette</h2>
 
@@ -2326,7 +904,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PalettePanel.html">PalettePanel</a>* hmi::MainWindow::_palette</td>
+          <td class="memname"><a class="el" href="classhmi_1_1PalettePanel.html">PalettePanel</a>* hmi::MainWindow::_palette = nullptr</td>
         </tr>
       </table>
   </td>
@@ -2335,231 +913,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Arbre de sélection du type de tuile (contenu du dock Palette). </p>
-
-</div>
-</div>
-<a id="a8693f7156ad8338ea1e88913cf266855" name="a8693f7156ad8338ea1e88913cf266855"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8693f7156ad8338ea1e88913cf266855">&#9670;&#160;</a></span>_pixelAssetPath</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::filesystem::path hmi::MainWindow::_pixelAssetPath</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Chemin complet du fichier de l'asset ouvert dans l'atelier, vide si aucun ou pas encore enregistré (LOT-54 TACHE-05) — <span class="tt"><a class="el" href="classhmi_1_1PixelCanvas.html#ad6eeb984190cd8c1ea473a2eb85c98a4">PixelCanvas::assetName()</a></span> n'en garde que le nom de fichier, pour l'affichage ; ce chemin sert à <span class="tt"><a class="el" href="#a642e967ee46ac21ec8880d51589e93da" title="Enregistre l&#39;asset ouvert.">savePixelAsset</a></span> pour retrouver le dossier. </p>
-
-</div>
-</div>
-<a id="a82d3a9dc41ae7d2ec973430715219e5e" name="a82d3a9dc41ae7d2ec973430715219e5e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82d3a9dc41ae7d2ec973430715219e5e">&#9670;&#160;</a></span>_pixelCanvas</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PixelCanvas.html">PixelCanvas</a>* hmi::MainWindow::_pixelCanvas</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Réglages de gameplay de l'élément sélectionné et du tableau (dock Propriétés, <span class="tt">LOT-67</span>). </p>
-<p>Canevas de l'atelier pixel art (dock Atelier, LOT-54 TACHE-04) : seconde implémentation de <span class="tt"><a class="el" href="classhmi_1_1EditContextTarget.html" title="Interface pure implémentée par le contexte d&#39;édition actif.">EditContextTarget</a></span>, cible d'Annuler/Refaire/Copier/Coller quand elle a le focus clavier. </p>
-
-</div>
-</div>
-<a id="ab3583f6b0d511a1a585c4ae6621942fd" name="ab3583f6b0d511a1a585c4ae6621942fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3583f6b0d511a1a585c4ae6621942fd">&#9670;&#160;</a></span>_pixelColorButton</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QToolButton* hmi::MainWindow::_pixelColorButton</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                          =</div>
-<div class="line"><span class="keyword">nullptr</span></div>
-</div><!-- fragment -->
-<p>Témoin + sélecteur de couleur courante (canevas). </p>
-
-</div>
-</div>
-<a id="ada4e70102abcb89f966532432b0dfa79" name="ada4e70102abcb89f966532432b0dfa79"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada4e70102abcb89f966532432b0dfa79">&#9670;&#160;</a></span>_pixelHistoryPanel</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PixelHistoryPanel.html">PixelHistoryPanel</a>* hmi::MainWindow::_pixelHistoryPanel</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Historique visuel de l'atelier (dock, LOT-54 TACHE-04). </p>
-
-</div>
-</div>
-<a id="a8a5241297f9f8dbaf7195e8a56934b0c" name="a8a5241297f9f8dbaf7195e8a56934b0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a5241297f9f8dbaf7195e8a56934b0c">&#9670;&#160;</a></span>_pixelMenu</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QMenu* hmi::MainWindow::_pixelMenu</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">             =</div>
-<div class="line"><span class="keyword">nullptr</span></div>
-</div><!-- fragment -->
-<p>Menu « Atelier » : ouvrir/créer/enregistrer (LOT-54 TACHE-05). </p>
-
-</div>
-</div>
-<a id="aea2c791ab6d35fa22a0f186c128de6af" name="aea2c791ab6d35fa22a0f186c128de6af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea2c791ab6d35fa22a0f186c128de6af">&#9670;&#160;</a></span>_pixelPalette</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PixelPalette.html">PixelPalette</a> hmi::MainWindow::_pixelPalette</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Palette de projet, chargée/enregistrée dans Assets/palettes.json. </p>
-
-</div>
-</div>
-<a id="aa1e36a973715fe3eec66812c2ff30349" name="aa1e36a973715fe3eec66812c2ff30349"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa1e36a973715fe3eec66812c2ff30349">&#9670;&#160;</a></span>_pixelPalettePanel</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PixelPalettePanel.html">PixelPalettePanel</a>* hmi::MainWindow::_pixelPalettePanel</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Édition de la palette de projet (dock, LOT-54 TACHE-07). </p>
-
-</div>
-</div>
-<a id="a3ad6d124626e17702946ecd76561c760" name="a3ad6d124626e17702946ecd76561c760"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ad6d124626e17702946ecd76561c760">&#9670;&#160;</a></span>_pixelToolBar</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QToolBar* hmi::MainWindow::_pixelToolBar</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Barre d'outils du canevas pixel art (LOT-54 TACHE-04). </p>
-
-</div>
-</div>
-<a id="ad7b5a4376b4b8147c28a8b586ca98b4c" name="ad7b5a4376b4b8147c28a8b586ca98b4c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7b5a4376b4b8147c28a8b586ca98b4c">&#9670;&#160;</a></span>_planes</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PlanesPanel.html">PlanesPanel</a>* hmi::MainWindow::_planes</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                =</div>
-<div class="line"><span class="keyword">nullptr</span></div>
-</div><!-- fragment -->
-<p>Liste des plans picturaux (<span class="tt">LOT-69</span>, contenu du dock Plans). </p>
 
 </div>
 </div>
@@ -2574,170 +927,6 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;<a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>&gt; hmi::MainWindow::_references</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogues référencés par les entités (<span class="tt">LOT-11</span>), possédés ici et prêtés au viewport. </p>
-
-</div>
-</div>
-<a id="a48ba153acc890d6de84fe2847b5162a9" name="a48ba153acc890d6de84fe2847b5162a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48ba153acc890d6de84fe2847b5162a9">&#9670;&#160;</a></span>_sessionLog</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a>* hmi::MainWindow::_sessionLog</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sink mémoire des logs (nul en Release). </p>
-
-</div>
-</div>
-<a id="acae74ad8bf6c06ab8aec868ab0de3b22" name="acae74ad8bf6c06ab8aec868ab0de3b22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acae74ad8bf6c06ab8aec868ab0de3b22">&#9670;&#160;</a></span>_sounds</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1SoundCatalog.html">hmi::SoundCatalog</a> hmi::MainWindow::_sounds</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogue de sons (<span class="tt">LOT-60</span> TACHE-02), lu une fois au démarrage depuis <span class="tt">Audio/sounds.json</span> et entièrement préchargé dans <span class="tt"><a class="el" href="#a7faaac5cfddbb72f2302f76fbb2abe44" title="Moteur audio (LOT-60) : ouvert au démarrage (EX-REN-047), dégrade en silence sans périphérique (EX-NF...">_audio</a></span>. </p>
-
-</div>
-</div>
-<a id="acf7d0c1b8c6c9f77858c847276140b68" name="acf7d0c1b8c6c9f77858c847276140b68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf7d0c1b8c6c9f77858c847276140b68">&#9670;&#160;</a></span>_statusCameraFraming</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusCameraFraming = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Mode de cadrage de caméra du niveau courant (<span class="tt">EX-EDIT-028</span>, LOT-64) ; vide hors contexte de niveau. </p>
-
-</div>
-</div>
-<a id="a36d71bc9d8b83de33fdead9b658943fb" name="a36d71bc9d8b83de33fdead9b658943fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36d71bc9d8b83de33fdead9b658943fb">&#9670;&#160;</a></span>_statusColor</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusColor = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Couleur courante de l'atelier pixel art (<span class="tt">LOT-54</span> TACHE-04) ; vide hors contexte d'atelier. </p>
-
-</div>
-</div>
-<a id="aab94b7069d9eace8a98eba480934326c" name="aab94b7069d9eace8a98eba480934326c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aab94b7069d9eace8a98eba480934326c">&#9670;&#160;</a></span>_statusDirty</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusDirty = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7131e45a37b5aba9918d58d9f34643d1" name="a7131e45a37b5aba9918d58d9f34643d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7131e45a37b5aba9918d58d9f34643d1">&#9670;&#160;</a></span>_statusHover</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusHover = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a01b3c1deb648798f61f0989a06c496cc" name="a01b3c1deb648798f61f0989a06c496cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01b3c1deb648798f61f0989a06c496cc">&#9670;&#160;</a></span>_statusLevel</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusLevel = nullptr</td>
         </tr>
       </table>
   </td>
@@ -2769,12 +958,10 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Restaure l'aide contextuelle à l'expiration d'un message transitoire (<span class="tt"><a class="el" href="#a77025d20fbce06f8f0fd55455cc6eca8" title="Affiche message pour timeoutMs dans la barre d&#39;état, puis restaure l&#39;aide contextuelle (refreshStatus...">showTransientStatusMessage</a></span>). </p>
-
 </div>
 </div>
-<a id="a02c5b9584d57d6c6dbefb74d1090ee7b" name="a02c5b9584d57d6c6dbefb74d1090ee7b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02c5b9584d57d6c6dbefb74d1090ee7b">&#9670;&#160;</a></span>_statusTool</h2>
+<a id="a61eca251db0d158933e6eb7dbd5e1200" name="a61eca251db0d158933e6eb7dbd5e1200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61eca251db0d158933e6eb7dbd5e1200">&#9670;&#160;</a></span>_statusZones</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2783,29 +970,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusTool = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab10226b2c497c611d347ae6ecbc20763" name="ab10226b2c497c611d347ae6ecbc20763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab10226b2c497c611d347ae6ecbc20763">&#9670;&#160;</a></span>_statusZoom</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QLabel* hmi::MainWindow::_statusZoom = nullptr</td>
+          <td class="memname">std::array&lt;QLabel*, 5&gt; hmi::MainWindow::_statusZones {}</td>
         </tr>
       </table>
   </td>
@@ -2837,122 +1002,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><span class="tt">true</span> pendant un changement de visibilité <b>provoqué par le code</b> (mise en avant automatique, bascule de mode, restauration de disposition) : évite qu'un tel changement soit pris pour un choix explicite de l'utilisateur (<span class="tt">QDockWidget::visibilityChanged</span>). </p>
-
-</div>
-</div>
-<a id="a5602a56b2b14b4139a7512c0acf75a3e" name="a5602a56b2b14b4139a7512c0acf75a3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5602a56b2b14b4139a7512c0acf75a3e">&#9670;&#160;</a></span>_textures</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1TexturePanel.html">TexturePanel</a>* hmi::MainWindow::_textures</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Habillage : jeu de skins et assignations (dock Textures, LOT-42). </p>
-
-</div>
-</div>
-<a id="a2733313b50df77944124432621620597" name="a2733313b50df77944124432621620597"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2733313b50df77944124432621620597">&#9670;&#160;</a></span>_themeDarkAction</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QAction* hmi::MainWindow::_themeDarkAction</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a31c3e06650b7a935b3dbd786cb74cd57" name="a31c3e06650b7a935b3dbd786cb74cd57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31c3e06650b7a935b3dbd786cb74cd57">&#9670;&#160;</a></span>_themeLightAction</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QAction* hmi::MainWindow::_themeLightAction</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae097a0ee2d4a9bc2d23c7fa2ae069bb1" name="ae097a0ee2d4a9bc2d23c7fa2ae069bb1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae097a0ee2d4a9bc2d23c7fa2ae069bb1">&#9670;&#160;</a></span>_themeMenu</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QMenu* hmi::MainWindow::_themeMenu</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Sous-menu Affichage &gt; Thème (LOT-56 TACHE-06). </p>
-
-</div>
-</div>
-<a id="abe297cceab56ce35aee224b3de06c902" name="abe297cceab56ce35aee224b3de06c902"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe297cceab56ce35aee224b3de06c902">&#9670;&#160;</a></span>_themeSystemAction</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QAction* hmi::MainWindow::_themeSystemAction</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
 </div>
 </div>
 <a id="ab33c6cdb6968b9fb8550383780597a57" name="ab33c6cdb6968b9fb8550383780597a57"></a>
@@ -2965,7 +1014,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QToolBar* hmi::MainWindow::_toolBar</td>
+          <td class="memname">QToolBar* hmi::MainWindow::_toolBar = nullptr</td>
         </tr>
       </table>
   </td>
@@ -2974,8 +1023,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Barre d'outils de l'éditeur, alimentée par <span class="tt"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed" title="Outils et commandes principales, barre d&#39;outils (LOT-56 TACHE-04).">_actions</a></span>. </p>
 
 </div>
 </div>
@@ -2999,8 +1046,6 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Mise en page (MainWindow.ui : menubar + docks). </p>
-
 </div>
 </div>
 <a id="a324f91fcd0352eb34be747deb6beb0d3" name="a324f91fcd0352eb34be747deb6beb0d3"></a>
@@ -3023,13 +1068,12 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><span class="tt">true</span> dès que l'utilisateur a choisi un onglet ou déplacé un panneau lui-même : la mise en avant automatique cesse alors pour la session (jamais persisté, cf. </p>
-<p><span class="tt"><a class="el" href="namespacehmi.html#a581615846aad015aff0e0a17e4f997c4">hmi::panelForTool</a></span>). </p>
+<p>L'utilisateur a choisi un onglet lui-même : la mise en avant automatique s'efface. </p>
 
 </div>
 </div>
-<a id="a1ed57ff25b1be1c311886896b1ae444f" name="a1ed57ff25b1be1c311886896b1ae444f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ed57ff25b1be1c311886896b1ae444f">&#9670;&#160;</a></span>_viewport</h2>
+<a id="ad74bf30c7bc994b07bfd93e4c39b5a93" name="ad74bf30c7bc994b07bfd93e4c39b5a93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74bf30c7bc994b07bfd93e4c39b5a93">&#9670;&#160;</a></span>_viewport</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3038,7 +1082,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1GameViewport.html">GameViewport</a>* hmi::MainWindow::_viewport</td>
+          <td class="memname"><a class="el" href="classhmi_1_1EditorViewport.html">EditorViewport</a>* hmi::MainWindow::_viewport</td>
         </tr>
       </table>
   </td>
@@ -3048,30 +1092,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Surface de rendu QRhi, et <b>widget central</b> depuis le <span class="tt">LOT-86</span>. </p>
-<p>Elle partageait jusque-là une pile avec le menu principal, les options, les crédits et les neuf écrans du RPG, tous passés en QML dans l'application du jeu. L'éditeur n'a plus qu'une chose à montrer. Surface de rendu D3D11 (possédée par le conteneur central). </p>
-
-</div>
-</div>
-<a id="ab63833717c37aaa1a0c3622f2827677e" name="ab63833717c37aaa1a0c3622f2827677e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab63833717c37aaa1a0c3622f2827677e">&#9670;&#160;</a></span>_workspace</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91d">EditorWorkspace</a> hmi::MainWindow::_workspace = <a class="el" href="namespacehmi.html#afc2e687c85989440c76b94c012a1b91daa0db49ba470c1c9ae2128c3470339153">EditorWorkspace::Level</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
+<p>Canevas (possédé par la fenêtre, widget central). </p>
 
 </div>
 </div>

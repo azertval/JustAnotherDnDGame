@@ -93,7 +93,7 @@ $(function(){initNavTree('classhmi_1_1EditorKeyBindings.html','','classhmi_1_1Ed
 </div><!--header-->
 <div class="contents">
 
-<p>Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>, <span class="tt">LOT-29</span>).  
+<p>Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EditorKeyBindings_8h_source.html">EditorKeyBindings.h</a>&gt;</code></p>
@@ -101,14 +101,14 @@ $(function(){initNavTree('classhmi_1_1EditorKeyBindings.html','','classhmi_1_1Ed
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4be63ed0794474cc00dee8527149b32d" id="r_a4be63ed0794474cc00dee8527149b32d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4be63ed0794474cc00dee8527149b32d">EditorKeyBindings</a> ()</td></tr>
-<tr class="memdesc:a4be63ed0794474cc00dee8527149b32d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2/T, cf.  <br /></td></tr>
+<tr class="memdesc:a4be63ed0794474cc00dee8527149b32d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2, cf.  <br /></td></tr>
 <tr class="memitem:a2cc7f550f71dc0a6cdd7ae5282e5aa66" id="r_a2cc7f550f71dc0a6cdd7ae5282e5aa66"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a83c98e56e30eafa606048853f7962e48">Key</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2cc7f550f71dc0a6cdd7ae5282e5aa66">key</a> (<a class="el" href="namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585">EditorAction</a> action) const noexcept</td></tr>
 <tr class="memitem:a83df6e97791f2b4300d52e9c4cc72448" id="r_a83df6e97791f2b4300d52e9c4cc72448"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a83df6e97791f2b4300d52e9c4cc72448">setKey</a> (<a class="el" href="namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585">EditorAction</a> action, <a class="el" href="namespacehmi.html#a83c98e56e30eafa606048853f7962e48">Key</a> newKey) noexcept</td></tr>
 <tr class="memdesc:a83df6e97791f2b4300d52e9c4cc72448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lie <code class="param">action</code> à <code class="param">newKey</code>.  <br /></td></tr>
 <tr class="memitem:a4ed5db3dc8cda02777fe976d6ad15e5c" id="r_a4ed5db3dc8cda02777fe976d6ad15e5c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4ed5db3dc8cda02777fe976d6ad15e5c">resetToDefaults</a> () noexcept</td></tr>
 <tr class="memdesc:a4ed5db3dc8cda02777fe976d6ad15e5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restaure les neuf actions à leurs touches par défaut (<span class="tt"><a class="el" href="#a12570faca506479fd16c5817d2092ad6">defaultKey</a></span>).  <br /></td></tr>
 <tr class="memitem:a4491f60b26ffe6336b1112aae0ff6f61" id="r_a4491f60b26ffe6336b1112aae0ff6f61"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a4491f60b26ffe6336b1112aae0ff6f61">save</a> (const std::filesystem::path &amp;path) const</td></tr>
-<tr class="memdesc:a4491f60b26ffe6336b1112aae0ff6f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarde dans la section <span class="tt">"editeur"</span> de <code class="param">path</code>, en préservant une section <span class="tt">"jeu"</span> déjà présente (écrite par <span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html#afbe5d66a276ac24e83e5c6701d598004" title="Sauvegarde dans la section &quot;jeu&quot; de path, en préservant une section &quot;editeur&quot; déjà présente (écrite p...">GameKeyBindings::save</a></span>).  <br /></td></tr>
+<tr class="memdesc:a4491f60b26ffe6336b1112aae0ff6f61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarde dans la section <span class="tt">"editeur"</span> de <code class="param">path</code>, en préservant les autres sections déjà présentes.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -121,8 +121,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a37f5bff3517e236961bb1313e26c9fee" id="r_a37f5bff3517e236961bb1313e26c9fee"><td class="memItemLeft">std::array&lt; <a class="el" href="namespacehmi.html#a83c98e56e30eafa606048853f7962e48">Key</a>, <a class="el" href="namespacehmi.html#af2f4a1af04682540c1b84611a24aa42c">EDITOR_ACTION_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a37f5bff3517e236961bb1313e26c9fee">_keys</a> {}</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>, <span class="tt">LOT-29</span>). </p>
-<p>Même mécanique que <span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html" title="Association action de jeu -&gt; touche, avec persistance JSON (EX-CTRL-012, LOT-29).">GameKeyBindings</a></span> (échange sur conflit, section <span class="tt">"editeur"</span> du même fichier <span class="tt">keybindings.json</span>, fusionnée plutôt qu'écrasée à chaque sauvegarde) — classe séparée plutôt qu'une abstraction commune : deux cas concrets connus, pas de troisième anticipé. </p>
+<div class="textblock"><p>Association action d'éditeur -&gt; touche, avec persistance JSON (<span class="tt">EX-CTRL-012</span>). </p>
+<p>Échange sur conflit ; persistance dans la section <span class="tt">"editeur"</span> de <span class="tt">keybindings.json</span>, fusionnée plutôt qu'écrasée à chaque sauvegarde : les autres sections du fichier sont préservées. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a4be63ed0794474cc00dee8527149b32d" name="a4be63ed0794474cc00dee8527149b32d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4be63ed0794474cc00dee8527149b32d">&#9670;&#160;</a></span>EditorKeyBindings()</h2>
@@ -139,8 +139,8 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2/T, cf. </p>
-<p>l'éditeur <span class="tt"><a class="el" href="classhmi_1_1GameViewport.html" title="Widget de rendu (QRhiWidget) où la scène est dessinée, composé avec le reste de l&#39;interface.">hmi::GameViewport</a></span>). </p>
+<p>Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2, cf. </p>
+<p>l'éditeur <span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>). </p>
 
 </div>
 </div>
@@ -267,7 +267,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sauvegarde dans la section <span class="tt">"editeur"</span> de <code class="param">path</code>, en préservant une section <span class="tt">"jeu"</span> déjà présente (écrite par <span class="tt"><a class="el" href="classhmi_1_1GameKeyBindings.html#afbe5d66a276ac24e83e5c6701d598004" title="Sauvegarde dans la section &quot;jeu&quot; de path, en préservant une section &quot;editeur&quot; déjà présente (écrite p...">GameKeyBindings::save</a></span>). </p>
+<p>Sauvegarde dans la section <span class="tt">"editeur"</span> de <code class="param">path</code>, en préservant les autres sections déjà présentes. </p>
 <dl class="section return"><dt>Returns</dt><dd>Faux si le fichier n'a pas pu être écrit (dossier non créable, etc.). </dd></dl>
 
 </div>

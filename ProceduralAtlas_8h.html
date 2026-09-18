@@ -109,29 +109,10 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a01d3aca49804e2e7ac13786499fe7bf4" id="r_a01d3aca49804e2e7ac13786499fe7bf4"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4">hmi::PlayerClipKind</a> { <a class="el" href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4ae599161956d626eda4cb0a5ffb85271c">hmi::Idle</a>
-, <a class="el" href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4ac5301693c4e792bcd5a479ef38fb8f8d">hmi::Run</a>
-, <a class="el" href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4a101f693f72287a2819a364f64ca1c0ed">hmi::Jump</a>
- }</td></tr>
-<tr class="memdesc:a01d3aca49804e2e7ac13786499fe7bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identité des trois clips historiques du personnage, <b>côté présentation seulement</b>.  <a href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4">More...</a><br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8286de42af940b050fe6db5bf4950b50" id="r_a8286de42af940b050fe6db5bf4950b50"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8286de42af940b050fe6db5bf4950b50">hmi::flatPlayerFrameIndex</a> (<a class="el" href="namespacehmi.html#a01d3aca49804e2e7ac13786499fe7bf4">PlayerClipKind</a> clip, int frameIndex)</td></tr>
-<tr class="memdesc:a8286de42af940b050fe6db5bf4950b50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Index à plat (0-based) d'une image dans la grille sous les tuiles : <span class="tt">Idle</span> (0..PLAYER_IDLE_FRAME_COUNT-1), puis <span class="tt">Run</span>, puis <span class="tt">Jump</span>.  <br /></td></tr>
 <tr class="memitem:a0fa1fc503abd25e16f2e3d52f6c8d540" id="r_a0fa1fc503abd25e16f2e3d52f6c8d540"><td class="memItemLeft"><a class="el" href="structhmi_1_1ProceduralAtlasImage.html">ProceduralAtlasImage</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a0fa1fc503abd25e16f2e3d52f6c8d540">hmi::buildProceduralAtlasImage</a> ()</td></tr>
-<tr class="memdesc:a0fa1fc503abd25e16f2e3d52f6c8d540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Génère, en mémoire, l'atlas procédural historique (grille de tuiles + images du personnage), de façon <b>déterministe</b>.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a2d9518f5e334bdfb798bf8748141a5ef" id="r_a2d9518f5e334bdfb798bf8748141a5ef"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a2d9518f5e334bdfb798bf8748141a5ef">hmi::PLAYER_IDLE_FRAME_COUNT</a> = 2</td></tr>
-<tr class="memdesc:a2d9518f5e334bdfb798bf8748141a5ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'images du clip <span class="tt">Idle</span>.  <br /></td></tr>
-<tr class="memitem:ad7c36223ccc4c82e7dd0f53719779608" id="r_ad7c36223ccc4c82e7dd0f53719779608"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ad7c36223ccc4c82e7dd0f53719779608">hmi::PLAYER_RUN_FRAME_COUNT</a> = 4</td></tr>
-<tr class="memdesc:ad7c36223ccc4c82e7dd0f53719779608"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'images du clip <span class="tt">Run</span>.  <br /></td></tr>
-<tr class="memitem:adc630e46d6be29b1305a960eca55744c" id="r_adc630e46d6be29b1305a960eca55744c"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#adc630e46d6be29b1305a960eca55744c">hmi::PLAYER_JUMP_FRAME_COUNT</a> = 1</td></tr>
-<tr class="memdesc:adc630e46d6be29b1305a960eca55744c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'images du clip <span class="tt">Jump</span> (pose unique, jamais animée).  <br /></td></tr>
+<tr class="memdesc:a0fa1fc503abd25e16f2e3d52f6c8d540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Génère, en mémoire, l'atlas procédural (grille de tuiles colorées), de façon <b>déterministe</b>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Génération procédurale (CPU, sans GPU) des pixels de l'atlas de repli. </p>

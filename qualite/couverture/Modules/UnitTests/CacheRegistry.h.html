@@ -22,7 +22,7 @@
 /**
  * @file HMI/Graphics/CacheRegistry.h
  * @brief Registre gÃ©nÃ©rique clÃ© â ressource chargÃ©e paresseusement, avec invalidation
- *        (`EX-REN-043`, `LOT-43`).
+ *        (`EX-REN-043`).
  */
 
 namespace hmi {
@@ -31,7 +31,7 @@ namespace hmi {
  * @brief MÃ©moÃ¯sation par clÃ© logique : charge au premier accÃ¨s, retient aussi un **Ã©chec**, et
  *        s'invalide par clÃ© ou entiÃ¨rement.
  *
- * Factorise la logique de bibliothÃ¨que de `hmi::TextureCache` (`LOT-40`) hors de tout dÃ©tail
+ * Factorise la logique de bibliothÃ¨que de `hmi::TextureCache` hors de tout dÃ©tail
  * Direct3D : c'est ce qui rend ce comportement â mÃ©moÃ¯sation, mÃ©morisation d'Ã©chec,
  * `invalidate`/`invalidateAll` â vÃ©rifiable **sans GPU** (`EX-NFR-004`), avec n'importe quel type
  * de ressource. `TextureCache` compose ce registre pour sa bibliothÃ¨que de textures ; ce fichier

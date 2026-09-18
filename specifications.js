@@ -1,198 +1,172 @@
 var specifications =
 [
-    [ "Documents", "specifications.html#autotoc_md397", null ],
+    [ "Documents", "specifications.html#autotoc_md292", null ],
     [ "Vision &amp; périmètre", "spec-vision.html", [
-      [ "Concept", "spec-vision.html#autotoc_md398", [
-        [ "Décisions de cadrage", "spec-vision.html#autotoc_md399", null ]
+      [ "Concept", "spec-vision.html#autotoc_md293", [
+        [ "Décisions de cadrage", "spec-vision.html#autotoc_md294", null ]
       ] ],
-      [ "Identités visuelles", "spec-vision.html#autotoc_md400", null ],
-      [ "Boucle de gameplay", "spec-vision.html#autotoc_md401", null ],
-      [ "Objectifs (<em>vertical slice</em>)", "spec-vision.html#autotoc_md402", null ],
-      [ "Objectifs produit (au-delà du moteur)", "spec-vision.html#autotoc_md403", null ],
-      [ "Hors périmètre (<em>vertical slice</em>)", "spec-vision.html#autotoc_md404", null ],
-      [ "Origine", "spec-vision.html#autotoc_md405", null ],
-      [ "Traçabilité", "spec-vision.html#autotoc_md406", null ]
+      [ "Identités visuelles", "spec-vision.html#autotoc_md295", null ],
+      [ "Boucle de gameplay", "spec-vision.html#autotoc_md296", null ],
+      [ "Objectifs (<em>vertical slice</em>)", "spec-vision.html#autotoc_md297", null ],
+      [ "Objectifs produit (au-delà du moteur)", "spec-vision.html#autotoc_md298", null ],
+      [ "Hors périmètre (<em>vertical slice</em>)", "spec-vision.html#autotoc_md299", null ],
+      [ "Traçabilité", "spec-vision.html#autotoc_md300", null ]
     ] ],
     [ "Gameplay", "spec-gameplay.html", [
-      [ "1. Monde en tuiles", "spec-gameplay.html#autotoc_md342", [
-        [ "Dangers avancés (<span class=\"tt\">LOT-H-31</span>)", "spec-gameplay.html#autotoc_md343", null ]
-      ] ],
-      [ "2. Personnage &amp; déplacement", "spec-gameplay.html#autotoc_md344", [
-        [ "Mécaniques aériennes avancées (au-delà du MVP)", "spec-gameplay.html#autotoc_md345", null ],
-        [ "Ressenti (game feel) — ⚠️ réglage fin reporté au-delà de <span class=\"tt\">0.1.0</span>", "spec-gameplay.html#autotoc_md346", null ]
-      ] ],
-      [ "3. Mécanismes de puzzle", "spec-gameplay.html#autotoc_md347", null ],
-      [ "4. États de jeu", "spec-gameplay.html#autotoc_md348", null ],
+      [ "1. Monde en tuiles", "spec-gameplay.html#autotoc_md248", null ],
+      [ "2. États de jeu", "spec-gameplay.html#autotoc_md249", null ],
       [ "Exigences retirées", "spec-gameplay.html#gp-retirees", null ],
-      [ "Traçabilité", "spec-gameplay.html#autotoc_md349", null ]
+      [ "Traçabilité", "spec-gameplay.html#autotoc_md250", null ]
     ] ],
     [ "Règles d20", "spec-regles-d20.html", [
-      [ "1. Le jet", "spec-regles-d20.html#autotoc_md379", null ],
-      [ "2. Caractéristiques et maîtrise", "spec-regles-d20.html#autotoc_md380", null ],
-      [ "3. Trois jets, trois usages", "spec-regles-d20.html#autotoc_md381", null ],
-      [ "4. Temps, repos et récupération", "spec-regles-d20.html#autotoc_md382", null ],
-      [ "5. Conditions", "spec-regles-d20.html#autotoc_md383", null ],
-      [ "6. Échelles", "spec-regles-d20.html#autotoc_md384", null ]
+      [ "1. Le jet", "spec-regles-d20.html#autotoc_md273", null ],
+      [ "2. Caractéristiques et maîtrise", "spec-regles-d20.html#autotoc_md274", null ],
+      [ "3. Trois jets, trois usages", "spec-regles-d20.html#autotoc_md275", null ],
+      [ "4. Temps, repos et récupération", "spec-regles-d20.html#autotoc_md276", null ],
+      [ "5. Conditions", "spec-regles-d20.html#autotoc_md277", null ],
+      [ "6. Échelles", "spec-regles-d20.html#autotoc_md278", null ]
     ] ],
     [ "Personnage et progression", "spec-rpg.html", [
-      [ "1. La fiche", "spec-rpg.html#autotoc_md391", null ],
-      [ "2. Espèce et historique", "spec-rpg.html#autotoc_md392", null ],
-      [ "3. La classe", "spec-rpg.html#autotoc_md393", null ],
-      [ "4. Progression", "spec-rpg.html#autotoc_md394", null ],
-      [ "5. Options de personnage", "spec-rpg.html#autotoc_md395", null ],
-      [ "6. Sorts", "spec-rpg.html#autotoc_md396", null ]
+      [ "1. La fiche", "spec-rpg.html#autotoc_md286", null ],
+      [ "2. Espèce et historique", "spec-rpg.html#autotoc_md287", null ],
+      [ "3. La classe", "spec-rpg.html#autotoc_md288", null ],
+      [ "4. Progression", "spec-rpg.html#autotoc_md289", null ],
+      [ "5. Options de personnage", "spec-rpg.html#autotoc_md290", null ],
+      [ "6. Sorts", "spec-rpg.html#autotoc_md291", null ]
     ] ],
     [ "Combat tactique", "spec-combat.html", [
-      [ "1. Bascule", "spec-combat.html#autotoc_md275", null ],
-      [ "2. Le tour", "spec-combat.html#autotoc_md276", null ],
-      [ "3. L'espace", "spec-combat.html#autotoc_md277", null ],
-      [ "4. Attaque et dégâts", "spec-combat.html#autotoc_md278", null ],
-      [ "5. Agonie et mort", "spec-combat.html#autotoc_md279", null ],
-      [ "6. L'adversaire", "spec-combat.html#autotoc_md280", null ]
+      [ "1. Bascule", "spec-combat.html#autotoc_md191", null ],
+      [ "2. Le tour", "spec-combat.html#autotoc_md192", null ],
+      [ "3. L'espace", "spec-combat.html#autotoc_md193", null ],
+      [ "4. Attaque et dégâts", "spec-combat.html#autotoc_md194", null ],
+      [ "5. Agonie et mort", "spec-combat.html#autotoc_md195", null ],
+      [ "6. L'adversaire", "spec-combat.html#autotoc_md196", null ]
     ] ],
     [ "Inventaire et économie", "spec-inventaire.html", [
-      [ "1. Porter", "spec-inventaire.html#autotoc_md371", null ],
-      [ "2. Échanger", "spec-inventaire.html#autotoc_md372", null ],
-      [ "3. Gagner", "spec-inventaire.html#autotoc_md373", null ]
+      [ "1. Porter", "spec-inventaire.html#autotoc_md266", null ],
+      [ "2. Échanger", "spec-inventaire.html#autotoc_md267", null ],
+      [ "3. Gagner", "spec-inventaire.html#autotoc_md268", null ]
     ] ],
     [ "Contenu et données", "spec-contenu.html", [
-      [ "1. Provenance", "spec-contenu.html#autotoc_md281", null ],
-      [ "2. Contrats avant données", "spec-contenu.html#autotoc_md282", null ],
-      [ "3. Extraction du corpus", "spec-contenu.html#autotoc_md283", null ],
-      [ "4. Ce qu'une donnée promet", "spec-contenu.html#autotoc_md284", null ],
-      [ "5. Assets", "spec-contenu.html#autotoc_md285", null ],
-      [ "6. Contrôle de plausibilité", "spec-contenu.html#autotoc_md286", null ],
-      [ "7. Atlas du monde", "spec-contenu.html#autotoc_md287", null ]
+      [ "1. Provenance", "spec-contenu.html#autotoc_md197", null ],
+      [ "2. Contrats avant données", "spec-contenu.html#autotoc_md198", null ],
+      [ "3. Extraction du corpus", "spec-contenu.html#autotoc_md199", null ],
+      [ "4. Ce qu'une donnée promet", "spec-contenu.html#autotoc_md200", null ],
+      [ "5. Assets", "spec-contenu.html#autotoc_md201", null ],
+      [ "6. Contrôle de plausibilité", "spec-contenu.html#autotoc_md202", null ],
+      [ "7. Atlas du monde", "spec-contenu.html#autotoc_md203", null ]
     ] ],
     [ "Contrôles &amp; entrées", "spec-controles.html", [
-      [ "1. Périphériques", "spec-controles.html#autotoc_md288", null ],
-      [ "2. Actions du jeu (mapping logique)", "spec-controles.html#autotoc_md289", null ],
-      [ "3. Réactivité", "spec-controles.html#autotoc_md290", null ],
-      [ "Traçabilité", "spec-controles.html#autotoc_md291", null ]
+      [ "1. Périphériques", "spec-controles.html#autotoc_md204", null ],
+      [ "2. Commandes du jeu", "spec-controles.html#autotoc_md205", null ],
+      [ "3. Réactivité", "spec-controles.html#autotoc_md206", null ],
+      [ "Exigences retirées", "spec-controles.html#ctrl-retirees", null ],
+      [ "Traçabilité", "spec-controles.html#autotoc_md207", null ]
     ] ],
     [ "Rendu &amp; cible technique", "spec-rendu-technique.html", [
-      [ "1. Cible technique", "spec-rendu-technique.html#autotoc_md385", null ],
-      [ "2. Rendu 2D", "spec-rendu-technique.html#autotoc_md386", null ],
-      [ "3. Boucle &amp; temps", "spec-rendu-technique.html#autotoc_md387", null ],
-      [ "4. Interface (HMI)", "spec-rendu-technique.html#autotoc_md388", null ],
-      [ "5. Audio", "spec-rendu-technique.html#autotoc_md389", null ],
-      [ "Traçabilité", "spec-rendu-technique.html#autotoc_md390", null ]
+      [ "1. Cible technique", "spec-rendu-technique.html#autotoc_md279", null ],
+      [ "2. Rendu 2D", "spec-rendu-technique.html#autotoc_md280", null ],
+      [ "3. Boucle &amp; temps", "spec-rendu-technique.html#autotoc_md281", null ],
+      [ "4. Interface (HMI)", "spec-rendu-technique.html#autotoc_md282", null ],
+      [ "5. Audio", "spec-rendu-technique.html#autotoc_md283", null ],
+      [ "6. Surface de rendu", "spec-rendu-technique.html#autotoc_md284", null ],
+      [ "Exigences retirées", "spec-rendu-technique.html#ren-retirees", null ],
+      [ "Traçabilité", "spec-rendu-technique.html#autotoc_md285", null ]
     ] ],
-    [ "Niveaux &amp; contenu", "spec-niveaux.html", [
-      [ "1. Représentation des niveaux", "spec-niveaux.html#autotoc_md374", [
-        [ "Format retenu (JSON, liste de tuiles-objets)", "spec-niveaux.html#autotoc_md375", null ]
+    [ "Cartes &amp; format", "spec-niveaux.html", [
+      [ "1. Représentation des cartes", "spec-niveaux.html#autotoc_md269", [
+        [ "Format retenu (JSON, liste de tuiles-objets)", "spec-niveaux.html#autotoc_md270", null ]
       ] ],
-      [ "2. Conception (lignes directrices)", "spec-niveaux.html#autotoc_md376", [
-        [ "Doctrine de profondeur (<span class=\"tt\">LOT-H-65</span> TACHE-05)", "spec-niveaux.html#autotoc_md377", null ]
-      ] ],
+      [ "2. Conception (lignes directrices)", "spec-niveaux.html#autotoc_md271", null ],
       [ "Exigences retirées", "spec-niveaux.html#lvl-retirees", null ],
-      [ "Traçabilité", "spec-niveaux.html#autotoc_md378", null ]
+      [ "Traçabilité", "spec-niveaux.html#autotoc_md272", null ]
     ] ],
     [ "Exploration", "spec-exploration.html", [
-      [ "1. Déplacement", "spec-exploration.html#autotoc_md340", null ],
-      [ "2. Repères d'échelle", "spec-exploration.html#autotoc_md341", null ]
+      [ "1. Déplacement", "spec-exploration.html#autotoc_md246", null ],
+      [ "2. Repères d'échelle", "spec-exploration.html#autotoc_md247", null ]
     ] ],
     [ "Exigences non fonctionnelles", "spec-exigences.html", [
-      [ "1. Performance", "spec-exigences.html#autotoc_md333", null ],
-      [ "2. Architecture &amp; maintenabilité", "spec-exigences.html#autotoc_md334", null ],
-      [ "3. Qualité &amp; vérification", "spec-exigences.html#autotoc_md335", null ],
-      [ "4. Portabilité &amp; reproductibilité", "spec-exigences.html#autotoc_md336", null ],
-      [ "5. Robustesse", "spec-exigences.html#autotoc_md337", null ],
-      [ "6. Build &amp; dépendances", "spec-exigences.html#autotoc_md338", null ],
+      [ "1. Performance", "spec-exigences.html#autotoc_md237", null ],
+      [ "2. Architecture &amp; maintenabilité", "spec-exigences.html#autotoc_md238", null ],
+      [ "3. Qualité &amp; vérification", "spec-exigences.html#autotoc_md239", null ],
+      [ "4. Portabilité &amp; reproductibilité", "spec-exigences.html#autotoc_md240", null ],
+      [ "5. Robustesse", "spec-exigences.html#autotoc_md241", null ],
+      [ "6. Build &amp; dépendances", "spec-exigences.html#autotoc_md242", null ],
       [ "Exigences retirées", "spec-exigences.html#nfr-retirees", null ],
-      [ "Traçabilité", "spec-exigences.html#autotoc_md339", null ]
+      [ "Traçabilité", "spec-exigences.html#autotoc_md243", null ]
     ] ],
-    [ "Éditeur de niveaux", "spec-editeur.html", [
-      [ "Objectif", "spec-editeur.html#autotoc_md318", null ],
-      [ "1. Exigences fonctionnelles", "spec-editeur.html#autotoc_md319", null ],
-      [ "2. Réutilisation &amp; cohérence", "spec-editeur.html#autotoc_md320", null ],
-      [ "3. Distribution &amp; collaboration", "spec-editeur.html#autotoc_md321", null ],
-      [ "4. Approche d'implémentation (décidée)", "spec-editeur.html#autotoc_md322", null ],
-      [ "4bis. Décors &amp; pixel art (post-MVP, intégré à l'éditeur)", "spec-editeur.html#autotoc_md323", null ],
-      [ "5. Non-objectifs (éditeur, MVP)", "spec-editeur.html#autotoc_md324", null ],
-      [ "6. Robustesse et confort d'édition (LOT-H-15)", "spec-editeur.html#autotoc_md325", null ],
-      [ "7. Niveaux de grande taille (LOT-H-16)", "spec-editeur.html#autotoc_md326", null ],
-      [ "8. Palette organisée par catégories (LOT-H-27)", "spec-editeur.html#autotoc_md327", null ],
-      [ "9. Dangers avancés (<span class=\"tt\">LOT-H-31</span>)", "spec-editeur.html#autotoc_md328", null ],
-      [ "10. Niveaux à salles (<span class=\"tt\">LOT-H-32</span>)", "spec-editeur.html#autotoc_md329", null ],
-      [ "11. Habillage par textures et décors (<span class=\"tt\">LOT-H-40</span> → <span class=\"tt\">LOT-H-55</span>)", "spec-editeur.html#autotoc_md330", null ],
-      [ "12. Couches, entités et monde (<span class=\"tt\">LOT-11</span>)", "spec-editeur.html#autotoc_md331", null ],
-      [ "Traçabilité", "spec-editeur.html#autotoc_md332", null ]
+    [ "Éditeur de cartes", "spec-editeur.html", [
+      [ "Objectif", "spec-editeur.html#autotoc_md228", null ],
+      [ "1. Exigences fonctionnelles", "spec-editeur.html#autotoc_md229", null ],
+      [ "2. Réutilisation &amp; cohérence", "spec-editeur.html#autotoc_md230", null ],
+      [ "3. Distribution &amp; collaboration", "spec-editeur.html#autotoc_md231", null ],
+      [ "4. Approche d'implémentation (décidée)", "spec-editeur.html#autotoc_md232", null ],
+      [ "5. Non-objectifs", "spec-editeur.html#autotoc_md233", null ],
+      [ "6. Robustesse et confort d'édition", "spec-editeur.html#autotoc_md234", null ],
+      [ "7. Couches, entités et monde (<span class=\"tt\">LOT-11</span>)", "spec-editeur.html#autotoc_md235", null ],
+      [ "Exigences retirées", "spec-editeur.html#edit-retirees", null ],
+      [ "Traçabilité", "spec-editeur.html#autotoc_md236", null ]
     ] ],
     [ "Interface utilisateur (IHM)", "spec-interface-ihm.html", [
-      [ "1. Socle applicatif", "spec-interface-ihm.html#autotoc_md355", null ],
-      [ "2. Éditeur", "spec-interface-ihm.html#autotoc_md356", null ],
-      [ "3. Gestion des niveaux", "spec-interface-ihm.html#autotoc_md357", null ],
-      [ "4. Liens de mécanismes", "spec-interface-ihm.html#autotoc_md358", null ],
-      [ "5. Menus, options, unification", "spec-interface-ihm.html#autotoc_md359", null ],
-      [ "6. Système de design et habillage (LOT-H-56)", "spec-interface-ihm.html#autotoc_md360", null ],
-      [ "7. Architecture de l'information de l'éditeur (LOT-H-57)", "spec-interface-ihm.html#autotoc_md361", null ],
-      [ "8. Identité visuelle des écrans du jeu (LOT-H-68)", "spec-interface-ihm.html#autotoc_md362", null ],
-      [ "Exigences retirées", "spec-interface-ihm.html#ihm-retirees", null ],
-      [ "9. Taille, réactivité et réglages effectifs (LOT-H-73)", "spec-interface-ihm.html#autotoc_md363", null ],
-      [ "10. Le châssis des écrans du RPG (LOT-68)", "spec-interface-ihm.html#autotoc_md364", null ],
-      [ "11. La conception séparée du code (LOT-86)", "spec-interface-ihm.html#ihm-conception", [
-        [ "Ce qui a changé, et pourquoi", "spec-interface-ihm.html#autotoc_md365", null ],
-        [ "La frontière, telle qu'elle est tenue", "spec-interface-ihm.html#autotoc_md366", null ],
-        [ "Les ornements restent tracés, et <span class=\"tt\">EX-IHM-075</span> avec eux", "spec-interface-ihm.html#autotoc_md367", null ],
-        [ "Ce qui rend ces exigences autre chose que des intentions", "spec-interface-ihm.html#autotoc_md368", null ],
-        [ "Ce que la conception ne peut pas faire seule", "spec-interface-ihm.html#autotoc_md369", null ]
+      [ "1. Socle applicatif", "spec-interface-ihm.html#autotoc_md251", null ],
+      [ "2. Éditeur", "spec-interface-ihm.html#autotoc_md252", null ],
+      [ "3. Gestion des cartes", "spec-interface-ihm.html#autotoc_md253", null ],
+      [ "4. Menus, options, unification", "spec-interface-ihm.html#autotoc_md254", null ],
+      [ "5. Système de design et habillage", "spec-interface-ihm.html#autotoc_md255", null ],
+      [ "6. Architecture de l'information de l'éditeur", "spec-interface-ihm.html#autotoc_md256", null ],
+      [ "7. Identité visuelle des écrans du jeu", "spec-interface-ihm.html#autotoc_md257", null ],
+      [ "8. Taille, réactivité et réglages effectifs", "spec-interface-ihm.html#autotoc_md258", null ],
+      [ "9. Le châssis des écrans du RPG (LOT-68)", "spec-interface-ihm.html#autotoc_md259", null ],
+      [ "10. La conception séparée du code (LOT-86)", "spec-interface-ihm.html#ihm-conception", [
+        [ "Ce qui a changé, et pourquoi", "spec-interface-ihm.html#autotoc_md260", null ],
+        [ "La frontière, telle qu'elle est tenue", "spec-interface-ihm.html#autotoc_md261", null ],
+        [ "Les ornements restent tracés, et <span class=\"tt\">EX-IHM-075</span> avec eux", "spec-interface-ihm.html#autotoc_md262", null ],
+        [ "Ce qui rend ces exigences autre chose que des intentions", "spec-interface-ihm.html#autotoc_md263", null ],
+        [ "Ce que la conception ne peut pas faire seule", "spec-interface-ihm.html#autotoc_md264", null ]
       ] ],
-      [ "12. L'écran « Carte » : le monde, une région, une ville (LOT-94)", "spec-interface-ihm.html#ihm-carte", null ],
-      [ "Traçabilité", "spec-interface-ihm.html#autotoc_md370", null ]
-    ] ],
-    [ "Solveur IA", "spec-ia.html", [
-      [ "1. Fondations numériques", "spec-ia.html#autotoc_md350", null ],
-      [ "2. Pont avec le jeu et observabilité", "spec-ia.html#autotoc_md351", null ],
-      [ "3. Algorithmes d'apprentissage", "spec-ia.html#autotoc_md352", null ],
-      [ "4. Évaluation et robustesse", "spec-ia.html#autotoc_md353", null ],
-      [ "5. Intégration au jeu et outillage", "spec-ia.html#autotoc_md354", null ]
+      [ "11. L'écran « Carte » : le monde, une région, une ville (LOT-94)", "spec-interface-ihm.html#ihm-carte", null ],
+      [ "Exigences retirées", "spec-interface-ihm.html#ihm-retirees", null ],
+      [ "Traçabilité", "spec-interface-ihm.html#autotoc_md265", null ]
     ] ],
     [ "Architecture (décisions dimensionnantes)", "spec-architecture.html", [
-      [ "1. Modules &amp; dépendances", "spec-architecture.html#autotoc_md263", null ],
-      [ "2. Modèle d'entités : ECS", "spec-architecture.html#autotoc_md264", null ],
-      [ "3. Coordonnées &amp; unités — trois espaces distincts", "spec-architecture.html#autotoc_md265", null ],
-      [ "4. Frontière simulation ↔ rendu", "spec-architecture.html#autotoc_md266", null ],
-      [ "5. Mathématiques dans Core", "spec-architecture.html#autotoc_md267", null ],
-      [ "6. Abstraction de rendu", "spec-architecture.html#autotoc_md268", null ],
-      [ "7. Modèle de threading", "spec-architecture.html#autotoc_md269", null ],
-      [ "8. Communication inter-systèmes", "spec-architecture.html#autotoc_md270", null ],
-      [ "9. Gestion des ressources", "spec-architecture.html#autotoc_md271", null ],
-      [ "10. Contrainte « éditeur intégré »", "spec-architecture.html#autotoc_md272", null ],
-      [ "11. Décors dynamiques (accommodation dimensionnante)", "spec-architecture.html#autotoc_md273", null ],
-      [ "Traçabilité", "spec-architecture.html#autotoc_md274", null ]
-    ] ],
-    [ "Plans picturaux &amp; pipeline pixel art", "spec-decors.html", [
-      [ "Vision", "spec-decors.html#autotoc_md312", null ],
-      [ "1. Plans", "spec-decors.html#autotoc_md313", null ],
-      [ "2. Édition", "spec-decors.html#autotoc_md314", null ],
-      [ "3. Pipeline photo → pixel art (intégré à l'éditeur)", "spec-decors.html#autotoc_md315", null ],
-      [ "4. Périmètre &amp; séquencement", "spec-decors.html#autotoc_md316", null ],
-      [ "Exigences retirées", "spec-decors.html#dec-retirees", null ],
-      [ "Traçabilité", "spec-decors.html#autotoc_md317", null ]
+      [ "1. Modules &amp; dépendances", "spec-architecture.html#autotoc_md181", null ],
+      [ "2. Modèle d'entités : ECS", "spec-architecture.html#autotoc_md182", null ],
+      [ "3. Coordonnées &amp; unités — trois espaces distincts", "spec-architecture.html#autotoc_md183", null ],
+      [ "4. Frontière simulation ↔ rendu", "spec-architecture.html#autotoc_md184", null ],
+      [ "5. Mathématiques dans Core", "spec-architecture.html#autotoc_md185", null ],
+      [ "6. Abstraction de rendu", "spec-architecture.html#autotoc_md186", null ],
+      [ "7. Modèle de threading", "spec-architecture.html#autotoc_md187", null ],
+      [ "8. Communication inter-systèmes", "spec-architecture.html#autotoc_md188", null ],
+      [ "9. Gestion des ressources", "spec-architecture.html#autotoc_md189", null ],
+      [ "Exigences retirées", "spec-architecture.html#arch-retirees", null ],
+      [ "Traçabilité", "spec-architecture.html#autotoc_md190", null ]
     ] ],
     [ "Conventions de code", "spec-conventions.html", [
-      [ "1. Langage &amp; standard", "spec-conventions.html#autotoc_md293", null ],
-      [ "2. Nommage", "spec-conventions.html#autotoc_md294", null ],
-      [ "3. Mise en forme", "spec-conventions.html#autotoc_md295", null ],
-      [ "4. Inclusions (#include)", "spec-conventions.html#autotoc_md296", [
-        [ "Chemins complets depuis Source/", "spec-conventions.html#autotoc_md297", null ],
-        [ "Ordre des groupes", "spec-conventions.html#autotoc_md298", null ]
+      [ "1. Langage &amp; standard", "spec-conventions.html#autotoc_md209", null ],
+      [ "2. Nommage", "spec-conventions.html#autotoc_md210", null ],
+      [ "3. Mise en forme", "spec-conventions.html#autotoc_md211", null ],
+      [ "4. Inclusions (#include)", "spec-conventions.html#autotoc_md212", [
+        [ "Chemins complets depuis Source/", "spec-conventions.html#autotoc_md213", null ],
+        [ "Ordre des groupes", "spec-conventions.html#autotoc_md214", null ]
       ] ],
-      [ "5. Architecture (dépendances entre modules)", "spec-conventions.html#autotoc_md299", [
-        [ "IHM Qt : le moins de code possible, la mise en page hors code", "spec-conventions.html#autotoc_md300", null ],
-        [ "Classes plutôt que fonctions libres", "spec-conventions.html#autotoc_md301", null ],
-        [ "RAII obligatoire", "spec-conventions.html#autotoc_md302", null ]
+      [ "5. Architecture (dépendances entre modules)", "spec-conventions.html#autotoc_md215", [
+        [ "IHM Qt : le moins de code possible, la mise en page hors code", "spec-conventions.html#autotoc_md216", null ],
+        [ "Classes plutôt que fonctions libres", "spec-conventions.html#autotoc_md217", null ],
+        [ "RAII obligatoire", "spec-conventions.html#autotoc_md218", null ]
       ] ],
-      [ "6. Documentation Doxygen", "spec-conventions.html#autotoc_md303", [
-        [ "Doxygen dans le header, commentaires simples // dans le .cpp", "spec-conventions.html#autotoc_md304", null ],
-        [ "Documentation du corps (.cpp)", "spec-conventions.html#autotoc_md305", null ]
+      [ "6. Documentation Doxygen", "spec-conventions.html#autotoc_md219", [
+        [ "Doxygen dans le header, commentaires simples // dans le .cpp", "spec-conventions.html#autotoc_md220", null ],
+        [ "Documentation du corps (.cpp)", "spec-conventions.html#autotoc_md221", null ]
       ] ],
-      [ "7. Bonnes pratiques", "spec-conventions.html#autotoc_md306", null ],
-      [ "8. Tests", "spec-conventions.html#autotoc_md307", null ],
-      [ "9. Gestion des erreurs", "spec-conventions.html#autotoc_md308", null ],
-      [ "10. Assertions &amp; journalisation", "spec-conventions.html#autotoc_md309", null ],
-      [ "11. Outillage qualité (automatisé)", "spec-conventions.html#autotoc_md310", null ],
-      [ "12. Identifiants d'exigences (EX-…)", "spec-conventions.html#autotoc_md311", null ]
+      [ "7. Bonnes pratiques", "spec-conventions.html#autotoc_md222", null ],
+      [ "8. Tests", "spec-conventions.html#autotoc_md223", null ],
+      [ "9. Gestion des erreurs", "spec-conventions.html#autotoc_md224", null ],
+      [ "10. Assertions &amp; journalisation", "spec-conventions.html#autotoc_md225", null ],
+      [ "11. Outillage qualité (automatisé)", "spec-conventions.html#autotoc_md226", null ],
+      [ "12. Identifiants d'exigences (EX-…)", "spec-conventions.html#autotoc_md227", null ]
+    ] ],
+    [ "Exigences retirées", "spec-retirees.html", [
+      [ "Solveur d'apprentissage automatique (<span class=\"tt\">EX-IA-*</span>)", "spec-retirees.html#autotoc_md244", null ],
+      [ "Décors et plans picturaux (<span class=\"tt\">EX-DEC-*</span>)", "spec-retirees.html#autotoc_md245", null ]
     ] ]
 ];

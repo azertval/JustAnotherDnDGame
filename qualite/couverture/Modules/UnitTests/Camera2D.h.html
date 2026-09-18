@@ -26,58 +26,6 @@
 
 namespace hmi {
 
-/// Amplitude conservatrice de la secousse d'Ã©cran Ã  un atterrissage lourd (`LOT-53` TACHE-03) :
-/// discrÃ¨te, un jeu de plateforme prÃ©cis devient injouable si l'Ã©cran bouge trop.
-inline constexpr float LANDING_SHAKE_AMPLITUDE_PIXELS = 2.0f;
-/// Amplitude de la secousse Ã  la mort du personnage : lÃ©gÃ¨rement plus marquÃ©e que l'atterrissage.
-inline constexpr float DEATH_SHAKE_AMPLITUDE_PIXELS = 3.0f;
-/// DurÃ©e de toute secousse d'Ã©cran, en secondes -- brÃ¨ve par construction.
-inline constexpr float SCREEN_SHAKE_DURATION = 0.2f;
-
-/**
- * @brief Ãtat dÃ©terministe d'une secousse d'Ã©cran en cours de dÃ©croissance vers zÃ©ro.
- *
- * DonnÃ©e pure (`EX-NFR-002`) : aucune horloge systÃ¨me, seulement un temps Ã©coulÃ© avancÃ© au pas
- * fixe par `advanceScreenShake`. `elapsed &gt;= duration` signifie Â« terminÃ©e Â» -- Ã©tat initial
- * (agrÃ©gat par dÃ©faut) lÃ©gitimement dÃ©jÃ  terminÃ©, sans secousse active.
- */
-struct ScreenShakeState {
-    /// Amplitude au dÃ©clenchement, en pixels Ã©cran.
-    float amplitudePixels = 0.0f;
-    /// Temps Ã©coulÃ© depuis le dÃ©clenchement, en secondes.
-    float elapsed = 0.0f;
-    /// DurÃ©e totale de la secousse, en secondes.
-    float duration = 0.0f;
-};
-
-/**
- * @brief DÃ©clenche (ou relance) une secousse d'Ã©cran.
- * @param state         Ãtat Ã  rÃ©armer.
- * @param amplitudePixels Amplitude au dÃ©clenchement, en pixels Ã©cran (constante nommÃ©e cÃ´tÃ©
- *                        appelant, ex. `LANDING_SHAKE_AMPLITUDE_PIXELS`).
- * @param duration      DurÃ©e totale, en secondes (ex. `SCREEN_SHAKE_DURATION`).
- */
-void triggerScreenShake(ScreenShakeState&amp; state, float amplitudePixels, float duration) noexcept;
-
-/**
- * @brief Avance une secousse d'Ã©cran d'un pas fixe.
- * @param state      Ãtat Ã  avancer ; sans effet si dÃ©jÃ  terminÃ©e (`elapsed &gt;= duration`).
- * @param fixedDelta DurÃ©e du pas, en secondes.
- */
-void advanceScreenShake(ScreenShakeState&amp; state, float fixedDelta) noexcept;
-
-/**
- * @brief DÃ©calage courant d'une secousse d'Ã©cran, en pixels **entiers** (`EX-ARCH-022`).
- *
- * DÃ©croÃ®t **linÃ©airement** de `amplitudePixels` Ã  zÃ©ro sur `duration`, sur l'axe vertical
- * uniquement -- une discrÃ©tion volontaire (cf. `epic.md`) plutÃ´t qu'une oscillation qui
- * ajouterait un axe de plus Ã  lire. Nul une fois la secousse terminÃ©e.
- * @param state Secousse dont on lit le dÃ©calage courant.
- * @return Le dÃ©calage Ã  appliquer Ã  la **projection de rendu uniquement** (jamais Ã  `_center`, ni
- *         Ã  la logique de cadrage par salle, ni Ã  une position simulÃ©e).
- */
-[[nodiscard]] core::Vector2 screenShakeOffset(const ScreenShakeState&amp; state) noexcept;
-
 /**
  * @brief CamÃ©ra 2D orthographique : projette le monde vers l'Ã©cran pour le rendu.
  *
@@ -117,19 +65,6 @@ public:
      * @param zoom Multiplicateur d'Ã©chelle (&gt; 0 ; entier recommandÃ©).
      */
     void setZoom(float zoom);
-
-    /**
-     * @brief DÃ©calage de secousse d'Ã©cran (`LOT-53` TACHE-03), en pixels **entiers**.
-     *
-     * AppliquÃ© uniquement Ã  `projectionMatrix()` (rendu) -- jamais Ã  `_center`, donc sans effet
-     * sur `worldToScreen`/`screenToWorld`/`visibleBounds` : le culling et la logique de cadrage
-     * par salle (`hmi::GameSession::updateCurrentRoom`, pilotÃ© par la position du personnage, pas
-     * par la camÃ©ra) restent structurellement insensibles Ã  la secousse.
-     * @param offsetPixels DÃ©calage courant (`hmi::screenShakeOffset`), nul hors secousse.
-     */
-<span style = "background-color:#dfd">    void setShakeOffsetPixels(const core::Vector2&amp; offsetPixels) {
-        _shakeOffsetPixels = offsetPixels;
-    }</span>
 
     /// @return Le centre courant de la camÃ©ra, en unitÃ©s monde.
 <span style = "background-color:#dfd">    [[nodiscard]] const core::Vector2&amp; center() const noexcept {
@@ -203,8 +138,6 @@ private:
     int _viewportHeight;
 <span style = "background-color:#dfd">    core::Vector2 _center{};
     float _zoom = 1.0f;</span>
-    /// DÃ©calage de secousse d'Ã©cran courant, en pixels (`setShakeOffsetPixels`) ; nul par dÃ©faut.
-<span style = "background-color:#dfd">    core::Vector2 _shakeOffsetPixels{};</span>
 };
 
 }  // namespace hmi</pre>

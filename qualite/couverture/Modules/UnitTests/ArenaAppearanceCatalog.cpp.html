@@ -38,8 +38,8 @@ constexpr const char* FIELD_REPLACES = "replaces";
 constexpr int NPC_FORMAT_VERSION = 1;
 constexpr const char* NPC_DIRECTORY_FROM_COLISEUM = "../Npc/";
 
-// Meme patron que hmi::SkinCatalog : une traduction exhaustive, sans default, pour qu'une
-// categorie ajoutee d'un cote fasse echouer la compilation de l'autre plutot que de se perdre.
+// Une traduction exhaustive, sans default, pour qu'une categorie ajoutee d'un cote fasse echouer
+// la compilation de l'autre plutot que de se perdre.
 <span style = "background-color:#fdd">[[nodiscard]] ArenaAppearanceError mapError(core::JsonReadError code) {
     switch (code) {</span>
         case core::JsonReadError::None:

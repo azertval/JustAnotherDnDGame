@@ -12,8 +12,6 @@ var dir_c085377a8d45dfd2467facd710fb0ba3 =
     [ "EntityKinds.h", "EntityKinds_8h.html", "EntityKinds_8h" ],
     [ "ExplorationSession.cpp", "ExplorationSession_8cpp.html", "ExplorationSession_8cpp" ],
     [ "ExplorationSession.h", "ExplorationSession_8h.html", "ExplorationSession_8h" ],
-    [ "GridDistanceField.cpp", "GridDistanceField_8cpp.html", null ],
-    [ "GridDistanceField.h", "GridDistanceField_8h.html", "GridDistanceField_8h" ],
     [ "WorldGraph.cpp", "WorldGraph_8cpp.html", "WorldGraph_8cpp" ],
     [ "WorldGraph.h", "WorldGraph_8h.html", "WorldGraph_8h" ],
     [ "WorldTravel.cpp", "WorldTravel_8cpp.html", "WorldTravel_8cpp" ],

@@ -93,7 +93,7 @@ $(function(){initNavTree('SpriteBatch_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Pipeline de rendu 2D sur <b>QRhi</b> : accumule des quads texturés et les dessine par lots (<span class="tt">EX-REN-050</span>, LOT-69 TACHE-02).  
+<p>Pipeline de rendu 2D sur <b>QRhi</b> : accumule des quads texturés et les dessine par lots (<span class="tt">EX-REN-050</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
@@ -119,8 +119,8 @@ Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Pipeline de rendu 2D sur <b>QRhi</b> : accumule des quads texturés et les dessine par lots (<span class="tt">EX-REN-050</span>, LOT-69 TACHE-02). </p>
-<p>Les primitives elles-mêmes (<span class="tt"><a class="el" href="structhmi_1_1SpriteQuad.html" title="Un quad texturé à dessiner : rectangle en unités monde, région de texture (coordonnées normalisées) e...">hmi::SpriteQuad</a></span>, <span class="tt"><a class="el" href="structhmi_1_1LineQuad.html" title="Un segment épais à dessiner : deux extrémités en unités monde, une épaisseur (perpendiculaire au segm...">hmi::LineQuad</a></span>) vivent depuis <span class="tt">LOT-40</span> dans <span class="tt"><a class="el" href="Quad_8h.html" title="Primitives de dessin 2D (quads texturés), indépendantes de Direct3D.">HMI/Graphics/Quad.h</a></span>, sans dépendance graphique, pour que la <b>composition</b> du rendu puisse les manipuler sans GPU (<span class="tt">EX-NFR-004</span>). Ce fichier les réexpose : le contrat public de <span class="tt">SpriteBatch</span> vis-à-vis de ses appelants est inchangé. </p>
+<div class="textblock"><p>Pipeline de rendu 2D sur <b>QRhi</b> : accumule des quads texturés et les dessine par lots (<span class="tt">EX-REN-050</span>). </p>
+<p>Les primitives elles-mêmes (<span class="tt"><a class="el" href="structhmi_1_1SpriteQuad.html" title="Un quad texturé à dessiner : rectangle en unités monde, région de texture (coordonnées normalisées) e...">hmi::SpriteQuad</a></span>, <span class="tt"><a class="el" href="structhmi_1_1LineQuad.html" title="Un segment épais à dessiner : deux extrémités en unités monde, une épaisseur (perpendiculaire au segm...">hmi::LineQuad</a></span>) vivent dans <span class="tt"><a class="el" href="Quad_8h.html" title="Primitives de dessin 2D (quads texturés), indépendantes de Direct3D.">HMI/Graphics/Quad.h</a></span>, sans dépendance graphique, pour que la <b>composition</b> du rendu puisse les manipuler sans GPU (<span class="tt">EX-NFR-004</span>). Ce fichier les réexpose : le contrat public de <span class="tt">SpriteBatch</span> vis-à-vis de ses appelants est inchangé. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

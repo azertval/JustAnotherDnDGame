@@ -40,9 +40,8 @@ namespace hmi {
  * Â« muet Â» ne font jamais rien de plus qu'un avertissement journalisÃ© une seule fois.
  *
  * **Aucune dÃ©pendance dans `Core`** : cette classe vit exclusivement dans `HMI`
- * (`EX-ARCH-012`, `EX-NFR-010`). La simulation expose des transitions d'Ã©tat ; c'est ce moteur,
- * pilotÃ© par `HMI/Audio/SoundTriggers` (LOT-60 TACHE-03), qui dÃ©cide qu'une transition fait du
- * bruit.
+ * (`EX-ARCH-012`, `EX-NFR-010`). Aujourd'hui, seul le volume de l'option Audio le rÃ¨gle : aucun
+ * son n'est encore livrÃ©.
  */
 class AudioEngine {
 public:
@@ -87,12 +86,12 @@ public:
     /**
      * @brief PrÃ©charge un Ã©chantillon sous un identifiant logique.
      *
-     * Ã appeler au dÃ©marrage pour chaque son du catalogue (`HMI/Audio/SoundCatalog`, TACHE-02) :
-     * `QSoundEffect` charge son fichier de faÃ§on asynchrone, jouer immÃ©diatement aprÃ¨s
+     * Ã appeler au dÃ©marrage pour chaque son Ã  jouer : `QSoundEffect` charge son fichier de faÃ§on
+     * asynchrone, jouer immÃ©diatement aprÃ¨s
      * construction ne produit rien. PrÃ©charger ici, jamais au premier dÃ©clenchement. PrÃ©pare en
      * rÃ©alitÃ© `MAX_INSTANCES_PER_EVENT` Ã©chantillons identiques (une petite rÃ©serve), pour qu'un
      * mÃªme Ã©vÃ©nement dÃ©clenchÃ© en rafale se recouvre sans s'interrompre lui-mÃªme de faÃ§on audible.
-     * @param id Identifiant logique (ex. "saut"). Un second appel avec le mÃªme identifiant
+     * @param id Identifiant logique (ex. "coup"). Un second appel avec le mÃªme identifiant
      *        remplace la rÃ©serve prÃ©cÃ©dente.
      * @param file Chemin du fichier WAV. Un fichier absent ne fait pas Ã©chouer l'appel : la
      *        lecture ultÃ©rieure de cet identifiant restera silencieuse.
@@ -113,7 +112,7 @@ public:
 
 private:
     /// Nombre d'instances prÃ©chargÃ©es par Ã©vÃ©nement â plafonne le recouvrement audible d'un mÃªme
-    /// son dÃ©clenchÃ© en rafale, sans l'empÃªcher complÃ¨tement (`TACHE-02`).
+    /// son dÃ©clenchÃ© en rafale, sans l'empÃªcher complÃ¨tement.
     static constexpr std::size_t MAX_INSTANCES_PER_EVENT = 3;
 
     struct Sample {

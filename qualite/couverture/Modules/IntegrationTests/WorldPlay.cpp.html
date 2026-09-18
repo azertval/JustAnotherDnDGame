@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldPlay.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Game/WorldPlay.h"
+
+#include &lt;utility&gt;
+#include &lt;variant&gt;
+
+#include "Core/Levels/Level.h"
+#include "Core/Levels/MapEntity.h"
+#include "Core/Rpg/Dialogue.h"
+#include "HMI/HmiLog.h"
+
+namespace hmi {
+
+namespace {
+
+/// DurÃ©e d'une image des bandes de figurine, en secondes (`idle.anim.json`, `frameDuration`).
+constexpr float FIGURE_FRAME_SECONDS = 0.15F;
+
+/// @return La valeur texte d'une propriÃ©tÃ© d'entitÃ©, vide si elle n'en est pas une.
+<span style = "background-color:#dfd">[[nodiscard]] std::string textOf(const core::MapEntity&amp; entity, std::string_view key) {
+    const auto found = entity.properties.find(std::string{key});
+    if (found == entity.properties.end()) {</span>
+<span style = "background-color:#fdd">        return {};</span>
+    }
+<span style = "background-color:#dfd">    const std::string* text = std::get_if&lt;std::string&gt;(&amp;found-&gt;second);
+    return text != nullptr ? *text : std::string{};
+}</span>
+
+}  // namespace
+
+WorldPlay::WorldPlay(core::WorldTravel::MapLoader loader, std::filesystem::path assetsDirectory)
+<span style = "background-color:#dfd">    : _session(std::move(loader)), _assetsDirectory(std::move(assetsDirectory)) {}</span>
+
+<span style = "background-color:#dfd">bool WorldPlay::enter(std::string_view mapId, std::string_view arrival) {
+    if (!_session.start(mapId, arrival)) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    _elapsed = 0.0F;
+    _walking = false;
+    reloadAppearance();
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">WorldPlayStep WorldPlay::step(const core::ExplorationIntent&amp; intent, float seconds) {
+    WorldPlayStep result;
+    if (_session.map() == nullptr) {</span>
+<span style = "background-color:#fdd">        return result;</span>
+    }
+<span style = "background-color:#dfd">    const core::CellPoint before = _session.heroPoint();
+    result.events = _session.update(intent, seconds);
+    _elapsed += seconds;</span>
+
+<span style = "background-color:#dfd">    const bool walking = !_session.frozen() &amp;&amp; (intent.move.x != 0.0F || intent.move.y != 0.0F);
+    if (walking != _walking) {
+        _walking = walking;
+        result.sceneChanged = true;</span>
+    }
+    // Un hÃ©ros qui pousse contre un mur ne change pas de case, mais sa bande continue de tourner :
+    // la scÃ¨ne doit se redessiner autant que s'il avait bougÃ©.
+<span style = "background-color:#dfd">    result.heroMoved = _session.heroPoint() != before || walking;
+    for (const core::ExplorationEvent&amp; event : result.events) {</span>
+<span style = "background-color:#fdd">        if (event.kind == core::ExplorationEventKind::MapEntered) {
+            _elapsed = 0.0F;
+            reloadAppearance();
+            result.sceneChanged = true;
+            result.heroMoved = true;</span>
+        }
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return result;
+}</span>
+
+<span style = "background-color:#dfd">void WorldPlay::reloadAppearance() {
+    const core::Level* const map = _session.map();
+    if (map == nullptr) {</span>
+<span style = "background-color:#fdd">        _appearance = PlaceAppearance{};
+        return;</span>
+    }
+<span style = "background-color:#dfd">    const std::string place = scenePlaceOf(*map);
+    if (place.empty()) {</span>
+        // Une carte qui ne nomme aucun lieu ne dessine aucune piÃ¨ce : le dire vaut mieux que
+        // couvrir la carte de damiers.
+<span style = "background-color:#fdd">        _appearance = PlaceAppearance{};
+        HMI_LOG_WARNING("Monde : la carte " + _session.mapId() +</span>
+                        " ne declare aucun lieu (propriete Â« scene Â» de couche).");
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    PlaceAppearanceResult read =</span>
+        PlaceAppearance::loadFromFile(_assetsDirectory / "Scene" / place / "appearance.json");
+<span style = "background-color:#dfd">    if (!read.ok()) {</span>
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("Monde : table d'apparence du lieu " + place + " illisible, " +</span>
+                        read.message);
+<span style = "background-color:#fdd">        _appearance = PlaceAppearance{};
+        return;</span>
+    }
+<span style = "background-color:#dfd">    _appearance = std::move(read.appearance);
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;WorldFigureSnapshot&gt; WorldPlay::figures() const {
+    std::vector&lt;WorldFigureSnapshot&gt; figures;
+    const core::Level* const map = _session.map();
+    if (map == nullptr) {</span>
+<span style = "background-color:#fdd">        return figures;</span>
+    }
+<span style = "background-color:#dfd">    const int frame = static_cast&lt;int&gt;(_elapsed / FIGURE_FRAME_SECONDS);</span>
+
+    // Les PNJ d'abord, le hÃ©ros ensuite : Ã  Ã©galitÃ© de profondeur, c'est lui qui passe devant.
+<span style = "background-color:#dfd">    for (const core::MapEntity&amp; entity : map-&gt;entities()) {
+        if (entity.type != core::NPC_ENTITY_TYPE) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        std::string figure = textOf(entity, core::NPC_FIGURE_PROPERTY);
+        if (figure.empty()) {</span>
+<span style = "background-color:#fdd">            continue;  // Un PNJ sans figurine ne se dessine pas : il n'est pas encore dessinÃ©.</span>
+        }
+<span style = "background-color:#dfd">        figures.push_back(</span>
+            WorldFigureSnapshot{.figure = std::move(figure),
+                                .clip = "idle",
+                                .point = {static_cast&lt;float&gt;(entity.position.column) + 0.5F,
+                                          static_cast&lt;float&gt;(entity.position.row) + 0.5F},
+                                .frame = frame});
+<span style = "background-color:#dfd">    }
+    figures.push_back(WorldFigureSnapshot{.figure = _heroFigure,</span>
+                                          .clip = _walking ? "walk" : "idle",
+                                          .point = {_session.heroPoint().column,
+                                                    _session.heroPoint().row},
+                                          .frame = frame});
+<span style = "background-color:#dfd">    return figures;
+}</span>
+
+<span style = "background-color:#dfd">WorldSceneSnapshot WorldPlay::snapshot() const {
+    const core::Level* const map = _session.map();
+    if (map == nullptr) {</span>
+<span style = "background-color:#fdd">        return WorldSceneSnapshot{};</span>
+    }
+<span style = "background-color:#dfd">    return snapshotWorldScene(*map, _appearance, figures());
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

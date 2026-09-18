@@ -21,21 +21,14 @@
 #include &lt;vector&gt;
 
 #include "Core/Math/Rect.h"
-#include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/Quad.h"
 #include "HMI/Graphics/RenderLayer.h"
-#include "HMI/Graphics/RenderMode.h"
-#include "HMI/Graphics/TileAppearance.h"
 
 /**
  * @file HMI/Graphics/ComposedScene.h
  * @brief Composition du rendu : liste ordonnÃ©e des primitives d'une image, **sans GPU**
  *        (`EX-NFR-004`, `EX-NFR-005`).
  */
-
-namespace core {
-class World;
-}
 
 namespace hmi {
 
@@ -58,7 +51,7 @@ enum class QuadKind {
  */
 struct ComposedQuad {
     /// Calque de dessin (critÃ¨re de tri **prioritaire**, `EX-REN-014`).
-    RenderLayer layer = DEFAULT_RENDER_LAYER;
+    RenderLayer layer = RenderLayer::Tile;
     /// Texture liÃ©e (identitÃ© opaque) ; `nullptr` = primitive non dessinable.
     TextureHandle texture = nullptr;
     /// Rang de **premiÃ¨re apparition** de la texture dans la scÃ¨ne (critÃ¨re de regroupement).
@@ -109,14 +102,6 @@ struct SceneStatistics {
     int submitted = 0;
     /// Passes `begin/end` nÃ©cessaires : nombre de groupes contigus de mÃªme texture.
     int batches = 0;
-    /// MÃ©moire de texture des **plans picturaux** liÃ©s par cette image, en octets
-    /// (`EX-NFR-043`, `LOT-69` TACHE-09).
-    ///
-    /// Second axe d'observabilitÃ©, Ã  cÃ´tÃ© des compteurs de primitives : les plans ajoutent **un
-    /// seul quad** chacun mais occupent une texture Ã  l'Ã©chelle du niveau â un plafond exprimÃ© en
-    /// primitives ne les verrait pas grossir. Seuls les plans l'alimentent : les autres primitives
-    /// se partagent l'atlas, dont le coÃ»t ne dÃ©pend ni du niveau ni de leur nombre.
-    std::size_t textureBytes = 0;
 };
 
 /**
@@ -200,17 +185,6 @@ public:
     bool addLine(RenderLayer layer, TextureHandle texture, std::int32_t sortOrder,
                  const LineQuad&amp; quad);
 
-    /**
-     * @brief DÃ©clare la mÃ©moire de texture d'une primitive dÃ©jÃ  ajoutÃ©e (`EX-NFR-043`).
-     *
-     * SÃ©parÃ© de `addSprite` plutÃ´t qu'ajoutÃ© Ã  `hmi::SpriteQuad` : seuls les plans picturaux
-     * portent une texture dont la taille dÃ©pend du niveau, et grossir chaque primitive de la scÃ¨ne
-     * â atlas, damier, texte, particules â de deux champs jamais lus coÃ»terait sur le chemin
-     * parcouru des centaines de fois par image, pour une information qu'un seul Ã©metteur possÃ¨de.
-     * @param bytes Poids de la texture liÃ©e, en octets.
-     */
-    void addTextureBytes(std::size_t bytes) noexcept;
-
     /// Ordonne la scÃ¨ne (calque, puis texture, puis `sortOrder`), de faÃ§on **stable**.
     void sort();
 
@@ -243,7 +217,6 @@ private:
     std::optional&lt;core::Rect&gt; _visibleBounds;
     int _considered = 0;
     int _culled = 0;
-    std::size_t _textureBytes = 0;
 };
 
 /**
@@ -271,38 +244,6 @@ private:
  */
 [[nodiscard]] core::Rect lineQuadBounds(const LineQuad&amp; quad) noexcept;
 
-/**
- * @brief Compose les entitÃ©s affichables d'un monde ECS en primitives.
- *
- * Parcourt les entitÃ©s portant un `core::Transform` **et** un `core::Sprite`, rÃ©sout la rÃ©gion
- * d'atlas en coordonnÃ©es de texture normalisÃ©es, applique l'interpolation de rendu
- * (`hmi::PreviousPosition`) et empile un `hmi::SpriteQuad` par entitÃ©. Lecture **seule** de l'ECS
- * (`EX-ARCH-012`) : ni la simulation ni l'interpolation ne sont affectÃ©es, y compris pour une
- * entitÃ© Ã©cartÃ©e par le culling (elle reste simulÃ©e, elle n'est simplement pas dessinÃ©e).
- *
- * Le calque de chaque entitÃ© vient de son `hmi::RenderLayerTag`, ou vaut
- * `hmi::DEFAULT_RENDER_LAYER` en son absence ; `core::Sprite::layer` reste le tri **fin** Ã 
- * l'intÃ©rieur de ce calque.
- *
- * L'apparence de chaque entitÃ© â texture liÃ©e et rÃ©gion Ã©chantillonnÃ©e â est rÃ©solue **ici**, Ã  la
- * composition, par `hmi::resolveTileAppearance` (`LOT-41`) : changer de mode de rendu ne
- * reconstruit donc jamais la scÃ¨ne ECS.
- * @param scene              ScÃ¨ne Ã  remplir (non vidÃ©e : la composition peut Ãªtre cumulative).
- * @param world              Monde dont on lit `Transform`, `Sprite`, `PreviousPosition`,
- *                           `RenderLayerTag`.
- * @param mode               Mode de rendu courant (`EX-REN-046`).
- * @param textures           Textures liables et leurs dimensions (atlas et damier de repli).
- * @param interpolationAlpha Facteur d'interpolation `[0, 1[` entre le pas de simulation prÃ©cÃ©dent
- *                           et le pas courant (`EX-ARCH-031`) ; `0` reproduit le rendu non
- *                           interpolÃ©.
- * @param visibility         Jeu de visibilitÃ©s par calque du mode d'inspection de l'Ã©diteur
- *                           (`hmi::LayerVisibility`, `LOT-51`, `EX-EDIT-044`) : tout visible par
- *                           dÃ©faut, donc sans effet pour `hmi::GameSession` qui ne le fournit
- *                           jamais.
- */
-void composeWorldSprites(ComposedScene&amp; scene, core::World&amp; world, RenderMode mode,
-                         const SceneTextures&amp; textures, float interpolationAlpha,
-                         const LayerVisibility&amp; visibility = LayerVisibility{});
 
 }  // namespace hmi</pre>
         <hr />

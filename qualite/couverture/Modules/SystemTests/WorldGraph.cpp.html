@@ -158,14 +158,25 @@ namespace {
     return graphe;
 }</span>
 
+<span style = "background-color:#dfd">std::string mapIdOf(const std::filesystem::path&amp; levelsDir, const std::filesystem::path&amp; file) {
+    std::filesystem::path relatif = file.lexically_relative(levelsDir);
+    relatif.replace_extension();
+    return relatif.generic_string();
+}</span>
+
 <span style = "background-color:#dfd">WorldGraph loadWorldGraph(const std::filesystem::path&amp; levelsDir) {
     std::vector&lt;WorldMapInput&gt; cartes;
     std::error_code code;
     if (!std::filesystem::is_directory(levelsDir, code)) {
         return buildWorldGraph(std::move(cartes));</span>
     }
-<span style = "background-color:#dfd">    for (const std::filesystem::directory_entry&amp; fichier :
-         std::filesystem::directory_iterator(levelsDir, code)) {
+    // Recursif : les quartiers de la Capitale vivent dans `capital/` (`LOT-96`), et leur
+    // identifiant de carte est leur chemin relatif, sans extension, en barres obliques --
+    // `capital/martpart`, ce que le chargeur du jeu (`WorldTravel::directoryLoader`) resout.
+<span style = "background-color:#dfd">    for (auto iterateur = std::filesystem::recursive_directory_iterator(levelsDir, code);
+         !code &amp;&amp; iterateur != std::filesystem::recursive_directory_iterator();
+         iterateur.increment(code)) {
+        const std::filesystem::directory_entry&amp; fichier = *iterateur;
         const std::filesystem::path&amp; chemin = fichier.path();</span>
         // Memes exclusions que le navigateur de cartes (`hmi::LevelFileOperations::list`) : les
         // scripts `sequence-*.json` vivent a cote des niveaux sans en etre.
@@ -173,8 +184,10 @@ namespace {
             chemin.filename().string().starts_with("sequence-")) {
 <span style = "background-color:#dfd">            continue;</span>
         }
-        WorldMapInput carte{
-<span style = "background-color:#dfd">            .mapId = chemin.stem().string(), .name = {}, .entities = {}, .loadError = {}};
+<span style = "background-color:#dfd">        WorldMapInput carte{.mapId = mapIdOf(levelsDir, chemin),
+                            .name = {},
+                            .entities = {},
+                            .loadError = {}};
         LevelLoadResult lu = LevelLoader::loadFromFile(chemin);
         if (lu.ok()) {
             carte.name = lu.level-&gt;name();

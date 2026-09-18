@@ -18,8 +18,6 @@ namespace hmi {
 
 <span style = "background-color:#dfd">const std::array&lt;PanelFocusEntry, PANEL_FOCUS_CATALOG_COUNT&gt;&amp; panelFocusCatalog() {</span>
     static const std::array&lt;PanelFocusEntry, PANEL_FOCUS_CATALOG_COUNT&gt; catalog{{
-        {.tool = EditorTool::Link, .panel = PanelId::Links},
-        {.tool = EditorTool::TextureAssign, .panel = PanelId::Textures},
         {.tool = EditorTool::Entity, .panel = PanelId::Entities},
     }};
 <span style = "background-color:#dfd">    return catalog;
@@ -33,29 +31,6 @@ namespace hmi {
 <span style = "background-color:#dfd">    }
     return std::nullopt;
 }</span>
-
-<span style = "background-color:#dfd">const std::array&lt;PixelPanelFocusEntry, PIXEL_PANEL_FOCUS_CATALOG_COUNT&gt;&amp; pixelPanelFocusCatalog() {</span>
-    // Les quatre outils du canevas mettent tous en avant le meme panneau (PixelCanvas) : des qu'un
-    // outil de canevas est actif, on veut voir le canevas -- a la difference des outils de niveau,
-    // aucun outil de canevas n'a de panneau "annexe" dedie.
-    static const std::array&lt;PixelPanelFocusEntry, PIXEL_PANEL_FOCUS_CATALOG_COUNT&gt; catalog{{
-        {.tool = PixelTool::Brush, .panel = PanelId::PixelCanvas},
-        {.tool = PixelTool::Eraser, .panel = PanelId::PixelCanvas},
-        {.tool = PixelTool::Fill, .panel = PanelId::PixelCanvas},
-        {.tool = PixelTool::Eyedropper, .panel = PanelId::PixelCanvas},
-        {.tool = PixelTool::Selection, .panel = PanelId::PixelCanvas},
-    }};
-<span style = "background-color:#dfd">    return catalog;
-}</span>
-
-<span style = "background-color:#dfd">std::optional&lt;PanelId&gt; panelForPixelTool(PixelTool tool) {
-    for (const PixelPanelFocusEntry&amp; entry : pixelPanelFocusCatalog()) {
-        if (entry.tool == tool) {
-            return entry.panel;</span>
-        }
-<span style = "background-color:#dfd">    }</span>
-<span style = "background-color:#fdd">    return std::nullopt;</span>
-<span style = "background-color:#dfd">}</span>
 
 }  // namespace hmi</pre>
         <hr />

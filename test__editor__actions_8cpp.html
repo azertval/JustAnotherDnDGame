@@ -93,7 +93,7 @@ $(function(){initNavTree('test__editor__actions_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur (<span class="tt">LOT-56</span> TACHE-04, <span class="tt">EX-IHM-055</span>).  
+<p>Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur (<span class="tt">EX-IHM-055</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
@@ -109,8 +109,6 @@ $(function(){initNavTree('test__editor__actions_8cpp.html','',''); });
 Functions</h2></td></tr>
 <tr class="memitem:ac2579e7b98b4b00f6d3577a80a2e4679" id="r_ac2579e7b98b4b00f6d3577a80a2e4679"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac2579e7b98b4b00f6d3577a80a2e4679">TEST</a> (EditorActionsTest, LesOutilsDuCatalogueFormentUneBijectionAvecEditorTool)</td></tr>
 <tr class="memdesc:ac2579e7b98b4b00f6d3577a80a2e4679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les outils du catalogue forment une bijection exacte avec <span class="tt"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd" title="Outil actif dans la grille de l&#39;éditeur, changé via Tab ou la barre d&#39;outils (hmi::EditorActions).">hmi::EditorTool</a></span> : un outil, une action, aucun manquant ni dupliqué.  <br /></td></tr>
-<tr class="memitem:a12f1bb713d1df5c54be686ce9363a01f" id="r_a12f1bb713d1df5c54be686ce9363a01f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a12f1bb713d1df5c54be686ce9363a01f">TEST</a> (EditorActionsTest, LesCinqOutilsDeCanevasFormentUneBijectionAvecPixelTool)</td></tr>
-<tr class="memdesc:a12f1bb713d1df5c54be686ce9363a01f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les quatre outils du canevas pixel art forment une bijection exacte avec <span class="tt"><a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571" title="Outil actif du canevas pixel art — détermine ce que produisent les gestes de souris (hmi::PixelCanvas...">hmi::PixelTool</a></span> (<span class="tt">LOT-54</span> TACHE-04) — même garantie que pour les six outils de niveau, et le groupe <span class="tt">PixelTools</span> reste <b>distinct</b> de <span class="tt">LevelTools</span> (aucun outil de canevas n'appartient au groupe des outils de niveau).  <br /></td></tr>
 <tr class="memitem:aa7529760807d8cbc852e45461ba5f907" id="r_aa7529760807d8cbc852e45461ba5f907"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa7529760807d8cbc852e45461ba5f907">TEST</a> (EditorActionsTest, DefinitionUniqueDeRaccourci)</td></tr>
 <tr class="memdesc:aa7529760807d8cbc852e45461ba5f907"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque commande n'a qu'une seule définition de raccourci : aucun raccourci non vide n'est attribué deux fois dans le catalogue.  <br /></td></tr>
 <tr class="memitem:a0830dd19025813262584e63dea0cf72d" id="r_a0830dd19025813262584e63dea0cf72d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0830dd19025813262584e63dea0cf72d">TEST</a> (EditorActionsTest, GeometrieDesIconesNonVideEtDansLeCadre)</td></tr>
@@ -118,17 +116,17 @@ Functions</h2></td></tr>
 <tr class="memitem:a0333b40ab34b3cb3f10919adef01ebd0" id="r_a0333b40ab34b3cb3f10919adef01ebd0"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0333b40ab34b3cb3f10919adef01ebd0">TEST</a> (EditorActionsTest, ChaqueLibelleExisteDansLesDeuxLangues)</td></tr>
 <tr class="memdesc:a0333b40ab34b3cb3f10919adef01ebd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque clé de libellé utilisée par le catalogue d'actions existe dans les deux catalogues de traduction livrés (<span class="tt">EX-REN-033</span>).  <br /></td></tr>
 <tr class="memitem:a3f32a0ade3c34ab5987645eb26056529" id="r_a3f32a0ade3c34ab5987645eb26056529"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3f32a0ade3c34ab5987645eb26056529">TEST</a> (EditorActionsTest, AucuneActionRemappableOrpheline)</td></tr>
-<tr class="memdesc:a3f32a0ade3c34ab5987645eb26056529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Garde-fou « aucune action orpheline » (<span class="tt">LOT-57</span> TACHE-04) : chaque action d'éditeur remappable, hors sélection d'outil, correspond à une commande effective du catalogue.  <br /></td></tr>
+<tr class="memdesc:a3f32a0ade3c34ab5987645eb26056529"><td class="mdescLeft">&#160;</td><td class="mdescRight">Garde-fou « aucune action orpheline » : chaque action d'éditeur remappable correspond à une commande effective du catalogue.  <br /></td></tr>
 <tr class="memitem:a149077b9903f89626ddbf15a7e6753b4" id="r_a149077b9903f89626ddbf15a7e6753b4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a149077b9903f89626ddbf15a7e6753b4">TEST</a> (EditorActionsTest, LaBarreDOutilsNePorteQueLEssentiel)</td></tr>
-<tr class="memdesc:a149077b9903f89626ddbf15a7e6753b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">La barre d'outils ne porte que la <b>sélection d'outil</b> et un petit nombre de commandes à usage continu (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-074</span>).  <br /></td></tr>
+<tr class="memdesc:a149077b9903f89626ddbf15a7e6753b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">La barre d'outils ne porte que la <b>sélection d'outil</b> et un petit nombre de commandes à usage continu (<span class="tt">EX-IHM-074</span>).  <br /></td></tr>
 <tr class="memitem:a9238439ec4304f5c176079a6a24484e7" id="r_a9238439ec4304f5c176079a6a24484e7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9238439ec4304f5c176079a6a24484e7">TEST</a> (EditorActionsTest, AucuneActionOrphelineDeSurface)</td></tr>
 <tr class="memdesc:a9238439ec4304f5c176079a6a24484e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aucune action n'est <b>orpheline de surface</b> : chacune apparaît au moins au menu.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur (<span class="tt">LOT-56</span> TACHE-04, <span class="tt">EX-IHM-055</span>). </p>
+<div class="textblock"><p>Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur (<span class="tt">EX-IHM-055</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a9238439ec4304f5c176079a6a24484e7" name="a9238439ec4304f5c176079a6a24484e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9238439ec4304f5c176079a6a24484e7">&#9670;&#160;</a></span>TEST() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9238439ec4304f5c176079a6a24484e7">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -157,7 +155,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3f32a0ade3c34ab5987645eb26056529" name="a3f32a0ade3c34ab5987645eb26056529"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f32a0ade3c34ab5987645eb26056529">&#9670;&#160;</a></span>TEST() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f32a0ade3c34ab5987645eb26056529">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,19 +173,19 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Garde-fou « aucune action orpheline » (<span class="tt">LOT-57</span> TACHE-04) : chaque action d'éditeur remappable, hors sélection d'outil, correspond à une commande effective du catalogue. </p>
-<p>Ce test casse si une action est ajoutée à <span class="tt">EditorKeyBindings</span> sans être branchée ici — exactement le défaut que cette tâche corrige (neuf actions définies, une seule lue). <b>Cas de test :</b> <b>Chaque action d'editeur remappable a une commande effective.</b><br  />
+<p>Garde-fou « aucune action orpheline » : chaque action d'éditeur remappable correspond à une commande effective du catalogue. </p>
+<p>Ce test casse si une action est ajoutée à <span class="tt">EditorKeyBindings</span> sans être branchée ici — exactement le défaut qu'il a fallu corriger (neuf actions définies, une seule lue). <b>Cas de test :</b> <b>Chaque action d'editeur remappable a une commande effective.</b><br  />
  <b>Categorie :</b> Unitaire · Actions de l'editeur<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
- 1. Comparer le nombre d'actions remappables (hors outil) au nombre d'entrees de la table de correspondance.<br  />
+ 1. Comparer le nombre d'actions remappables au nombre d'entrees de la table de correspondance.<br  />
 2. Verifier que chaque entree pointe vers une commande reelle du catalogue et que l'aller-retour restitue l'action d'origine.<br  />
  <b>Resultat attendu :</b> Les deux comptes sont egaux ; chaque commande existe et l'aller-retour est fidele. </p>
 
 </div>
 </div>
 <a id="a0333b40ab34b3cb3f10919adef01ebd0" name="a0333b40ab34b3cb3f10919adef01ebd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0333b40ab34b3cb3f10919adef01ebd0">&#9670;&#160;</a></span>TEST() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0333b40ab34b3cb3f10919adef01ebd0">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +215,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aa7529760807d8cbc852e45461ba5f907" name="aa7529760807d8cbc852e45461ba5f907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7529760807d8cbc852e45461ba5f907">&#9670;&#160;</a></span>TEST() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7529760807d8cbc852e45461ba5f907">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -247,7 +245,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0830dd19025813262584e63dea0cf72d" name="a0830dd19025813262584e63dea0cf72d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0830dd19025813262584e63dea0cf72d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0830dd19025813262584e63dea0cf72d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -277,7 +275,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a149077b9903f89626ddbf15a7e6753b4" name="a149077b9903f89626ddbf15a7e6753b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a149077b9903f89626ddbf15a7e6753b4">&#9670;&#160;</a></span>TEST() <span class="overload">[6/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a149077b9903f89626ddbf15a7e6753b4">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,51 +293,19 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>La barre d'outils ne porte que la <b>sélection d'outil</b> et un petit nombre de commandes à usage continu (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-074</span>). </p>
+<p>La barre d'outils ne porte que la <b>sélection d'outil</b> et un petit nombre de commandes à usage continu (<span class="tt">EX-IHM-074</span>). </p>
 <p>Elle en portait onze, dont neuf figuraient déjà au menu : c'est cette accumulation, et non une duplication de définition, qui la rendait illisible.</p>
-<p>Le plafond <span class="tt">TOOLBAR_COMMAND_BUDGET</span> est vérifié <b>par groupe d'outils</b> : une barre commune aux deux espaces ne dirait rien de ce que chacun affiche réellement. <b>Cas de test :</b> <b>La barre d'outils ne porte que les outils et un petit nombre de commandes.</b><br  />
+<p><b>Cas de test :</b> <b>La barre d'outils ne porte que les outils et un petit nombre de commandes.</b><br  />
  <b>Categorie :</b> Unitaire · Actions de l'editeur<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
- 1. Compter les actions de surface ToolBarAndMenu qui ne sont pas des outils, pour l'espace de niveau puis pour l'atelier.<br  />
- <b>Resultat attendu :</b> Chaque compte reste sous TOOLBAR_COMMAND_BUDGET, et tous les outils des deux familles restent en barre d'outils. </p>
-
-</div>
-</div>
-<a id="a12f1bb713d1df5c54be686ce9363a01f" name="a12f1bb713d1df5c54be686ce9363a01f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12f1bb713d1df5c54be686ce9363a01f">&#9670;&#160;</a></span>TEST() <span class="overload">[7/8]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">EditorActionsTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LesCinqOutilsDeCanevasFormentUneBijectionAvecPixelTool</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Les quatre outils du canevas pixel art forment une bijection exacte avec <span class="tt"><a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571" title="Outil actif du canevas pixel art — détermine ce que produisent les gestes de souris (hmi::PixelCanvas...">hmi::PixelTool</a></span> (<span class="tt">LOT-54</span> TACHE-04) — même garantie que pour les six outils de niveau, et le groupe <span class="tt">PixelTools</span> reste <b>distinct</b> de <span class="tt">LevelTools</span> (aucun outil de canevas n'appartient au groupe des outils de niveau). </p>
-<p><b>Cas de test :</b> <b>Les quatre outils de canevas forment une bijection avec PixelTool.</b><br  />
- <b>Categorie :</b> Unitaire · Actions de l'editeur<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Pour chaque <a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571" title="Outil actif du canevas pixel art — détermine ce que produisent les gestes de souris (hmi::PixelCanvas...">hmi::PixelTool</a>, resoudre l'action puis reconvertir vers l'outil.<br  />
-</p><ol type="1">
-<li>Verifier que l'action appartient au groupe PixelTools.<br  />
- <b>Resultat attendu :</b> L'aller-retour restitue l'outil d'origine pour chacun des cinq, et chaque action appartient au groupe PixelTools. </li>
-</ol>
+ 1. Compter les actions de surface ToolBarAndMenu qui ne sont pas des outils.<br  />
+ <b>Resultat attendu :</b> Le compte reste sous TOOLBAR_COMMAND_BUDGET, et tous les outils restent en barre d'outils. </p>
 
 </div>
 </div>
 <a id="ac2579e7b98b4b00f6d3577a80a2e4679" name="ac2579e7b98b4b00f6d3577a80a2e4679"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2579e7b98b4b00f6d3577a80a2e4679">&#9670;&#160;</a></span>TEST() <span class="overload">[8/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2579e7b98b4b00f6d3577a80a2e4679">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -358,7 +324,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Les outils du catalogue forment une bijection exacte avec <span class="tt"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd" title="Outil actif dans la grille de l&#39;éditeur, changé via Tab ou la barre d&#39;outils (hmi::EditorActions).">hmi::EditorTool</a></span> : un outil, une action, aucun manquant ni dupliqué. </p>
-<p>C'est ce qui garantit l'exclusivité réelle (le groupe Qt <span class="tt">QActionGroup</span>, construit à partir de ce même catalogue, <a class="el" href="EditorActions_8cpp.html">EditorActions.cpp</a>) et, surtout, la <b>complétude</b> : <span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">hmi::MainWindow</a></span> dérive de ce catalogue les connexions action → <span class="tt">GameViewport::setTool</span>, donc un outil absent du groupe <span class="tt">LevelTools</span> serait cochable dans la barre d'outils sans jamais devenir l'outil actif. Le cas s'est produit avec l'outil « Parcours » (<span class="tt">LOT-67</span>), qu'une liste écrite à la main avait laissé de côté.</p>
+<p>C'est ce qui garantit l'exclusivité réelle (le groupe Qt <span class="tt">QActionGroup</span>, construit à partir de ce même catalogue, <a class="el" href="EditorActions_8cpp.html">EditorActions.cpp</a>) et, surtout, la <b>complétude</b> : <span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;éditeur (Qt Widgets).">hmi::MainWindow</a></span> dérive de ce catalogue les connexions action → <span class="tt">EditorViewport::setTool</span>, donc un outil absent du groupe <span class="tt">LevelTools</span> serait cochable dans la barre d'outils sans jamais devenir l'outil actif. Le cas s'est produit avec l'outil « Parcours », qu'une liste écrite à la main avait laissé de côté.</p>
 <p>La liste des outils est <b>dérivée du catalogue</b>, jamais recopiée ici : la recopier reproduirait exactement l'erreur que ce test doit détecter. <span class="tt">EDITOR_TOOL_COUNT</span>, déclaré à côté de l'énumération, ferme la boucle — autant d'actions distinctes que d'outils implique, par tiroirs, que chaque outil en a exactement une. <b>Cas de test :</b> <b>Les outils du catalogue forment une bijection avec EditorTool.</b><br  />
  <b>Categorie :</b> Unitaire · Actions de l'editeur<br  />
  <b>Criticite :</b> Critique<br  />

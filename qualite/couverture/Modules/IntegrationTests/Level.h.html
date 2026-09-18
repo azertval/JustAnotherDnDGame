@@ -14,45 +14,29 @@
 
 #pragma once
 
-#include &lt;optional&gt;
 #include &lt;string&gt;
 #include &lt;utility&gt;
 #include &lt;vector&gt;
 
-#include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/MapEntity.h"
-#include "Core/Levels/Plane.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 
 /**
  * @file Core/Levels/Level.h
- * @brief Niveau chargÃ© : grille de tuiles, entrÃ©e/sortie et mÃ©canismes.
+ * @brief Carte chargÃ©e : grille de collision, couches, entitÃ©s, point d'entrÃ©e.
  */
 
 namespace core {
 
 /**
- * @brief Liaison d'un **interrupteur** Ã  une **porte**, par positions rÃ©solues.
+ * @brief PiÃ¨ce de la planche du lieu assignÃ©e explicitement Ã  **une case prÃ©cise**, prioritaire sur
+ *        la table d'apparence de son type (`EX-EDIT-043`, `EX-VIS-008`).
  *
- * Dans le fichier, la liaison est exprimÃ©e par identifiant (`switch.id` â `door.opensWith`) ;
- * le chargeur la rÃ©sout en positions de grille. Le **comportement** (l'interrupteur ou la plaque
- * de pression ouvre la porte) est rÃ©solu chaque pas fixe par `core::MechanismController`.
- */
-struct Mechanism {
-    GridPosition switchPosition;
-    GridPosition doorPosition;
-};
-
-/**
- * @brief Texture assignÃ©e explicitement Ã  **une case prÃ©cise**, prioritaire sur le skin de son
- *        type (`EX-EDIT-043`, LOT-42).
- *
- * MÃªme patron que `Mechanism` : vecteur
- * annexe de `Level`, keyÃ© par position, `TileMap` ne portant qu'un `TileType` par case. Le nom
- * d'asset est une simple chaÃ®ne : `Core` ne vÃ©rifie pas son existence (`EX-NFR-011`), un override
- * pointant un fichier absent reste un niveau valide.
+ * Vecteur annexe de `Level`, keyÃ© par position, `TileMap` ne portant qu'un `TileType` par case. Le
+ * nom de piÃ¨ce est une simple chaÃ®ne : `Core` ne vÃ©rifie pas son existence (`EX-NFR-011`), une
+ * assignation pointant une piÃ¨ce absente reste une carte valide.
  */
 struct TileTextureOverride {
     GridPosition position;
@@ -60,28 +44,14 @@ struct TileTextureOverride {
 };
 
 /**
- * @brief Niveau complet en mÃ©moire : nom, grille de tuiles, entrÃ©e/sortie et mÃ©canismes.
- *
- * AssemblÃ© par le chargeur (aprÃ¨s parsing et validation) puis lu par le rendu et, Ã  terme, le
- * gameplay. DonnÃ©e pure (`EX-ARCH-011`, `EX-LVL-002`) : aucune dÃ©pendance rendu ni fichier.
- */
-/**
- * @brief Composantes d'un niveau, nommÃ©es â agrÃ©gat de construction de `core::Level` (`LOT-03`).
- *
- * Le constructeur de `Level` a comptÃ© jusqu'Ã  **19 paramÃ¨tres positionnels**. Le `LOT-01` en a
- * retirÃ© huit avec le gameplay de plateforme, mais la dette de fond restait : deux
- * `std::optional&lt;std::string&gt;` voisins (`background`, `skinSet`) s'intervertissent sans que le
- * compilateur bronche, et le RPG s'apprÃªte Ã  rajouter des champs (couches de tuiles, entitÃ©s,
- * connexions de carte, zones de rencontre, points d'apparition). Solder maintenant, alors que la
- * liste est au plus court, coÃ»te le minimum.
+ * @brief Composantes d'une carte, nommÃ©es â agrÃ©gat de construction de `core::Level` (`LOT-03`).
  *
  * S'Ã©crit avec les *designated initializers* de C++20, qui rendent chaque site de construction
  * lisible sans commentaire :
  * @code
  * core::Level level(core::LevelData{.name = "village",
  *                                   .tileMap = std::move(map),
- *                                   .entry = entryPosition,
- *                                   .exit = exitPosition});
+ *                                   .entry = entryPosition});
  * @endcode
  *
  * @note `tileMap` n'a **volontairement** pas de valeur par dÃ©faut : `core::TileMap` n'est pas
@@ -89,15 +59,14 @@ struct TileTextureOverride {
  *       une grille vide silencieuse. Tous les autres champs ont un dÃ©faut utile.
  */
 struct LevelData {
-    /// Nom du niveau.
+    /// Nom de la carte.
     std::string name;
     /// Grille de tuiles typÃ©es. Sans dÃ©faut : voir la note ci-dessus.
     ///
-    /// C'est la grille de **collision** de la carte â celle que consomment le balayage AABB et, au
-    /// `LOT-19`, la grille de combat tactique â et elle porte aussi l'entrÃ©e, la sortie et les
-    /// cases de mÃ©canismes. Le format ne connaÃ®t qu'elle sur ce point : une couche `collision`
-    /// dÃ©clarÃ©e Ã  cÃ´tÃ© est refusÃ©e au chargement, prÃ©cisÃ©ment pour qu'il n'existe jamais deux
-    /// grilles Ã  tenir d'accord (`EX-LVL-016`).
+    /// C'est la grille de **collision** de la carte â celle que consomment l'exploration et la
+    /// grille de combat tactique â et elle porte aussi l'entrÃ©e. Le format ne connaÃ®t qu'elle sur
+    /// ce point : une couche `collision` dÃ©clarÃ©e Ã  cÃ´tÃ© est refusÃ©e au chargement, prÃ©cisÃ©ment
+    /// pour qu'il n'existe jamais deux grilles Ã  tenir d'accord (`EX-LVL-016`).
     TileMap tileMap;
     /// Couches de tuiles de la carte (`LOT-04`), dans leur ordre de superposition.
     ///
@@ -109,35 +78,23 @@ struct LevelData {
     std::vector&lt;TileLayer&gt; layers;
     /// EntitÃ©s placÃ©es sur la carte (`LOT-04`) : PNJ, coffres, panneaux, portails, dÃ©clencheurs.
     std::vector&lt;MapEntity&gt; entities;
-    /// Position d'apparition (case `Entry`).
+    /// Point d'arrivÃ©e par dÃ©faut (case `Entry`).
     GridPosition entry{};
-    /// Position de sortie (case `Exit`).
-    GridPosition exit{};
-    /// Liaisons interrupteurâporte rÃ©solues.
-    std::vector&lt;Mechanism&gt; mechanisms;
-    /// Nom de l'asset de fond (`EX-REN-044`), absent si aucun. Une chaÃ®ne, jamais un handle de
-    /// texture : `Core` ignore tout du rendu.
-    std::optional&lt;std::string&gt; background;
-    /// Nom du jeu de skins (`EX-EDIT-024`), absent pour le jeu par dÃ©faut.
-    std::optional&lt;std::string&gt; skinSet;
-    /// Textures assignÃ©es par instance (`EX-EDIT-043`), prioritaires sur le skin de leur type.
+    /// PiÃ¨ces assignÃ©es par case (`EX-EDIT-043`), prioritaires sur la table d'apparence du lieu.
     std::vector&lt;TileTextureOverride&gt; textureOverrides;
-    /// Cadrage de camÃ©ra **rÃ©solu** (`EX-LVL-006`) : dÃ©jÃ  passÃ© par `resolveCameraFraming` cÃ´tÃ©
-    /// chargeur, jamais un champ brut Â« peut-Ãªtre absent Â». Le dÃ©faut (`WholeLevel`) est lÃ©gitime
-    /// pour un niveau construit directement, cohÃ©rent avec un petit niveau tenant dans une salle.
-    CameraFramingConfig cameraFraming;
-    /// Plans picturaux (`EX-DEC-040`), dans leur ordre de superposition.
-    std::vector&lt;Plane&gt; planes;
-    /// `true` si la parallaxe des plans s'applique (`EX-DEC-043`) ; le mode de cadrage peut la
-    /// neutraliser par-dessus ce drapeau.
-<span style = "background-color:#dfd">    bool parallaxEnabled = true;</span>
 };
 
+/**
+ * @brief Carte complÃ¨te en mÃ©moire.
+ *
+ * AssemblÃ©e par le chargeur (aprÃ¨s parsing et validation) puis lue par l'exploration, le combat et
+ * le rendu. DonnÃ©e pure (`EX-ARCH-011`, `EX-LVL-002`) : aucune dÃ©pendance rendu ni fichier.
+ */
 class Level {
 public:
     /**
-     * @brief Construit un niveau Ã  partir de ses composantes nommÃ©es.
-     * @param data Composantes du niveau (dÃ©placÃ©es).
+     * @brief Construit une carte Ã  partir de ses composantes nommÃ©es.
+     * @param data Composantes de la carte (dÃ©placÃ©es).
      */
     explicit Level(LevelData data)
 <span style = "background-color:#dfd">        : _name(std::move(data.name)),
@@ -145,21 +102,14 @@ public:
           _layers(std::move(data.layers)),
           _entities(std::move(data.entities)),
           _entry(data.entry),
-          _exit(data.exit),
-          _mechanisms(std::move(data.mechanisms)),
-          _background(std::move(data.background)),
-          _skinSet(std::move(data.skinSet)),
-          _textureOverrides(std::move(data.textureOverrides)),
-          _cameraFraming(std::move(data.cameraFraming)),
-          _planes(std::move(data.planes)),
-          _parallaxEnabled(data.parallaxEnabled) {}</span>
+          _textureOverrides(std::move(data.textureOverrides)) {}</span>
 
-    /// @return Le nom du niveau.
+    /// @return Le nom de la carte.
 <span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; name() const noexcept {
         return _name;
     }</span>
 
-    /// @return La grille de tuiles du niveau.
+    /// @return La grille de tuiles de la carte.
 <span style = "background-color:#dfd">    [[nodiscard]] const TileMap&amp; tileMap() const noexcept {
         return _tileMap;
     }</span>
@@ -175,55 +125,14 @@ public:
         return _entities;
     }</span>
 
-    /// @return La position d'apparition.
+    /// @return Le point d'arrivÃ©e par dÃ©faut.
 <span style = "background-color:#dfd">    [[nodiscard]] GridPosition entry() const noexcept {
         return _entry;
     }</span>
 
-    /// @return La position de sortie.
-<span style = "background-color:#dfd">    [[nodiscard]] GridPosition exit() const noexcept {
-        return _exit;
-    }</span>
-
-    /// @return Les liaisons de mÃ©canismes du niveau.
-<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;Mechanism&gt;&amp; mechanisms() const noexcept {
-        return _mechanisms;
-    }</span>
-
-    /// @return Le nom de l'asset de fond du niveau (`EX-REN-044`), absent si aucun n'est
-    /// configurÃ©. Une chaÃ®ne, jamais un handle : `Core` n'a pas accÃ¨s au dossier d'assets.
-<span style = "background-color:#dfd">    [[nodiscard]] const std::optional&lt;std::string&gt;&amp; background() const noexcept {
-        return _background;
-    }</span>
-
-    /// @return Le nom du jeu de skins du niveau (`EX-EDIT-024`), absent si le niveau utilise le
-    /// jeu par dÃ©faut.
-<span style = "background-color:#dfd">    [[nodiscard]] const std::optional&lt;std::string&gt;&amp; skinSet() const noexcept {
-        return _skinSet;
-    }</span>
-
-    /// @return Les textures assignÃ©es par instance du niveau (`EX-EDIT-043`).
+    /// @return Les piÃ¨ces assignÃ©es par case (`EX-EDIT-043`).
 <span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides() const noexcept {
         return _textureOverrides;
-    }</span>
-
-    /// @return Les **plans picturaux** du niveau (`EX-DEC-040`), dans leur ordre de superposition.
-<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;Plane&gt;&amp; planes() const noexcept {
-        return _planes;
-    }</span>
-
-    /// @return `true` si la **parallaxe** des plans s'applique dans ce niveau (`EX-DEC-043`).
-    /// Le mode de cadrage peut la neutraliser malgrÃ© ce drapeau : c'est une rÃ¨gle du moteur, pas
-    /// une propriÃ©tÃ© du niveau (`hmi::planeParallaxActive`).
-<span style = "background-color:#dfd">    [[nodiscard]] bool parallaxEnabled() const noexcept {
-        return _parallaxEnabled;
-    }</span>
-
-    /// @return Le cadrage de camÃ©ra **rÃ©solu** du niveau (`EX-LVL-006`), jamais un champ optionnel
-    /// "peut-Ãªtre absent" : la rÃ¨gle de repli (`resolveCameraFraming`) a dÃ©jÃ  Ã©tÃ© appliquÃ©e par le
-    /// chargeur avant de construire ce `Level`.
-<span style = "background-color:#dfd">    [[nodiscard]] const CameraFramingConfig&amp; cameraFraming() const noexcept {
-        return _cameraFraming;
     }</span>
 
 private:
@@ -232,14 +141,7 @@ private:
     std::vector&lt;TileLayer&gt; _layers;
     std::vector&lt;MapEntity&gt; _entities;
     GridPosition _entry;
-    GridPosition _exit;
-    std::vector&lt;Mechanism&gt; _mechanisms;
-    std::optional&lt;std::string&gt; _background;
-    std::optional&lt;std::string&gt; _skinSet;
     std::vector&lt;TileTextureOverride&gt; _textureOverrides;
-    CameraFramingConfig _cameraFraming;
-    std::vector&lt;Plane&gt; _planes;
-    bool _parallaxEnabled = true;
 };
 
 }  // namespace core</pre>

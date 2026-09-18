@@ -93,7 +93,7 @@ $(function(){initNavTree('test__application__theme_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du thème de l'IHM : modèle de feuille de style (<span class="tt">LOT-56</span> TACHE-02, <span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>) et police/typographie (TACHE-03, <span class="tt">EX-IHM-052</span>).  
+<p>Tests unitaires du thème de l'IHM : modèle de feuille de style (<span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>) et police/typographie (<span class="tt">EX-IHM-052</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
@@ -115,14 +115,14 @@ Functions</h2></td></tr>
 <tr class="memitem:ade4ed0459f2bb9adcbcebe70b2598b1a" id="r_ade4ed0459f2bb9adcbcebe70b2598b1a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ade4ed0459f2bb9adcbcebe70b2598b1a">TEST</a> (ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel)</td></tr>
 <tr class="memdesc:ade4ed0459f2bb9adcbcebe70b2598b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les modèles réels livrés (<span class="tt">Source/Elements/Themes/theme-*.qss</span>) ne contiennent aucune couleur écrite en dur : toutes passent par un marqueur <span class="tt">${...}</span>.  <br /></td></tr>
 <tr class="memitem:a4cd0246f5bb87384a6cfa0c27b966ada" id="r_a4cd0246f5bb87384a6cfa0c27b966ada"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4cd0246f5bb87384a6cfa0c27b966ada">TEST</a> (ApplicationThemeTest, ResolutionDePoliceSansNomDeRepliCodeEnDur)</td></tr>
-<tr class="memdesc:a4cd0246f5bb87384a6cfa0c27b966ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de famille n'est renvoyé (TACHE-03) &ndash; l'appelant Qt doit alors demander une famille générique, jamais un second nom codé en dur.  <br /></td></tr>
+<tr class="memdesc:a4cd0246f5bb87384a6cfa0c27b966ada"><td class="mdescLeft">&#160;</td><td class="mdescRight">La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de famille n'est renvoyé &ndash; l'appelant Qt doit alors demander une famille générique, jamais un second nom codé en dur.  <br /></td></tr>
 <tr class="memitem:aa98aa01f7ae07f96d79d2294ce6db6f9" id="r_aa98aa01f7ae07f96d79d2294ce6db6f9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa98aa01f7ae07f96d79d2294ce6db6f9">TEST</a> (ApplicationThemeTest, EchelleTypographiquePositiveEtOrdonnee)</td></tr>
 <tr class="memdesc:aa98aa01f7ae07f96d79d2294ce6db6f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'échelle typographique produit des tailles strictement positives, et les rôles de titre et de corps sont ordonnés du plus grand au plus petit : titre d'écran &gt; titre de section &gt; corps &gt; libellé secondaire.  <br /></td></tr>
 <tr class="memitem:a8a26c09d02591953bdef3264cb8cbbd3" id="r_a8a26c09d02591953bdef3264cb8cbbd3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8a26c09d02591953bdef3264cb8cbbd3">TEST</a> (ApplicationThemeTest, ResolutionDuThemeEffectifSuitLeReglageEtLeSysteme)</td></tr>
-<tr class="memdesc:a8a26c09d02591953bdef3264cb8cbbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résolution pure du thème effectif (<span class="tt">LOT-56</span> TACHE-06) : <span class="tt">Système</span> suit le système d'exploitation, <span class="tt">Clair</span>/<span class="tt">Sombre</span> forcé l'ignore.  <br /></td></tr>
+<tr class="memdesc:a8a26c09d02591953bdef3264cb8cbbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résolution pure du thème effectif : <span class="tt">Système</span> suit le système d'exploitation, <span class="tt">Clair</span>/<span class="tt">Sombre</span> forcé l'ignore.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du thème de l'IHM : modèle de feuille de style (<span class="tt">LOT-56</span> TACHE-02, <span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>) et police/typographie (TACHE-03, <span class="tt">EX-IHM-052</span>). </p>
+<div class="textblock"><p>Tests unitaires du thème de l'IHM : modèle de feuille de style (<span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>) et police/typographie (<span class="tt">EX-IHM-052</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ade4ed0459f2bb9adcbcebe70b2598b1a" name="ade4ed0459f2bb9adcbcebe70b2598b1a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade4ed0459f2bb9adcbcebe70b2598b1a">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
@@ -231,7 +231,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de famille n'est renvoyé (TACHE-03) &ndash; l'appelant Qt doit alors demander une famille générique, jamais un second nom codé en dur. </p>
+<p>La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de famille n'est renvoyé &ndash; l'appelant Qt doit alors demander une famille générique, jamais un second nom codé en dur. </p>
 <p><b>Cas de test :</b> <b>La resolution de police retombe sur une famille generique sans nom code en dur.</b><br  />
  <b>Categorie :</b> Unitaire · Theme de l'IHM<br  />
  <b>Criticite :</b> Critique<br  />
@@ -260,7 +260,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Résolution pure du thème effectif (<span class="tt">LOT-56</span> TACHE-06) : <span class="tt">Système</span> suit le système d'exploitation, <span class="tt">Clair</span>/<span class="tt">Sombre</span> forcé l'ignore. </p>
+<p>Résolution pure du thème effectif : <span class="tt">Système</span> suit le système d'exploitation, <span class="tt">Clair</span>/<span class="tt">Sombre</span> forcé l'ignore. </p>
 <p><b>Cas de test :</b> <b>La resolution du theme effectif suit le reglage et, si Systeme, le systeme.</b><br  />
  <b>Categorie :</b> Unitaire · Theme de l'IHM<br  />
  <b>Criticite :</b> Critique<br  />

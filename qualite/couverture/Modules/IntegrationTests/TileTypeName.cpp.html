@@ -42,24 +42,8 @@ struct TransparentStringHash {
 <span style = "background-color:#dfd">            return "empty";  // jamais emis dans un niveau : les cases vides sont omises de 'tiles'.</span>
         case TileType::Solid:
 <span style = "background-color:#dfd">            return "solid";</span>
-        case TileType::Danger:
-<span style = "background-color:#dfd">            return "danger";</span>
         case TileType::Entry:
 <span style = "background-color:#dfd">            return "entry";</span>
-        case TileType::Exit:
-<span style = "background-color:#dfd">            return "exit";</span>
-        case TileType::Switch:
-<span style = "background-color:#dfd">            return "switch";</span>
-        case TileType::Door:
-<span style = "background-color:#dfd">            return "door";</span>
-        case TileType::PressurePlate:
-<span style = "background-color:#dfd">            return "pressurePlate";</span>
-        case TileType::Block:
-<span style = "background-color:#dfd">            return "block";</span>
-        case TileType::Key:
-<span style = "background-color:#dfd">            return "key";</span>
-        case TileType::LockedDoor:
-<span style = "background-color:#dfd">            return "lockedDoor";</span>
         case TileType::Grass:
 <span style = "background-color:#dfd">            return "grass";</span>
         case TileType::Dirt:
@@ -86,7 +70,7 @@ struct TransparentStringHash {
     // Table construite une fois a partir de tileTypeName : la reciprocite des deux conversions est
     // ainsi structurelle, pas seulement testee. Ajouter un TileType suffit donc a le rendre
     // lisible -- la borne d'iteration vient de core::TILE_TYPE_COUNT (Core/Levels/TileType.h),
-    // seule source de verite de la fin de l'enumeration depuis le LOT-74 : il n'y a plus de
+    // seule source de verite de la fin de l'enumeration : il n'y a plus de
     // dernier enumerateur recopie ici, donc plus rien a mettre a jour a la main. Les cles sont des
     // std::string (proprietaires) : tileTypeName renvoie une valeur, dont un string_view ne
     // survivrait pas.

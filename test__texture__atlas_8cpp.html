@@ -93,7 +93,7 @@ $(function(){initNavTree('test__texture__atlas_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du mapping de régions de <span class="tt"><a class="el" href="classhmi_1_1TextureAtlas.html" title="Texture d&#39;atlas et table de régions, chargée depuis un fichier image avec repli procédural (EX-REN-04...">hmi::TextureAtlas</a></span> (LOT-39, non-régression).  
+<p>Tests unitaires du mapping de régions de <span class="tt"><a class="el" href="classhmi_1_1TextureAtlas.html" title="Texture d&#39;atlas procédurale et table de régions de tuiles (EX-REN-041/EX-REN-042).">hmi::TextureAtlas</a></span> (non-régression).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="TextureAtlas_8h_source.html">HMI/Graphics/TextureAtlas.h</a>&quot;</code><br />
@@ -102,45 +102,13 @@ $(function(){initNavTree('test__texture__atlas_8cpp.html','',''); });
 Functions</h2></td></tr>
 <tr class="memitem:a58f195a1b25cb0e98fa805a30d682041" id="r_a58f195a1b25cb0e98fa805a30d682041"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a58f195a1b25cb0e98fa805a30d682041">TEST</a> (TextureAtlasTest, TileRenvoieLeRectangleAttendu)</td></tr>
 <tr class="memdesc:a58f195a1b25cb0e98fa805a30d682041"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">tile(colonne, ligne)</span> renvoie un rectangle de 16×16 pixels à l'origine attendue.  <br /></td></tr>
-<tr class="memitem:a759c0e69440df175447cac4579928f57" id="r_a759c0e69440df175447cac4579928f57"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a759c0e69440df175447cac4579928f57">TEST</a> (TextureAtlasTest, PlayerFrameRegionSousLaGrilleDeTuiles)</td></tr>
-<tr class="memdesc:a759c0e69440df175447cac4579928f57"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">playerFrameRegion</span> place les images du personnage sous la grille de tuiles, dans l'ordre Idle, Run, Jump — non-régression du placement historique.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du mapping de régions de <span class="tt"><a class="el" href="classhmi_1_1TextureAtlas.html" title="Texture d&#39;atlas et table de régions, chargée depuis un fichier image avec repli procédural (EX-REN-04...">hmi::TextureAtlas</a></span> (LOT-39, non-régression). </p>
-<p><span class="tt">tile</span>/<span class="tt">playerFrameRegion</span> sont de la pure arithmétique de grille (aucun état d'instance, <span class="tt">static</span>) : testables sans device Direct3D, indépendamment de l'origine (fichier ou procédurale) de l'atlas (<span class="tt">EX-NFR-010</span>). </p>
+<div class="textblock"><p>Tests unitaires du mapping de régions de <span class="tt"><a class="el" href="classhmi_1_1TextureAtlas.html" title="Texture d&#39;atlas procédurale et table de régions de tuiles (EX-REN-041/EX-REN-042).">hmi::TextureAtlas</a></span> (non-régression). </p>
+<p><span class="tt">tile</span> est de la pure arithmétique de grille (aucun état d'instance, <span class="tt">static</span>) : testable sans GPU (<span class="tt">EX-NFR-010</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="a759c0e69440df175447cac4579928f57" name="a759c0e69440df175447cac4579928f57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a759c0e69440df175447cac4579928f57">&#9670;&#160;</a></span>TEST() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">TextureAtlasTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">PlayerFrameRegionSousLaGrilleDeTuiles</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><span class="tt">playerFrameRegion</span> place les images du personnage sous la grille de tuiles, dans l'ordre Idle, Run, Jump — non-régression du placement historique. </p>
-<p><b>Cas de test :</b> <b>playerFrameRegion place les images du personnage sous la grille de tuiles, dans l'ordre Idle, Run, Jump.</b><br  />
- <b>Categorie :</b> Unitaire · Texture Atlas<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.<br  />
- <b>Resultat attendu :</b> playerFrameRegion place les images du personnage sous la grille de tuiles, dans l'ordre Idle, Run, Jump. </p>
-
-</div>
-</div>
 <a id="a58f195a1b25cb0e98fa805a30d682041" name="a58f195a1b25cb0e98fa805a30d682041"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58f195a1b25cb0e98fa805a30d682041">&#9670;&#160;</a></span>TEST() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a58f195a1b25cb0e98fa805a30d682041">&#9670;&#160;</a></span>TEST()</h2>
 
 <div class="memitem">
 <div class="memproto">

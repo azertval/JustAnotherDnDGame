@@ -18,13 +18,12 @@
 
 /**
  * @file HMI/Presentation/ScreenFlow.h
- * @brief Machine Ã  Ã©tats des Ã©crans de la fenÃªtre principale (`LOT-59` TACHE-01, `EX-GP-041`).
+ * @brief Machine Ã  Ã©tats des Ã©crans de la fenÃªtre principale (`EX-GP-041`).
  *
  * Logique **pure** (aucune dÃ©pendance Qt), testable hors instance d'application (`EX-NFR-010`) â
- * mÃªme patron que `HMI/Editor/PanelFocus.h`/`HMI/Interface/ActionCatalog.h`. `MainWindow` ne fait
- * que suivre cette table : les `showXxx()` deviennent des consommatrices de `dressingFor()`, et
- * toute navigation passe par `resolveTransition()` plutÃ´t que d'appeler une autre mÃ©thode
- * directement -- une transition non dÃ©clarÃ©e ici est **refusÃ©e**, jamais silencieusement acceptÃ©e.
+ * mÃªme patron que `HMI/Editor/PanelFocus.h`/`HMI/Interface/ActionCatalog.h`. `hmi::ScreenRouter`
+ * ne fait que suivre cette table : toute navigation passe par `resolveTransition()` -- une
+ * transition non dÃ©clarÃ©e ici est **refusÃ©e**, jamais silencieusement acceptÃ©e.
  */
 
 namespace hmi {
@@ -32,7 +31,6 @@ namespace hmi {
 /// Ãcran actuellement affichÃ© par la fenÃªtre principale.
 enum class ScreenId {
     Menu,
-    Editor,
     Game,
     Options,
     Pause,
@@ -53,7 +51,6 @@ enum class ScreenId {
 /// porte la diffÃ©rence, cf. plus bas.
 enum class ScreenEvent {
     OpenMenu,
-    OpenEditor,
     OpenGame,
     OpenOptions,
     CloseOptions,
@@ -72,30 +69,9 @@ enum class ScreenEvent {
     CloseArena,
 };
 
-/// Habillage de fenÃªtre associÃ© Ã  un Ã©cran : ce que chaque `showXxx()` rÃ©pÃ©tait Ã  la main
-/// (bascule du `QStackedWidget`, docks, barre de menu, barres d'outils, navigation manette). Le
-/// choix de la page du `QStackedWidget` reste dans `MainWindow` (pointeurs de widgets Qt, hors de
-/// portÃ©e d'une table pure) ; `Pause` ne bascule d'ailleurs aucune page -- c'est un recouvrement
-/// par-dessus `Game` (`overlayVisible`), pour que la scÃ¨ne reste dessinÃ©e derriÃ¨re.
-struct ScreenDressing {
-    bool docksVisible = false;
-    bool menuBarVisible = false;
-    bool toolBarVisible = false;
-    bool pixelToolBarVisible = false;
-    bool editingCommandsEnabled = false;
-    bool gamepadNavigationActive = false;
-    bool overlayVisible = false;
-
-    friend bool operator==(const ScreenDressing&amp;, const ScreenDressing&amp;) = default;
-};
-
-/// @return L'habillage de fenÃªtre attendu pour @p screen.
-[[nodiscard]] ScreenDressing dressingFor(ScreenId screen) noexcept;
-
 /// Ãtat complet de la machine. `optionsReturnTo` n'est pertinent que lorsque `screen ==
 /// ScreenId::Options` : l'Ã©cran vers lequel `CloseOptions` revient (`Menu` ou `Pause`, selon
-/// l'origine) -- portÃ© ici plutÃ´t que par une variable Â« Ã©cran prÃ©cÃ©dent Â» posÃ©e Ã  cÃ´tÃ©
-/// (`TACHE-01`, voir epic.md).
+/// l'origine) -- portÃ© ici plutÃ´t que par une variable Â« Ã©cran prÃ©cÃ©dent Â» posÃ©e Ã  cÃ´tÃ©.
 struct ScreenState {
     ScreenId screen = ScreenId::Menu;
     ScreenId optionsReturnTo = ScreenId::Menu;

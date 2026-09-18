@@ -93,7 +93,7 @@ $(function(){initNavTree('structhmi_1_1LevelStatusInfo.html','','structhmi_1_1Le
 </div><!--header-->
 <div class="contents">
 
-<p>État affiché pour un niveau en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>).  
+<p>État affiché pour une carte en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EditorStatus_8h_source.html">EditorStatus.h</a>&gt;</code></p>
@@ -101,37 +101,19 @@ $(function(){initNavTree('structhmi_1_1LevelStatusInfo.html','','structhmi_1_1Le
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a59ad1f344767a485525518e8c2c193ee" id="r_a59ad1f344767a485525518e8c2c193ee"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a59ad1f344767a485525518e8c2c193ee">name</a></td></tr>
-<tr class="memdesc:a59ad1f344767a485525518e8c2c193ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom du niveau ouvert.  <br /></td></tr>
+<tr class="memdesc:a59ad1f344767a485525518e8c2c193ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom de la carte ouverte.  <br /></td></tr>
 <tr class="memitem:a9cd9b8b2b1e60de42886994d2ffb1310" id="r_a9cd9b8b2b1e60de42886994d2ffb1310"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9cd9b8b2b1e60de42886994d2ffb1310">dirty</a> = false</td></tr>
 <tr class="memdesc:a9cd9b8b2b1e60de42886994d2ffb1310"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modifications non enregistrées.  <br /></td></tr>
 <tr class="memitem:a34fa72e0a84dd03ff663f512a161111d" id="r_a34fa72e0a84dd03ff663f512a161111d"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a>&#160;</td><td class="memItemRight"><a class="el" href="#a34fa72e0a84dd03ff663f512a161111d">tool</a> = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">EditorTool::Paint</a></td></tr>
 <tr class="memdesc:a34fa72e0a84dd03ff663f512a161111d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outil d'édition actif.  <br /></td></tr>
 <tr class="memitem:ae31b27e74cbacf3e320a2e9f5467c414" id="r_ae31b27e74cbacf3e320a2e9f5467c414"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae31b27e74cbacf3e320a2e9f5467c414">hoveredCell</a></td></tr>
 <tr class="memdesc:ae31b27e74cbacf3e320a2e9f5467c414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case survolée, si le curseur est dessus.  <br /></td></tr>
-<tr class="memitem:a952a592f66671fc3a835b8fd1158ea5b" id="r_a952a592f66671fc3a835b8fd1158ea5b"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a952a592f66671fc3a835b8fd1158ea5b">zoom</a> = 1.0f</td></tr>
+<tr class="memitem:a952a592f66671fc3a835b8fd1158ea5b" id="r_a952a592f66671fc3a835b8fd1158ea5b"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a952a592f66671fc3a835b8fd1158ea5b">zoom</a> = 1.0F</td></tr>
 <tr class="memdesc:a952a592f66671fc3a835b8fd1158ea5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de zoom courant.  <br /></td></tr>
-<tr class="memitem:a82fc1304ab3c156e416019ad6c75a4c2" id="r_a82fc1304ab3c156e416019ad6c75a4c2"><td class="memItemLeft"><a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6">core::CameraFramingMode</a>&#160;</td><td class="memItemRight"><a class="el" href="#a82fc1304ab3c156e416019ad6c75a4c2">cameraFraming</a> = <a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e">core::CameraFramingMode::WholeLevel</a></td></tr>
-<tr class="memdesc:a82fc1304ab3c156e416019ad6c75a4c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode de cadrage courant du niveau (<span class="tt">EX-EDIT-028</span>, LOT-64) : ce qui informe est permanent.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>État affiché pour un niveau en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>). </p>
+<div class="textblock"><p>État affiché pour une carte en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>). </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a82fc1304ab3c156e416019ad6c75a4c2" name="a82fc1304ab3c156e416019ad6c75a4c2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82fc1304ab3c156e416019ad6c75a4c2">&#9670;&#160;</a></span>cameraFraming</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6">core::CameraFramingMode</a> hmi::LevelStatusInfo::cameraFraming = <a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3080b25e8fedb44c9a9a494d7278490e">core::CameraFramingMode::WholeLevel</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Mode de cadrage courant du niveau (<span class="tt">EX-EDIT-028</span>, LOT-64) : ce qui informe est permanent. </p>
-
-</div>
-</div>
 <a id="a9cd9b8b2b1e60de42886994d2ffb1310" name="a9cd9b8b2b1e60de42886994d2ffb1310"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9cd9b8b2b1e60de42886994d2ffb1310">&#9670;&#160;</a></span>dirty</h2>
 
@@ -176,7 +158,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Nom du niveau ouvert. </p>
+<p>Nom de la carte ouverte. </p>
 
 </div>
 </div>
@@ -203,7 +185,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">float hmi::LevelStatusInfo::zoom = 1.0f</td>
+          <td class="memname">float hmi::LevelStatusInfo::zoom = 1.0F</td>
         </tr>
       </table>
 </div><div class="memdoc">

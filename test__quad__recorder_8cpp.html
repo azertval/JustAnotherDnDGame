@@ -93,14 +93,10 @@ $(function(){initNavTree('test__quad__recorder_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires de la composition du rendu et de sa capture sans GPU (LOT-40, EX-NFR-004, EX-REN-043, EX-REN-014).  
+<p>Tests unitaires de la composition du rendu et de sa capture sans GPU (EX-NFR-004, EX-REN-043, EX-REN-014).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="Sprite_8h_source.html">Core/Ecs/Components/Sprite.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Transform_8h_source.html">Core/Ecs/Components/Transform.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="World_8h_source.html">Core/Ecs/World.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ComposedScene_8h_source.html">HMI/Graphics/ComposedScene.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="MissingTexture_8h_source.html">HMI/Graphics/MissingTexture.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="QuadRecorder_8h_source.html">HMI/Graphics/QuadRecorder.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RenderLayer_8h_source.html">HMI/Graphics/RenderLayer.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -118,47 +114,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a958d154b5debce98c9f146ea1f91ada4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une texture d'un même calque n'est jamais scindée en deux groupes : une passe <span class="tt">begin/end</span> par groupe suffit.  <br /></td></tr>
 <tr class="memitem:aba904db2e5c02aa55e6d921ec3eeddf2" id="r_aba904db2e5c02aa55e6d921ec3eeddf2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aba904db2e5c02aa55e6d921ec3eeddf2">TEST</a> (QuadRecorderTest, RectanglesEtSegmentsMelanges)</td></tr>
 <tr class="memdesc:aba904db2e5c02aa55e6d921ec3eeddf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Segments épais et rectangles cohabitent dans la même liste ordonnée, chacun identifié par sa nature.  <br /></td></tr>
-<tr class="memitem:a087c04d6b963904484659306e3bd24ba" id="r_a087c04d6b963904484659306e3bd24ba"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a087c04d6b963904484659306e3bd24ba">TEST</a> (QuadRecorderTest, SceneDeReferenceNonRegression)</td></tr>
-<tr class="memdesc:a087c04d6b963904484659306e3bd24ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scène de référence : trois tuiles et un personnage produisent exactement les primitives du rendu d'avant le lot — mêmes positions, même ordre, une seule passe.  <br /></td></tr>
-<tr class="memitem:ab432962170774da950b4d099106319e9" id="r_ab432962170774da950b4d099106319e9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab432962170774da950b4d099106319e9">TEST</a> (QuadRecorderTest, CalqueParDefautSansTag)</td></tr>
-<tr class="memdesc:ab432962170774da950b4d099106319e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entité sans <span class="tt">RenderLayerTag</span> est composée sur le calque des tuiles : l'absence de composant est le défaut utile, pas un oubli.  <br /></td></tr>
 <tr class="memitem:ac3194807343f4de441734f164be179f1" id="r_ac3194807343f4de441734f164be179f1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac3194807343f4de441734f164be179f1">TEST</a> (QuadRecorderTest, OrdonnancementDeclare)</td></tr>
-<tr class="memdesc:ac3194807343f4de441734f164be179f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ordonnancement déclaré place le premier plan au-dessus du personnage et les aides d'édition au-dessus de tout (<span class="tt">EX-REN-014</span>, <span class="tt">EX-DEC-002</span>).  <br /></td></tr>
+<tr class="memdesc:ac3194807343f4de441734f164be179f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ordonnancement déclaré place l'interface au-dessus du personnage et les aides d'édition au-dessus de tout (<span class="tt">EX-REN-014</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires de la composition du rendu et de sa capture sans GPU (LOT-40, EX-NFR-004, EX-REN-043, EX-REN-014). </p>
+<div class="textblock"><p>Tests unitaires de la composition du rendu et de sa capture sans GPU (EX-NFR-004, EX-REN-043, EX-REN-014). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
-<a id="ab432962170774da950b4d099106319e9" name="ab432962170774da950b4d099106319e9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab432962170774da950b4d099106319e9">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">QuadRecorderTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CalqueParDefautSansTag</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Une entité sans <span class="tt">RenderLayerTag</span> est composée sur le calque des tuiles : l'absence de composant est le défaut utile, pas un oubli. </p>
-<p><b>Cas de test :</b> <b>Une entite sans RenderLayerTag est composee sur le calque des tuiles.</b><br  />
- <b>Categorie :</b> Unitaire · Quad Recorder<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Composer un monde d'une seule entite non taguee.<br  />
- <b>Resultat attendu :</b> La primitive porte le calque par defaut. </p>
-
-</div>
-</div>
 <a id="a3343657a12e2ddfde5bc040a50cd20af" name="a3343657a12e2ddfde5bc040a50cd20af"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3343657a12e2ddfde5bc040a50cd20af">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3343657a12e2ddfde5bc040a50cd20af">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -188,7 +151,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a958d154b5debce98c9f146ea1f91ada4" name="a958d154b5debce98c9f146ea1f91ada4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a958d154b5debce98c9f146ea1f91ada4">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a958d154b5debce98c9f146ea1f91ada4">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -218,7 +181,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac3194807343f4de441734f164be179f1" name="ac3194807343f4de441734f164be179f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3194807343f4de441734f164be179f1">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3194807343f4de441734f164be179f1">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -236,18 +199,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>L'ordonnancement déclaré place le premier plan au-dessus du personnage et les aides d'édition au-dessus de tout (<span class="tt">EX-REN-014</span>, <span class="tt">EX-DEC-002</span>). </p>
-<p><b>Cas de test :</b> <b>L'ordonnancement place le premier plan au-dessus du personnage.</b><br  />
+<p>L'ordonnancement déclaré place l'interface au-dessus du personnage et les aides d'édition au-dessus de tout (<span class="tt">EX-REN-014</span>). </p>
+<p><b>Cas de test :</b> <b>L'ordonnancement place l'interface au-dessus du personnage.</b><br  />
  <b>Categorie :</b> Unitaire · Quad Recorder<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
  1. Comparer les valeurs declarees de l'enumeration des calques.<br  />
- <b>Resultat attendu :</b> L'ordre fond -&gt; plans -&gt; ombres -&gt; tuiles -&gt; objets -&gt; personnage -&gt; premier plan -&gt; interface -&gt; edition est respecte. </p>
+ <b>Resultat attendu :</b> L'ordre fond -&gt; ombres -&gt; tuiles -&gt; objets -&gt; personnage -&gt; interface -&gt; edition est respecte. </p>
 
 </div>
 </div>
 <a id="aba904db2e5c02aa55e6d921ec3eeddf2" name="aba904db2e5c02aa55e6d921ec3eeddf2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba904db2e5c02aa55e6d921ec3eeddf2">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aba904db2e5c02aa55e6d921ec3eeddf2">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,39 +239,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a087c04d6b963904484659306e3bd24ba" name="a087c04d6b963904484659306e3bd24ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a087c04d6b963904484659306e3bd24ba">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">QuadRecorderTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">SceneDeReferenceNonRegression</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Scène de référence : trois tuiles et un personnage produisent exactement les primitives du rendu d'avant le lot — mêmes positions, même ordre, une seule passe. </p>
-<p><b>Cas de test :</b> <b>Non-regression : la scene de reference produit les primitives attendues.</b><br  />
- <b>Categorie :</b> Unitaire · Quad Recorder<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Peupler un monde de trois tuiles puis d'un personnage tague Player.<br  />
-2. Composer la scene et la trier.<br  />
-3. Capturer et inspecter la liste.<br  />
- <b>Resultat attendu :</b> Les trois tuiles sont soumises dans l'ordre de creation, puis le personnage, en une seule passe. </p>
-
-</div>
-</div>
 <a id="a1456b4f3489824b622d22afae8b6f1a7" name="a1456b4f3489824b622d22afae8b6f1a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1456b4f3489824b622d22afae8b6f1a7">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1456b4f3489824b622d22afae8b6f1a7">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -338,7 +270,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab3b33ea9c71ff42cf732ef0513a4ab69" name="ab3b33ea9c71ff42cf732ef0513a4ab69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3b33ea9c71ff42cf732ef0513a4ab69">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3b33ea9c71ff42cf732ef0513a4ab69">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -368,7 +300,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a71fc6be56b61fa6af81d104453b0883b" name="a71fc6be56b61fa6af81d104453b0883b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71fc6be56b61fa6af81d104453b0883b">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a71fc6be56b61fa6af81d104453b0883b">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

@@ -108,8 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a93c7658e7e6beddb7002f8b2223145d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Place le centre de la caméra.  <br /></td></tr>
 <tr class="memitem:a6f952a49e27d13539d5ab592233228a9" id="r_a6f952a49e27d13539d5ab592233228a9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6f952a49e27d13539d5ab592233228a9">setZoom</a> (float <a class="el" href="#a1397b9e7944fb98ea697948a5f2ca378">zoom</a>)</td></tr>
 <tr class="memdesc:a6f952a49e27d13539d5ab592233228a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Règle le facteur de zoom.  <br /></td></tr>
-<tr class="memitem:a29f0760394c25c40f612982bee45a8c3" id="r_a29f0760394c25c40f612982bee45a8c3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a29f0760394c25c40f612982bee45a8c3">setShakeOffsetPixels</a> (const <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> &amp;offsetPixels)</td></tr>
-<tr class="memdesc:a29f0760394c25c40f612982bee45a8c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage de secousse d'écran (<span class="tt">LOT-53</span> TACHE-03), en pixels <b>entiers</b>.  <br /></td></tr>
 <tr class="memitem:aed94ae02f2ca33bdda4d93f19ffa5cbb" id="r_aed94ae02f2ca33bdda4d93f19ffa5cbb"><td class="memItemLeft">const <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aed94ae02f2ca33bdda4d93f19ffa5cbb">center</a> () const noexcept</td></tr>
 <tr class="memitem:a1397b9e7944fb98ea697948a5f2ca378" id="r_a1397b9e7944fb98ea697948a5f2ca378"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a1397b9e7944fb98ea697948a5f2ca378">zoom</a> () const noexcept</td></tr>
 <tr class="memitem:ae4d184982026b7f61e3507c0d264321b" id="r_ae4d184982026b7f61e3507c0d264321b"><td class="memItemLeft">DirectX::XMFLOAT4X4&#160;</td><td class="memItemRight"><a class="el" href="#ae4d184982026b7f61e3507c0d264321b">projectionMatrix</a> () const</td></tr>
@@ -141,8 +139,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:adfbd3dc1e9d3a0840f9fed36c57d47a6" id="r_adfbd3dc1e9d3a0840f9fed36c57d47a6"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#adfbd3dc1e9d3a0840f9fed36c57d47a6">_viewportHeight</a></td></tr>
 <tr class="memitem:ab11e9713f8b1ccad4cb98a5c2807a410" id="r_ab11e9713f8b1ccad4cb98a5c2807a410"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab11e9713f8b1ccad4cb98a5c2807a410">_center</a> {}</td></tr>
 <tr class="memitem:a1d2b9e4773b2dfaa489d5f9a17d623cc" id="r_a1d2b9e4773b2dfaa489d5f9a17d623cc"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a1d2b9e4773b2dfaa489d5f9a17d623cc">_zoom</a> = 1.0f</td></tr>
-<tr class="memitem:a49a8ff94d359485096e740a83401a6e8" id="r_a49a8ff94d359485096e740a83401a6e8"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a49a8ff94d359485096e740a83401a6e8">_shakeOffsetPixels</a> {}</td></tr>
-<tr class="memdesc:a49a8ff94d359485096e740a83401a6e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage de secousse d'écran courant, en pixels (<span class="tt"><a class="el" href="#a29f0760394c25c40f612982bee45a8c3" title="Décalage de secousse d&#39;écran (LOT-53 TACHE-03), en pixels entiers.">setShakeOffsetPixels</a></span>) ; nul par défaut.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Caméra 2D orthographique : projette le monde vers l'écran pour le rendu. </p>
@@ -376,39 +372,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a29f0760394c25c40f612982bee45a8c3" name="a29f0760394c25c40f612982bee45a8c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29f0760394c25c40f612982bee45a8c3">&#9670;&#160;</a></span>setShakeOffsetPixels()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::Camera2D::setShakeOffsetPixels </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>offsetPixels</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Décalage de secousse d'écran (<span class="tt">LOT-53</span> TACHE-03), en pixels <b>entiers</b>. </p>
-<p>Appliqué uniquement à <span class="tt"><a class="el" href="#ae4d184982026b7f61e3507c0d264321b" title="Matrice de projection monde → clip, pour le vertex shader.">projectionMatrix()</a></span> (rendu) &ndash; jamais à <span class="tt"><a class="el" href="#ab11e9713f8b1ccad4cb98a5c2807a410">_center</a></span>, donc sans effet sur <span class="tt"><a class="el" href="#a2f872fc80538490f888f3eef52498dfb" title="Convertit une position monde en pixels écran.">worldToScreen</a></span>/<span class="tt"><a class="el" href="#aea18d5858adba920f73a1a252c3be08d" title="Convertit une position écran (pixels) en unités monde.">screenToWorld</a></span>/<span class="tt"><a class="el" href="#a471c631178660b8fcd3d9f8072ef6dfb" title="Rectangle du monde effectivement cadré par la caméra.">visibleBounds</a></span> : le culling et la logique de cadrage par salle (<span class="tt"><a class="el" href="classhmi_1_1GameSession.html#a626952821cb4fc9a0144a4bdf6b9eaaf">hmi::GameSession::updateCurrentRoom</a></span>, piloté par la position du personnage, pas par la caméra) restent structurellement insensibles à la secousse. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">offsetPixels</td><td>Décalage courant (<span class="tt"><a class="el" href="namespacehmi.html#a5c8d96a16939fabe2248617af0ffb90b" title="Décalage courant d&#39;une secousse d&#39;écran, en pixels entiers (EX-ARCH-022).">hmi::screenShakeOffset</a></span>), nul hors secousse. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="aa82aa311014992d26f26c47db0f3d89c" name="aa82aa311014992d26f26c47db0f3d89c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa82aa311014992d26f26c47db0f3d89c">&#9670;&#160;</a></span>setViewportSize()</h2>
 
@@ -572,30 +535,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a49a8ff94d359485096e740a83401a6e8" name="a49a8ff94d359485096e740a83401a6e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a49a8ff94d359485096e740a83401a6e8">&#9670;&#160;</a></span>_shakeOffsetPixels</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::Camera2D::_shakeOffsetPixels {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Décalage de secousse d'écran courant, en pixels (<span class="tt"><a class="el" href="#a29f0760394c25c40f612982bee45a8c3" title="Décalage de secousse d&#39;écran (LOT-53 TACHE-03), en pixels entiers.">setShakeOffsetPixels</a></span>) ; nul par défaut. </p>
 
 </div>
 </div>

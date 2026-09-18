@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Interaction.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Gameplay/Interaction.h"
+
+#include &lt;cmath&gt;
+#include &lt;limits&gt;
+
+#include "Core/Gameplay/WorldFlags.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
+
+namespace core {
+
+namespace {
+
+// Le centre d'une case, en unites monde ou une case vaut 1. Sert au departage : la distance se
+// mesure au CENTRE de la case visee, pas a son coin, sinon deux candidats symetriques autour du
+// centre departageraient sur un arrondi.
+<span style = "background-color:#dfd">[[nodiscard]] Vector2 centreDe(GridPosition cellule) {
+    return {static_cast&lt;float&gt;(cellule.column) + 0.5F, static_cast&lt;float&gt;(cellule.row) + 0.5F};
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] float distanceCarree(Vector2 gauche, Vector2 droite) {
+    const float dx = gauche.x - droite.x;
+    const float dy = gauche.y - droite.y;
+    return (dx * dx) + (dy * dy);
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">GridPosition aimedCell(GridPosition from, Vector2 facing) {
+    const float horizontal = std::abs(facing.x);
+    const float vertical = std::abs(facing.y);
+    if (horizontal &lt;= 0.0F &amp;&amp; vertical &lt;= 0.0F) {</span>
+        // Orientation nulle : le personnage ne vise rien. Rendre une voisine arbitraire ferait
+        // ouvrir un coffre qu'il ne regarde pas.
+<span style = "background-color:#dfd">        return from;</span>
+    }
+    // La direction DOMINANTE, jamais une diagonale : un personnage qui regarde a 30 degres vise la
+    // case de droite. Viser en diagonale rendrait la cible imprevisible a la manette analogique.
+    // A egalite exacte, l'horizontale l'emporte -- il faut un depart, et celui-la est ecrit.
+<span style = "background-color:#dfd">    if (horizontal &gt;= vertical) {
+        return {.column = from.column + (facing.x &gt;= 0.0F ? 1 : -1), .row = from.row};</span>
+    }
+<span style = "background-color:#dfd">    return {.column = from.column, .row = from.row + (facing.y &gt;= 0.0F ? 1 : -1)};
+}</span>
+
+InteractionTarget findInteractionTarget(GridPosition from, Vector2 facing, const TileMap&amp; map,
+                                        const std::vector&lt;InteractionCandidate&gt;&amp; candidates,
+<span style = "background-color:#dfd">                                        const WorldFlags&amp; flags) {
+    InteractionTarget resultat;
+    resultat.aimedCell = aimedCell(from, facing);
+    if (resultat.aimedCell == from) {</span>
+<span style = "background-color:#fdd">        return resultat;  // Orientation nulle.</span>
+    }
+<span style = "background-color:#dfd">    if (!map.inBounds(resultat.aimedCell.column, resultat.aimedCell.row)) {</span>
+<span style = "background-color:#fdd">        return resultat;</span>
+    }
+    // L'interaction ne traverse pas un mur. La case visee est adjacente, si bien qu'il n'y a rien
+    // entre elle et le personnage : c'est la case ELLE-MEME qui doit etre traversable.
+<span style = "background-color:#dfd">    if (map.isSolid(resultat.aimedCell.column, resultat.aimedCell.row)) {
+        return resultat;</span>
+    }
+
+<span style = "background-color:#dfd">    const Vector2 centre = centreDe(resultat.aimedCell);
+    float meilleure = std::numeric_limits&lt;float&gt;::max();
+    for (const InteractionCandidate&amp; candidat : candidates) {
+        if (candidat.interactable == nullptr) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (candidat.interactable-&gt;position != resultat.aimedCell) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (candidat.interactable-&gt;isConsumable() &amp;&amp;</span>
+            flags.isSet(candidat.interactable-&gt;consumedFlag)) {
+            // Un coffre vide n'est plus une cible : continuer a l'afficher comme telle promettrait
+            // au joueur quelque chose qui n'arrivera pas.
+<span style = "background-color:#dfd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const float distance = distanceCarree(centreDe(candidat.interactable-&gt;position), centre);</span>
+        // Strictement inferieur : a distance egale, le PREMIER l'emporte, donc le plus petit
+        // indice. Sans ce depart, deux candidats sur la meme case donneraient tantot l'un tantot
+        // l'autre selon l'ordre de parcours de l'ECS, qui n'est pas stable.
+<span style = "background-color:#dfd">        if (distance &lt; meilleure) {
+            meilleure = distance;
+            resultat.interactable = candidat.interactable;
+            resultat.index = candidat.index;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return resultat;
+}</span>
+
+<span style = "background-color:#dfd">InteractionOutcome interact(const InteractionTarget&amp; target, WorldFlags&amp; flags) {
+    InteractionOutcome resultat;
+    if (!target.found()) {
+        return resultat;</span>
+    }
+<span style = "background-color:#dfd">    resultat.happened = true;
+    resultat.type = target.interactable-&gt;type;
+    resultat.promptKey = target.interactable-&gt;promptKey;
+    if (target.interactable-&gt;isConsumable()) {</span>
+        // `set` dit si le fait etait NEUF. Demander d'abord puis ecrire ensuite laisserait entre
+        // les deux appels une fenetre ou un second appel donnerait le butin une seconde fois.
+<span style = "background-color:#dfd">        resultat.consumed = flags.set(target.interactable-&gt;consumedFlag);</span>
+    }
+<span style = "background-color:#dfd">    return resultat;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

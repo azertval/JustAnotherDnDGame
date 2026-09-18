@@ -14,19 +14,16 @@
 
 #include "Core/Levels/LevelLoader.h"
 
-#include &lt;cmath&gt;
 #include &lt;fstream&gt;
 #include &lt;set&gt;
 #include &lt;sstream&gt;
 #include &lt;string&gt;
-#include &lt;unordered_map&gt;
 #include &lt;utility&gt;
 #include &lt;vector&gt;
 
 #include &lt;nlohmann/json.hpp&gt;
 
 #include "Core/Data/JsonDocument.h"
-#include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/LevelsLog.h"
 #include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
@@ -38,106 +35,12 @@ namespace core {
 
 namespace {
 
-// Construit un rÃ©sultat d'Ã©chec avec un message et un code categorise (LOT-15, EX-EDIT-012).
+// Construit un rÃ©sultat d'Ã©chec avec un message et un code categorise (EX-EDIT-012).
 // Journalise systematiquement la raison ici (point unique) : chaque site d'appel n'a pas a le
 // refaire, et un echec de chargement reste tracable meme hors du contexte HMI (tests, outillage).
 <span style = "background-color:#dfd">[[nodiscard]] LevelLoadResult failure(std::string message, LevelValidationError code) {
     LEVELS_LOG_WARNING("Echec du chargement : " + message);
     return LevelLoadResult{.level = std::nullopt, .error = std::move(message), .errorCode = code};
-}</span>
-
-// Vrai pour les tuiles "dÃ©clencheur" liables Ã  une porte (interrupteur ou plaque de pression,
-// EX-GP-020/EX-GP-025) : les deux partagent la mÃªme rÃ¨gle d'identifiant.
-<span style = "background-color:#dfd">[[nodiscard]] bool isTriggerType(TileType type) {
-    return type == TileType::Switch || type == TileType::PressurePlate;
-}</span>
-
-// Une porte lue, avec la rÃ©fÃ©rence (opensWith) Ã  rÃ©soudre en position d'interrupteur.
-struct DoorLink {
-    GridPosition position;
-    std::string opensWith;
-};
-
-// Une porte verrouillÃ©e lue (EX-GP-023), mÃªme forme que DoorLink : la rÃ©fÃ©rence (opensWith) est
-// rÃ©solue en position de clÃ© plutÃ´t que d'interrupteur, mais elle est OBLIGATOIRE ici (contraire
-// a une porte classique, ou l'absence de mecanisme est une simple tuile) -- voir la resolution
-// dediee plus bas.
-struct LockedDoorLink {
-    GridPosition position;
-    std::string opensWith;
-};
-
-// Convertit le champ "depth" d'un plan ("behind"/"front") ; valeur par dÃ©faut (Behind) si absent
-// ou non reconnu -- mÃªme tolÃ©rance que parseDecorLayer, et symÃ©trique Ã 
-// planeDepthName (LevelWriter.cpp).
-<span style = "background-color:#dfd">[[nodiscard]] PlaneDepth parsePlaneDepth(const nlohmann::json&amp; plane) {
-    return plane.value("depth", std::string{"behind"}) == "front" ? PlaneDepth::Front</span>
-                                                                  : PlaneDepth::Behind;
-<span style = "background-color:#dfd">}</span>
-
-// Traite le tableau racine optionnel "planes" (EX-DEC-040, LOT-69) : absent = aucun plan
-// (rÃ©trocompatibilitÃ©, EX-LVL-005). L'ordre du tableau est prÃ©servÃ© tel quel (rang =
-// superposition, EX-DEC-040), et aucune existence de fichier n'est vÃ©rifiÃ©e (EX-NFR-011 : Core
-// ignore tout du dossier des plans) -- un plan introuvable se replie en damier cÃ´tÃ© HMI
-// (EX-NFR-040).
-//
-// Les garde-fous de coÃ»t (EX-DEC-044) sont appliquÃ©s ICI, au chargement, et non laissÃ©s Ã 
-// l'usage : rien n'empÃªcherait autrement seize plans Ã  densitÃ© native sur un grand niveau, soit
-// plusieurs centaines de mÃ©gaoctets de texture.
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parsePlanes(const nlohmann::json&amp; root, int width,
-<span style = "background-color:#dfd">                                                         int height, std::vector&lt;Plane&gt;&amp; planes) {
-    if (!root.contains("planes")) {
-        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    if (!root.at("planes").is_array()) {</span>
-<span style = "background-color:#fdd">        return failure("Le champ 'planes' doit etre une liste", LevelValidationError::ParseError);</span>
-    }
-<span style = "background-color:#dfd">    if (root.at("planes").size() &gt; MAX_PLANES_PER_LEVEL) {
-        return failure("Trop de plans : " + std::to_string(root.at("planes").size()) +</span>
-                           " (maximum " + std::to_string(MAX_PLANES_PER_LEVEL) + ")",
-                       LevelValidationError::ParseError);
-    }
-<span style = "background-color:#dfd">    for (const nlohmann::json&amp; planeJson : root.at("planes")) {
-        Plane plane;
-        plane.fileName = planeJson.at("file").get&lt;std::string&gt;();
-        if (plane.fileName.empty()) {</span>
-<span style = "background-color:#fdd">            return failure("Le champ 'file' d'un plan ne doit pas etre vide",</span>
-                           LevelValidationError::ParseError);
-        }
-<span style = "background-color:#dfd">        plane.pixelsPerUnit = planeJson.value("pixelsPerUnit", PLANE_NATIVE_PIXELS_PER_UNIT);
-        if (!isValidPlaneDensity(plane.pixelsPerUnit)) {
-            return failure("Densite de plan invalide : " + std::to_string(plane.pixelsPerUnit) +</span>
-                               " (attendu 4, 8 ou 16)",
-                           LevelValidationError::ParseError);
-        }
-        // Une densite valide peut quand meme depasser ce que le materiel accepte, sur un grand
-        // niveau : c'est la combinaison taille x densite qui compte, pas la densite seule.
-<span style = "background-color:#dfd">        if (static_cast&lt;long long&gt;(width) * plane.pixelsPerUnit &gt; MAX_PLANE_TEXTURE_EXTENT ||</span>
-            static_cast&lt;long long&gt;(height) * plane.pixelsPerUnit &gt; MAX_PLANE_TEXTURE_EXTENT) {
-<span style = "background-color:#dfd">            return failure("Plan '" + plane.fileName + "' trop grand : " + std::to_string(width) +</span>
-                               "x" + std::to_string(height) + " cases a " +
-                               std::to_string(plane.pixelsPerUnit) +
-                               " px/unite depasse la limite de texture (" +
-                               std::to_string(MAX_PLANE_TEXTURE_EXTENT) + " px)",
-                           LevelValidationError::ParseError);
-        }
-<span style = "background-color:#dfd">        plane.parallaxX = planeJson.value("parallaxX", 1.0F);</span>
-        // parallaxY retombe sur parallaxX plutot que sur 1.0 : un plan qui declare un seul facteur
-        // veut presque toujours le meme sur les deux axes, et l'ecrire deux fois serait du bruit.
-<span style = "background-color:#dfd">        plane.parallaxY = planeJson.value("parallaxY", plane.parallaxX);
-        if (!std::isfinite(plane.parallaxX) || !std::isfinite(plane.parallaxY)) {</span>
-<span style = "background-color:#fdd">            return failure("Facteur de parallaxe non fini pour le plan '" + plane.fileName + "'",</span>
-                           LevelValidationError::ParseError);
-        }
-<span style = "background-color:#dfd">        plane.opacity = planeJson.value("opacity", 1.0F);
-        if (!(plane.opacity &gt;= 0.0F) || !(plane.opacity &lt;= 1.0F)) {</span>
-<span style = "background-color:#fdd">            return failure("Opacite hors de [0,1] pour le plan '" + plane.fileName + "'",</span>
-                           LevelValidationError::ParseError);
-        }
-<span style = "background-color:#dfd">        plane.depth = parsePlaneDepth(planeJson);
-        planes.push_back(std::move(plane));
-    }
-    return std::nullopt;
 }</span>
 
 // --- Couches et entites (LOT-04, format version 3) -------------------------------------------
@@ -226,7 +129,7 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
         }
         // Une couche 'collision' DECLAREE est refusee : la collision d'une carte est son tableau
         // racine "tiles", et l'accepter ici creerait une seconde grille a tenir d'accord avec la
-        // premiere -- celle ou vivent l'entree, la sortie et les mecanismes. Mieux vaut un refus
+        // premiere -- celle ou vit l'entree. Mieux vaut un refus
         // nomme qu'une carte a demi jouable (EX-LVL-016, EX-NFR-040).
 <span style = "background-color:#dfd">        if (layer.kind == LayerKind::Collision) {
             return failure(</span>
@@ -276,19 +179,13 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
 struct TileParseState {
     TileMap&amp; map;
     GridPosition&amp; entry;
-    GridPosition&amp; exit;
     int&amp; entryCount;
-    int&amp; exitCount;
     std::set&lt;std::pair&lt;int, int&gt;&gt;&amp; occupiedPositions;
-    std::unordered_map&lt;std::string, GridPosition&gt;&amp; switchesById;
-    std::vector&lt;DoorLink&gt;&amp; doors;
-    std::unordered_map&lt;std::string, GridPosition&gt;&amp; keysById;
-    std::vector&lt;LockedDoorLink&gt;&amp; lockedDoors;
     std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides;
 };
 
 // Traite UNE entrÃ©e du tableau `tiles` : pose la tuile dans la grille et alimente les
-// accumulateurs de @p state (portes/dangers Ã  rÃ©soudre, dÃ©compte entrÃ©e/sortie...). Extrait de
+// accumulateurs de @p state (dÃ©compte des entrÃ©es, piÃ¨ces assignÃ©es). Extrait de
 // LevelLoader::loadFromString ci-dessous (seule sa taille, pas son comportement) : std::nullopt
 // en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer IMMÃDIATEMENT -- aucun Ã©tat partiel n'est jamais
 // renvoyÃ© avec succÃ¨s.
@@ -299,8 +196,8 @@ struct TileParseState {
     const std::string typeName = tile.at("type").get&lt;std::string&gt;();</span>
 
 <span style = "background-color:#dfd">    const std::optional&lt;TileType&gt; type = parseTileType(typeName);
-    if (!type) {</span>
-<span style = "background-color:#fdd">        return failure("Type de tuile inconnu : " + typeName,</span>
+    if (!type) {
+        return failure("Type de tuile inconnu : " + typeName,</span>
                        LevelValidationError::UnknownTileType);
     }
 <span style = "background-color:#dfd">    if (!state.map.inBounds(x, y)) {</span>
@@ -315,8 +212,8 @@ struct TileParseState {
     }
 <span style = "background-color:#dfd">    state.map.setTile(x, y, *type);</span>
 
-    // Texture assignee par instance (EX-EDIT-043), independante du type de tuile : pas de liste
-    // blanche (usage purement visuel, contrairement aux liens de mecanismes).
+    // Piece assignee a la case (EX-EDIT-043), independante du type de tuile : pas de liste
+    // blanche, l'usage est purement visuel.
 <span style = "background-color:#dfd">    if (tile.contains("texture")) {
         state.textureOverrides.push_back(</span>
             TileTextureOverride{.position = GridPosition{.column = x, .row = y},
@@ -325,112 +222,9 @@ struct TileParseState {
 
 <span style = "background-color:#dfd">    if (*type == TileType::Entry) {
         state.entry = GridPosition{.column = x, .row = y};
-        ++state.entryCount;
-    } else if (*type == TileType::Exit) {
-        state.exit = GridPosition{.column = x, .row = y};
-        ++state.exitCount;
-    } else if (isTriggerType(*type)) {</span>
-        // Interrupteur ou plaque de pression (EX-GP-020/EX-GP-025) : meme regle d'identifiant,
-        // partagee avec les portes via 'opensWith'.
-<span style = "background-color:#dfd">        const std::string id = tile.value("id", std::string{});
-        if (id.empty()) {</span>
-<span style = "background-color:#fdd">            return failure(</span>
-                "Declencheur sans 'id' en (" + std::to_string(x) + ", " + std::to_string(y) + ")",
-                LevelValidationError::MissingSwitchId);
-        }
-<span style = "background-color:#dfd">        if (!state.switchesById.emplace(id, GridPosition{.column = x, .row = y}).second) {</span>
-<span style = "background-color:#fdd">            return failure("Identifiant de declencheur en double : " + id,</span>
-                           LevelValidationError::DuplicateSwitchId);
-        }
-<span style = "background-color:#dfd">    } else if (*type == TileType::Door) {
-        state.doors.push_back(DoorLink{.position = GridPosition{.column = x, .row = y},</span>
-                                       .opensWith = tile.value("opensWith", std::string{})});
-<span style = "background-color:#dfd">    } else if (*type == TileType::Key) {</span>
-        // Meme regle d'identifiant que Switch/PressurePlate (EX-GP-023), mais espace de liaison
-        // distinct (keysById) : une cle doit obligatoirement etre liee, contrairement a un simple
-        // declencheur, verifie plus bas.
-<span style = "background-color:#dfd">        const std::string id = tile.value("id", std::string{});
-        if (id.empty()) {</span>
-<span style = "background-color:#fdd">            return failure(</span>
-                "Cle sans 'id' en (" + std::to_string(x) + ", " + std::to_string(y) + ")",
-                LevelValidationError::MissingSwitchId);
-        }
-<span style = "background-color:#dfd">        if (!state.keysById.emplace(id, GridPosition{.column = x, .row = y}).second) {</span>
-<span style = "background-color:#fdd">            return failure("Identifiant de cle en double : " + id,</span>
-                           LevelValidationError::DuplicateSwitchId);
-        }
-<span style = "background-color:#dfd">    } else if (*type == TileType::LockedDoor) {
-        state.lockedDoors.push_back(</span>
-            LockedDoorLink{.position = GridPosition{.column = x, .row = y},
-                           .opensWith = tile.value("opensWith", std::string{})});
+        ++state.entryCount;</span>
     }
 <span style = "background-color:#dfd">    return std::nullopt;
-}</span>
-
-// Le champ racine "decors" (LOT-49) est OBSOLETE depuis le LOT-69, qui remplace les
-// decors-sprites par des plans picturaux (EX-DEC-040). Un fichier qui le porte encore reste
-// VALIDE : on l'ignore en journalisant, jamais en echouant.
-//
-// Un champ obsolete n'est pas une donnee *invalide* -- EX-LVL-004 vise la validite -- et le
-// rejeter rendrait illisible tout niveau personnel anterieur, a rebours de l'invariant
-// EX-LVL-005. Convertir automatiquement un assemblage de sprites en surface peinte serait par
-// ailleurs impossible sans rasterisation : mieux vaut ignorer franchement que mentir sur le
-// resultat. LevelWriter ne le reemet jamais, donc charger puis enregistrer migre le fichier.
-<span style = "background-color:#dfd">void warnOnObsoleteDecors(const nlohmann::json&amp; root, const std::string&amp; levelName) {
-    if (root.contains("decors")) {
-        LEVELS_LOG_WARNING("Niveau '" + levelName +</span>
-                           "' : champ 'decors' obsolete depuis le LOT-69, ignore. "
-                           "Utiliser 'planes' (plans picturaux).");
-    }
-<span style = "background-color:#dfd">}</span>
-
-// Traite le champ racine optionnel "cameraFraming" (EX-LVL-006, LOT-64) : absent = aucun cadrage
-// declare (@p declared reste vide, la regle de repli s'appliquera). Valide immediatement contre
-// les dimensions du niveau (EX-LVL-004) -- le mode inconnu est distingue des autres erreurs de
-// validation ici, faute de pouvoir construire un CameraFramingConfig sans mode reconnu. Extrait de
-// LevelLoader::loadFromString : std::nullopt en cas de succes, sinon l'echec a renvoyer
-// immediatement.
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseCameraFraming(
-    const nlohmann::json&amp; root, int width, int height,
-<span style = "background-color:#dfd">    std::optional&lt;CameraFramingConfig&gt;&amp; declared) {
-    if (!root.contains("cameraFraming")) {
-        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    const nlohmann::json&amp; framingJson = root.at("cameraFraming");
-    const std::string modeName = framingJson.value("mode", std::string{});
-    const std::optional&lt;CameraFramingMode&gt; mode = parseCameraFramingMode(modeName);
-    if (!mode) {
-        return failure("cameraFraming.mode inconnu : " + modeName,</span>
-                       LevelValidationError::InvalidCameraFraming);
-    }
-<span style = "background-color:#dfd">    CameraFramingConfig config;
-    config.mode = *mode;
-    if (framingJson.contains("roomWidthTiles")) {
-        config.roomWidthTiles = framingJson.at("roomWidthTiles").get&lt;int&gt;();</span>
-    }
-<span style = "background-color:#dfd">    if (framingJson.contains("roomHeightTiles")) {
-        config.roomHeightTiles = framingJson.at("roomHeightTiles").get&lt;int&gt;();</span>
-    }
-    // Zones de camera dessinees a la main (mode PerRoom uniquement) : liste d'objets {x, y, width,
-    // height}, en cases. Absente = vecteur vide (decoupage automatique en grille inchange).
-<span style = "background-color:#dfd">    if (framingJson.contains("zones")) {
-        if (!framingJson.at("zones").is_array()) {</span>
-<span style = "background-color:#fdd">            return failure("cameraFraming.zones doit etre une liste",</span>
-                           LevelValidationError::InvalidCameraFraming);
-        }
-<span style = "background-color:#dfd">        for (const nlohmann::json&amp; zoneJson : framingJson.at("zones")) {
-            config.zones.push_back(CameraZone{.x = zoneJson.value("x", 0),</span>
-                                              .y = zoneJson.value("y", 0),
-                                              .width = zoneJson.value("width", 1),
-                                              .height = zoneJson.value("height", 1)});
-<span style = "background-color:#dfd">        }</span>
-    }
-<span style = "background-color:#dfd">    if (const std::optional&lt;std::string&gt; error =</span>
-            validateCameraFramingConfig(config, width, height)) {
-<span style = "background-color:#dfd">        return failure(*error, LevelValidationError::InvalidCameraFraming);
-    }
-    declared = config;
-    return std::nullopt;
 }</span>
 
 // Valide les champs d'en-tÃªte obligatoires (width/height/tiles, dimensions strictement positives,
@@ -455,7 +249,7 @@ struct TileParseState {
     }
 
     // Version du format (EX-LVL-005) : absente = version initiale (0), sans erreur ni
-    // avertissement (rÃ©trocompatibilitÃ© des niveaux antÃ©rieurs Ã  ce champ, LOT-44).
+    // avertissement (rÃ©trocompatibilitÃ© des niveaux antÃ©rieurs Ã  ce champ).
 <span style = "background-color:#dfd">    const int version = root.value("version", 0);
     if (version &gt; LEVEL_FORMAT_VERSION) {
         return failure("Version de format non geree : " + std::to_string(version) +</span>
@@ -465,84 +259,18 @@ struct TileParseState {
 <span style = "background-color:#dfd">    return std::nullopt;
 }</span>
 
-// Exactement une entrÃ©e et une sortie (EX-LVL-004). Extrait de LevelLoader::loadFromString :
-// std::nullopt en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer immÃ©diatement.
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; validateEntryExitCounts(int entryCount,
-<span style = "background-color:#dfd">                                                                     int exitCount) {
-    if (entryCount == 0) {</span>
-<span style = "background-color:#fdd">        return failure("Niveau sans entree (aucune tuile 'entry')",</span>
+// Exactement une entrÃ©e (EX-LVL-004). Extrait de LevelLoader::loadFromString : std::nullopt en cas
+// de succÃ¨s, sinon l'Ã©chec Ã  renvoyer immÃ©diatement.
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;LevelLoadResult&gt; validateEntryCount(int entryCount) {
+    if (entryCount == 0) {
+        return failure("Carte sans entree (aucune tuile 'entry')",</span>
                        LevelValidationError::InvalidEntryCount);
     }
-<span style = "background-color:#dfd">    if (entryCount &gt; 1) {</span>
-<span style = "background-color:#fdd">        return failure("Plusieurs entrees dans le niveau (une seule attendue)",</span>
+<span style = "background-color:#dfd">    if (entryCount &gt; 1) {
+        return failure("Plusieurs entrees dans la carte (une seule attendue)",</span>
                        LevelValidationError::InvalidEntryCount);
-    }
-<span style = "background-color:#dfd">    if (exitCount == 0) {
-        return failure("Niveau sans sortie (aucune tuile 'exit')",</span>
-                       LevelValidationError::InvalidExitCount);
-    }
-<span style = "background-color:#dfd">    if (exitCount &gt; 1) {</span>
-<span style = "background-color:#fdd">        return failure("Plusieurs sorties dans le niveau (une seule attendue)",</span>
-                       LevelValidationError::InvalidExitCount);
     }
 <span style = "background-color:#dfd">    return std::nullopt;
-}</span>
-
-// RÃ©sout les liaisons interrupteurâporte par identifiant. Une porte sans 'opensWith'
-// est une simple tuile (pas de mÃ©canisme).
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; resolveDoorMechanisms(
-    const std::vector&lt;DoorLink&gt;&amp; doors,
-    const std::unordered_map&lt;std::string, GridPosition&gt;&amp; switchesById,
-<span style = "background-color:#dfd">    std::vector&lt;Mechanism&gt;&amp; mechanisms) {
-    for (const DoorLink&amp; door : doors) {
-        if (door.opensWith.empty()) {
-            continue;</span>
-        }
-<span style = "background-color:#dfd">        const auto found = switchesById.find(door.opensWith);
-        if (found == switchesById.end()) {</span>
-<span style = "background-color:#fdd">            return failure("Porte liee a un interrupteur inexistant : " + door.opensWith,</span>
-                           LevelValidationError::UnresolvedMechanism);
-        }
-<span style = "background-color:#dfd">        mechanisms.push_back(</span>
-            Mechanism{.switchPosition = found-&gt;second, .doorPosition = door.position});
-<span style = "background-color:#dfd">    }
-    return std::nullopt;
-}</span>
-
-// RÃ©sout les liaisons clÃ©âporte verrouillÃ©e (EX-GP-023), append Ã  la MÃME liste que
-// les portes classiques (aucune nouvelle notion de liaison) : `MechanismController` distingue leur
-// comportement au type de la tuile dÃ©clencheur, pas Ã  leur provenance dans ce vecteur.
-// Contrairement Ã  une porte classique, le lien est OBLIGATOIRE dans les deux sens : une
-// porte verrouillÃ©e sans 'opensWith' (ou vers une clÃ© inexistante) et une clÃ© qu'aucune
-// porte ne referme sont toutes deux des niveaux invalides.
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; resolveLockedDoorMechanisms(
-    const std::vector&lt;LockedDoorLink&gt;&amp; lockedDoors,
-    const std::unordered_map&lt;std::string, GridPosition&gt;&amp; keysById,
-<span style = "background-color:#dfd">    std::vector&lt;Mechanism&gt;&amp; mechanisms) {
-    std::set&lt;std::string&gt; usedKeyIds;
-    for (const LockedDoorLink&amp; lockedDoor : lockedDoors) {
-        if (lockedDoor.opensWith.empty()) {</span>
-<span style = "background-color:#fdd">            return failure("Porte verrouillee sans cle liee en (" +</span>
-                               std::to_string(lockedDoor.position.column) + ", " +
-                               std::to_string(lockedDoor.position.row) + ")",
-                           LevelValidationError::UnresolvedMechanism);
-        }
-<span style = "background-color:#dfd">        const auto found = keysById.find(lockedDoor.opensWith);
-        if (found == keysById.end()) {</span>
-<span style = "background-color:#fdd">            return failure("Porte verrouillee liee a une cle inexistante : " + lockedDoor.opensWith,</span>
-                           LevelValidationError::UnresolvedMechanism);
-        }
-<span style = "background-color:#dfd">        usedKeyIds.insert(lockedDoor.opensWith);
-        mechanisms.push_back(</span>
-            Mechanism{.switchPosition = found-&gt;second, .doorPosition = lockedDoor.position});
-<span style = "background-color:#dfd">    }
-    for (const auto&amp; keyEntry : keysById) {
-        if (!usedKeyIds.contains(keyEntry.first)) {</span>
-<span style = "background-color:#fdd">            return failure("Cle sans porte verrouillee liee : " + keyEntry.first,</span>
-                           LevelValidationError::UnresolvedMechanism);
-        }
-<span style = "background-color:#dfd">    }
-    return std::nullopt;
 }</span>
 
 }  // namespace
@@ -563,97 +291,37 @@ struct TileParseState {
             return std::move(*headerError);
         }</span>
 
-<span style = "background-color:#dfd">        std::string name = root.value("name", std::string{});</span>
-        // Asset de fond et jeu de skins du niveau (EX-REN-044/EX-EDIT-024) : chaines optionnelles,
-        // Core ignore tout du dossier d'assets et du mode de rendu (EX-NFR-011).
-<span style = "background-color:#dfd">        std::optional&lt;std::string&gt; background;
-        if (root.contains("background")) {
-            background = root.at("background").get&lt;std::string&gt;();</span>
-        }
-<span style = "background-color:#dfd">        std::optional&lt;std::string&gt; skinSet;
-        if (root.contains("skinSet")) {
-            skinSet = root.at("skinSet").get&lt;std::string&gt;();</span>
-        }
-        // Cadrage de camera (EX-LVL-006, LOT-64) : declare (valide contre width/height) ou absent
-        // -- resolu plus bas, une fois toutes les tuiles lues (la regle de repli ne depend que des
-        // dimensions, deja connues ici, mais resoudre au meme endroit que la construction du
-        // niveau garde la regle a un seul site d'appel).
-<span style = "background-color:#dfd">        std::optional&lt;CameraFramingConfig&gt; declaredCameraFraming;
-        if (std::optional&lt;LevelLoadResult&gt; framingError =</span>
-                parseCameraFraming(root, width, height, declaredCameraFraming)) {
-<span style = "background-color:#dfd">            return std::move(*framingError);
-        }
+<span style = "background-color:#dfd">        std::string name = root.value("name", std::string{});
         TileMap map(width, height);</span>
 
         GridPosition entry{};
-        GridPosition exit{};
 <span style = "background-color:#dfd">        int entryCount = 0;
-        int exitCount = 0;
         std::set&lt;std::pair&lt;int, int&gt;&gt; occupiedPositions;
-        std::unordered_map&lt;std::string, GridPosition&gt; switchesById;
-        std::vector&lt;DoorLink&gt; doors;
-        std::unordered_map&lt;std::string, GridPosition&gt; keysById;
-        std::vector&lt;LockedDoorLink&gt; lockedDoors;
         std::vector&lt;TileTextureOverride&gt; textureOverrides;</span>
 
         // Chaque objet de 'tiles' place une tuile dans la grille.
 <span style = "background-color:#dfd">        TileParseState tileState{.map = map,</span>
                                  .entry = entry,
-                                 .exit = exit,
                                  .entryCount = entryCount,
-                                 .exitCount = exitCount,
                                  .occupiedPositions = occupiedPositions,
-                                 .switchesById = switchesById,
-                                 .doors = doors,
-                                 .keysById = keysById,
-                                 .lockedDoors = lockedDoors,
                                  .textureOverrides = textureOverrides};
 <span style = "background-color:#dfd">        for (const nlohmann::json&amp; tile : root.at("tiles")) {
             std::optional&lt;LevelLoadResult&gt; tileError = parseTile(tile, tileState);
-            if (tileError) {</span>
-<span style = "background-color:#fdd">                return std::move(*tileError);</span>
+            if (tileError) {
+                return std::move(*tileError);</span>
             }
 <span style = "background-color:#dfd">        }</span>
 
-<span style = "background-color:#dfd">        if (std::optional&lt;LevelLoadResult&gt; countError =</span>
-                validateEntryExitCounts(entryCount, exitCount)) {
-<span style = "background-color:#dfd">            return std::move(*countError);
+<span style = "background-color:#dfd">        if (std::optional&lt;LevelLoadResult&gt; countError = validateEntryCount(entryCount)) {
+            return std::move(*countError);
         }</span>
 
-<span style = "background-color:#dfd">        std::vector&lt;Mechanism&gt; mechanisms;
-        if (std::optional&lt;LevelLoadResult&gt; doorError =</span>
-                resolveDoorMechanisms(doors, switchesById, mechanisms)) {
-<span style = "background-color:#fdd">            return std::move(*doorError);</span>
-<span style = "background-color:#dfd">        }
-        if (std::optional&lt;LevelLoadResult&gt; lockedDoorError =</span>
-                resolveLockedDoorMechanisms(lockedDoors, keysById, mechanisms)) {
-<span style = "background-color:#fdd">            return std::move(*lockedDoorError);</span>
-<span style = "background-color:#dfd">        }</span>
-
-<span style = "background-color:#dfd">        warnOnObsoleteDecors(root, name);</span>
-
-<span style = "background-color:#dfd">        std::vector&lt;Plane&gt; planes;
-        if (std::optional&lt;LevelLoadResult&gt; planesError = parsePlanes(root, width, height, planes)) {
-            return std::move(*planesError);
-        }</span>
-        // Drapeau de parallaxe (EX-DEC-043) : vrai par defaut, comme le veut la convention Â« le
-        // defaut n'est jamais ecrit Â» -- un niveau anterieur au LOT-69 se comporte donc comme un
-        // niveau qui l'active, ce qui est sans effet tant qu'il n'a aucun plan.
-<span style = "background-color:#dfd">        const bool parallaxEnabled = root.value("parallax", true);</span>
-
-        // Regle de repli (EX-LVL-006) appliquee ici, au point unique de construction du niveau :
-        // un champ absent reproduit exactement le comportement historique (core::CameraFraming.h).
-<span style = "background-color:#dfd">        const CameraFramingConfig cameraFraming =</span>
-            resolveCameraFraming(declaredCameraFraming, width, height);
-
-<span style = "background-color:#dfd">        LEVELS_LOG_TRACE("Niveau charge : '" + name + "' (" + std::to_string(width) + "x" +</span>
-                         std::to_string(height) + ", " + std::to_string(mechanisms.size()) +
-                         " mecanisme(s))");
+<span style = "background-color:#dfd">        LEVELS_LOG_TRACE("Carte chargee : '" + name + "' (" + std::to_string(width) + "x" +</span>
+                         std::to_string(height) + ")");
         // Couches et entites (LOT-04). Le tableau racine "layers" ne porte que les couches
         // VISIBLES (sol, decor) : la grille de collision, elle, EST le tableau racine "tiles" --
-        // celui qui porte deja l'entree, la sortie et les liaisons de mecanismes, et dont
-        // dependent le balayage AABB puis, au LOT-19, la grille de combat tactique. Une seule
-        // source de verite, jamais deux grilles a tenir d'accord.
+        // celui qui porte deja l'entree, et dont dependent l'exploration et la grille de combat
+        // tactique. Une seule source de verite, jamais deux grilles a tenir d'accord.
 <span style = "background-color:#dfd">        std::vector&lt;TileLayer&gt; declaredLayers;
         if (std::optional&lt;LevelLoadResult&gt; layersError =</span>
                 parseLayers(root, width, height, declaredLayers)) {
@@ -668,8 +336,7 @@ struct TileParseState {
         // La grille racine est PROMUE en couche de tete, pour que tout consommateur boucle sur
         // `layers()` sans cas particulier (EX-LVL-016). Son role dit ce qu'elle vaut : `Collision`
         // quand la carte declare des couches visibles a cote, `Legacy` quand elle n'en declare
-        // aucune -- une grille plate de version 2, qui vaut alors a la fois decor et collision
-        // comme dans le format d'origine. Aucun fichier existant n'a besoin d'etre touche.
+        // aucune -- une grille plate de version 2, qui vaut alors a la fois decor et collision.
 <span style = "background-color:#dfd">        std::vector&lt;TileLayer&gt; layers;
         layers.reserve(declaredLayers.size() + 1);
         layers.push_back(</span>
@@ -687,14 +354,7 @@ struct TileParseState {
                                      .layers = std::move(layers),
                                      .entities = std::move(entities),
                                      .entry = entry,
-                                     .exit = exit,
-                                     .mechanisms = std::move(mechanisms),
-                                     .background = std::move(background),
-                                     .skinSet = std::move(skinSet),
-                                     .textureOverrides = std::move(textureOverrides),
-                                     .cameraFraming = cameraFraming,
-                                     .planes = std::move(planes),
-                                     .parallaxEnabled = parallaxEnabled}),
+                                     .textureOverrides = std::move(textureOverrides)}),
             .error = {}};
 <span style = "background-color:#fdd">    } catch (const nlohmann::json::exception&amp; error) {
         return failure(std::string("JSON invalide : ") + error.what(),</span>

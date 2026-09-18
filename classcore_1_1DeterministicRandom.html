@@ -114,7 +114,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Générateur pseudo-aléatoire léger (SplitMix64), à graine explicite. </p>
-<p>Aucune dépendance à <span class="tt">&lt;random&gt;</span> ni à l'horloge système : deux instances construites avec la même graine produisent exactement la même suite de valeurs (<span class="tt">EX-NFR-002</span>). Utilisé par <span class="tt"><a class="el" href="classcore_1_1ParticleSystem.html" title="Émet et simule des particules visuelles au pas fixe, strictement déterministe.">core::ParticleSystem</a></span> (<span class="tt">LOT-53</span>), où tout tirage doit rester reproductible d'une exécution à l'autre pour une même séquence d'entrées. </p>
+<p>Aucune dépendance à <span class="tt">&lt;random&gt;</span> ni à l'horloge système : deux instances construites avec la même graine produisent exactement la même suite de valeurs (<span class="tt">EX-NFR-002</span>). Utilisé par <span class="tt">core::ParticleSystem</span>, où tout tirage doit rester reproductible d'une exécution à l'autre pour une même séquence d'entrées. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af59424e8343daa70e5c574d890982904" name="af59424e8343daa70e5c574d890982904"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af59424e8343daa70e5c574d890982904">&#9670;&#160;</a></span>DeterministicRandom()</h2>

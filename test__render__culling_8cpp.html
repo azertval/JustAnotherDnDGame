@@ -93,16 +93,12 @@ $(function(){initNavTree('test__render__culling_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du culling par cadrage caméra (LOT-40, EX-NFR-005, EX-REN-015).  
+<p>Tests unitaires du culling par cadrage caméra (EX-NFR-005).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
-<code>#include &quot;<a class="el" href="Sprite_8h_source.html">Core/Ecs/Components/Sprite.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Transform_8h_source.html">Core/Ecs/Components/Transform.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="World_8h_source.html">Core/Ecs/World.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Camera2D_8h_source.html">HMI/Graphics/Camera2D.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ComposedScene_8h_source.html">HMI/Graphics/ComposedScene.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="QuadRecorder_8h_source.html">HMI/Graphics/QuadRecorder.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="RoomGrid_8h_source.html">HMI/Graphics/RoomGrid.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -115,25 +111,23 @@ Functions</h2></td></tr>
 <tr class="memitem:a2a91c12066b3557925410ace82eaee4d" id="r_a2a91c12066b3557925410ace82eaee4d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2a91c12066b3557925410ace82eaee4d">TEST</a> (RenderCullingTest, SegmentHorizontalConserve)</td></tr>
 <tr class="memdesc:a2a91c12066b3557925410ace82eaee4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un segment horizontal (boîte d'aire nulle sans son épaisseur) traversant le cadrage est conservé : la boîte englobante tient compte de l'épaisseur.  <br /></td></tr>
 <tr class="memitem:aaacc71351b4660d3c60329d7a702a68d" id="r_aaacc71351b4660d3c60329d7a702a68d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaacc71351b4660d3c60329d7a702a68d">TEST</a> (RenderCullingTest, PrimitiveEtireeConservee)</td></tr>
-<tr class="memdesc:aaacc71351b4660d3c60329d7a702a68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La boîte englobante réelle est testée, pas la position d'ancrage : une primitive très étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau, LOT-44).  <br /></td></tr>
+<tr class="memdesc:aaacc71351b4660d3c60329d7a702a68d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La boîte englobante réelle est testée, pas la position d'ancrage : une primitive très étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau).  <br /></td></tr>
 <tr class="memitem:ab31e5b95600ecaef27aa6abc04949e37" id="r_ab31e5b95600ecaef27aa6abc04949e37"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab31e5b95600ecaef27aa6abc04949e37">TEST</a> (RenderCullingTest, SpriteQuadBoundsSansRotationEstLeRectangleBrut)</td></tr>
 <tr class="memdesc:ab31e5b95600ecaef27aa6abc04949e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un quad texturé sans rotation a la même boîte englobante que le rectangle brut (<span class="tt">x</span>, <span class="tt">y</span>, <span class="tt">width</span>, <span class="tt">height</span>) : la rotation nulle ne coûte rien et ne change rien.  <br /></td></tr>
 <tr class="memitem:aa5c4fe1b4a60b2aafd74c44d2074d39c" id="r_aa5c4fe1b4a60b2aafd74c44d2074d39c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa5c4fe1b4a60b2aafd74c44d2074d39c">TEST</a> (RenderCullingTest, SpriteQuadBoundsA90DegresPermuteLargeurEtHauteur)</td></tr>
-<tr class="memdesc:aa5c4fe1b4a60b2aafd74c44d2074d39c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un quad texturé tourné d'un quart de tour (90°) a une boîte englobante correspondant à ses dimensions permutées (large devient haut), centrée au même endroit que le rectangle non tourné — le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut (<span class="tt">LOT-50</span> TACHE-02).  <br /></td></tr>
+<tr class="memdesc:aa5c4fe1b4a60b2aafd74c44d2074d39c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un quad texturé tourné d'un quart de tour (90°) a une boîte englobante correspondant à ses dimensions permutées (large devient haut), centrée au même endroit que le rectangle non tourné — le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut.  <br /></td></tr>
 <tr class="memitem:a25faca434036471af1b2dbe2a8fa5914" id="r_a25faca434036471af1b2dbe2a8fa5914"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a25faca434036471af1b2dbe2a8fa5914">TEST</a> (RenderCullingTest, QuadTourneChevauchantLeCadrageResteSoumis)</td></tr>
 <tr class="memdesc:a25faca434036471af1b2dbe2a8fa5914"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un décor tourné près du bord du cadrage, dont le rectangle non tourné serait hors champ mais dont la boîte englobante réelle (élargie par la rotation) chevauche le cadrage, reste soumis : un culling naïf sur (x, y, width, height) l'écarterait à tort.  <br /></td></tr>
-<tr class="memitem:ae1ab5009664ae9c715adcc1757e16b3f" id="r_ae1ab5009664ae9c715adcc1757e16b3f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae1ab5009664ae9c715adcc1757e16b3f">TEST</a> (RenderCullingTest, VolumeProportionnelALaSalleVisible)</td></tr>
-<tr class="memdesc:ae1ab5009664ae9c715adcc1757e16b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sur un niveau de trois salles, le nombre de primitives composées dépend du contenu de la salle visible, pas de la taille du niveau.  <br /></td></tr>
 <tr class="memitem:a905d829d896fe3e54ab85814a65b4210" id="r_a905d829d896fe3e54ab85814a65b4210"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a905d829d896fe3e54ab85814a65b4210">TEST</a> (RenderCullingTest, MargeAppliqueeSurLesQuatreCotes)</td></tr>
 <tr class="memdesc:a905d829d896fe3e54ab85814a65b4210"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage utilisé pour le culling est le cadrage visible élargi de la marge, sur les quatre côtés.  <br /></td></tr>
 <tr class="memitem:a7bf3dedbb41982ad827408df07a277e8" id="r_a7bf3dedbb41982ad827408df07a277e8"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7bf3dedbb41982ad827408df07a277e8">TEST</a> (RenderCullingTest, CadrageDeLaCamera)</td></tr>
 <tr class="memdesc:a7bf3dedbb41982ad827408df07a277e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">La caméra fournit le rectangle monde qu'elle cadre, base du culling.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du culling par cadrage caméra (LOT-40, EX-NFR-005, EX-REN-015). </p>
+<div class="textblock"><p>Tests unitaires du culling par cadrage caméra (EX-NFR-005). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ab239d7c0f47dd0375f6c9d9924b6c6f0" name="ab239d7c0f47dd0375f6c9d9924b6c6f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab239d7c0f47dd0375f6c9d9924b6c6f0">&#9670;&#160;</a></span>TEST() <span class="overload">[1/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab239d7c0f47dd0375f6c9d9924b6c6f0">&#9670;&#160;</a></span>TEST() <span class="overload">[1/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -163,7 +157,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7bf3dedbb41982ad827408df07a277e8" name="a7bf3dedbb41982ad827408df07a277e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7bf3dedbb41982ad827408df07a277e8">&#9670;&#160;</a></span>TEST() <span class="overload">[2/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bf3dedbb41982ad827408df07a277e8">&#9670;&#160;</a></span>TEST() <span class="overload">[2/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -193,7 +187,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ae7212d68106eca007d588e49dd831828" name="ae7212d68106eca007d588e49dd831828"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae7212d68106eca007d588e49dd831828">&#9670;&#160;</a></span>TEST() <span class="overload">[3/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7212d68106eca007d588e49dd831828">&#9670;&#160;</a></span>TEST() <span class="overload">[3/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +217,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a905d829d896fe3e54ab85814a65b4210" name="a905d829d896fe3e54ab85814a65b4210"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a905d829d896fe3e54ab85814a65b4210">&#9670;&#160;</a></span>TEST() <span class="overload">[4/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a905d829d896fe3e54ab85814a65b4210">&#9670;&#160;</a></span>TEST() <span class="overload">[4/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +247,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aaacc71351b4660d3c60329d7a702a68d" name="aaacc71351b4660d3c60329d7a702a68d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaacc71351b4660d3c60329d7a702a68d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaacc71351b4660d3c60329d7a702a68d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,7 +265,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>La boîte englobante réelle est testée, pas la position d'ancrage : une primitive très étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau, LOT-44). </p>
+<p>La boîte englobante réelle est testée, pas la position d'ancrage : une primitive très étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau). </p>
 <p><b>Cas de test :</b> <b>Une primitive etiree dont l'ancrage est hors cadrage reste soumise.</b><br  />
  <b>Categorie :</b> Unitaire · Render Culling<br  />
  <b>Criticite :</b> Critique<br  />
@@ -283,7 +277,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a25faca434036471af1b2dbe2a8fa5914" name="a25faca434036471af1b2dbe2a8fa5914"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25faca434036471af1b2dbe2a8fa5914">&#9670;&#160;</a></span>TEST() <span class="overload">[6/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a25faca434036471af1b2dbe2a8fa5914">&#9670;&#160;</a></span>TEST() <span class="overload">[6/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,7 +307,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a1d32e33214027568cb6ad22f3c335841" name="a1d32e33214027568cb6ad22f3c335841"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d32e33214027568cb6ad22f3c335841">&#9670;&#160;</a></span>TEST() <span class="overload">[7/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d32e33214027568cb6ad22f3c335841">&#9670;&#160;</a></span>TEST() <span class="overload">[7/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,7 +336,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a2a91c12066b3557925410ace82eaee4d" name="a2a91c12066b3557925410ace82eaee4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a91c12066b3557925410ace82eaee4d">&#9670;&#160;</a></span>TEST() <span class="overload">[8/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a91c12066b3557925410ace82eaee4d">&#9670;&#160;</a></span>TEST() <span class="overload">[8/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -372,7 +366,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aa5c4fe1b4a60b2aafd74c44d2074d39c" name="aa5c4fe1b4a60b2aafd74c44d2074d39c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa5c4fe1b4a60b2aafd74c44d2074d39c">&#9670;&#160;</a></span>TEST() <span class="overload">[9/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5c4fe1b4a60b2aafd74c44d2074d39c">&#9670;&#160;</a></span>TEST() <span class="overload">[9/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -390,7 +384,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Un quad texturé tourné d'un quart de tour (90°) a une boîte englobante correspondant à ses dimensions permutées (large devient haut), centrée au même endroit que le rectangle non tourné — le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut (<span class="tt">LOT-50</span> TACHE-02). </p>
+<p>Un quad texturé tourné d'un quart de tour (90°) a une boîte englobante correspondant à ses dimensions permutées (large devient haut), centrée au même endroit que le rectangle non tourné — le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut. </p>
 <p><b>Cas de test :</b> <b>spriteQuadBounds a 90 degres permute largeur et hauteur.</b><br  />
  <b>Categorie :</b> Unitaire · Render Culling<br  />
  <b>Criticite :</b> Critique<br  />
@@ -401,7 +395,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab31e5b95600ecaef27aa6abc04949e37" name="ab31e5b95600ecaef27aa6abc04949e37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab31e5b95600ecaef27aa6abc04949e37">&#9670;&#160;</a></span>TEST() <span class="overload">[10/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab31e5b95600ecaef27aa6abc04949e37">&#9670;&#160;</a></span>TEST() <span class="overload">[10/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -426,37 +420,6 @@ Functions</h2></td></tr>
  <b>Etapes :</b><br  />
  1. Calculer la boite englobante d'un quad de rotation nulle.<br  />
  <b>Resultat attendu :</b> La boite correspond exactement a (x, y, width, height). </p>
-
-</div>
-</div>
-<a id="ae1ab5009664ae9c715adcc1757e16b3f" name="ae1ab5009664ae9c715adcc1757e16b3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1ab5009664ae9c715adcc1757e16b3f">&#9670;&#160;</a></span>TEST() <span class="overload">[11/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">RenderCullingTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">VolumeProportionnelALaSalleVisible</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Sur un niveau de trois salles, le nombre de primitives composées dépend du contenu de la salle visible, pas de la taille du niveau. </p>
-<p><b>Cas de test :</b> <b>Le volume compose depend de la salle visible, pas de la taille du niveau.</b><br  />
- <b>Categorie :</b> Unitaire · Render Culling<br  />
- <b>Criticite :</b> Critique<br  />
- <b>Etapes :</b><br  />
- 1. Peupler une ligne de tuiles couvrant trois salles.<br  />
-2. Cadrer la premiere salle.<br  />
-3. Composer la scene.<br  />
- <b>Resultat attendu :</b> Seules les tuiles de la salle visible (marge comprise) sont soumises. </p>
 
 </div>
 </div>

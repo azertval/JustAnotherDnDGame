@@ -131,7 +131,7 @@ JsonDocument readJsonObjectFromFile(const std::filesystem::path&amp; path, int s
 <span style = "background-color:#dfd">    std::ostringstream contents;
     contents &lt;&lt; file.rdbuf();
     const std::string text = contents.str();</span>
-    // Le nom du fichier entre dans les messages : Â« sounds.json:12:5 : â¦ Â» se corrige, Â« JSON
+    // Le nom du fichier entre dans les messages : Â« manifest.json:12:5 : â¦ Â» se corrige, Â« JSON
     // malforme Â» ne se corrige pas.
 <span style = "background-color:#dfd">    return readJsonObject(text, supportedVersion, path.filename().string(), versionField);
 }</span>

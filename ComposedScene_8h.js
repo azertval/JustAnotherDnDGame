@@ -7,7 +7,6 @@ var ComposedScene_8h =
       [ "hmi::QuadKind::Sprite", "namespacehmi.html#aa9ff839f9bcc1bb899b24cb8026ab2b3a51f2b7b14433aa22c67d1f4fc18943cd", null ],
       [ "hmi::QuadKind::Line", "namespacehmi.html#aa9ff839f9bcc1bb899b24cb8026ab2b3a4803e6b9e63dabf04de980788d6a13c4", null ]
     ] ],
-    [ "hmi::composeWorldSprites", "namespacehmi.html#a649774d217a61e4b37f00d309fa3b60e", null ],
     [ "hmi::depthSortOrder", "namespacehmi.html#a551d45820ca5a6e720a6a89e1c70c120", null ],
     [ "hmi::formatSceneStatistics", "namespacehmi.html#aabc578b802bb386e63d830e168140fe7", null ],
     [ "hmi::lineQuadBounds", "namespacehmi.html#adbdaec090bf424bf2ec812fb1587c782", null ],

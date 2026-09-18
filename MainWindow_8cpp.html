@@ -96,35 +96,22 @@ $(function(){initNavTree('MainWindow_8cpp.html','',''); });
 <code>#include &lt;QAction&gt;</code><br />
 <code>#include &lt;QActionGroup&gt;</code><br />
 <code>#include &lt;QApplication&gt;</code><br />
-<code>#include &lt;QCheckBox&gt;</code><br />
 <code>#include &lt;QCloseEvent&gt;</code><br />
-<code>#include &lt;QColor&gt;</code><br />
-<code>#include &lt;QColorDialog&gt;</code><br />
-<code>#include &lt;QComboBox&gt;</code><br />
 <code>#include &lt;QDialog&gt;</code><br />
 <code>#include &lt;QDialogButtonBox&gt;</code><br />
 <code>#include &lt;QDockWidget&gt;</code><br />
-<code>#include &lt;QFileDialog&gt;</code><br />
 <code>#include &lt;QFontMetrics&gt;</code><br />
-<code>#include &lt;QFormLayout&gt;</code><br />
 <code>#include &lt;QGuiApplication&gt;</code><br />
 <code>#include &lt;QHeaderView&gt;</code><br />
-<code>#include &lt;QIcon&gt;</code><br />
 <code>#include &lt;QInputDialog&gt;</code><br />
-<code>#include &lt;QKeyEvent&gt;</code><br />
 <code>#include &lt;QLabel&gt;</code><br />
 <code>#include &lt;QLineEdit&gt;</code><br />
 <code>#include &lt;QMenu&gt;</code><br />
 <code>#include &lt;QMenuBar&gt;</code><br />
 <code>#include &lt;QMessageBox&gt;</code><br />
-<code>#include &lt;QMoveEvent&gt;</code><br />
-<code>#include &lt;QPixmap&gt;</code><br />
-<code>#include &lt;QPoint&gt;</code><br />
 <code>#include &lt;QRect&gt;</code><br />
-<code>#include &lt;QResizeEvent&gt;</code><br />
 <code>#include &lt;QScreen&gt;</code><br />
 <code>#include &lt;QSettings&gt;</code><br />
-<code>#include &lt;QSignalBlocker&gt;</code><br />
 <code>#include &lt;QSpinBox&gt;</code><br />
 <code>#include &lt;QStatusBar&gt;</code><br />
 <code>#include &lt;QString&gt;</code><br />
@@ -132,47 +119,19 @@ $(function(){initNavTree('MainWindow_8cpp.html','',''); });
 <code>#include &lt;QTableWidget&gt;</code><br />
 <code>#include &lt;QTimer&gt;</code><br />
 <code>#include &lt;QToolBar&gt;</code><br />
-<code>#include &lt;QToolButton&gt;</code><br />
-<code>#include &lt;QVBoxLayout&gt;</code><br />
-<code>#include &lt;QWidget&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;array&gt;</code><br />
-<code>#include &lt;ctime&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
-<code>#include &quot;<a class="el" href="MemoryLogSink_8h_source.html">Core/Diagnostics/MemoryLogSink.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="CharacterSheet_8h_source.html">Core/Rpg/CharacterSheet.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="SoundTriggers_8h_source.html">HMI/Audio/SoundTriggers.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="SessionLog_8h_source.html">HMI/Diagnostics/SessionLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AssetReferences_8h_source.html">HMI/Editor/AssetReferences.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditorStatus_8h_source.html">HMI/Editor/EditorStatus.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">HMI/Editor/EditorViewport.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityPanel_8h_source.html">HMI/Editor/EntityPanel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityReferences_8h_source.html">HMI/Editor/EntityReferences.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LayersPanel_8h_source.html">HMI/Editor/LayersPanel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelBrowserPanel_8h_source.html">HMI/Editor/LevelBrowserPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LevelFileOperations_8h_source.html">HMI/Editor/LevelFileOperations.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LinkPanel_8h_source.html">HMI/Editor/LinkPanel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="PalettePanel_8h_source.html">HMI/Editor/PalettePanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PanelFocus_8h_source.html">HMI/Editor/PanelFocus.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelAssetIO_8h_source.html">HMI/Editor/PixelAssetIO.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelCanvas_8h_source.html">HMI/Editor/PixelCanvas.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelHistoryPanel_8h_source.html">HMI/Editor/PixelHistoryPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelPalette_8h_source.html">HMI/Editor/PixelPalette.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelPalettePanel_8h_source.html">HMI/Editor/PixelPalettePanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlaneFileNaming_8h_source.html">HMI/Editor/PlaneFileNaming.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlaneReference_8h_source.html">HMI/Editor/PlaneReference.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlanesPanel_8h_source.html">HMI/Editor/PlanesPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TexturePanel_8h_source.html">HMI/Editor/TexturePanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="GameViewport_8h_source.html">HMI/Game/GameViewport.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AssetContract_8h_source.html">HMI/Graphics/AssetContract.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlaneVisuals_8h_source.html">HMI/Graphics/PlaneVisuals.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TextureLoader_8h_source.html">HMI/Graphics/TextureLoader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="GamepadButton_8h_source.html">HMI/Input/GamepadButton.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ApplicationTheme_8h_source.html">HMI/Interface/ApplicationTheme.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="DesignTokens_8h_source.html">HMI/Interface/DesignTokens.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditorActions_8h_source.html">HMI/Interface/EditorActions.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EditorWorkspace_8h_source.html">HMI/Interface/EditorWorkspace.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ExecutableDirectory_8h_source.html">HMI/Platform/ExecutableDirectory.h</a>&quot;</code><br />
 <code>#include &quot;ui_MainWindow.h&quot;</code><br />
 <code>#include &quot;ui_ResizeDialog.h&quot;</code><br />

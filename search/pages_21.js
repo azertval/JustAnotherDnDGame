@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['wall_20jump_20et_20wall_20slide_0',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md213',1,'']]],
-  ['wall_20slide_1',['6. Wall jump et wall slide',['../guide-physique.html#autotoc_md213',1,'']]],
-  ['widget_20ensuite_2',['Le canevas : la géométrie d&apos;abord, le widget ensuite',['../guide-atelier-pixel-art.html#autotoc_md43',1,'']]],
-  ['world_3',['Le &lt;a class=&quot;el&quot; href=&quot;classcore_1_1World.html&quot; title=&quot;core::World&quot;&gt;World&lt;/a&gt;',['../guide-ecs.html#autotoc_md108',1,'']]],
-  ['world_2066_4',['World (66)',['../cahiertest.html#autotoc_md18',1,'']]]
+  ['y_0',['LOT-07 — Rendu top-down et tri par Y',['../lot-07.html',1,'lots']]],
+  ['y_20est_20pas_1',['Ce qui n&apos;y est pas',['../ArenaSceneComposer_8h.html#autotoc_md923',1,'']]],
+  ['y_20meurt_20et_20c_20est_20la_20fiction_20qui_20l_20explique_2',['Personne n&apos;y meurt, et c&apos;est la fiction qui l&apos;explique',['../lot-50.html#autotoc_md581',1,'']]]
 ];

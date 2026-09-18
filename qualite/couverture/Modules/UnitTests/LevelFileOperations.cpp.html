@@ -21,6 +21,7 @@
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/LevelWriter.h"
+#include "Core/World/WorldGraph.h"
 #include "HMI/Editor/LevelNameValidation.h"
 
 namespace hmi {
@@ -63,20 +64,19 @@ LevelFileOperations::LevelFileOperations(std::filesystem::path levelsDir)
     if (!std::filesystem::is_directory(_dir, error)) {</span>
 <span style = "background-color:#fdd">        return levels;  // dossier absent : liste vide (robustesse).</span>
     }
-<span style = "background-color:#dfd">    for (const std::filesystem::directory_entry&amp; entry :
-         std::filesystem::directory_iterator(_dir, error)) {</span>
-        // "sequence-" est un prÃ©fixe rÃ©servÃ© aux fichiers de sÃ©quence de contenu (LOT-59
-        // TACHE-04, sequence-demo.json, EX-LVL-013), qui vivent volontairement Ã  cÃ´tÃ© des niveaux
-        // (le chargeur y vÃ©rifie que chaque niveau rÃ©fÃ©rencÃ© existe dans le mÃªme dossier) sans en
-        // Ãªtre un : les exclure Ã©vite qu'ils apparaissent comme un niveau ouvrable dans ce
-        // panneau (le format ne correspond pas, l'ouverture Ã©chouerait).
+    // RÃ©cursif : les quartiers de la Capitale vivent dans `capital/` (`LOT-96`).
+<span style = "background-color:#dfd">    for (auto it = std::filesystem::recursive_directory_iterator(_dir, error);
+         !error &amp;&amp; it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+        const std::filesystem::directory_entry&amp; entry = *it;</span>
+        // "sequence-" reste un prÃ©fixe rÃ©servÃ© : un tel fichier n'est pas une carte, et
+        // l'afficher comme ouvrable dans ce panneau mÃ¨nerait Ã  une ouverture en Ã©chec.
 <span style = "background-color:#dfd">        if (entry.is_regular_file(error) &amp;&amp; entry.path().extension() == ".json" &amp;&amp;</span>
             !entry.path().filename().string().starts_with("sequence-")) {
 <span style = "background-color:#dfd">            levels.push_back(entry.path());
         }
     }
-    std::ranges::sort(levels, [](const auto&amp; lhs, const auto&amp; rhs) {
-        return lhs.filename().string() &lt; rhs.filename().string();
+    std::ranges::sort(levels, [this](const auto&amp; lhs, const auto&amp; rhs) {
+        return core::mapIdOf(_dir, lhs) &lt; core::mapIdOf(_dir, rhs);
     });
     return levels;
 }</span>
@@ -87,18 +87,17 @@ FileOperationResult LevelFileOperations::create(const std::string&amp; name, int
     if (!hmi::isValidLevelName(name)) {
         return FileOperationResult::failure("Nom de niveau invalide.");</span>
     }
-<span style = "background-color:#dfd">    if (width &lt; 2 || height &lt; 1) {</span>
-<span style = "background-color:#fdd">        return FileOperationResult::failure("Dimensions trop petites.");</span>
+<span style = "background-color:#dfd">    if (width &lt; 1 || height &lt; 1) {
+        return FileOperationResult::failure("Dimensions trop petites (une case au minimum).");</span>
     }
 <span style = "background-color:#dfd">    const std::filesystem::path target = pathForName(trimmed);
     std::error_code error;
     if (std::filesystem::exists(target, error)) {
         return FileOperationResult::failure("Un niveau porte dÃ©jÃ  ce nom.");</span>
     }
-    // Niveau minimal valide : grille vide + une entrÃ©e et une sortie distinctes (coins bas).
+    // Niveau minimal valide : grille vide + une entrÃ©e (coin bas gauche).
 <span style = "background-color:#dfd">    core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
     draft.setEntry(0, height - 1);
-    draft.setExit(width - 1, height - 1);
     core::LevelLoadResult validated = draft.toLevel();
     if (!validated.ok()) {</span>
 <span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau invalide : " + validated.error);</span>

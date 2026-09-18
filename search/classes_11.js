@@ -8,14 +8,11 @@ var searchData=
   ['regionpopulation_5',['RegionPopulation',['../structcore_1_1RegionPopulation.html',1,'core']]],
   ['regionspeciesshare_6',['RegionSpeciesShare',['../structcore_1_1RegionSpeciesShare.html',1,'core']]],
   ['regionstatistic_7',['RegionStatistic',['../structcore_1_1RegionStatistic.html',1,'core']]],
-  ['renderlayertag_8',['RenderLayerTag',['../structhmi_1_1RenderLayerTag.html',1,'hmi']]],
-  ['rhicontext_9',['RhiContext',['../structhmi_1_1RhiContext.html',1,'hmi']]],
-  ['rolleddamage_10',['RolledDamage',['../structcore_1_1RolledDamage.html',1,'core']]],
-  ['roombounds_11',['RoomBounds',['../structhmi_1_1RoomBounds.html',1,'hmi']]],
-  ['roomgrid_12',['RoomGrid',['../classhmi_1_1RoomGrid.html',1,'hmi']]],
-  ['rpgactor_13',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]],
-  ['rpgcontentblock_14',['RpgContentBlock',['../structhmi_1_1RpgContentBlock.html',1,'hmi']]],
-  ['rpgfield_15',['RpgField',['../structhmi_1_1RpgField.html',1,'hmi']]],
-  ['rpgscreendescriptor_16',['RpgScreenDescriptor',['../structhmi_1_1RpgScreenDescriptor.html',1,'hmi']]],
-  ['rpgscreenlayout_17',['RpgScreenLayout',['../structhmi_1_1RpgScreenLayout.html',1,'hmi']]]
+  ['rhicontext_8',['RhiContext',['../structhmi_1_1RhiContext.html',1,'hmi']]],
+  ['rolleddamage_9',['RolledDamage',['../structcore_1_1RolledDamage.html',1,'core']]],
+  ['rpgactor_10',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]],
+  ['rpgcontentblock_11',['RpgContentBlock',['../structhmi_1_1RpgContentBlock.html',1,'hmi']]],
+  ['rpgfield_12',['RpgField',['../structhmi_1_1RpgField.html',1,'hmi']]],
+  ['rpgscreendescriptor_13',['RpgScreenDescriptor',['../structhmi_1_1RpgScreenDescriptor.html',1,'hmi']]],
+  ['rpgscreenlayout_14',['RpgScreenLayout',['../structhmi_1_1RpgScreenLayout.html',1,'hmi']]]
 ];

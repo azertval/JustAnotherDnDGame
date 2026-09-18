@@ -93,54 +93,53 @@ $(function(){initNavTree('manuel-jouer.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_Manuel_2jouer"></a></p>
-<p>Ce guide s'adresse aux <b>joueurs</b> : comment naviguer le menu, contrôler le personnage et comprendre les mécaniques rencontrées dans les niveaux.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md947"></a>
+<p>Ce guide s'adresse aux <b>joueurs</b> : naviguer dans les menus, parcourir le monde et combattre au Colisée.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md853"></a>
 Le menu principal</h1>
-<p>Huit entrées, navigables aux flèches <b>↑</b>/**↓** (ou à la souris) et validées par <b>Entrée</b> (ou clic) : <b>Continuer</b> (reprend au tableau atteint ; grisée tant qu'aucune partie n'a été commencée), <b>Nouvelle partie</b> (recommence au premier tableau — demande confirmation si une progression existe, puisqu'elle sera effacée), <b>Choisir un niveau</b> (voir plus bas), <b>Mode Édition</b> (voir <a class="el" href="manuel-partager-niveau.html" title="Créer et partager un niveau (sans ligne de commande)">créer un niveau</a>), <b>Mode IA</b> (voir <a class="el" href="manuel-mode-ia.html" title="Regarder l&#39;IA jouer">regarder l'IA jouer</a>), <b>Options</b>, <b>Crédits</b> (développement et bruitages), <b>Quitter</b>. Un bouton <b>drapeau</b> en bas à droite bascule la langue de l'interface (français/anglais) à tout moment.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md948"></a>
-Contrôles en jeu</h1>
+<p>Six entrées, navigables aux flèches <b>↑</b>/**↓** (ou à la souris) et validées par <b>Entrée</b> (ou clic) : <b>Continuer</b> et <b>Charger une partie</b> (grisées tant que la sauvegarde n'existe pas), <b>Nouvelle partie</b>, <b>Options</b>, <b>Crédits</b>, <b>Quitter</b>. Une manette <b>XInput</b> navigue aussi dans les menus.</p>
+<p><b>Nouvelle partie</b> ouvre la partie dans la <b>Capitale</b>, à une porte de <b>Martpart</b>, le quartier du marché : le personnage y paraît, et l'on parcourt le quartier.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md854"></a>
+Parcourir le monde</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Action  </th><th class="markdownTableHeadNone">Clavier  </th><th class="markdownTableHeadNone">Manette  </th></tr>
+<th class="markdownTableHeadNone">Action  </th><th class="markdownTableHeadNone">Clavier  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Se déplacer à gauche / droite  </td><td class="markdownTableBodyNone"><b>←</b>/**Q** · <b>→</b>/**D**  </td><td class="markdownTableBodyNone">Stick gauche / D-pad  </td></tr>
+<td class="markdownTableBodyNone">Se déplacer  </td><td class="markdownTableBodyNone"><b>↑ ↓ ← →</b>, <b>Z Q S D</b> ou <b>W A S D</b>  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Sauter (hauteur variable selon la durée d'appui)  </td><td class="markdownTableBodyNone"><b>Espace</b> ou <b>W</b>  </td><td class="markdownTableBodyNone"><b>A</b>  </td></tr>
+<td class="markdownTableBodyNone">Interagir (parler, ouvrir)  </td><td class="markdownTableBodyNone"><b>E</b> ou <b>Espace</b>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Dash (8 directions, selon les touches directionnelles maintenues)  </td><td class="markdownTableBodyNone"><b>Maj</b>  </td><td class="markdownTableBodyNone">Épaule droite (<b>RB</b>)  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Viser le dash vers le haut / le bas  </td><td class="markdownTableBodyNone"><b>↑</b> / <b>↓</b>  </td><td class="markdownTableBodyNone">Stick gauche / D-pad  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Interagir (ramasser une clé)  </td><td class="markdownTableBodyNone"><b>E</b>  </td><td class="markdownTableBodyNone"><b>X</b>  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Voir le niveau tel qu'il est construit  </td><td class="markdownTableBodyNone"><b>F8</b>  </td><td class="markdownTableBodyNone">—  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Afficher le compteur de diagnostic (cadence, primitives)  </td><td class="markdownTableBodyNone"><b>F9</b>  </td><td class="markdownTableBodyNone">—  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Mettre en pause  </td><td class="markdownTableBodyNone"><b>Échap</b>  </td><td class="markdownTableBodyNone"><b>B</b> ou <b>Start</b>  </td></tr>
+<td class="markdownTableBodyNone">Mettre en pause  </td><td class="markdownTableBodyNone"><b>Échap</b>  </td></tr>
 </table>
-<p>Une manette <b>XInput</b> peut être branchée ou débranchée à tout moment ; elle <b>complète</b> le clavier plutôt que de le remplacer (les deux fonctionnent simultanément).</p>
-<p><b>F8</b> bascule entre deux façons de voir le niveau. L'affichage normal montre le niveau <b>habillé</b> — les cases physiques (sol, pentes, blocs) y projettent une ombre légère sur ce qu'il y a derrière elles, pour aider à distinguer d'un coup d'œil ce qui porte de ce qui n'est que décor ; l'autre le montre <b>tel qu'il est réellement construit</b>, chaque case dans une couleur unie selon son rôle — pratique pour comprendre exactement où commence un sol, une pente ou un piège quand un passage résiste. La bascule ne change rien au jeu lui-même : ni la difficulté, ni la position du personnage, ni la progression. Le choix est conservé pour les fois suivantes.</p>
-<p><b>F9</b> affiche, en haut à droite de l'écran, un petit compteur technique : la cadence de rendu (en images par seconde), le nombre de primitives dessinées et le nombre de passes de dessin. Il ne sert qu'à vérifier que le jeu tourne bien à la vitesse attendue ; désactivé par défaut, il n'a aucun effet sur la partie et n'est pas conservé d'une session à l'autre.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md949"></a>
-Objectif d'un niveau</h1>
-<p>Rejoindre la <b>sortie</b> termine le tableau et affiche un <b>écran de fin de niveau</b> : <b>Continuer</b> charge le tableau suivant, <b>Rejouer</b> relance le même. Après le dernier tableau de la séquence, un écran de <b>fin de séquence</b> propose de retourner au menu. Toucher un <b>danger</b> ou tomber hors du niveau <b>redémarre</b> le niveau courant à son entrée — aucune pénalité au-delà de recommencer.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md950"></a>
+<p>Le déplacement est libre, en huit directions. On passe d'une carte à l'autre en marchant sur ses <b>portails</b> : une avenue relie Martpart à <b>Arenarea</b>, le quartier du Colisée. Parler à un personnage ouvre un <b>dialogue</b> — les sentinelles expliquent pourquoi les autres quartiers restent fermés.</p>
+<p>Les boutons du bandeau ouvrent l'inventaire, le journal, la <b>carte</b> (monde, région, ville) et les options.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md855"></a>
+Combattre au Colisée</h1>
+<p>Au <b>Colisée</b>, le héraut envoie combattre sur le sable ; on revient ensuite sur la carte, au même endroit. Le combat se joue au tour par tour, sur une grille.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Action  </th><th class="markdownTableHeadNone">Clavier  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Déplacer le curseur  </td><td class="markdownTableBodyNone"><b>↑ ↓ ← →</b>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Confirmer (déplacement, cible)  </td><td class="markdownTableBodyNone"><b>Entrée</b>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Changer de cible  </td><td class="markdownTableBodyNone"><b>Tab</b> / <b>Maj+Tab</b>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Changer d'action  </td><td class="markdownTableBodyNone"><b>Page suivante</b> / <b>Page précédente</b>, ou <b>1</b> à <b>9</b>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Revenir en arrière  </td><td class="markdownTableBodyNone"><b>Retour arrière</b>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Finir son tour  </td><td class="markdownTableBodyNone"><b>Espace</b>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Quitter l'arène  </td><td class="markdownTableBodyNone"><b>Échap</b>  </td></tr>
+</table>
+<p>La souris et la manette pilotent le même curseur.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md856"></a>
 Pause</h1>
-<p><b>Échap</b> (ou <b>B</b>/**Start** à la manette) en cours de partie ouvre un écran de <b>pause</b> : la partie est <b>suspendue exactement telle quelle</b> (position, vitesse, budgets de sauts/dashs, dangers temporisés) — rien n'avance derrière l'écran. Quatre choix : <b>Reprendre</b>, <b>Recommencer le niveau</b> (repart de l'entrée, comme un échec), <b>Options</b>, <b>Quitter vers le menu</b> (demande confirmation : la progression du tableau en cours, non terminé, sera perdue).</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md951"></a>
-Progression et sélection de niveau</h1>
-<p>Le tableau atteint et les tableaux déjà <b>terminés</b> sont conservés d'un lancement à l'autre : fermer l'application ne fait jamais reculer la partie. <b>Choisir un niveau</b>, depuis le menu principal, liste les tableaux de la séquence avec leur état — terminé, atteint (le prochain à jouer) ou verrouillé — ainsi que les niveaux <b>personnels</b> créés dans l'éditeur, jouables directement sans passer par l'essai de l'éditeur ni affecter la progression de la séquence. Seuls les tableaux déjà terminés et le suivant sont jouables ; les tableaux plus loin restent verrouillés jusqu'à ce que la progression les atteigne.</p>
-<p>Certains niveaux ajoutent des <b>mécanismes</b> à résoudre :</p><ul>
-<li>un <b>interrupteur</b> ouvre durablement la <b>porte</b> à laquelle il est relié (bascule : reste ouverte une fois activée) ;</li>
-<li>une <b>plaque de pression</b> ouvre la porte lui étant reliée <b>tant qu'un poids</b> (le personnage) y repose, et la referme dès qu'il en part ;</li>
-<li>un <b>bloc</b> peut être poussé horizontalement en marchant contre lui (s'il y a de la place pour qu'il avance), et tombe s'il n'est plus soutenu par le dessous — utile pour franchir un obstacle ou atteindre un endroit hors de portée du saut seul ;</li>
-<li>une <b>clé</b> se ramasse en s'en approchant et en appuyant sur <b>Interagir</b> ; elle ouvre <b>définitivement</b> la <b>porte verrouillée</b> qui lui correspond (elle ne se referme jamais, contrairement à la porte d'un interrupteur) ;</li>
-<li>une <b>plateforme mobile</b> fait un aller-retour entre deux points ; s'y tenir dessus suffit à être <b>porté</b> avec elle — attention à ne pas rester en dessous d'une plateforme qui monte vers un plafond.</li>
-</ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md952"></a>
+<p><b>Échap</b> en cours de partie ouvre la <b>pause</b> : rien n'avance derrière l'écran. Trois choix : <b>Reprendre</b>, <b>Options</b>, <b>Quitter vers le menu</b>.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md857"></a>
 Le menu d'options</h1>
-<p>Accessible depuis le menu principal ou depuis la pause : bascule le <b>V-Sync</b>, règle le <b>volume</b> (un son d'essai se joue au relâchement du curseur, pour régler sans le faire à l'aveugle), change la <b>langue</b>, affiche l'état de connexion de la <b>manette</b>, et propose un retour au menu. Navigable au clavier, à la souris ou à la manette, comme le reste de l'interface. </p>
+<p>Accessible depuis le menu principal, la pause ou le bandeau. Trois onglets : <b>Général</b> (langue du jeu, journaux de session), <b>Graphismes</b> (plein écran, synchronisation verticale — appliquée au prochain lancement —, compteur de diagnostic) et <b>Audio</b> (volume général). <b>Appliquer</b> retient les réglages, <b>Annuler</b> les abandonne, <b>Par défaut</b> les rétablit. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 </div><!-- doc-content -->

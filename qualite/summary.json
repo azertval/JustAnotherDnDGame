@@ -1,12 +1,12 @@
 {
-  "generated": "2026-09-18 11:21 UTC",
-  "commit": "876d5406f",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35338263029",
+  "generated": "2026-09-18 14:38 UTC",
+  "commit": "e4d3f6242",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35356088025",
   "coverage": {
-    "percent": 90.77,
-    "covered": 20885,
-    "valid": 23008,
-    "files": 300,
+    "percent": 91.71,
+    "covered": 19013,
+    "valid": 20732,
+    "files": 209,
     "areas": [
       {
         "name": "Core",
@@ -34,33 +34,27 @@
       },
       {
         "name": "Core/Ecs",
-        "covered": 447,
-        "valid": 455,
-        "percent": 98.24
+        "covered": 229,
+        "valid": 232,
+        "percent": 98.71
       },
       {
         "name": "Core/Gameplay",
-        "covered": 167,
-        "valid": 173,
-        "percent": 96.53
+        "covered": 102,
+        "valid": 106,
+        "percent": 96.23
       },
       {
         "name": "Core/Levels",
-        "covered": 1266,
-        "valid": 1326,
-        "percent": 95.48
+        "covered": 693,
+        "valid": 715,
+        "percent": 96.92
       },
       {
         "name": "Core/Math",
         "covered": 122,
         "valid": 124,
         "percent": 98.39
-      },
-      {
-        "name": "Core/Physics",
-        "covered": 107,
-        "valid": 111,
-        "percent": 96.4
       },
       {
         "name": "Core/Resources",
@@ -70,9 +64,9 @@
       },
       {
         "name": "Core/Rpg",
-        "covered": 1972,
+        "covered": 1971,
         "valid": 2190,
-        "percent": 90.05
+        "percent": 90.0
       },
       {
         "name": "Core/Time",
@@ -82,69 +76,63 @@
       },
       {
         "name": "Core/World",
-        "covered": 782,
-        "valid": 880,
-        "percent": 88.86
+        "covered": 837,
+        "valid": 927,
+        "percent": 90.29
       },
       {
         "name": "HMI/Audio",
-        "covered": 87,
-        "valid": 121,
-        "percent": 71.9
-      },
-      {
-        "name": "HMI/Diagnostics",
-        "covered": 8,
-        "valid": 20,
-        "percent": 40.0
+        "covered": 22,
+        "valid": 50,
+        "percent": 44.0
       },
       {
         "name": "HMI/Editor",
-        "covered": 1474,
-        "valid": 1657,
-        "percent": 88.96
+        "covered": 440,
+        "valid": 493,
+        "percent": 89.25
       },
       {
         "name": "HMI/Game",
-        "covered": 176,
-        "valid": 184,
-        "percent": 95.65
+        "covered": 63,
+        "valid": 83,
+        "percent": 75.9
       },
       {
         "name": "HMI/Graphics",
-        "covered": 3429,
-        "valid": 4101,
-        "percent": 83.61
+        "covered": 2196,
+        "valid": 2483,
+        "percent": 88.44
       },
       {
         "name": "HMI/Input",
-        "covered": 542,
-        "valid": 617,
-        "percent": 87.84
+        "covered": 281,
+        "valid": 298,
+        "percent": 94.3
       },
       {
         "name": "HMI/Interface",
-        "covered": 324,
-        "valid": 353,
-        "percent": 91.78
+        "covered": 253,
+        "valid": 277,
+        "percent": 91.34
       },
       {
         "name": "HMI/Localization",
-        "covered": 83,
+        "covered": 81,
         "valid": 85,
-        "percent": 97.65
+        "percent": 95.29
       },
       {
         "name": "HMI/Platform",
-        "covered": 72,
-        "valid": 128,
-        "percent": 56.25
+        "covered": 67,
+        "valid": 123,
+        "percent": 54.47
       },
       {
         "name": "HMI/Presentation",
-        "covered": 581,
-        "valid": 635,
-        "percent": 91.5
+        "covered": 588,
+        "valid": 642,
+        "percent": 91.59
       }
     ]
   },

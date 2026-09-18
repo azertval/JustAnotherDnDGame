@@ -106,8 +106,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:a33fff987f263030fd1092eeb5e6bde3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les dix actions ont leurs valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2/T) à la construction.  <br /></td></tr>
 <tr class="memitem:a574219ee2eebfafab676185c40423181" id="r_a574219ee2eebfafab676185c40423181"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a574219ee2eebfafab676185c40423181">TEST</a> (EditorKeyBindingsTest, SetKeyEchangeSurConflit)</td></tr>
 <tr class="memdesc:a574219ee2eebfafab676185c40423181"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">setKey</span> sur une touche déjà liée à une autre action échange les deux touches.  <br /></td></tr>
-<tr class="memitem:a653e002029b1eed80232c66536ea5f91" id="r_a653e002029b1eed80232c66536ea5f91"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a653e002029b1eed80232c66536ea5f91">TEST</a> (EditorKeyBindingsTest, SetKeyEchangeAvecTextureAssignTool)</td></tr>
-<tr class="memdesc:a653e002029b1eed80232c66536ea5f91"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">setKey</span> échange aussi correctement quand l'outil « Texture par instance » est impliqué (seule action non couverte par <span class="tt">SetKeyEchangeSurConflit</span>, LOT-57 TACHE-04).  <br /></td></tr>
 <tr class="memitem:a7e139883b69684535dd6d95235351978" id="r_a7e139883b69684535dd6d95235351978"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7e139883b69684535dd6d95235351978">TEST</a> (EditorKeyBindingsTest, ResetToDefaultsRestaureLesDefauts)</td></tr>
 <tr class="memdesc:a7e139883b69684535dd6d95235351978"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">resetToDefaults</span> restaure les valeurs par défaut après un ou plusieurs remaps.  <br /></td></tr>
 <tr class="memitem:ab6e91181f65cce1a2ebd02cc5c9a7cf4" id="r_ab6e91181f65cce1a2ebd02cc5c9a7cf4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab6e91181f65cce1a2ebd02cc5c9a7cf4">TEST</a> (EditorKeyBindingsTest, SaveEtLoadAllerRetour)</td></tr>
@@ -117,13 +115,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a6cb75a39791bf68ed8ac4684756032ce" id="r_a6cb75a39791bf68ed8ac4684756032ce"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6cb75a39791bf68ed8ac4684756032ce">TEST</a> (EditorKeyBindingsTest, SavePreserveLaSectionJeu)</td></tr>
 <tr class="memdesc:a6cb75a39791bf68ed8ac4684756032ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarder les touches d'éditeur préserve une section « jeu » déjà présente.  <br /></td></tr>
 <tr class="memitem:a3a722edf1d290b997e13fdf94dea93d7" id="r_a3a722edf1d290b997e13fdf94dea93d7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3a722edf1d290b997e13fdf94dea93d7">TEST</a> (EditorKeyBindingsTest, SavePreserveLaSectionManette)</td></tr>
-<tr class="memdesc:a3a722edf1d290b997e13fdf94dea93d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarder les touches d'éditeur préserve une section « manette » déjà présente (symétrique de <span class="tt">SavePreserveLaSectionJeu</span>, LOT-57 TACHE-04).  <br /></td></tr>
+<tr class="memdesc:a3a722edf1d290b997e13fdf94dea93d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sauvegarder les touches d'éditeur préserve une section « manette » déjà présente (symétrique de <span class="tt">SavePreserveLaSectionJeu</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du remappage des touches de l'éditeur (<span class="tt">EditorKeyBindings</span>, <span class="tt">EX-CTRL-012</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a0224a94a7c0446c843cd3f02a8773501" name="a0224a94a7c0446c843cd3f02a8773501"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0224a94a7c0446c843cd3f02a8773501">&#9670;&#160;</a></span>TEST() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0224a94a7c0446c843cd3f02a8773501">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,7 +151,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7e139883b69684535dd6d95235351978" name="a7e139883b69684535dd6d95235351978"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e139883b69684535dd6d95235351978">&#9670;&#160;</a></span>TEST() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e139883b69684535dd6d95235351978">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,7 +181,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab6e91181f65cce1a2ebd02cc5c9a7cf4" name="ab6e91181f65cce1a2ebd02cc5c9a7cf4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6e91181f65cce1a2ebd02cc5c9a7cf4">&#9670;&#160;</a></span>TEST() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e91181f65cce1a2ebd02cc5c9a7cf4">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +211,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6cb75a39791bf68ed8ac4684756032ce" name="a6cb75a39791bf68ed8ac4684756032ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cb75a39791bf68ed8ac4684756032ce">&#9670;&#160;</a></span>TEST() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cb75a39791bf68ed8ac4684756032ce">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +241,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3a722edf1d290b997e13fdf94dea93d7" name="a3a722edf1d290b997e13fdf94dea93d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a722edf1d290b997e13fdf94dea93d7">&#9670;&#160;</a></span>TEST() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a722edf1d290b997e13fdf94dea93d7">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,7 +259,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Sauvegarder les touches d'éditeur préserve une section « manette » déjà présente (symétrique de <span class="tt">SavePreserveLaSectionJeu</span>, LOT-57 TACHE-04). </p>
+<p>Sauvegarder les touches d'éditeur préserve une section « manette » déjà présente (symétrique de <span class="tt">SavePreserveLaSectionJeu</span>). </p>
 <p><b>Cas de test :</b> <b>Sauvegarder les touches d'editeur preserve une section manette deja presente.</b><br  />
  <b>Categorie :</b> Unitaire · Editor Key Bindings<br  />
  <b>Criticite :</b> Majeur<br  />
@@ -273,38 +271,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a653e002029b1eed80232c66536ea5f91" name="a653e002029b1eed80232c66536ea5f91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a653e002029b1eed80232c66536ea5f91">&#9670;&#160;</a></span>TEST() <span class="overload">[6/8]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">EditorKeyBindingsTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">SetKeyEchangeAvecTextureAssignTool</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><span class="tt">setKey</span> échange aussi correctement quand l'outil « Texture par instance » est impliqué (seule action non couverte par <span class="tt">SetKeyEchangeSurConflit</span>, LOT-57 TACHE-04). </p>
-<p><b>Cas de test :</b> <b><span class="tt">setKey</span> echange correctement quand TextureAssignTool est impliquee.</b><br  />
- <b>Categorie :</b> Unitaire · Editor Key Bindings<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Remapper TextureAssignTool sur la touche par defaut de Playtest.<br  />
-2. Verifier l'echange.<br  />
- <b>Resultat attendu :</b> TextureAssignTool porte desormais P, Playtest porte T. </p>
-
-</div>
-</div>
 <a id="a574219ee2eebfafab676185c40423181" name="a574219ee2eebfafab676185c40423181"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a574219ee2eebfafab676185c40423181">&#9670;&#160;</a></span>TEST() <span class="overload">[7/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a574219ee2eebfafab676185c40423181">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,7 +302,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a33fff987f263030fd1092eeb5e6bde3a" name="a33fff987f263030fd1092eeb5e6bde3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a33fff987f263030fd1092eeb5e6bde3a">&#9670;&#160;</a></span>TEST() <span class="overload">[8/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a33fff987f263030fd1092eeb5e6bde3a">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

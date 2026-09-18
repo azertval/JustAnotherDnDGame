@@ -93,7 +93,7 @@ $(function(){initNavTree('test__theme__teardown__guards_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Garde-fous contre le plantage <b>à la fermeture</b>, régression récurrente du projet (<span class="tt">LOT-56</span>, <span class="tt">LOT-68</span>).  
+<p>Garde-fous contre le plantage <b>à la fermeture</b>, régression récurrente du projet.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;regex&gt;</code><br />
@@ -109,7 +109,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a8396bf8bceb53ee227c9035a57f8b983"><td class="mdescLeft">&#160;</td><td class="mdescRight">La feuille de style ne référence <b>aucun fichier externe</b>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Garde-fous contre le plantage <b>à la fermeture</b>, régression récurrente du projet (<span class="tt">LOT-56</span>, <span class="tt">LOT-68</span>). </p>
+<div class="textblock"><p>Garde-fous contre le plantage <b>à la fermeture</b>, régression récurrente du projet. </p>
 <p>L'IHM a planté deux fois à la fermeture, pour deux causes différentes, et les deux fois de façon <b>intermittente</b> — donc invisible en essai rapide et coûteuse à diagnostiquer. Les deux causes connues étaient jusqu'ici consignées en prose dans les guides et les commentaires ; rien ne les empêchait de revenir. Ce fichier les transforme en tests.</p>
 <p>Tests <b>purs</b> : ils lisent la feuille de style livrée, sans instancier Qt. C'est ce qui les rend exécutables dans <span class="tt">UnitTests</span>, qui ne lie pas Qt — un test qui exigerait une <span class="tt">QApplication</span> ne tournerait ni ici ni en intégration continue. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
 
 <p>Aucune propriété de <b>barre de titre de dock</b> dans la feuille de style. </p>
 <p><span class="tt">titlebar-close-
-       icon</span> et <span class="tt">titlebar-normal-icon</span> ont provoqué un plantage intermittent à la fermeture depuis l'éditeur pendant le <span class="tt">LOT-56</span> : Qt y détruit les boutons de barre de titre du dock au moment où la feuille de style prétend encore les habiller.</p>
+       icon</span> et <span class="tt">titlebar-normal-icon</span> ont provoqué un plantage intermittent à la fermeture depuis l'éditeur : Qt y détruit les boutons de barre de titre du dock au moment où la feuille de style prétend encore les habiller.</p>
 <p>Masquer un bouton de barre de titre se fait par les <span class="tt">features</span> du <span class="tt">QDockWidget</span>, jamais par la feuille de style. L'invariant était écrit dans le guide de design ; il est désormais vérifié. <b>Cas de test :</b> <b>La feuille de style ne porte aucune propriete de barre de titre de dock.</b><br  />
  <b>Categorie :</b> Unitaire · Theme de l'IHM<br  />
  <b>Criticite :</b> Critique<br  />

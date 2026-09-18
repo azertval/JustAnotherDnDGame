@@ -17,7 +17,6 @@
 #include &lt;memory&gt;
 
 #include "HMI/Graphics/RhiContext.h"
-#include "HMI/Graphics/SkinCatalog.h"
 
 class QRhi;
 class QRhiResourceUpdateBatch;
@@ -32,15 +31,14 @@ namespace hmi {
 class SpriteBatch;
 class TextureAtlas;
 class TextureCache;
-class BitmapFont;
 
 /**
- * @brief Lot de sprites, atlas, police bitmap, registre de textures et catalogue de skins â
- *        crÃ©Ã©s ensemble, libÃ©rÃ©s ensemble, dans le bon ordre.
+ * @brief Lot de sprites, atlas et registre de textures â crÃ©Ã©s ensemble, libÃ©rÃ©s ensemble, dans le
+ *        bon ordre.
  *
  * **Pourquoi cette classe.** Depuis le `LOT-86`, deux surfaces dessinent la mÃªme scÃ¨ne : le
- * viewport Ã  widget de l'Ã©diteur (`hmi::GameViewport`, un `QRhiWidget`) et l'Ã©lÃ©ment Qt Quick du
- * jeu (`hmi::GameViewportItem`, un `QQuickRhiItem`). Elles n'ont ni le mÃªme hÃ´te, ni la mÃªme
+ * canevas de l'Ã©diteur (`hmi::EditorViewport`, un `QRhiWidget`) et les Ã©lÃ©ments Qt Quick du jeu
+ * (`hmi::WorldViewportItem`, `hmi::ArenaViewportItem`, des `QQuickRhiItem`). Elles n'ont ni le mÃªme hÃ´te, ni la mÃªme
  * boucle, ni les mÃªmes entrÃ©es â mais elles crÃ©ent **exactement** les mÃªmes ressources graphiques.
  * Les Ã©crire deux fois aurait suffi Ã  les faire diverger : c'est ce qui arrive toujours, et Ã§a ne
  * se voit qu'Ã  l'exÃ©cution, sur une seule des deux.
@@ -51,8 +49,7 @@ class BitmapFont;
  * pilote. `release()` fixe cet ordre une fois pour toutes ; aucun appelant n'a plus Ã  s'en
  * souvenir.
  *
- * **Ce qui n'est pas ici** : le brouillon d'Ã©dition, le `DraftRenderer`, la camÃ©ra, les plans, la
- * session de jeu. Ils appartiennent Ã  un seul des deux hÃ´tes â les remonter ici rendrait la classe
+ * **Ce qui n'est pas ici** : le brouillon d'Ã©dition, le `DraftRenderer`, la camÃ©ra, la carte jouÃ©e. Ils appartiennent Ã  un seul des deux hÃ´tes â les remonter ici rendrait la classe
  * dÃ©pendante de l'Ã©diteur, et le jeu paierait pour ce dont il ne se sert pas.
  */
 class SceneResources {
@@ -69,10 +66,6 @@ public:
      * @p updates est le lot de la premiÃ¨re image : les textures se chargent paresseusement et
      * leurs pixels y transitent. L'appelant le soumet ensuite, **hors** de toute passe de rendu â
      * c'est la contrainte de QRhi que `hmi::RhiContext` documente.
-     *
-     * Le catalogue de skins est lu Ã  cÃ´tÃ© de l'exÃ©cutable. Fichier absent ou illisible : catalogue
-     * vide, tout retombe sur le damier de repli â un Ã©tat de dÃ©part lÃ©gitime, pas une erreur
-     * bloquante (`EX-NFR-040`).
      */
     void create(QRhi* rhi, QRhiResourceUpdateBatch* updates);
 
@@ -99,23 +92,15 @@ public:
     [[nodiscard]] TextureAtlas&amp; atlas() noexcept {
         return *_atlas;
     }
-    [[nodiscard]] BitmapFont&amp; font() noexcept {
-        return *_font;
-    }
     [[nodiscard]] TextureCache&amp; textures() noexcept {
         return *_textureCache;
-    }
-    [[nodiscard]] SkinCatalog&amp; skins() noexcept {
-        return _skins;
     }
 
 private:
     RhiContext _context;
     std::unique_ptr&lt;SpriteBatch&gt; _spriteBatch;
     std::unique_ptr&lt;TextureAtlas&gt; _atlas;
-    std::unique_ptr&lt;BitmapFont&gt; _font;
     std::unique_ptr&lt;TextureCache&gt; _textureCache;
-    SkinCatalog _skins;
 };
 
 }  // namespace hmi</pre>

@@ -93,7 +93,7 @@ $(function(){initNavTree('structhmi_1_1EditorStatusContext.html','','structhmi_1
 </div><!--header-->
 <div class="contents">
 
-<p>Contexte d'édition dont la barre d'état décide l'affichage.  
+<p>Contexte d'édition dont la barre d'état décide l'affichage ; absent hors édition.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EditorStatus_8h_source.html">EditorStatus.h</a>&gt;</code></p>
@@ -101,11 +101,9 @@ $(function(){initNavTree('structhmi_1_1EditorStatusContext.html','','structhmi_1
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:aea257e9e8350f1ad30ba34e410fee502" id="r_aea257e9e8350f1ad30ba34e410fee502"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1LevelStatusInfo.html">LevelStatusInfo</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aea257e9e8350f1ad30ba34e410fee502">level</a></td></tr>
-<tr class="memitem:a9c73d4031fd76e8bab324016ab78370b" id="r_a9c73d4031fd76e8bab324016ab78370b"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1PixelEditStatusInfo.html">PixelEditStatusInfo</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9c73d4031fd76e8bab324016ab78370b">pixelEdit</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Contexte d'édition dont la barre d'état décide l'affichage. </p>
-<p><span class="tt"><a class="el" href="#aea257e9e8350f1ad30ba34e410fee502">level</a></span> et <span class="tt"><a class="el" href="#a9c73d4031fd76e8bab324016ab78370b">pixelEdit</a></span> sont <b>mutuellement exclusifs en pratique</b> : au plus un contexte d'édition est actif à la fois (<span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;application Qt : poste de travail d&#39;éditeur à panneaux dockables autour du vi...">MainWindow</a></span> ne peuple que celui qui correspond au widget focalisé). <span class="tt"><a class="el" href="#a9c73d4031fd76e8bab324016ab78370b">pixelEdit</a></span> étend le modèle pour l'atelier pixel art (<span class="tt">LOT-54</span> TACHE-04) sans en créer un second — même barre, même règle de restauration après message transitoire. </p>
+<div class="textblock"><p>Contexte d'édition dont la barre d'état décide l'affichage ; absent hors édition. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="aea257e9e8350f1ad30ba34e410fee502" name="aea257e9e8350f1ad30ba34e410fee502"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aea257e9e8350f1ad30ba34e410fee502">&#9670;&#160;</a></span>level</h2>
@@ -115,20 +113,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::optional&lt;<a class="el" href="structhmi_1_1LevelStatusInfo.html">LevelStatusInfo</a>&gt; hmi::EditorStatusContext::level</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9c73d4031fd76e8bab324016ab78370b" name="a9c73d4031fd76e8bab324016ab78370b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c73d4031fd76e8bab324016ab78370b">&#9670;&#160;</a></span>pixelEdit</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt;<a class="el" href="structhmi_1_1PixelEditStatusInfo.html">PixelEditStatusInfo</a>&gt; hmi::EditorStatusContext::pixelEdit</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -22,7 +22,6 @@
 #include &lt;set&gt;
 #include &lt;string_view&gt;
 #include &lt;system_error&gt;
-#include &lt;tuple&gt;
 #include &lt;utility&gt;
 
 #include &lt;nlohmann/json.hpp&gt;
@@ -296,47 +295,6 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
 <span style = "background-color:#dfd">    }
 }</span>
 
-/**
- * @brief Toutes les images d'un dossier : animÃ©e si un `&lt;nom&gt;.anim.json` l'accompagne, fixe sinon.
- */
-void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog, const char* title,
-<span style = "background-color:#dfd">                const char* directory) {
-    std::vector&lt;std::filesystem::path&gt; images;
-    std::error_code error;
-    for (const auto&amp; item : std::filesystem::directory_iterator(root / directory, error)) {
-        if (item.is_regular_file() &amp;&amp; item.path().extension() == ".png") {
-            images.push_back(item.path());
-        }
-    }
-    std::ranges::sort(images);
-    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
-    for (const std::filesystem::path&amp; image : images) {
-        const std::string stem = stemOf(image.filename().string());
-        AssetGalleryEntry entry{.family = family.title,
-                                .model = directory,
-                                .form = stem,
-                                .path = std::string(directory) + "/" + stem + ".png",
-                                .frames = {}};
-        const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
-        std::error_code ignored;
-        if (std::filesystem::is_regular_file(descriptor, ignored)) {
-            if (!readAnimatedEntry(entry, descriptor, catalog.errors)) {</span>
-<span style = "background-color:#fdd">                continue;</span>
-            }
-<span style = "background-color:#dfd">        } else {
-            std::tie(entry.frameWidth, entry.frameHeight) = pngSize(image);
-            if (entry.frameWidth &lt;= 0) {</span>
-<span style = "background-color:#fdd">                catalog.errors.push_back(image.generic_string() + " : PNG illisible");
-                continue;</span>
-            }
-        }
-<span style = "background-color:#dfd">        family.entries.push_back(std::move(entry));
-    }
-    if (!family.entries.empty()) {
-        catalog.families.push_back(std::move(family));</span>
-    }
-<span style = "background-color:#dfd">}</span>
-
 <span style = "background-color:#dfd">[[nodiscard]] int ceilCells(int pixels) {
     return pixels &lt;= 0 ? 0 : (pixels + ASSET_GALLERY_CELL_PIXELS - 1) / ASSET_GALLERY_CELL_PIXELS;
 }</span>
@@ -348,10 +306,6 @@ void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; 
     readNpcs(assetsRoot, catalog);
     readColiseum(assetsRoot, catalog);
     readScenes(assetsRoot, catalog);
-    readFolder(assetsRoot, catalog, "Joueur", "Player");
-    readFolder(assetsRoot, catalog, "Skins", "Skins");
-    readFolder(assetsRoot, catalog, "Objets", "Objects");
-    readFolder(assetsRoot, catalog, "Fonds", "Backgrounds");
     return catalog;
 }</span>
 
@@ -359,7 +313,7 @@ void readFolder(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; 
     const std::size_t slash = path.rfind('/');
     const std::string_view fileName =</span>
         slash == std::string_view::npos ? path : path.substr(slash + 1);
-<span style = "background-color:#dfd">    return path == "atlas.png" || path == "Coliseum/production_source_atlas.png" ||</span>
+<span style = "background-color:#dfd">    return path == "Coliseum/production_source_atlas.png" ||</span>
            path.starts_with("UI/") || path.starts_with("Maps/") || path.starts_with("Fonts/") ||
            (path.starts_with("Scene/") &amp;&amp; fileName.starts_with("planche-"));
 <span style = "background-color:#dfd">}</span>

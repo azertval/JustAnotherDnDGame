@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>IsoProjection.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Combat/IsoProjection.h
+ * @brief La projection isomÃ©trique du ColisÃ©e : d'une case de la grille de combat Ã  sa place dans
+ *        le monde, et retour.
+ *
+ * ## D'oÃ¹ viennent les formules
+ *
+ * Elles sont portÃ©es de la scÃ¨ne QML du ColisÃ©e (`Source/Ui/Controls/ArenaScene.ui.qml`,
+ * `LOT-50`), qui les appliquait en pixels d'Ã©lÃ©ment. Ici, elles s'expriment en **unitÃ©s monde**
+ * (`EX-ARCH-021`) : le cadrage â centrer la scÃ¨ne, la faire tenir dans la surface â n'est plus
+ * l'affaire de la projection mais celle de la camÃ©ra (`hmi::Camera2D`), qui ne fait que dÃ©placer
+ * et agrandir, en aval, des points dÃ©jÃ  projetÃ©s.
+ *
+ * ## Le repÃ¨re
+ *
+ * Une case (c, r) occupe, en coordonnÃ©es de grille **continues**, le carrÃ© [c, c + 1[ Ã [r, r + 1[
+ * (`EX-ARCH-020` : colonne vers la droite, ligne vers le bas). La projection est affine :
+ *
+ *     monde.x = originX + L/2 + (gc â gr) Â· L/2
+ *     monde.y = originY       + (gc + gr) Â· H/2
+ *
+ * oÃ¹ L est la largeur du losange, H = 0,62 L sa hauteur (l'angle des tuiles de la planche, pas le
+ * 2:1 classique), et (originX, originY) le coin haut-gauche de la boÃ®te du losange de la case
+ * (0, 0). Le coin de grille (c, r) tombe ainsi sur le **sommet haut** du losange de la case, (c +
+ * 1, r) sur son sommet droit, (c, r + 1) sur son sommet gauche, (c + 1, r + 1) sur son sommet bas.
+ *
+ * La scÃ¨ne a son coin haut-gauche en (0, 0) du monde : la case (0, rows â 1) touche le bord
+ * gauche, la case (columns â 1, 0) le bord droit, la case (columns â 1, rows â 1) le bord bas, et
+ * une bande de `wallRise Â· L` est rÃ©servÃ©e en haut pour les murs du fond, qui montent au-dessus de
+ * leur losange.
+ *
+ * Aucune dÃ©pendance Qt ni GPU (`EX-ARCH-012`) : tout se vÃ©rifie en test unitaire.
+ */
+
+#include &lt;optional&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Math/Rect.h"
+#include "Core/Math/Vector2.h"
+
+namespace core {
+
+/// Rapport hauteur / largeur du losange : celui des tuiles de la planche du ColisÃ©e.
+inline constexpr float ARENA_DIAMOND_RATIO = 0.62f;
+
+/// Hauteur rÃ©servÃ©e aux murs au-dessus du losange du fond, en largeurs de losange.
+inline constexpr float ARENA_WALL_RISE = 0.85f;
+
+/// Largeur, en pixels, d'une tuile de la planche du ColisÃ©e (`ArenaTile.ui.qml`).
+inline constexpr float ARENA_SHEET_TILE_WIDTH_PIXELS = 86.0f;
+
+/// Pixels par unitÃ© monde (`EX-ARCH-021`, `hmi::Camera2D::PIXELS_PER_UNIT`), recopiÃ© ici parce que
+/// `Core` ne voit pas `HMI`.
+inline constexpr float ARENA_PIXELS_PER_UNIT = 16.0f;
+
+/// Largeur par dÃ©faut du losange, en unitÃ©s monde : au zoom 1, une tuile de la planche s'affiche Ã 
+/// sa taille native.
+inline constexpr float ARENA_TILE_WIDTH_UNITS =
+    ARENA_SHEET_TILE_WIDTH_PIXELS / ARENA_PIXELS_PER_UNIT;
+
+/**
+ * @brief La projection isomÃ©trique d'une grille de combat de `columns` Ã `rows` cases.
+ *
+ * Valeur immuable et bon marchÃ© Ã  copier : elle ne tient que la taille de la grille et trois
+ * nombres. Une taille nÃ©gative est ramenÃ©e Ã  zÃ©ro ; une largeur de losange non positive, Ã  la
+ * largeur par dÃ©faut.
+ */
+class IsoProjection {
+public:
+    /**
+     * @param columns      Nombre de colonnes de la grille.
+     * @param rows         Nombre de lignes de la grille.
+     * @param tileWidth    Largeur du losange, en unitÃ©s monde (&gt; 0).
+     * @param diamondRatio Rapport hauteur / largeur du losange (&gt; 0).
+     * @param wallRise     Hauteur rÃ©servÃ©e aux murs du fond, en largeurs de losange (&gt;= 0).
+     */
+    IsoProjection(int columns, int rows, float tileWidth = ARENA_TILE_WIDTH_UNITS,
+                  float diamondRatio = ARENA_DIAMOND_RATIO,
+                  float wallRise = ARENA_WALL_RISE) noexcept;
+
+<span style = "background-color:#dfd">    [[nodiscard]] int columns() const noexcept {
+        return _columns;
+    }
+    [[nodiscard]] int rows() const noexcept {
+        return _rows;
+    }</span>
+
+    /// @return La largeur L du losange, en unitÃ©s monde.
+<span style = "background-color:#dfd">    [[nodiscard]] float tileWidth() const noexcept {
+        return _tileWidth;
+    }</span>
+    /// @return La hauteur H = ratio Â· L du losange, en unitÃ©s monde.
+<span style = "background-color:#dfd">    [[nodiscard]] float tileHeight() const noexcept {
+        return _tileWidth * _diamondRatio;
+    }</span>
+    /// @return La hauteur rÃ©servÃ©e aux murs du fond, en unitÃ©s monde (`wallRise Â· L`).
+<span style = "background-color:#dfd">    [[nodiscard]] float wallHeight() const noexcept {
+        return _tileWidth * _wallRise;
+    }</span>
+
+    /**
+     * @brief Nombre de demi-losanges qui font la largeur de la scÃ¨ne : `columns + rows`, au moins 1
+     *        (une grille vide garde une scÃ¨ne non dÃ©gÃ©nÃ©rÃ©e, comme la scÃ¨ne QML).
+     */
+    [[nodiscard]] int diagonals() const noexcept;
+
+    /// @return Les dimensions de la scÃ¨ne, murs du fond compris, en unitÃ©s monde.
+    [[nodiscard]] Vector2 sceneSize() const noexcept;
+
+    /// @return Le coin haut-gauche de la boÃ®te du losange de la case (0, 0), en unitÃ©s monde.
+    [[nodiscard]] Vector2 origin() const noexcept;
+
+    /**
+     * @brief Projette un point de grille continu.
+     * @param gridPoint (colonne, ligne) continues ; (c, r) entiers est le sommet haut du losange
+     *                  de la case (c, r), (c + 0,5, r + 0,5) son centre.
+     * @return Le point, en unitÃ©s monde.
+     */
+    [[nodiscard]] Vector2 gridToWorld(const Vector2&amp; gridPoint) const noexcept;
+
+    /// @brief Inverse exact de `gridToWorld`.
+    [[nodiscard]] Vector2 worldToGrid(const Vector2&amp; world) const noexcept;
+
+    /**
+     * @brief Le centre du losange d'une case â le point d'ancrage d'une piÃ¨ce posÃ©e sur la case.
+     *
+     * DÃ©fini pour toute case, dans la grille ou non.
+     */
+    [[nodiscard]] Vector2 tileToWorld(GridPosition tile) const noexcept;
+
+    /**
+     * @brief La boÃ®te du losange d'une case (L Ã H), en unitÃ©s monde.
+     *
+     * C'est le rectangle qu'occupait la brique `ArenaTile` dans la scÃ¨ne QML : ce que la case porte
+     * (mur, figurine) dÃ©borde vers le haut Ã  partir de ce rectangle.
+     */
+    [[nodiscard]] Rect tileBounds(GridPosition tile) const noexcept;
+
+    /**
+     * @brief La case dont le losange contient un point du monde.
+     *
+     * Un point sur une arÃªte commune appartient Ã  la case de plus grande colonne ou de plus grande
+     * ligne (arrondi par dÃ©faut en coordonnÃ©es de grille) : les losanges pavent le plan sans trou
+     * ni recouvrement.
+     * @return La case, ou rien si elle est hors de la grille.
+     */
+    [[nodiscard]] std::optional&lt;GridPosition&gt; worldToTile(const Vector2&amp; world) const noexcept;
+
+    /// @return true si la case appartient Ã  la grille.
+    [[nodiscard]] bool contains(GridPosition tile) const noexcept;
+
+    /**
+     * @brief Profondeur de dessin d'une case : `column + row`.
+     *
+     * Une piÃ¨ce posÃ©e sur une case de profondeur plus grande passe devant, sans autre tri.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] static constexpr int depth(GridPosition tile) noexcept {
+        return tile.column + tile.row;
+    }</span>
+
+private:
+    int _columns;
+    int _rows;
+    float _tileWidth;
+    float _diamondRatio;
+    float _wallRise;
+};
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

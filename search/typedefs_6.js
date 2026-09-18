@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['layerslot_0',['LayerSlot',['../namespacehmi.html#ad45953c7acf96290259f1333570fda4d',1,'hmi']]]
+  ['maploader_0',['MapLoader',['../classcore_1_1WorldTravel.html#a3cb015fe13e6071f96b03ba0e819362e',1,'core::WorldTravel']]]
 ];

@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Equipment.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/Equipment.h"
+
+#include &lt;algorithm&gt;
+#include &lt;system_error&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Rpg/CharacterSheet.h"
+#include "Core/Rpg/RpgEnumNames.h"
+
+namespace core {
+
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format.
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string lireTexte(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                          : std::string{};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] int lireEntier(const nlohmann::json&amp; objet, const char* champ, int defaut = 0) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_number_integer()) ? trouve-&gt;get&lt;int&gt;() : defaut;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] bool lireBooleen(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return trouve != objet.end() &amp;&amp; trouve-&gt;is_boolean() &amp;&amp; trouve-&gt;get&lt;bool&gt;();
+}</span>
+
+template &lt;typename Lecteur&gt;
+void balayer(const std::filesystem::path&amp; dossier, std::vector&lt;std::string&gt;&amp; erreurs,
+<span style = "background-color:#dfd">             Lecteur lecteur) {
+    std::error_code code;
+    if (!std::filesystem::is_directory(dossier, code)) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(dossier.string() + " : dossier absent ou illisible.");
+        return;</span>
+    }
+<span style = "background-color:#dfd">    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(dossier, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }</span>
+    }
+<span style = "background-color:#dfd">    std::ranges::sort(fichiers);
+    for (const std::filesystem::path&amp; chemin : fichiers) {
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        lecteur(document.root, chemin.filename().string());
+    }
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string_view armorCategoryName(ArmorCategory category) {</span>
+    // switch exhaustif sans default : une categorie ajoutee sans nom casse la compilation.
+<span style = "background-color:#dfd">    switch (category) {</span>
+        case ArmorCategory::Light:
+<span style = "background-color:#dfd">            return "light";</span>
+        case ArmorCategory::Medium:
+<span style = "background-color:#dfd">            return "medium";</span>
+        case ArmorCategory::Heavy:
+<span style = "background-color:#dfd">            return "heavy";</span>
+        case ArmorCategory::Shield:
+<span style = "background-color:#dfd">            return "shield";</span>
+    }
+<span style = "background-color:#fdd">    return {};</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;ArmorCategory&gt; parseArmorCategory(std::string_view name) {
+    for (const ArmorCategory categorie : {ArmorCategory::Light, ArmorCategory::Medium,
+                                          ArmorCategory::Heavy, ArmorCategory::Shield}) {
+        if (armorCategoryName(categorie) == name) {
+            return categorie;</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+<span style = "background-color:#fdd">    return std::nullopt;</span>
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">bool hasProperty(const Weapon&amp; weapon, std::string_view property) {
+    return std::ranges::find(weapon.properties, property) != weapon.properties.end();
+}</span>
+
+<span style = "background-color:#dfd">const Weapon* EquipmentCatalog::findWeapon(std::string_view id) const {
+    const auto trouve = std::ranges::find(weapons, id, &amp;Weapon::id);
+    return trouve == weapons.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">const Armor* EquipmentCatalog::findArmor(std::string_view id) const {
+    const auto trouve = std::ranges::find(armors, id, &amp;Armor::id);
+    return trouve == armors.end() ? nullptr : &amp;*trouve;
+}</span>
+
+namespace {
+
+[[nodiscard]] Weapon lireArme(const nlohmann::json&amp; racine, const std::string&amp; fichier,
+<span style = "background-color:#dfd">                              std::vector&lt;std::string&gt;&amp; erreurs) {
+    Weapon arme;
+    arme.id = lireTexte(racine, "id");
+    arme.name = lireTexte(racine, "name");
+    arme.source = lireTexte(racine, "source");
+    arme.category = lireTexte(racine, "category");
+    arme.ranged = lireBooleen(racine, "ranged");
+    arme.price = lireEntier(racine, "price");
+    arme.weightGrams = lireEntier(racine, "weightGrams");
+    arme.text = lireTexte(racine, "text");
+    if (const auto proprietes = racine.find("properties");
+        proprietes != racine.end() &amp;&amp; proprietes-&gt;is_array()) {
+        for (const nlohmann::json&amp; propriete : *proprietes) {
+            if (propriete.is_string()) {
+                arme.properties.push_back(propriete.get&lt;std::string&gt;());
+            }
+        }
+    }
+    for (const auto&amp; [cle, portee] :
+         {std::pair{"rangeNormal", &amp;arme.rangeNormal}, std::pair{"rangeLong", &amp;arme.rangeLong}}) {
+        if (const auto valeur = racine.find(cle); valeur != racine.end() &amp;&amp; valeur-&gt;is_number()) {
+            *portee = valeur-&gt;get&lt;float&gt;();
+        }
+    }
+    const std::string des = lireTexte(racine, "damage");
+    if (!des.empty()) {
+        arme.damage = parseDice(des);
+        if (!arme.damage.has_value()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(fichier + " : notation de des illisible ('" + des + "').");</span>
+        }
+    }
+<span style = "background-color:#dfd">    const std::string type = lireTexte(racine, "damageType");
+    if (!type.empty()) {
+        arme.damageType = parseDamageType(type);
+        if (!arme.damageType.has_value()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(fichier + " : type de degats '" + type + "' inconnu du moteur.");</span>
+        }
+    }
+<span style = "background-color:#dfd">    return arme;
+}</span>
+
+[[nodiscard]] std::optional&lt;Armor&gt; lireArmure(const nlohmann::json&amp; racine,
+                                              const std::string&amp; fichier,
+<span style = "background-color:#dfd">                                              std::vector&lt;std::string&gt;&amp; erreurs) {
+    Armor armure;
+    armure.id = lireTexte(racine, "id");
+    armure.name = lireTexte(racine, "name");
+    armure.source = lireTexte(racine, "source");</span>
+    const std::optional&lt;ArmorCategory&gt; categorie =
+<span style = "background-color:#dfd">        parseArmorCategory(lireTexte(racine, "category"));
+    if (!categorie.has_value()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : categorie d'armure inconnue.");
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    armure.category = *categorie;
+    armure.baseArmorClass = lireEntier(racine, "baseArmorClass");
+    armure.dexterityBonus = lireBooleen(racine, "dexterityBonus");
+    if (const auto plafond = racine.find("dexterityBonusMax");
+        plafond != racine.end() &amp;&amp; plafond-&gt;is_number_integer()) {
+        armure.dexterityBonusMax = plafond-&gt;get&lt;int&gt;();
+    }
+    if (const auto force = racine.find("strengthRequired");
+        force != racine.end() &amp;&amp; force-&gt;is_number_integer()) {
+        armure.strengthRequired = force-&gt;get&lt;int&gt;();
+    }
+    armure.stealthDisadvantage = lireBooleen(racine, "stealthDisadvantage");
+    armure.price = lireEntier(racine, "price");
+    armure.weightGrams = lireEntier(racine, "weightGrams");
+    return armure;
+}</span>
+
+}  // namespace
+
+EquipmentCatalog loadEquipment(const std::filesystem::path&amp; weaponsDir,
+<span style = "background-color:#dfd">                               const std::filesystem::path&amp; armorsDir) {
+    EquipmentCatalog catalogue;</span>
+
+<span style = "background-color:#dfd">    balayer(weaponsDir, catalogue.errors,
+            [&amp;catalogue](const nlohmann::json&amp; racine, const std::string&amp; fichier) {
+                catalogue.weapons.push_back(lireArme(racine, fichier, catalogue.errors));
+            });</span>
+
+<span style = "background-color:#dfd">    balayer(armorsDir, catalogue.errors,
+            [&amp;catalogue](const nlohmann::json&amp; racine, const std::string&amp; fichier) {
+                if (std::optional&lt;Armor&gt; armure = lireArmure(racine, fichier, catalogue.errors)) {
+                    catalogue.armors.push_back(std::move(*armure));
+                }
+            });</span>
+
+<span style = "background-color:#dfd">    std::ranges::sort(catalogue.weapons, {}, &amp;Weapon::id);
+    std::ranges::sort(catalogue.armors, {}, &amp;Armor::id);
+    return catalogue;
+}</span>
+
+int armorClassFor(const CharacterSheet&amp; sheet, const CharacterCreationRules&amp; rules,
+<span style = "background-color:#dfd">                  const Armor* armor, const Armor* shield) {
+    const int dexterite = sheet.modifier(Ability::Dexterity);</span>
+
+<span style = "background-color:#dfd">    int total = 0;
+    if (armor == nullptr || armor-&gt;category == ArmorCategory::Shield) {</span>
+        // Sans armure : la base vient de la DONNEE, jamais d'un 10 ecrit ici (EX-VIS-007). Un
+        // bouclier passe en `armor` n'est pas une armure : il ajoute, il ne remplace pas, et le
+        // traiter comme tel donnerait une CA de 2 a un personnage en bouclier seul.
+<span style = "background-color:#dfd">        total = rules.unarmoredArmorClass + dexterite;
+    } else {
+        total = armor-&gt;baseArmorClass;
+        if (armor-&gt;dexterityBonus) {</span>
+            // `11 + Mod.Dex` sans plafond, `14 + Mod.Dex (max +2)` avec. Une armure lourde n'a pas
+            // `dexterityBonus` du tout : lui appliquer la Dexterite rendrait le personnage plus
+            // resistant, jamais moins, et le defaut passerait pour de l'equilibrage.
+<span style = "background-color:#dfd">            total += armor-&gt;dexterityBonusMax.has_value()</span>
+                         ? std::min(dexterite, *armor-&gt;dexterityBonusMax)
+                         : dexterite;
+        }
+    }
+
+<span style = "background-color:#dfd">    if (shield != nullptr &amp;&amp; shield-&gt;category == ArmorCategory::Shield) {
+        total += shield-&gt;baseArmorClass;</span>
+    }
+<span style = "background-color:#dfd">    return total;
+}</span>
+
+<span style = "background-color:#dfd">int totalWeightGrams(const std::vector&lt;InventoryEntry&gt;&amp; entries) {
+    int total = 0;
+    for (const InventoryEntry&amp; ligne : entries) {
+        if (ligne.quantity &lt;= 0) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        total += ligne.weightGrams * ligne.quantity;
+    }
+    return total;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

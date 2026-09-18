@@ -93,18 +93,7 @@ $(function(){initNavTree('SpriteRenderer_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="SpriteRenderer_8h_source.html">HMI/Graphics/SpriteRenderer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AnimationSystem_8h_source.html">Core/Ecs/Systems/AnimationSystem.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="World_8h_source.html">Core/Ecs/World.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Level_8h_source.html">Core/Levels/Level.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AnimationCatalog_8h_source.html">HMI/Graphics/AnimationCatalog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Camera2D_8h_source.html">HMI/Graphics/Camera2D.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="GraphicsLog_8h_source.html">HMI/Graphics/GraphicsLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ParticleRenderer_8h_source.html">HMI/Graphics/ParticleRenderer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlaneVisuals_8h_source.html">HMI/Graphics/PlaneVisuals.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PlayerSprite_8h_source.html">HMI/Graphics/PlayerSprite.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ShadowRenderer_8h_source.html">HMI/Graphics/ShadowRenderer.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TextureAtlas_8h_source.html">HMI/Graphics/TextureAtlas.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TextureCache_8h_source.html">HMI/Graphics/TextureCache.h</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -114,14 +103,8 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a533df804a658915efda4f8f6c918496e" id="r_a533df804a658915efda4f8f6c918496e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a533df804a658915efda4f8f6c918496e">hmi::submitComposedScene</a> (<a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a> &amp;batch, const DirectX::XMFLOAT4X4 &amp;projection, const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene)</td></tr>
 <tr class="memdesc:a533df804a658915efda4f8f6c918496e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Soumet une scène composée au pipeline de dessin, une passe par groupe de texture.  <br /></td></tr>
-<tr class="memitem:ad9b201473a8b107648c5416469943aaf" id="r_ad9b201473a8b107648c5416469943aaf"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1PlaneTexture.html">PlaneTexture</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ad9b201473a8b107648c5416469943aaf">hmi::resolvePlaneTextures</a> (<a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache, const std::filesystem::path &amp;directory, const std::vector&lt; <a class="el" href="structcore_1_1Plane.html">core::Plane</a> &gt; &amp;planes)</td></tr>
-<tr class="memdesc:ad9b201473a8b107648c5416469943aaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout les images des plans d'un niveau (accès disque/GPU), dans l'ordre de la liste.  <br /></td></tr>
-<tr class="memitem:a27b2297508a6410d2885eeeb226c7ca9" id="r_a27b2297508a6410d2885eeeb226c7ca9"><td class="memItemLeft"><a class="el" href="structhmi_1_1SceneTextures.html">SceneTextures</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a27b2297508a6410d2885eeeb226c7ca9">hmi::sceneTextures</a> (const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a> &amp;atlas, <a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache, const <a class="el" href="classhmi_1_1SkinCatalog.html">SkinCatalog</a> *skins=nullptr, const std::string &amp;skinSet={}, const std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">core::TileTextureOverride</a> &gt; &amp;textureOverrides={}, const std::unordered_map&lt; std::string, <a class="el" href="structcore_1_1Animation.html">core::Animation</a> &gt; &amp;tileAnimations={})</td></tr>
-<tr class="memdesc:a27b2297508a6410d2885eeeb226c7ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Textures liables par la composition d'une scène : atlas, damier de repli et skins.  <br /></td></tr>
-<tr class="memitem:af1d89363ce904e2b4a68eeaa7503c066" id="r_af1d89363ce904e2b4a68eeaa7503c066"><td class="memItemLeft"><a class="el" href="structhmi_1_1BackgroundTexture.html">BackgroundTexture</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af1d89363ce904e2b4a68eeaa7503c066">hmi::resolveBackgroundTexture</a> (const std::optional&lt; std::string &gt; &amp;background, <a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache)</td></tr>
-<tr class="memdesc:af1d89363ce904e2b4a68eeaa7503c066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout la texture de fond d'un niveau (accès <span class="tt"><a class="el" href="classhmi_1_1TextureCache.html" title="Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique.">TextureCache</a></span>/GPU, <span class="tt">LOT-44</span>).  <br /></td></tr>
-<tr class="memitem:a400619b6396af0caf3768b3778730809" id="r_a400619b6396af0caf3768b3778730809"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a400619b6396af0caf3768b3778730809">hmi::advanceTileAnimations</a> (const <a class="el" href="classhmi_1_1SkinCatalog.html">SkinCatalog</a> *skins, const std::string &amp;skinSet, <a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache, float deltaSeconds, std::unordered_map&lt; std::string, <a class="el" href="structcore_1_1Animation.html">core::Animation</a> &gt; &amp;tileAnimations, std::set&lt; std::string &gt; &amp;warnedExclusions)</td></tr>
-<tr class="memdesc:a400619b6396af0caf3768b3778730809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance l'horloge d'animation partagée des tuiles animées d'un jeu de skins courant (<span class="tt">LOT-46</span> TACHE-05).  <br /></td></tr>
+<tr class="memitem:a9fbb2bf9b95887bf5bf16e14e750bac4" id="r_a9fbb2bf9b95887bf5bf16e14e750bac4"><td class="memItemLeft">DirectX::XMFLOAT4X4&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a9fbb2bf9b95887bf5bf16e14e750bac4">hmi::screenProjectionMatrix</a> (int viewportWidth, int viewportHeight) noexcept</td></tr>
+<tr class="memdesc:a9fbb2bf9b95887bf5bf16e14e750bac4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit la projection <b>écran → clip</b>, indépendante de <span class="tt"><a class="el" href="classhmi_1_1Camera2D.html" title="Caméra 2D orthographique : projette le monde vers l&#39;écran pour le rendu.">Camera2D</a></span>.  <br /></td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

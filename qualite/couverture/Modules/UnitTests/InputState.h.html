@@ -41,31 +41,31 @@ enum class Key : std::uint16_t {
     Backspace = 0x08,
     Tab = 0x09,
     Enter = 0x0D,
-    Shift = 0x10,  // Maj : action de dash (`EX-CTRL-013`) ; liaison de mÃ©canismes (Ã©diteur, LOT-14)
-    Control = 0x11,  // Ctrl : raccourcis d'Ã©dition (annuler/refaire, Ã©diteur, LOT-14)
+    Shift = 0x10,  // Maj : modificateur (Maj+clic de l'Ã©diteur)
+    Control = 0x11,  // Ctrl : raccourcis d'Ã©dition (annuler/refaire, Ã©diteur)
     Escape = 0x1B,
     Space = 0x20,
     Left = 0x25,
     Up = 0x26,
     Right = 0x27,
     Down = 0x28,
-    D0 = 0x30,  // Â« 0 Â» : rÃ©initialiser la camÃ©ra de l'Ã©diteur (LOT-15)
+    D0 = 0x30,  // Â« 0 Â» : rÃ©initialiser la camÃ©ra de l'Ã©diteur
     A = 0x41,   // touches lettres (codes VK_*) pour les schÃ©mas ZQSD / WASD
-    C = 0x43,   // Ctrl+C : copier une zone (Ã©diteur, LOT-15)
+    C = 0x43,   // Ctrl+C : copier une zone (Ã©diteur)
     D = 0x44,
-    E = 0x45,  // Interagir, touche clavier par dÃ©faut (jeu, LOT-63)
-    P = 0x50,  // Essai immÃ©diat du niveau en cours d'Ã©dition (Ã©diteur, LOT-14)
+    E = 0x45,  // Interagir, touche clavier par dÃ©faut (jeu)
+    P = 0x50,  // Essai immÃ©diat de la carte en cours d'Ã©dition (Ã©diteur)
     Q = 0x51,
-    R = 0x52,  // Ctrl+R : redimensionner par saisie directe (Ã©diteur, LOT-16)
-    S = 0x53,  // Ctrl+S : enregistrer (Ã©diteur, LOT-14)
-    T = 0x54,  // Outil Â« Texture par instance Â» (Ã©diteur, LOT-45)
-    V = 0x56,  // Ctrl+V : coller une zone (Ã©diteur, LOT-15)
+    R = 0x52,  // Ctrl+R : redimensionner par saisie directe (Ã©diteur)
+    S = 0x53,  // Ctrl+S : enregistrer (Ã©diteur)
+    T = 0x54,
+    V = 0x56,  // Ctrl+V : coller une zone (Ã©diteur)
     W = 0x57,
-    Y = 0x59,    // Ctrl+Y : refaire (Ã©diteur, LOT-14)
-    Z = 0x5A,    // Ctrl+Z : annuler (Ã©diteur, LOT-14)
-    F1 = 0x70,   // Aide des raccourcis (Ã©diteur, LOT-15)
-    F2 = 0x71,   // Renommer le niveau en cours d'Ã©dition (Ã©diteur, LOT-15)
-    F10 = 0x79,  // Bascule la grille de repÃ¨re (Ã©diteur, LOT-15)
+    Y = 0x59,    // Ctrl+Y : refaire (Ã©diteur)
+    Z = 0x5A,    // Ctrl+Z : annuler (Ã©diteur)
+    F1 = 0x70,   // Aide des raccourcis (Ã©diteur)
+    F2 = 0x71,   // Renommer le niveau en cours d'Ã©dition (Ã©diteur)
+    F10 = 0x79,  // Bascule la grille de repÃ¨re (Ã©diteur)
 };
 
 /**
@@ -96,14 +96,14 @@ enum class MouseButton : std::uint8_t {
  * manette, ou les deux Ã  la fois. `keyDown`/`keyPressed`/`keyReleased` **combinent** les deux
  * sources (OU logique) ; la manette ne s'Ã©crit **jamais** dans les tableaux clavier, pour ne
  * jamais effacer une touche clavier rÃ©ellement maintenue quand la manette relÃ¢che le bouton
- * correspondant (voir `Window::pollGamepad`, LOT-20). Cette fusion en lecture, plutÃ´t qu'une
+ * correspondant (voir `hmi::GamepadPoller`). Cette fusion en lecture, plutÃ´t qu'une
  * table d'actions logiques sÃ©parÃ©e, satisfait dÃ©jÃ  `EX-CTRL-010` (action dissociÃ©e de la touche
  * physique) : le `Key` **est** l'action logique, quelle que soit sa source.
  *
  * L'`InputState` est **indÃ©pendant de toute fenÃªtre** (aucune dÃ©pendance `&lt;Windows.h&gt;`, ni
  * `&lt;Xinput.h&gt;`) : les Ã©vÃ©nements peuvent Ãªtre injectÃ©s directement, ce qui le rend testable en
- * isolation (`EX-NFR-010`) â y compris la fusion manette, sans manette rÃ©elle. L'Ã©chantillonnage
- * une fois par frame, en amont de la logique, satisfait `EX-CTRL-021`.
+ * isolation (`EX-NFR-010`) â y compris la fusion manette, sans manette rÃ©elle. Il est Ã©chantillonnÃ©
+ * une fois par frame, en amont de la logique.
  */
 class InputState {
 public:
@@ -152,7 +152,7 @@ public:
      * IndÃ©pendante de `onGamepadKeyDown`/`Up` : celle-ci fusionne la manette dans l'espace des
      * touches clavier (`Key`, utilisÃ©e par la navigation de menu, jamais remappable) ; celle-ci
      * expose l'Ã©tat de chaque bouton physique (`GamepadButton`) tel quel, pour les actions de jeu
-     * remappables via `GamepadBindings` (`EX-CTRL-002`, `LOT-30`).
+     * remappables via `GamepadBindings` (`EX-CTRL-002`).
      */
     void onGamepadButtonDown(GamepadButton button) noexcept;
 
@@ -187,7 +187,7 @@ public:
 
     /**
      * @brief DÃ©clare l'Ã©tat de connexion de la manette pour cette frame (`EX-CTRL-002`).
-     * @param connected Vrai si `XInputGetState` a rÃ©ussi ce pas-ci (voir `Window::pollGamepad`).
+     * @param connected Vrai si `XInputGetState` a rÃ©ussi ce pas-ci (voir `hmi::GamepadPoller`).
      */
     void setGamepadConnected(bool connected) noexcept;
 

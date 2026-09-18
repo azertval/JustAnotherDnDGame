@@ -19,30 +19,6 @@
 
 namespace hmi {
 
-// Declenche (ou relance) une secousse d'ecran (voir en-tete).
-<span style = "background-color:#dfd">void triggerScreenShake(ScreenShakeState&amp; state, float amplitudePixels, float duration) noexcept {
-    state.amplitudePixels = amplitudePixels;
-    state.elapsed = 0.0F;
-    state.duration = duration;
-}</span>
-
-// Avance une secousse d'ecran d'un pas fixe (voir en-tete).
-<span style = "background-color:#dfd">void advanceScreenShake(ScreenShakeState&amp; state, float fixedDelta) noexcept {
-    if (state.elapsed &lt; state.duration) {
-        state.elapsed = (std::min)(state.duration, state.elapsed + fixedDelta);</span>
-    }
-<span style = "background-color:#dfd">}</span>
-
-// Decalage courant d'une secousse d'ecran, en pixels ENTIERS (voir en-tete).
-<span style = "background-color:#dfd">core::Vector2 screenShakeOffset(const ScreenShakeState&amp; state) noexcept {
-    if (state.duration &lt;= 0.0F || state.elapsed &gt;= state.duration) {
-        return core::Vector2{0.0F, 0.0F};  // terminee (ou jamais declenchee) : aucun decalage.</span>
-    }
-<span style = "background-color:#dfd">    const float remaining = 1.0F - (state.elapsed / state.duration);  // 1 -&gt; 0
-    const float rawOffsetY = state.amplitudePixels * remaining;
-    return core::Vector2{0.0F, std::round(rawOffsetY)};
-}</span>
-
 // Construit une camÃ©ra pour une surface de rendu donnÃ©e.
 Camera2D::Camera2D(int viewportWidth, int viewportHeight)
 <span style = "background-color:#dfd">    : _viewportWidth(viewportWidth), _viewportHeight(viewportHeight) {}</span>
@@ -74,14 +50,9 @@ Camera2D::Camera2D(int viewportWidth, int viewportHeight)
     // Ãchelle monde â clip sur chaque axe : la moitiÃ© d'Ã©cran (viewport/2 pixels) doit
     // couvrir 1 en NDC. L'axe Y est inversÃ© (monde Y-bas, NDC Y-haut).
 <span style = "background-color:#dfd">    const float scaleX = scale() * 2.0F / static_cast&lt;float&gt;(_viewportWidth);
-    const float scaleY = scale() * 2.0F / static_cast&lt;float&gt;(_viewportHeight);</span>
-    // Secousse d'ecran (LOT-53 TACHE-03) : decalage en pixels -&gt; NDC, ajoute a la translation
-    // SEULEMENT (jamais a _center) -- convertit un decalage ecran (Y vers le bas) en decalage NDC
-    // (Y vers le haut), d'ou le signe oppose sur l'axe Y par rapport a translateX.
-<span style = "background-color:#dfd">    const float shakeNdcX = _shakeOffsetPixels.x * (2.0F / static_cast&lt;float&gt;(_viewportWidth));
-    const float shakeNdcY = _shakeOffsetPixels.y * (2.0F / static_cast&lt;float&gt;(_viewportHeight));
-    const float translateX = (-_center.x * scaleX) + shakeNdcX;
-    const float translateY = (_center.y * scaleY) - shakeNdcY;</span>
+    const float scaleY = scale() * 2.0F / static_cast&lt;float&gt;(_viewportHeight);
+    const float translateX = -_center.x * scaleX;
+    const float translateY = _center.y * scaleY;</span>
 
     // Ligne-major, appliquÃ©e en `position * matrice` (convention DirectXMath) :
     // clip.x =  scaleX * (x - cx) ; clip.y = -scaleY * (y - cy) ; clip.z = 0 ; clip.w = 1.

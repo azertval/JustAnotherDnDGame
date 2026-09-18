@@ -95,14 +95,9 @@ $(function(){initNavTree('specifications.html','',''); });
 <div class="textblock"><p><a class="anchor" id="md_Specification_2specifications"></a></p>
 <p>Les spécifications décrivent <em>quoi</em> faire et <em>pourquoi</em>, indépendamment de l'implémentation. Elles servent de référence pour découper les <a class="el" href="lots.html" title="Lots">lots detravail</a> et sont tracées par des identifiants d'exigences <span class="tt">EX-…</span>.</p>
 <blockquote class="doxtable">
-<p><b>Deux programmes de lots, deux notations.</b> Ce dépôt est dérivé de <span class="tt">ProjectGaming</span>, un jeu de plateforme livré après 74 lots. Les deux numérotations repartent de <span class="tt">LOT-01</span> et <b>se recouvrent entièrement</b> : un renvoi nu serait ambigu sans être cassé, invisible au lint comme à Doxygen. D'où la convention, posée par le <span class="tt">LOT-78</span> et <b>vérifiée en CI</b> par <span class="tt">scripts/lint_lots.py</span> :</p>
-<ul>
-<li><b><span class="tt">LOT-NN</span></b> désigne un lot <b>de ce programme</b> — il doit exister, livré ou inscrit à la <a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">feuille de route</a> ;</li>
-<li><b><span class="tt">LOT-H-NN</span></b> désigne un lot <b>hérité</b>, archivé en lecture seule sous <span class="tt">Documentation/Heritage/Lot/</span> et hors périmètre Doxygen.</li>
-</ul>
-<p>La plupart des renvois <span class="tt">LOT-H-NN</span> de ces pages accompagnent un « Concrétisé en… » : ils datent une décision du jeu d'origine, ils ne promettent rien pour le RPG. </p>
+<p>Un renvoi <span class="tt">LOT-NN</span> désigne un lot <b>de ce programme</b> — il doit exister, livré ou inscrit à la <a class="el" href="roadmap.html" title="Feuille de route — le bac à sable de Tanares">feuille de route</a> ; <span class="tt">scripts/lint_lots.py</span> le vérifie en CI. </p>
 </blockquote>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md397"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md292"></a>
 Documents</h1>
 <p>L'<b>ordre de lecture ci-dessous est la seule source d'ordre</b> : il est porté par la liste <span class="tt">@subpage</span> de cette page, et non par les noms de fichiers (les spécifications n'ont pas de préfixe numérique). Insérer une spécification = créer son fichier avec une ancre <span class="tt">{#spec-&lt;nom&gt;}</span> et ajouter une ligne <span class="tt">@subpage</span> à la position voulue ci-dessous — sans rien renuméroter.</p>
 <ul>
@@ -115,15 +110,14 @@ Documents</h1>
 <li><a class="el" href="spec-contenu.html" title="Contenu et données">Contenu et données</a></li>
 <li><a class="el" href="spec-controles.html" title="Contrôles &amp; entrées">Contrôles &amp; entrées</a></li>
 <li><a class="el" href="spec-rendu-technique.html" title="Rendu &amp; cible technique">Rendu &amp; cible technique</a></li>
-<li><a class="el" href="spec-niveaux.html" title="Niveaux &amp; contenu">Niveaux &amp; contenu</a></li>
+<li><a class="el" href="spec-niveaux.html" title="Cartes &amp; format">Cartes &amp; format</a></li>
 <li><a class="el" href="spec-exploration.html" title="Exploration">Exploration</a></li>
 <li><a class="el" href="spec-exigences.html" title="Exigences non fonctionnelles">Exigences non fonctionnelles</a></li>
-<li><a class="el" href="spec-editeur.html" title="Éditeur de niveaux">Éditeur de niveaux</a></li>
+<li><a class="el" href="spec-editeur.html" title="Éditeur de cartes">Éditeur de cartes</a></li>
 <li><a class="el" href="spec-interface-ihm.html" title="Interface utilisateur (IHM)">Interface utilisateur (IHM)</a></li>
-<li><a class="el" href="spec-ia.html" title="Solveur IA">Solveur IA</a></li>
 <li><a class="el" href="spec-architecture.html" title="Architecture (décisions dimensionnantes)">Architecture (décisions dimensionnantes)</a></li>
-<li><a class="el" href="spec-decors.html" title="Plans picturaux &amp; pipeline pixel art">Plans picturaux &amp; pipeline pixel art</a></li>
-<li><a class="el" href="spec-conventions.html" title="Conventions de code">Conventions de code</a> </li>
+<li><a class="el" href="spec-conventions.html" title="Conventions de code">Conventions de code</a></li>
+<li><a class="el" href="spec-retirees.html" title="Exigences retirées">Exigences retirées</a> </li>
 </ul>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

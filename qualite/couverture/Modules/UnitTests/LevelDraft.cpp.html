@@ -15,10 +15,8 @@
 #include "Core/Levels/LevelDraft.h"
 
 #include &lt;algorithm&gt;
-#include &lt;cmath&gt;
 #include &lt;utility&gt;
 
-#include "Core/Diagnostics/Assert.h"
 #include "Core/Levels/LevelWriter.h"
 
 namespace core {
@@ -51,22 +49,14 @@ LevelDraft::LevelDraft(std::string name, TileMap tileMap)
 }</span>
 
 <span style = "background-color:#dfd">LevelDraft LevelDraft::fromLevel(const Level&amp; level) {
-    LevelDraft draft(level.name(), level.tileMap());
-    draft._entry = level.entry();
-    draft._exit = level.exit();
-    draft._mechanisms = level.mechanisms();
-    draft._background = level.background();
-    draft._skinSet = level.skinSet();
+    LevelDraft draft(level.name(), level.tileMap());</span>
+    // INVARIANT DE CE CONSTRUCTEUR : fromLevel recopie TOUS les champs de Level, sans exception.
+    // Un brouillon reenregistre doit etre equivalent a la carte d'origine -- un champ non recopie
+    // ne fait echouer aucun appel, il s'efface simplement au premier enregistrement. Ajouter un
+    // champ a Level, c'est l'ajouter ici.
+<span style = "background-color:#dfd">    draft._entry = level.entry();
     draft._textureOverrides = level.textureOverrides();
-    draft._cameraFraming = level.cameraFraming();</span>
-    // Plans picturaux et drapeau de parallaxe (LOT-69). INVARIANT DE CE CONSTRUCTEUR : fromLevel
-    // recopie TOUS les champs de Level, sans exception. Un brouillon reenregistre doit etre
-    // equivalent au niveau d'origine -- un champ non recopie ne fait echouer aucun appel, il
-    // s'efface simplement au premier enregistrement. Ajouter un champ a Level, c'est l'ajouter ici.
-<span style = "background-color:#dfd">    draft._planes = level.planes();
-    draft._parallaxEnabled = level.parallaxEnabled();</span>
-    // Couches et entites (LOT-04), au titre du meme invariant ; le LOT-11 les rend editables.
-<span style = "background-color:#dfd">    draft._layers = level.layers();
+    draft._layers = level.layers();
     draft._entities = level.entities();
     return draft;
 }</span>
@@ -100,30 +90,18 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
         setEntryInternal(column, row);
         return;</span>
     }
-<span style = "background-color:#dfd">    if (type == TileType::Exit) {</span>
-<span style = "background-color:#fdd">        setExitInternal(column, row);
-        return;</span>
-    }
 
 <span style = "background-color:#dfd">    const GridPosition position{.column = column, .row = row};
     if (_entry &amp;&amp; *_entry == position) {
         _entry.reset();</span>
     }
-<span style = "background-color:#dfd">    if (_exit &amp;&amp; *_exit == position) {</span>
-<span style = "background-color:#fdd">        _exit.reset();</span>
+    // Reposer le meme type ne doit pas effacer une piece assignee (EX-EDIT-043) : un coup de
+    // pinceau involontaire sur une case deja du bon type l'effacerait sinon.
+<span style = "background-color:#dfd">    if (_tileMap.tile(column, row) != type) {
+        removeTextureOverrideAt(position);</span>
     }
-    // Reposer le meme type ne doit pas effacer un habillage (EX-EDIT-043) : un coup de pinceau
-    // involontaire sur une case deja du bon type effacerait sinon un override de texture.
-<span style = "background-color:#dfd">    const bool sameType = _tileMap.tile(column, row) == type;
-    removeLinkedDataAt(position, /*keepTextureOverride=*/sameType);
-    _tileMap.setTile(column, row, type);</span>
-
-    // Meme defaut que LevelLoader (EX-GP-026/EX-GP-051) : une plateforme ou un danger mobile
-    // fraichement pose porte IMMEDIATEMENT sa configuration par defaut. Sans cette entree, l'outil
-    // Parcours ne le trouve dans aucun des vecteurs qu'il parcourt (hmi::designatePathAt) tant que
-    // le niveau n'a pas ete sauvegarde puis recharge (seul LevelLoader la creait jusqu'ici) : la
-    // tuile reste invisible pour la selection, et son parcours impossible a commencer.
-<span style = "background-color:#dfd">}</span>
+<span style = "background-color:#dfd">    _tileMap.setTile(column, row, type);
+}</span>
 
 <span style = "background-color:#dfd">void LevelDraft::setEntry(int column, int row) {
     pushUndo();
@@ -135,230 +113,15 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
     if (_entry &amp;&amp; *_entry != position) {
         _tileMap.setTile(_entry-&gt;column, _entry-&gt;row, TileType::Empty);</span>
     }
-<span style = "background-color:#dfd">    removeLinkedDataAt(position);
+<span style = "background-color:#dfd">    removeTextureOverrideAt(position);
     _tileMap.setTile(column, row, TileType::Entry);
     _entry = position;
 }</span>
 
-<span style = "background-color:#dfd">void LevelDraft::setExit(int column, int row) {
-    pushUndo();
-    setExitInternal(column, row);
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setExitInternal(int column, int row) {
-    const GridPosition position{.column = column, .row = row};
-    if (_exit &amp;&amp; *_exit != position) {
-        _tileMap.setTile(_exit-&gt;column, _exit-&gt;row, TileType::Empty);</span>
-    }
-<span style = "background-color:#dfd">    removeLinkedDataAt(position);
-    _tileMap.setTile(column, row, TileType::Exit);
-    _exit = position;
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::linkMechanism(GridPosition switchPosition, GridPosition targetPosition) {</span>
-    // switchTile n'est lu que par l'assertion qui suit, laquelle disparait en Release : son
-    // usage depend donc de la configuration, d'ou l'attribut.
-<span style = "background-color:#dfd">    [[maybe_unused]] const TileType switchTile =</span>
-        _tileMap.inBounds(switchPosition.column, switchPosition.row)
-            ? _tileMap.tile(switchPosition.column, switchPosition.row)
-            : TileType::Empty;
-<span style = "background-color:#dfd">    JADG_ASSERT(switchTile == TileType::Switch || switchTile == TileType::PressurePlate ||</span>
-                    switchTile == TileType::Key,
-                "linkMechanism : la position source ne porte pas de declencheur "
-                "(interrupteur, plaque de pression ou cle)");
-<span style = "background-color:#dfd">    [[maybe_unused]] const TileType targetTile =</span>
-        _tileMap.inBounds(targetPosition.column, targetPosition.row)
-            ? _tileMap.tile(targetPosition.column, targetPosition.row)
-            : TileType::Empty;
-<span style = "background-color:#dfd">    JADG_ASSERT(targetTile == TileType::Door || targetTile == TileType::LockedDoor,</span>
-                "linkMechanism : la position cible ne porte pas de porte "
-                "ni de porte verrouillee");
-
-<span style = "background-color:#dfd">    pushUndo();</span>
-    // Retrait direct (sans passer par unlinkMechanism, qui empilerait un second snapshot) :
-    // lier remplace une eventuelle liaison existante en une seule action undoable.
-<span style = "background-color:#dfd">    std::erase_if(_mechanisms, [targetPosition](const Mechanism&amp; mechanism) {
-        return mechanism.doorPosition == targetPosition;
-    });</span>
-    // Meme vecteur pour Door ET LockedDoor (aucune notion de liaison dupliquee, LOT-63
-    // TACHE-02) : core::MechanismController distingue leur comportement a la construction.
-<span style = "background-color:#dfd">    _mechanisms.push_back(</span>
-        Mechanism{.switchPosition = switchPosition, .doorPosition = targetPosition});
-<span style = "background-color:#dfd">}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::unlinkMechanism(GridPosition targetPosition) {
-    pushUndo();
-    std::erase_if(_mechanisms, [targetPosition](const Mechanism&amp; mechanism) {
-        return mechanism.doorPosition == targetPosition;
-    });
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setTextureOverride(GridPosition position, std::string assetName) {
-    pushUndo();
-    std::erase_if(_textureOverrides, [position](const TileTextureOverride&amp; override) {
-        return override.position == position;
-    });
-    _textureOverrides.push_back(</span>
-        TileTextureOverride{.position = position, .assetName = std::move(assetName)});
-<span style = "background-color:#dfd">}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::removeTextureOverride(GridPosition position) {
-    pushUndo();
-    std::erase_if(_textureOverrides, [position](const TileTextureOverride&amp; override) {
-        return override.position == position;
-    });
-}</span>
-
-// --- Plans picturaux (EX-DEC-040, LOT-69) ---
-//
-// Discipline commune : un rang hors bornes ne fait RIEN et n'empile RIEN (sinon annuler un geste
-// sans effet consommerait un pas d'historique), et une valeur refusee n'empile pas davantage. Le
-// pushUndo() vient donc toujours APRES les validations, jamais avant.
-//
-// Le deplacement ne raisonne pas par couche, contrairement aux decors : le rang dans la liste EST
-// l'ordre de superposition, la profondeur etant une propriete independante (EX-DEC-042).
-
-<span style = "background-color:#dfd">void LevelDraft::addPlane(Plane plane) {
-    pushUndo();
-    _planes.push_back(std::move(plane));
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::removePlane(std::size_t index) {
-    if (index &gt;= _planes.size()) {
-        return;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _planes.erase(_planes.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
-}</span>
-
-<span style = "background-color:#dfd">bool LevelDraft::setPlaneDensity(std::size_t index, int pixelsPerUnit) {
-    if (index &gt;= _planes.size() || !isValidPlaneDensity(pixelsPerUnit)) {
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _planes[index].pixelsPerUnit = pixelsPerUnit;
-    return true;
-}</span>
-
-<span style = "background-color:#dfd">bool LevelDraft::setPlaneParallax(std::size_t index, float parallaxX, float parallaxY) {
-    if (index &gt;= _planes.size() || !std::isfinite(parallaxX) || !std::isfinite(parallaxY)) {
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _planes[index].parallaxX = parallaxX;
-    _planes[index].parallaxY = parallaxY;
-    return true;
-}</span>
-
-<span style = "background-color:#dfd">bool LevelDraft::setPlaneOpacity(std::size_t index, float opacity) {</span>
-    // Comparaisons ecrites en positif pour rejeter aussi NaN, qui echoue toute comparaison.
-<span style = "background-color:#dfd">    if (index &gt;= _planes.size() || !(opacity &gt;= 0.0F) || !(opacity &lt;= 1.0F)) {
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _planes[index].opacity = opacity;
-    return true;
-}</span>
-
-<span style = "background-color:#dfd">bool LevelDraft::setPlaneDepth(std::size_t index, PlaneDepth depth) {
-    if (index &gt;= _planes.size()) {
-        return false;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _planes[index].depth = depth;
-    return true;
-}</span>
-
-<span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; LevelDraft::movePlaneForward(std::size_t index) {
-    if (index &gt;= _planes.size()) {
-        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    if (index + 1 == _planes.size()) {
-        return index;  // deja le plus en avant : succes sans effet, rien d'empile.</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    std::swap(_planes[index], _planes[index + 1]);
-    return index + 1;
-}</span>
-
-<span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; LevelDraft::movePlaneBackward(std::size_t index) {
-    if (index &gt;= _planes.size()) {</span>
-<span style = "background-color:#fdd">        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    if (index == 0) {
-        return index;  // deja le plus en arriere.</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    std::swap(_planes[index], _planes[index - 1]);
-    return index - 1;
-}</span>
-
-<span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; LevelDraft::movePlaneToFront(std::size_t index) {
-    if (index &gt;= _planes.size()) {</span>
-<span style = "background-color:#fdd">        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    const std::size_t last = _planes.size() - 1;
-    if (index == last) {</span>
-<span style = "background-color:#fdd">        return index;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    Plane moved = std::move(_planes[index]);
-    _planes.erase(_planes.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
-    _planes.push_back(std::move(moved));
-    return last;
-}</span>
-
-<span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; LevelDraft::movePlaneToBack(std::size_t index) {
-    if (index &gt;= _planes.size()) {
-        return std::nullopt;</span>
-    }
-<span style = "background-color:#dfd">    if (index == 0) {</span>
-<span style = "background-color:#fdd">        return index;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    Plane moved = std::move(_planes[index]);
-    _planes.erase(_planes.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
-    _planes.insert(_planes.begin(), std::move(moved));
-    return 0;
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setParallaxEnabled(bool enabled) {
-    pushUndo();
-    _parallaxEnabled = enabled;
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setBackground(std::optional&lt;std::string&gt; background) {
-    pushUndo();
-    _background = std::move(background);
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setSkinSet(std::optional&lt;std::string&gt; skinSet) {
-    pushUndo();
-    _skinSet = std::move(skinSet);
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::setCameraFraming(CameraFramingConfig cameraFraming) {
-    pushUndo();
-    _cameraFraming = std::move(cameraFraming);
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::addCameraZone(CameraZone zone) {
-    pushUndo();
-    _cameraFraming.zones.push_back(zone);
-}</span>
-
-<span style = "background-color:#dfd">void LevelDraft::removeCameraZone(std::size_t index) {
-    if (index &gt;= _cameraFraming.zones.size()) {
-        return;</span>
-    }
-<span style = "background-color:#dfd">    pushUndo();
-    _cameraFraming.zones.erase(_cameraFraming.zones.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
-}</span>
-
 // --- Couches de tuiles (LOT-11) ---
 //
-// Meme discipline que les plans : les validations d'abord, le pushUndo() ensuite, jamais un pas
-// d'historique pour un geste refuse ou sans effet.
+// Les validations d'abord, le pushUndo() ensuite : jamais un pas d'historique pour un geste refuse
+// ou sans effet.
 
 namespace {
 
@@ -582,25 +345,15 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
 <span style = "background-color:#dfd">    if (_entry &amp;&amp; !_tileMap.inBounds(_entry-&gt;column, _entry-&gt;row)) {
         _entry.reset();</span>
     }
-<span style = "background-color:#dfd">    if (_exit &amp;&amp; !_tileMap.inBounds(_exit-&gt;column, _exit-&gt;row)) {
-        _exit.reset();</span>
-    }
-<span style = "background-color:#dfd">    std::erase_if(_mechanisms, [this](const Mechanism&amp; mechanism) {
-        return !_tileMap.inBounds(mechanism.switchPosition.column, mechanism.switchPosition.row) ||</span>
-               !_tileMap.inBounds(mechanism.doorPosition.column, mechanism.doorPosition.row);
-<span style = "background-color:#dfd">    });
-    std::erase_if(_textureOverrides, [this](const TileTextureOverride&amp; override) {
+<span style = "background-color:#dfd">    std::erase_if(_textureOverrides, [this](const TileTextureOverride&amp; override) {
         return !_tileMap.inBounds(override.position.column, override.position.row);
     });</span>
-    // Une entite est keyee par sa case, comme les mecanismes : hors de la nouvelle grille, elle
-    // n'a plus de place ou exister, et la garder rendrait le niveau irrecuperable (EX-LVL-017).
+    // Une entite est keyee par sa case : hors de la nouvelle grille, elle n'a plus de place ou
+    // exister, et la garder rendrait la carte irrecuperable (EX-LVL-017).
 <span style = "background-color:#dfd">    std::erase_if(_entities, [this](const MapEntity&amp; entity) {
         return !_tileMap.inBounds(entity.position.column, entity.position.row);
-    });</span>
-    // _decors n'est volontairement PAS filtre : contrairement aux autres donnees annexes (keyees
-    // par case), un decor libre peut legitimement deborder du niveau (une branche qui depasse) --
-    // le tronquer serait une perte de travail (TACHE-01).
-<span style = "background-color:#dfd">}</span>
+    });
+}</span>
 
 <span style = "background-color:#dfd">bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
     const auto outOfBounds = [width, height](GridPosition position) {
@@ -610,22 +363,14 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
     if (_entry &amp;&amp; outOfBounds(*_entry)) {
         return true;</span>
     }
-<span style = "background-color:#dfd">    if (_exit &amp;&amp; outOfBounds(*_exit)) {
-        return true;</span>
-    }
-<span style = "background-color:#dfd">    for (const Mechanism&amp; mechanism : _mechanisms) {
-        if (outOfBounds(mechanism.switchPosition) || outOfBounds(mechanism.doorPosition)) {</span>
-<span style = "background-color:#fdd">            return true;</span>
-        }
-<span style = "background-color:#dfd">    }
-    for (const TileTextureOverride&amp; override : _textureOverrides) {
+<span style = "background-color:#dfd">    for (const TileTextureOverride&amp; override : _textureOverrides) {
         if (outOfBounds(override.position)) {
             return true;</span>
         }
 <span style = "background-color:#dfd">    }
-    return std::ranges::any_of(_entities, [&amp;outOfBounds](const MapEntity&amp; entity) {</span>
-<span style = "background-color:#fdd">        return outOfBounds(entity.position);</span>
-<span style = "background-color:#dfd">    });
+    return std::ranges::any_of(_entities, [&amp;outOfBounds](const MapEntity&amp; entity) {
+        return outOfBounds(entity.position);
+    });
 }</span>
 
 <span style = "background-color:#dfd">bool LevelDraft::undo() {
@@ -652,32 +397,18 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
     return State{.name = _name,</span>
                  .tileMap = _tileMap,
                  .entry = _entry,
-                 .exit = _exit,
-                 .mechanisms = _mechanisms,
                  .layers = _layers,
                  .entities = _entities,
-                 .background = _background,
-                 .skinSet = _skinSet,
-                 .textureOverrides = _textureOverrides,
-                 .cameraFraming = _cameraFraming,
-                 .planes = _planes,
-                 .parallaxEnabled = _parallaxEnabled};
+                 .textureOverrides = _textureOverrides};
 <span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">void LevelDraft::restore(State state) {
     _name = std::move(state.name);
     _tileMap = std::move(state.tileMap);
     _entry = state.entry;
-    _exit = state.exit;
-    _mechanisms = std::move(state.mechanisms);
     _layers = std::move(state.layers);
     _entities = std::move(state.entities);
-    _background = std::move(state.background);
-    _skinSet = std::move(state.skinSet);
     _textureOverrides = std::move(state.textureOverrides);
-    _cameraFraming = state.cameraFraming;
-    _planes = std::move(state.planes);
-    _parallaxEnabled = state.parallaxEnabled;
 }</span>
 
 <span style = "background-color:#dfd">void LevelDraft::pushUndo() {
@@ -700,26 +431,15 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
                                                               .tileMap = _tileMap,
                                                               .layers = std::move(layers),
                                                               .entities = _entities,
-                                                              .mechanisms = _mechanisms,
-                                                              .background = _background,
-                                                              .skinSet = _skinSet,
-                                                              .textureOverrides = _textureOverrides,
-                                                              .cameraFraming = _cameraFraming,
-                                                              .planes = _planes,
-                                                              .parallaxEnabled = _parallaxEnabled});
+                                                              .textureOverrides = _textureOverrides});
 <span style = "background-color:#dfd">    return LevelLoader::loadFromString(json);
 }</span>
 
-<span style = "background-color:#dfd">void LevelDraft::removeLinkedDataAt(GridPosition position, bool keepTextureOverride) {
-    std::erase_if(_mechanisms, [position](const Mechanism&amp; mechanism) {
-        return mechanism.switchPosition == position || mechanism.doorPosition == position;
+<span style = "background-color:#dfd">void LevelDraft::removeTextureOverrideAt(GridPosition position) {
+    std::erase_if(_textureOverrides, [position](const TileTextureOverride&amp; override) {
+        return override.position == position;
     });
-    if (!keepTextureOverride) {
-        std::erase_if(_textureOverrides, [position](const TileTextureOverride&amp; override) {
-            return override.position == position;
-        });</span>
-    }
-<span style = "background-color:#dfd">}</span>
+}</span>
 
 }  // namespace core</pre>
         <hr />

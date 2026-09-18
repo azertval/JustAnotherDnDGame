@@ -104,9 +104,11 @@ $(function(){initNavTree('test__level__file__operations_8cpp.html','',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad67ac8305af02c7245a71b1cf3557b2d" id="r_ad67ac8305af02c7245a71b1cf3557b2d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad67ac8305af02c7245a71b1cf3557b2d">TEST_F</a> (LevelFileOps, CreeUnNiveauValide)</td></tr>
-<tr class="memdesc:ad67ac8305af02c7245a71b1cf3557b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Créer un niveau écrit sur disque un fichier <b>valide</b> et l'expose immédiatement dans la liste : la création part d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Niveau mutable en cours d&#39;édition, distinct de Level (immuable, LOT-07).">core::LevelDraft</a></span> vide passé par la validation, jamais d'un fichier vide qui échouerait au premier chargement.  <br /></td></tr>
+<tr class="memdesc:ad67ac8305af02c7245a71b1cf3557b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Créer un niveau écrit sur disque un fichier <b>valide</b> et l'expose immédiatement dans la liste : la création part d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> vide passé par la validation, jamais d'un fichier vide qui échouerait au premier chargement.  <br /></td></tr>
+<tr class="memitem:a8c629c3aea97ecc02804a4844945a032" id="r_a8c629c3aea97ecc02804a4844945a032"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8c629c3aea97ecc02804a4844945a032">TEST_F</a> (LevelFileOps, LaPlusPetiteCarteFaitUneCase)</td></tr>
+<tr class="memdesc:a8c629c3aea97ecc02804a4844945a032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte ne demande qu'une case d'entrée : 1×1 se crée, une dimension nulle est refusée.  <br /></td></tr>
 <tr class="memitem:ad8013bbede77ac0774de05c0834d2279" id="r_ad8013bbede77ac0774de05c0834d2279"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad8013bbede77ac0774de05c0834d2279">TEST_F</a> (LevelFileOps, FichierDeSequenceExcluDeLaListe)</td></tr>
-<tr class="memdesc:ad8013bbede77ac0774de05c0834d2279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un fichier de séquence de contenu (<span class="tt">sequence-*.json</span>, <span class="tt">LOT-59</span> TACHE-04) partageant le dossier des niveaux n'est <b>pas</b> un niveau et ne doit jamais apparaître dans la liste : il ne se chargerait pas comme tel si l'utilisateur tentait de l'ouvrir depuis ce panneau.  <br /></td></tr>
+<tr class="memdesc:ad8013bbede77ac0774de05c0834d2279"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un fichier de séquence de contenu (<span class="tt">sequence-*.json</span>) partageant le dossier des niveaux n'est <b>pas</b> un niveau et ne doit jamais apparaître dans la liste : il ne se chargerait pas comme tel si l'utilisateur tentait de l'ouvrir depuis ce panneau.  <br /></td></tr>
 <tr class="memitem:aca91cb54e8a29f21e49a8d13bb2eef14" id="r_aca91cb54e8a29f21e49a8d13bb2eef14"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aca91cb54e8a29f21e49a8d13bb2eef14">TEST_F</a> (LevelFileOps, RefuseNomInvalideEtCollision)</td></tr>
 <tr class="memdesc:aca91cb54e8a29f21e49a8d13bb2eef14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un nom invalide (barre oblique, qui s'échapperait du dossier des niveaux) et un nom déjà pris sont refusés par un résultat récupérable, jamais par une exception ni par un écrasement silencieux du niveau existant.  <br /></td></tr>
 <tr class="memitem:ad859ebb492f6e6ce614b986c83dd2817" id="r_ad859ebb492f6e6ce614b986c83dd2817"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad859ebb492f6e6ce614b986c83dd2817">TEST_F</a> (LevelFileOps, RenommeEtDeplaceLeFichier)</td></tr>
@@ -118,7 +120,7 @@ Functions</h2></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="ad67ac8305af02c7245a71b1cf3557b2d" name="ad67ac8305af02c7245a71b1cf3557b2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad67ac8305af02c7245a71b1cf3557b2d">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad67ac8305af02c7245a71b1cf3557b2d">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,7 +138,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Créer un niveau écrit sur disque un fichier <b>valide</b> et l'expose immédiatement dans la liste : la création part d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Niveau mutable en cours d&#39;édition, distinct de Level (immuable, LOT-07).">core::LevelDraft</a></span> vide passé par la validation, jamais d'un fichier vide qui échouerait au premier chargement. </p>
+<p>Créer un niveau écrit sur disque un fichier <b>valide</b> et l'expose immédiatement dans la liste : la création part d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> vide passé par la validation, jamais d'un fichier vide qui échouerait au premier chargement. </p>
 <p><b>Cas de test :</b> <b>Créer un niveau écrit un fichier valide, immédiatement listé.</b><br  />
  <b>Categorie :</b> Unitaire · Opérations sur fichiers de niveau<br  />
  <b>Criticite :</b> Critique<br  />
@@ -148,7 +150,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a84e4befacc22f243237f14b14908b7e8" name="a84e4befacc22f243237f14b14908b7e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84e4befacc22f243237f14b14908b7e8">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e4befacc22f243237f14b14908b7e8">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -178,7 +180,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad8013bbede77ac0774de05c0834d2279" name="ad8013bbede77ac0774de05c0834d2279"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8013bbede77ac0774de05c0834d2279">&#9670;&#160;</a></span>TEST_F() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8013bbede77ac0774de05c0834d2279">&#9670;&#160;</a></span>TEST_F() <span class="overload">[3/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -196,7 +198,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Un fichier de séquence de contenu (<span class="tt">sequence-*.json</span>, <span class="tt">LOT-59</span> TACHE-04) partageant le dossier des niveaux n'est <b>pas</b> un niveau et ne doit jamais apparaître dans la liste : il ne se chargerait pas comme tel si l'utilisateur tentait de l'ouvrir depuis ce panneau. </p>
+<p>Un fichier de séquence de contenu (<span class="tt">sequence-*.json</span>) partageant le dossier des niveaux n'est <b>pas</b> un niveau et ne doit jamais apparaître dans la liste : il ne se chargerait pas comme tel si l'utilisateur tentait de l'ouvrir depuis ce panneau. </p>
 <p><b>Cas de test :</b> <b>Un fichier de séquence n'apparaît jamais dans la liste des niveaux.</b><br  />
  <b>Categorie :</b> Unitaire · Opérations sur fichiers de niveau<br  />
  <b>Criticite :</b> Majeur<br  />
@@ -207,8 +209,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a8c629c3aea97ecc02804a4844945a032" name="a8c629c3aea97ecc02804a4844945a032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c629c3aea97ecc02804a4844945a032">&#9670;&#160;</a></span>TEST_F() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_F </td>
+          <td>(</td>
+          <td class="paramtype">LevelFileOps</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LaPlusPetiteCarteFaitUneCase</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Une carte ne demande qu'une case d'entrée : 1×1 se crée, une dimension nulle est refusée. </p>
+<p><b>Cas de test :</b> <b>La plus petite carte créable est 1×1.</b><br  />
+ <b>Categorie :</b> Unitaire · Opérations sur fichiers de niveau<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Créer une carte 1×1.<br  />
+2. Tenter une carte de largeur nulle, puis de hauteur nulle.<br  />
+ <b>Resultat attendu :</b> La carte 1×1 est écrite ; les deux autres sont refusées sans fichier. </p>
+
+</div>
+</div>
 <a id="aca91cb54e8a29f21e49a8d13bb2eef14" name="aca91cb54e8a29f21e49a8d13bb2eef14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca91cb54e8a29f21e49a8d13bb2eef14">&#9670;&#160;</a></span>TEST_F() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca91cb54e8a29f21e49a8d13bb2eef14">&#9670;&#160;</a></span>TEST_F() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -238,7 +270,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad859ebb492f6e6ce614b986c83dd2817" name="ad859ebb492f6e6ce614b986c83dd2817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad859ebb492f6e6ce614b986c83dd2817">&#9670;&#160;</a></span>TEST_F() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad859ebb492f6e6ce614b986c83dd2817">&#9670;&#160;</a></span>TEST_F() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +300,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a88ecd94bb63d2c6851e23c2689105ae9" name="a88ecd94bb63d2c6851e23c2689105ae9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88ecd94bb63d2c6851e23c2689105ae9">&#9670;&#160;</a></span>TEST_F() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ecd94bb63d2c6851e23c2689105ae9">&#9670;&#160;</a></span>TEST_F() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

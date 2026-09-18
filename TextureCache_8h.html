@@ -93,38 +93,26 @@ $(function(){initNavTree('TextureCache_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Registre de textures chargées à la demande par <b>nom logique</b> (<span class="tt">EX-REN-043</span>).  
+<p>Registre des textures <b>générées</b> à la demande : les marqueurs d'entité (<span class="tt">LOT-39</span>).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
-<code>#include &lt;optional&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
-<code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AnimationCatalog_8h_source.html">HMI/Graphics/AnimationCatalog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AssetContract_8h_source.html">HMI/Graphics/AssetContract.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="AssetPaths_8h_source.html">HMI/Graphics/AssetPaths.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="CacheRegistry_8h_source.html">HMI/Graphics/CacheRegistry.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="RhiContext_8h_source.html">HMI/Graphics/RhiContext.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TextureLoader_8h_source.html">HMI/Graphics/TextureLoader.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TileSilhouette_8h_source.html">HMI/Graphics/TileSilhouette.h</a>&quot;</code><br />
 </div>
 <p><a href="TextureCache_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:hmi_3A_3ATextureCache" id="r_hmi_3A_3ATextureCache"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1TextureCache.html">hmi::TextureCache</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge, valide et met en cache des textures GPU désignées par leur nom de fichier logique.  <a href="classhmi_1_1TextureCache.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée et conserve les textures des marqueurs d'entité, une par clé d'asset.  <a href="classhmi_1_1TextureCache.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a32457118c4e60dff8da0ba9839c0f29a" id="r_a32457118c4e60dff8da0ba9839c0f29a"><td class="memItemLeft">const <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a32457118c4e60dff8da0ba9839c0f29a">hmi::resolveOrPlaceholder</a> (<a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache, const std::string &amp;fileName, <a class="el" href="namespacehmi.html#a0030e1768b551f6d1bc0a9fa566d2003">AssetFamily</a> family)</td></tr>
-<tr class="memdesc:a32457118c4e60dff8da0ba9839c0f29a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtient la texture d'un asset, ou le <b>repli en damier magenta</b> à défaut.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Registre de textures chargées à la demande par <b>nom logique</b> (<span class="tt">EX-REN-043</span>). </p>
+<div class="textblock"><p>Registre des textures <b>générées</b> à la demande : les marqueurs d'entité (<span class="tt">LOT-39</span>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

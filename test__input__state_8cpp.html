@@ -121,13 +121,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a79c5319fd973997de0845a0a282b0284" id="r_a79c5319fd973997de0845a0a282b0284"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a79c5319fd973997de0845a0a282b0284">TEST</a> (InputStateTest, ClavierEtManetteMemeToucheUnSeulFront)</td></tr>
 <tr class="memdesc:a79c5319fd973997de0845a0a282b0284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clavier et manette combinés sur la même touche ne produisent pas de double front.  <br /></td></tr>
 <tr class="memitem:ae21cb188be633f1aa74cf4ce20725d0d" id="r_ae21cb188be633f1aa74cf4ce20725d0d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae21cb188be633f1aa74cf4ce20725d0d">TEST</a> (InputStateTest, ManetteRelacheeNeMasquePasLeClavier)</td></tr>
-<tr class="memdesc:ae21cb188be633f1aa74cf4ce20725d0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La manette relâchée ne masque jamais une touche clavier réellement maintenue (non-stomping, décision de cadrage LOT-20).  <br /></td></tr>
+<tr class="memdesc:ae21cb188be633f1aa74cf4ce20725d0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La manette relâchée ne masque jamais une touche clavier réellement maintenue (non-stomping, décision de cadrage).  <br /></td></tr>
 <tr class="memitem:a3512d9ab97fdf0700f1ea9234f2f4ef3" id="r_a3512d9ab97fdf0700f1ea9234f2f4ef3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a3512d9ab97fdf0700f1ea9234f2f4ef3">TEST</a> (InputStateTest, GamepadConnecteReecrasable)</td></tr>
 <tr class="memdesc:a3512d9ab97fdf0700f1ea9234f2f4ef3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">gamepadConnected</span> reflète le dernier <span class="tt">setGamepadConnected</span> appelé.  <br /></td></tr>
 <tr class="memitem:a1d14a5636e572dc508004a875b1ab60a" id="r_a1d14a5636e572dc508004a875b1ab60a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1d14a5636e572dc508004a875b1ab60a">TEST</a> (InputStateTest, FrontMontantBoutonManetteBrut)</td></tr>
 <tr class="memdesc:a1d14a5636e572dc508004a875b1ab60a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bouton manette (piste brute) passé d'« absent » à « présent » est « pressé » exactement une frame, comme une touche clavier.  <br /></td></tr>
 <tr class="memitem:a86f7359d38d8eed9cd0ce1118aebf948" id="r_a86f7359d38d8eed9cd0ce1118aebf948"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a86f7359d38d8eed9cd0ce1118aebf948">TEST</a> (InputStateTest, FrontDescendantBoutonManetteBrut)</td></tr>
-<tr class="memdesc:a86f7359d38d8eed9cd0ce1118aebf948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bouton manette (piste brute) relâché après avoir été enfoncé est « relâché » exactement une frame (<span class="tt">LOT-63</span>, action Interagir).  <br /></td></tr>
+<tr class="memdesc:a86f7359d38d8eed9cd0ce1118aebf948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un bouton manette (piste brute) relâché après avoir été enfoncé est « relâché » exactement une frame (action Interagir).  <br /></td></tr>
 <tr class="memitem:a4244badb84b38bb1cc59f41f3b62e1e5" id="r_a4244badb84b38bb1cc59f41f3b62e1e5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4244badb84b38bb1cc59f41f3b62e1e5">TEST</a> (InputStateTest, PisteBrutIndependanteDeLaFusionKey)</td></tr>
 <tr class="memdesc:a4244badb84b38bb1cc59f41f3b62e1e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">La piste manette brute (<span class="tt">GamepadButton</span>) est indépendante de la fusion clavier/manette existante sur <span class="tt">Key</span> : l'une n'affecte jamais l'autre.  <br /></td></tr>
 <tr class="memitem:a8d8b26cac3ac268359ec15eb1ab327cf" id="r_a8d8b26cac3ac268359ec15eb1ab327cf"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8d8b26cac3ac268359ec15eb1ab327cf">TEST</a> (InputStateTest, RelacheToutSansFront)</td></tr>
@@ -245,7 +245,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Un bouton manette (piste brute) relâché après avoir été enfoncé est « relâché » exactement une frame (<span class="tt">LOT-63</span>, action Interagir). </p>
+<p>Un bouton manette (piste brute) relâché après avoir été enfoncé est « relâché » exactement une frame (action Interagir). </p>
 <p><b>Cas de test :</b> <b>Un bouton manette (piste brute) est « relâché » exactement une frame.</b><br  />
  <b>Categorie :</b> Unitaire · Input State<br  />
  <b>Criticite :</b> Majeur<br  />
@@ -425,7 +425,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>La manette relâchée ne masque jamais une touche clavier réellement maintenue (non-stomping, décision de cadrage LOT-20). </p>
+<p>La manette relâchée ne masque jamais une touche clavier réellement maintenue (non-stomping, décision de cadrage). </p>
 <p><b>Cas de test :</b> <b>La manette relâchée ne masque jamais une touche clavier réellement maintenue.</b><br  />
  <b>Categorie :</b> Unitaire · Input State<br  />
  <b>Criticite :</b> Majeur<br  />

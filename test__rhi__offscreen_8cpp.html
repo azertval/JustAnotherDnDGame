@@ -93,7 +93,7 @@ $(function(){initNavTree('test__rhi__offscreen_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Non-régression <b>visuelle</b> du portage QRhi (LOT-69 TACHE-02, <span class="tt">EX-REN-050</span>, <span class="tt">EX-ARCH-022</span>) : rendu <b>hors écran</b> d'un motif témoin, relu pixel par pixel.  
+<p>Non-régression <b>visuelle</b> du portage QRhi (<span class="tt">EX-REN-050</span>, <span class="tt">EX-ARCH-022</span>) : rendu <b>hors écran</b> d'un motif témoin, relu pixel par pixel.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;QImage&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -114,7 +114,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a1e18f301a4206b2f188fee815a56a832"><td class="mdescLeft">&#160;</td><td class="mdescRight">La teinte du quad multiplie la texture échantillonnée, et le fond d'effacement subsiste là où rien n'est dessiné — les deux invariants de composition du pipeline porté.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Non-régression <b>visuelle</b> du portage QRhi (LOT-69 TACHE-02, <span class="tt">EX-REN-050</span>, <span class="tt">EX-ARCH-022</span>) : rendu <b>hors écran</b> d'un motif témoin, relu pixel par pixel. </p>
+<div class="textblock"><p>Non-régression <b>visuelle</b> du portage QRhi (<span class="tt">EX-REN-050</span>, <span class="tt">EX-ARCH-022</span>) : rendu <b>hors écran</b> d'un motif témoin, relu pixel par pixel. </p>
 <p>C'est le seul test qui protège vraiment l'objectif du portage. Le risque dominant du lot est qu'un rendu devenu <b>flou</b> passe toute la CI : tout compile, tous les tests logiques passent, et seul l'œil verrait la différence. Un agrandissement au filtrage <em>nearest</em> produit des blocs de couleur <b>exactement</b> égaux au texel source ; le moindre filtrage linéaire introduirait des teintes intermédiaires aux frontières, que les assertions ci-dessous refusent.</p>
 <p>Le test s'exécute sur une interface QRhi hors écran (aucune fenêtre) et se <b>saute</b> proprement si aucune n'est disponible sur la machine (<span class="tt">EX-NFR-004</span> borne ce qui est automatisable). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>

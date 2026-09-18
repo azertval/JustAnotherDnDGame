@@ -137,12 +137,12 @@ Private Attributes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-attribs" class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
 Static Private Attributes</h2></td></tr>
 <tr class="memitem:aedefa2f82cb6d1a74cb0728400b5d7e6" id="r_aedefa2f82cb6d1a74cb0728400b5d7e6"><td class="memItemLeft">static constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#aedefa2f82cb6d1a74cb0728400b5d7e6">MAX_INSTANCES_PER_EVENT</a> = 3</td></tr>
-<tr class="memdesc:aedefa2f82cb6d1a74cb0728400b5d7e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'instances préchargées par événement — plafonne le recouvrement audible d'un même son déclenché en rafale, sans l'empêcher complètement (<span class="tt">TACHE-02</span>).  <br /></td></tr>
+<tr class="memdesc:aedefa2f82cb6d1a74cb0728400b5d7e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'instances préchargées par événement — plafonne le recouvrement audible d'un même son déclenché en rafale, sans l'empêcher complètement.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Lecture d'échantillons courts à faible latence, avec volume global et repli muet. </p>
 <p>Enveloppe fine autour de <span class="tt">QSoundEffect</span> (Qt Multimedia) : ouverture du périphérique de sortie à la construction, un <span class="tt">QSoundEffect</span> par échantillon préchargé, arrêt propre à la destruction (RAII, <span class="tt">EX-NFR-041</span>). Aucune exception ne franchit cette frontière (<span class="tt">EX-NFR-040</span>) : un périphérique absent, un fichier introuvable ou une lecture demandée alors que le moteur est « muet » ne font jamais rien de plus qu'un avertissement journalisé une seule fois.</p>
-<p><b>Aucune dépendance dans <span class="tt">Core</span></b> : cette classe vit exclusivement dans <span class="tt">HMI</span> (<span class="tt">EX-ARCH-012</span>, <span class="tt">EX-NFR-010</span>). La simulation expose des transitions d'état ; c'est ce moteur, piloté par <span class="tt">HMI/Audio/SoundTriggers</span> (LOT-60 TACHE-03), qui décide qu'une transition fait du bruit. </p>
+<p><b>Aucune dépendance dans <span class="tt">Core</span></b> : cette classe vit exclusivement dans <span class="tt">HMI</span> (<span class="tt">EX-ARCH-012</span>, <span class="tt">EX-NFR-010</span>). Aujourd'hui, seul le volume de l'option Audio le règle : aucun son n'est encore livré. </p>
 </div><a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Member Enumeration Documentation</h2>
 <a id="ad69604c7755d74dc1d662c64c5a65d16" name="ad69604c7755d74dc1d662c64c5a65d16"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad69604c7755d74dc1d662c64c5a65d16">&#9670;&#160;</a></span>ForceMuted</h2>
@@ -416,9 +416,9 @@ Static Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Précharge un échantillon sous un identifiant logique. </p>
-<p>À appeler au démarrage pour chaque son du catalogue (<span class="tt">HMI/Audio/SoundCatalog</span>, TACHE-02) : <span class="tt">QSoundEffect</span> charge son fichier de façon asynchrone, jouer immédiatement après construction ne produit rien. Précharger ici, jamais au premier déclenchement. Prépare en réalité <span class="tt"><a class="el" href="#aedefa2f82cb6d1a74cb0728400b5d7e6" title="Nombre d&#39;instances préchargées par événement — plafonne le recouvrement audible d&#39;un même son déclenc...">MAX_INSTANCES_PER_EVENT</a></span> échantillons identiques (une petite réserve), pour qu'un même événement déclenché en rafale se recouvre sans s'interrompre lui-même de façon audible. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>À appeler au démarrage pour chaque son à jouer : <span class="tt">QSoundEffect</span> charge son fichier de façon asynchrone, jouer immédiatement après construction ne produit rien. Précharger ici, jamais au premier déclenchement. Prépare en réalité <span class="tt"><a class="el" href="#aedefa2f82cb6d1a74cb0728400b5d7e6" title="Nombre d&#39;instances préchargées par événement — plafonne le recouvrement audible d&#39;un même son déclenc...">MAX_INSTANCES_PER_EVENT</a></span> échantillons identiques (une petite réserve), pour qu'un même événement déclenché en rafale se recouvre sans s'interrompre lui-même de façon audible. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">id</td><td>Identifiant logique (ex. "saut"). Un second appel avec le même identifiant remplace la réserve précédente. </td></tr>
+    <tr><td class="paramname">id</td><td>Identifiant logique (ex. "coup"). Un second appel avec le même identifiant remplace la réserve précédente. </td></tr>
     <tr><td class="paramname">file</td><td>Chemin du fichier WAV. Un fichier absent ne fait pas échouer l'appel : la lecture ultérieure de cet identifiant restera silencieuse. </td></tr>
   </table>
   </dd>
@@ -564,7 +564,7 @@ Static Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Nombre d'instances préchargées par événement — plafonne le recouvrement audible d'un même son déclenché en rafale, sans l'empêcher complètement (<span class="tt">TACHE-02</span>). </p>
+<p>Nombre d'instances préchargées par événement — plafonne le recouvrement audible d'un même son déclenché en rafale, sans l'empêcher complètement. </p>
 
 </div>
 </div>

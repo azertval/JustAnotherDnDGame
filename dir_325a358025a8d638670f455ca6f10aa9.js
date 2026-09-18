@@ -1,7 +1,6 @@
 var dir_325a358025a8d638670f455ca6f10aa9 =
 [
     [ "Components", "dir_f69202b516efeab62778db608b6130e3.html", "dir_f69202b516efeab62778db608b6130e3" ],
-    [ "Systems", "dir_935c2558c4a2ecc5b2bcb71c6abb691d.html", "dir_935c2558c4a2ecc5b2bcb71c6abb691d" ],
     [ "AnimationClip.cpp", "AnimationClip_8cpp.html", null ],
     [ "AnimationClip.h", "AnimationClip_8h.html", "AnimationClip_8h" ],
     [ "ComponentPool.h", "ComponentPool_8h.html", "ComponentPool_8h" ],

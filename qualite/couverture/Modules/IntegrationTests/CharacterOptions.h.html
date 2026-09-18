@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CharacterOptions.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+/**
+ * @file Core/Rpg/CharacterOptions.h
+ * @brief EspÃ¨ces, historiques et classes : de quoi construire un personnage (`LOT-36`).
+ */
+
+#include &lt;array&gt;
+#include &lt;cstddef&gt;
+#include &lt;filesystem&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Rpg/Ability.h"
+#include "Core/Rpg/RpgEnums.h"
+
+namespace core {
+
+/// @brief Un trait nommÃ©, tel que le livre l'Ã©crit â d'espÃ¨ce ou d'historique.
+struct NamedTrait {
+    std::string name;
+    std::string text;
+};
+
+/**
+ * @brief Le **statut provisoire** d'une donnÃ©e (`EX-CNT-032`).
+ *
+ * Une donnÃ©e provisoire non marquÃ©e devient permanente par accident â c'est la faÃ§on la plus
+ * banale dont un Ã©chafaudage finit en mur porteur. `removalCriterion` Ã©crit **d'avance** ce qui la
+ * fera disparaÃ®tre ; sans lui, le champ ne serait qu'un aveu sans suite.
+ */
+struct ProvisionalStatus {
+    bool provisional = false;
+    std::string reason;
+    std::string removalCriterion;
+};
+
+/**
+ * @brief Une espÃ¨ce jouable : ce que `species.schema.json` dÃ©crit.
+ *
+ * Les augmentations de caractÃ©ristique sont une **table**, jamais une phrase : c'est la seule
+ * forme que le moteur puisse appliquer, et `abilityScoreIncrease` est indexÃ©e par `core::Ability`.
+ * Une case Ã  zÃ©ro signifie Â« pas d'augmentation Â», ce qui est la valeur juste â le livre n'accorde
+ * jamais un bonus nul, et rien ne distingue ici l'absence du zÃ©ro parce que rien ne les distingue
+ * dans la rÃ¨gle.
+ */
+struct Species {
+    std::string id;
+    std::string name;
+    std::string source;
+    CreatureSize size = CreatureSize::Medium;
+    /// Vitesse de base, en **mÃ¨tres**. Les livres de Tanares comptent en pieds ; la conversion est
+    /// faite Ã  l'extraction, pour qu'un seul systÃ¨me d'unitÃ©s arrive jusqu'ici.
+    float speed = 0.0F;
+    std::array&lt;int, 6&gt; abilityScoreIncrease{};
+    /// Sous-espÃ¨ce : l'identifiant de l'espÃ¨ce dont celle-ci dÃ©rive. Vide sinon.
+    std::string parentSpecies;
+    std::vector&lt;std::string&gt; languages;
+    std::vector&lt;NamedTrait&gt; traits;
+    std::vector&lt;std::string&gt; requiredMechanisms;
+
+    /// @brief L'augmentation qu'accorde cette espÃ¨ce pour une caractÃ©ristique.
+<span style = "background-color:#dfd">    [[nodiscard]] int increase(Ability which) const {
+        return abilityScoreIncrease[static_cast&lt;std::size_t&gt;(which)];
+    }</span>
+};
+
+/// @brief Un historique : maÃ®trises, langues accordÃ©es et capacitÃ©.
+struct Background {
+    std::string id;
+    std::string name;
+    std::string source;
+    /// CompÃ©tences maÃ®trisÃ©es, par identifiant du catalogue du `LOT-43`.
+    std::vector&lt;std::string&gt; skillProficiencies;
+    /// Nombre de langues **au choix** du joueur. `0` si l'historique n'en accorde aucune.
+    int languageCount = 0;
+    std::optional&lt;NamedTrait&gt; feature;
+    std::string text;
+};
+
+/// @brief Une ligne de table de progression : ce qu'un niveau apporte.
+struct ClassLevel {
+    int level = 0;
+    int proficiencyBonus = 0;
+    std::vector&lt;std::string&gt; features;
+};
+
+/**
+ * @brief Une classe jouable et sa table de progression.
+ *
+ * **La table de progression est une donnÃ©e, jamais une rÃ¨gle en C++** : le bonus de maÃ®trise se
+ * lit ligne Ã  ligne dans `progression`, et aucune formule du moteur ne le recalcule. Une classe
+ * dont la progression sortirait de l'ordinaire â et le `LOT-84` en annonce trente et une â n'aurait
+ * alors rien Ã  changer dans le code.
+ */
+struct PlayableClass {
+    std::string id;
+    std::string name;
+    std::string source;
+    int hitDie = 0;
+    std::vector&lt;Ability&gt; primaryAbility;
+    std::vector&lt;Ability&gt; savingThrowProficiencies;
+    std::vector&lt;ClassLevel&gt; progression;
+    ProvisionalStatus status;
+
+    /// @brief La ligne de progression d'un niveau, ou `nullptr` si la table ne le porte pas.
+    [[nodiscard]] const ClassLevel* atLevel(int level) const;
+};
+
+/**
+ * @brief Les trois catalogues chargÃ©s, et ce qui n'a pas pu l'Ãªtre.
+ *
+ * Les erreurs voyagent **avec** les donnÃ©es, jamais Ã  leur place : un catalogue dont une entrÃ©e
+ * est illisible reste utilisable, et le refuser en bloc rendrait le jeu injouable pour une
+ * virgule. Chaque Ã©chec nomme son fichier (`EX-CNT-010`).
+ */
+struct CharacterOptions {
+    std::vector&lt;Species&gt; species;
+    std::vector&lt;Background&gt; backgrounds;
+    std::vector&lt;PlayableClass&gt; classes;
+    std::vector&lt;std::string&gt; errors;
+
+    [[nodiscard]] const Species* findSpecies(std::string_view id) const;
+    [[nodiscard]] const Background* findBackground(std::string_view id) const;
+    [[nodiscard]] const PlayableClass* findClass(std::string_view id) const;
+
+    /**
+     * @brief Les mÃ©canismes que ces donnÃ©es exigent et que personne n'a encore honorÃ©s
+     *        (`EX-CNT-031`).
+     *
+     * Le moteur les **liste au chargement** plutÃ´t que de jouer en silence une augmentation de
+     * caractÃ©ristique qu'il ne sait pas laisser choisir au joueur. C'est la diffÃ©rence entre une
+     * espÃ¨ce qu'on sait incomplÃ¨te et une espÃ¨ce qu'on croit jouable.
+     */
+    [[nodiscard]] std::vector&lt;std::string&gt; requiredMechanisms() const;
+
+    /// @brief Les identifiants des classes marquÃ©es **provisoires** (`EX-CNT-032`).
+    [[nodiscard]] std::vector&lt;std::string&gt; provisionalClassIds() const;
+};
+
+/**
+ * @brief Applique les augmentations d'une espÃ¨ce Ã  une valeur de caractÃ©ristique.
+ *
+ * La seule opÃ©ration que le moteur ait Ã  faire sur une espÃ¨ce, et elle est ici pour ne pas Ãªtre
+ * rÃ©Ã©crite Ã  chaque Ã©cran qui affiche une fiche.
+ *
+ * `maximumScore` est **un paramÃ¨tre et non une constante** (`EX-VIS-007`) : le plafond vient de
+ * `rules/character-creation.json`, oÃ¹ il est extrait de la phrase qui l'atteste â *Â« Vous ne
+ * pouvez pas augmenter une valeur de caractÃ©ristique au-delÃ  de 20 Â»*, *Basic Rules* p. 11. Ãcrit
+ * ici, il ferait d'un ajustement d'Ã©quilibrage une recompilation.
+ */
+[[nodiscard]] int abilityScoreWith(const Species&amp; species, Ability which, int baseScore,
+                                   int maximumScore);
+
+/**
+ * @brief Charge les trois catalogues depuis leurs dossiers.
+ *
+ * Chaque dossier est **balayÃ©**, jamais Ã©numÃ©rÃ© dans le code : une liste de noms Ã©crite en C++
+ * serait une seconde source de vÃ©ritÃ©, et la premiÃ¨re espÃ¨ce ajoutÃ©e par un lot suivant en
+ * sortirait invisible.
+ *
+ * @param speciesDir Dossier des espÃ¨ces (`Source/Elements/Rpg/species`).
+ * @param backgroundsDir Dossier des historiques.
+ * @param classesDir Dossier des classes.
+ * @return Les catalogues et la liste des Ã©checs. Ne lÃ¨ve jamais (`EX-NFR-040`). Un dossier absent
+ *         produit une erreur, pas un catalogue vide : les deux se ressemblent Ã  l'exÃ©cution, et
+ *         les confondre fait chercher le dÃ©faut du mauvais cÃ´tÃ©.
+ */
+[[nodiscard]] CharacterOptions loadCharacterOptions(const std::filesystem::path&amp; speciesDir,
+                                                    const std::filesystem::path&amp; backgroundsDir,
+                                                    const std::filesystem::path&amp; classesDir);
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

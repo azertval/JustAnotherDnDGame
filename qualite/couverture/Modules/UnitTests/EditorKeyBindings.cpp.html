@@ -47,8 +47,6 @@ namespace {
 <span style = "background-color:#dfd">            return "aide";</span>
         case EditorAction::Rename:
 <span style = "background-color:#dfd">            return "renommer";</span>
-        case EditorAction::TextureAssignTool:
-<span style = "background-color:#dfd">            return "outilTexture";</span>
     }
 <span style = "background-color:#fdd">    return "";</span>
 <span style = "background-color:#dfd">}</span>
@@ -75,8 +73,6 @@ namespace {
 <span style = "background-color:#dfd">            return Key::F1;</span>
         case EditorAction::Rename:
 <span style = "background-color:#dfd">            return Key::F2;</span>
-        case EditorAction::TextureAssignTool:
-<span style = "background-color:#dfd">            return Key::T;</span>
     }
 <span style = "background-color:#fdd">    return Key::Escape;  // inatteignable : switch exhaustif sur EditorAction ci-dessus.</span>
 <span style = "background-color:#dfd">}</span>
@@ -108,7 +104,7 @@ namespace {
     }
 }</span>
 
-// Relit le fichier existant (pour preserver la section "jeu" ecrite par GameKeyBindings), remplace
+// Relit le fichier existant (pour preserver les autres sections, ex. "jeu"), remplace
 // uniquement la section "editeur", puis reecrit. Un fichier absent/corrompu en lecture est traite
 // comme vide (on part d'un objet JSON neuf) : jamais bloquant pour la sauvegarde.
 <span style = "background-color:#dfd">bool EditorKeyBindings::save(const std::filesystem::path&amp; path) const {

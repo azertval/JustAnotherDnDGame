@@ -1044,8 +1044,8 @@ DialogueRunner::DialogueRunner(const DialogueGraph&amp; graph, WorldFlags&amp; f
         return std::nullopt;</span>
     }
 <span style = "background-color:#dfd">    const std::string* dialogue = std::get_if&lt;std::string&gt;(&amp;trouve-&gt;second);
-    if (dialogue == nullptr || dialogue-&gt;empty()) {
-        return std::nullopt;</span>
+    if (dialogue == nullptr || dialogue-&gt;empty()) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
     }
 <span style = "background-color:#dfd">    return DialogueTrigger{.dialogueId = *dialogue, .position = entity.position};
 }</span>

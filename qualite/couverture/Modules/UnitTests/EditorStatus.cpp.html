@@ -14,11 +14,8 @@
 
 #include "HMI/Editor/EditorStatus.h"
 
-#include &lt;array&gt;
 #include &lt;cmath&gt;
 #include &lt;cstddef&gt;
-#include &lt;cstdio&gt;
-#include &lt;vector&gt;
 
 #include "HMI/Localization/Localization.h"
 
@@ -27,7 +24,7 @@ namespace hmi {
 namespace {
 
 // Remplace la premiere occurrence de "%1" (et "%2" pour les gabarits a deux valeurs) -- pas de
-// dependance Qt, meme discipline que hmi::gameHudLines (LOT-52).
+// dependance Qt.
 std::string replacePlaceholder(std::string text, const std::string&amp; placeholder,
 <span style = "background-color:#dfd">                               const std::string&amp; value) {
     const std::size_t position = text.find(placeholder);
@@ -46,44 +43,9 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
     return formatOne(templateText, std::to_string(value));
 }</span>
 
-<span style = "background-color:#dfd">std::string formatTwo(const std::string&amp; templateText, int first, int second) {
+<span style = "background-color:#fdd">std::string formatTwo(const std::string&amp; templateText, int first, int second) {
     return replacePlaceholder(formatOne(templateText, first), "%2", std::to_string(second));
 }</span>
-
-// Remplace %1, %2, ... par les valeurs donnees, dans l'ordre -- generalisation de formatOne/
-// formatTwo pour la fiche d'un plan, qui en porte quatre.
-<span style = "background-color:#fdd">std::string formatAll(const std::string&amp; templateText, const std::vector&lt;std::string&gt;&amp; values) {
-    std::string text = templateText;
-    for (std::size_t index = 0; index &lt; values.size(); ++index) {
-        text = replacePlaceholder(text, "%" + std::to_string(index + 1), values[index]);
-    }
-    return text;
-}</span>
-
-// Poids d'une texture en mebioctets, deux decimales. Une seule unite pour toute l'echelle utile :
-// le plus petit plan du depot pese deja 0,08 Mio et le plafond est a 16 Mio -- basculer en kibi
-// sous le mebi rendrait deux plans incomparables d'un coup d'oeil, ce qui est tout ce qu'on
-// demande a cette zone.
-<span style = "background-color:#fdd">std::string formatMebibytes(std::size_t bytes) {
-    const double mebibytes = static_cast&lt;double&gt;(bytes) / (1024.0 * 1024.0);
-    std::array&lt;char, 32&gt; buffer{};
-    std::snprintf(buffer.data(), buffer.size(), "%.2f", mebibytes);
-    return {buffer.data()};
-}</span>
-
-// Cle de traduction du libelle d'un mode de cadrage (LOT-64) -- memes cles que TexturePanel.cpp
-// (section Â« Cadrage Â»), reprises ici plutot que dupliquees : un seul point de vocabulaire.
-<span style = "background-color:#dfd">const char* cameraFramingLabelKey(core::CameraFramingMode mode) {
-    switch (mode) {</span>
-        case core::CameraFramingMode::WholeLevel:
-<span style = "background-color:#dfd">            return "camera_framing.whole_level";</span>
-        case core::CameraFramingMode::PerRoom:
-<span style = "background-color:#dfd">            return "camera_framing.per_room";</span>
-        case core::CameraFramingMode::Follow:
-<span style = "background-color:#dfd">            return "camera_framing.follow";</span>
-    }
-<span style = "background-color:#fdd">    return "camera_framing.whole_level";</span>
-<span style = "background-color:#dfd">}</span>
 
 // Cle de traduction du libelle court d'un outil (deja utilisees par EditorActions).
 <span style = "background-color:#dfd">const char* toolLabelKey(EditorTool tool) {
@@ -94,19 +56,13 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#fdd">            return "tool.rectangle";</span>
         case EditorTool::Selection:
 <span style = "background-color:#fdd">            return "tool.selection";</span>
-        case EditorTool::Link:
-<span style = "background-color:#dfd">            return "tool.link";</span>
-        case EditorTool::TextureAssign:
-<span style = "background-color:#fdd">            return "tool.texture_assign";</span>
-        case EditorTool::CameraZone:
-<span style = "background-color:#fdd">            return "tool.camera_zone";</span>
         case EditorTool::Entity:
-<span style = "background-color:#fdd">            return "tool.entity";</span>
+<span style = "background-color:#dfd">            return "tool.entity";</span>
     }
 <span style = "background-color:#fdd">    return "tool.brush";</span>
 <span style = "background-color:#dfd">}</span>
 
-// Cle de traduction de l'aide contextuelle d'un outil (LOT-57 TACHE-01, retire status.edit_help).
+// Cle de traduction de l'aide contextuelle d'un outil (retire status.edit_help).
 <span style = "background-color:#dfd">const char* toolHelpKey(EditorTool tool) {
     switch (tool) {</span>
         case EditorTool::Paint:
@@ -115,114 +71,20 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#fdd">            return "status.help_rectangle";</span>
         case EditorTool::Selection:
 <span style = "background-color:#fdd">            return "status.help_selection";</span>
-        case EditorTool::Link:
-<span style = "background-color:#dfd">            return "status.help_link";</span>
-        case EditorTool::TextureAssign:
-<span style = "background-color:#fdd">            return "status.help_texture_assign";</span>
-        case EditorTool::CameraZone:
-<span style = "background-color:#fdd">            return "status.help_camera_zone";</span>
         case EditorTool::Entity:
-<span style = "background-color:#fdd">            return "status.help_entity";</span>
+<span style = "background-color:#dfd">            return "status.help_entity";</span>
     }
 <span style = "background-color:#fdd">    return "status.help_paint";</span>
 <span style = "background-color:#dfd">}</span>
-
-// Cle de traduction du libelle court d'un outil de canevas pixel art (LOT-54 TACHE-04) -- deja
-// utilisees par EditorActions (memes cles que les actions de la barre d'outils du canevas).
-<span style = "background-color:#dfd">const char* pixelToolLabelKey(PixelTool tool) {
-    switch (tool) {</span>
-        case PixelTool::Brush:
-<span style = "background-color:#dfd">            return "pixel_tool.brush";</span>
-        case PixelTool::Eraser:
-<span style = "background-color:#dfd">            return "pixel_tool.eraser";</span>
-        case PixelTool::Fill:
-<span style = "background-color:#fdd">            return "pixel_tool.fill";</span>
-        case PixelTool::Eyedropper:
-<span style = "background-color:#dfd">            return "pixel_tool.eyedropper";</span>
-        case PixelTool::Selection:
-<span style = "background-color:#fdd">            return "pixel_tool.selection";</span>
-    }
-<span style = "background-color:#fdd">    return "pixel_tool.brush";</span>
-<span style = "background-color:#dfd">}</span>
-
-// Cle de traduction de l'aide contextuelle d'un outil de canevas pixel art (LOT-54 TACHE-04).
-<span style = "background-color:#dfd">const char* pixelToolHelpKey(PixelTool tool) {
-    switch (tool) {</span>
-        case PixelTool::Brush:
-<span style = "background-color:#dfd">            return "status.help_pixel_brush";</span>
-        case PixelTool::Eraser:
-<span style = "background-color:#dfd">            return "status.help_pixel_eraser";</span>
-        case PixelTool::Fill:
-<span style = "background-color:#fdd">            return "status.help_pixel_fill";</span>
-        case PixelTool::Eyedropper:
-<span style = "background-color:#dfd">            return "status.help_pixel_eyedropper";</span>
-        case PixelTool::Selection:
-<span style = "background-color:#fdd">            return "status.help_pixel_selection";</span>
-    }
-<span style = "background-color:#fdd">    return "status.help_pixel_brush";</span>
-<span style = "background-color:#dfd">}</span>
-
-// Couleur R8G8B8A8_UNORM (ordre memoire R,G,B,A, meme convention que decodeImageFile/
-// encodeImageFile, LOT-54 TACHE-01) -&gt; chaine hexadecimale "#rrggbbaa", alpha compris (une
-// pipette peut prelever une couleur partiellement transparente).
-<span style = "background-color:#dfd">std::string formatColorHex(std::uint32_t color) {
-    std::array&lt;char, 10&gt; buffer{};
-    std::snprintf(buffer.data(), buffer.size(), "#%02x%02x%02x%02x",</span>
-                  static_cast&lt;unsigned&gt;(color &amp; 0xFFU), static_cast&lt;unsigned&gt;((color &gt;&gt; 8) &amp; 0xFFU),
-                  static_cast&lt;unsigned&gt;((color &gt;&gt; 16) &amp; 0xFFU),
-                  static_cast&lt;unsigned&gt;((color &gt;&gt; 24) &amp; 0xFFU));
-<span style = "background-color:#dfd">    return {buffer.data()};
-}</span>
 
 }  // namespace
 
 // Contenu de la barre d'etat de l'editeur (voir en-tete) : zones permanentes puis aide.
 EditorStatusLines editorStatusLines(const EditorStatusContext&amp; context,
 <span style = "background-color:#dfd">                                    const Localization&amp; localization) {
-    EditorStatusLines lines;</span>
-    // niveau/asset, modifie, outil, case/pixel survole, zoom, couleur courante (atelier
-    // seulement), cadrage de camera (contexte niveau seulement).
-<span style = "background-color:#dfd">    lines.permanent.assign(7, std::string{});</span>
-
-<span style = "background-color:#dfd">    if (context.pixelEdit) {
-        const PixelEditStatusInfo&amp; pixel = *context.pixelEdit;
-        if (!pixel.assetName.empty()) {</span>
-            // Un plan n'est pas un asset : il ne vit pas sous `Assets/` et n'est reutilisable par
-            // aucun autre niveau. Annoncer Â« Asset : ... Â» en mode creation dirait le contraire de
-            // ce que le lot etablit.
-<span style = "background-color:#dfd">            const char* const nameKey =</span>
-                pixel.plane ? "status.zone.plane_file" : "status.zone.asset";
-<span style = "background-color:#dfd">            lines.permanent[0] = formatOne(localization.text(nameKey), pixel.assetName);</span>
-        }
-<span style = "background-color:#dfd">        if (pixel.dirty) {</span>
-<span style = "background-color:#fdd">            lines.permanent[1] = localization.text("status.zone.dirty");</span>
-        }
-<span style = "background-color:#dfd">        lines.permanent[2] = localization.text(pixelToolLabelKey(pixel.tool));
-        if (pixel.hoveredPixel) {
-            lines.permanent[3] = formatTwo(localization.text("status.zone.hover"),</span>
-                                           pixel.hoveredPixel-&gt;first, pixel.hoveredPixel-&gt;second);
-        }
-<span style = "background-color:#dfd">        lines.permanent[4] = formatOne(localization.text("status.zone.zoom"), pixel.zoom * 100);</span>
-        // Mode contraint (LOT-54 TACHE-07) : integre a la meme zone couleur plutot qu'une septieme
-        // zone -- l'information n'a de sens qu'accolee a la couleur qu'elle affecte.
-<span style = "background-color:#dfd">        const char* const colorKey =</span>
-            pixel.paletteConstrained ? "status.zone.color_constrained" : "status.zone.color";
-<span style = "background-color:#dfd">        lines.permanent[5] =</span>
-            formatOne(localization.text(colorKey), formatColorHex(pixel.currentColor));
-        // Fiche du plan (LOT-69 TACHE-08) : la septieme zone, libre en contexte plan puisque le
-        // cadrage de camera qu'elle porte ailleurs n'a de sens que sur un niveau.
-<span style = "background-color:#dfd">        if (pixel.plane) {</span>
-<span style = "background-color:#fdd">            lines.permanent[6] = formatAll(localization.text("status.zone.plane"),</span>
-                                           {std::to_string(pixel.plane-&gt;widthPixels),
-                                            std::to_string(pixel.plane-&gt;heightPixels),
-                                            std::to_string(pixel.plane-&gt;pixelsPerUnit),
-                                            formatMebibytes(pixel.plane-&gt;textureBytes)});
-        }
-<span style = "background-color:#dfd">        lines.help = localization.text(pixelToolHelpKey(pixel.tool));
-        return lines;</span>
-    }
-
-<span style = "background-color:#dfd">    if (!context.level) {
+    EditorStatusLines lines;
+    lines.permanent.assign(EDITOR_STATUS_ZONE_COUNT, std::string{});
+    if (!context.level) {
         return lines;  // aucun contexte actif : zones et aide vides, jamais de libelle de repli.</span>
     }
 <span style = "background-color:#dfd">    const LevelStatusInfo&amp; level = *context.level;</span>
@@ -238,9 +100,6 @@ EditorStatusLines editorStatusLines(const EditorStatusContext&amp; context,
     }
 <span style = "background-color:#dfd">    const int zoomPercent = static_cast&lt;int&gt;(std::lround(level.zoom * 100.0F));
     lines.permanent[4] = formatOne(localization.text("status.zone.zoom"), zoomPercent);</span>
-    // permanent[5] (couleur) reste vide : sans objet hors atelier pixel art.
-<span style = "background-color:#dfd">    lines.permanent[6] = formatOne(localization.text("status.zone.camera_framing"),</span>
-                                   localization.text(cameraFramingLabelKey(level.cameraFraming)));
 
 <span style = "background-color:#dfd">    lines.help = localization.text(toolHelpKey(level.tool));
     return lines;

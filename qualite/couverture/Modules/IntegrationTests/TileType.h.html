@@ -22,36 +22,20 @@
 namespace core {
 
 /**
- * @brief Type d'une tuile de la grille d'une carte (`EX-GP-001`).
+ * @brief Type d'une tuile de la grille d'une carte (`EX-LVL-002`).
  *
- * `Empty` est la case traversable par dÃ©faut ; `Solid` bloque le dÃ©placement ; `Danger`
- * provoque l'Ã©chec au contact ; `Entry`/`Exit` sont l'apparition et la sortie. `Switch`,
- * `PressurePlate` et `Door` sont les mÃ©canismes classiques â l'interrupteur bascule au contact,
- * la plaque reste active tant qu'un poids y repose, les deux ouvrant une porte liÃ©e.
- * `Key`/`LockedDoor` sont la seconde paire dÃ©clencheurâcible, la clÃ© ouvrant sa porte
- * **dÃ©finitivement**. `Block` est un bloc poussable.
+ * `Empty` est la case traversable par dÃ©faut ; `Solid` bloque le dÃ©placement ; `Entry` est le point
+ * d'arrivÃ©e par dÃ©faut du hÃ©ros sur la carte. Le reste est le vocabulaire du **terrain** en vue de
+ * dessus (`EX-EXP-005`, `LOT-08`) : `Grass`, `Dirt`, `Sand`, `Water` et `DeepWater` (sols, les
+ * quatre premiers traversables), `Wall` et `Cliff` (obstacles), `Bridge` et `Stairs` (passages).
  *
- * Le `LOT-08` y ajoute le vocabulaire du **terrain** en vue de dessus (`EX-EXP-005`) : `Grass`,
- * `Dirt`, `Sand`, `Water` et `DeepWater` (sols, les quatre premiers traversables), `Wall` et
- * `Cliff` (obstacles), `Bridge` et `Stairs` (passages). Il **ajoute** sans rien remplacer : le
- * vocabulaire de puzzle hÃ©ritÃ© sert tel quel au RPG.
- *
- * @note Le `LOT-01` avait retirÃ© les types propres au jeu de plateforme (pentes, arrondis, blocs
- *       rÃ©duits, plateformes mobiles, blocs volatils, dangers directionnels, mobiles et
- *       temporisÃ©s), sans objet en vue de dessus.
+ * Ce qui **agit** sur une carte â PNJ, coffres, portails, rencontres â n'est pas un type de tuile
+ * mais une entitÃ© (`core::MapEntity`, `EX-LVL-017`) : une grille ne retient qu'un type par case.
  */
 enum class TileType {
     Empty,
     Solid,
-    Danger,
     Entry,
-    Exit,
-    Switch,
-    Door,
-    PressurePlate,
-    Block,
-    Key,
-    LockedDoor,
     // --- Terrain du RPG en vue de dessus (LOT-08) ---
     /// Herbe : le sol par dÃ©faut d'une carte extÃ©rieure.
     Grass,
@@ -78,12 +62,11 @@ enum class TileType {
 
 /**
  * @brief Nombre de valeurs de `core::TileType` â **seule** source de vÃ©ritÃ© de la fin de
- *        l'Ã©numÃ©ration (`LOT-74` TACHE-02).
+ *        l'Ã©numÃ©ration.
  *
  * Ajouter un type ne demande rien d'autre que de l'ajouter ci-dessus, **avant** le dernier
  * Ã©numÃ©rateur : cette constante suit, et ses consommateurs avec elle. L'ajouter en **fin** de
- * liste, comme l'a fait le `LOT-08`, demande en plus de re-pointer cette seule ligne â c'est le
- * prix d'un vocabulaire qui se lit dans son ordre d'apparition plutÃ´t qu'en dÃ©sordre.
+ * liste demande en plus de re-pointer cette seule ligne.
  *
  * Volontairement une constante libre plutÃ´t qu'un Ã©numÃ©rateur `Count` : les `switch` sur `TileType`
  * du projet sont **exhaustifs et sans `default`** (c'est ce qui fait que le compilateur dÃ©signe
@@ -95,20 +78,16 @@ inline constexpr int TILE_TYPE_COUNT = static_cast&lt;int&gt;(TileType::Stairs) 
 /**
  * @brief Indique si un type de tuile bloque le dÃ©placement de maniÃ¨re **statique**.
  *
- * @note La soliditÃ© d'une porte dÃ©pend de son **Ã©tat** (ouverte/fermÃ©e) et la position d'un bloc
- *       poussable Ã©volue en jeu : les deux sont rÃ©solues par la simulation, jamais par ce test
- *       statique.
  * @note `DeepWater` **bloque** : ce n'est pas de la matiÃ¨re, mais rien ne permet encore de la
  *       franchir. Le jour oÃ¹ une rÃ¨gle de nage existera, elle sortira d'ici â et ce sera le seul
  *       endroit Ã  changer, ce qui est prÃ©cisÃ©ment l'intÃ©rÃªt de l'y mettre plutÃ´t que de parsemer
  *       le code de tests Â« sauf si c'est de l'eau Â».
  * @param type Type de tuile.
- * @return `true` pour la matiÃ¨re pleine (`Solid`, `Block`, `Wall`, `Cliff`) et pour l'eau
- *         profonde.
+ * @return `true` pour la matiÃ¨re pleine (`Solid`, `Wall`, `Cliff`) et pour l'eau profonde.
  */
 <span style = "background-color:#dfd">[[nodiscard]] constexpr bool isSolid(TileType type) noexcept {
-    return type == TileType::Solid || type == TileType::Block || type == TileType::Wall ||</span>
-           type == TileType::Cliff || type == TileType::DeepWater;
+    return type == TileType::Solid || type == TileType::Wall || type == TileType::Cliff ||</span>
+           type == TileType::DeepWater;
 <span style = "background-color:#dfd">}</span>
 
 }  // namespace core</pre>

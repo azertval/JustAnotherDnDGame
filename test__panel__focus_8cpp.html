@@ -93,32 +93,26 @@ $(function(){initNavTree('test__panel__focus_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires de la correspondance outil → panneau (LOT-57 TACHE-02, EX-IHM-061).  
+<p>Tests unitaires de la correspondance outil → panneau (EX-IHM-061).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="PanelFocus_8h_source.html">HMI/Editor/PanelFocus.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a5a56534cad53a836ea631454777bcc35" id="r_a5a56534cad53a836ea631454777bcc35"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a5a56534cad53a836ea631454777bcc35">TEST</a> (PanelFocusTest, OutilLienMetEnAvantLePanneauLiens)</td></tr>
-<tr class="memdesc:a5a56534cad53a836ea631454777bcc35"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'outil Lien met en avant le panneau Liens.  <br /></td></tr>
-<tr class="memitem:a140b2b302c66a43a63d0a962439abfbb" id="r_a140b2b302c66a43a63d0a962439abfbb"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a140b2b302c66a43a63d0a962439abfbb">TEST</a> (PanelFocusTest, OutilTextureMetEnAvantLePanneauTextures)</td></tr>
-<tr class="memdesc:a140b2b302c66a43a63d0a962439abfbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'outil Texture par instance met en avant le panneau Textures.  <br /></td></tr>
+<tr class="memitem:ac747a19a1c34f02d05fed0cd56c4c690" id="r_ac747a19a1c34f02d05fed0cd56c4c690"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac747a19a1c34f02d05fed0cd56c4c690">TEST</a> (PanelFocusTest, OutilEntiteMetEnAvantLePanneauEntites)</td></tr>
+<tr class="memdesc:ac747a19a1c34f02d05fed0cd56c4c690"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'outil Entité met en avant le panneau Entités.  <br /></td></tr>
 <tr class="memitem:aac15856b76f226a06493a082ef90a12e" id="r_aac15856b76f226a06493a082ef90a12e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aac15856b76f226a06493a082ef90a12e">TEST</a> (PanelFocusTest, OutilsSansPanneauDedieNeMettentRienEnAvant)</td></tr>
 <tr class="memdesc:aac15856b76f226a06493a082ef90a12e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les outils sans panneau dedie (Pinceau, Rectangle, Selection) ne mettent rien en avant : leurs controles vivent ailleurs (la palette).  <br /></td></tr>
 <tr class="memitem:a4b2198b469ab74a5289f3a74023e4090" id="r_a4b2198b469ab74a5289f3a74023e4090"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4b2198b469ab74a5289f3a74023e4090">TEST</a> (PanelFocusTest, AucunDoublonDOutilDansLaTable)</td></tr>
 <tr class="memdesc:a4b2198b469ab74a5289f3a74023e4090"><td class="mdescLeft">&#160;</td><td class="mdescRight">La table ne contient aucun doublon d'outil : chaque outil n'a au plus une entree.  <br /></td></tr>
-<tr class="memitem:a0ac2338431cd12b9412cefe854bf9d09" id="r_a0ac2338431cd12b9412cefe854bf9d09"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a0ac2338431cd12b9412cefe854bf9d09">TEST</a> (PanelFocusTest, OutilsDeCanevasMettentEnAvantLePanneauDuCanevas)</td></tr>
-<tr class="memdesc:a0ac2338431cd12b9412cefe854bf9d09"><td class="mdescLeft">&#160;</td><td class="mdescRight">La table <span class="tt">hmi::PanelFocus</span> couvre les quatre outils du canevas pixel art (LOT-54 TACHE-04) : chacun met en avant le panneau du canevas.  <br /></td></tr>
-<tr class="memitem:aebdc19d2af6949006b22ff31a388387a" id="r_aebdc19d2af6949006b22ff31a388387a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aebdc19d2af6949006b22ff31a388387a">TEST</a> (PanelFocusTest, AucunDoublonDOutilDansLaTableDeCanevas)</td></tr>
-<tr class="memdesc:aebdc19d2af6949006b22ff31a388387a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La table des outils de canevas ne contient aucun doublon d'outil.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires de la correspondance outil → panneau (LOT-57 TACHE-02, EX-IHM-061). </p>
+<div class="textblock"><p>Tests unitaires de la correspondance outil → panneau (EX-IHM-061). </p>
 <p>Logique pure, sans Qt. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a4b2198b469ab74a5289f3a74023e4090" name="a4b2198b469ab74a5289f3a74023e4090"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b2198b469ab74a5289f3a74023e4090">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b2198b469ab74a5289f3a74023e4090">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,8 +141,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aebdc19d2af6949006b22ff31a388387a" name="aebdc19d2af6949006b22ff31a388387a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebdc19d2af6949006b22ff31a388387a">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
+<a id="ac747a19a1c34f02d05fed0cd56c4c690" name="ac747a19a1c34f02d05fed0cd56c4c690"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac747a19a1c34f02d05fed0cd56c4c690">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -161,86 +155,24 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">AucunDoublonDOutilDansLaTableDeCanevas</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+          <td class="paramtype">OutilEntiteMetEnAvantLePanneauEntites</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>La table des outils de canevas ne contient aucun doublon d'outil. </p>
-<p><b>Cas de test :</b> <b>La table des outils de canevas ne contient aucun doublon.</b><br  />
- <b>Categorie :</b> Unitaire · Mise en avant des panneaux<br  />
- <b>Criticite :</b> Mineur<br  />
- <b>Etapes :</b><br  />
- 1. Parcourir toutes les paires d'entrees de la table des outils de canevas.<br  />
-</p><ol type="1">
-<li>Comparer leurs outils.<br  />
- <b>Resultat attendu :</b> Aucune paire distincte ne partage le meme outil. </li>
-</ol>
-
-</div>
-</div>
-<a id="a5a56534cad53a836ea631454777bcc35" name="a5a56534cad53a836ea631454777bcc35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a56534cad53a836ea631454777bcc35">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">PanelFocusTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">OutilLienMetEnAvantLePanneauLiens</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>L'outil Lien met en avant le panneau Liens. </p>
-<p><b>Cas de test :</b> <b>L'outil Lien met en avant le panneau Liens.</b><br  />
+<p>L'outil Entité met en avant le panneau Entités. </p>
+<p><b>Cas de test :</b> <b>L'outil Entite met en avant le panneau Entites.</b><br  />
  <b>Categorie :</b> Unitaire · Mise en avant des panneaux<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Interroger la table pour l'outil Lien.<br  />
+ 1. Interroger la table pour l'outil Entite.<br  />
 2. Verifier le panneau retourne.<br  />
- <b>Resultat attendu :</b> Le panneau Liens est retourne. </p>
-
-</div>
-</div>
-<a id="a0ac2338431cd12b9412cefe854bf9d09" name="a0ac2338431cd12b9412cefe854bf9d09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ac2338431cd12b9412cefe854bf9d09">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">PanelFocusTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">OutilsDeCanevasMettentEnAvantLePanneauDuCanevas</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>La table <span class="tt">hmi::PanelFocus</span> couvre les quatre outils du canevas pixel art (LOT-54 TACHE-04) : chacun met en avant le panneau du canevas. </p>
-<p><b>Cas de test :</b> <b>Chaque outil de canevas pixel art met en avant le panneau du canevas.</b><br  />
- <b>Categorie :</b> Unitaire · Mise en avant des panneaux<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Interroger la table pour chacun des quatre outils de canevas.<br  />
-2. Verifier le panneau retourne.<br  />
- <b>Resultat attendu :</b> Chaque outil retourne le panneau PixelCanvas. </p>
+ <b>Resultat attendu :</b> Le panneau Entites est retourne. </p>
 
 </div>
 </div>
 <a id="aac15856b76f226a06493a082ef90a12e" name="aac15856b76f226a06493a082ef90a12e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aac15856b76f226a06493a082ef90a12e">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aac15856b76f226a06493a082ef90a12e">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -266,36 +198,6 @@ Functions</h2></td></tr>
  1. Interroger la table pour chaque outil sans panneau dedie.<br  />
 2. Verifier l'absence de resultat.<br  />
  <b>Resultat attendu :</b> Chaque appel retourne std::nullopt. </p>
-
-</div>
-</div>
-<a id="a140b2b302c66a43a63d0a962439abfbb" name="a140b2b302c66a43a63d0a962439abfbb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a140b2b302c66a43a63d0a962439abfbb">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">PanelFocusTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">OutilTextureMetEnAvantLePanneauTextures</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>L'outil Texture par instance met en avant le panneau Textures. </p>
-<p><b>Cas de test :</b> <b>L'outil Texture met en avant le panneau Textures.</b><br  />
- <b>Categorie :</b> Unitaire · Mise en avant des panneaux<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Interroger la table pour l'outil Texture par instance.<br  />
-2. Verifier le panneau retourne.<br  />
- <b>Resultat attendu :</b> Le panneau Textures est retourne. </p>
 
 </div>
 </div>

@@ -93,7 +93,7 @@ $(function(){initNavTree('test__design__tokens_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires des jetons de design de l'IHM (<span class="tt">LOT-56</span> TACHE-01, <span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>).  
+<p>Tests unitaires des jetons de design de l'IHM (<span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
 <code>#include &lt;unordered_map&gt;</code><br />
@@ -110,26 +110,24 @@ Functions</h2></td></tr>
 <tr class="memdesc:a989725915b94ad371a696425cf0d56a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couleur d'effacement du viewport dérive du <b>même</b> jeton que le fond de la portée correspondante, en mode édition comme en mode jeu : c'est le seul garde-fou contre la réapparition de la couture entre le canevas et les widgets.  <br /></td></tr>
 <tr class="memitem:ab43a471333f671df23082c219ba2efc7" id="r_ab43a471333f671df23082c219ba2efc7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab43a471333f671df23082c219ba2efc7">TEST</a> (DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles)</td></tr>
 <tr class="memdesc:ab43a471333f671df23082c219ba2efc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux portées d'habillage (identité invariante, châssis variable) partagent exactement les mêmes échelles d'espacement, de typographie et de tailles — seules les couleurs diffèrent.  <br /></td></tr>
-<tr class="memitem:af3c1c28fba06c4afebf22fa72ff39442" id="r_af3c1c28fba06c4afebf22fa72ff39442"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af3c1c28fba06c4afebf22fa72ff39442">TEST</a> (DesignTokensTest, ChaquePorteeDesigneSaPropreFamille)</td></tr>
-<tr class="memdesc:af3c1c28fba06c4afebf22fa72ff39442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux portées emploient des familles de police <b>distinctes</b> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>) : identité en police bitmap, châssis d'édition en police de travail.  <br /></td></tr>
 <tr class="memitem:ab02b750f07ac93b7c07a576d3790b6fd" id="r_ab02b750f07ac93b7c07a576d3790b6fd"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab02b750f07ac93b7c07a576d3790b6fd">TEST</a> (DesignTokensTest, LesRolesDuCadreSontDistinctsDansChaquePortee)</td></tr>
-<tr class="memdesc:ab02b750f07ac93b7c07a576d3790b6fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les trois rôles du cadre pixel art se distinguent assez pour donner du relief à un trait d'un seul pixel (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>), et ce dans les trois jeux de jetons — y compris le thème clair, où un biseau « clair » plus clair que la surface serait invisible.  <br /></td></tr>
+<tr class="memdesc:ab02b750f07ac93b7c07a576d3790b6fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les trois rôles du cadre pixel art se distinguent assez pour donner du relief à un trait d'un seul pixel (<span class="tt">EX-IHM-070</span>), et ce dans les trois jeux de jetons — y compris le thème clair, où un biseau « clair » plus clair que la surface serait invisible.  <br /></td></tr>
 <tr class="memitem:af29aa4f8988b914a1593d7a8c82cfb69" id="r_af29aa4f8988b914a1593d7a8c82cfb69"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af29aa4f8988b914a1593d7a8c82cfb69">TEST</a> (DesignTokensTest, CouleursDesDeuxPorteesDistinctesEtCoherentes)</td></tr>
 <tr class="memdesc:af29aa4f8988b914a1593d7a8c82cfb69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux portées restent visuellement distinctes en couleur (sans quoi le découpage en deux jeux de jetons n'aurait pas de sens), et aucune n'utilise de couleurs dégénérées.  <br /></td></tr>
 <tr class="memitem:acb477c86072251a53a136316f222f288" id="r_acb477c86072251a53a136316f222f288"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acb477c86072251a53a136316f222f288">TEST</a> (DesignTokensTest, AucunDoublonDeLargeurMinimale)</td></tr>
-<tr class="memdesc:acb477c86072251a53a136316f222f288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux widgets de remappage (clavier, manette) doivent exposer la même largeur minimale : c'est la grandeur que TACHE-01 unifie via <span class="tt">SizeTokens::controlMinWidth</span>.  <br /></td></tr>
+<tr class="memdesc:acb477c86072251a53a136316f222f288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux widgets de remappage (clavier, manette) doivent exposer la même largeur minimale : c'est la grandeur unifiée via <span class="tt">SizeTokens::controlMinWidth</span>.  <br /></td></tr>
 <tr class="memitem:a29350783b19fa372b7d1baf988b1044a" id="r_a29350783b19fa372b7d1baf988b1044a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a29350783b19fa372b7d1baf988b1044a">TEST</a> (DesignTokensTest, ChaqueThemeSatisfaitLeSeuilDeContraste)</td></tr>
-<tr class="memdesc:a29350783b19fa372b7d1baf988b1044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pour chaque thème d'éditeur (sombre, clair), le rapport de contraste entre le texte et son fond, et entre le texte atténué et son fond, dépasse un seuil de lisibilité fixé — garde-fou contre un thème clair livré illisible (<span class="tt">LOT-56</span> TACHE-06), étendu à la portée identité au <span class="tt">LOT-68</span> (sa palette change).  <br /></td></tr>
+<tr class="memdesc:a29350783b19fa372b7d1baf988b1044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pour chaque thème d'éditeur (sombre, clair), le rapport de contraste entre le texte et son fond, et entre le texte atténué et son fond, dépasse un seuil de lisibilité fixé — garde-fou contre un thème clair livré illisible, étendu à la portée identité (sa palette change).  <br /></td></tr>
 <tr class="memitem:aacf5c999a1643978ef053a1fd1e3e53b" id="r_aacf5c999a1643978ef053a1fd1e3e53b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aacf5c999a1643978ef053a1fd1e3e53b">TEST</a> (DesignTokensTest, ContrasteSymetriqueEtUnitairePourUneMemeCouleur)</td></tr>
 <tr class="memdesc:aacf5c999a1643978ef053a1fd1e3e53b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le rapport de contraste est symétrique et vaut 1 pour deux couleurs identiques (aucun contraste) : garde-fou de la formule elle-même.  <br /></td></tr>
 <tr class="memitem:a6e64585da70b3e056387106bda81337c" id="r_a6e64585da70b3e056387106bda81337c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6e64585da70b3e056387106bda81337c">TEST</a> (DesignTokensTest, SeulesLesGrandeursDIdentiteSuiventLeFacteur)</td></tr>
-<tr class="memdesc:a6e64585da70b3e056387106bda81337c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les grandeurs de la portee identite sont multipliees par le facteur entier, et celles du chassis d edition ne le sont JAMAIS (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>).  <br /></td></tr>
+<tr class="memdesc:a6e64585da70b3e056387106bda81337c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les grandeurs de la portee identite sont multipliees par le facteur entier, et celles du chassis d edition ne le sont JAMAIS (<span class="tt">EX-IHM-070</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires des jetons de design de l'IHM (<span class="tt">LOT-56</span> TACHE-01, <span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>). </p>
+<div class="textblock"><p>Tests unitaires des jetons de design de l'IHM (<span class="tt">EX-IHM-050</span>, <span class="tt">EX-IHM-051</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="acb477c86072251a53a136316f222f288" name="acb477c86072251a53a136316f222f288"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb477c86072251a53a136316f222f288">&#9670;&#160;</a></span>TEST() <span class="overload">[1/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acb477c86072251a53a136316f222f288">&#9670;&#160;</a></span>TEST() <span class="overload">[1/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +145,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les deux widgets de remappage (clavier, manette) doivent exposer la même largeur minimale : c'est la grandeur que TACHE-01 unifie via <span class="tt">SizeTokens::controlMinWidth</span>. </p>
+<p>Les deux widgets de remappage (clavier, manette) doivent exposer la même largeur minimale : c'est la grandeur unifiée via <span class="tt">SizeTokens::controlMinWidth</span>. </p>
 <p><b>Cas de test :</b> <b>Une seule grandeur de largeur minimale existe pour les deux widgets de remappage.</b><br  />
  <b>Categorie :</b> Unitaire · Jetons de design<br  />
  <b>Criticite :</b> Mineur<br  />
@@ -157,37 +155,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af3c1c28fba06c4afebf22fa72ff39442" name="af3c1c28fba06c4afebf22fa72ff39442"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3c1c28fba06c4afebf22fa72ff39442">&#9670;&#160;</a></span>TEST() <span class="overload">[2/11]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">DesignTokensTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">ChaquePorteeDesigneSaPropreFamille</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Les deux portées emploient des familles de police <b>distinctes</b> (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>) : identité en police bitmap, châssis d'édition en police de travail. </p>
-<p>C'est ce qui empêche la police pixel de se répandre dans les tables et les arbres denses de l'éditeur, où elle serait illisible. <b>Cas de test :</b> <b>Chaque portee designe sa propre famille de police.</b><br  />
- <b>Categorie :</b> Unitaire · Jetons de design<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Lire le role de famille des jetons d'identite et des deux themes d'editeur.<br  />
- <b>Resultat attendu :</b> L'identite designe Identity, les deux themes d'editeur designent <a class="el" href="namespaceUi.html">Ui</a>. </p>
-
-</div>
-</div>
 <a id="a29350783b19fa372b7d1baf988b1044a" name="a29350783b19fa372b7d1baf988b1044a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29350783b19fa372b7d1baf988b1044a">&#9670;&#160;</a></span>TEST() <span class="overload">[3/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a29350783b19fa372b7d1baf988b1044a">&#9670;&#160;</a></span>TEST() <span class="overload">[2/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -205,7 +174,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Pour chaque thème d'éditeur (sombre, clair), le rapport de contraste entre le texte et son fond, et entre le texte atténué et son fond, dépasse un seuil de lisibilité fixé — garde-fou contre un thème clair livré illisible (<span class="tt">LOT-56</span> TACHE-06), étendu à la portée identité au <span class="tt">LOT-68</span> (sa palette change). </p>
+<p>Pour chaque thème d'éditeur (sombre, clair), le rapport de contraste entre le texte et son fond, et entre le texte atténué et son fond, dépasse un seuil de lisibilité fixé — garde-fou contre un thème clair livré illisible, étendu à la portée identité (sa palette change). </p>
 <p><b>Cas de test :</b> <b>Chaque jeu de jetons satisfait un seuil de contraste texte/fond.</b><br  />
  <b>Categorie :</b> Unitaire · Jetons de design<br  />
  <b>Criticite :</b> Critique<br  />
@@ -216,7 +185,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aacf5c999a1643978ef053a1fd1e3e53b" name="aacf5c999a1643978ef053a1fd1e3e53b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aacf5c999a1643978ef053a1fd1e3e53b">&#9670;&#160;</a></span>TEST() <span class="overload">[4/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aacf5c999a1643978ef053a1fd1e3e53b">&#9670;&#160;</a></span>TEST() <span class="overload">[3/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,7 +214,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ac7f5e1258104d4ca69573ae669ae8bef" name="ac7f5e1258104d4ca69573ae669ae8bef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7f5e1258104d4ca69573ae669ae8bef">&#9670;&#160;</a></span>TEST() <span class="overload">[5/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7f5e1258104d4ca69573ae669ae8bef">&#9670;&#160;</a></span>TEST() <span class="overload">[4/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,7 +244,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7e32376e19aee660610ea3ab6907ab0d" name="a7e32376e19aee660610ea3ab6907ab0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7e32376e19aee660610ea3ab6907ab0d">&#9670;&#160;</a></span>TEST() <span class="overload">[6/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e32376e19aee660610ea3ab6907ab0d">&#9670;&#160;</a></span>TEST() <span class="overload">[5/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -304,7 +273,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="af29aa4f8988b914a1593d7a8c82cfb69" name="af29aa4f8988b914a1593d7a8c82cfb69"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af29aa4f8988b914a1593d7a8c82cfb69">&#9670;&#160;</a></span>TEST() <span class="overload">[7/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af29aa4f8988b914a1593d7a8c82cfb69">&#9670;&#160;</a></span>TEST() <span class="overload">[6/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -334,7 +303,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a989725915b94ad371a696425cf0d56a0" name="a989725915b94ad371a696425cf0d56a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a989725915b94ad371a696425cf0d56a0">&#9670;&#160;</a></span>TEST() <span class="overload">[8/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a989725915b94ad371a696425cf0d56a0">&#9670;&#160;</a></span>TEST() <span class="overload">[7/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -363,7 +332,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab43a471333f671df23082c219ba2efc7" name="ab43a471333f671df23082c219ba2efc7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab43a471333f671df23082c219ba2efc7">&#9670;&#160;</a></span>TEST() <span class="overload">[9/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab43a471333f671df23082c219ba2efc7">&#9670;&#160;</a></span>TEST() <span class="overload">[8/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -382,17 +351,17 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Les deux portées d'habillage (identité invariante, châssis variable) partagent exactement les mêmes échelles d'espacement, de typographie et de tailles — seules les couleurs diffèrent. </p>
-<p>Sans cette symétrie, TACHE-06 découvrirait une divergence trop tard. <b>Cas de test :</b> <b>Les deux portees partagent les memes echelles et tailles.</b><br  />
+<p>Sans cette symétrie, une divergence se découvrirait trop tard. <b>Cas de test :</b> <b>Les deux portees partagent les memes echelles et tailles.</b><br  />
  <b>Categorie :</b> Unitaire · Jetons de design<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />
  1. Comparer espacement, niveaux typographiques et tailles des deux portees.<br  />
- <b>Resultat attendu :</b> Les echelles sont identiques entre les deux portees ; seule la famille de police differe. </p>
+ <b>Resultat attendu :</b> Les echelles sont identiques entre les deux portees ; seules les couleurs different. </p>
 
 </div>
 </div>
 <a id="ab02b750f07ac93b7c07a576d3790b6fd" name="ab02b750f07ac93b7c07a576d3790b6fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab02b750f07ac93b7c07a576d3790b6fd">&#9670;&#160;</a></span>TEST() <span class="overload">[10/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab02b750f07ac93b7c07a576d3790b6fd">&#9670;&#160;</a></span>TEST() <span class="overload">[9/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -410,7 +379,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les trois rôles du cadre pixel art se distinguent assez pour donner du relief à un trait d'un seul pixel (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>), et ce dans les trois jeux de jetons — y compris le thème clair, où un biseau « clair » plus clair que la surface serait invisible. </p>
+<p>Les trois rôles du cadre pixel art se distinguent assez pour donner du relief à un trait d'un seul pixel (<span class="tt">EX-IHM-070</span>), et ce dans les trois jeux de jetons — y compris le thème clair, où un biseau « clair » plus clair que la surface serait invisible. </p>
 <p><b>Cas de test :</b> <b>Les trois roles du cadre pixel art sont distincts dans chaque portee.</b><br  />
  <b>Categorie :</b> Unitaire · Jetons de design<br  />
  <b>Criticite :</b> Majeur<br  />
@@ -421,7 +390,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6e64585da70b3e056387106bda81337c" name="a6e64585da70b3e056387106bda81337c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e64585da70b3e056387106bda81337c">&#9670;&#160;</a></span>TEST() <span class="overload">[11/11]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e64585da70b3e056387106bda81337c">&#9670;&#160;</a></span>TEST() <span class="overload">[10/10]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -439,7 +408,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les grandeurs de la portee identite sont multipliees par le facteur entier, et celles du chassis d edition ne le sont JAMAIS (<span class="tt">LOT-68</span>, <span class="tt">EX-IHM-070</span>). </p>
+<p>Les grandeurs de la portee identite sont multipliees par le facteur entier, et celles du chassis d edition ne le sont JAMAIS (<span class="tt">EX-IHM-070</span>). </p>
 <p>C est toute la regle : les ecrans du jeu sont une image agrandie, l editeur est un outil dont les tailles suivent les reglages du systeme. <b>Cas de test :</b> <b>Seules les grandeurs d identite suivent le facteur d agrandissement.</b><br  />
  <b>Categorie :</b> Unitaire · Jetons de design<br  />
  <b>Criticite :</b> Critique<br  />

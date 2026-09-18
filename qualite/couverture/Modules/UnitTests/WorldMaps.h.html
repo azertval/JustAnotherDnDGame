@@ -71,11 +71,24 @@ struct RegionMap {
 };
 
 /// Le plan d'une ville : ses quartiers (lieux de l'atlas) ou ses lieux numÃ©rotÃ©s.
+/**
+ * @brief La vue d'un **quartier** sur le plan de sa ville (`LOT-96`).
+ *
+ * *Provisoire, dÃ©cision de l'auteur du 18 septembre 2026* : un quartier n'a pas encore de carte
+ * peinte ; l'Ã©cran agrandit le plan de la ville sur `frame`. Aucun recadrage n'est commitÃ©. Le jour
+ * oÃ¹ l'auteur peint le quartier, `image` le nomme et le cadre ne sert plus qu'Ã  l'origine du zoom.
+ */
+struct MapDistrict {
+    MapFrame frame;
+    std::string image;  ///&lt; Vide tant que le quartier n'a pas sa carte peinte.
+};
+
 struct CityMap {
     std::string image;
     std::map&lt;std::string, MapPoint&gt; places;
     std::vector&lt;MapSite&gt; sites;
     std::vector&lt;MapLabel&gt; labels;
+    std::map&lt;std::string, MapDistrict&gt; districts;  ///&lt; Quartier (lieu de l'atlas) â sa vue.
 };
 
 /// Le contenu de `world-maps.json`, ou la raison de l'Ã©chec.
@@ -136,6 +149,8 @@ struct MapCityPointView {
     std::string name;
     std::string description;
     MapPoint at;
+    /// La vue du quartier sur le plan, s'il en a une (`LOT-96`).
+    std::optional&lt;MapDistrict&gt; district;
 };
 
 /// Un plan de ville, tel que la vue Â« ville Â» le montre.

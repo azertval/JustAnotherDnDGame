@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CharacterOptions.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Rpg/CharacterOptions.h"
+
+#include &lt;algorithm&gt;
+#include &lt;set&gt;
+#include &lt;system_error&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Rpg/RpgEnumNames.h"
+
+namespace core {
+
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format. `0` desactive la garde de version, comme pour le bestiaire (LOT-33).
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string lireTexte(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                          : std::string{};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;std::string&gt; lireTextes(const nlohmann::json&amp; objet, const char* champ) {
+    std::vector&lt;std::string&gt; valeurs;
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_array()) {
+        return valeurs;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *trouve) {
+        if (element.is_string()) {
+            valeurs.push_back(element.get&lt;std::string&gt;());
+        }
+    }
+    return valeurs;
+}</span>
+
+<span style = "background-color:#dfd">void lireTraits(const nlohmann::json&amp; objet, const char* champ, std::vector&lt;NamedTrait&gt;&amp; sortie) {
+    const auto trouve = objet.find(champ);
+    if (trouve == objet.end() || !trouve-&gt;is_array()) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; element : *trouve) {
+        if (element.is_object()) {
+            sortie.push_back(</span>
+                {.name = lireTexte(element, "name"), .text = lireTexte(element, "text")});
+<span style = "background-color:#dfd">        }
+    }
+}</span>
+
+// Une caracteristique inconnue est SIGNALEE, jamais ignoree : c'est le scenario d'EX-CNT-011, ou
+// la donnee nomme ce que le moteur ne connait pas, la valeur tombe dans un cas par defaut, et le
+// personnage sort avec un modificateur faux que rien n'annonce.
+[[nodiscard]] std::vector&lt;Ability&gt; lireCaracteristiques(const nlohmann::json&amp; objet,
+                                                        const char* champ,
+                                                        const std::string&amp; fichier,
+<span style = "background-color:#dfd">                                                        std::vector&lt;std::string&gt;&amp; erreurs) {
+    std::vector&lt;Ability&gt; valeurs;
+    for (const std::string&amp; nom : lireTextes(objet, champ)) {
+        const std::optional&lt;Ability&gt; lue = parseAbility(nom);
+        if (lue.has_value()) {
+            valeurs.push_back(*lue);
+        } else {</span>
+<span style = "background-color:#fdd">            std::string message = fichier;
+            message += " : ";
+            message += champ;
+            message += " '";
+            message += nom;
+            message +=</span>
+                "' inconnue du moteur. Une caracteristique ignoree fausse un "
+                "modificateur sans qu'aucun message ne le dise.";
+<span style = "background-color:#fdd">            erreurs.push_back(std::move(message));
+        }</span>
+<span style = "background-color:#dfd">    }
+    return valeurs;
+}</span>
+
+<span style = "background-color:#dfd">void lireStatut(const nlohmann::json&amp; objet, ProvisionalStatus&amp; sortie) {
+    const auto trouve = objet.find("status");
+    if (trouve == objet.end() || !trouve-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    const auto provisoire = trouve-&gt;find("provisoire");
+    sortie.provisional =</span>
+        provisoire != trouve-&gt;end() &amp;&amp; provisoire-&gt;is_boolean() &amp;&amp; provisoire-&gt;get&lt;bool&gt;();
+<span style = "background-color:#dfd">    sortie.reason = lireTexte(*trouve, "raison");
+    sortie.removalCriterion = lireTexte(*trouve, "retraitSi");
+}</span>
+
+// Balaie un dossier et applique `lecteur` a chaque document. Le dossier est BALAYE, jamais
+// enumere dans le code : une liste de noms ecrite en C++ serait une seconde source de verite.
+template &lt;typename Lecteur&gt;
+void balayer(const std::filesystem::path&amp; dossier, std::vector&lt;std::string&gt;&amp; erreurs,
+<span style = "background-color:#dfd">             Lecteur lecteur) {
+    std::error_code code;
+    if (!std::filesystem::is_directory(dossier, code)) {</span>
+        // Un dossier absent n'est PAS un catalogue vide : les deux se ressemblent a l'execution,
+        // et les confondre fait chercher le defaut du mauvais cote pendant longtemps.
+<span style = "background-color:#dfd">        erreurs.push_back(dossier.string() + " : dossier absent ou illisible.");
+        return;</span>
+    }
+<span style = "background-color:#dfd">    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(dossier, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }</span>
+    }
+<span style = "background-color:#dfd">    std::ranges::sort(fichiers);
+    for (const std::filesystem::path&amp; chemin : fichiers) {
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+            // Le message porte deja le fichier et la ligne (EX-CNT-010).
+<span style = "background-color:#fdd">            erreurs.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        lecteur(document.root, chemin.filename().string());
+    }
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">const ClassLevel* PlayableClass::atLevel(int level) const {
+    const auto trouve = std::ranges::find(progression, level, &amp;ClassLevel::level);
+    return trouve == progression.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">const Species* CharacterOptions::findSpecies(std::string_view id) const {
+    const auto trouve = std::ranges::find(species, id, &amp;Species::id);
+    return trouve == species.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">const Background* CharacterOptions::findBackground(std::string_view id) const {
+    const auto trouve = std::ranges::find(backgrounds, id, &amp;Background::id);
+    return trouve == backgrounds.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">const PlayableClass* CharacterOptions::findClass(std::string_view id) const {
+    const auto trouve = std::ranges::find(classes, id, &amp;PlayableClass::id);
+    return trouve == classes.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; CharacterOptions::requiredMechanisms() const {
+    std::set&lt;std::string&gt; uniques;
+    for (const Species&amp; espece : species) {
+        uniques.insert(espece.requiredMechanisms.begin(), espece.requiredMechanisms.end());
+    }
+    return {uniques.begin(), uniques.end()};
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; CharacterOptions::provisionalClassIds() const {
+    std::vector&lt;std::string&gt; identifiants;
+    for (const PlayableClass&amp; classe : classes) {
+        if (classe.status.provisional) {
+            identifiants.push_back(classe.id);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return identifiants;
+}</span>
+
+<span style = "background-color:#dfd">int abilityScoreWith(const Species&amp; species, Ability which, int baseScore, int maximumScore) {
+    return std::min(baseScore + species.increase(which), maximumScore);
+}</span>
+
+namespace {
+
+// Augmentations de caracteristiques d'une espece ; une entree inconnue est signalee et ignoree.
+void lireAugmentations(const nlohmann::json&amp; racine, const std::string&amp; fichier, Species&amp; espece,
+<span style = "background-color:#dfd">                       std::vector&lt;std::string&gt;&amp; erreurs) {
+    const auto increases = racine.find("abilityScoreIncrease");
+    if (increases == racine.end() || !increases-&gt;is_object()) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [nom, valeur] : increases-&gt;items()) {
+        const std::optional&lt;Ability&gt; lue = parseAbility(nom);
+        if (!lue.has_value() || !valeur.is_number_integer()) {</span>
+<span style = "background-color:#fdd">            std::string message = fichier;
+            message += " : augmentation '";
+            message += nom;
+            message += "' inconnue du moteur.";
+            erreurs.push_back(std::move(message));
+            continue;
+        }</span>
+<span style = "background-color:#dfd">        espece.abilityScoreIncrease[static_cast&lt;std::size_t&gt;(*lue)] = valeur.get&lt;int&gt;();
+    }
+}</span>
+
+[[nodiscard]] std::optional&lt;Species&gt; lireEspece(const nlohmann::json&amp; racine,
+                                                const std::string&amp; fichier,
+<span style = "background-color:#dfd">                                                std::vector&lt;std::string&gt;&amp; erreurs) {
+    Species espece;
+    espece.id = lireTexte(racine, "id");
+    espece.name = lireTexte(racine, "name");
+    espece.source = lireTexte(racine, "source");
+    espece.parentSpecies = lireTexte(racine, "parentSpecies");
+    const std::optional&lt;CreatureSize&gt; taille = parseCreatureSize(lireTexte(racine, "size"));
+    if (!taille.has_value()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : taille inconnue du moteur.");
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    espece.size = *taille;
+    const auto vitesse = racine.find("speed");
+    if (vitesse == racine.end() || !vitesse-&gt;is_number()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(fichier + " : champ 'speed' absent ou non numerique.");
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    espece.speed = vitesse-&gt;get&lt;float&gt;();
+    lireAugmentations(racine, fichier, espece, erreurs);
+    espece.languages = lireTextes(racine, "languages");
+    espece.requiredMechanisms = lireTextes(racine, "mecanismesRequis");
+    lireTraits(racine, "traits", espece.traits);
+    return espece;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] Background lireHistorique(const nlohmann::json&amp; racine) {
+    Background historique;
+    historique.id = lireTexte(racine, "id");
+    historique.name = lireTexte(racine, "name");
+    historique.source = lireTexte(racine, "source");
+    historique.skillProficiencies = lireTextes(racine, "skillProficiencies");
+    historique.text = lireTexte(racine, "text");
+    if (const auto langues = racine.find("languageCount");
+        langues != racine.end() &amp;&amp; langues-&gt;is_number_integer()) {
+        historique.languageCount = langues-&gt;get&lt;int&gt;();
+    }
+    if (const auto capacite = racine.find("feature");
+        capacite != racine.end() &amp;&amp; capacite-&gt;is_object()) {
+        historique.feature =</span>
+            NamedTrait{.name = lireTexte(*capacite, "name"), .text = lireTexte(*capacite, "text")};
+<span style = "background-color:#dfd">    }
+    return historique;
+}</span>
+
+// Progression d'une classe, triee par niveau ; une ligne incomplete est signalee et ignoree.
+void lireProgression(const nlohmann::json&amp; racine, const std::string&amp; fichier,
+<span style = "background-color:#dfd">                     PlayableClass&amp; classe, std::vector&lt;std::string&gt;&amp; erreurs) {
+    if (const auto progression = racine.find("progression");
+        progression != racine.end() &amp;&amp; progression-&gt;is_array()) {
+        for (const auto&amp; element : *progression) {
+            if (!element.is_object()) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            ClassLevel niveau;
+            const auto valeur = element.find("level");
+            const auto bonus = element.find("proficiencyBonus");
+            if (valeur == element.end() || !valeur-&gt;is_number_integer() || bonus == element.end() ||</span>
+                !bonus-&gt;is_number_integer()) {
+<span style = "background-color:#fdd">                erreurs.push_back(fichier +</span>
+                                  " : ligne de progression sans niveau ni "
+                                  "bonus de maitrise.");
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            niveau.level = valeur-&gt;get&lt;int&gt;();
+            niveau.proficiencyBonus = bonus-&gt;get&lt;int&gt;();
+            niveau.features = lireTextes(element, "features");
+            classe.progression.push_back(std::move(niveau));
+        }
+    }
+    std::ranges::sort(classe.progression, {}, &amp;ClassLevel::level);
+}</span>
+
+[[nodiscard]] std::optional&lt;PlayableClass&gt; lireClasse(const nlohmann::json&amp; racine,
+                                                      const std::string&amp; fichier,
+<span style = "background-color:#dfd">                                                      std::vector&lt;std::string&gt;&amp; erreurs) {
+    PlayableClass classe;
+    classe.id = lireTexte(racine, "id");
+    classe.name = lireTexte(racine, "name");
+    classe.source = lireTexte(racine, "source");
+    const auto de = racine.find("hitDie");
+    if (de == racine.end() || !de-&gt;is_number_integer()) {</span>
+<span style = "background-color:#fdd">        erreurs.push_back(fichier +</span>
+                          " : champ 'hitDie' absent ou non entier. Le de de "
+                          "vie decide des points de vie a chaque niveau.");
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    classe.hitDie = de-&gt;get&lt;int&gt;();
+    classe.primaryAbility = lireCaracteristiques(racine, "primaryAbility", fichier, erreurs);
+    classe.savingThrowProficiencies =</span>
+        lireCaracteristiques(racine, "savingThrowProficiencies", fichier, erreurs);
+<span style = "background-color:#dfd">    lireStatut(racine, classe.status);
+    lireProgression(racine, fichier, classe, erreurs);
+    return classe;
+}</span>
+
+}  // namespace
+
+CharacterOptions loadCharacterOptions(const std::filesystem::path&amp; speciesDir,
+                                      const std::filesystem::path&amp; backgroundsDir,
+<span style = "background-color:#dfd">                                      const std::filesystem::path&amp; classesDir) {
+    CharacterOptions options;</span>
+
+<span style = "background-color:#dfd">    balayer(speciesDir, options.errors,
+            [&amp;options](const nlohmann::json&amp; racine, const std::string&amp; fichier) {
+                if (std::optional&lt;Species&gt; espece = lireEspece(racine, fichier, options.errors)) {
+                    options.species.push_back(std::move(*espece));
+                }
+            });</span>
+
+<span style = "background-color:#dfd">    balayer(backgroundsDir, options.errors,
+            [&amp;options](const nlohmann::json&amp; racine, const std::string&amp;) {
+                options.backgrounds.push_back(lireHistorique(racine));
+            });</span>
+
+<span style = "background-color:#dfd">    balayer(</span>
+        classesDir, options.errors,
+<span style = "background-color:#dfd">        [&amp;options](const nlohmann::json&amp; racine, const std::string&amp; fichier) {
+            if (std::optional&lt;PlayableClass&gt; classe = lireClasse(racine, fichier, options.errors)) {
+                options.classes.push_back(std::move(*classe));
+            }
+        });</span>
+
+<span style = "background-color:#dfd">    std::ranges::sort(options.species, {}, &amp;Species::id);
+    std::ranges::sort(options.backgrounds, {}, &amp;Background::id);
+    std::ranges::sort(options.classes, {}, &amp;PlayableClass::id);
+    return options;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

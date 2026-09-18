@@ -21,7 +21,7 @@
 
 /**
  * @file Core/Ecs/AnimationClip.h
- * @brief Clip d'animation en tant que donnÃ©e, et jeu de clips nommÃ©s (`LOT-46`).
+ * @brief Clip d'animation en tant que donnÃ©e, et jeu de clips nommÃ©s.
  */
 
 namespace core {
@@ -30,7 +30,7 @@ namespace core {
 enum class ClipEndMode {
     /// Revient Ã  la premiÃ¨re image et continue (comportement historique, `EX-REN-012`).
     Loop,
-    /// S'arrÃªte Ã  la derniÃ¨re image puis bascule sur `AnimationClip::nextClip` (`LOT-47`).
+    /// S'arrÃªte Ã  la derniÃ¨re image puis bascule sur `AnimationClip::nextClip`.
     OneShot,
 };
 
@@ -39,8 +39,8 @@ enum class ClipEndMode {
  *
  * DonnÃ©e **pure** (`EX-ARCH-011`) : ni mÃ©thode, ni type GPU, ni dÃ©pendance fichier â `Core` ne
  * connaÃ®t ni la spritesheet, ni la taille des images, ni le fichier d'origine (traduction en
- * rÃ©gion de texture laissÃ©e Ã  `HMI`, `LOT-46` TACHE-03). Remplace l'ancien `enum class
- * AnimationClip` figÃ© (`LOT-18`), qui aurait fait de `Core` un catalogue d'apparences Ã  chaque
+ * rÃ©gion de texture laissÃ©e Ã  `HMI`). Remplace l'ancien `enum class
+ * AnimationClip` figÃ©, qui aurait fait de `Core` un catalogue d'apparences Ã  chaque
  * nouvel objet animÃ© (`EX-ARCH-012`).
  */
 struct AnimationClip {
@@ -59,11 +59,11 @@ struct AnimationClip {
 
 /**
  * @brief Ensemble nommÃ© de clips, adressable par nom â l'unitÃ© que dÃ©crit un fichier
- *        `nom-asset.anim.json` (`LOT-46` TACHE-03).
+ *        `nom-asset.anim.json`.
  *
  * RÃ©sout un nom en index Ã  l'ajout plutÃ´t qu'Ã  chaque pas fixe (`AnimationSystem`) : la
  * progression gÃ©nÃ©rale d'une animation (avancer l'image courante) n'a donc jamais Ã  comparer de
- * chaÃ®nes, mÃªme pour des centaines de tuiles animÃ©es (`LOT-46` TACHE-05). Seule la sÃ©lection
+ * chaÃ®nes, mÃªme pour des centaines de tuiles animÃ©es. Seule la sÃ©lection
  * initiale d'un clip par son nom (ex. la projection Ã©tat â clip du personnage) en compare.
  *
  * AccÃ¨s **sÃ»r** : interroger un clip par un index hors bornes ou un nom absent ne plante ni ne

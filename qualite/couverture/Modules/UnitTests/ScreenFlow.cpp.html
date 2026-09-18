@@ -16,65 +16,6 @@
 
 namespace hmi {
 
-<span style = "background-color:#dfd">ScreenDressing dressingFor(ScreenId screen) noexcept {
-    switch (screen) {</span>
-        case ScreenId::Menu:
-<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
-                                  .menuBarVisible = false,
-                                  .toolBarVisible = false,
-                                  .pixelToolBarVisible = false,
-                                  .editingCommandsEnabled = false,
-                                  .gamepadNavigationActive = true,
-                                  .overlayVisible = false};
-        case ScreenId::Editor:
-<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = true,</span>
-                                  .menuBarVisible = true,
-                                  .toolBarVisible = true,
-                                  .pixelToolBarVisible = true,
-                                  .editingCommandsEnabled = true,
-                                  .gamepadNavigationActive = false,
-                                  .overlayVisible = false};
-        case ScreenId::Game:
-<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
-                                  .menuBarVisible = false,
-                                  .toolBarVisible = false,
-                                  .pixelToolBarVisible = false,
-                                  .editingCommandsEnabled = false,
-                                  .gamepadNavigationActive = false,
-                                  .overlayVisible = false};
-        case ScreenId::Options:
-        case ScreenId::Credits:
-        case ScreenId::RpgScreen:
-        case ScreenId::Arena:
-            // MÃªme habillage que Menu : page du QStackedWidget, jamais un recouvrement.
-            //
-            // Les Ã©crans du RPG (LOT-68) partagent ce cas, et c'est une DECISION, pas un
-            // rangement : ceux qui se consultent en marchant (EX-IHM-091) mÃ©riteront un
-            // recouvrement le jour oÃ¹ il y aura une scÃ¨ne Ã  laisser voir derriÃ¨re eux. Tant que
-            // Â« Nouvelle partie Â» n'a pas de carte Ã  charger, ce recouvrement se peindrait sur du
-            // vide -- on l'Ã©crira avec le contenu du LOT-27, qui pourra le montrer.
-<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
-                                  .menuBarVisible = false,
-                                  .toolBarVisible = false,
-                                  .pixelToolBarVisible = false,
-                                  .editingCommandsEnabled = false,
-                                  .gamepadNavigationActive = true,
-                                  .overlayVisible = false};
-        case ScreenId::Pause:
-            // Recouvrement par-dessus Game (EX-GP-041) : mÃªme habillage que Game (la
-            // scÃ¨ne reste dessinÃ©e derriÃ¨re), sauf navigation manette (menu de recouvrement,
-            // pas de personnage Ã  piloter) et overlayVisible.
-<span style = "background-color:#dfd">            return ScreenDressing{.docksVisible = false,</span>
-                                  .menuBarVisible = false,
-                                  .toolBarVisible = false,
-                                  .pixelToolBarVisible = false,
-                                  .editingCommandsEnabled = false,
-                                  .gamepadNavigationActive = true,
-                                  .overlayVisible = true};
-    }
-<span style = "background-color:#fdd">    return ScreenDressing{};</span>
-<span style = "background-color:#dfd">}</span>
-
 std::optional&lt;ScreenState&gt; resolveTransition(const ScreenState&amp; current,
 <span style = "background-color:#dfd">                                             ScreenEvent event) noexcept {
     switch (current.screen) {</span>
@@ -82,9 +23,6 @@ std::optional&lt;ScreenState&gt; resolveTransition(const ScreenState&amp; curren
 <span style = "background-color:#dfd">            switch (event) {</span>
                 case ScreenEvent::OpenMenu:
 <span style = "background-color:#fdd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
-                case ScreenEvent::OpenEditor:
-<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Editor,</span>
-                                       .optionsReturnTo = ScreenId::Menu};
                 case ScreenEvent::OpenGame:
 <span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Game, .optionsReturnTo = ScreenId::Menu};</span>
                 case ScreenEvent::OpenOptions:
@@ -134,13 +72,6 @@ std::optional&lt;ScreenState&gt; resolveTransition(const ScreenState&amp; curren
 <span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
                 default:
 <span style = "background-color:#fdd">                    return std::nullopt;</span>
-            }
-        case ScreenId::Editor:
-<span style = "background-color:#dfd">            switch (event) {</span>
-                case ScreenEvent::OpenMenu:
-<span style = "background-color:#dfd">                    return ScreenState{.screen = ScreenId::Menu, .optionsReturnTo = ScreenId::Menu};</span>
-                default:
-<span style = "background-color:#dfd">                    return std::nullopt;</span>
             }
         case ScreenId::Game:
 <span style = "background-color:#dfd">            switch (event) {</span>

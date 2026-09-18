@@ -99,11 +99,6 @@ $(function(){initNavTree('RenderLayer_8h.html','',''); });
 </div>
 <p><a href="RenderLayer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:hmi_3A_3ARenderLayerTag" id="r_hmi_3A_3ARenderLayerTag"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1RenderLayerTag.html">hmi::RenderLayerTag</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Composant de présentation fixant le calque de dessin d'une entité.  <a href="structhmi_1_1RenderLayerTag.html#details">More...</a><br /></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
@@ -117,19 +112,16 @@ Typedefs</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:a9b5452f2d3a1019a3229b90a4f000919" id="r_a9b5452f2d3a1019a3229b90a4f000919"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919">hmi::RenderLayer</a> : std::int32_t { <br />
 &#160;&#160;<a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919aa9ded1e5ce5d75814730bb4caaf49419">hmi::Background</a> = 0
-, <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a0d3adee051531c15b3509b4d4d75ce7b">hmi::Plane</a>
 , <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a3f39588bb19e28051d9aedfbb170025c">hmi::Shadow</a>
 , <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919ac5457c5f3cfb4da8638ce7190f8e5152">hmi::Tile</a>
+, <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b">hmi::Object</a>
 , <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a497031794414a552435f90151ac3b54b">hmi::Object</a>
-, <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a636da1d35e805b00eae0fcd8333f9234">hmi::Player</a>
-, <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a45bd1d5b32931106efbf1a82fe6a732f">hmi::Foreground</a>
+&#160;&#160;<a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a636da1d35e805b00eae0fcd8333f9234">hmi::Player</a>
 , <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a71ff71526d15db86eb50fcac245d183b">hmi::UI</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">hmi::EditorOverlay</a>
+, <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751">hmi::EditorOverlay</a>
 <br />
  }</td></tr>
-<tr class="memdesc:a9b5452f2d3a1019a3229b90a4f000919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calques de dessin, du plus <b>arrière</b> au plus <b>avant</b> (<span class="tt">EX-REN-014</span>, <span class="tt">EX-DEC-002</span>).  <a href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919">More...</a><br /></td></tr>
+<tr class="memdesc:a9b5452f2d3a1019a3229b90a4f000919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calques de dessin, du plus <b>arrière</b> au plus <b>avant</b> (<span class="tt">EX-REN-014</span>).  <a href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -139,11 +131,6 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3173a03ac9ce6550a4d84437290a64dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bande de tri d'un calque : <span class="tt">Object</span> et <span class="tt">Player</span> en partagent <b>une seule</b>.  <br /></td></tr>
 <tr class="memitem:a8b8fd5c80e500ad266167edacf261714" id="r_a8b8fd5c80e500ad266167edacf261714"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8b8fd5c80e500ad266167edacf261714">hmi::renderLayerName</a> (<a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a> layer) noexcept</td></tr>
 <tr class="memdesc:a8b8fd5c80e500ad266167edacf261714"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom lisible d'un calque, pour la journalisation et les messages d'échec de test.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:ab6e44ad3d54b0383ef13f332d290df46" id="r_ab6e44ad3d54b0383ef13f332d290df46"><td class="memItemLeft">constexpr <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919">RenderLayer</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ab6e44ad3d54b0383ef13f332d290df46">hmi::DEFAULT_RENDER_LAYER</a> = <a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919ac5457c5f3cfb4da8638ce7190f8e5152">RenderLayer::Tile</a></td></tr>
-<tr class="memdesc:ab6e44ad3d54b0383ef13f332d290df46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calque appliqué à une entité dépourvue de <span class="tt"><a class="el" href="structhmi_1_1RenderLayerTag.html" title="Composant de présentation fixant le calque de dessin d&#39;une entité.">hmi::RenderLayerTag</a></span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Ordonnancement de calques <b>unique et explicite</b> du rendu (<span class="tt">EX-REN-014</span>). </p>

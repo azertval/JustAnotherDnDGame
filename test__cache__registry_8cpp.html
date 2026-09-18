@@ -93,7 +93,7 @@ $(function(){initNavTree('test__cache__registry_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du registre de mémoïsation/invalidation (LOT-43 TACHE-03).  
+<p>Tests unitaires du registre de mémoïsation/invalidation.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -114,7 +114,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a59ae9b80b6adb85ac15972c576ae0027"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalider une clé en échec autorise un nouvel essai, qui peut réussir : c'est le cas du fichier créé <b>après</b> une première tentative infructueuse — le rechargement à chaud doit pouvoir rattraper un échec mémorisé, sinon l'asset resterait invisible jusqu'au redémarrage.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du registre de mémoïsation/invalidation (LOT-43 TACHE-03). </p>
+<div class="textblock"><p>Tests unitaires du registre de mémoïsation/invalidation. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="aba94f9483d34acdd908dcb3b9677c918" name="aba94f9483d34acdd908dcb3b9677c918"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aba94f9483d34acdd908dcb3b9677c918">&#9670;&#160;</a></span>TEST() <span class="overload">[1/5]</span></h2>
@@ -166,7 +166,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p><span class="tt">invalidateAll</span> vide le registre : sa taille retombe à zéro et <b>toutes</b> les clés sont relues au prochain accès. </p>
-<p>C'est le geste du rechargement global (changement de jeu de skins, bouton « recharger les assets »). <b>Cas de test :</b> <b>invalidateAll vide le registre et fait relire toutes les clés.</b><br  />
+<p>C'est le geste du rechargement global (perte du contexte GPU, assets modifiés sur le disque). <b>Cas de test :</b> <b>invalidateAll vide le registre et fait relire toutes les clés.</b><br  />
  <b>Categorie :</b> Unitaire · Registre de cache<br  />
  <b>Criticite :</b> Critique<br  />
  <b>Etapes :</b><br  />

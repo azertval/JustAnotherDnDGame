@@ -10,8 +10,7 @@ var EditorKeyBindings_8h =
       [ "hmi::EditorAction::Playtest", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585ab13fc91e5d02ea9e1f1a538504213bea", null ],
       [ "hmi::EditorAction::ToggleGrid", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a77bfa926518159e75c2c4b508a81f19e", null ],
       [ "hmi::EditorAction::ToggleHelp", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a738a0bf4b0ed8d50e7b558ecb00fa80a", null ],
-      [ "hmi::EditorAction::Rename", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a904a8304056d77e4547744781b7ceb50", null ],
-      [ "hmi::EditorAction::TextureAssignTool", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a9bf65705792468edbe653567639a35e9", null ]
+      [ "hmi::EditorAction::Rename", "namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a904a8304056d77e4547744781b7ceb50", null ]
     ] ],
     [ "hmi::EDITOR_ACTION_COUNT", "namespacehmi.html#af2f4a1af04682540c1b84611a24aa42c", null ]
 ];

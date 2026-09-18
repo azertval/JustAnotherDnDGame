@@ -73,11 +73,11 @@ public:
 [[nodiscard]] std::string readText(const nlohmann::json&amp; object, const char* field,
 <span style = "background-color:#dfd">                                   const std::string&amp; where, bool required) {
     const auto found = object.find(field);
-    if (found == object.end()) {</span>
-<span style = "background-color:#fdd">        if (required) {
-            throw failure(where, std::string("le champ Â« ") + field + " Â» manque.");</span>
+    if (found == object.end()) {
+        if (required) {</span>
+<span style = "background-color:#fdd">            throw failure(where, std::string("le champ Â« ") + field + " Â» manque.");</span>
         }
-<span style = "background-color:#fdd">        return {};</span>
+<span style = "background-color:#dfd">        return {};</span>
     }
 <span style = "background-color:#dfd">    if (!found-&gt;is_string()) {</span>
 <span style = "background-color:#fdd">        throw failure(where, std::string("le champ Â« ") + field + " Â» n'est pas un texte.");</span>
@@ -176,6 +176,26 @@ public:
     return region;
 }</span>
 
+[[nodiscard]] std::map&lt;std::string, MapDistrict&gt; readDistricts(const nlohmann::json&amp; object,
+<span style = "background-color:#dfd">                                                               const std::string&amp; where) {
+    std::map&lt;std::string, MapDistrict&gt; districts;
+    const auto found = object.find("districts");
+    if (found == object.end()) {
+        return districts;</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        throw failure(where, "le champ Â« districts Â» n'est pas un objet.");</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [id, entry] : found-&gt;items()) {
+        if (!entry.is_object() || !entry.contains("frame")) {</span>
+<span style = "background-color:#fdd">            throw failure(where + " / districts / " + id, "il faut un cadre (Â« frame Â»).");</span>
+        }
+<span style = "background-color:#dfd">        districts.emplace(id, MapDistrict{.frame = readFrame(entry["frame"], where + " / " + id),</span>
+                                          .image = readText(entry, "image", where, false)});
+<span style = "background-color:#dfd">    }
+    return districts;
+}</span>
+
 <span style = "background-color:#dfd">[[nodiscard]] CityMap readCity(const nlohmann::json&amp; object, const std::string&amp; where) {
     if (!object.is_object()) {</span>
 <span style = "background-color:#fdd">        throw failure(where, "le plan n'est pas un objet.");</span>
@@ -185,6 +205,12 @@ public:
     city.places = readPlaces(object, where);
     city.sites = readSites(object, where);
     city.labels = readLabels(object, where);
+    city.districts = readDistricts(object, where);
+    for (const auto&amp; [id, district] : city.districts) {
+        if (!city.places.contains(id)) {</span>
+<span style = "background-color:#fdd">            throw failure(where + " / districts / " + id, "ce quartier n'est pas placÃ© sur le plan.");</span>
+        }
+<span style = "background-color:#dfd">    }
     return city;
 }</span>
 
@@ -272,11 +298,15 @@ public:
         if (position == map.places.end() || candidate == nullptr) {
             continue;</span>
         }
-<span style = "background-color:#dfd">        view.points.push_back(MapCityPointView{.id = candidate-&gt;id,</span>
-                                               .number = ++number,
-                                               .name = candidate-&gt;name,
-                                               .description = candidate-&gt;description,
-                                               .at = position-&gt;second});
+<span style = "background-color:#dfd">        const auto district = map.districts.find(candidateId);
+        view.points.push_back(MapCityPointView{</span>
+            .id = candidate-&gt;id,
+            .number = ++number,
+            .name = candidate-&gt;name,
+            .description = candidate-&gt;description,
+            .at = position-&gt;second,
+            .district = district != map.districts.end() ? std::optional{district-&gt;second}
+                                                        : std::nullopt});
 <span style = "background-color:#dfd">    }
     for (const auto&amp; [id, position] : map.places) {
         if (atlas.findLocation(id) == nullptr) {</span>
@@ -290,7 +320,8 @@ public:
                              .number = site.number,
                              .name = site.name,
                              .description = site.note,
-                             .at = site.at});
+                             .at = site.at,
+                             .district = std::nullopt});
 <span style = "background-color:#dfd">    }
     return view;
 }</span>

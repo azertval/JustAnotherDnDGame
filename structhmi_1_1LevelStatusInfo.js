@@ -1,6 +1,5 @@
 var structhmi_1_1LevelStatusInfo =
 [
-    [ "cameraFraming", "structhmi_1_1LevelStatusInfo.html#a82fc1304ab3c156e416019ad6c75a4c2", null ],
     [ "dirty", "structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310", null ],
     [ "hoveredCell", "structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414", null ],
     [ "name", "structhmi_1_1LevelStatusInfo.html#a59ad1f344767a485525518e8c2c193ee", null ],

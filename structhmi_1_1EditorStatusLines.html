@@ -101,9 +101,9 @@ $(function(){initNavTree('structhmi_1_1EditorStatusLines.html','','structhmi_1_1
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a63cbc8311346c2cc10cde63858deaef9" id="r_a63cbc8311346c2cc10cde63858deaef9"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a63cbc8311346c2cc10cde63858deaef9">permanent</a></td></tr>
-<tr class="memdesc:a63cbc8311346c2cc10cde63858deaef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zones permanentes, dans l'ordre d'affichage : niveau/asset, modifications non enregistrées, outil actif, case/pixel survolé, zoom, couleur courante (atelier pixel art seulement), et une septième zone qui porte le cadrage de caméra en contexte niveau (<span class="tt">EX-EDIT-028</span>) et la <b>fiche du plan</b> — résolution, densité, poids mémoire — en contexte plan (<span class="tt">EX-NFR-043</span>).  <br /></td></tr>
+<tr class="memdesc:a63cbc8311346c2cc10cde63858deaef9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zones permanentes, dans l'ordre d'affichage : carte, modifications non enregistrées, outil actif, case survolée, zoom.  <br /></td></tr>
 <tr class="memitem:ac1eb6b916b73804d2c799e8265f7316a" id="r_ac1eb6b916b73804d2c799e8265f7316a"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ac1eb6b916b73804d2c799e8265f7316a">help</a></td></tr>
-<tr class="memdesc:ac1eb6b916b73804d2c799e8265f7316a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aide contextuelle à l'outil actif ; vide hors contexte de niveau ou d'atelier.  <br /></td></tr>
+<tr class="memdesc:ac1eb6b916b73804d2c799e8265f7316a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Aide contextuelle à l'outil actif ; vide hors édition.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Lignes à afficher pour la barre d'état de l'éditeur, à un instant donné. </p>
@@ -120,7 +120,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Aide contextuelle à l'outil actif ; vide hors contexte de niveau ou d'atelier. </p>
+<p>Aide contextuelle à l'outil actif ; vide hors édition. </p>
 
 </div>
 </div>
@@ -136,8 +136,8 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Zones permanentes, dans l'ordre d'affichage : niveau/asset, modifications non enregistrées, outil actif, case/pixel survolé, zoom, couleur courante (atelier pixel art seulement), et une septième zone qui porte le cadrage de caméra en contexte niveau (<span class="tt">EX-EDIT-028</span>) et la <b>fiche du plan</b> — résolution, densité, poids mémoire — en contexte plan (<span class="tt">EX-NFR-043</span>). </p>
-<p>Les deux ne coexistent jamais, et une huitième zone resterait vide dans les deux cas. Une zone vide (chaîne vide) quand l'information n'a pas de sens pour le contexte courant — jamais de libellé de remplacement. </p>
+<p>Zones permanentes, dans l'ordre d'affichage : carte, modifications non enregistrées, outil actif, case survolée, zoom. </p>
+<p>Une zone vide (chaîne vide) quand l'information n'a pas de sens — jamais de libellé de remplacement. </p>
 
 </div>
 </div>

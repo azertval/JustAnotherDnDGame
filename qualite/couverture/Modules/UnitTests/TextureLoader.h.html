@@ -75,7 +75,7 @@ struct LoadedTexture {
  * dossier, puis ce fichier remplace @p path en une seule opÃ©ration (`std::filesystem::rename`).
  * Une interruption (crash, disque plein en cours d'Ã©criture) laisse donc soit l'ancien fichier
  * intact, soit le nouveau complet, jamais un fichier tronquÃ© â ce qui importe d'autant plus que le
- * rechargement Ã  chaud (`LOT-43`) peut lire pendant l'Ã©criture. Le fichier temporaire ne subsiste
+ * rechargement Ã  chaud peut lire pendant l'Ã©criture. Le fichier temporaire ne subsiste
  * ni aprÃ¨s un succÃ¨s ni aprÃ¨s un Ã©chec.
  *
  * Le format en mÃ©moire reste `Format_RGBA8888` (alpha non prÃ©multipliÃ©), comme au dÃ©codage :

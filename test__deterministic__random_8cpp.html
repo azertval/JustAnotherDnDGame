@@ -93,7 +93,7 @@ $(function(){initNavTree('test__deterministic__random_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires de <span class="tt"><a class="el" href="classcore_1_1DeterministicRandom.html" title="Générateur pseudo-aléatoire léger (SplitMix64), à graine explicite.">core::DeterministicRandom</a></span>, <span class="tt">splitMix64</span> et <span class="tt">deriveSeed</span> (<span class="tt">LOT-53</span> TACHE-01, <span class="tt">EX-NFR-002</span>).  
+<p>Tests unitaires de <span class="tt"><a class="el" href="classcore_1_1DeterministicRandom.html" title="Générateur pseudo-aléatoire léger (SplitMix64), à graine explicite.">core::DeterministicRandom</a></span>, <span class="tt">splitMix64</span> et <span class="tt">deriveSeed</span> (<span class="tt">EX-NFR-002</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
@@ -115,7 +115,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a5bdc37b9630fe5693dbda1e97ecc074f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">nextRange</span> reste dans <span class="tt">[min, max]</span>, et rend exactement <span class="tt">min</span> quand les deux bornes coïncident — cas d'une durée de vie ou d'une vitesse fixe, où aucun tirage ne discrimine.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires de <span class="tt"><a class="el" href="classcore_1_1DeterministicRandom.html" title="Générateur pseudo-aléatoire léger (SplitMix64), à graine explicite.">core::DeterministicRandom</a></span>, <span class="tt">splitMix64</span> et <span class="tt">deriveSeed</span> (<span class="tt">LOT-53</span> TACHE-01, <span class="tt">EX-NFR-002</span>). </p>
+<div class="textblock"><p>Tests unitaires de <span class="tt"><a class="el" href="classcore_1_1DeterministicRandom.html" title="Générateur pseudo-aléatoire léger (SplitMix64), à graine explicite.">core::DeterministicRandom</a></span>, <span class="tt">splitMix64</span> et <span class="tt">deriveSeed</span> (<span class="tt">EX-NFR-002</span>). </p>
 <p>Ce fichier fige des <b>vecteurs de référence</b> : les valeurs attendues y sont écrites en dur, calculées indépendamment de l'implémentation. C'est le seul moyen de détecter qu'une refonte a silencieusement changé la suite produite — auquel cas toutes les séquences de particules déjà observées changeraient sans qu'aucun autre test ne s'en aperçoive : elles resteraient <em>reproductibles</em>, simplement plus les mêmes. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a59f93a65058aeb38eb29d8d701dffdd9" name="a59f93a65058aeb38eb29d8d701dffdd9"></a>

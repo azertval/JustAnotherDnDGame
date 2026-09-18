@@ -93,22 +93,19 @@ $(function(){initNavTree('index.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_index"></a></p>
-<p>RPG 2D <b>en vue de dessus</b> développé <b>from scratch</b> en <b>C++20 / Qt QRhi</b> (Direct3D 11 sous Windows), sans moteur tiers : exploration en temps réel façon Zelda, et rencontres en <b>combat tactique au tour par tour</b> régi par un système <b>d20</b> maison.</p>
+<p>RPG 2D <b>en vue de dessus</b> développé <b>from scratch</b> en <b>C++20 / Qt QRhi</b> (Direct3D 11 sous Windows), sans moteur tiers : exploration en temps réel, et rencontres en <b>combat tactique au tour par tour</b> régi par un système <b>d20</b> maison.</p>
 <p>Cette documentation rassemble, en un seul endroit, les <b>spécifications</b> du projet, les <b>lots de travail</b>, le <b>manuel utilisateur</b> et la <b>référence de code</b> générée à partir des sources.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md1"></a>
 En bref</h1>
 <ul>
-<li><b>Langage &amp; rendu</b> : C++20, Qt QRhi (Direct3D 11 sous Windows), boucle de jeu à pas de temps fixe déterministe.</li>
-<li><b>Architecture</b> : un cœur de simulation (<span class="tt">Core</span>) <b>indépendant</b> de la présentation (<span class="tt">HMI</span>), reposant sur un <b>ECS maison</b> ; les assets statiques vivent dans <span class="tt">Elements</span>.</li>
+<li><b>Langage &amp; rendu</b> : C++20, Qt QRhi (Direct3D 11 sous Windows), scène dessinée en isométrique.</li>
+<li><b>Architecture</b> : un cœur de simulation (<span class="tt">Core</span>) <b>indépendant</b> de la présentation (<span class="tt">HMI</span>) ; le jeu en Qt Quick, l'éditeur de cartes en Qt Widgets ; les données et assets vivent dans <span class="tt">Elements</span>.</li>
 <li><b>Qualité</b> : build sans avertissement (<span class="tt">/W4 /WX</span>), tests unitaires et d'intégration (GoogleTest), documentation Doxygen et CI GitHub Actions.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md2"></a>
-Origine</h1>
-<p>Ce dépôt est <b>dérivé de <span class="tt">ProjectGaming</span></b>, un jeu de plateforme/puzzle en vue de côté livré en <span class="tt">0.1.3</span> après 74 lots. Le <span class="tt">LOT-01</span> en a repris le moteur (ECS, pas fixe, mathématiques, balayage AABB, chargeur de niveaux, rendu, éditeur, IHM Qt) et retiré tout le gameplay propre à la vue de côté. L'historique git d'origine est <b>intégralement conservé</b>, et le programme de lots du platformer reste consultable en lecture seule sous <span class="tt">Documentation/Heritage/</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Avancement</h1>
 <p>Le détail de chaque lot (objectifs, tâches, avancement) est dans la rubrique <a class="el" href="lots.html" title="Lots">Lots</a> ; l'historique des livraisons est dans <span class="tt">CHANGELOG.md</span>.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md3"></a>
 Navigation</h1>
 <ul>
 <li><a class="el" href="guide.html" title="Guide du développeur">Guide du développeur</a> — <b>Guide du développeur</b> : comprendre tout le moteur (concepts, code, maths).</li>

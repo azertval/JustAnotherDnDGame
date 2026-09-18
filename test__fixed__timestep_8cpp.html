@@ -113,7 +113,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a7bf5315166e78cd1eeeb08d01d417b28" id="r_a7bf5315166e78cd1eeeb08d01d417b28"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7bf5315166e78cd1eeeb08d01d417b28">TEST</a> (FixedTimestepTest, PasFixeExpose)</td></tr>
 <tr class="memdesc:a7bf5315166e78cd1eeeb08d01d417b28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pas fixe exposé correspond à la configuration.  <br /></td></tr>
 <tr class="memitem:a6516884b4b60cb820307de6edfcbc48e" id="r_a6516884b4b60cb820307de6edfcbc48e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6516884b4b60cb820307de6edfcbc48e">TEST</a> (FixedTimestepTest, PauseSansAppelNAccumuleAucunPas)</td></tr>
-<tr class="memdesc:a6516884b4b60cb820307de6edfcbc48e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas appeler advance() pendant une pause (LOT-59 TACHE-02) n'accumule rien : le cadenceur n'a aucune horloge propre, seuls ses appels comptent &ndash; une pause de durée réelle arbitraire, simulée en n'appelant simplement pas advance(), suivie d'un appel avec un petit delta (l'horloge de référence réarmée à la reprise, EX-GP-041) ne rend qu'un seul pas, jamais une rafale de rattrapage.  <br /></td></tr>
+<tr class="memdesc:a6516884b4b60cb820307de6edfcbc48e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ne pas appeler advance() pendant une pause n'accumule rien : le cadenceur n'a aucune horloge propre, seuls ses appels comptent &ndash; une pause de durée réelle arbitraire, simulée en n'appelant simplement pas advance(), suivie d'un appel avec un petit delta (l'horloge de référence réarmée à la reprise, EX-GP-041) ne rend qu'un seul pas, jamais une rafale de rattrapage.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du cadenceur à pas de temps fixe. </p>
@@ -167,7 +167,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Ne pas appeler advance() pendant une pause (LOT-59 TACHE-02) n'accumule rien : le cadenceur n'a aucune horloge propre, seuls ses appels comptent &ndash; une pause de durée réelle arbitraire, simulée en n'appelant simplement pas advance(), suivie d'un appel avec un petit delta (l'horloge de référence réarmée à la reprise, EX-GP-041) ne rend qu'un seul pas, jamais une rafale de rattrapage. </p>
+<p>Ne pas appeler advance() pendant une pause n'accumule rien : le cadenceur n'a aucune horloge propre, seuls ses appels comptent &ndash; une pause de durée réelle arbitraire, simulée en n'appelant simplement pas advance(), suivie d'un appel avec un petit delta (l'horloge de référence réarmée à la reprise, EX-GP-041) ne rend qu'un seul pas, jamais une rafale de rattrapage. </p>
 <p><b>Cas de test :</b> <b>Une pause simulée (aucun appel à advance()) n'accumule aucun pas.</b><br  />
  <b>Categorie :</b> Unitaire · Fixed Timestep<br  />
  <b>Criticite :</b> Critique<br  />

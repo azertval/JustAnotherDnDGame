@@ -103,32 +103,12 @@ $(function(){initNavTree('Camera2D_8h.html','',''); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:hmi_3A_3AScreenShakeState" id="r_hmi_3A_3AScreenShakeState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ScreenShakeState.html">hmi::ScreenShakeState</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">État déterministe d'une secousse d'écran en cours de décroissance vers zéro.  <a href="structhmi_1_1ScreenShakeState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:hmi_3A_3ACamera2D" id="r_hmi_3A_3ACamera2D"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1Camera2D.html">hmi::Camera2D</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Caméra 2D orthographique : projette le monde vers l'écran pour le rendu.  <a href="classhmi_1_1Camera2D.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a818f4f148a4770efc762293601c6753b" id="r_a818f4f148a4770efc762293601c6753b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a818f4f148a4770efc762293601c6753b">hmi::triggerScreenShake</a> (<a class="el" href="structhmi_1_1ScreenShakeState.html">ScreenShakeState</a> &amp;state, float amplitudePixels, float duration) noexcept</td></tr>
-<tr class="memdesc:a818f4f148a4770efc762293601c6753b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déclenche (ou relance) une secousse d'écran.  <br /></td></tr>
-<tr class="memitem:a28ef61716fdead033cc97c06177e98f1" id="r_a28ef61716fdead033cc97c06177e98f1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a28ef61716fdead033cc97c06177e98f1">hmi::advanceScreenShake</a> (<a class="el" href="structhmi_1_1ScreenShakeState.html">ScreenShakeState</a> &amp;state, float fixedDelta) noexcept</td></tr>
-<tr class="memdesc:a28ef61716fdead033cc97c06177e98f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance une secousse d'écran d'un pas fixe.  <br /></td></tr>
-<tr class="memitem:a5c8d96a16939fabe2248617af0ffb90b" id="r_a5c8d96a16939fabe2248617af0ffb90b"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a5c8d96a16939fabe2248617af0ffb90b">hmi::screenShakeOffset</a> (const <a class="el" href="structhmi_1_1ScreenShakeState.html">ScreenShakeState</a> &amp;state) noexcept</td></tr>
-<tr class="memdesc:a5c8d96a16939fabe2248617af0ffb90b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décalage courant d'une secousse d'écran, en pixels <b>entiers</b> (<span class="tt">EX-ARCH-022</span>).  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a4498c346debb5bb213dbe5742ddc7b19" id="r_a4498c346debb5bb213dbe5742ddc7b19"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a4498c346debb5bb213dbe5742ddc7b19">hmi::LANDING_SHAKE_AMPLITUDE_PIXELS</a> = 2.0f</td></tr>
-<tr class="memdesc:a4498c346debb5bb213dbe5742ddc7b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amplitude conservatrice de la secousse d'écran à un atterrissage lourd (<span class="tt">LOT-53</span> TACHE-03) : discrète, un jeu de plateforme précis devient injouable si l'écran bouge trop.  <br /></td></tr>
-<tr class="memitem:ac67c57b9d29f38f461615f1e356b929f" id="r_ac67c57b9d29f38f461615f1e356b929f"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ac67c57b9d29f38f461615f1e356b929f">hmi::DEATH_SHAKE_AMPLITUDE_PIXELS</a> = 3.0f</td></tr>
-<tr class="memdesc:ac67c57b9d29f38f461615f1e356b929f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Amplitude de la secousse à la mort du personnage : légèrement plus marquée que l'atterrissage.  <br /></td></tr>
-<tr class="memitem:aad0ce653270973d848de764b4fa308d1" id="r_aad0ce653270973d848de764b4fa308d1"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aad0ce653270973d848de764b4fa308d1">hmi::SCREEN_SHAKE_DURATION</a> = 0.2f</td></tr>
-<tr class="memdesc:aad0ce653270973d848de764b4fa308d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Durée de toute secousse d'écran, en secondes &ndash; brève par construction.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Caméra 2D : conversion entre unités monde et pixels écran. </p>

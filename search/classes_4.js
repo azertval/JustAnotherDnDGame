@@ -5,10 +5,10 @@ var searchData=
   ['editoractionspec_2',['EditorActionSpec',['../structhmi_1_1EditorActionSpec.html',1,'hmi']]],
   ['editordiagnostic_3',['EditorDiagnostic',['../structhmi_1_1EditorDiagnostic.html',1,'hmi']]],
   ['editorkeybindings_4',['EditorKeyBindings',['../classhmi_1_1EditorKeyBindings.html',1,'hmi']]],
-  ['editorkeybindingswidget_5',['EditorKeybindingsWidget',['../classhmi_1_1EditorKeybindingsWidget.html',1,'hmi']]],
-  ['editorreferences_6',['EditorReferences',['../structhmi_1_1EditorReferences.html',1,'hmi']]],
-  ['editorstatuscontext_7',['EditorStatusContext',['../structhmi_1_1EditorStatusContext.html',1,'hmi']]],
-  ['editorstatuslines_8',['EditorStatusLines',['../structhmi_1_1EditorStatusLines.html',1,'hmi']]],
+  ['editorreferences_5',['EditorReferences',['../structhmi_1_1EditorReferences.html',1,'hmi']]],
+  ['editorstatuscontext_6',['EditorStatusContext',['../structhmi_1_1EditorStatusContext.html',1,'hmi']]],
+  ['editorstatuslines_7',['EditorStatusLines',['../structhmi_1_1EditorStatusLines.html',1,'hmi']]],
+  ['editorviewport_8',['EditorViewport',['../classhmi_1_1EditorViewport.html',1,'hmi']]],
   ['encounter_9',['Encounter',['../structcore_1_1Encounter.html',1,'core']]],
   ['encountercatalog_10',['EncounterCatalog',['../structcore_1_1EncounterCatalog.html',1,'core']]],
   ['encountercombatant_11',['EncounterCombatant',['../structcore_1_1EncounterCombatant.html',1,'core']]],
@@ -34,7 +34,6 @@ var searchData=
   ['experiencetable_31',['ExperienceTable',['../structcore_1_1ExperienceTable.html',1,'core']]],
   ['explorationevent_32',['ExplorationEvent',['../structcore_1_1ExplorationEvent.html',1,'core']]],
   ['explorationintent_33',['ExplorationIntent',['../structcore_1_1ExplorationIntent.html',1,'core']]],
-  ['explorationmode_34',['ExplorationMode',['../classhmi_1_1ExplorationMode.html',1,'hmi']]],
-  ['explorationsession_35',['ExplorationSession',['../classcore_1_1ExplorationSession.html',1,'core']]],
-  ['explorationsnapshot_36',['ExplorationSnapshot',['../structcore_1_1ExplorationSnapshot.html',1,'core']]]
+  ['explorationsession_34',['ExplorationSession',['../classcore_1_1ExplorationSession.html',1,'core']]],
+  ['explorationsnapshot_35',['ExplorationSnapshot',['../structcore_1_1ExplorationSnapshot.html',1,'core']]]
 ];

@@ -1,0 +1,172 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>PlaceAppearance.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/PlaceAppearance.h"
+
+#include &lt;algorithm&gt;
+#include &lt;optional&gt;
+#include &lt;set&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+#include "Core/Levels/TileTypeName.h"
+
+namespace hmi {
+
+namespace {
+
+constexpr std::string_view FIELD_PLACE = "place";
+constexpr std::string_view FIELD_FLOORS = "floors";
+constexpr std::string_view FIELD_RELIEF = "relief";
+
+<span style = "background-color:#fdd">[[nodiscard]] PlaceAppearanceError mapError(core::JsonReadError error) {
+    switch (error) {</span>
+        case core::JsonReadError::None:
+<span style = "background-color:#fdd">            return PlaceAppearanceError::None;</span>
+        case core::JsonReadError::FileNotFound:
+<span style = "background-color:#fdd">            return PlaceAppearanceError::FileNotFound;</span>
+        case core::JsonReadError::ParseError:
+<span style = "background-color:#fdd">            return PlaceAppearanceError::ParseError;</span>
+        case core::JsonReadError::UnsupportedVersion:
+<span style = "background-color:#fdd">            return PlaceAppearanceError::UnsupportedVersion;</span>
+        case core::JsonReadError::MalformedStructure:
+<span style = "background-color:#fdd">            return PlaceAppearanceError::MalformedStructure;</span>
+    }
+<span style = "background-color:#fdd">    return PlaceAppearanceError::MalformedStructure;
+}</span>
+
+<span style = "background-color:#fdd">[[nodiscard]] PlaceAppearanceResult failure(std::string message, PlaceAppearanceError error) {
+    return PlaceAppearanceResult{.appearance = {}, .error = error, .message = std::move(message)};
+}</span>
+
+// Lit un objet Â« type de tuile -&gt; liste de pieces Â». Un type inconnu est une donnee fautive, pas
+// un type a deviner : le signaler vaut mieux que dessiner du sable sous un mur.
+[[nodiscard]] bool readTable(const nlohmann::json&amp; root, std::string_view field,
+                             std::map&lt;core::TileType, std::vector&lt;std::string&gt;&gt;&amp; table,
+<span style = "background-color:#dfd">                             std::string&amp; error) {
+    const auto found = root.find(field);
+    if (found == root.end()) {</span>
+<span style = "background-color:#fdd">        return true;  // Une table sans sol, ou sans relief, est legitime.</span>
+    }
+<span style = "background-color:#dfd">    if (!found-&gt;is_object()) {</span>
+<span style = "background-color:#fdd">        error = std::string{field} + " doit etre un objet";
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [name, pieces] : found-&gt;items()) {
+        const std::optional&lt;core::TileType&gt; type = core::parseTileType(name);
+        if (!type.has_value()) {</span>
+<span style = "background-color:#fdd">            error = std::string{field} + " : type de tuile inconnu Â« " + name + " Â»";
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        if (!pieces.is_array() || pieces.empty()) {</span>
+<span style = "background-color:#fdd">            error = std::string{field} + " / " + name + " doit etre une liste non vide";
+            return false;</span>
+        }
+<span style = "background-color:#dfd">        std::vector&lt;std::string&gt; noms;
+        for (const nlohmann::json&amp; piece : pieces) {
+            if (!piece.is_string() || piece.get&lt;std::string&gt;().empty()) {</span>
+<span style = "background-color:#fdd">                error = std::string{field} + " / " + name + " : piece vide";
+                return false;</span>
+            }
+<span style = "background-color:#dfd">            noms.push_back(piece.get&lt;std::string&gt;());
+        }
+        table.emplace(*type, std::move(noms));
+    }
+    return true;
+}</span>
+
+// La variante d'une case : toujours la meme pour la meme case, et sans rapport avec l'ordre de
+// parcours. Les deux facteurs sont premiers entre eux et avec les petits nombres de variantes, si
+// bien que les voisines ne tombent pas toutes sur la meme.
+<span style = "background-color:#dfd">[[nodiscard]] std::size_t variantOf(core::GridPosition cell, std::size_t count) {
+    const long long melange =</span>
+        (static_cast&lt;long long&gt;(cell.column) * 7) + (static_cast&lt;long long&gt;(cell.row) * 13);
+<span style = "background-color:#dfd">    const long long positif = melange &lt; 0 ? -melange : melange;
+    return count == 0 ? 0 : static_cast&lt;std::size_t&gt;(positif) % count;
+}</span>
+
+[[nodiscard]] std::string_view pieceOf(
+    const std::map&lt;core::TileType, std::vector&lt;std::string&gt;&gt;&amp; table, core::TileType type,
+<span style = "background-color:#dfd">    core::GridPosition cell) {
+    const auto found = table.find(type);
+    if (found == table.end() || found-&gt;second.empty()) {
+        return {};</span>
+    }
+<span style = "background-color:#dfd">    return found-&gt;second[variantOf(cell, found-&gt;second.size())];
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">PlaceAppearanceResult PlaceAppearance::loadFromString(std::string_view json) {
+    return fromDocument(core::readJsonObject(json, FORMAT_VERSION, "appearance.json"));
+}</span>
+
+<span style = "background-color:#dfd">PlaceAppearanceResult PlaceAppearance::loadFromFile(const std::filesystem::path&amp; path) {
+    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">PlaceAppearanceResult PlaceAppearance::fromDocument(const core::JsonDocument&amp; document) {
+    if (!document.ok()) {</span>
+<span style = "background-color:#fdd">        return failure(document.message, mapError(document.error));</span>
+    }
+<span style = "background-color:#dfd">    PlaceAppearance appearance;
+    const auto place = document.root.find(FIELD_PLACE);
+    if (place == document.root.end() || !place-&gt;is_string()) {</span>
+<span style = "background-color:#fdd">        return failure("place manquant ou non textuel", PlaceAppearanceError::MalformedStructure);</span>
+    }
+<span style = "background-color:#dfd">    appearance._place = place-&gt;get&lt;std::string&gt;();</span>
+
+<span style = "background-color:#dfd">    std::string error;
+    if (!readTable(document.root, FIELD_FLOORS, appearance._floors, error) ||</span>
+        !readTable(document.root, FIELD_RELIEF, appearance._relief, error)) {
+<span style = "background-color:#fdd">        return failure(std::move(error), PlaceAppearanceError::MalformedStructure);</span>
+    }
+<span style = "background-color:#dfd">    return {</span>
+        .appearance = std::move(appearance), .error = PlaceAppearanceError::None, .message = {}};
+<span style = "background-color:#fdd">}</span>
+
+<span style = "background-color:#dfd">std::string_view PlaceAppearance::floorPiece(core::TileType type, core::GridPosition cell) const {
+    return pieceOf(_floors, type, cell);
+}</span>
+
+<span style = "background-color:#dfd">std::string_view PlaceAppearance::reliefPiece(core::TileType type, core::GridPosition cell) const {
+    return pieceOf(_relief, type, cell);
+}</span>
+
+<span style = "background-color:#fdd">std::vector&lt;std::string&gt; PlaceAppearance::pieces() const {
+    std::set&lt;std::string&gt; uniques;
+    for (const auto* table : {&amp;_floors, &amp;_relief}) {
+        for (const auto&amp; [type, noms] : *table) {
+            uniques.insert(noms.begin(), noms.end());
+        }
+    }
+    return {uniques.begin(), uniques.end()};
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

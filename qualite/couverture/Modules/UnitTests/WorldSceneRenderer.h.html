@@ -16,6 +16,7 @@
 
 #include &lt;filesystem&gt;
 #include &lt;map&gt;
+#include &lt;optional&gt;
 #include &lt;set&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
@@ -55,7 +56,7 @@ namespace hmi {
 /**
  * @brief Le cadrage d'un lieu : la camÃ©ra **suit** le hÃ©ros, et ne sort pas de la carte.
  *
- * Le ColisÃ©e ne tient pas dans un Ã©cran (`EX-LVL-006`) : le cadrage entier de l'arÃ¨ne ne convient
+ * Le ColisÃ©e ne tient pas dans un Ã©cran : le cadrage entier de l'arÃ¨ne ne convient
  * plus. L'agrandissement est **entier** â le pixel art se brouille dÃ¨s qu'on le met Ã  une Ã©chelle
  * fractionnaire â, l'art Ã©tant dessinÃ© pour 720 lignes ; au-delÃ , on double. La camÃ©ra se centre
  * ensuite sur le point suivi, puis se ramÃ¨ne dans la scÃ¨ne : sur un axe oÃ¹ la scÃ¨ne est plus petite
@@ -146,6 +147,8 @@ private:
     void ensureTextures(const std::vector&lt;std::string&gt;&amp; paths);
     /// La largeur d'image d'une bande d'animation, lue de son `.anim.json` s'il y en a un.
     [[nodiscard]] int bandFrameWidth(const std::string&amp; path);
+    /// Le marqueur d'une figurine sans image (`hmi::figureMarkerKey`), rien pour une autre piece.
+    [[nodiscard]] std::optional&lt;LoadedTexture&gt; figureMarker(const std::string&amp; path);
 
     std::filesystem::path _directory;
     WorldSceneSnapshot _snapshot;

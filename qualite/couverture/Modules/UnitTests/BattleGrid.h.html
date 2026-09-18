@@ -166,10 +166,9 @@ enum class PlacementResult {
  *
  * ## Une seule source de vÃ©ritÃ© pour Â« peut-on se tenir ici Â»
  *
- * Les obstacles viennent de la **grille de collision** de la carte â `core::Level::tileMap()`, ou
- * `core::MechanismController::collisionMap()` pour que les portes fermÃ©es en soient â, jamais d'un
- * masque dessinÃ© pour le combat (`EX-CBT-001`). La grille la **recopie** Ã  la construction : le
- * combat gÃ¨le les mÃ©canismes (`LOT-18`), et une copie ne peut pas changer sous un tour en cours.
+ * Les obstacles viennent de la **grille de collision** de la carte â `core::Level::tileMap()` â,
+ * jamais d'un masque dessinÃ© pour le combat (`EX-CBT-001`). La grille la **recopie** Ã  la
+ * construction : une copie ne peut pas changer sous un tour en cours.
  *
  * ## Les propriÃ©tÃ©s de zone
  *
@@ -195,8 +194,8 @@ public:
      * @brief La grille de @p level : obstacles de @p collision, zones de ses couches.
      * @param level     La carte, dont les couches dÃ©clarent les zones.
      * @param collision La grille de collision Ã  retenir â `level.tileMap()` pour la soliditÃ©
-     *                  statique, `MechanismController::collisionMap()` pour l'Ã©tat des portes.
-     *                  Une couche aux dimensions diffÃ©rentes est ignorÃ©e.
+     *                  statique, ou une grille dÃ©rivÃ©e (une zone de combat dÃ©coupÃ©e, par
+     *                  exemple). Une couche aux dimensions diffÃ©rentes est ignorÃ©e.
      */
     BattleGrid(const Level&amp; level, const TileMap&amp; collision);
 

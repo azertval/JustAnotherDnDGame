@@ -38,9 +38,9 @@ class QRhiTexture;
 /**
  * @file HMI/Graphics/SpriteBatch.h
  * @brief Pipeline de rendu 2D sur **QRhi** : accumule des quads texturÃ©s et les dessine par lots
- *        (`EX-REN-050`, LOT-69 TACHE-02).
+ *        (`EX-REN-050`).
  *
- * Les primitives elles-mÃªmes (`hmi::SpriteQuad`, `hmi::LineQuad`) vivent depuis `LOT-40` dans
+ * Les primitives elles-mÃªmes (`hmi::SpriteQuad`, `hmi::LineQuad`) vivent dans
  * `HMI/Graphics/Quad.h`, sans dÃ©pendance graphique, pour que la **composition** du rendu puisse
  * les manipuler sans GPU (`EX-NFR-004`). Ce fichier les rÃ©expose : le contrat public de
  * `SpriteBatch` vis-Ã -vis de ses appelants est inchangÃ©.

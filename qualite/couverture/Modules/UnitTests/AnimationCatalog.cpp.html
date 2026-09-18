@@ -27,8 +27,8 @@ namespace hmi {
 
 namespace {
 
-// Noms des champs du format (voir epic LOT-46 TACHE-03) : nommes plutot que repetes en litteraux,
-// meme discipline que hmi::SkinCatalog.
+// Noms des champs du format : nommes plutot que repetes en
+// litteraux.
 constexpr const char* FIELD_VERSION = "version";
 constexpr const char* FIELD_FRAME_WIDTH = "frameWidth";
 constexpr const char* FIELD_FRAME_HEIGHT = "frameHeight";
@@ -38,10 +38,9 @@ constexpr const char* FIELD_FRAME_DURATION = "frameDuration";
 constexpr const char* FIELD_LOOP = "loop";
 constexpr const char* FIELD_NEXT = "next";
 
-// Construit un resultat d'echec. Ne journalise rien : contrairement a hmi::SkinCatalog, le fichier
-// absent (cas par defaut, silencieux) et le fichier invalide (anomalie) empruntent tous deux ce
-// chemin -- c'est a l'appelant (hmi::TextureCache) de decider, a partir du code d'erreur, s'il doit
-// journaliser (EX-NFR-040).
+// Construit un resultat d'echec. Ne journalise rien : le fichier absent (cas par defaut,
+// silencieux) et le fichier invalide (anomalie) empruntent tous deux ce chemin -- c'est a
+// l'appelant de decider, a partir du code d'erreur, s'il doit journaliser (EX-NFR-040).
 // Traduction de la categorie partagee (LOT-79) vers celle, documentee, de ce catalogue. Le
 // `switch` est exhaustif et sans `default` : ajouter une categorie d'un cote fait echouer la
 // compilation plutot que de tomber silencieusement dans un cas par defaut.
@@ -253,17 +252,17 @@ core::AtlasRegion AnimationCatalog::frameRegion(const AnimationDescription&amp; 
 <span style = "background-color:#dfd">}</span>
 
 core::AtlasRegion AnimationCatalog::currentFrameRegion(const AnimationDescription&amp; description,
-<span style = "background-color:#dfd">                                                       const core::Animation&amp; animation) {
-    if (!animation.clips || animation.clips-&gt;clipCount() == 0) {</span>
-<span style = "background-color:#fdd">        return frameRegion(description, 0);</span>
+<span style = "background-color:#fdd">                                                       const core::Animation&amp; animation) {
+    if (!animation.clips || animation.clips-&gt;clipCount() == 0) {
+        return frameRegion(description, 0);</span>
     }
-<span style = "background-color:#dfd">    const core::AnimationClip&amp; clip = animation.clips-&gt;clipAt(animation.clipIndex);
-    if (clip.frames.empty()) {</span>
-<span style = "background-color:#fdd">        return frameRegion(description, 0);</span>
+<span style = "background-color:#fdd">    const core::AnimationClip&amp; clip = animation.clips-&gt;clipAt(animation.clipIndex);
+    if (clip.frames.empty()) {
+        return frameRegion(description, 0);</span>
     }
-<span style = "background-color:#dfd">    const bool inBounds = animation.frameIndex &gt;= 0 &amp;&amp;</span>
+<span style = "background-color:#fdd">    const bool inBounds = animation.frameIndex &gt;= 0 &amp;&amp;</span>
                           static_cast&lt;std::size_t&gt;(animation.frameIndex) &lt; clip.frames.size();
-<span style = "background-color:#dfd">    const int frameIndexInClip = inBounds ? animation.frameIndex : 0;
+<span style = "background-color:#fdd">    const int frameIndexInClip = inBounds ? animation.frameIndex : 0;
     return frameRegion(description, clip.frames[static_cast&lt;std::size_t&gt;(frameIndexInClip)]);
 }</span>
 

@@ -7,7 +7,6 @@ var dir_91c068ebb4e479004bf485f61e4c8f6a =
     [ "Gameplay", "dir_2bd8e2238356ff27fd9028d4cb092e2a.html", "dir_2bd8e2238356ff27fd9028d4cb092e2a" ],
     [ "Levels", "dir_53d6f249854b4ed4670fb00ec42270bb.html", "dir_53d6f249854b4ed4670fb00ec42270bb" ],
     [ "Math", "dir_ecd1618553a8a213b1a536d7bd626c5a.html", "dir_ecd1618553a8a213b1a536d7bd626c5a" ],
-    [ "Physics", "dir_1dfcdaf7deaff6793e064534ef333b75.html", "dir_1dfcdaf7deaff6793e064534ef333b75" ],
     [ "Resources", "dir_ce0162bee40be316373db36c0f71b686.html", "dir_ce0162bee40be316373db36c0f71b686" ],
     [ "Rpg", "dir_876500558ad9fa4b961386baa54d1bd8.html", "dir_876500558ad9fa4b961386baa54d1bd8" ],
     [ "Time", "dir_29a25dfec3d399a9d7788cedd7e38e49.html", "dir_29a25dfec3d399a9d7788cedd7e38e49" ],

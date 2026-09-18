@@ -23,25 +23,8 @@ namespace hmi {
     switch (type) {</span>
         case core::TileType::Solid:
 <span style = "background-color:#dfd">            return TextureAtlas::tile(0, 2);  // gris</span>
-        case core::TileType::Danger:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(0, 0);  // rouge</span>
         case core::TileType::Entry:
 <span style = "background-color:#dfd">            return TextureAtlas::tile(1, 0);  // vert</span>
-        case core::TileType::Exit:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(2, 0);  // bleu</span>
-        case core::TileType::Switch:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(3, 0);  // jaune</span>
-        case core::TileType::PressurePlate:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(</span>
-                1, 1);  // cyan (libere par LOT-17 : ancien placeholder du personnage)
-        case core::TileType::Door:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(2, 1);  // orange</span>
-        case core::TileType::Key:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(4, 0);  // or (EX-GP-023, LOT-63)</span>
-        case core::TileType::LockedDoor:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(3, 4);  // brun fonce (EX-GP-023, LOT-63)</span>
-        case core::TileType::Block:
-<span style = "background-color:#dfd">            return TextureAtlas::tile(3, 1);  // violet</span>
         // Terrain du RPG (LOT-08) : cases jusqu'ici libres de la grille, chacune peinte d'une
         // teinte distincte par l'atlas procedural -- le jeu reste lancable sans aucun fichier
         // d'image (EX-NFR-040).
@@ -68,17 +51,6 @@ namespace hmi {
     }
 <span style = "background-color:#fdd">    return TextureAtlas::tile(0, 0);</span>
 <span style = "background-color:#dfd">}</span>
-
-// Cherche la surcharge de texture assignee a une case precise (EX-EDIT-043, LOT-45).
-std::optional&lt;std::string&gt; textureOverrideAt(
-<span style = "background-color:#dfd">    const std::vector&lt;core::TileTextureOverride&gt;&amp; overrides, core::GridPosition position) {
-    for (const core::TileTextureOverride&amp; override : overrides) {
-        if (override.position == position) {
-            return override.assetName;</span>
-        }
-<span style = "background-color:#dfd">    }
-    return std::nullopt;
-}</span>
 
 }  // namespace hmi</pre>
         <hr />

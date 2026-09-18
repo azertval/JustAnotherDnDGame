@@ -113,9 +113,9 @@ void Localization::setActiveCatalog(std::string language,
     if (!readFile(_directory / (language + ".lang"), content)) {
         return false;  // langue absente : on garde la langue active en cours</span>
     }
-<span style = "background-color:#dfd">    setActiveCatalog(language, parseCatalog(content));
-    return true;
-}</span>
+<span style = "background-color:#fdd">    setActiveCatalog(language, parseCatalog(content));
+    return true;</span>
+<span style = "background-color:#dfd">}</span>
 
 // RÃ©sout le texte associÃ© Ã  une clÃ©.
 //

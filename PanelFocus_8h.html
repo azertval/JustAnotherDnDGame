@@ -93,13 +93,12 @@ $(function(){initNavTree('PanelFocus_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Correspondance outil actif → panneau à mettre en avant (<span class="tt">LOT-57</span> TACHE-02, <span class="tt">EX-IHM-061</span>).  
+<p>Correspondance outil actif → panneau à mettre en avant (<span class="tt">EX-IHM-061</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &quot;<a class="el" href="EditorTool_8h_source.html">HMI/Editor/EditorTool.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PixelTool_8h_source.html">HMI/Editor/PixelTool.h</a>&quot;</code><br />
 </div>
 <p><a href="PanelFocus_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,8 +106,6 @@ $(function(){initNavTree('PanelFocus_8h.html','',''); });
 Classes</h2></td></tr>
 <tr class="memitem:hmi_3A_3APanelFocusEntry" id="r_hmi_3A_3APanelFocusEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PanelFocusEntry.html">hmi::PanelFocusEntry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entrée de la table : l'outil <code class="param">tool</code> met en avant le panneau <code class="param">panel</code>.  <a href="structhmi_1_1PanelFocusEntry.html#details">More...</a><br /></td></tr>
-<tr class="memitem:hmi_3A_3APixelPanelFocusEntry" id="r_hmi_3A_3APixelPanelFocusEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PixelPanelFocusEntry.html">hmi::PixelPanelFocusEntry</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entrée de la table équivalente pour les outils du canevas pixel art (<span class="tt">LOT-54</span> TACHE-04) : l'outil <code class="param">tool</code> met en avant le panneau <code class="param">panel</code>.  <a href="structhmi_1_1PixelPanelFocusEntry.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -116,20 +113,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:aaa32928dac1bf321cd65435b9a0b0726" id="r_aaa32928dac1bf321cd65435b9a0b0726"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> { <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a278f9a3d3077c522e71022e302b9e0e4">hmi::Palette</a>
+<tr class="memitem:aaa32928dac1bf321cd65435b9a0b0726" id="r_aaa32928dac1bf321cd65435b9a0b0726"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">hmi::PanelId</a> { <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a278f9a3d3077c522e71022e302b9e0e4">hmi::Palette</a>
 , <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a91aedca00492a5fba2c282abec5626f3">hmi::Levels</a>
-, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726abd908db5ccb07777ced8023dffc802f4">hmi::Links</a>
-, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a536300d63028e7f16ba150566ecd3a5f">hmi::Textures</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7">hmi::Layers</a>
+, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7">hmi::Layers</a>
 , <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726aea995898864fb0ea509106539758c905">hmi::Entities</a>
-, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726abdd4286459900f7788990a266eaf5e28">hmi::Planes</a>
-, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726ab1175488d7517a7b3490f45437b7cd0d">hmi::PixelCanvas</a>
-, <br />
-&#160;&#160;<a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a60421a4156d1beef9070bc14bd2623a4">hmi::PixelHistory</a>
-, <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726a61b4f1c9bd8c6614c124bf11bcd1e187">hmi::PixelPalette</a>
-<br />
  }</td></tr>
 <tr class="memdesc:aaa32928dac1bf321cd65435b9a0b0726"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panneau dockable de l'éditeur.  <a href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">More...</a><br /></td></tr>
 </table><table class="memberdecls">
@@ -137,21 +124,17 @@ Enumerations</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:ad532ff719e53686ef85d80516e85089e" id="r_ad532ff719e53686ef85d80516e85089e"><td class="memItemLeft">const std::array&lt; <a class="el" href="structhmi_1_1PanelFocusEntry.html">PanelFocusEntry</a>, <a class="el" href="namespacehmi.html#aa22d8fa67dd7b945de1a25413ef6532e">PANEL_FOCUS_CATALOG_COUNT</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ad532ff719e53686ef85d80516e85089e">hmi::panelFocusCatalog</a> ()</td></tr>
 <tr class="memitem:a581615846aad015aff0e0a17e4f997c4" id="r_a581615846aad015aff0e0a17e4f997c4"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a581615846aad015aff0e0a17e4f997c4">hmi::panelForTool</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> tool)</td></tr>
-<tr class="memitem:ae845d02ed259b4f615718e3deff3d7f7" id="r_ae845d02ed259b4f615718e3deff3d7f7"><td class="memItemLeft">const std::array&lt; <a class="el" href="structhmi_1_1PixelPanelFocusEntry.html">PixelPanelFocusEntry</a>, <a class="el" href="namespacehmi.html#a36f90c7ddc69068df41623c0e9cdfbfa">PIXEL_PANEL_FOCUS_CATALOG_COUNT</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ae845d02ed259b4f615718e3deff3d7f7">hmi::pixelPanelFocusCatalog</a> ()</td></tr>
-<tr class="memitem:ab2bc0ec0306fbff43f717277d659cd16" id="r_ab2bc0ec0306fbff43f717277d659cd16"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ab2bc0ec0306fbff43f717277d659cd16">hmi::panelForPixelTool</a> (<a class="el" href="namespacehmi.html#a9cb51e9b7642963a83312d94737fe571">PixelTool</a> tool)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:af04ce56b73b71704b41ee6d8cfe4e2e2" id="r_af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">hmi::PANEL_COUNT</a> = 10</td></tr>
+<tr class="memitem:af04ce56b73b71704b41ee6d8cfe4e2e2" id="r_af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">hmi::PANEL_COUNT</a> = 4</td></tr>
 <tr class="memdesc:af04ce56b73b71704b41ee6d8cfe4e2e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de panneaux, declare au plus pres de l'enumeration qu'il compte.  <br /></td></tr>
-<tr class="memitem:aa22d8fa67dd7b945de1a25413ef6532e" id="r_aa22d8fa67dd7b945de1a25413ef6532e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aa22d8fa67dd7b945de1a25413ef6532e">hmi::PANEL_FOCUS_CATALOG_COUNT</a> = 3</td></tr>
+<tr class="memitem:aa22d8fa67dd7b945de1a25413ef6532e" id="r_aa22d8fa67dd7b945de1a25413ef6532e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aa22d8fa67dd7b945de1a25413ef6532e">hmi::PANEL_FOCUS_CATALOG_COUNT</a> = 1</td></tr>
 <tr class="memdesc:aa22d8fa67dd7b945de1a25413ef6532e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'entrées de la table (tous les outils n'ont pas de panneau dédié).  <br /></td></tr>
-<tr class="memitem:a36f90c7ddc69068df41623c0e9cdfbfa" id="r_a36f90c7ddc69068df41623c0e9cdfbfa"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a36f90c7ddc69068df41623c0e9cdfbfa">hmi::PIXEL_PANEL_FOCUS_CATALOG_COUNT</a> = 5</td></tr>
-<tr class="memdesc:a36f90c7ddc69068df41623c0e9cdfbfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'entrées de la table des outils de canevas (les cinq outils du canevas mettent tous en avant le même panneau : on édite toujours en le voyant).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Correspondance outil actif → panneau à mettre en avant (<span class="tt">LOT-57</span> TACHE-02, <span class="tt">EX-IHM-061</span>). </p>
-<p>Logique <b>pure</b> (aucune dépendance Qt), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) — même patron que <span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (LOT-56 TACHE-04,...">HMI/Interface/ActionCatalog.h</a></span>. <span class="tt">MainWindow</span> ne fait que suivre cette table : aucune condition écrite en dur sur un outil particulier. </p>
+<div class="textblock"><p>Correspondance outil actif → panneau à mettre en avant (<span class="tt">EX-IHM-061</span>). </p>
+<p>Logique <b>pure</b> (aucune dépendance Qt), testable hors instance d'application (<span class="tt">EX-NFR-010</span>) — même patron que <span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (EX-IHM-055).">HMI/Interface/ActionCatalog.h</a></span>. <span class="tt">MainWindow</span> ne fait que suivre cette table : aucune condition écrite en dur sur un outil particulier. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

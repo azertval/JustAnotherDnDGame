@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CityBlockRender.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "HMI/Graphics/CityBlockRender.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;memory&gt;
+
+#include &lt;rhi/qrhi.h&gt;
+
+#include "Core/Combat/IsoProjection.h"
+#include "Core/World/CityBlock.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/GraphicsLog.h"
+#include "HMI/Graphics/ScenePieces.h"
+#include "HMI/Graphics/WorldSceneRenderer.h"
+
+namespace hmi {
+
+namespace {
+
+// La plus haute piece de l'atelier : une piece large (102 x 135), dont 93 pixels d'art s'elevent
+// au-dessus du losange de sa case.
+constexpr float PLUS_HAUTE_ELEVATION_PIXELS = 135.0F - static_cast&lt;float&gt;(SCENE_TILE_HEIGHT_PIXELS);
+
+// Fond de l'image : celui de l'ecran de jeu, que le dehors d'une carte laisse voir.
+constexpr float FOND[4] = {0.043F, 0.043F, 0.043F, 1.0F};
+
+<span style = "background-color:#dfd">std::unique_ptr&lt;QRhi&gt; interfaceHorsEcran() {</span>
+#ifdef Q_OS_WIN
+<span style = "background-color:#dfd">    QRhiD3D11InitParams parametres;
+    if (QRhi* const rhi = QRhi::create(QRhi::D3D11, &amp;parametres)) {
+        return std::unique_ptr&lt;QRhi&gt;(rhi);</span>
+    }
+#endif
+<span style = "background-color:#fdd">    return nullptr;</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+CityBlockFraming cityBlockFraming(const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                                  const core::CityBlock&amp; block) {
+    const auto gauche = static_cast&lt;float&gt;(block.origin.column);
+    const auto haut = static_cast&lt;float&gt;(block.origin.row);
+    const float droite = gauche + static_cast&lt;float&gt;(block.columns);
+    const float bas = haut + static_cast&lt;float&gt;(block.rows);
+    const core::Vector2 coins[4] = {projection.gridToWorld({gauche, haut}),
+                                    projection.gridToWorld({droite, haut}),
+                                    projection.gridToWorld({gauche, bas}),
+                                    projection.gridToWorld({droite, bas})};
+    float minX = coins[0].x;
+    float maxX = coins[0].x;
+    float minY = coins[0].y;
+    float maxY = coins[0].y;
+    for (const core::Vector2&amp; coin : coins) {
+        minX = std::min(minX, coin.x);
+        maxX = std::max(maxX, coin.x);
+        minY = std::min(minY, coin.y);
+        maxY = std::max(maxY, coin.y);
+    }
+    const float unitesParPixelDArt =</span>
+        projection.tileWidth() / static_cast&lt;float&gt;(SCENE_TILE_WIDTH_PIXELS);
+<span style = "background-color:#dfd">    minY -= PLUS_HAUTE_ELEVATION_PIXELS * unitesParPixelDArt;</span>
+
+<span style = "background-color:#dfd">    const core::Vector2 centre{(minX + maxX) / 2.0F, (minY + maxY) / 2.0F};
+    return CityBlockFraming{</span>
+        .focus = projection.worldToGrid(centre),
+        .pixelWidth = static_cast&lt;int&gt;(std::ceil((maxX - minX) * Camera2D::PIXELS_PER_UNIT)),
+        .pixelHeight = static_cast&lt;int&gt;(std::ceil((maxY - minY) * Camera2D::PIXELS_PER_UNIT))};
+<span style = "background-color:#dfd">}</span>
+
+QImage renderCityBlock(const std::filesystem::path&amp; assetsDirectory,
+<span style = "background-color:#dfd">                       const WorldSceneSnapshot&amp; snapshot, const core::CityBlock&amp; block) {
+    const std::unique_ptr&lt;QRhi&gt; rhi = interfaceHorsEcran();
+    if (!rhi) {</span>
+<span style = "background-color:#fdd">        GRAPHICS_LOG_WARNING("Plan : aucune interface QRhi hors ecran, l'ilot ne se dessine pas.");
+        return {};</span>
+    }
+<span style = "background-color:#dfd">    const core::IsoProjection projection(snapshot.columns, snapshot.rows);
+    const CityBlockFraming cadrage = cityBlockFraming(projection, block);
+    const QSize taille(std::max(1, cadrage.pixelWidth), std::max(1, cadrage.pixelHeight));</span>
+
+<span style = "background-color:#dfd">    const std::unique_ptr&lt;QRhiTexture&gt; texture(rhi-&gt;newTexture(</span>
+        QRhiTexture::RGBA8, taille, 1,
+        QRhiTexture::RenderTarget | QRhiTexture::UsedAsTransferSource));
+<span style = "background-color:#dfd">    if (!texture-&gt;create()) {</span>
+<span style = "background-color:#fdd">        return {};</span>
+    }
+<span style = "background-color:#dfd">    const std::unique_ptr&lt;QRhiTextureRenderTarget&gt; cible(</span>
+        rhi-&gt;newTextureRenderTarget({{texture.get()}}));
+<span style = "background-color:#dfd">    const std::unique_ptr&lt;QRhiRenderPassDescriptor&gt; passe(</span>
+        cible-&gt;newCompatibleRenderPassDescriptor());
+<span style = "background-color:#dfd">    cible-&gt;setRenderPassDescriptor(passe.get());
+    if (!cible-&gt;create()) {</span>
+<span style = "background-color:#fdd">        return {};</span>
+    }
+
+<span style = "background-color:#dfd">    QImage image;</span>
+    {
+        // Le rendu avant l'interface : ses ressources appartiennent a `rhi`, et le detruire apres
+        // elle liberait des objets deja morts.
+<span style = "background-color:#dfd">        WorldSceneRenderer rendu(assetsDirectory);
+        if (!rendu.ensureResources(rhi.get())) {</span>
+<span style = "background-color:#fdd">            return {};</span>
+        }
+<span style = "background-color:#dfd">        rendu.setSnapshot(snapshot);
+        rendu.setFocus(cadrage.focus);</span>
+
+<span style = "background-color:#dfd">        QRhiCommandBuffer* commandes = nullptr;
+        if (rhi-&gt;beginOffscreenFrame(&amp;commandes) != QRhi::FrameOpSuccess) {</span>
+<span style = "background-color:#fdd">            return {};</span>
+        }
+<span style = "background-color:#dfd">        rendu.render(commandes, cible.get(), FOND);
+        QRhiReadbackResult relecture;
+        QRhiResourceUpdateBatch* const lot = rhi-&gt;nextResourceUpdateBatch();
+        lot-&gt;readBackTexture({texture.get()}, &amp;relecture);
+        commandes-&gt;resourceUpdate(lot);
+        if (rhi-&gt;endOffscreenFrame() != QRhi::FrameOpSuccess) {</span>
+<span style = "background-color:#fdd">            return {};</span>
+        }
+<span style = "background-color:#dfd">        image = QImage(reinterpret_cast&lt;const uchar*&gt;(relecture.data.constData()),</span>
+                       relecture.pixelSize.width(), relecture.pixelSize.height(),
+                       QImage::Format_RGBA8888)
+                    .copy();
+<span style = "background-color:#dfd">        rendu.release();
+    }
+    return image;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

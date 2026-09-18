@@ -99,13 +99,8 @@ $(function(){initNavTree('Editor_2Main_8cpp.html','',''); });
 <code>#include &lt;QCoreApplication&gt;</code><br />
 <code>#include &lt;QSettings&gt;</code><br />
 <code>#include &lt;QString&gt;</code><br />
-<code>#include &lt;filesystem&gt;</code><br />
-<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="Bootstrap_8h_source.html">App/Common/Bootstrap.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="MemoryLogSink_8h_source.html">Core/Diagnostics/MemoryLogSink.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ProceduralAtlas_8h_source.html">HMI/Graphics/ProceduralAtlas.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="TextureLoader_8h_source.html">HMI/Graphics/TextureLoader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ApplicationTheme_8h_source.html">HMI/Interface/ApplicationTheme.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MainWindow_8h_source.html">HMI/Interface/MainWindow.h</a>&quot;</code><br />
@@ -118,7 +113,7 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Point d'entrée de l'<b>éditeur de niveaux</b> (<span class="tt">LevelEditor</span>) — Qt Widgets. </p>
 <p>Binaire distinct du jeu depuis le <span class="tt">LOT-86</span>. L'éditeur est un outil d'auteur : docks détachables, arbres, disposition persistée (<span class="tt">EX-IHM-010</span>/<span class="tt">011</span>). Qt Widgets y est le bon outil, et le jeu, qui est une image agrandie d'un facteur entier, n'a rien à faire dans le même châssis — c'est de leur cohabitation que venaient les 2 472 lignes de <span class="tt"><a class="el" href="MainWindow_8cpp.html">MainWindow.cpp</a></span>.</p>
-<p>Ce que ce fichier fait et que le jeu ne fait pas : choisir le style Fusion, poser le thème du châssis, ouvrir la fenêtre à docks, et servir l'outil d'export d'atlas. </p>
+<p>Ce que ce fichier fait et que le jeu ne fait pas : choisir le style Fusion, poser le thème du châssis, ouvrir la fenêtre à docks. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a3c04138a5bfe5d72780bb7e82a18e627" name="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&#160;</a></span>main()</h2>

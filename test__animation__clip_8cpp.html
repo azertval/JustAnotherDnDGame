@@ -93,7 +93,7 @@ $(function(){initNavTree('test__animation__clip_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Tests unitaires du modèle de clip d'animation (<span class="tt"><a class="el" href="structcore_1_1AnimationClip.html" title="Clip d&#39;animation : une suite d&#39;images, une durée par image, une manière de finir.">core::AnimationClip</a></span>/<span class="tt"><a class="el" href="classcore_1_1ClipSet.html" title="Ensemble nommé de clips, adressable par nom — l&#39;unité que décrit un fichier nom-asset....">core::ClipSet</a></span>, LOT-46 TACHE-01) : données pures, sans GPU ni fichier.  
+<p>Tests unitaires du modèle de clip d'animation (<span class="tt"><a class="el" href="structcore_1_1AnimationClip.html" title="Clip d&#39;animation : une suite d&#39;images, une durée par image, une manière de finir.">core::AnimationClip</a></span>/<span class="tt"><a class="el" href="classcore_1_1ClipSet.html" title="Ensemble nommé de clips, adressable par nom — l&#39;unité que décrit un fichier nom-asset....">core::ClipSet</a></span>) : données pures, sans GPU ni fichier.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="AnimationClip_8h_source.html">Core/Ecs/AnimationClip.h</a>&quot;</code><br />
@@ -107,7 +107,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ad0a2aa8e6160daaed8fb13e11c1173ac" id="r_ad0a2aa8e6160daaed8fb13e11c1173ac"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad0a2aa8e6160daaed8fb13e11c1173ac">TEST</a> (AnimationClipTest, JeuVideRepliSurUnClipParDefaut)</td></tr>
 <tr class="memdesc:ad0a2aa8e6160daaed8fb13e11c1173ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un jeu de clips <b>vide</b> rend un clip par défaut non dégénéré : il porte au moins une image, donc l'animation reste affichable.  <br /></td></tr>
 <tr class="memitem:acf3e0c148c38e08db960bf013d9c057c" id="r_acf3e0c148c38e08db960bf013d9c057c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acf3e0c148c38e08db960bf013d9c057c">TEST</a> (AnimationClipTest, ClipAUneSeuleImage)</td></tr>
-<tr class="memdesc:acf3e0c148c38e08db960bf013d9c057c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un clip à <b>une seule image</b> est un clip valide : c'est la forme que prend tout état statique (porte ouverte, interrupteur au repos), qui n'a pas à être traité à part.  <br /></td></tr>
+<tr class="memdesc:acf3e0c148c38e08db960bf013d9c057c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un clip à <b>une seule image</b> est un clip valide : c'est la forme que prend tout état statique (coffre ouvert, figurine au repos), qui n'a pas à être traité à part.  <br /></td></tr>
 <tr class="memitem:a37760414588bd7aa1f8fca5332f629b7" id="r_a37760414588bd7aa1f8fca5332f629b7"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a37760414588bd7aa1f8fca5332f629b7">TEST</a> (AnimationClipTest, DureesInegalesEntreClips)</td></tr>
 <tr class="memdesc:a37760414588bd7aa1f8fca5332f629b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">La durée d'image est propre à <b>chaque</b> clip : un repos lent et une course rapide coexistent dans le même jeu sans qu'une cadence globale ne les uniformise.  <br /></td></tr>
 <tr class="memitem:ab853a3df59331216898c36ccce24c689" id="r_ab853a3df59331216898c36ccce24c689"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab853a3df59331216898c36ccce24c689">TEST</a> (AnimationClipTest, ClipJoueUneFoisAvecClipSuivant)</td></tr>
@@ -116,7 +116,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a979f837d89c86f2c2be49eb5e7fd6808"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajouter un clip portant un nom déjà pris <b>remplace</b> l'existant à son index, sans en créer un second : les index déjà distribués restent valides, et un catalogue rechargé à chaud ne se met pas à enfler de doublons à chaque relecture.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Tests unitaires du modèle de clip d'animation (<span class="tt"><a class="el" href="structcore_1_1AnimationClip.html" title="Clip d&#39;animation : une suite d&#39;images, une durée par image, une manière de finir.">core::AnimationClip</a></span>/<span class="tt"><a class="el" href="classcore_1_1ClipSet.html" title="Ensemble nommé de clips, adressable par nom — l&#39;unité que décrit un fichier nom-asset....">core::ClipSet</a></span>, LOT-46 TACHE-01) : données pures, sans GPU ni fichier. </p>
+<div class="textblock"><p>Tests unitaires du modèle de clip d'animation (<span class="tt"><a class="el" href="structcore_1_1AnimationClip.html" title="Clip d&#39;animation : une suite d&#39;images, une durée par image, une manière de finir.">core::AnimationClip</a></span>/<span class="tt"><a class="el" href="classcore_1_1ClipSet.html" title="Ensemble nommé de clips, adressable par nom — l&#39;unité que décrit un fichier nom-asset....">core::ClipSet</a></span>) : données pures, sans GPU ni fichier. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a979f837d89c86f2c2be49eb5e7fd6808" name="a979f837d89c86f2c2be49eb5e7fd6808"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a979f837d89c86f2c2be49eb5e7fd6808">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
@@ -167,7 +167,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Un clip à <b>une seule image</b> est un clip valide : c'est la forme que prend tout état statique (porte ouverte, interrupteur au repos), qui n'a pas à être traité à part. </p>
+<p>Un clip à <b>une seule image</b> est un clip valide : c'est la forme que prend tout état statique (coffre ouvert, figurine au repos), qui n'a pas à être traité à part. </p>
 <p><b>Cas de test :</b> <b>Un clip d'une seule image est un clip valide.</b><br  />
  <b>Categorie :</b> Unitaire · Clip d'animation<br  />
  <b>Criticite :</b> Majeur<br  />

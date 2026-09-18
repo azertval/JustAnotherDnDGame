@@ -31,8 +31,8 @@ namespace hmi {
 /**
  * @brief Action d'Ã©diteur logique, remappable indÃ©pendamment de la touche physique.
  *
- * Sous-ensemble **significatif** des raccourcis de l'Ã©diteur (`hmi::GameViewport`, mode Ã©dition),
- * pas exhaustif (dÃ©cision de cadrage `LOT-29`) : navigation de menu, redimensionnement par flÃ¨ches,
+ * Sous-ensemble **significatif** des raccourcis de l'Ã©diteur (`hmi::EditorViewport`),
+ * pas exhaustif (dÃ©cision de cadrage) : navigation de menu, redimensionnement par flÃ¨ches,
  * `Ctrl+R`, `"0"`, `Tab`, Maj+clic restent cÃ¢blÃ©s en dur. Le modificateur `Ctrl` de
  * Save/Undo/Redo/Copy/Paste reste lui-mÃªme cÃ¢blÃ© en dur ; seule la touche-lettre associÃ©e est ici
  * remappable.
@@ -47,24 +47,21 @@ enum class EditorAction {
     ToggleGrid,
     ToggleHelp,
     Rename,
-    /// SÃ©lectionne l'outil Â« Texture par instance Â» (`LOT-45`, `EX-EDIT-043`).
-    TextureAssignTool,
 };
 
 /// Nombre d'actions d'Ã©diteur remappables (`EditorAction`).
-constexpr int EDITOR_ACTION_COUNT = 10;
+constexpr int EDITOR_ACTION_COUNT = 9;
 
 /**
- * @brief Association action d'Ã©diteur -&gt; touche, avec persistance JSON (`EX-CTRL-012`, `LOT-29`).
+ * @brief Association action d'Ã©diteur -&gt; touche, avec persistance JSON (`EX-CTRL-012`).
  *
- * MÃªme mÃ©canique que `GameKeyBindings` (Ã©change sur conflit, section `"editeur"` du mÃªme fichier
- * `keybindings.json`, fusionnÃ©e plutÃ´t qu'Ã©crasÃ©e Ã  chaque sauvegarde) â classe sÃ©parÃ©e plutÃ´t
- * qu'une abstraction commune : deux cas concrets connus, pas de troisiÃ¨me anticipÃ©.
+ * Ãchange sur conflit ; persistance dans la section `"editeur"` de `keybindings.json`, fusionnÃ©e
+ * plutÃ´t qu'Ã©crasÃ©e Ã  chaque sauvegarde : les autres sections du fichier sont prÃ©servÃ©es.
  */
 class EditorKeyBindings {
 public:
-    /// Construit avec les valeurs par dÃ©faut (S/Z/Y/C/V/P/F10/F1/F2/T, cf. l'Ã©diteur
-    /// `hmi::GameViewport`).
+    /// Construit avec les valeurs par dÃ©faut (S/Z/Y/C/V/P/F10/F1/F2, cf. l'Ã©diteur
+    /// `hmi::EditorViewport`).
     EditorKeyBindings();
 
     /// @return La touche actuellement liÃ©e Ã  @p action.
@@ -85,8 +82,8 @@ public:
     [[nodiscard]] static Key defaultKey(EditorAction action) noexcept;
 
     /**
-     * @brief Sauvegarde dans la section `"editeur"` de @p path, en prÃ©servant une section
-     *        `"jeu"` dÃ©jÃ  prÃ©sente (Ã©crite par `GameKeyBindings::save`).
+     * @brief Sauvegarde dans la section `"editeur"` de @p path, en prÃ©servant les autres
+     *        sections dÃ©jÃ  prÃ©sentes.
      * @return Faux si le fichier n'a pas pu Ãªtre Ã©crit (dossier non crÃ©able, etc.).
      */
     bool save(const std::filesystem::path&amp; path) const;

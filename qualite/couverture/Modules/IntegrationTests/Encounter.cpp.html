@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Encounter.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Combat/Encounter.h"
+
+#include &lt;algorithm&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace core {
+namespace {
+
+// Les entrees de catalogue ne portent pas de champ `version` : ce sont des donnees, pas des
+// documents de format. Meme convention que `loadEquipment` (LOT-34) et `loadItems` (LOT-14).
+constexpr int SANS_GARDE_DE_VERSION = 0;
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string lireTexte(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_string()) ? trouve-&gt;get&lt;std::string&gt;()</span>
+                                                          : std::string{};
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] int lireEntier(const nlohmann::json&amp; objet, const char* champ) {
+    const auto trouve = objet.find(champ);
+    return (trouve != objet.end() &amp;&amp; trouve-&gt;is_number_integer()) ? trouve-&gt;get&lt;int&gt;() : 0;
+}</span>
+
+/// Les combattants d'une rencontre ; une entree sans creature est signalee puis ignoree.
+void lireCombattants(const nlohmann::json&amp; combattants, const std::filesystem::path&amp; chemin,
+<span style = "background-color:#dfd">                     Encounter&amp; rencontre, std::vector&lt;std::string&gt;&amp; erreurs) {
+    for (const nlohmann::json&amp; entree : combattants) {
+        if (!entree.is_object()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        EncounterCombatant combattant;
+        combattant.creatureId = lireTexte(entree, "creatureId");
+        combattant.columnOffset = lireEntier(entree, "columnOffset");
+        combattant.rowOffset = lireEntier(entree, "rowOffset");
+        if (combattant.creatureId.empty()) {</span>
+<span style = "background-color:#fdd">            erreurs.push_back(chemin.filename().string() +</span>
+                              " : combattant sans identifiant de creature.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        rencontre.combatants.push_back(std::move(combattant));
+    }
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">const Encounter* EncounterCatalog::find(std::string_view id) const {
+    const auto trouve = std::ranges::find(encounters, id, &amp;Encounter::id);
+    return trouve == encounters.end() ? nullptr : &amp;*trouve;
+}</span>
+
+<span style = "background-color:#dfd">EncounterCatalog loadEncounters(const std::filesystem::path&amp; encountersDir) {
+    EncounterCatalog catalogue;
+    std::error_code code;
+    if (!std::filesystem::is_directory(encountersDir, code)) {</span>
+<span style = "background-color:#fdd">        catalogue.errors.push_back(encountersDir.string() + " : dossier absent ou illisible.");
+        return catalogue;</span>
+    }
+<span style = "background-color:#dfd">    std::vector&lt;std::filesystem::path&gt; fichiers;
+    for (const auto&amp; entree : std::filesystem::directory_iterator(encountersDir, code)) {
+        if (entree.is_regular_file(code) &amp;&amp; entree.path().extension() == ".json") {
+            fichiers.push_back(entree.path());
+        }
+    }
+    std::ranges::sort(fichiers);</span>
+
+<span style = "background-color:#dfd">    for (const std::filesystem::path&amp; chemin : fichiers) {
+        const JsonDocument document = readJsonObjectFromFile(chemin, SANS_GARDE_DE_VERSION);
+        if (!document.ok()) {</span>
+<span style = "background-color:#fdd">            catalogue.errors.push_back(document.message);
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const nlohmann::json&amp; racine = document.root;
+        Encounter rencontre;
+        rencontre.id = lireTexte(racine, "id");
+        rencontre.name = lireTexte(racine, "name");
+        rencontre.source = lireTexte(racine, "source");
+        if (const auto fuite = racine.find("escapable");
+            fuite != racine.end() &amp;&amp; fuite-&gt;is_boolean()) {
+            rencontre.escapable = fuite-&gt;get&lt;bool&gt;();
+        }
+        if (rencontre.id.empty()) {</span>
+<span style = "background-color:#fdd">            catalogue.errors.push_back(chemin.filename().string() +</span>
+                                       " : rencontre sans identifiant.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+
+<span style = "background-color:#dfd">        const auto combattants = racine.find("combatants");
+        if (combattants == racine.end() || !combattants-&gt;is_array() || combattants-&gt;empty()) {</span>
+            // Une rencontre SANS combattant se declencherait et se terminerait aussitot par une
+            // victoire, en posant son drapeau : le joueur verrait un ennemi disparaitre sans
+            // combat, et rien ne le signalerait.
+<span style = "background-color:#fdd">            catalogue.errors.push_back(chemin.filename().string() +</span>
+                                       " : rencontre sans aucun combattant.");
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        lireCombattants(*combattants, chemin, rencontre, catalogue.errors);
+        if (rencontre.combatants.empty()) {</span>
+<span style = "background-color:#fdd">            continue;  // deja signale ci-dessus</span>
+        }
+<span style = "background-color:#dfd">        catalogue.encounters.push_back(std::move(rencontre));
+    }
+    return catalogue;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;CombatantPlacement&gt; placeCombatants(const Encounter&amp; encounter, GridPosition trigger) {
+    std::vector&lt;CombatantPlacement&gt; places;
+    places.reserve(encounter.combatants.size());
+    for (const EncounterCombatant&amp; combattant : encounter.combatants) {
+        places.push_back({.creatureId = combattant.creatureId,</span>
+                          .position = {.column = trigger.column + combattant.columnOffset,
+                                       .row = trigger.row + combattant.rowOffset}});
+<span style = "background-color:#dfd">    }
+    return places;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

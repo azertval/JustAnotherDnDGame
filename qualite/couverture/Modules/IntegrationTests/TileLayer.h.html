@@ -30,15 +30,15 @@ namespace core {
 /**
  * @brief RÃ´le d'une couche de tuiles dans une carte.
  *
- * Un RPG en vue de dessus a besoin d'au moins trois couches lÃ  oÃ¹ un jeu de plateforme se
- * contentait d'une grille unique :
+ * Un RPG en vue de dessus a besoin d'au moins trois couches lÃ  oÃ¹ une grille unique ne suffit
+ * pas :
  *
  * - `Ground` â ce qu'on voit sous les pieds (herbe, dalle, eau) ;
  * - `Decor` â dessinÃ© **au-dessus** du sol, et devant ou derriÃ¨re le personnage selon sa position
  *   (arbre, tonneau, tapis) ;
  * - `Collision` â masque **indÃ©pendant du visuel** : un tapis se traverse, un tonneau non, et les
  *   deux peuvent reposer sur la mÃªme image de sol. C'est cette couche, et elle seule, que
- *   consomment le balayage AABB puis la grille de combat tactique (`LOT-19`).
+ *   consomment le dÃ©placement en exploration et la grille de combat tactique (`LOT-19`).
  *
  * `Legacy` dÃ©signe la grille unique d'une carte au format `version: 2`, promue telle quelle au
  * chargement : elle vaut Ã  la fois dÃ©cor et collision, comme dans le format d'origine.
@@ -82,7 +82,7 @@ inline constexpr int LAYER_KIND_COUNT = static_cast&lt;int&gt;(LayerKind::Legacy
  *        masque de collision ou la grille unique d'une carte `version: 2`.
  *
  * C'est la distinction que l'Ã©diteur fait entre les couches qu'on peint Ã  part (`LOT-11`) et la
- * grille racine, qui reste la seule oÃ¹ vivent l'entrÃ©e, la sortie et les mÃ©canismes.
+ * grille racine, qui reste la seule oÃ¹ vit l'entrÃ©e.
  */
 <span style = "background-color:#dfd">[[nodiscard]] constexpr bool isVisualLayerKind(LayerKind kind) noexcept {
     switch (kind) {</span>
@@ -100,11 +100,10 @@ inline constexpr int LAYER_KIND_COUNT = static_cast&lt;int&gt;(LayerKind::Legacy
  * @brief Vrai si @p type se peint sur une couche **visuelle** (sol ou dÃ©cor, `LOT-11`).
  *
  * Une couche visuelle est une image : elle accepte le vide, la matiÃ¨re gÃ©nÃ©rique et tout le
- * vocabulaire de terrain du `LOT-08`. Elle refuse ce qui n'a de sens que dans la grille de
- * collision â entrÃ©e, sortie, mÃ©canismes, danger, bloc poussable : ces types portent une
- * **rÃ¨gle**, et une rÃ¨gle posÃ©e sur une couche que le gameplay ne lit pas serait un piÃ¨ge
- * silencieux (une porte dessinÃ©e qu'aucun interrupteur n'ouvre). Le `switch` est exhaustif : un
- * type ajoutÃ© sans dÃ©cision ne compile pas.
+ * vocabulaire de terrain du `LOT-08`. Elle refuse l'entrÃ©e, qui n'a de sens que dans la grille de
+ * collision : elle porte une **rÃ¨gle**, et une rÃ¨gle posÃ©e sur une couche que le jeu ne lit pas
+ * serait un piÃ¨ge silencieux. Le `switch` est exhaustif : un type ajoutÃ© sans dÃ©cision ne compile
+ * pas.
  */
 <span style = "background-color:#dfd">[[nodiscard]] constexpr bool isVisualLayerTileType(TileType type) noexcept {
     switch (type) {</span>
@@ -120,15 +119,7 @@ inline constexpr int LAYER_KIND_COUNT = static_cast&lt;int&gt;(LayerKind::Legacy
         case TileType::Bridge:
         case TileType::Stairs:
 <span style = "background-color:#dfd">            return true;</span>
-        case TileType::Danger:
         case TileType::Entry:
-        case TileType::Exit:
-        case TileType::Switch:
-        case TileType::Door:
-        case TileType::PressurePlate:
-        case TileType::Block:
-        case TileType::Key:
-        case TileType::LockedDoor:
 <span style = "background-color:#dfd">            return false;</span>
     }
 <span style = "background-color:#fdd">    return false;</span>

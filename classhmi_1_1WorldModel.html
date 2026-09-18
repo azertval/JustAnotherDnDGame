@@ -191,20 +191,15 @@ Properties</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a3abef1c2c71454c345db59ef5dd3c892" id="r_a3abef1c2c71454c345db59ef5dd3c892"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3abef1c2c71454c345db59ef5dd3c892">step</a> ()</td></tr>
 <tr class="memdesc:a3abef1c2c71454c345db59ef5dd3c892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un pas fixe : avance la session, joue ses événements, publie ce qui a changé.  <br /></td></tr>
-<tr class="memitem:af3f35ae2986d16ed0fae4e2e695e3482" id="r_af3f35ae2986d16ed0fae4e2e695e3482"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af3f35ae2986d16ed0fae4e2e695e3482">reloadAppearance</a> ()</td></tr>
-<tr class="memdesc:af3f35ae2986d16ed0fae4e2e695e3482"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit la table d'apparence du lieu de la carte courante.  <br /></td></tr>
 <tr class="memitem:adc66b2547875ba03914fe3186cd9e7c4" id="r_adc66b2547875ba03914fe3186cd9e7c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adc66b2547875ba03914fe3186cd9e7c4">noteDistrictVisit</a> ()</td></tr>
 <tr class="memdesc:adc66b2547875ba03914fe3186cd9e7c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retient le quartier de la carte courante parmi les quartiers visités.  <br /></td></tr>
-<tr class="memitem:a014873bddbbead42b168a3084e0cf5ec" id="r_a014873bddbbead42b168a3084e0cf5ec"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a014873bddbbead42b168a3084e0cf5ec">figures</a> () const</td></tr>
-<tr class="memdesc:a014873bddbbead42b168a3084e0cf5ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les figurines à dessiner : le héros, puis les PNJ de la carte.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a99362149cc1bc32ff31b4aa20bea387f" id="r_a99362149cc1bc32ff31b4aa20bea387f"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classcore_1_1ExplorationSession.html">core::ExplorationSession</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a99362149cc1bc32ff31b4aa20bea387f">_session</a></td></tr>
-<tr class="memitem:a8a390818b3ff143689a2ae67697cc9f0" id="r_a8a390818b3ff143689a2ae67697cc9f0"><td class="memItemLeft"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8a390818b3ff143689a2ae67697cc9f0">_appearance</a></td></tr>
+<tr class="memitem:a4de8904df65649a8d0b20e2c44304a1a" id="r_a4de8904df65649a8d0b20e2c44304a1a"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1WorldPlay.html">WorldPlay</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4de8904df65649a8d0b20e2c44304a1a">_play</a></td></tr>
+<tr class="memdesc:a4de8904df65649a8d0b20e2c44304a1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La carte qu'on parcourt, et sa mise en scène — partagée avec l'essai de l'éditeur.  <br /></td></tr>
 <tr class="memitem:a185bec4197be436a7b6ba48da418c084" id="r_a185bec4197be436a7b6ba48da418c084"><td class="memItemLeft">QTimer&#160;</td><td class="memItemRight"><a class="el" href="#a185bec4197be436a7b6ba48da418c084">_clock</a></td></tr>
 <tr class="memitem:ae9e3f227c26c431056386330b3a88b61" id="r_ae9e3f227c26c431056386330b3a88b61"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ae9e3f227c26c431056386330b3a88b61">_status</a></td></tr>
-<tr class="memitem:a79e4ff31edac22cf83b5fc27861dfd03" id="r_a79e4ff31edac22cf83b5fc27861dfd03"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a79e4ff31edac22cf83b5fc27861dfd03">_heroFigure</a> {QStringLiteral(&quot;jade&quot;)}</td></tr>
 <tr class="memitem:ae2f859429dc0a59c56366e24b75f1517" id="r_ae2f859429dc0a59c56366e24b75f1517"><td class="memItemLeft"><a class="el" href="structcore_1_1CityPlan.html">core::CityPlan</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae2f859429dc0a59c56366e24b75f1517">_city</a></td></tr>
 <tr class="memdesc:ae2f859429dc0a59c56366e24b75f1517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le graphe de la ville qu'on parcourt, lu une fois (<span class="tt">LOT-96</span>).  <br /></td></tr>
 <tr class="memitem:ac0d5164e1103e39c2848aca49c7d8be4" id="r_ac0d5164e1103e39c2848aca49c7d8be4"><td class="memItemLeft">QStringList&#160;</td><td class="memItemRight"><a class="el" href="#ac0d5164e1103e39c2848aca49c7d8be4">_visitedDistricts</a></td></tr>
@@ -213,15 +208,11 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa23f8ac54fa6c1029f8ba9fd4e3def64" id="r_aa23f8ac54fa6c1029f8ba9fd4e3def64"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#aa23f8ac54fa6c1029f8ba9fd4e3def64">_startArrivalOverride</a></td></tr>
 <tr class="memitem:abebba2b18b07805157fe133092ef526b" id="r_abebba2b18b07805157fe133092ef526b"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#abebba2b18b07805157fe133092ef526b">_move</a> {}</td></tr>
 <tr class="memitem:a933009a644601ba3b075e17f89c9d1bf" id="r_a933009a644601ba3b075e17f89c9d1bf"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a933009a644601ba3b075e17f89c9d1bf">_interact</a> = false</td></tr>
-<tr class="memitem:a1eddf005e387b12aa32ab3b13f3e1de4" id="r_a1eddf005e387b12aa32ab3b13f3e1de4"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a1eddf005e387b12aa32ab3b13f3e1de4">_elapsed</a> = 0.0F</td></tr>
-<tr class="memdesc:a1eddf005e387b12aa32ab3b13f3e1de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Temps écoulé depuis l'entrée sur la carte, en secondes : l'image des bandes d'animation.  <br /></td></tr>
-<tr class="memitem:a1751136208b91e5c567806592cfae817" id="r_a1751136208b91e5c567806592cfae817"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1751136208b91e5c567806592cfae817">_walking</a> = false</td></tr>
-<tr class="memdesc:a1751136208b91e5c567806592cfae817"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si le héros marchait au dernier pas : il montre alors sa bande <span class="tt">walk</span>.  <br /></td></tr>
 <tr class="memitem:aa9a833a6634a208feed602de1352ea34" id="r_aa9a833a6634a208feed602de1352ea34"><td class="memItemLeft">quint64&#160;</td><td class="memItemRight"><a class="el" href="#aa9a833a6634a208feed602de1352ea34">_sceneRevision</a> = 1</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La vue-modèle de l'exploration — <b>la partie en cours</b> : entrer sur une carte, marcher, parler, franchir. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1073"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md959"></a>
 Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 <p>Elle tient une <span class="tt"><a class="el" href="classcore_1_1ExplorationSession.html" title="Le héros sur la carte courante : marche, interaction, portails.">core::ExplorationSession</a></span> et fait tourner son <b>pas fixe</b> ; chaque geste de l'écran devient une intention passée à la session, et ce que l'écran montre est relu d'elle. Elle ne décide rien du monde : ni la collision, ni la traversée, ni ce qu'un PNJ répond.</p>
 <p>Même partage que l'arène (<span class="tt"><a class="el" href="classhmi_1_1ArenaModel.html" title="La vue-modèle de l&#39;arène : composer deux camps, lancer, jouer, rejouer.">hmi::ArenaModel</a></span>) : la surface de rendu (<span class="tt"><a class="el" href="classhmi_1_1WorldViewportItem.html" title="Surface QRhi de la carte courante : le jumeau d&#39;hmi::ArenaViewportItem pour le monde.">hmi::WorldViewportItem</a></span>) prend un <b>instantané en valeurs</b> (<span class="tt"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html" title="Le lieu en valeurs : ce que la composition lit, et rien d&#39;autre.">hmi::WorldSceneSnapshot</a></span>) dans <span class="tt">synchronize()</span>, pendant que le fil graphique est bloqué. Le modèle ne lui passe jamais la session. </p>
@@ -453,33 +444,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 </div><div class="memdoc">
 
 <p>Entre sur <code class="param">mapId</code> au point d'arrivée <code class="param">arrival</code> (vide : l'entrée de la carte). </p>
-
-</div>
-</div>
-<a id="a014873bddbbead42b168a3084e0cf5ec" name="a014873bddbbead42b168a3084e0cf5ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a014873bddbbead42b168a3084e0cf5ec">&#9670;&#160;</a></span>figures()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt; hmi::WorldModel::figures </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Les figurines à dessiner : le héros, puis les PNJ de la carte. </p>
 
 </div>
 </div>
@@ -838,33 +802,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 
 </div>
 </div>
-<a id="af3f35ae2986d16ed0fae4e2e695e3482" name="af3f35ae2986d16ed0fae4e2e695e3482"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3f35ae2986d16ed0fae4e2e695e3482">&#9670;&#160;</a></span>reloadAppearance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::WorldModel::reloadAppearance </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Relit la table d'apparence du lieu de la carte courante. </p>
-
-</div>
-</div>
 <a id="ac86f1bb3f3f3d8b51c1a5a868146d779" name="ac86f1bb3f3f3d8b51c1a5a868146d779"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac86f1bb3f3f3d8b51c1a5a868146d779">&#9670;&#160;</a></span>rows()</h2>
 
@@ -1121,28 +1058,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a8a390818b3ff143689a2ae67697cc9f0" name="a8a390818b3ff143689a2ae67697cc9f0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a390818b3ff143689a2ae67697cc9f0">&#9670;&#160;</a></span>_appearance</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> hmi::WorldModel::_appearance</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ae2f859429dc0a59c56366e24b75f1517" name="ae2f859429dc0a59c56366e24b75f1517"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2f859429dc0a59c56366e24b75f1517">&#9670;&#160;</a></span>_city</h2>
 
@@ -1178,52 +1093,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
       <table class="memname">
         <tr>
           <td class="memname">QTimer hmi::WorldModel::_clock</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1eddf005e387b12aa32ab3b13f3e1de4" name="a1eddf005e387b12aa32ab3b13f3e1de4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1eddf005e387b12aa32ab3b13f3e1de4">&#9670;&#160;</a></span>_elapsed</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::WorldModel::_elapsed = 0.0F</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Temps écoulé depuis l'entrée sur la carte, en secondes : l'image des bandes d'animation. </p>
-
-</div>
-</div>
-<a id="a79e4ff31edac22cf83b5fc27861dfd03" name="a79e4ff31edac22cf83b5fc27861dfd03"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79e4ff31edac22cf83b5fc27861dfd03">&#9670;&#160;</a></span>_heroFigure</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::WorldModel::_heroFigure {QStringLiteral(&quot;jade&quot;)}</td>
         </tr>
       </table>
   </td>
@@ -1279,6 +1148,30 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
 
 </div>
 </div>
+<a id="a4de8904df65649a8d0b20e2c44304a1a" name="a4de8904df65649a8d0b20e2c44304a1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4de8904df65649a8d0b20e2c44304a1a">&#9670;&#160;</a></span>_play</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1WorldPlay.html">WorldPlay</a>&gt; hmi::WorldModel::_play</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La carte qu'on parcourt, et sa mise en scène — partagée avec l'essai de l'éditeur. </p>
+
+</div>
+</div>
 <a id="aa9a833a6634a208feed602de1352ea34" name="aa9a833a6634a208feed602de1352ea34"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa9a833a6634a208feed602de1352ea34">&#9670;&#160;</a></span>_sceneRevision</h2>
 
@@ -1290,28 +1183,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
       <table class="memname">
         <tr>
           <td class="memname">quint64 hmi::WorldModel::_sceneRevision = 1</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a99362149cc1bc32ff31b4aa20bea387f" name="a99362149cc1bc32ff31b4aa20bea387f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99362149cc1bc32ff31b4aa20bea387f">&#9670;&#160;</a></span>_session</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classcore_1_1ExplorationSession.html">core::ExplorationSession</a>&gt; hmi::WorldModel::_session</td>
         </tr>
       </table>
   </td>
@@ -1410,30 +1281,6 @@ Ce qu'elle tient, et ce qu'elle ne décide pas</h2>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1751136208b91e5c567806592cfae817" name="a1751136208b91e5c567806592cfae817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1751136208b91e5c567806592cfae817">&#9670;&#160;</a></span>_walking</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::WorldModel::_walking = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Vrai si le héros marchait au dernier pas : il montre alors sa bande <span class="tt">walk</span>. </p>
 
 </div>
 </div>

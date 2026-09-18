@@ -14,21 +14,15 @@
 
 #include "HMI/Graphics/SceneResources.h"
 
-#include &lt;filesystem&gt;
-#include &lt;utility&gt;
-
-#include "HMI/Graphics/AssetPaths.h"
-#include "HMI/Graphics/BitmapFont.h"
 #include "HMI/Graphics/SpriteBatch.h"
 #include "HMI/Graphics/TextureAtlas.h"
 #include "HMI/Graphics/TextureCache.h"
-#include "HMI/Platform/ExecutableDirectory.h"
 
 namespace hmi {
 
 // DÃ©finis ici, et non `= default` dans l'en-tÃªte : les membres sont des `unique_ptr` de types
 // seulement DÃCLARÃS lÃ -bas. Le destructeur implicite exigerait leur dÃ©finition complÃ¨te, et tout
-// fichier incluant l'en-tÃªte devrait alors tirer quatre en-tÃªtes de rendu dont il n'a que faire.
+// fichier incluant l'en-tÃªte devrait alors tirer trois en-tÃªtes de rendu dont il n'a que faire.
 <span style = "background-color:#dfd">SceneResources::SceneResources() = default;</span>
 
 <span style = "background-color:#dfd">SceneResources::~SceneResources() {
@@ -41,30 +35,15 @@ namespace hmi {
 
 <span style = "background-color:#dfd">    _spriteBatch = std::make_unique&lt;SpriteBatch&gt;(_context.rhi);
     _atlas = std::make_unique&lt;TextureAtlas&gt;(_context);</span>
-    // Police bitmap du HUD (LOT-52), chargÃ©e une fois comme l'atlas (repli procÃ©dural intÃ©grÃ©,
-    // pas de damier de secours Ã  gÃ©rer ici).
-<span style = "background-color:#dfd">    _font = std::make_unique&lt;BitmapFont&gt;(_context);</span>
-    // Registre des textures nommÃ©es (LOT-40) : propriÃ©taire du damier de repli du mode Texture,
-    // et point d'entrÃ©e des skins depuis le LOT-42.
-<span style = "background-color:#dfd">    _textureCache =</span>
-        std::make_unique&lt;TextureCache&gt;(_context, AssetPaths{executableDirectory() / "Assets"});
-
-    // Catalogue des skins (LOT-42), lu Ã  cÃ´tÃ© de l'exÃ©cutable comme les niveaux et les
-    // traductions. Fichier absent ou illisible : catalogue vide, tout retombe sur le damier â un
-    // Ã©tat de dÃ©part lÃ©gitime, pas une erreur bloquante (EX-NFR-040).
-<span style = "background-color:#dfd">    SkinCatalogResult skins =</span>
-        SkinCatalog::loadFromFile(executableDirectory() / "Assets" / "skins.json");
-<span style = "background-color:#dfd">    if (skins.ok()) {
-        _skins = std::move(*skins.catalog);</span>
-    }
-<span style = "background-color:#dfd">}</span>
+    // Registre des textures gÃ©nÃ©rÃ©es : les marqueurs d'entitÃ© (LOT-39).
+<span style = "background-color:#dfd">    _textureCache = std::make_unique&lt;TextureCache&gt;(_context);
+}</span>
 
 <span style = "background-color:#dfd">void SceneResources::release() noexcept {</span>
     // L'ORDRE EST LA RAISON D'ÃTRE DE CETTE CLASSE. Ce qui tient une texture meurt avant elle, et
     // la texture avant le pipeline qui l'Ã©chantillonne. LibÃ©rer dans le dÃ©sordre ne produit pas
     // une erreur nette mais un plantage Ã  la fermeture, intermittent selon le pilote.
 <span style = "background-color:#dfd">    _textureCache.reset();
-    _font.reset();
     _atlas.reset();
     _spriteBatch.reset();
     _context.rhi = nullptr;

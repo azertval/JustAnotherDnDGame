@@ -122,7 +122,7 @@ Functions</h2></td></tr>
 <tr class="memitem:af91959f91fe36044c8b06e866baee930" id="r_af91959f91fe36044c8b06e866baee930"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af91959f91fe36044c8b06e866baee930">TEST</a> (LocalizationTest, CatalogueFrancaisLivreSeCharge)</td></tr>
 <tr class="memdesc:af91959f91fe36044c8b06e866baee930"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le catalogue français livré (Source/Elements/Localization) se charge et résout ses clés.  <br /></td></tr>
 <tr class="memitem:ab0e1fe6f444f7b1dc04c3d55ccc6e31f" id="r_ab0e1fe6f444f7b1dc04c3d55ccc6e31f"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab0e1fe6f444f7b1dc04c3d55ccc6e31f">TEST</a> (LocalizationTest, LesDeuxCataloguesDeclarentLesMemesCles)</td></tr>
-<tr class="memdesc:ab0e1fe6f444f7b1dc04c3d55ccc6e31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux catalogues livrés déclarent <b>exactement</b> les mêmes clés (<span class="tt">LOT-73</span>, <span class="tt">EX-REN-033</span>).  <br /></td></tr>
+<tr class="memdesc:ab0e1fe6f444f7b1dc04c3d55ccc6e31f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les deux catalogues livrés déclarent <b>exactement</b> les mêmes clés (<span class="tt">EX-REN-033</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du catalogue de traduction : analyse, repli, changement de langue. </p>
@@ -356,7 +356,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les deux catalogues livrés déclarent <b>exactement</b> les mêmes clés (<span class="tt">LOT-73</span>, <span class="tt">EX-REN-033</span>). </p>
+<p>Les deux catalogues livrés déclarent <b>exactement</b> les mêmes clés (<span class="tt">EX-REN-033</span>). </p>
 <p>Une clé ajoutée d'un seul côté ne casse rien de visible : <span class="tt">Localization::text</span> replie sur la langue par défaut, et l'interface s'affiche — en français au milieu d'un écran anglais. Le défaut ne se voit donc qu'en changeant de langue, écran par écran, ce que personne ne fait après avoir ajouté un libellé. Ce test le voit pour nous, dans les deux sens : une clé anglaise oubliée en français compte autant. <b>Cas de test :</b> <b>Les catalogues francais et anglais declarent les memes cles.</b><br  />
  <b>Categorie :</b> Unitaire · Localization<br  />
  <b>Criticite :</b> Majeur<br  />

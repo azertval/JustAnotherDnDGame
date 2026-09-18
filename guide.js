@@ -1,287 +1,196 @@
 var guide =
 [
-    [ "Comment lire ce guide", "guide.html#autotoc_md260", null ],
-    [ "Architecture en deux couches", "guide.html#autotoc_md261", null ],
-    [ "Plan du guide", "guide.html#autotoc_md262", null ],
+    [ "Comment lire ce guide", "guide.html#autotoc_md178", null ],
+    [ "Architecture en deux couches", "guide.html#autotoc_md179", null ],
+    [ "Plan du guide", "guide.html#autotoc_md180", null ],
     [ "Boucle de jeu et pas de temps fixe", "guide-boucle.html", [
-      [ "Qu'est-ce qu'une boucle de jeu ?", "guide-boucle.html#autotoc_md56", null ],
-      [ "Le piège du framerate variable", "guide-boucle.html#autotoc_md57", null ],
-      [ "Le principe du pas de temps fixe", "guide-boucle.html#autotoc_md58", null ],
-      [ "L'accumulateur : <a class=\"el\" href=\"classcore_1_1FixedTimestep.html\" title=\"core::FixedTimestep\">core::FixedTimestep</a>", "guide-boucle.html#autotoc_md59", [
-        [ "Exemple chiffré", "guide-boucle.html#autotoc_md60", null ],
-        [ "La « spirale de la mort »", "guide-boucle.html#autotoc_md61", null ],
-        [ "<a class=\"el\" href=\"classcore_1_1FixedTimestep.html#ab7f7f880eef11df91ab7bc647e19bf56\" title=\"core::FixedTimestep::interpolationAlpha\">interpolationAlpha</a>", "guide-boucle.html#autotoc_md62", null ],
-        [ "Les frames sans pas de simulation et les entrées", "guide-boucle.html#autotoc_md63", null ]
+      [ "Qu'est-ce qu'une boucle de jeu ?", "guide-boucle.html#autotoc_md36", null ],
+      [ "Le piège du framerate variable", "guide-boucle.html#autotoc_md37", null ],
+      [ "Le principe du pas de temps fixe", "guide-boucle.html#autotoc_md38", null ],
+      [ "L'accumulateur : <a class=\"el\" href=\"classcore_1_1FixedTimestep.html\" title=\"core::FixedTimestep\">core::FixedTimestep</a>", "guide-boucle.html#autotoc_md39", [
+        [ "Exemple chiffré", "guide-boucle.html#autotoc_md40", null ],
+        [ "La « spirale de la mort »", "guide-boucle.html#autotoc_md41", null ],
+        [ "<a class=\"el\" href=\"classcore_1_1FixedTimestep.html#ab7f7f880eef11df91ab7bc647e19bf56\" title=\"core::FixedTimestep::interpolationAlpha\">interpolationAlpha</a>", "guide-boucle.html#autotoc_md42", null ],
+        [ "Les frames sans pas de simulation et les entrées", "guide-boucle.html#autotoc_md43", null ]
       ] ],
-      [ "Conséquence pratique pour tout le code de simulation", "guide-boucle.html#autotoc_md64", null ],
-      [ "Voir aussi", "guide-boucle.html#autotoc_md65", null ]
+      [ "Conséquence pratique pour tout le code de simulation", "guide-boucle.html#autotoc_md44", null ],
+      [ "Voir aussi", "guide-boucle.html#autotoc_md45", null ]
     ] ],
     [ "ECS : entités, composants, systèmes", "guide-ecs.html", [
-      [ "Le problème que l'ECS résout", "guide-ecs.html#autotoc_md106", null ],
-      [ "L'entité : <a class=\"el\" href=\"structcore_1_1Entity.html\" title=\"core::Entity\">core::Entity</a>", "guide-ecs.html#autotoc_md107", null ],
-      [ "Le <a class=\"el\" href=\"classcore_1_1World.html\" title=\"core::World\">World</a>", "guide-ecs.html#autotoc_md108", null ],
-      [ "Le stockage : sparse set (core::ComponentPool&lt;T&gt;)", "guide-ecs.html#autotoc_md109", [
-        [ "Ajout et suppression : <em>swap-and-pop</em>", "guide-ecs.html#autotoc_md110", null ],
-        [ "Exemple pas à pas", "guide-ecs.html#autotoc_md111", null ]
+      [ "Le problème que l'ECS résout", "guide-ecs.html#autotoc_md82", null ],
+      [ "L'entité : <a class=\"el\" href=\"structcore_1_1Entity.html\" title=\"core::Entity\">core::Entity</a>", "guide-ecs.html#autotoc_md83", null ],
+      [ "Le <a class=\"el\" href=\"classcore_1_1World.html\" title=\"core::World\">World</a>", "guide-ecs.html#autotoc_md84", null ],
+      [ "Le stockage : sparse set (core::ComponentPool&lt;T&gt;)", "guide-ecs.html#autotoc_md85", [
+        [ "Ajout et suppression : <em>swap-and-pop</em>", "guide-ecs.html#autotoc_md86", null ],
+        [ "Exemple pas à pas", "guide-ecs.html#autotoc_md87", null ]
       ] ],
-      [ "Les vues : core::View&lt;Components...&gt;", "guide-ecs.html#autotoc_md112", null ],
-      [ "Les systèmes et l'ordre d'exécution", "guide-ecs.html#autotoc_md113", null ],
-      [ "Voir aussi", "guide-ecs.html#autotoc_md114", null ]
+      [ "Les vues : core::View&lt;Components...&gt;", "guide-ecs.html#autotoc_md88", null ],
+      [ "Les systèmes et l'ordre d'exécution", "guide-ecs.html#autotoc_md89", null ],
+      [ "Voir aussi", "guide-ecs.html#autotoc_md90", null ]
     ] ],
     [ "Mathématiques du moteur", "guide-maths.html", [
-      [ "<a class=\"el\" href=\"structcore_1_1Vector2.html\" title=\"core::Vector2\">Vector2</a> : un point ou une direction dans le monde", "guide-maths.html#autotoc_md171", [
-        [ "<a class=\"el\" href=\"structcore_1_1Vector2.html#a5f3517fe219407f73a3ed5542091c31c\" title=\"core::Vector2::lengthSquared\">lengthSquared</a> : éviter la racine carrée", "guide-maths.html#autotoc_md172", null ],
-        [ "Égalité approchée", "guide-maths.html#autotoc_md173", null ]
+      [ "<a class=\"el\" href=\"structcore_1_1Vector2.html\" title=\"core::Vector2\">Vector2</a> : un point ou une direction dans le monde", "guide-maths.html#autotoc_md137", [
+        [ "<a class=\"el\" href=\"structcore_1_1Vector2.html#a5f3517fe219407f73a3ed5542091c31c\" title=\"core::Vector2::lengthSquared\">lengthSquared</a> : éviter la racine carrée", "guide-maths.html#autotoc_md138", null ],
+        [ "Égalité approchée", "guide-maths.html#autotoc_md139", null ]
       ] ],
-      [ "<a class=\"el\" href=\"structcore_1_1Aabb.html\" title=\"core::Aabb\">Aabb</a> : la boîte englobante alignée aux axes", "guide-maths.html#autotoc_md174", null ],
-      [ "Conventions d'unités et de repère", "guide-maths.html#autotoc_md175", null ],
-      [ "Comparaison flottante : pourquoi l'égalité stricte est dangereuse", "guide-maths.html#autotoc_md176", null ],
-      [ "Voir aussi", "guide-maths.html#autotoc_md177", null ]
+      [ "<a class=\"el\" href=\"structcore_1_1Rect.html\" title=\"core::Rect\">Rect</a> : le rectangle aligné aux axes", "guide-maths.html#autotoc_md140", null ],
+      [ "Conventions d'unités et de repère", "guide-maths.html#autotoc_md141", null ],
+      [ "Comparaison flottante : pourquoi l'égalité stricte est dangereuse", "guide-maths.html#autotoc_md142", null ],
+      [ "Voir aussi", "guide-maths.html#autotoc_md143", null ]
     ] ],
-    [ "Physique du personnage", "guide-physique.html", [
-      [ "1. Collision par balayage continu (swept AABB)", "guide-physique.html#autotoc_md198", [
-        [ "Le problème : le <em>tunneling</em>", "guide-physique.html#autotoc_md199", null ],
-        [ "La solution : tester tout le trajet, pas seulement l'arrivée", "guide-physique.html#autotoc_md200", null ],
-        [ "Méthode retenue : balayage <b>par axe</b> avec clamp direct", "guide-physique.html#autotoc_md201", null ],
-        [ "Pourquoi caler directement plutôt que d'interpoler", "guide-physique.html#autotoc_md202", null ],
-        [ "Lire le résultat : <a class=\"el\" href=\"structcore_1_1SweepResult.html\" title=\"core::SweepResult\">core::SweepResult</a>", "guide-physique.html#autotoc_md203", null ]
+    [ "Niveaux : modèle, couches, entités, chargement", "guide-niveaux.html", [
+      [ "Le modèle en mémoire", "guide-niveaux.html#autotoc_md144", [
+        [ "Deux systèmes de coordonnées à ne pas confondre", "guide-niveaux.html#autotoc_md145", null ],
+        [ "<a class=\"el\" href=\"namespacecore.html#ace99a1be913e6294e42e9ebb145eb875\" title=\"core::TileType\">core::TileType</a> : le vocabulaire des cases", "guide-niveaux.html#autotoc_md146", null ],
+        [ "<a class=\"el\" href=\"classcore_1_1TileMap.html\" title=\"core::TileMap\">core::TileMap</a> : la grille", "guide-niveaux.html#autotoc_md147", null ],
+        [ "<a class=\"el\" href=\"classcore_1_1Level.html\" title=\"core::Level\">core::Level</a> : la carte assemblée", "guide-niveaux.html#autotoc_md148", null ],
+        [ "Couches : ce qu'on voit n'est pas ce qui bloque", "guide-niveaux.html#autotoc_md149", null ],
+        [ "Entités et propriétés libres", "guide-niveaux.html#autotoc_md150", null ]
       ] ],
-      [ "2. Suivi de pente et d'arrondi (EX-GP-003, EX-GP-004)", "guide-physique.html#autotoc_md204", [
-        [ "Pourquoi une pente (ou un arrondi) n'est jamais solide", "guide-physique.html#autotoc_md205", null ],
-        [ "<span class=\"tt\">core::slopeSurfaceHeight</span> et <span class=\"tt\">core::resolveSlopeFollow</span>", "guide-physique.html#autotoc_md206", null ],
-        [ "Le piège du mur adjacent (correction du balayage horizontal)", "guide-physique.html#autotoc_md207", null ],
-        [ "Particularité de l'arrondi : tangente verticale à une extrémité", "guide-physique.html#autotoc_md208", null ]
+      [ "Chargement JSON", "guide-niveaux.html#autotoc_md151", [
+        [ "Exemple concret", "guide-niveaux.html#autotoc_md152", null ],
+        [ "Validation", "guide-niveaux.html#autotoc_md153", null ]
       ] ],
-      [ "3. Gravité et intégration", "guide-physique.html#autotoc_md209", [
-        [ "Vitesse terminale newtonienne (EX-GP-019)", "guide-physique.html#autotoc_md210", null ]
-      ] ],
-      [ "4. Saut et <em>game feel</em>", "guide-physique.html#autotoc_md211", null ],
-      [ "5. Dash 8 directions", "guide-physique.html#autotoc_md212", null ],
-      [ "6. Wall jump et wall slide", "guide-physique.html#autotoc_md213", null ],
-      [ "Ordre d'un pas (résumé)", "guide-physique.html#autotoc_md214", null ],
-      [ "Voir aussi", "guide-physique.html#autotoc_md215", null ]
-    ] ],
-    [ "Niveaux : modèle, chargement, mécanismes, budgets", "guide-niveaux.html", [
-      [ "Le modèle en mémoire", "guide-niveaux.html#autotoc_md178", [
-        [ "Deux systèmes de coordonnées à ne pas confondre", "guide-niveaux.html#autotoc_md179", null ],
-        [ "<a class=\"el\" href=\"namespacecore.html#ace99a1be913e6294e42e9ebb145eb875\" title=\"core::TileType\">core::TileType</a> : le vocabulaire des cases", "guide-niveaux.html#autotoc_md180", null ],
-        [ "<a class=\"el\" href=\"classcore_1_1TileMap.html\" title=\"core::TileMap\">core::TileMap</a> : la grille", "guide-niveaux.html#autotoc_md181", null ],
-        [ "<a class=\"el\" href=\"classcore_1_1Level.html\" title=\"core::Level\">core::Level</a> : le niveau assemblé", "guide-niveaux.html#autotoc_md182", null ]
-      ] ],
-      [ "Chargement JSON", "guide-niveaux.html#autotoc_md183", [
-        [ "Exemple concret", "guide-niveaux.html#autotoc_md184", null ],
-        [ "Validation", "guide-niveaux.html#autotoc_md185", null ],
-        [ "Cadrage de caméra (<span class=\"tt\">cameraFraming</span>, <span class=\"tt\">LOT-64</span>)", "guide-niveaux.html#autotoc_md186", null ]
-      ] ],
-      [ "De la grille aux entités : <a class=\"el\" href=\"namespacecore.html#a69ac6b2c5ca32686a14824d1f1c04b2a\" title=\"core::buildLevelScene\">buildLevelScene</a>", "guide-niveaux.html#autotoc_md187", null ],
-      [ "Mécanismes déclencheur ↔ porte", "guide-niveaux.html#autotoc_md188", [
-        [ "Clé et porte verrouillée (<span class=\"tt\">EX-GP-023</span>, <span class=\"tt\">LOT-63</span>)", "guide-niveaux.html#autotoc_md189", null ]
-      ] ],
-      [ "Blocs poussables", "guide-niveaux.html#autotoc_md190", [
-        [ "Blocs à taille réduite (<span class=\"tt\">×0.5</span>/<span class=\"tt\">×0.25</span>)", "guide-niveaux.html#autotoc_md191", null ]
-      ] ],
-      [ "Plateformes mobiles (<span class=\"tt\">EX-GP-026</span>, <span class=\"tt\">LOT-63</span>)", "guide-niveaux.html#autotoc_md192", null ],
-      [ "Budget de mouvements et capacités du tableau", "guide-niveaux.html#autotoc_md193", null ],
-      [ "Dangers avancés (<span class=\"tt\">LOT-31</span>)", "guide-niveaux.html#autotoc_md194", null ],
-      [ "Issue et enchaînement", "guide-niveaux.html#autotoc_md195", null ],
-      [ "Ce que le <span class=\"tt\">LOT-67</span> a retiré", "guide-niveaux.html#autotoc_md196", null ],
-      [ "Voir aussi", "guide-niveaux.html#autotoc_md197", null ]
+      [ "Qui lit la carte", "guide-niveaux.html#autotoc_md154", null ],
+      [ "Voir aussi", "guide-niveaux.html#autotoc_md155", null ]
     ] ],
     [ "Entrées et actions logiques", "guide-entrees.html", [
-      [ "Le principe : ne jamais coder « en dur » une touche dans le gameplay", "guide-entrees.html#autotoc_md138", null ],
-      [ "Échantillonner plutôt que réagir : <a class=\"el\" href=\"classhmi_1_1InputState.html\" title=\"hmi::InputState\">hmi::InputState</a>", "guide-entrees.html#autotoc_md139", [
-        [ "Détecter les fronts, pas seulement l'état", "guide-entrees.html#autotoc_md140", null ],
-        [ "Le cycle d'une frame", "guide-entrees.html#autotoc_md141", null ],
-        [ "Le pont Qt → <a class=\"el\" href=\"namespacehmi.html#a83c98e56e30eafa606048853f7962e48\" title=\"hmi::Key\">Key</a> : <a class=\"el\" href=\"namespacehmi.html#a1b53de392afb0dfdf5cdef4543fb672d\" title=\"hmi::qtKeyToHmiKey\">qtKeyToHmiKey</a>", "guide-entrees.html#autotoc_md142", null ]
+      [ "Le principe : ne jamais coder « en dur » une touche dans le gameplay", "guide-entrees.html#autotoc_md105", null ],
+      [ "L'intention : <a class=\"el\" href=\"structcore_1_1ExplorationIntent.html\" title=\"core::ExplorationIntent\">core::ExplorationIntent</a>", "guide-entrees.html#autotoc_md106", null ],
+      [ "Échantillonner plutôt que réagir : <a class=\"el\" href=\"classhmi_1_1InputState.html\" title=\"hmi::InputState\">hmi::InputState</a>", "guide-entrees.html#autotoc_md107", [
+        [ "Détecter les fronts, pas seulement l'état", "guide-entrees.html#autotoc_md108", null ],
+        [ "Le cycle d'un relevé", "guide-entrees.html#autotoc_md109", null ]
       ] ],
-      [ "Traduire l'état en intention : <a class=\"el\" href=\"namespacehmi.html#a2c3341857c60f0bef0a01a6cd10ce5f7\" title=\"hmi::toPlayerInput\">hmi::toPlayerInput</a>", "guide-entrees.html#autotoc_md143", null ],
-      [ "La manette : une seconde source, fusionnée en lecture (EX-CTRL-002, LOT-20)", "guide-entrees.html#autotoc_md144", null ],
-      [ "Le menu d'options", "guide-entrees.html#autotoc_md145", null ],
-      [ "Remapper les touches et boutons : <a class=\"el\" href=\"classhmi_1_1GameKeyBindings.html\" title=\"hmi::GameKeyBindings\">GameKeyBindings</a>/<a class=\"el\" href=\"classhmi_1_1EditorKeyBindings.html\" title=\"hmi::EditorKeyBindings\">EditorKeyBindings</a> (LOT-29), <a class=\"el\" href=\"classhmi_1_1GamepadBindings.html\" title=\"hmi::GamepadBindings\">GamepadBindings</a> (LOT-30)", "guide-entrees.html#autotoc_md146", null ],
-      [ "La langue de l'interface : <a class=\"el\" href=\"classhmi_1_1Localization.html\" title=\"hmi::Localization\">hmi::Localization</a>", "guide-entrees.html#autotoc_md147", null ],
-      [ "Voir aussi", "guide-entrees.html#autotoc_md148", null ]
+      [ "La manette : une seconde source, fusionnée en lecture (EX-CTRL-002)", "guide-entrees.html#autotoc_md110", null ],
+      [ "Le menu d'options", "guide-entrees.html#autotoc_md111", null ],
+      [ "Les raccourcis de l'éditeur : <a class=\"el\" href=\"classhmi_1_1EditorKeyBindings.html\" title=\"hmi::EditorKeyBindings\">EditorKeyBindings</a>", "guide-entrees.html#autotoc_md112", null ],
+      [ "La langue de l'interface : <a class=\"el\" href=\"classhmi_1_1Localization.html\" title=\"hmi::Localization\">hmi::Localization</a>", "guide-entrees.html#autotoc_md113", null ],
+      [ "Voir aussi", "guide-entrees.html#autotoc_md114", null ]
     ] ],
-    [ "Rendu 2D : de l'ECS à l'écran", "guide-rendu.html", [
-      [ "Vocabulaire de base : GPU, swap chain, back buffer", "guide-rendu.html#autotoc_md216", null ],
-      [ "QRhi : une couche d'accès au GPU, pas un changement de cible", "guide-rendu.html#autotoc_md217", null ],
-      [ "La surface de dessin : le viewport Qt (<span class=\"tt\">hmi::GameViewport</span>)", "guide-rendu.html#autotoc_md218", null ],
-      [ "Unités monde et pixels : <a class=\"el\" href=\"classhmi_1_1Camera2D.html\" title=\"hmi::Camera2D\">hmi::Camera2D</a>", "guide-rendu.html#autotoc_md219", [
-        [ "Cadrer un contenu plus grand que la fenêtre : <span class=\"tt\">fitZoom</span> et <span class=\"tt\">hmi::RoomGrid</span>", "guide-rendu.html#autotoc_md220", null ],
-        [ "Le cadrage choisi par le niveau : trois modes (<span class=\"tt\">LOT-64</span>)", "guide-rendu.html#autotoc_md221", null ],
-        [ "Mélanger plusieurs tailles de caméra : zones dessinées à la main et taille de suivi réglable (<span class=\"tt\">EX-LVL-007</span>, <span class=\"tt\">EX-REN-017</span>)", "guide-rendu.html#autotoc_md222", null ]
+    [ "Rendu 2D : de la scène à l'écran", "guide-rendu.html", [
+      [ "Vocabulaire de base : GPU, swap chain, back buffer", "guide-rendu.html#autotoc_md156", null ],
+      [ "QRhi : une couche d'accès au GPU, pas un changement de cible", "guide-rendu.html#autotoc_md157", null ],
+      [ "Les surfaces de dessin : un élément composé avec l'interface", "guide-rendu.html#autotoc_md158", null ],
+      [ "Unités monde et pixels : <a class=\"el\" href=\"classhmi_1_1Camera2D.html\" title=\"hmi::Camera2D\">hmi::Camera2D</a>", "guide-rendu.html#autotoc_md159", [
+        [ "Cadrer une scène : <span class=\"tt\">fitZoom</span>, <span class=\"tt\">worldCamera</span>, <span class=\"tt\">arenaCamera</span>", "guide-rendu.html#autotoc_md160", null ]
       ] ],
-      [ "Le pipeline de dessin de sprites : <a class=\"el\" href=\"classhmi_1_1SpriteBatch.html\" title=\"hmi::SpriteBatch\">hmi::SpriteBatch</a>", "guide-rendu.html#autotoc_md223", [
-        [ "Pourquoi « batcher » plutôt que dessiner un sprite à la fois", "guide-rendu.html#autotoc_md224", null ],
-        [ "<a class=\"el\" href=\"structhmi_1_1SpriteQuad.html\" title=\"hmi::SpriteQuad\">SpriteQuad</a> : un rectangle texturé", "guide-rendu.html#autotoc_md225", null ],
-        [ "Sommets, shaders, et échantillonnage <em>nearest</em>", "guide-rendu.html#autotoc_md226", null ],
-        [ "<a class=\"el\" href=\"structhmi_1_1LineQuad.html\" title=\"hmi::LineQuad\">LineQuad</a> : un segment orienté (liens de mécanismes, <span class=\"tt\">LOT-37</span>)", "guide-rendu.html#autotoc_md227", null ]
+      [ "Le pipeline de dessin de sprites : <a class=\"el\" href=\"classhmi_1_1SpriteBatch.html\" title=\"hmi::SpriteBatch\">hmi::SpriteBatch</a>", "guide-rendu.html#autotoc_md161", [
+        [ "Pourquoi « batcher » plutôt que dessiner un sprite à la fois", "guide-rendu.html#autotoc_md162", null ],
+        [ "<a class=\"el\" href=\"structhmi_1_1SpriteQuad.html\" title=\"hmi::SpriteQuad\">SpriteQuad</a> : un rectangle texturé", "guide-rendu.html#autotoc_md163", null ],
+        [ "Sommets, shaders, et échantillonnage <em>nearest</em>", "guide-rendu.html#autotoc_md164", null ],
+        [ "<a class=\"el\" href=\"structhmi_1_1LineQuad.html\" title=\"hmi::LineQuad\">LineQuad</a> : un segment orienté", "guide-rendu.html#autotoc_md165", null ]
       ] ],
-      [ "<a class=\"el\" href=\"classhmi_1_1TextureAtlas.html\" title=\"hmi::TextureAtlas\">hmi::TextureAtlas</a> : un spritesheet, chargé depuis un fichier", "guide-rendu.html#autotoc_md228", [
-        [ "Le pipeline de textures depuis fichiers, et son repli procédural", "guide-rendu.html#autotoc_md229", null ],
-        [ "<span class=\"tt\">Source/Elements/Assets/</span> : convention et régénération", "guide-rendu.html#autotoc_md230", null ],
-        [ "Les images du personnage : pourquoi elles vivent dans le même atlas", "guide-rendu.html#autotoc_md231", null ],
-        [ "<span class=\"tt\">LOT-48</span> : spritesheet externe et découplage image/hitbox", "guide-rendu.html#autotoc_md232", null ],
-        [ "L'animation : des clips en données, une progression générale (<span class=\"tt\">LOT-46</span>)", "guide-rendu.html#autotoc_md233", null ]
+      [ "Les textures : atlas procédural, fichiers et replis", "guide-rendu.html#autotoc_md166", [
+        [ "<a class=\"el\" href=\"classhmi_1_1TextureAtlas.html\" title=\"hmi::TextureAtlas\">hmi::TextureAtlas</a> : l'atlas des couleurs plates", "guide-rendu.html#autotoc_md167", null ],
+        [ "Les textures depuis fichiers", "guide-rendu.html#autotoc_md168", null ],
+        [ "Ce qui manque se voit", "guide-rendu.html#autotoc_md169", null ],
+        [ "L'animation : des clips en données", "guide-rendu.html#autotoc_md170", null ]
       ] ],
-      [ "<a class=\"el\" href=\"classhmi_1_1SpriteRenderer.html\" title=\"hmi::SpriteRenderer\">hmi::SpriteRenderer</a> : le pont ECS → écran", "guide-rendu.html#autotoc_md234", [
-        [ "Ne dessiner que ce qui se voit : le culling (<span class=\"tt\">LOT-40</span>)", "guide-rendu.html#autotoc_md235", null ],
-        [ "Deux modes de rendu : Physique et Texture (<span class=\"tt\">LOT-41</span>)", "guide-rendu.html#autotoc_md236", null ],
-        [ "Isoler un calque pour l'audit : <span class=\"tt\">hmi::LayerVisibility</span> (<span class=\"tt\">LOT-51</span>)", "guide-rendu.html#autotoc_md237", null ],
-        [ "Interpoler le mouvement : <span class=\"tt\">hmi::PreviousPosition</span> et le facteur d'interpolation", "guide-rendu.html#autotoc_md238", null ],
-        [ "Plans picturaux et parallaxe (<span class=\"tt\">LOT-69</span>)", "guide-rendu.html#autotoc_md239", [
-          [ "Densité : un compromis de mémoire, jamais de cadrage", "guide-rendu.html#autotoc_md240", null ],
-          [ "Profondeur : deux valeurs, pas trois", "guide-rendu.html#autotoc_md241", null ],
-          [ "Parallaxe : portée par le plan, bornée, et seulement là où la caméra défile", "guide-rendu.html#autotoc_md242", null ],
-          [ "Coût : constant en taille de niveau, et c'est tout le problème", "guide-rendu.html#autotoc_md243", null ],
-          [ "Peindre un plan : le mode création", "guide-rendu.html#autotoc_md244", null ],
-          [ "Les plans du contenu livré", "guide-rendu.html#autotoc_md245", null ]
-        ] ]
+      [ "Composer, puis soumettre", "guide-rendu.html#autotoc_md171", [
+        [ "Les calques : un ordonnancement unique", "guide-rendu.html#autotoc_md172", null ],
+        [ "La profondeur : trier par le pied (<span class=\"tt\">LOT-07</span>)", "guide-rendu.html#autotoc_md173", null ],
+        [ "Ne dessiner que ce qui se voit : le culling", "guide-rendu.html#autotoc_md174", null ],
+        [ "Lecture seule", "guide-rendu.html#autotoc_md175", null ]
       ] ],
-      [ "Le texte dans la scène : <span class=\"tt\">hmi::BitmapFont</span> et <span class=\"tt\">hmi::TextRenderer</span> (<span class=\"tt\">LOT-52</span>)", "guide-rendu.html#autotoc_md246", null ],
-      [ "Ombres du plan physique (<span class=\"tt\">LOT-55</span>)", "guide-rendu.html#autotoc_md247", null ],
-      [ "Particules et secousse d'écran (<span class=\"tt\">LOT-53</span>)", "guide-rendu.html#autotoc_md248", [
-        [ "L'émetteur, dans <span class=\"tt\">Core</span>, déterministe (<span class=\"tt\">core::ParticleSystem</span>)", "guide-rendu.html#autotoc_md249", null ],
-        [ "Les déclencheurs, câblés dans <span class=\"tt\">hmi::GameSession</span>", "guide-rendu.html#autotoc_md250", null ],
-        [ "Le rendu (<span class=\"tt\">hmi::ParticleRenderer</span>) et la secousse d'écran (<span class=\"tt\">hmi::Camera2D</span>)", "guide-rendu.html#autotoc_md251", null ]
-      ] ],
-      [ "Assembler la frame complète", "guide-rendu.html#autotoc_md252", null ],
-      [ "Le programme d'habillage, livré (<span class=\"tt\">LOT-40</span> → <span class=\"tt\">LOT-55</span>)", "guide-rendu.html#autotoc_md253", null ],
-      [ "Budget de rendu mesuré (<span class=\"tt\">LOT-62</span>)", "guide-rendu.html#autotoc_md254", [
-        [ "Le test de non-régression du volume (<span class=\"tt\">Source/Test/Unit/HMI/Graphics/test_render_budget.cpp</span>)", "guide-rendu.html#autotoc_md255", [
-          [ "Le second axe : la mémoire de texture des plans (<span class=\"tt\">LOT-69</span>)", "guide-rendu.html#autotoc_md256", null ]
-        ] ],
-        [ "Mesures de référence, à la date du <span class=\"tt\">LOT-62</span> (2026-08-12)", "guide-rendu.html#autotoc_md257", null ],
-        [ "Compteur de diagnostic en jeu (<span class=\"tt\">F9</span>)", "guide-rendu.html#autotoc_md258", null ]
-      ] ],
-      [ "Voir aussi", "guide-rendu.html#autotoc_md259", null ]
+      [ "Assembler la frame complète", "guide-rendu.html#autotoc_md176", null ],
+      [ "Voir aussi", "guide-rendu.html#autotoc_md177", null ]
     ] ],
     [ "Journalisation et assertions", "guide-journalisation.html", [
-      [ "Pourquoi journaliser dans un jeu vidéo", "guide-journalisation.html#autotoc_md159", null ],
-      [ "Les niveaux de gravité : <a class=\"el\" href=\"namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3\" title=\"core::LogLevel\">core::LogLevel</a>", "guide-journalisation.html#autotoc_md160", null ],
-      [ "<a class=\"el\" href=\"classcore_1_1Logger.html\" title=\"core::Logger\">core::Logger</a> : filtrer puis diffuser", "guide-journalisation.html#autotoc_md161", null ],
-      [ "Les sinks : où finissent les messages", "guide-journalisation.html#autotoc_md162", null ],
-      [ "Les macros de journalisation, par catégorie", "guide-journalisation.html#autotoc_md163", [
-        [ "Chaque module a sa propre catégorie", "guide-journalisation.html#autotoc_md164", null ],
-        [ "Une règle de performance à respecter", "guide-journalisation.html#autotoc_md165", null ]
+      [ "Pourquoi journaliser dans un jeu vidéo", "guide-journalisation.html#autotoc_md125", null ],
+      [ "Les niveaux de gravité : <a class=\"el\" href=\"namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3\" title=\"core::LogLevel\">core::LogLevel</a>", "guide-journalisation.html#autotoc_md126", null ],
+      [ "<a class=\"el\" href=\"classcore_1_1Logger.html\" title=\"core::Logger\">core::Logger</a> : filtrer puis diffuser", "guide-journalisation.html#autotoc_md127", null ],
+      [ "Les sinks : où finissent les messages", "guide-journalisation.html#autotoc_md128", null ],
+      [ "Les macros de journalisation, par catégorie", "guide-journalisation.html#autotoc_md129", [
+        [ "Chaque module a sa propre catégorie", "guide-journalisation.html#autotoc_md130", null ],
+        [ "Une règle de performance à respecter", "guide-journalisation.html#autotoc_md131", null ]
       ] ],
-      [ "Le format d'une ligne : <a class=\"el\" href=\"namespacecore.html#aafa85d91ee91c84b123fff01f147615e\" title=\"core::formatLogLine\">core::formatLogLine</a>", "guide-journalisation.html#autotoc_md166", null ],
-      [ "Configurer le niveau minimal au lancement", "guide-journalisation.html#autotoc_md167", [
-        [ "Bootstrap réel : sinks différents en développement et en Release", "guide-journalisation.html#autotoc_md168", null ]
+      [ "Le format d'une ligne : <a class=\"el\" href=\"namespacecore.html#aafa85d91ee91c84b123fff01f147615e\" title=\"core::formatLogLine\">core::formatLogLine</a>", "guide-journalisation.html#autotoc_md132", null ],
+      [ "Configurer le niveau minimal au lancement", "guide-journalisation.html#autotoc_md133", [
+        [ "Bootstrap réel : sinks différents en développement et en Release", "guide-journalisation.html#autotoc_md134", null ]
       ] ],
-      [ "Assertions : <a class=\"el\" href=\"Assert_8h.html#a2811f3d423b22f1a90179b4ed095f054\" title=\"JADG_ASSERT\">JADG_ASSERT</a>, un outil différent", "guide-journalisation.html#autotoc_md169", null ],
-      [ "Voir aussi", "guide-journalisation.html#autotoc_md170", null ]
+      [ "Assertions : <a class=\"el\" href=\"Assert_8h.html#a2811f3d423b22f1a90179b4ed095f054\" title=\"JADG_ASSERT\">JADG_ASSERT</a>, un outil différent", "guide-journalisation.html#autotoc_md135", null ],
+      [ "Voir aussi", "guide-journalisation.html#autotoc_md136", null ]
     ] ],
     [ "Éditeur de niveaux", "guide-editeur.html", [
-      [ "Le problème : éditer un niveau sans (re)coder le moteur", "guide-editeur.html#autotoc_md115", null ],
-      [ "<a class=\"el\" href=\"classcore_1_1LevelDraft.html\" title=\"core::LevelDraft\">core::LevelDraft</a> : un niveau qu'on peut défaire", "guide-editeur.html#autotoc_md116", [
-        [ "Mécanismes : qui a le droit de se lier à qui", "guide-editeur.html#autotoc_md117", null ],
-        [ "Lier des mécanismes dans l'éditeur (<span class=\"tt\">LOT-37</span>, <span class=\"tt\">EX-IHM-030</span>/<span class=\"tt\">EX-IHM-031</span>)", "guide-editeur.html#autotoc_md118", null ]
+      [ "Le problème : éditer une carte sans (re)coder le moteur", "guide-editeur.html#autotoc_md91", null ],
+      [ "<a class=\"el\" href=\"classcore_1_1LevelDraft.html\" title=\"core::LevelDraft\">core::LevelDraft</a> : une carte qu'on peut défaire", "guide-editeur.html#autotoc_md92", null ],
+      [ "<a class=\"el\" href=\"classcore_1_1LevelWriter.html\" title=\"core::LevelWriter\">core::LevelWriter</a> : l'inverse du chargement", "guide-editeur.html#autotoc_md93", null ],
+      [ "Peindre, c'est convertir un pixel en case", "guide-editeur.html#autotoc_md94", [
+        [ "La palette et les outils : des panneaux Qt séparés du canevas", "guide-editeur.html#autotoc_md95", null ],
+        [ "Quatre outils, une même grille : <a class=\"el\" href=\"namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd\" title=\"hmi::EditorTool\">EditorTool</a>", "guide-editeur.html#autotoc_md96", null ],
+        [ "Peindre par lot sans dupliquer la logique de peinture : <a class=\"el\" href=\"classcore_1_1LevelDraft.html#a7fb667e044067f5e9bf16f747d3f5f8e\" title=\"core::LevelDraft::paintRegion\">LevelDraft::paintRegion</a>", "guide-editeur.html#autotoc_md97", null ]
       ] ],
-      [ "<a class=\"el\" href=\"classcore_1_1LevelWriter.html\" title=\"core::LevelWriter\">core::LevelWriter</a> : l'inverse du chargement, avec un piège", "guide-editeur.html#autotoc_md119", null ],
-      [ "Peindre, c'est convertir un pixel en case", "guide-editeur.html#autotoc_md120", [
-        [ "La palette et les outils : des panneaux Qt séparés du canevas", "guide-editeur.html#autotoc_md121", null ],
-        [ "L'outil « Parcours » : dessiner la route d'un élément mobile", "guide-editeur.html#autotoc_md122", null ],
-        [ "Trois outils, une même grille : <a class=\"el\" href=\"namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd\" title=\"hmi::EditorTool\">EditorTool</a>", "guide-editeur.html#autotoc_md123", null ],
-        [ "Peindre par lot sans dupliquer la logique de peinture : <a class=\"el\" href=\"classcore_1_1LevelDraft.html#a7fb667e044067f5e9bf16f747d3f5f8e\" title=\"core::LevelDraft::paintRegion\">LevelDraft::paintRegion</a>", "guide-editeur.html#autotoc_md124", null ]
-      ] ],
-      [ "Annuler/refaire : pourquoi des instantanés complets", "guide-editeur.html#autotoc_md125", null ],
-      [ "Essai immédiat : jouer sans quitter l'éditeur", "guide-editeur.html#autotoc_md126", null ],
-      [ "Enregistrer : valider avant d'écrire, jamais l'inverse", "guide-editeur.html#autotoc_md127", null ],
-      [ "Garde-fous contre la perte de travail", "guide-editeur.html#autotoc_md128", null ],
-      [ "Cadrer un niveau plus grand que la fenêtre", "guide-editeur.html#autotoc_md129", null ],
-      [ "Le mode « définition des textures » : auditer les calques sans les confondre avec <span class=\"tt\">F8</span> (<span class=\"tt\">LOT-51</span>)", "guide-editeur.html#autotoc_md130", null ],
-      [ "Le mode création : peindre le décor du niveau (<span class=\"tt\">LOT-69</span>)", "guide-editeur.html#autotoc_md131", [
-        [ "Le panneau « Plans »", "guide-editeur.html#autotoc_md132", null ],
-        [ "Cycle de vie des fichiers", "guide-editeur.html#autotoc_md133", null ],
-        [ "Peindre", "guide-editeur.html#autotoc_md134", null ],
-        [ "La référence : un repère géométrique, pas un aperçu", "guide-editeur.html#autotoc_md135", null ]
-      ] ],
-      [ "Gérer ses fichiers de niveaux", "guide-editeur.html#autotoc_md136", null ],
-      [ "Voir aussi", "guide-editeur.html#autotoc_md137", null ]
-    ] ],
-    [ "Atelier pixel art intégré", "guide-atelier-pixel-art.html", [
-      [ "Le problème : quitter l'application pour changer un pixel", "guide-atelier-pixel-art.html#autotoc_md39", null ],
-      [ "Écrire un PNG sans jamais laisser de fichier tronqué", "guide-atelier-pixel-art.html#autotoc_md40", null ],
-      [ "Les outils : des fonctions pures sur un tampon de pixels", "guide-atelier-pixel-art.html#autotoc_md41", null ],
-      [ "L'historique : local au canevas, et nommé", "guide-atelier-pixel-art.html#autotoc_md42", null ],
-      [ "Le canevas : la géométrie d'abord, le widget ensuite", "guide-atelier-pixel-art.html#autotoc_md43", null ],
-      [ "Palettes", "guide-atelier-pixel-art.html#autotoc_md44", null ],
-      [ "Créer un asset à une taille forcément conforme", "guide-atelier-pixel-art.html#autotoc_md45", null ],
-      [ "Voir le raccord avant de l'avoir posé", "guide-atelier-pixel-art.html#autotoc_md46", null ],
-      [ "Une seule paire Annuler/Refaire, deux cibles", "guide-atelier-pixel-art.html#autotoc_md47", null ],
-      [ "Voir aussi", "guide-atelier-pixel-art.html#autotoc_md48", null ]
+      [ "Annuler/refaire : pourquoi des instantanés complets", "guide-editeur.html#autotoc_md98", null ],
+      [ "Essai immédiat : jouer sans quitter l'éditeur", "guide-editeur.html#autotoc_md99", null ],
+      [ "Enregistrer : valider avant d'écrire, jamais l'inverse", "guide-editeur.html#autotoc_md100", null ],
+      [ "Garde-fous contre la perte de travail", "guide-editeur.html#autotoc_md101", null ],
+      [ "Cadrer une carte plus grande que la fenêtre", "guide-editeur.html#autotoc_md102", null ],
+      [ "Gérer ses fichiers de niveaux", "guide-editeur.html#autotoc_md103", null ],
+      [ "Voir aussi", "guide-editeur.html#autotoc_md104", null ]
     ] ],
     [ "Écrans, navigation et boucle de jeu", "guide-ecrans.html", [
-      [ "La machine à états : <span class=\"tt\">hmi::ScreenFlow</span>", "guide-ecrans.html#autotoc_md98", [
-        [ "Pages empilées et recouvrements : deux patrons distincts", "guide-ecrans.html#autotoc_md99", null ]
-      ] ],
-      [ "Qui déclenche les transitions : les signaux", "guide-ecrans.html#autotoc_md100", null ],
-      [ "Le viewport partagé : éditeur <b>et</b> jeu", "guide-ecrans.html#autotoc_md101", null ],
-      [ "Pause : suspendre sans perdre un pas", "guide-ecrans.html#autotoc_md102", null ],
-      [ "Ce que le <span class=\"tt\">LOT-67</span> a retiré", "guide-ecrans.html#autotoc_md103", null ],
-      [ "Où ça s'insère dans la boucle", "guide-ecrans.html#autotoc_md104", null ],
-      [ "Voir aussi", "guide-ecrans.html#autotoc_md105", null ]
+      [ "La machine à états : <span class=\"tt\">hmi::ScreenFlow</span>", "guide-ecrans.html#autotoc_md75", null ],
+      [ "Le routeur et la pile d'écrans", "guide-ecrans.html#autotoc_md76", null ],
+      [ "La vue de jeu et la session qui lui survit", "guide-ecrans.html#autotoc_md77", null ],
+      [ "Pause", "guide-ecrans.html#autotoc_md78", null ],
+      [ "Ce que le <span class=\"tt\">LOT-67</span> a retiré", "guide-ecrans.html#autotoc_md79", null ],
+      [ "Où ça s'insère dans la boucle", "guide-ecrans.html#autotoc_md80", null ],
+      [ "Voir aussi", "guide-ecrans.html#autotoc_md81", null ]
     ] ],
     [ "IHM Qt — deux applications, deux technologies", "guide-ihm-qt.html", [
-      [ "Pourquoi deux binaires", "guide-ihm-qt.html#autotoc_md149", null ],
-      [ "Les trois couches du jeu", "guide-ihm-qt.html#autotoc_md150", null ],
-      [ "Les trois modules QML", "guide-ihm-qt.html#autotoc_md151", [
-        [ "Éditer un écran sans rien reconstruire", "guide-ihm-qt.html#autotoc_md152", null ],
-        [ "Ouvrir les écrans pour les dessiner", "guide-ihm-qt.html#autotoc_md153", null ]
+      [ "Pourquoi deux binaires", "guide-ihm-qt.html#autotoc_md115", null ],
+      [ "Les trois couches du jeu", "guide-ihm-qt.html#autotoc_md116", null ],
+      [ "Les trois modules QML", "guide-ihm-qt.html#autotoc_md117", [
+        [ "Éditer un écran sans rien reconstruire", "guide-ihm-qt.html#autotoc_md118", null ],
+        [ "Ouvrir les écrans pour les dessiner", "guide-ihm-qt.html#autotoc_md119", null ]
       ] ],
-      [ "La surface de rendu", "guide-ihm-qt.html#autotoc_md154", null ],
-      [ "La navigation", "guide-ihm-qt.html#autotoc_md155", null ],
-      [ "Les réglages, et ce qu'ils atteignent", "guide-ihm-qt.html#autotoc_md156", null ],
-      [ "Vérifier une interface sans la regarder", "guide-ihm-qt.html#autotoc_md157", null ],
-      [ "Voir aussi", "guide-ihm-qt.html#autotoc_md158", null ]
+      [ "La surface de rendu", "guide-ihm-qt.html#autotoc_md120", null ],
+      [ "La navigation", "guide-ihm-qt.html#autotoc_md121", null ],
+      [ "Les réglages, et ce qu'ils atteignent", "guide-ihm-qt.html#autotoc_md122", null ],
+      [ "Vérifier une interface sans la regarder", "guide-ihm-qt.html#autotoc_md123", null ],
+      [ "Voir aussi", "guide-ihm-qt.html#autotoc_md124", null ]
     ] ],
     [ "Concevoir les écrans dans Qt Design Studio", "guide-conception-qds.html", [
-      [ "En une phrase", "guide-conception-qds.html#autotoc_md66", null ],
-      [ "Ce que le projet vous montre, et ce qu'il vous cache", "guide-conception-qds.html#autotoc_md67", null ],
-      [ "La règle des deux fichiers", "guide-conception-qds.html#autotoc_md68", null ],
-      [ "Les jetons : le seul endroit où s'écrit une couleur", "guide-conception-qds.html#autotoc_md69", [
-        [ "Le facteur d'agrandissement", "guide-conception-qds.html#autotoc_md70", null ]
+      [ "En une phrase", "guide-conception-qds.html#autotoc_md46", null ],
+      [ "Ce que le projet vous montre, et ce qu'il vous cache", "guide-conception-qds.html#autotoc_md47", null ],
+      [ "La règle des deux fichiers", "guide-conception-qds.html#autotoc_md48", null ],
+      [ "Les jetons : le seul endroit où s'écrit une couleur", "guide-conception-qds.html#autotoc_md49", [
+        [ "Le facteur d'agrandissement", "guide-conception-qds.html#autotoc_md50", null ]
       ] ],
-      [ "Les données d'exemple", "guide-conception-qds.html#autotoc_md71", null ],
-      [ "Les écrans dessinés mais pas encore alimentés", "guide-conception-qds.html#autotoc_md72", null ],
-      [ "Les contrôles Qt prennent la couleur des jetons", "guide-conception-qds.html#autotoc_md73", null ],
-      [ "La bibliothèque de composants", "guide-conception-qds.html#autotoc_md74", null ],
-      [ "Les modules que vous pouvez importer", "guide-conception-qds.html#autotoc_md75", null ],
-      [ "Les ornements se tracent, ils ne se collent pas", "guide-conception-qds.html#autotoc_md76", null ],
-      [ "Les textes", "guide-conception-qds.html#autotoc_md77", null ],
-      [ "Ce qui demande encore un développeur", "guide-conception-qds.html#autotoc_md78", null ],
-      [ "Voir aussi", "guide-conception-qds.html#autotoc_md79", null ]
+      [ "Les données d'exemple", "guide-conception-qds.html#autotoc_md51", null ],
+      [ "Les écrans dessinés mais pas encore alimentés", "guide-conception-qds.html#autotoc_md52", null ],
+      [ "Les contrôles Qt prennent la couleur des jetons", "guide-conception-qds.html#autotoc_md53", null ],
+      [ "La bibliothèque de composants", "guide-conception-qds.html#autotoc_md54", null ],
+      [ "Les modules que vous pouvez importer", "guide-conception-qds.html#autotoc_md55", null ],
+      [ "Les ornements se tracent, ils ne se collent pas", "guide-conception-qds.html#autotoc_md56", null ],
+      [ "Les textes", "guide-conception-qds.html#autotoc_md57", null ],
+      [ "Ce qui demande encore un développeur", "guide-conception-qds.html#autotoc_md58", null ],
+      [ "Voir aussi", "guide-conception-qds.html#autotoc_md59", null ]
     ] ],
     [ "Système de design et architecture de l'information", "guide-design-ihm.html", [
-      [ "Pourquoi un système de design", "guide-design-ihm.html#autotoc_md80", null ],
-      [ "Les jetons : une seule source, deux portées étanches", "guide-design-ihm.html#autotoc_md81", null ],
-      [ "De jetons purs à une application habillée", "guide-design-ihm.html#autotoc_md82", null ],
-      [ "Typographie : une police embarquée, un repli qui n'invente rien", "guide-design-ihm.html#autotoc_md83", null ],
-      [ "Les commandes : une définition, trois surfaces", "guide-design-ihm.html#autotoc_md84", null ],
-      [ "Netteté à toute échelle d'affichage", "guide-design-ihm.html#autotoc_md85", null ],
-      [ "Thème clair/sombre", "guide-design-ihm.html#autotoc_md86", null ],
-      [ "Architecture de l'information : ce qui informe reste, ce qui commande est unique", "guide-design-ihm.html#autotoc_md87", [
-        [ "Une barre d'état structurée", "guide-design-ihm.html#autotoc_md88", null ],
-        [ "Des panneaux groupés, et qui suivent l'outil", "guide-design-ihm.html#autotoc_md89", null ],
-        [ "Un état, un contrôle", "guide-design-ihm.html#autotoc_md90", null ]
+      [ "Pourquoi un système de design", "guide-design-ihm.html#autotoc_md60", null ],
+      [ "Les jetons : une seule source, deux portées étanches", "guide-design-ihm.html#autotoc_md61", null ],
+      [ "De jetons purs à une application habillée", "guide-design-ihm.html#autotoc_md62", null ],
+      [ "Typographie : une police embarquée, un repli qui n'invente rien", "guide-design-ihm.html#autotoc_md63", null ],
+      [ "Les commandes : une définition, trois surfaces", "guide-design-ihm.html#autotoc_md64", null ],
+      [ "Netteté à toute échelle d'affichage", "guide-design-ihm.html#autotoc_md65", null ],
+      [ "Thème clair/sombre", "guide-design-ihm.html#autotoc_md66", null ],
+      [ "Architecture de l'information : ce qui informe reste, ce qui commande est unique", "guide-design-ihm.html#autotoc_md67", [
+        [ "Une barre d'état structurée", "guide-design-ihm.html#autotoc_md68", null ],
+        [ "Des panneaux groupés, et qui suivent l'outil", "guide-design-ihm.html#autotoc_md69", null ],
+        [ "Un état, un contrôle", "guide-design-ihm.html#autotoc_md70", null ]
       ] ],
-      [ "Une feuille par portée, et pourquoi (LOT-73)", "guide-design-ihm.html#autotoc_md91", [
-        [ "Le Mode IA : enveloppe d'identité, contenu d'outil", "guide-design-ihm.html#autotoc_md92", null ]
+      [ "Deux identités, deux règles d'échelle (LOT-66)", "guide-design-ihm.html#autotoc_md71", [
+        [ "Pourquoi le facteur reste entier après la sortie du pixel art", "guide-design-ihm.html#autotoc_md72", null ]
       ] ],
-      [ "Deux identités, deux règles d'échelle (LOT-66)", "guide-design-ihm.html#autotoc_md93", [
-        [ "Pourquoi le facteur reste entier après la sortie du pixel art", "guide-design-ihm.html#autotoc_md94", null ],
-        [ "Ce qu'une feuille de style ne sait pas faire", "guide-design-ihm.html#autotoc_md95", null ]
-      ] ],
-      [ "Hiérarchie des surfaces, et espaces de travail (LOT-68)", "guide-design-ihm.html#autotoc_md96", null ],
-      [ "Voir aussi", "guide-design-ihm.html#autotoc_md97", null ]
+      [ "La barre d'outils n'est pas un menu", "guide-design-ihm.html#autotoc_md73", null ],
+      [ "Voir aussi", "guide-design-ihm.html#autotoc_md74", null ]
     ] ],
     [ "Audio", "guide-audio.html", [
-      [ "La règle d'or, une fois de plus", "guide-audio.html#autotoc_md49", null ],
-      [ "Le socle : <span class=\"tt\">hmi::AudioEngine</span>", "guide-audio.html#autotoc_md50", null ],
-      [ "Le catalogue : <span class=\"tt\">hmi::SoundCatalog</span>", "guide-audio.html#autotoc_md51", null ],
-      [ "Détection des transitions : <span class=\"tt\">hmi::GameEvents</span>", "guide-audio.html#autotoc_md52", null ],
-      [ "La table : <span class=\"tt\">hmi::SoundTriggers</span>", "guide-audio.html#autotoc_md53", null ],
-      [ "Provisionnement : Qt Multimedia", "guide-audio.html#autotoc_md54", null ],
-      [ "Voir aussi", "guide-audio.html#autotoc_md55", null ]
+      [ "La règle d'or, une fois de plus", "guide-audio.html#autotoc_md31", null ],
+      [ "Le socle : <span class=\"tt\">hmi::AudioEngine</span>", "guide-audio.html#autotoc_md32", null ],
+      [ "Le volume : de l'écran des options au moteur", "guide-audio.html#autotoc_md33", null ],
+      [ "Provisionnement : Qt Multimedia", "guide-audio.html#autotoc_md34", null ],
+      [ "Voir aussi", "guide-audio.html#autotoc_md35", null ]
     ] ]
 ];
