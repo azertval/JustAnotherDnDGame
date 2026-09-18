@@ -10,8 +10,6 @@ Acquisition des entrées et traduction en **actions logiques**.
 - `GamepadButton` : bouton (ou direction) manette logique, indépendant de toute touche clavier.
 - `ButtonRepeat` : répétition d'un bouton tenu — un pas à l'appui, puis un pas régulier après un
   délai.
-- `EditorKeyBindings` : association remappable action d'éditeur → touche, avec persistance JSON
-  (`EX-CTRL-012`).
 - `QtKeyMap` : traduction d'un code `Qt::Key` en `hmi::Key` (code virtuel Win32), et l'inverse.
 
 Réf. specs : `EX-CTRL-001`…`EX-CTRL-021`.

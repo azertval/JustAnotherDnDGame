@@ -1,44 +1,52 @@
-# HMI/Editor/
+# Source/Editor/
 
-Périmètre **éditeur de cartes** (cible `LevelEditor`) : le canevas, les **panneaux** dockables et la
-**logique pure** (testable hors Qt/GPU) qui les alimente. Le canevas opère sur `core::LevelDraft`
-(modèle mutable/sérialisable de `Core`).
+Le **module éditeur de cartes** (`LOT-EDITOR-01`) : un outil interne, fait pour l'auteur seul, qui
+sert à fabriquer les cartes du jeu. Son programme est la
+[feuille de route de l'éditeur](../../Documentation/Editeur/feuille-de-route.md) ; sa spécification,
+[`editeur-niveaux.md`](../../Documentation/Specification/editeur-niveaux.md).
 
-Canevas :
+Le module dépend de `Core` (modèle et validation de carte) et de `HMI` (composition, rendu, carte
+jouée par l'essai). **Rien ne dépend de lui** : ni le jeu, ni `HmiLib`.
 
-- `EditorViewport` — deux états, jamais mêlés. En **édition**, le brouillon est dessiné à plat par
-  `hmi::DraftRenderer` (dossier `Graphics/`) — une couleur par type de tuile, les entités par leur
-  marqueur — sous les aides d'édition (grille `F10`). En **essai** (`P`), la carte est jouée par
-  `hmi::WorldPlay` (dossier `Game/`) et dessinée par `hmi::WorldSceneRenderer`, avec les touches du
-  jeu : la mise en scène du jeu, à l'identique (`EX-EDIT-055`).
+| Dossier | Contenu | Cible |
+|---|---|---|
+| [`Logic/`](Logic/) | La logique pure : sans Qt, testée sous `Source/Test/Unit/Editor` | `EditorLogic` (bibliothèque statique, liée par `UnitTests`) |
+| [`Ui/`](Ui/README.md) | Les widgets, construits en code : fenêtre, canevas, panneaux | `LevelEditor` (point d'entrée : `Source/App/Editor/Main.cpp`) |
 
-Panneaux Qt :
+## Règles du module
 
-- **Palette** (`PalettePanel`) — `QTreeView` catégories → sous-groupes → tuiles, alimenté par la
-  taxonomie pure `tileTaxonomy` (`TileTaxonomy.{h,cpp}`, tous les `core::TileType` couverts).
-- **Niveaux** (`LevelBrowserPanel`) — liste/recherche du dossier `Levels`, création / renommage /
-  duplication / suppression, déléguant aux opérations fichiers pures.
-  Un onglet « Graphe » (`WorldGraphView`, `LOT-11`) montre les cartes du dossier et leurs portails.
-- **Couches** (`LayersPanel`) — couche active, visibilité, opacité, ajout, retrait, ordre et nom.
-- **Entités** (`EntityPanel`) — famille à poser, liste des entités, propriétés de l'entité
-  sélectionnée.
+- **Outil interne.** Style Fusion de Qt, icônes standard ou libellés texte, **textes anglais écrits
+  dans le code** : ni charte, ni thème, ni catalogue de traduction, ni formulaire `.ui`.
+- **Le brouillon est la seule source.** `core::LevelDraft` porte toute la carte ; le canevas en est
+  le seul propriétaire, les panneaux demandent et il applique.
+- **Tout ce qui a une règle est pur et testé** dans `Logic/` ; l'IHM ne fait que l'afficher.
+- **Aucun travail perdu.** Sauvegarde automatique et reprise (`EX-EDIT-056`), garde du fichier
+  modifié sur disque (`EX-EDIT-057`), historique plafonné et « modifié » qui suit le contenu
+  (`EX-EDIT-058`).
 
-Logique pure (aucune dépendance Qt/GPU, couverte par `Source/Test/Unit`) :
+## Logique pure (`Logic/`)
 
-- `tileTaxonomy` — arbre catégories/tuiles de la palette ; `TaxonomyLabels` — ses clés de
-  traduction.
-- `LevelFileOperations` — créer / renommer / dupliquer / supprimer un fichier de niveau.
-- `LevelNameValidation` — validation d'un nom de niveau saisi.
-- `EditorTool` — énumération de l'outil actif ; `PanelFocus` — panneau à mettre en avant selon
-  l'outil.
-- `EntityGesture` — geste de l'outil « Entité » : sélectionner, poser, déplacer (`LOT-11`).
-- `EntityReferences` — catalogues que les entités référencent (dialogues, rencontres, cartes,
-  points d'arrivée) ; `EditorDiagnostics` — avertissements sur les entités d'une carte.
-- `LayerView` — couches d'une carte telles que l'éditeur les montre.
-- `EditorStatus` — contenu de la barre d'état ; `EditContextTarget` — cible des commandes
-  Annuler/Refaire/Copier/Coller.
-- `WorldGraphLayout` — disposition du graphe du monde (cercle, fantômes, flèches regroupées, désignation).
-- `ThumbnailGeometry` — dimensionnement des vignettes à l'échelle d'affichage réelle.
+- `TileTaxonomy` — l'arbre catégories/tuiles de la palette, libellés compris.
+- `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
+- `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
+- `EntityGesture` — le geste de l'outil « Entité » : sélectionner, poser, déplacer.
+- `EntityReferences`, `EditorDiagnostics` — les catalogues que les entités citent, et les
+  avertissements rendus en anglais.
+- `LayerView` — les couches telles que l'éditeur les montre.
+- `EditorStatus`, `EditContextTarget` — la barre d'état, la cible des commandes d'édition.
+- `WorldGraphLayout` — la disposition du graphe du monde.
+- `ThumbnailGeometry` — les vignettes à l'échelle d'affichage réelle.
+- `EditorKeyBindings` — les raccourcis remappables, persistés en JSON.
+- `Autosave` — les brouillons de reprise (`%LOCALAPPDATA%\JustAnotherRpgGame\Editor\autosave`) et
+  les versions mises de côté (`conflicts\`).
+- `DiskGuard` — l'empreinte d'un fichier et la réaction à son changement.
 
-Réf. specs : [`editeur-niveaux.md`](../../Documentation/Specification/editeur-niveaux.md),
-[`interface-ihm.md`](../../Documentation/Specification/interface-ihm.md) (`EX-EDIT-*`, `EX-IHM-*`).
+## Fichiers du poste
+
+| Chemin | Contenu |
+|---|---|
+| `%LOCALAPPDATA%\JustAnotherRpgGame\Editor\autosave\*.autosave.json` | Brouillon en attente de reprise, un par carte ; retiré à l'enregistrement et à la fermeture voulue. |
+| `%LOCALAPPDATA%\JustAnotherRpgGame\Editor\autosave\conflicts\` | Versions écartées par un choix (reprise refusée, disque relu ou gardé de côté). Jamais nettoyé automatiquement. |
+
+`LevelEditor --crash-test` plante juste après la première sauvegarde automatique : c'est la façon
+d'éprouver la reprise.

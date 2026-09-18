@@ -31,7 +31,7 @@ selon le contexte, qu'il faut garder à l'esprit en lisant le code :
   entre deux directions : positif si elles pointent globalement dans le même sens, négatif si elles
   s'opposent, nul si elles sont perpendiculaires. C'est l'opération fondamentale des calculs
   d'angle et de projection — l'éditeur s'en sert pour mesurer la distance d'un clic à un lien du
-  graphe du monde (`HMI/Editor/WorldGraphLayout.cpp`) ;
+  graphe du monde (`Editor/Logic/WorldGraphLayout.cpp`) ;
 - **longueur** (`length`, [norme euclidienne](https://fr.wikipedia.org/wiki/Norme_euclidienne) ⧉) :
   la distance entre l'origine et le point `(x, y)`, calculée par le théorème de Pythagore :
   `sqrt(x*x + y*y)` ;

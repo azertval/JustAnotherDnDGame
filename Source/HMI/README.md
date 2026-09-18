@@ -1,13 +1,13 @@
 # Source/HMI/
 
 Couche de **présentation** : ce que le jeu (`JustAnotherRpgGame`, Qt Quick, point d'entrée dans
-`../App/Game/`) et l'éditeur de cartes (`LevelEditor`, Qt Widgets, défini ici) partagent — rendu du
-jeu via **QRhi**, entrées, traduction —, puis l'éditeur lui-même. La partie sans Qt Widgets est
-la bibliothèque statique `HmiLib`, que consomment aussi les tests (voir `CMakeLists.txt`).
+`../App/Game/`) et l'éditeur de cartes partagent — rendu via **QRhi**, entrées, traduction. La
+partie sans Qt Widgets est la bibliothèque statique `HmiLib`, que consomment aussi les tests (voir
+`CMakeLists.txt`). L'éditeur lui-même est un module à part, [`../Editor/`](../Editor/README.md)
+(`LOT-EDITOR-01`) : il dépend de ce dossier, et rien ici ne dépend de lui.
 
 Ce dossier dépend de `../Core/` pour l'état à afficher, mais ne contient pas la logique de jeu
-elle-même. Les **assets Qt déclaratifs** (mises en page `.ui`, ressource `.qrc`, thème `.qss`) vivent
-hors code dans [`../Elements/`](../Elements/README.md) (`UI/`, `Themes/`) ; les écrans du jeu (QML)
+elle-même. Les assets vivent dans [`../Elements/`](../Elements/README.md) ; les écrans du jeu (QML)
 dans `../Ui/`.
 
 ## Découpage par domaine
@@ -15,14 +15,12 @@ dans `../Ui/`.
 | Dossier | Rôle |
 |---|---|
 | [`Platform/`](Platform/README.md)   | Provisionnement bas niveau (répertoire de l'exécutable, minidump). |
-| [`Input/`](Input/README.md)         | Entrées : état, manette, raccourcis de l'éditeur, pont Qt→`Key`. |
-| [`Graphics/`](Graphics/README.md)   | Rendu via **QRhi** (pipeline 2D, caméra, lieu, arène, brouillon d'édition). |
+| [`Input/`](Input/README.md)         | Entrées : état, manette, pont Qt→`Key`. |
+| [`Graphics/`](Graphics/README.md)   | Rendu via **QRhi** (pipeline 2D, caméra, lieu, arène). |
 | [`Game/`](Game/README.md)           | La carte qu'on parcourt (`WorldPlay`), partagée par le jeu et l'essai de l'éditeur. |
 | `Presentation/` | Logique de présentation pure (enchaînement des écrans, échelle, valeurs de fiche, crédits). |
 | `Runtime/`   | Les types C++ que les écrans du jeu voient : module QML `Jadg.Runtime` (vues-modèles, surfaces de rendu). |
 | [`Localization/`](Localization/README.md) | Catalogue de traduction. |
-| [`Interface/`](Interface/README.md) | Fenêtre de l'éditeur, actions, thème (widgets Qt). |
-| [`Editor/`](Editor/README.md)       | Périmètre éditeur de cartes (canevas, panneaux, logique pure). |
 | [`Audio/`](Audio/README.md)         | Moteur de lecture et volume ; aucun son livré. |
 
 ## Build & déploiement

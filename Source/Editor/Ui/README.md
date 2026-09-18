@@ -1,28 +1,22 @@
-# HMI/Interface/
+# Source/Editor/Ui/
 
-Widgets **Qt** du châssis de l'éditeur de cartes (`LevelEditor`) : la fenêtre principale, ses
-actions et le système de design. Les mises en page sont décrites hors code dans `Source/Editor/Ui/Forms/*.ui`
-(Qt Designer) et le thème dans `Elements/Themes/theme-editor.qss`. Les écrans du jeu, eux, sont en
-Qt Quick (`Source/Ui/`, modèles dans `HMI/Runtime/`).
+Les **widgets** de l'éditeur (`LevelEditor`, Qt Widgets), tous construits en code : style Fusion,
+textes anglais, aucun formulaire `.ui` (`LOT-EDITOR-01`).
 
-- `MainWindow` — fenêtre principale de l'éditeur : le canevas (`hmi::EditorViewport`) au centre ;
-  la palette, le navigateur de cartes, les couches et les entités en docks détachables dont la
-  disposition est persistée (`EX-IHM-010`/`011`). La fenêtre ne possède aucune donnée d'édition :
-  le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique.
-- `ActionCatalog` / `EditorActions` — les commandes de l'éditeur comme actions réutilisables
-  (`EX-IHM-055`). Depuis le `LOT-68`, chaque action déclare sa **surface** (`ActionSurface`) : la
-  barre d'outils ne porte que les outils et les commandes à usage continu, le reste vit au menu
-  (`EX-IHM-074`).
-- `DesignTokens` — jetons de design : source unique des couleurs, espacements, typographie et
-  tailles (`EX-IHM-050`, `EX-IHM-051`).
-- `ApplicationTheme` — application du système de design : style, palettes, feuille de style et
-  polices (`applyEditorTheme`, `applyStyleSheet`, `applyFont`).
-- `StyleSheetTemplate` — substitution des marqueurs d'un modèle de feuille de style par les jetons.
-- `FontResolution` — résolution de la famille de police de l'IHM, logique pure (`EX-IHM-052`).
-- `ThemeResolution` — résolution du thème clair/sombre effectif du châssis, logique pure
-  (`EX-IHM-054`).
-- `IconGeometry` / `ThemeIcons` — icônes dessinées par code : une géométrie **pure** décide *quoi*
-  dessiner, un peintre Qt décide *comment* (`EX-IHM-055`).
+- `MainWindow` — la fenêtre : le canevas au centre, quatre docks (palette, cartes, couches,
+  entités) dont la disposition est persistée (`EX-IHM-011`), les menus et la barre d'état. Elle
+  tient aussi le filet de sécurité : sauvegarde automatique et reprise, garde du fichier modifié sur
+  disque, question à la fermeture.
+- `EditorActions` — les commandes comme `QAction` uniques, partagées par la barre d'outils, les
+  menus et les raccourcis remappables.
+- `EditorViewport` — le canevas (`QRhiWidget`). En **édition**, le brouillon est dessiné à plat par
+  `DraftRenderer` ; en **essai** (`P`), la carte est jouée par `hmi::WorldPlay` et dessinée par
+  `hmi::WorldSceneRenderer`, comme dans le jeu (`EX-EDIT-055`). Réécrit au `LOT-EDITOR-02`.
+- `DraftRenderer` — le brouillon à plat : une couleur par type de tuile, les entités par leur
+  marqueur.
+- `PalettePanel` — l'arbre des tuiles (`hmi::tileTaxonomy`).
+- `LevelBrowserPanel`, `WorldGraphView` — la liste des cartes et le graphe du monde.
+- `LayersPanel` — couche active, visibilité, opacité, ajout, retrait, ordre et nom.
+- `EntityPanel` — famille à poser, liste des entités, propriétés et avertissements.
 
-Réf. specs : [`interface-ihm.md`](../../../Documentation/Specification/interface-ihm.md) (`EX-IHM-*`),
-guide [`guide-ihm-qt`](../../../Documentation/Guide/guide-ihm-qt.md).
+Chaque panneau garde ses widgets dans une `struct Widgets` privée, construite dans son `.cpp`.

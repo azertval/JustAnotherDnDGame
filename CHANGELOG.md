@@ -6,6 +6,23 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'éditeur de cartes devient un module à part, et ne perd plus de travail (LOT-EDITOR-01).**
+  - **Un module** : le code quitte `Source/HMI` pour `Source/Editor` (`Logic/`, bibliothèque
+    `EditorLogic` ; `Ui/`, l'exécutable `LevelEditor`) ; le jeu n'en dépend plus.
+  - **Un outil interne** : style Fusion de Qt (clair ou sombre selon le système), textes en
+    anglais, fenêtre et panneaux construits en code. Retirés : la charte de l'éditeur (jetons,
+    feuille de style, icônes tracées, menu Thème, police Inter), ses formulaires `.ui` et ses
+    189 clés de traduction.
+  - **Reprise après plantage** : un brouillon modifié est sauvegardé deux secondes après le dernier
+    geste, et proposé à la reprise au démarrage suivant (`%LOCALAPPDATA%\JustAnotherRpgGame\Editor`).
+  - **Une carte changée sur disque n'est plus écrasée** : l'éditeur la relit si rien n'est modifié,
+    sinon il demande de relire ou de garder, et met l'autre version de côté.
+  - **« Modified » suit le contenu** : défaire jusqu'à l'état enregistré rend une carte non
+    modifiée ; fermer avec des modifications demande quoi en faire ; l'historique d'annulation est
+    plafonné à 200 pas.
+  - **Corrigé** : déplacer la fenêtre vers un autre écran pouvait remplacer le brouillon en cours
+    par le Colisée relu sur disque.
+
 - **L'éditeur de cartes a sa feuille de route (`Documentation/Editeur/feuille-de-route.md`).**
   Quatorze lots `LOT-EDITOR`, une piste à part de celle du jeu : édition en iso avec les pièces du
   lieu, format de carte version 4, pilotage sans fenêtre, fin des cartes écrites par script. Aucun

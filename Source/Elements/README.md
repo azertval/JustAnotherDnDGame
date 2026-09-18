@@ -12,7 +12,6 @@
 - `World/` — atlas du monde (régions, villes, lieux), arène et dialogues, copiés au build.
 - `Maps/` — `world-maps.json`, positions relevées sur les cartes peintes (`LOT-94`), copié au build.
 - `Credits/` — `credits.json`, les crédits affichés par le jeu.
-- `Themes/` — feuilles de style Qt (`.qss`) de l'éditeur.
 
 Ces éléments sont consommés par `../Core/` (données de carte et de jeu) et `../HMI/` (rendu, UI Qt).
 

@@ -33,7 +33,6 @@ pipeline 2D, la caméra et la composition des scènes.
 - `WorldSceneComposer` / `WorldSceneRenderer` — un lieu qu'on parcourt, composé sans GPU puis rendu en QRhi (`LOT-09`) ; dessiné pour le jeu comme pour l'essai de l'éditeur.
 - `ArenaSceneComposer` / `ArenaSceneRenderer` — la scène de combat du Colisée, composée sans GPU puis rendue en QRhi (`LOT-50`, `LOT-86`) ; `ArenaAppearanceCatalog` (rôle de case et figurine), `ArenaAnimationDriver` / `ArenaAnimationState` (image courante de chaque figurine).
 - `CityBlockRender` — l'**îlot** vu sur le plan : la carte du quartier telle que le jeu la dessine, cadrée sur un rectangle nommé (`LOT-96`).
-- `DraftRenderer` — rendu du **brouillon d'édition** (`core::LevelDraft`) dans le canevas de l'éditeur : tuiles à plat, entités par leur marqueur, grille et aperçu des outils.
 - `TileVisuals` — correspondance type de tuile → région d'atlas (`regionForTile`), partagée par le canevas et la palette de l'éditeur.
 - `GraphicsLog` — macros de journalisation du module.
 
