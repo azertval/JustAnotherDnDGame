@@ -42,10 +42,18 @@ Item {
         key: root.key
     }
 
+    // Le titre tient entre les ornements peints (70 % des marges du cahier) : quand un ecran impose
+    // une largeur plus courte que le titre, la police se reduit plutot que de deborder de la plaque.
     Text {
         id: titleLabel
 
-        anchors.centerIn: parent
+        anchors.fill: parent
+        anchors.leftMargin: root.endWidth * 0.7
+        anchors.rightMargin: root.endWidth * 0.7
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        fontSizeMode: Text.HorizontalFit
+        minimumPixelSize: Tokens.fontCaption
         text: root.text
         color: Tokens.textOnPanel
         font.family: Tokens.titleFamily
