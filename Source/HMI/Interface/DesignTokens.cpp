@@ -72,7 +72,6 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.gemShadow = DesignColor{.r = 0x40, .g = 0x00, .b = 0x00};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
-    tokens.typography.family = FontRole::Identity;  // titrage a empattements (LOT-68).
     tokens.size = SHARED_SIZE;
     return tokens;
 }
@@ -180,19 +179,6 @@ const IdentityBaseScale& identityBaseScale() noexcept {
     return scale;
 }
 
-const char* genericCssFamily(FontRole role) noexcept {
-    switch (role) {
-        case FontRole::Identity:
-            // Le titrage a empattements se rapproche davantage d'une chasse fixe que d'une
-            // lineale, pour le repli generique : si la
-            // police embarquee manque, autant que le repli garde des colonnes alignees.
-            return "monospace";
-        case FontRole::Ui:
-            return "sans-serif";
-    }
-    return "sans-serif";
-}
-
 const DesignTokens& identityTokens() noexcept {
     static const DesignTokens tokens = buildIdentityTokens();
     return tokens;
@@ -278,8 +264,6 @@ std::unordered_map<std::string, std::string> buildStyleSheetValues(const DesignT
     values["identity.space.large"] = std::to_string(base.spaceLarge * scale);
     values["identity.space.extraLarge"] = std::to_string(base.spaceExtraLarge * scale);
     values["identity.frame.thickness"] = std::to_string(base.frameThickness * scale);
-    values["identity.font.body"] = genericCssFamily(identityTokens().typography.family);
-    values["identity.font.title"] = genericCssFamily(identityTokens().typography.family);
     values["tokens.typography.screenTitle.pointSize"] =
         std::to_string(typography.screenTitle.pointSize);
     values["tokens.typography.sectionTitle.pointSize"] =

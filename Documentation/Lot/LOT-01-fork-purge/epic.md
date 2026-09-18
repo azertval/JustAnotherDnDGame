@@ -103,7 +103,7 @@ sont créées par les lots qui les concrétisent.
 
 ## Critères d'acceptation
 
-- Tag `archive/platformer-v0.1.3` posé **avant** toute suppression.
+- Tag d'archive posé **avant** toute suppression (supprimé depuis par le [LOT-88](@ref lot-88)).
 - `grep -rn "gravity" Source/` ne renvoie plus rien.
 - Configuration CMake réussie, `Core` et `JustAnotherRpgGame` compilés sans avertissement en
   `/W4 /WX`, exécutable produit.

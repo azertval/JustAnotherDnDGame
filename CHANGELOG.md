@@ -18,6 +18,8 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **Le format de carte ne porte plus que le RPG** : douze types de tuiles, une entrée exigée ;
     les trois cartes livrées perdent leur sortie et leur cadrage.
   - **Assets et scripts** de l'ancien jeu supprimés ; l'atlas de tuiles est procédural.
+  - **Polices pixel** (`Pixelify Sans`, `Press Start 2P`) supprimées, crédits compris ; les tags
+    du jeu d'origine (`v0.0.1` à `v0.1.3`) sont retirés du dépôt.
   - **Spécifications** : 120 exigences retirées, ancres conservées ; `ia.md` et `decors.md`
     partent pour `exigences-retirees.md` ; `Documentation/Heritage/` et la notation `LOT-H-NN`
     sont supprimées. Une exigence retirée ne peut plus être citée par le code

@@ -44,23 +44,18 @@ void applyApplicationStyle();
 /// repolissait les 862 widgets de l'application, cinq secondes durant en Debug.
 void applyStyleSheet(const DesignTokens& editorTokens);
 
-/// Enregistre les polices embarquées auprès de Qt et applique la famille du **châssis
-/// d'édition** comme police par défaut de l'application (`Assets/Fonts/`) :
-/// - `Inter-{Regular,Bold}.ttf` — `FontRole::Ui`, le châssis d'édition ;
-/// - `PixelifySans-{Regular,Bold}.ttf` et `PressStart2P-Regular.ttf` — `FontRole::Identity`, les
-///   écrans du jeu (`EX-IHM-070`), la seconde étant réservée aux titres d'écran.
+/// Enregistre la police du **châssis d'édition** (`Assets/Fonts/Inter-{Regular,Bold}.ttf`)
+/// auprès de Qt et l'applique comme police par défaut de l'application.
 ///
-/// Repli explicite et **par famille** si un fichier est absent ou refusé par Qt : famille
-/// **générique** (`QFont::StyleHint` ici, mot-clé CSS générique dans la feuille de style), jamais
-/// un second nom de police codé en dur, et jamais la famille d'un autre rôle — une police d'écran
-/// manquante ne doit pas faire retomber le jeu sur la police de l'éditeur. Avertissement
-/// journalisé.
+/// Repli explicite si un fichier est absent ou refusé par Qt : famille **générique**
+/// (`QFont::StyleHint`), jamais un second nom de police codé en dur (`EX-IHM-052`).
+/// Avertissement journalisé.
 void applyFont();
 
-/// Nom de famille **effectivement** enregistré pour la police de corps de @p role, ou une chaîne
-/// vide si l'enregistrement a échoué (l'appelant emploie alors une famille générique). Renseigné
-/// par `applyFont()` ; vide tant qu'elle n'a pas été appelée.
-[[nodiscard]] std::string resolvedFontFamily(FontRole role);
+/// Nom de famille **effectivement** enregistré pour la police du châssis, ou une chaîne vide si
+/// l'enregistrement a échoué (l'appelant emploie alors une famille générique). Renseigné par
+/// `applyFont()` ; vide tant qu'elle n'a pas été appelée.
+[[nodiscard]] std::string resolvedFontFamily();
 
 /// @return Le réglage de thème persisté (`QSettings`), `Système` par défaut.
 [[nodiscard]] EditorThemeSetting editorThemeSetting();

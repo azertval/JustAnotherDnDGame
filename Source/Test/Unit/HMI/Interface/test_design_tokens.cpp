@@ -77,16 +77,14 @@ TEST(DesignTokensTest, CouleurViewportSuitLaPorteeDuMode) {
  * \tcat Unitaire · Jetons de design<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Comparer espacement, niveaux typographiques et tailles des deux portees.<br/>
- * \tattendu Les echelles sont identiques entre les deux portees ; seule la famille de police
- * differe.
+ * \tattendu Les echelles sont identiques entre les deux portees ; seules les couleurs
+ * different.
  * }
  */
 TEST(DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles) {
     EXPECT_EQ(hmi::identityTokens().spacing, hmi::editorDarkTokens().spacing);
     EXPECT_EQ(hmi::identityTokens().size, hmi::editorDarkTokens().size);
-    // L'echelle typographique reste partagee CHAMP PAR CHAMP, mais plus la famille :
-    // les ecrans du jeu emploient une police bitmap, le chassis d'edition non. Comparer
-    // les structures entieres confondrait ces deux faits.
+    // L'echelle typographique est partagee champ par champ.
     EXPECT_EQ(hmi::identityTokens().typography.screenTitle,
               hmi::editorDarkTokens().typography.screenTitle);
     EXPECT_EQ(hmi::identityTokens().typography.sectionTitle,
@@ -100,24 +98,6 @@ TEST(DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles) {
     EXPECT_EQ(hmi::editorDarkTokens().spacing, hmi::editorLightTokens().spacing);
     EXPECT_EQ(hmi::editorDarkTokens().typography, hmi::editorLightTokens().typography);
     EXPECT_EQ(hmi::editorDarkTokens().size, hmi::editorLightTokens().size);
-}
-
-/**
- * @brief Les deux portées emploient des familles de police **distinctes**
- *        (`EX-IHM-070`) : identité en police bitmap, châssis d'édition en police de travail.
- *        C'est ce qui empêche la police pixel de se répandre dans les tables et les arbres denses
- *        de l'éditeur, où elle serait illisible.
- * \castest{<b>Chaque portee designe sa propre famille de police.</b><br/>
- * \tcat Unitaire · Jetons de design<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Lire le role de famille des jetons d'identite et des deux themes d'editeur.<br/>
- * \tattendu L'identite designe Identity, les deux themes d'editeur designent Ui.
- * }
- */
-TEST(DesignTokensTest, ChaquePorteeDesigneSaPropreFamille) {
-    EXPECT_EQ(hmi::identityTokens().typography.family, hmi::FontRole::Identity);
-    EXPECT_EQ(hmi::editorDarkTokens().typography.family, hmi::FontRole::Ui);
-    EXPECT_EQ(hmi::editorLightTokens().typography.family, hmi::FontRole::Ui);
 }
 
 /**

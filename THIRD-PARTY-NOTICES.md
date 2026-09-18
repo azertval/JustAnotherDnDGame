@@ -91,12 +91,9 @@ que l'index.
 | Police *Cinzel* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Cinzel-LICENSE.txt` |
 | Police *IM Fell English* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `IMFellEnglish-LICENSE.txt` |
 | Police *Inter* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Inter-LICENSE.txt` |
-| Police *Pixelify Sans* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PixelifySans-LICENSE.txt` |
-| Police *Press Start 2P* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PressStart2P-LICENSE.txt` |
 
 La **SIL OFL** exige une attribution : les fichiers de licence doivent accompagner les polices
-partout où elles sont redistribuées, et un nom de police réservé (« Press Start 2P ») ne peut pas
-être réutilisé pour une version modifiée.
+partout où elles sont redistribuées.
 
 ## Entretien
 

@@ -112,14 +112,10 @@ QPalette buildApplicationPalette(const DesignTokens& tokens) {
 
 namespace {
 
-// Familles REELLEMENT enregistrees par applyFont(), relues par applyStyleSheet(). Vides tant que
-// applyFont() n'a pas tourne, ou si Qt a refuse le fichier : la feuille de style bascule alors sur
-// un mot-cle CSS generique. Cet etat est le seul moyen de faire descendre un nom resolu par Qt
-// dans buildStyleSheetValues, qui est une fonction PURE et doit le rester.
+// Famille REELLEMENT enregistree par applyFont(). Vide tant que applyFont() n'a pas tourne, ou si
+// Qt a refuse le fichier : l'application retombe alors sur une famille generique.
 struct ResolvedFamilies {
     std::string ui;
-    std::string identityBody;
-    std::string identityTitle;
 };
 
 ResolvedFamilies& resolvedFamilies() {
@@ -156,21 +152,10 @@ int& identityScaleState() {
     return resolution.useEmbeddedFamily ? resolution.embeddedFamily : std::string{};
 }
 
-// Nom de famille a ecrire dans la feuille de style : le nom resolu s'il existe, sinon un mot-cle
-// CSS GENERIQUE. Jamais un second nom de police litteral (EX-IHM-052), et jamais celui d'un autre
-// role -- une police d'ecran manquante ne doit pas faire retomber le jeu sur celle de l'editeur.
-[[nodiscard]] std::string cssFamily(const std::string& resolved, FontRole role) {
-    const char* const generic = genericCssFamily(role);
-    if (resolved.empty()) {
-        return generic;
-    }
-    return "\"" + resolved + "\", " + generic;
-}
-
 }  // namespace
 
-std::string resolvedFontFamily(FontRole role) {
-    return role == FontRole::Identity ? resolvedFamilies().identityBody : resolvedFamilies().ui;
+std::string resolvedFontFamily() {
+    return resolvedFamilies().ui;
 }
 
 namespace {
@@ -192,12 +177,6 @@ namespace {
     // QFontDatabase.
     std::unordered_map<std::string, std::string> values =
         buildStyleSheetValues(editorTokens, identityScaleState());
-    const ResolvedFamilies& families = resolvedFamilies();
-    // Seule la portee identite nomme sa famille dans la feuille de style : celle du chassis
-    // est deja la police PAR DEFAUT de l'application (applyFont), et la reposer en QSS
-    // ecraserait les polices que certains widgets se donnent eux-memes.
-    values["identity.font.body"] = cssFamily(families.identityBody, FontRole::Identity);
-    values["identity.font.title"] = cssFamily(families.identityTitle, FontRole::Identity);
     const StyleSheetSubstitutionResult substituted =
         substituteStyleSheetTemplate(templateText, values);
     if (!substituted.ok) {
@@ -227,31 +206,14 @@ void applyFont() {
     const std::filesystem::path fonts = executableDirectory() / "Assets" / "Fonts";
     ResolvedFamilies& families = resolvedFamilies();
     families.ui = registerFamily(fonts / "Inter-Regular.ttf", fonts / "Inter-Bold.ttf");
-    // Portee identite : corps en Pixelify Sans, titres en Press Start 2P. Les deux sont
-    // enregistrees independamment -- l'echec de l'une n'entraine pas l'autre.
-    families.identityBody =
-        registerFamily(fonts / "PixelifySans-Regular.ttf", fonts / "PixelifySans-Bold.ttf");
-    families.identityTitle = registerFamily(fonts / "PressStart2P-Regular.ttf", {});
 
     if (families.ui.empty()) {
         HMI_LOG_WARNING(
             "Police du chassis introuvable ou invalide (Assets/Fonts/Inter-*.ttf) : famille "
             "generique.");
     }
-    if (families.identityBody.empty()) {
-        HMI_LOG_WARNING(
-            "Police des ecrans du jeu introuvable ou invalide "
-            "(Assets/Fonts/PixelifySans-*.ttf) : famille generique.");
-    }
-    if (families.identityTitle.empty()) {
-        HMI_LOG_WARNING(
-            "Police des titres d'ecran introuvable ou invalide "
-            "(Assets/Fonts/PressStart2P-Regular.ttf) : famille generique.");
-    }
 
-    // Police PAR DEFAUT de l'application = celle du chassis d'edition. Les ecrans du jeu recoivent
-    // la leur par la feuille de style (portee identite, cadree par objectName) : c'est la seule
-    // facon de ne pas repandre la police pixel dans les tables et les arbres denses de l'editeur.
+    // Police PAR DEFAUT de l'application = celle du chassis d'edition.
     QFont font;
     if (families.ui.empty()) {
         // Famille generique demandee a Qt : jamais un second nom de police code en dur (voir

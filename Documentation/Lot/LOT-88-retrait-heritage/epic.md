@@ -2,7 +2,7 @@
 
 > Statut : **livré le 18 septembre 2026** (ouvert le même jour), sur la branche
 > `lot-88-retrait-heritage`. Vérification automatisée : construction `/W4 /WX` sans avertissement,
-> `ctest` à **768/768**, `lint_exigences.py`, `lint_lots.py`, les contrôles Python de la CI
+> `ctest` à **767/767**, `lint_exigences.py`, `lint_lots.py`, les contrôles Python de la CI
 > et Doxygen verts. Reste
 > la vérification manuelle : ouvrir une carte dans l'éditeur, l'essayer (**P**), y marcher,
 > franchir un portail, revenir à l'édition par **Échap** ; lancer le jeu et parcourir Martpart.
@@ -98,8 +98,9 @@ renvoi à son programme de lots, aucun fichier archivé.
   l'ancre et un motif d'une ligne restent.
 - **`Documentation/Heritage/` supprimé**, et non enrichi de `ia.md` et `decors.md`.
 - **Le `LOT-69` est absorbé** : l'atelier pixel art est parti avec le reste de l'habillage mort.
-  La question qu'il laissait ouverte — la portée identité de l'éditeur charge encore les polices
-  pixel — reste posée : les polices appartiennent à la charte, elles ne sont pas de l'héritage.
+  La question qu'il laissait ouverte — la portée identité de l'éditeur chargeait encore les polices
+  pixel — est tranchée par l'auteur : `Pixelify Sans` et `Press Start 2P` sont supprimées, avec leur
+  enregistrement, le rôle de police `FontRole::Identity` et leur ligne aux crédits.
 
 ## Exigences qui perdent leur porteur
 
@@ -115,11 +116,12 @@ vigueur ; voici ce qui les tient aujourd'hui.
 | `EX-NFR-001` | Le compteur de diagnostic des options ; la cadence se constate, elle ne se vérifie pas en CI |
 | `EX-EDIT-020`, `EX-EDIT-021`, `EX-EDIT-022` | `LevelEditor.exe`, livré à côté du jeu ; les cartes dans `Source/Elements/Levels/` ; le guide [Créer et partager une carte](@ref manuel-partager-niveau) |
 
-## Ce qui reste
+## Tags du jeu d'origine
 
-- Les tags `v0.0.1` à `v0.1.3` et `archive/platformer-v0.1.3` du dépôt distant désignent des
-  versions du jeu d'origine, et les trois premiers entrent en collision avec les jalons de la
-  feuille de route. Les supprimer est une décision de l'auteur, hors de ce lot.
+Les tags `v0.0.1` à `v0.1.3` et `archive/platformer-v0.1.3` désignaient des versions du jeu
+d'origine, et les premiers entraient en collision avec les jalons de la feuille de route. Ils sont
+supprimés du dépôt distant et des copies locales, sur décision de l'auteur (18 septembre 2026).
+Aucune release GitHub ne s'y rattachait.
 
 ## Vérification
 
