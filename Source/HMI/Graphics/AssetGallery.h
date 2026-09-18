@@ -77,6 +77,8 @@ struct AssetGalleryFamily {
  * Familles lues, dans cet ordre, chacune seulement si elle existe :
  * - `Npc/manifest.json` : chaque PNJ × chaque animation, d'après son `.anim.json`, et son portrait
  * ;
+ * - `Monsters/manifest.json` : les figurines de l'atelier des monstres (LOT-93), de même forme ;
+ *   une bête sans sort n'a pas de `cast`, et une Grande a ses cellules de 96 × 96 ;
  * - `Coliseum/manifest.json` : héros × animations, gladiateurs, puis les pièces de la planche ;
  * - `Scene/<disposition>/manifest.json` : les textures de l'atelier (LOT-92), par classe.
  *

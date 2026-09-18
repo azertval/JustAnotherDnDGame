@@ -1,12 +1,15 @@
 """Assemble la planche finale d'un PNJ (méthode standard, poc.md §4bis, étape A).
-Usage : py -3.13 compose.py <slug> <tour_planche> [<tour_marche>] [<anim>=<tour> ...]
+Usage : py -3.13 compose.py <slug> <tour_planche> [<tour_marche>] [<anim>=<tour> ...] [--travail <dossier>]
 Prend <slug>/tour<P>/norm (planche normalisée) ; chaque passe séparée remplace ses rangées et sa bande :
   <tour_marche>  <slug>/tour<M>/norm/marche.* (rangée 2, walk) ; équivaut à walk=<M> ;
   attack=4       <slug>/tour4/norm/attack.* (rangées 5-6) ; de même idle, hit, death, cast.
 Écrit <slug>/final/ : planche.png (1536x2048), bandes/*.png, planche.json. Les erreurs de la planche qui
 portent sur une animation remplacée ne comptent plus (Nakral tour 3 : walk illisible, refait en M).
-Sans passe, la planche est gardée telle quelle (Lizz, tour 1)."""
+Sans passe, la planche est gardée telle quelle (Lizz, tour 1).
+--travail : le dossier de travail d'un autre atelier (celui des monstres, LOT-93) ; par défaut celui des PNJ.
+La grille de planche est la même aux deux gabarits (huit rangées de 256 px) : l'assemblage n'en dépend pas."""
 import json
+import pathlib
 import shutil
 import sys
 import numpy as np
@@ -14,9 +17,12 @@ from PIL import Image
 from prompts import ROOT
 
 RANGEES = {"idle": [0], "walk": [1], "hit": [2], "death": [3], "attack": [4, 5], "cast": [6, 7]}
-slug, tp = sys.argv[1], int(sys.argv[2])
+args = sys.argv[1:]
+if "--travail" in args:
+    i = args.index("--travail"); ROOT = pathlib.Path(args[i + 1]); del args[i:i + 2]
+slug, tp = args[0], int(args[1])
 passes = {}
-for a in sys.argv[3:]:
+for a in args[2:]:
     if "=" in a: anim, t = a.split("="); passes[anim] = int(t)
     else: passes["walk"] = int(a)
 P, F = ROOT / slug / f"tour{tp}" / "norm", ROOT / slug / "final"
@@ -47,7 +53,7 @@ for anim, t in passes.items():
     sources.append(f"{slug}/tour{t}/norm/{dispo}.png ({anim}, rangées {', '.join(str(r + 1) for r in rangs)})")
     facteurs[f"tour{t}:{anim}"] = rm["facteur"]
 Image.fromarray(planche).save(F / "planche.png")
-json.dump({"source": " + ".join(sources), "disposition": "planche", "facteurs": facteurs, "erreurs": erreurs,
+json.dump({"source": " + ".join(sources), "disposition": "planche", "gabarit": rp.get("gabarit", "moyen"), "facteurs": facteurs, "erreurs": erreurs,
            "avertissements": avert, "images": sorted(images, key=lambda i: (i["rangee"], i["image"]))},
           open(F / "planche.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 print(f"{F.relative_to(ROOT)} : {len(images)} images ; erreurs {len(erreurs)}")

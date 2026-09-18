@@ -1,5 +1,5 @@
 """Ramène une planche générée au format exact (étape R, préfigure T4).
-Usage : py -3.13 normalise.py <candidat.png> <dossier_sortie> <planche|marche|idle|hit|death|attack|cast|corps|effets> [--hauteur 45 | --facteur-de corps.json] [--vides 3,4]
+Usage : py -3.13 normalise.py <candidat.png> <dossier_sortie> <planche|marche|idle|hit|death|attack|cast|corps|effets> [--hauteur 45 | --facteur-de corps.json] [--vides 3,4] [--gabarit moyen|grand]
 
 Dispositions (voir disposition_*.md) :
   planche : 1536x2048, les 4 rangées du corps puis les 4 des effets : un seul appel, un seul personnage
@@ -12,7 +12,10 @@ Rangées et images sont lues par profil (le générateur ne tient pas la grille 
 binarisé à 127, puis :
   --hauteur N      ramène la pose de garde à N pixels d'art (idle au corps, attack 8 aux effets) ;
   --facteur-de F   reprend le facteur d'un rapport précédent ;
-  --vides 3,4      rangées attendues vides (Jade n'a pas de cast).
+  --vides 3,4      rangées attendues vides (Jade n'a pas de cast) ;
+  --gabarit grand  créature Grande (atelier des monstres, LOT-93) : bandes 96x96, `death` comprise,
+                   et 192x96 pour attack et cast (pieds à x = 64) ; la planche garde sa grille, ses
+                   cellules de mort passent à 192 px. Par défaut, moyen : les bandes ci-dessus.
 Sans facteur, la planche est supposée déjà au pas 2 et on prend un pixel sur deux.
 Sorties : <dossier>/<disposition>.png, la planche au format exact du prompt (pixels d'art de 2 px,
 pieds à 40 px du bas de la cellule) ; <dossier>/bandes/<anim>.png, une image par cellule de bande,
@@ -34,12 +37,24 @@ DISPOSITIONS = {
                ("cast", 4, 384, 1 / 3, 96, 32), ("cast", 4, 384, 1 / 3, 96, 32)],
     "marche": [("walk", 8, 192, 1 / 2, 48, 24)],   # 1536x256, le rang de marche seul (tour 6 d'Anariel)
 }
+GABARIT = sys.argv[sys.argv.index("--gabarit") + 1] if "--gabarit" in sys.argv else "moyen"
+if GABARIT == "grand":
+    # Une créature Grande tient 2 x 2 cases : la cellule de bande double dans les deux sens. Couchée,
+    # elle ne s'allonge pas plus que debout ne la faisait large (un fauve tombe sur le flanc) : la mort
+    # garde la cellule de base, à la différence du personnage Moyen, qui debout est deux fois plus
+    # haut que large.
+    DISPOSITIONS["corps"] = [("idle", 6, 192, 1 / 2, 96, 48), ("walk", 8, 192, 1 / 2, 96, 48), ("hit", 4, 192, 1 / 2, 96, 48),
+                             ("death", 6, 192, 1 / 2, 96, 48)]
+    DISPOSITIONS["effets"] = [(a, 4, 384, 1 / 3, 192, 64) for a in ("attack", "attack", "cast", "cast")]
+    DISPOSITIONS["marche"] = DISPOSITIONS["corps"][1:2]
+elif GABARIT != "moyen":
+    raise SystemExit(f"gabarit inconnu : {GABARIT} (moyen ou grand)")
 DISPOSITIONS["planche"] = DISPOSITIONS["corps"] + DISPOSITIONS["effets"]
 # passes par animation (décision de sortie du PoC) : les rangées de la planche, seules
 DISPOSITIONS.update({"idle": DISPOSITIONS["corps"][0:1], "hit": DISPOSITIONS["corps"][2:3], "death": DISPOSITIONS["corps"][3:4],
                      "attack": DISPOSITIONS["effets"][0:2], "cast": DISPOSITIONS["effets"][2:4]})
 CH = 256
-PAS, BASE, BANDE_H = 2, 40, 64
+PAS, BASE, BANDE_H = 2, 40, 96 if GABARIT == "grand" else 64
 TOLERANCE = 4   # px d'art rognés au bord d'une bande : avertissement au-delà de 0, erreur au-delà de 4
 
 
@@ -227,7 +242,7 @@ sortie.mkdir(parents=True, exist_ok=True); (sortie / "bandes").mkdir(exist_ok=Tr
 Image.fromarray(planche).save(sortie / f"{dispo}.png")
 for anim, cels in bandes.items():
     Image.fromarray(np.concatenate(cels, axis=1)).save(sortie / "bandes" / f"{anim}.png")
-json.dump({"source": src, "disposition": dispo, "facteur": facteur, "attendu": attendu, "erreurs": erreurs, "avertissements": avert, "rapport_walk_idle": marche, "images": rapport},
+json.dump({"source": src, "disposition": dispo, "gabarit": GABARIT, "facteur": facteur, "attendu": attendu, "erreurs": erreurs, "avertissements": avert, "rapport_walk_idle": marche, "images": rapport},
           open(sortie / f"{dispo}.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 print(f"{len(rapport)} images ; bandes " + ", ".join(f"{a} {len(c)}x{c[0].shape[1]}" for a, c in bandes.items()))
 for e in avert: print("AVERTISSEMENT", e)
