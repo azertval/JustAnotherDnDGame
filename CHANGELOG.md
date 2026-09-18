@@ -6,6 +6,14 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les écrans du jeu portent leurs images peintes : les 213 pièces de la charte v2 (LOT-87).**
+  Cadres, plaques, boutons, onglets, contrôles, médaillons, emplacements, jauges, ornements et
+  icônes remplacent les aplats de repli sur les dix-neuf écrans, sans qu'un formulaire change.
+  - **Provenance** : chaque image garde le prompt réellement envoyé au générateur ; planches et
+    inventaire de la livraison dans la documentation du lot.
+  - **Corrigés** : la mini-carte du HUD n'affiche plus de silhouette de portrait, et un titre de
+    plaque se réduit plutôt que de déborder de ses ornements.
+
 - **Retrait de l'héritage : le dépôt ne garde plus rien du jeu d'origine (LOT-88).**
   - **L'essai de l'éditeur joue le jeu** : **P** lance l'exploration du jeu sur le brouillon —
     marcher, interagir, franchir un portail vers une autre carte —, et **Échap** revient à
