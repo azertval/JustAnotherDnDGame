@@ -55,11 +55,10 @@ PortalLinkStatus statutUnique(core::MapEntity lePortail, core::WorldMapInput cib
     return graphe.portals.empty() ? PortalLinkStatus::Resolved : graphe.portals.front().status;
 }
 
-// Une carte version 3 minimale : entree et sortie, puis les entites donnees en JSON.
+// Une carte version 3 minimale : une entree, puis les entites donnees en JSON.
 std::string carteJson(const std::string& nom, const std::string& entites) {
     return R"({"version": 3, "name": ")" + nom + R"(", "width": 4, "height": 3, "tiles": [
-    { "x": 0, "y": 0, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" }
+    { "x": 0, "y": 0, "type": "entry" }
   ], "entities": [)" +
            entites + "]}";
 }

@@ -5,15 +5,14 @@
 
 /**
  * @file HMI/Editor/ThumbnailGeometry.h
- * @brief Dimensionnement des vignettes de l'éditeur à l'échelle d'affichage réelle (`LOT-56`
- *        TACHE-05, `EX-IHM-053`).
+ * @brief Dimensionnement des vignettes de l'éditeur à l'échelle d'affichage réelle
+ *        (`EX-IHM-053`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`.
  * Réutilisable par tout widget affichant du pixel art agrandi au plus proche voisin
- * (`PalettePanel`, `AssetThumbnailView`, `TexturePanel`, et le canevas de `LOT-54`) : une fonction
- * privée à l'un d'eux serait réécrite ailleurs, et l'erreur d'arrondi reviendrait par la porte de
- * service.
+ * (aujourd'hui `PalettePanel`) : une fonction privée à l'un d'eux serait réécrite ailleurs, et
+ * l'erreur d'arrondi reviendrait par la porte de service.
  */
 
 namespace hmi {

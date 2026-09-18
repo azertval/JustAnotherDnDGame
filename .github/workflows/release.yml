@@ -9,7 +9,7 @@ name: Release
 # Chaque release porte, à côté des zips du jeu, un zip de symboles (.pdb) par configuration et un
 # fichier SHA256SUMS (scripts/package_release.ps1, scripts/write_sha256sums.ps1).
 #
-# Depuis le LOT-38, l'unique application `JustAnotherRpgGame` est une app **Qt** : le job installe Qt
+# L'unique application `JustAnotherRpgGame` est une app **Qt** : le job installe Qt
 # (comme la CI), construit avec le **runtime MSVC dynamique** (les DLL Qt officielles sont en /MD ;
 # un CRT statique provoquerait des incohérences d'allocation), et empaquette **tout le dossier de
 # l'exécutable** — `windeployqt` (POST_BUILD, Source/HMI/CMakeLists.txt) y a déposé les DLL Qt, le
@@ -38,7 +38,7 @@ env:
   # Version de Qt épinglée (EX-BUILD-010), identique à `QT_VERSION_MINIMUM` dans
   # `Source/HMI/CMakeLists.txt` et à `env.QT_VERSION` de `ci.yml` — vérifié automatiquement par
   # `scripts/check_qt_version_pin.py` (job lint-exigences de ci.yml) pour que les trois écritures
-  # ne divergent jamais silencieusement (LOT-66 TACHE-01).
+  # ne divergent jamais silencieusement.
   QT_VERSION: '6.11.2'
   # aqtinstall publie sur PyPI (3.3.0) ne sait PAS installer Qt >= 6.11 : Qt a change la
   # disposition de son depot (`qt6_6112/qt6_6112_msvc2022_64/`, un sous-dossier par architecture,

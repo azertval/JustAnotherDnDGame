@@ -66,7 +66,8 @@ void GamepadPoller::poll(InputState& input) {
     setKey(Key::Right, right);
     setKey(Key::Up, up);
     setKey(Key::Down, down);
-    // A valide (menu) ET saute (jeu) : meme bouton physique pour les deux usages, comme au clavier.
+    // A valide (menu) et interagit (jeu) : meme bouton physique pour les deux usages, comme au
+    // clavier.
     const bool aHeld = (pad.wButtons & XINPUT_GAMEPAD_A) != 0;
     setKey(Key::Enter, aHeld);
     setKey(Key::Space, aHeld);
@@ -74,11 +75,10 @@ void GamepadPoller::poll(InputState& input) {
     const bool bHeld = (pad.wButtons & XINPUT_GAMEPAD_B) != 0;
     setKey(Key::Escape, bHeld || (pad.wButtons & XINPUT_GAMEPAD_START) != 0);
     const bool rightShoulderHeld = (pad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) != 0;
-    setKey(Key::Shift, rightShoulderHeld);  // dash, EX-CTRL-013
+    setKey(Key::Shift, rightShoulderHeld);
 
     // Piste manette brute (GamepadButton), independante de la fusion Key ci-dessus : consommee par
-    // PlayerInputMapper via GamepadBindings (EX-CTRL-002, EX-CTRL-012), pas par la navigation de
-    // menu (qui reste sur la fusion Key, non remappable).
+    // la navigation des ecrans du jeu (hmi::GamepadNavigator, EX-CTRL-002).
     auto setButton = [&input](GamepadButton button, bool pressed) {
         if (pressed) {
             input.onGamepadButtonDown(button);

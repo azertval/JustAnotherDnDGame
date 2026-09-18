@@ -57,11 +57,8 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
     for (auto it = std::filesystem::recursive_directory_iterator(_dir, error);
          !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
         const std::filesystem::directory_entry& entry = *it;
-        // "sequence-" est un préfixe réservé aux fichiers de séquence de contenu (LOT-59
-        // TACHE-04, sequence-demo.json, EX-LVL-013), qui vivent volontairement à côté des niveaux
-        // (le chargeur y vérifie que chaque niveau référencé existe dans le même dossier) sans en
-        // être un : les exclure évite qu'ils apparaissent comme un niveau ouvrable dans ce
-        // panneau (le format ne correspond pas, l'ouverture échouerait).
+        // "sequence-" reste un préfixe réservé : un tel fichier n'est pas une carte, et
+        // l'afficher comme ouvrable dans ce panneau mènerait à une ouverture en échec.
         if (entry.is_regular_file(error) && entry.path().extension() == ".json" &&
             !entry.path().filename().string().starts_with("sequence-")) {
             levels.push_back(entry.path());
@@ -79,18 +76,17 @@ FileOperationResult LevelFileOperations::create(const std::string& name, int wid
     if (!hmi::isValidLevelName(name)) {
         return FileOperationResult::failure("Nom de niveau invalide.");
     }
-    if (width < 2 || height < 1) {
-        return FileOperationResult::failure("Dimensions trop petites.");
+    if (width < 1 || height < 1) {
+        return FileOperationResult::failure("Dimensions trop petites (une case au minimum).");
     }
     const std::filesystem::path target = pathForName(trimmed);
     std::error_code error;
     if (std::filesystem::exists(target, error)) {
         return FileOperationResult::failure("Un niveau porte déjà ce nom.");
     }
-    // Niveau minimal valide : grille vide + une entrée et une sortie distinctes (coins bas).
+    // Niveau minimal valide : grille vide + une entrée (coin bas gauche).
     core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
     draft.setEntry(0, height - 1);
-    draft.setExit(width - 1, height - 1);
     core::LevelLoadResult validated = draft.toLevel();
     if (!validated.ok()) {
         return FileOperationResult::failure("Niveau invalide : " + validated.error);

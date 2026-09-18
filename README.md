@@ -7,19 +7,13 @@
 ![Qt QRhi](https://img.shields.io/badge/Qt%20QRhi-Direct3D%2011-8A2BE2)
 
 RPG 2D **en vue de dessus** développé **from scratch** en **C++20** (Windows), sans moteur
-tiers : exploration en temps réel façon Zelda, et rencontres en **combat tactique au tour par
-tour** régi par un système **d20** maison. Le rendu passe par **QRhi**, la couche d'accès au GPU
+tiers : exploration en temps réel, et rencontres en **combat tactique au tour par tour** régi par
+un système **d20** maison. Le rendu passe par **QRhi**, la couche d'accès au GPU
 de Qt, qui retient **Direct3D 11** par défaut sous Windows.
 
 > **Fan game non commercial.** Ce jeu gratuit s'inspire des univers de *Dungeons & Dragons* et de
 > *Tanares*, sans affiliation ni approbation de leurs ayants droit (Wizards of the Coast, Dragori
 > Games). Voir [Licence](#licence).
-
-> **Dérivé de `ProjectGaming`.** Ce dépôt reprend le moteur d'un jeu de plateforme/puzzle en vue
-> de côté livré en `0.1.3` (ECS, boucle à pas fixe, balayage AABB, chargeur de niveaux, rendu,
-> éditeur, IHM Qt) et en a retiré tout le gameplay propre à la vue de côté. L'historique git est
-> conservé ; le programme de lots d'origine reste consultable sous `Documentation/Heritage/`.
-> État actuel : le moteur est nu — le déplacement top-down arrive au `LOT-06`.
 
 - 📖 **Documentation en ligne** : <https://azertval.github.io/JustAnotherRpgGame/>
 - 📊 **Qualité** (couverture, performances) : <https://azertval.github.io/JustAnotherRpgGame/qualite/>
@@ -28,88 +22,73 @@ de Qt, qui retient **Direct3D 11** par défaut sous Windows.
 
 ## Description
 
-JustAnotherRpgGame est un RPG en vue de dessus bâti sur un moteur de jeu 2D maison. Ses partis
-pris :
+JustAnotherRpgGame est un RPG en vue de dessus, dessiné en isométrique, bâti sur un moteur 2D maison.
+Ses partis pris :
 
-- **Séparation stricte** entre la logique (`Core`) et la présentation (`HMI`) :
-  `Core` est indépendant du GPU et de la fenêtre, donc **testable sans GPU**.
-- **ECS maison** (sparse sets) : entités = identifiants, composants = données pures,
-  systèmes = logique, exécutés à **pas de temps fixe déterministe**.
-- **Rendu pixel art** via **QRhi** (tuiles 16 px, échantillonnage *nearest*).
-- **Éditeur de cartes** intégré pour permettre à des non-développeurs de créer du
-  contenu (peinture, mécanismes, undo/redo, essai immédiat).
-- **Règles chiffrées en données** : classes, sorts, objets et ennemis se définissent en JSON,
-  jamais en dur dans le C++ — l'équilibrage ne demande pas de recompiler.
+- **Séparation stricte** entre la logique (`Core`) et la présentation (`HMI`) : `Core` est
+  indépendant du GPU et de la fenêtre, donc **testable sans GPU**.
+- **Règles chiffrées en données** : espèces, classes, historiques, créatures, équipement et
+  dialogues se définissent en JSON, jamais en dur dans le C++ — l'équilibrage ne demande pas de
+  recompiler.
+- **Deux exécutables, deux technologies d'interface** : le jeu en **Qt Quick** (`JustAnotherRpgGame`),
+  l'éditeur de cartes en **Qt Widgets** (`LevelEditor`). Ils partagent le moteur, le rendu et le
+  modèle de carte, jamais leurs écrans.
+- **Hasard déterministe** (graine explicite) : un combat se rejoue à l'identique.
 
 Le *quoi* et le *pourquoi* sont décrits dans les
 [spécifications](https://azertval.github.io/JustAnotherRpgGame/) ; le *comment* dans le
 **Guide du développeur** et la référence de code Doxygen.
 
-## Fonctionnalités du moteur (état actuel)
+## Fonctionnalités (état actuel)
 
-> **Le jeu n'est pas encore jouable.** Le `LOT-01` a retiré le gameplay de plateforme hérité ; le
-> déplacement top-down 8 directions arrive au `LOT-06`. Le moteur ci-dessous est en revanche
-> complet et éprouvé — c'est précisément ce que le fork conserve.
+> Le premier jalon, un *vertical slice* dans la Capitale impériale, est en cours : la
+> [feuille de route](Documentation/Lot/roadmap.md) dit ce qui reste.
 
-- **Collisions** par **balayage continu** (swept AABB) : aucune traversée à vitesse élevée, sans
-  gravité ni axe privilégié — la primitive exacte dont un déplacement en vue de dessus a besoin.
-- **Niveaux** en tuiles typées, de taille arbitraire, chargés depuis des fichiers **JSON**
-  versionnés, avec **validation** et migration ascendante.
-- **Mécanismes** interrupteur ↔ porte, **plaque de pression**, **clé et porte verrouillée**, action
-  **Interagir** — vocabulaire de puzzle conservé tel quel pour le RPG.
-- **Éditeur de niveaux** intégré : peinture à la souris, outils rectangle/sélection, liaison de
-  mécanismes, undo/redo, essai immédiat ; le level designer choisit le **cadrage de caméra** (par
-  salle, niveau entier ou suivi).
-- **Menu** multilingue (fr/en), **menu d'options** (V-Sync, volume, langue), **pause**,
-  **progression persistée**, navigable au **clavier, à la souris et à la manette** (XInput).
-- **Bruitages** (Qt Multimedia) à volume réglable, jeu pleinement utilisable en silence sans
-  périphérique audio. **Effets de particules** et secousse d'écran.
-- **Diagnostics** : compteur de budget de rendu affichable (`F9`), journal de session sur disque.
-- **Hasard déterministe** (splitMix64, graine dérivée par entité et par pas) : socle des futurs
-  jets de dés reproductibles.
+Le **jeu** :
 
-Le moteur est **habillé** :
+- **Exploration** en temps réel du Colisée et de deux quartiers de la Capitale (Martpart,
+  Arenarea) : déplacement au clavier, PNJ, portails d'une carte à l'autre, points d'arrivée nommés.
+- **Combat tactique au tour par tour** au Colisée : initiative, économie d'actions, attaques et
+  dégâts, portée et ligne de vue, zones d'effet, IA ennemie décrite par profils.
+- **Écrans du RPG** : fiche de personnage, compétences, inventaire, dialogues, journal, compagnie,
+  marchand, carte du monde à trois niveaux (monde, région, ville) et plan de ville par quartier.
+- **Menu, options** (plein écran, volume, langue), **pause** et **crédits**, en français et en
+  anglais, navigables au clavier et à la souris ; l'arène et la carte du monde se pilotent aussi à
+  la manette (XInput).
+- **Diagnostics** : journal de session sur disque, minidump en cas de plantage.
 
-- **Rendu texturé multicouche** avec culling : **fond** de niveau, **plans picturaux** avec
-  **parallaxe**, **ombres**, premier plan au-dessus du personnage. Bascule Physique/Texture par
-  `F8`, et mode d'inspection par calque pour auditer un habillage.
-- **Skins de tuiles** avec **raccords automatiques** (16 voisinages), **texture par instance**,
-  **repli procédural** déterministe quand un asset manque — le jeu reste lançable sans aucun
-  fichier d'image.
-- **Animation pilotée par données** (`nom-asset.anim.json`) : clips nommés, bouclés ou joués une
-  fois, apparence des mécanismes suivant leur **état logique**.
-- **Texte dans la scène** : police bitmap avec repli procédural, affichage tête haute.
+L'**éditeur de cartes** :
 
-Et l'**éditeur** est un poste de travail complet :
+- Peinture des **trois couches** d'une carte (sol, décor, collision), rectangle, sélection,
+  copier/coller, annuler/refaire.
+- **Entités** : PNJ, coffres, panneaux, portails, points d'arrivée, rencontres ; propriétés
+  éditées dans un panneau, références validées contre les catalogues.
+- **Graphe du monde** des cartes et de leurs portails, avertissements de terrain tactique.
+- **Essai immédiat** : la carte en cours se joue avec le moteur du jeu, sans l'enregistrer.
 
-- **Bibliothèque d'assets** à vignettes (import, renommage, duplication, suppression) avec
-  **rechargement à chaud**, et détection des assets encore référencés avant suppression.
-- **Atelier pixel art intégré** : dessiner, remplir, pipetter, transformer une région, gérer des
-  palettes et voir l'aperçu des raccords — sans quitter l'application.
-- **Système de design** : barre d'outils à icônes, thème **clair/sombre** suivant le système,
-  vignettes nettes à toute échelle d'affichage, barre d'état permanente, raccourcis d'éditeur
-  remappables.
-
-Toute la simulation vit dans `Core` (pure, déterministe au pas fixe) et est **couverte par des
-tests** (unitaires, intégration, système) — voir le **Cahier de test**.
+Toute la simulation vit dans `Core` et est **couverte par des tests** (unitaires, intégration,
+système) — voir le **Cahier de test**.
 
 ## Organisation du dépôt
 
 | Dossier | Rôle |
 |---------|------|
-| `Documentation/` | Documentation publiée en site **Doxygen** : `Specification/` (specs & conventions), `Lot/` et `Lot-Annexe/` (lots de travail), `Manuel/` (manuel utilisateur), **Guide du développeur** et **Guide annexe** (notions d'apprentissage automatique), **Cahier de test**, et référence de code. |
+| `Documentation/` | Documentation publiée en site **Doxygen** : `Specification/` (specs & conventions), `Lot/` (lots de travail et feuille de route), `Manuel/` (manuel utilisateur), `SourceBook/` (corpus d'entrée), **Guide du développeur**, **Cahier de test**, et référence de code. |
 | `Source/` | Code source, réparti par fonction. |
+| `scripts/` | Build, contrôles de CI, ateliers d'extraction et de découpe d'assets. |
 | `.github/workflows/` | Intégration continue (voir plus bas). |
 
 ### Découpage de `Source/`
 
 | Sous-dossier | Contenu |
 |--------------|---------|
-| `Core/` | Logique et moteur : ECS, mathématiques, boucle à pas fixe, diagnostics — **sans dépendance au GPU ni à la fenêtre**. |
-| `HMI/` | Présentation : l'application **Qt** (fenêtre, menu, options, éditeur), le rendu du jeu (via **QRhi**) embarqué dans un viewport, et les entrées. Dépend de `Core`, jamais l'inverse. |
-| `AiSolver/` | Solveur **IA** maison, écrit sans framework d'apprentissage automatique : tenseurs, autodiff, réseaux de neurones, optimiseurs, environnement de simulation sans fenêtre, algorithmes d'entraînement et outil `aisolver-cli`. Dépend de `Core`, jamais l'inverse. |
-| `Elements/` | Assets et éléments statiques (sprites, tuiles, sons, niveaux). |
-| `Test/` | Tests **unitaires** (`Unit/`), **d'intégration** (`Integration/`) et **système** (`Systeme/`) — GoogleTest. |
+| `Core/` | Logique et moteur : règles d20, combat, monde et exploration, modèle de carte, ECS, mathématiques, diagnostics — **sans dépendance au GPU ni à la fenêtre**. |
+| `HMI/` | Présentation partagée : rendu 2D sur **QRhi**, entrées, localisation, vues-modèles du jeu (`Runtime/`), et l'éditeur de cartes (`Editor/`, `Interface/`). Dépend de `Core`, jamais l'inverse. |
+| `Ui/` | Les formulaires QML du jeu (module `Jadg.Ui`), ouvrables dans Qt Design Studio. |
+| `App/` | Les points d'entrée du jeu (et son câblage QML) et de l'éditeur. |
+| `Elements/` | Données et assets : cartes, catalogues RPG, monde, planches de lieux, figurines, interface, polices, traductions. |
+| `Test/` | Tests **unitaires** (`Unit/`), **d'intégration** (`Integration/`) et **système** (`Systeme/`) — GoogleTest ; tests QML. |
+| `Benchmark/`, `Fuzz/` | Mesures de performance et harnais libFuzzer des lecteurs de données. |
 
 ## Build
 
@@ -120,18 +99,17 @@ générés dans `build/`).
 ### Prérequis
 - Visual Studio 2022+ avec la charge de travail **« Développement Desktop en C++ »**
   (inclut CMake, Ninja et le compilateur MSVC).
-- **Qt6** (`Widgets`, `Gui`, `Multimedia` — module audio, `LOT-60`), version **6.11.2 ou
+- **Qt6** (`Widgets`, `Gui`, `Quick`, `Multimedia`), version **6.11.2 ou
   supérieure** (celle validée par la CI — un écart produit un avertissement à la configuration,
   pas un échec), détecté automatiquement (`CMAKE_PREFIX_PATH`, cf.
   `Source/HMI/CMakeLists.txt`) s'il est installé à l'emplacement conventionnel de
   l'[installateur officiel](https://www.qt.io/download-qt-installer) ou via
   [`aqtinstall`](https://github.com/miurahr/aqtinstall)
-  (`-m qtmultimedia qtshadertools qtcanvaspainter`). Qt 6.11 est le **plancher** depuis le
-  `LOT-69` : c'est la première version fournissant Qt Canvas Painter. Installer Qt ≥ 6.11 avec
+  (`-m qtmultimedia qtshadertools qtcanvaspainter`). Installer Qt ≥ 6.11 avec
   `aqtinstall` demande une version de l'outil plus récente que celle publiée sur PyPI — voir
   [`External/README.md`](External/README.md).
-  Sans Qt, la cible `JustAnotherRpgGame` est **ignorée** (avertissement explicite) : seuls les tests se
-  construisent.
+  Sans Qt, les cibles `JustAnotherRpgGame` et `LevelEditor` sont **ignorées** (avertissement
+  explicite) : seuls les tests se construisent.
 
 ### Depuis Visual Studio (recommandé)
 1. `Fichier > Ouvrir > Dossier…` puis sélectionner la racine du dépôt.
@@ -210,7 +188,7 @@ de `docs` (`docs.yml`, informatif).
 | **CI** (`ci.yml`) | `sanitize` | PR vers `main` | Les trois exécutables de test sous **AddressSanitizer** (LOT-58, `EX-NFR-003`). |
 | **CI** (`ci.yml`) | `clang-tidy` | PR vers `main` | Analyse statique sur le diff de la PR ; `bugprone-*` bloquant, le reste consigné (LOT-58). |
 | **CI** (`ci.yml`) | `format` | PR vers `main` | `clang-format --dry-run --Werror`, version épinglée (LOT-58). |
-| **CI** (`ci.yml`) | `lint-exigences` | PR vers `main` | Identifiants `EX-…`, cahier de test à jour, séquence de niveaux démo. |
+| **CI** (`ci.yml`) | `lint-exigences` | PR vers `main` | Identifiants `EX-…`, graphe des lots, cahier de test, catalogues et assets. |
 | **Documentation** (`docs.yml`) | `docs` | Push sur `main` | Génère la **Doxygen** (garde-fou `WARN_AS_ERROR`) et la publie sur la branche `gh-pages` (site en ligne). |
 | **Release** (`release.yml`) | `rolling-debug` | Push sur `main` | Compile un exécutable **Debug autonome** et publie la préversion roulante **`debug-latest`** pour les non-développeurs. |
 | **Release** (`release.yml`) | `versioned-release` | Tag `vX.Y.Z` | Publie une **release versionnée** (non préversion) avec les exécutables **Debug et Release**, chacun autonome. |

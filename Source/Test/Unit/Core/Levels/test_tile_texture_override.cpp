@@ -3,7 +3,7 @@
 
 /**
  * @file test_tile_texture_override.cpp
- * @brief Tests unitaires de la texture assignée par instance (LOT-45, `EX-EDIT-043`).
+ * @brief Tests unitaires de la texture assignée par instance (`EX-EDIT-043`).
  */
 
 #include <algorithm>
@@ -25,76 +25,23 @@ using core::GridPosition;
 using core::LevelDraft;
 using core::TileType;
 
+// Brouillon d'une carte width x height dont le mur en (column, row) porte la texture "wall_red.png".
+LevelDraft brouillonHabille(int width, int height, int column, int row) {
+    const std::string json = R"({ "width": )" + std::to_string(width) + R"(, "height": )" +
+                             std::to_string(height) + R"(, "tiles": [
+        { "x": 0, "y": 0, "type": "entry" },
+        { "x": )" + std::to_string(column) + R"(, "y": )" + std::to_string(row) +
+                             R"(, "type": "wall", "texture": "wall_red.png" }
+      ] })";
+    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(json);
+    EXPECT_TRUE(loaded.ok()) << loaded.error;
+    return LevelDraft::fromLevel(*loaded.level);
+}
+
 }  // namespace
 
 /**
- * @brief setTextureOverride assigne une texture à une case précise.
- * \castest{<b>setTextureOverride assigne une texture à une case précise.</b><br/>
- * \tcat Unitaire · Tile Texture Override<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu setTextureOverride assigne une texture à une case précise.
- * }
- */
-TEST(TileTextureOverrideTest, SetTextureOverrideAssigneLaTexture) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
-
-    ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().position, (GridPosition{1, 1}));
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_red.png");
-}
-
-/**
- * @brief Réassigner une texture sur une case déjà habillée remplace l'override existant, sans en
- * accumuler un second.
- * \castest{<b>Réassigner une texture remplace l'override existant.</b><br/>
- * \tcat Unitaire · Tile Texture Override<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Réassigner une texture remplace l'override existant.
- * }
- */
-TEST(TileTextureOverrideTest, ReassignerRemplaceLOverrideExistant) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
-
-    draft.setTextureOverride(GridPosition{1, 1}, "door_blue.png");
-
-    ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_blue.png");
-}
-
-/**
- * @brief removeTextureOverride retire l'override d'une case, sans effet si elle n'en a pas.
- * \castest{<b>removeTextureOverride retire l'override d'une case.</b><br/>
- * \tcat Unitaire · Tile Texture Override<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu removeTextureOverride retire l'override d'une case, sans effet si elle n'en a pas.
- * }
- */
-TEST(TileTextureOverrideTest, RemoveTextureOverrideRetireLOverride) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
-
-    draft.removeTextureOverride(GridPosition{1, 1});
-    EXPECT_TRUE(draft.textureOverrides().empty());
-
-    draft.removeTextureOverride(GridPosition{2, 2});  // case sans override : sans effet
-    EXPECT_TRUE(draft.textureOverrides().empty());
-}
-
-/**
- * @brief Repeindre un **autre** type de tuile sur une case habillée retire son override
- * (`removeLinkedDataAt`).
+ * @brief Repeindre un **autre** type de tuile sur une case habillée retire son override.
  * \castest{<b>Repeindre un autre type retire l'override.</b><br/>
  * \tcat Unitaire · Tile Texture Override<br/>
  * \tcrit Majeur<br/>
@@ -104,9 +51,8 @@ TEST(TileTextureOverrideTest, RemoveTextureOverrideRetireLOverride) {
  * }
  */
 TEST(TileTextureOverrideTest, PeindreUnAutreTypeRetireLOverride) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
+    LevelDraft draft = brouillonHabille(4, 4, 1, 1);
+    ASSERT_EQ(draft.textureOverrides().size(), 1u);
 
     draft.paintTile(1, 1, TileType::Solid);
 
@@ -125,14 +71,12 @@ TEST(TileTextureOverrideTest, PeindreUnAutreTypeRetireLOverride) {
  * }
  */
 TEST(TileTextureOverrideTest, PeindreLeMemeTypeConserveLOverride) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
+    LevelDraft draft = brouillonHabille(4, 4, 1, 1);
 
-    draft.paintTile(1, 1, TileType::Door);
+    draft.paintTile(1, 1, TileType::Wall);
 
     ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_red.png");
+    EXPECT_EQ(draft.textureOverrides().front().assetName, "wall_red.png");
 }
 
 /**
@@ -147,11 +91,9 @@ TEST(TileTextureOverrideTest, PeindreLeMemeTypeConserveLOverride) {
  * }
  */
 TEST(TileTextureOverrideTest, PaintRegionRetireLOverrideDUneCaseDontLeTypeChange) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
+    LevelDraft draft = brouillonHabille(4, 4, 1, 1);
 
-    draft.paintRegion(0, 0,
+    draft.paintRegion(1, 1,
                       {{TileType::Solid, TileType::Solid}, {TileType::Solid, TileType::Solid}});
 
     EXPECT_TRUE(draft.textureOverrides().empty());
@@ -169,17 +111,15 @@ TEST(TileTextureOverrideTest, PaintRegionRetireLOverrideDUneCaseDontLeTypeChange
  * }
  */
 TEST(TileTextureOverrideTest, CollerUneRegionNeCopiePasLesOverridesDeLaSource) {
-    LevelDraft draft = LevelDraft::empty("N", 6, 6);
-    draft.paintTile(0, 0, TileType::Door);
-    draft.setTextureOverride(GridPosition{0, 0}, "door_red.png");
+    LevelDraft draft = brouillonHabille(6, 6, 1, 1);
 
     // "Copie" du bloc source : seuls les types de tuile voyagent, jamais les overrides (aucune
     // API ne permet de les inclure dans un bloc de paintRegion).
-    const std::vector<std::vector<TileType>> block{{draft.tileMap().tile(0, 0)}};
+    const std::vector<std::vector<TileType>> block{{draft.tileMap().tile(1, 1)}};
     draft.paintRegion(3, 3, block);
 
     ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().position, (GridPosition{0, 0}));
+    EXPECT_EQ(draft.textureOverrides().front().position, (GridPosition{1, 1}));
 }
 
 /**
@@ -194,9 +134,7 @@ TEST(TileTextureOverrideTest, CollerUneRegionNeCopiePasLesOverridesDeLaSource) {
  * }
  */
 TEST(TileTextureOverrideTest, ReduireLaGrilleTronqueLesOverridesHorsBornes) {
-    LevelDraft draft = LevelDraft::empty("N", 5, 5);
-    draft.paintTile(4, 4, TileType::Door);
-    draft.setTextureOverride(GridPosition{4, 4}, "door_red.png");
+    LevelDraft draft = brouillonHabille(5, 5, 4, 4);
 
     draft.resize(2, 2);
 
@@ -214,37 +152,10 @@ TEST(TileTextureOverrideTest, ReduireLaGrilleTronqueLesOverridesHorsBornes) {
  * }
  */
 TEST(TileTextureOverrideTest, WouldResizeDropContentSignaleLaPerteDUnOverride) {
-    LevelDraft draft = LevelDraft::empty("N", 5, 5);
-    draft.paintTile(4, 4, TileType::Door);
-    draft.setTextureOverride(GridPosition{4, 4}, "door_red.png");
+    const LevelDraft draft = brouillonHabille(5, 5, 4, 4);
 
     EXPECT_TRUE(draft.wouldResizeDropContent(2, 2));
     EXPECT_FALSE(draft.wouldResizeDropContent(5, 5));
-}
-
-/**
- * @brief undo annule une assignation de texture ; redo la rétablit.
- * \castest{<b>undo/redo couvrent une assignation de texture.</b><br/>
- * \tcat Unitaire · Tile Texture Override<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu undo annule une assignation de texture ; redo la rétablit.
- * }
- */
-TEST(TileTextureOverrideTest, UndoRedoCouvrentUneAssignation) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
-    ASSERT_EQ(draft.textureOverrides().size(), 1u);
-
-    ASSERT_TRUE(draft.undo());
-    EXPECT_TRUE(draft.textureOverrides().empty());
-
-    ASSERT_TRUE(draft.redo());
-    ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_red.png");
 }
 
 /**
@@ -258,16 +169,14 @@ TEST(TileTextureOverrideTest, UndoRedoCouvrentUneAssignation) {
  * }
  */
 TEST(TileTextureOverrideTest, UndoRestitueUnOverrideRetire) {
-    LevelDraft draft = LevelDraft::empty("N", 4, 4);
-    draft.paintTile(1, 1, TileType::Door);
-    draft.setTextureOverride(GridPosition{1, 1}, "door_red.png");
+    LevelDraft draft = brouillonHabille(4, 4, 1, 1);
 
-    draft.removeTextureOverride(GridPosition{1, 1});
+    draft.paintTile(1, 1, TileType::Grass);
     ASSERT_TRUE(draft.textureOverrides().empty());
 
     ASSERT_TRUE(draft.undo());
     ASSERT_EQ(draft.textureOverrides().size(), 1u);
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_red.png");
+    EXPECT_EQ(draft.textureOverrides().front().assetName, "wall_red.png");
 }
 
 /**
@@ -285,8 +194,7 @@ TEST(TileTextureOverrideTest, FromLevelRestitueLesOverrides) {
       "width": 4, "height": 4,
       "tiles": [
         { "x": 0, "y": 0, "type": "entry" },
-        { "x": 3, "y": 3, "type": "exit" },
-        { "x": 2, "y": 2, "type": "door", "texture": "door_red.png" }
+        { "x": 2, "y": 2, "type": "wall", "texture": "wall_red.png" }
       ]
     })");
     ASSERT_TRUE(loaded.ok()) << loaded.error;
@@ -295,7 +203,7 @@ TEST(TileTextureOverrideTest, FromLevelRestitueLesOverrides) {
 
     ASSERT_EQ(draft.textureOverrides().size(), 1u);
     EXPECT_EQ(draft.textureOverrides().front().position, (GridPosition{2, 2}));
-    EXPECT_EQ(draft.textureOverrides().front().assetName, "door_red.png");
+    EXPECT_EQ(draft.textureOverrides().front().assetName, "wall_red.png");
 }
 
 /**
@@ -313,9 +221,8 @@ TEST(TileTextureOverrideTest, LeChampTextureSurvitAuRoundTripJson) {
       "width": 4, "height": 4,
       "tiles": [
         { "x": 0, "y": 0, "type": "entry" },
-        { "x": 3, "y": 3, "type": "exit" },
         { "x": 1, "y": 1, "type": "solid", "texture": "crate.png" },
-        { "x": 2, "y": 2, "type": "door", "texture": "door_red.png" }
+        { "x": 2, "y": 2, "type": "wall", "texture": "wall_red.png" }
       ]
     })");
     ASSERT_TRUE(loaded.ok()) << loaded.error;
@@ -329,11 +236,11 @@ TEST(TileTextureOverrideTest, LeChampTextureSurvitAuRoundTripJson) {
     const bool hasCrate = std::any_of(overrides.begin(), overrides.end(), [](const auto& o) {
         return o.position == core::GridPosition{1, 1} && o.assetName == "crate.png";
     });
-    const bool hasDoor = std::any_of(overrides.begin(), overrides.end(), [](const auto& o) {
-        return o.position == core::GridPosition{2, 2} && o.assetName == "door_red.png";
+    const bool hasWall = std::any_of(overrides.begin(), overrides.end(), [](const auto& o) {
+        return o.position == core::GridPosition{2, 2} && o.assetName == "wall_red.png";
     });
     EXPECT_TRUE(hasCrate);
-    EXPECT_TRUE(hasDoor);
+    EXPECT_TRUE(hasWall);
 }
 
 /**
@@ -349,7 +256,7 @@ TEST(TileTextureOverrideTest, LeChampTextureSurvitAuRoundTripJson) {
 TEST(TileTextureOverrideTest, SansOverrideLeChampTextureEstAbsentDuJson) {
     const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(R"({
         "width": 3, "height": 3,
-        "tiles": [ {"x":0,"y":0,"type":"entry"}, {"x":2,"y":2,"type":"exit"} ] })");
+        "tiles": [ {"x":0,"y":0,"type":"entry"} ] })");
     ASSERT_TRUE(loaded.ok()) << loaded.error;
 
     const std::string json = core::LevelWriter::toJsonString(*loaded.level);
@@ -372,8 +279,7 @@ TEST(TileTextureOverrideTest, NiveauSansChampTextureSeChargeSansOverride) {
         "width": 3, "height": 3,
         "tiles": [
           {"x":0,"y":0,"type":"entry"},
-          {"x":1,"y":1,"type":"solid"},
-          {"x":2,"y":2,"type":"exit"}
+          {"x":1,"y":1,"type":"solid"}
         ] })");
     ASSERT_TRUE(loaded.ok()) << loaded.error;
     EXPECT_TRUE(loaded.level->textureOverrides().empty());

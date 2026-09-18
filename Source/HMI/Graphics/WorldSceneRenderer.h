@@ -45,7 +45,7 @@ namespace hmi {
 /**
  * @brief Le cadrage d'un lieu : la caméra **suit** le héros, et ne sort pas de la carte.
  *
- * Le Colisée ne tient pas dans un écran (`EX-LVL-006`) : le cadrage entier de l'arène ne convient
+ * Le Colisée ne tient pas dans un écran : le cadrage entier de l'arène ne convient
  * plus. L'agrandissement est **entier** — le pixel art se brouille dès qu'on le met à une échelle
  * fractionnaire —, l'art étant dessiné pour 720 lignes ; au-delà, on double. La caméra se centre
  * ensuite sur le point suivi, puis se ramène dans la scène : sur un axe où la scène est plus petite

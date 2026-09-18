@@ -35,7 +35,6 @@ std::string mapWith(core::TileType type) {
       "height": 2,
       "tiles": [
         { "x": 0, "y": 0, "type": "entry" },
-        { "x": 3, "y": 1, "type": "exit" },
         { "x": 2, "y": 0, "type": ")" +
            core::tileTypeName(type) + R"(" }
       ]
@@ -117,12 +116,12 @@ TEST(TerrainRpgTest, LaRiveDistingueLesDeuxEaux) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Comparer TILE_TYPE_COUNT au dernier enumerateur.<br/>2. Verifier que chaque valeur
  * jusqu'a cette borne porte un nom.<br/>
- * \tattendu La borne vaut le dernier type plus un, et les vingt noms sont non vides et uniques.
+ * \tattendu La borne vaut le dernier type plus un, et les douze noms sont non vides et uniques.
  * }
  */
 TEST(TerrainRpgTest, BorneDeLEnumerationDerivee) {
     EXPECT_EQ(core::TILE_TYPE_COUNT, static_cast<int>(core::TileType::Stairs) + 1);
-    EXPECT_EQ(core::TILE_TYPE_COUNT, 20);
+    EXPECT_EQ(core::TILE_TYPE_COUNT, 12);
 
     std::vector<std::string> names;
     for (int raw = 0; raw < core::TILE_TYPE_COUNT; ++raw) {

@@ -5,7 +5,7 @@
 > [`contenu.md`](@ref spec-contenu) (le catalogue d'objets).
 
 Ce que le personnage porte, ce qu'il en fait, et ce que cela vaut. Le monde étant un bac à sable de
-dix régions, l'économie doit se **déduire des données de région** plutôt que d'être réglée marchand
+treize régions, l'économie doit se **déduire des données de région** plutôt que d'être réglée marchand
 par marchand.
 
 ## 1. Porter

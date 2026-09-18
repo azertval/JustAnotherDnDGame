@@ -1,21 +1,17 @@
 # SPDX-FileCopyrightText: 2026 Valentin Eloy
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-# Couche de présentation HMI : **application Qt** (`JustAnotherRpgGame`).
-#
-# Depuis le LOT-38, l'IHM « maison » et l'exécutable historique `JustAnotherRpgGame` ont été retirés :
-# l'unique application est l'éditeur Qt, qui embarque le rendu Direct3D 11 du jeu dans un viewport et
-# l'entoure de panneaux d'édition. Le code est réparti par domaine, au plus près de l'architecture
-# d'origine du projet :
-#   Platform/     provisionnement bas niveau (répertoire exécutable) ;
-#   Input/        entrées (état, mapping, remappage clavier/manette, pont Qt -> Key) ;
-#   Graphics/     rendu Direct3D 11 réutilisable (device, sprites, caméra, brouillon d'édition) ;
-#   Game/         simulation d'un niveau (GameSession) et viewport Qt jeu/édition ;
+# Couche de présentation HMI : ce que le jeu (`JustAnotherRpgGame`, Qt Quick) et l'éditeur
+# (`LevelEditor`, Qt Widgets) partagent, puis l'éditeur lui-même. Le code est réparti par domaine :
+#   Platform/     provisionnement bas niveau (répertoire exécutable, minidump) ;
+#   Input/        entrées (état, manette, raccourcis de l'éditeur) ;
+#   Graphics/     rendu 2D sur QRhi (sprites, caméra, lieu, arène, brouillon d'édition) ;
+#   Game/         la carte qu'on parcourt, partagée par le jeu et l'essai de l'éditeur ;
 #   Presentation/ logique de présentation pure (table de transitions, échelle, valeurs de fiche) ;
 #   Runtime/      les types C++ que les écrans du jeu voient -- module QML `Jadg.Runtime` (LOT-87) ;
 #   Localization/ catalogue de traduction ;
-#   Interface/    fenêtre principale, menu, options, remappage (widgets Qt) ;
-#   Editor/       périmètre éditeur de niveau (palette, outils, navigateur, logique pure).
+#   Interface/    fenêtre de l'éditeur, actions, thème (widgets Qt) ;
+#   Editor/       périmètre éditeur de cartes (canevas, palette, navigateur, logique pure).
 # Les fichiers déclaratifs Qt (.ui, .qrc) et le thème (.qss) vivent dans Source/Elements (assets).
 
 # --- HmiLib : la couche de présentation **sans Qt Widgets** (LOT-02) ---
@@ -36,90 +32,37 @@
 add_library(HmiLib STATIC
     # Graphismes : logique de rendu sans GPU (composition, catalogues, géométrie de caméra).
     Graphics/Camera2D.cpp
-    Graphics/RoomGrid.cpp
-    Graphics/FollowCamera.cpp
-    Graphics/CameraZones.cpp
-    Graphics/AssetPaths.cpp
     Graphics/TileVisuals.cpp
     Graphics/ProceduralAtlas.cpp
     Graphics/TextureAtlasRegions.cpp
-    Graphics/AssetContract.cpp
-    Graphics/RenderMode.cpp
-    Graphics/TileAppearance.cpp
-    Graphics/SkinCatalog.cpp
     Graphics/ArenaAppearanceCatalog.cpp
     Graphics/ArenaSceneComposer.cpp
     # Le lieu qu'on parcourt : table d'apparence du lieu, et composition (LOT-09).
     Graphics/PlaceAppearance.cpp
     Graphics/WorldSceneComposer.cpp
+    # La carte qu'on parcourt et sa mise en scene, partagees par le jeu et l'essai de l'editeur.
+    Game/WorldPlay.cpp
     Graphics/AssetGallery.cpp
     Graphics/ArenaAnimationDriver.cpp
     Graphics/AnimationCatalog.cpp
-    Graphics/PlayerSprite.cpp
-    Graphics/TileAutotile.cpp
-    Graphics/TileSilhouette.cpp
     Graphics/MissingTexture.cpp
     Graphics/ComposedScene.cpp
     Graphics/QuadRecorder.cpp
-    Graphics/BackgroundRenderer.cpp
-    Graphics/ShadowRenderer.cpp
-    Graphics/ParticleRenderer.cpp
-    Graphics/MechanismVisuals.cpp
-    Graphics/PlaneVisuals.cpp
-    Graphics/Parallax.cpp
-    Graphics/ProceduralFont.cpp
-    Graphics/TextRenderer.cpp
     # Marqueurs d'entite de carte (LOT-11) : cle d'asset et pixels, sans GPU.
     Graphics/EntityMarkers.cpp
     # Entrées : état, mapping, remappage persistant.
     Input/InputState.cpp
-    Input/PlayerInputMapper.cpp
-    Input/GameKeyBindings.cpp
     Input/EditorKeyBindings.cpp
-    Input/KeyName.cpp
-    Input/GamepadBindings.cpp
-    Input/GamepadButtonName.cpp
     # Localisation, journal de session.
     Localization/Localization.cpp
-    Diagnostics/SessionLog.cpp
-    # Audio : catalogue et table événement -> son (le moteur lui-même dépend de Qt Multimedia).
-    Audio/SoundCatalog.cpp
-    Audio/SoundTriggers.cpp
-    # Jeu : événements, affichage tête haute, progression, bilan de tableau.
-    Game/GameEvents.cpp
-    # Ordre des passes du pas fixe (LOT-05) : logique pure, sans Qt ni GPU -- c'est ce qui la rend
-    # testable sans fenetre, alors que GameSession, son orchestrateur, ne l'est pas.
-    Game/ExplorationMode.cpp
-    Game/CombatMode.cpp
-    Game/DialogueMode.cpp
-    Game/GameHud.cpp
-    Game/PlaytestInteraction.cpp
-    Game/DiagnosticsHud.cpp
-    # Éditeur : validation, taxonomie, gestes et géométrie, bibliothèque d'assets, atelier pixel.
+    # Éditeur : validation, taxonomie, gestes et géométrie, diagnostics des entités.
     Editor/LevelNameValidation.cpp
     Editor/TileTaxonomy.cpp
     Editor/TaxonomyLabels.cpp
-    Editor/SkinAssignments.cpp
-    Editor/PaletteAppearance.cpp
     Editor/LevelFileOperations.cpp
-    Editor/LinkGeometry.cpp
-    Editor/LinkGesture.cpp
-    Editor/TextureAssignGesture.cpp
-    Editor/AssetLibrary.cpp
-    Editor/AssetFileOperations.cpp
-    Editor/AssetReferences.cpp
-    Editor/MechanismAnimationAssignments.cpp
     Editor/EditorStatus.cpp
     Editor/PanelFocus.cpp
     Editor/ThumbnailGeometry.cpp
-    Editor/PixelOperations.cpp
-    Editor/PixelHistory.cpp
-    Editor/PixelCanvasGeometry.cpp
-    Editor/PlaneReference.cpp
-    Editor/PlaneFileNaming.cpp
-    Editor/PixelAssetIO.cpp
-    Editor/PixelPalette.cpp
-    Editor/PixelAutotilePreview.cpp
     Editor/LayerView.cpp
     Editor/EntityGesture.cpp
     Editor/EntityReferences.cpp
@@ -140,7 +83,6 @@ add_library(HmiLib STATIC
     Interface/ThemeResolution.cpp
     Interface/IconGeometry.cpp
     Presentation/IdentityScale.cpp
-    Interface/EditorWorkspace.cpp
     Interface/ActionCatalog.cpp
     # Plateforme.
     Platform/ExecutableDirectory.cpp
@@ -206,10 +148,9 @@ set(APP_DIR ${PROJECT_SOURCE_DIR}/Source/App)
 add_executable(LevelEditor
     ${APP_DIR}/Editor/Main.cpp
     ${APP_DIR}/Common/Bootstrap.cpp
-    # Entrées (dont le pont Qt -> Key)
-    Input/GamepadPoller.cpp
+    # Pont Qt -> Key : les raccourcis remappables de l'éditeur.
     Input/QtKeyMap.cpp
-    # Rendu 2D sur QRhi (LOT-69 TACHE-02) — cible Direct3D 11 sous Windows (EX-REN-002),
+    # Rendu 2D sur QRhi — cible Direct3D 11 sous Windows (EX-REN-002),
     # atteinte au travers de QRhi plutôt qu'en appelant l'API directement.
     Graphics/SpriteBatch.cpp
     Graphics/SceneResources.cpp
@@ -218,44 +159,27 @@ add_executable(LevelEditor
     Graphics/TextureCache.cpp
     Graphics/SpriteRenderer.cpp
     Graphics/DraftRenderer.cpp
-    Graphics/BitmapFont.cpp
-    # Jeu (simulation d'un niveau + viewport Qt jeu/édition)
-    Game/GameSession.cpp
-    Game/GameViewport.cpp
-    # Audio (bruitages, LOT-60)
-    Audio/AudioEngine.cpp
-    # Interface (fenêtre, menu, options, remappage) — Widgets. Le LOT-86 en retire tout ce qui
-    # relève du JEU ; ce qui restera ici est le châssis d'édition, et lui seul.
+    # Le lieu joué par l'essai immédiat : le même rendu que le jeu (hmi::WorldSceneRenderer).
+    Graphics/WorldSceneRenderer.cpp
+    # Interface : le châssis d'édition (fenêtre, actions, thème) — Widgets.
     Interface/ApplicationTheme.cpp
     Interface/ThemeIcons.cpp
     Interface/EditorActions.cpp
     Interface/MainWindow.cpp
-    Interface/KeybindingsWidget.cpp
-    Interface/EditorKeybindingsWidget.cpp
-    Interface/GamepadBindingsWidget.cpp
-    # Éditeur de niveau
+    # Éditeur de cartes
+    Editor/EditorViewport.cpp
     Editor/PalettePanel.cpp
     Editor/LevelBrowserPanel.cpp
-    Editor/LinkPanel.cpp
     Editor/LayersPanel.cpp
     Editor/EntityPanel.cpp
-    Editor/TexturePanel.cpp
-    Editor/AssetThumbnailView.cpp
-    Editor/PixelCanvas.cpp
-    Editor/PixelHistoryPanel.cpp
-    Editor/PixelPalettePanel.cpp
-    Editor/PlanesPanel.cpp
     Editor/WorldGraphView.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
     ${ELEMENTS_UI}/resources.qrc
     # Mises en page Qt Designer — traitées par AUTOUIC (génèrent ui_*.h).
     ${ELEMENTS_UI}/MainWindow.ui
-    ${ELEMENTS_UI}/TexturePanel.ui
-    ${ELEMENTS_UI}/PlanesPanel.ui
     ${ELEMENTS_UI}/LevelBrowserPanel.ui
     ${ELEMENTS_UI}/LayersPanel.ui
     ${ELEMENTS_UI}/EntityPanel.ui
-    ${ELEMENTS_UI}/AssetThumbnailView.ui
 )
 
 # Les mises en page .ui vivent dans Source/Elements/UI (assets), pas à côté des widgets : AUTOUIC
@@ -269,8 +193,6 @@ target_link_libraries(LevelEditor PRIVATE
     # QRhi vit dans les en-têtes privés de QtGui : API privée, stable en pratique mais non couverte
     # par la garantie de compatibilité binaire — assumé, QRhiWidget n'existe pas sans.
     Qt6::GuiPrivate
-    Qt6::Multimedia
-    xinput
     project_warnings
     project_options
 )
@@ -321,9 +243,6 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Assets
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/Assets
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
-        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Audio
     # Catalogues RPG (LOT-38) : espèces, classes, historiques, compétences, règles et fiches.
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
@@ -335,7 +254,7 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Maps
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/Maps
-    COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
+    COMMENT "Copie des données de jeu (traductions, cartes, assets, catalogues RPG)")
 add_dependencies(LevelEditor CopyGameData)
 
 # Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'éditeur pour que

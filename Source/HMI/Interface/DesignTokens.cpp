@@ -12,11 +12,11 @@ namespace hmi {
 
 namespace {
 
-// Échelles partagées par les deux portées (TACHE-01) : seules les couleurs diffèrent entre elles.
+// Échelles partagées par les deux portées : seules les couleurs diffèrent entre elles.
 constexpr SpacingTokens SHARED_SPACING{};
 
 // Echelle typographique partagee par les deux portees. La FAMILLE, elle, ne l'est pas : chaque
-// portee la pose apres appel (LOT-68) -- c'est le seul champ de TypographyTokens qui les separe.
+// portee la pose apres appel -- c'est le seul champ de TypographyTokens qui les separe.
 [[nodiscard]] TypographyTokens sharedTypography() noexcept {
     TypographyTokens typography;
     typography.screenTitle = TypographyLevel{
@@ -72,12 +72,11 @@ constexpr SizeTokens SHARED_SIZE{};
     tokens.color.gemShadow = DesignColor{.r = 0x40, .g = 0x00, .b = 0x00};
     tokens.spacing = SHARED_SPACING;
     tokens.typography = sharedTypography();
-    tokens.typography.family = FontRole::Identity;  // titrage a empattements (LOT-68).
     tokens.size = SHARED_SIZE;
     return tokens;
 }
 
-// Châssis d'édition, thème sombre (variable, TACHE-06 lui ajoute un jeu clair) : palette neutre
+// Châssis d'édition, thème sombre (variable, un jeu clair s'y ajoute) : palette neutre
 // proche de l'identité, même accent ambre pour la cohérence visuelle de l'ensemble (critère
 // d'acceptation 1 du lot : une seule apparence, aucune couture entre les deux portées).
 [[nodiscard]] DesignTokens buildEditorDarkTokens() noexcept {
@@ -109,7 +108,7 @@ constexpr SizeTokens SHARED_SIZE{};
     return tokens;
 }
 
-// Chassis d'edition, theme CLAIR (LOT-56 TACHE-06) : pas le sombre invers -- ecarts de luminosite
+// Chassis d'edition, theme CLAIR : pas le sombre invers -- ecarts de luminosite
 // entre fond/surface/bordure/lignes alternees choisis independamment, accent assombri (l'ambre vif
 // du theme sombre manque de contraste utilise comme texte sur un fond clair).
 [[nodiscard]] DesignTokens buildEditorLightTokens() noexcept {
@@ -180,19 +179,6 @@ const IdentityBaseScale& identityBaseScale() noexcept {
     return scale;
 }
 
-const char* genericCssFamily(FontRole role) noexcept {
-    switch (role) {
-        case FontRole::Identity:
-            // Le titrage a empattements se rapproche davantage d'une chasse fixe que d'une
-            // lineale, pour le repli generique : si la
-            // police embarquee manque, autant que le repli garde des colonnes alignees.
-            return "monospace";
-        case FontRole::Ui:
-            return "sans-serif";
-    }
-    return "sans-serif";
-}
-
 const DesignTokens& identityTokens() noexcept {
     static const DesignTokens tokens = buildIdentityTokens();
     return tokens;
@@ -259,13 +245,13 @@ std::unordered_map<std::string, std::string> buildStyleSheetValues(const DesignT
     values["tokens.spacing.medium"] = std::to_string(spacing.medium);
     values["tokens.spacing.large"] = std::to_string(spacing.large);
     values["tokens.spacing.extraLarge"] = std::to_string(spacing.extraLarge);
-    // Echelle typographique (LOT-56 TACHE-03) : elle aussi partagee entre les deux portees.
+    // Echelle typographique : elle aussi partagee entre les deux portees.
     const TypographyTokens& typography = identityTokens().typography;
     // Familles de police : valeur par defaut PURE (mot-cle generique). hmi::applyStyleSheet
     // l'ecrase par le nom REELLEMENT enregistre quand il y en a un. Les declarer ici, et non
     // seulement cote Qt, garantit que tout marqueur du modele a une valeur meme hors application
     // -- et qu'une police manquante degrade au lieu de laisser un marqueur non resolu.
-    // Grandeurs de la portee identite : multipliees par le facteur ENTIER (LOT-68). Le facteur
+    // Grandeurs de la portee identite : multipliees par le facteur ENTIER. Le facteur
     // est borne a 1 au minimum -- une valeur nulle ou negative reduirait les ecrans a rien.
     const int scale = identityScale < 1 ? 1 : identityScale;
     const IdentityBaseScale& base = identityBaseScale();
@@ -278,8 +264,6 @@ std::unordered_map<std::string, std::string> buildStyleSheetValues(const DesignT
     values["identity.space.large"] = std::to_string(base.spaceLarge * scale);
     values["identity.space.extraLarge"] = std::to_string(base.spaceExtraLarge * scale);
     values["identity.frame.thickness"] = std::to_string(base.frameThickness * scale);
-    values["identity.font.body"] = genericCssFamily(identityTokens().typography.family);
-    values["identity.font.title"] = genericCssFamily(identityTokens().typography.family);
     values["tokens.typography.screenTitle.pointSize"] =
         std::to_string(typography.screenTitle.pointSize);
     values["tokens.typography.sectionTitle.pointSize"] =

@@ -45,7 +45,7 @@ namespace {
 
 // Ecriture atomique : fichier temporaire dans le meme dossier (donc le meme volume, condition
 // pour que le remplacement soit atomique), puis remplacement en une seule operation. Un
-// QFileSystemWatcher de rechargement a chaud (LOT-43) ne voit ainsi jamais de fichier tronque.
+// QFileSystemWatcher de rechargement a chaud ne voit ainsi jamais de fichier tronque.
 bool savePngAtomically(const QImage& output, const std::filesystem::path& path,
                        const std::filesystem::path& directory) {
     std::error_code error;

@@ -3,8 +3,8 @@
 
 /**
  * @file test_animation_clip.cpp
- * @brief Tests unitaires du modèle de clip d'animation (`core::AnimationClip`/`core::ClipSet`,
- *        LOT-46 TACHE-01) : données pures, sans GPU ni fichier.
+ * @brief Tests unitaires du modèle de clip d'animation (`core::AnimationClip`/`core::ClipSet`) :
+ *        données pures, sans GPU ni fichier.
  */
 
 #include <gtest/gtest.h>
@@ -94,7 +94,7 @@ TEST(AnimationClipTest, JeuVideRepliSurUnClipParDefaut) {
 
 /**
  * @brief Un clip à **une seule image** est un clip valide : c'est la forme que prend tout état
- * statique (porte ouverte, interrupteur au repos), qui n'a pas à être traité à part.
+ * statique (coffre ouvert, figurine au repos), qui n'a pas à être traité à part.
  * \castest{<b>Un clip d'une seule image est un clip valide.</b><br/>
  * \tcat Unitaire · Clip d'animation<br/>
  * \tcrit Majeur<br/>

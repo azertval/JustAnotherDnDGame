@@ -33,7 +33,7 @@ std::vector<core::TileType> flatten(const std::vector<hmi::TileCategory>& taxono
 }
 
 // Nombre total de valeurs de l'énumération core::TileType. Dérivé de core::TILE_TYPE_COUNT
-// (Core/Levels/TileType.h), seule source de vérité depuis le LOT-74 TACHE-02 : ce fichier
+// (Core/Levels/TileType.h), seule source de vérité : ce fichier
 // recopiait jusque-là la borne « dernier énumérateur » à la main, quatrième copie d'un même fait
 // dont l'ajout d'un type en fin d'énumération exigeait la mise à jour manuelle.
 constexpr std::size_t TILE_TYPE_COUNT = static_cast<std::size_t>(core::TILE_TYPE_COUNT);

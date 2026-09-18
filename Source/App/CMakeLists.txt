@@ -165,7 +165,7 @@ if(WINDEPLOYQT_EXE)
     # catalogues de Qt, alors que l'IHM du projet a le sien. Mais **les boutons standard des boîtes
     # de dialogue** (« Oui »/« Non »/« Annuler ») viennent de Qt, pas du catalogue du projet, et
     # restent en anglais sans son qtbase_<langue>.qm — une boîte française à boutons anglais, ce
-    # qui s'est vu à l'essai (LOT-69). On copie donc **les deux seuls** catalogues dont l'IHM
+    # qui s'est vu à l'essai. On copie donc **les deux seuls** catalogues dont l'IHM
     # propose la langue. Fichier absent : la copie est silencieusement ignorée, et le programme
     # retombe sur l'anglais (EX-NFR-040).
     get_filename_component(_qt_prefix "${_qt_bin_dir}" DIRECTORY)

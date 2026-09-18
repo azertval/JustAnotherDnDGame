@@ -3,7 +3,7 @@
 
 /**
  * @file test_procedural_atlas.cpp
- * @brief Tests unitaires de la génération procédurale de l'atlas de repli (LOT-39, EX-NFR-040).
+ * @brief Tests unitaires de la génération procédurale de l'atlas (EX-NFR-040).
  */
 
 #include <map>
@@ -17,10 +17,8 @@
 #include "HMI/Graphics/TileVisuals.h"
 
 /**
- * @brief L'image générée a les dimensions attendues : la grille de tuiles, plus une ligne
- *        d'images de personnage par tranche de `PLAYER_FRAME_COLUMNS` images.
- * \castest{<b>L'image générée a les dimensions attendues (grille de tuiles + lignes de
- * personnage).</b><br/>
+ * @brief L'image générée a les dimensions attendues : la grille de tuiles, rien d'autre.
+ * \castest{<b>L'image générée a les dimensions attendues (grille de tuiles).</b><br/>
  * \tcat Unitaire · Procedural Atlas<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
@@ -32,13 +30,9 @@ TEST(ProceduralAtlasTest, DimensionsAttendues) {
     const hmi::ProceduralAtlasImage image = hmi::buildProceduralAtlasImage();
 
     const int gridSide = hmi::TextureAtlas::TILE_SIZE * hmi::TextureAtlas::TILES_PER_SIDE;
-    const int totalFrames =
-        hmi::PLAYER_IDLE_FRAME_COUNT + hmi::PLAYER_RUN_FRAME_COUNT + hmi::PLAYER_JUMP_FRAME_COUNT;
-    const int frameRows = (totalFrames + hmi::TextureAtlas::PLAYER_FRAME_COLUMNS - 1) /
-                          hmi::TextureAtlas::PLAYER_FRAME_COLUMNS;
 
     EXPECT_EQ(image.width, gridSide);
-    EXPECT_EQ(image.height, gridSide + frameRows * hmi::TextureAtlas::PLAYER_FRAME_SIZE);
+    EXPECT_EQ(image.height, gridSide);
     EXPECT_EQ(image.pixels.size(),
               static_cast<std::size_t>(image.width) * static_cast<std::size_t>(image.height));
 }

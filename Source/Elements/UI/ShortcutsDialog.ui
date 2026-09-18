@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ShortcutsDialog</class>
- <!-- Apercu des raccourcis (LOT-68) : la mise en page quitte le C++ pour ce fichier. Le tableau
+ <!-- Apercu des raccourcis : la mise en page quitte le C++ pour ce fichier. Le tableau
       est rempli en code depuis les raccourcis EFFECTIFS des actions, jamais un texte fige — il
-      reste donc juste apres un remappage (LOT-57 TACHE-04, EX-EDIT-015). -->
+      reste donc juste apres un remappage (EX-EDIT-015). -->
  <widget class="QDialog" name="ShortcutsDialog">
   <property name="windowTitle"><string>Raccourcis clavier</string></property>
   <layout class="QVBoxLayout" name="layout">

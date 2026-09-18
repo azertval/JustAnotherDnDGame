@@ -279,7 +279,7 @@ TEST(InputStateTest, ClavierEtManetteMemeToucheUnSeulFront) {
 
 /**
  * @brief La manette relâchée ne masque jamais une touche clavier réellement maintenue
- * (non-stomping, décision de cadrage LOT-20).
+ * (non-stomping, décision de cadrage).
  * \castest{<b>La manette relâchée ne masque jamais une touche clavier réellement
  * maintenue.</b><br/>
  * \tcat Unitaire · Input State<br/>
@@ -297,7 +297,7 @@ TEST(InputStateTest, ManetteRelacheeNeMasquePasLeClavier) {
     EXPECT_TRUE(input.keyDown(hmi::Key::Left));
 
     // Sondage manette d'une frame sans manette connectee : relache la touche cote manette
-    // (comme le ferait Window::pollGamepad), le clavier ne doit pas en être affecté.
+    // (comme le ferait hmi::GamepadPoller), le clavier ne doit pas en être affecté.
     for (int frame = 0; frame < 3; ++frame) {
         input.beginFrame();
         input.onGamepadKeyUp(hmi::Key::Left);
@@ -356,7 +356,7 @@ TEST(InputStateTest, FrontMontantBoutonManetteBrut) {
 
 /**
  * @brief Un bouton manette (piste brute) relâché après avoir été enfoncé est « relâché »
- *        exactement une frame (`LOT-63`, action Interagir).
+ *        exactement une frame (action Interagir).
  * \castest{<b>Un bouton manette (piste brute) est « relâché » exactement une frame.</b><br/>
  * \tcat Unitaire · Input State<br/>
  * \tcrit Majeur<br/>

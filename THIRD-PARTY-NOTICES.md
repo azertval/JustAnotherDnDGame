@@ -10,20 +10,20 @@ JustAnotherRpgGame est un **fan game non commercial**. Son code est sous **PolyF
 
 > **À ne pas confondre.** Les en-têtes `SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0`
 > marquent le **code du projet** — `Source/**/*.h`, `Source/**/*.cpp`, `scripts/*.py`, les
-> `CMakeLists.txt` — et **rien d'autre**. Les images, les sons, les polices, les bibliothèques
+> `CMakeLists.txt` — et **rien d'autre**. Les images, les polices, les bibliothèques
 > tierces et les univers dont le jeu s'inspire gardent chacun leur propre régime, listé ci-dessous.
 > Voir un fichier `.cpp` marqué PolyForm ne dit **rien** de la licence d'un `.png` du même dépôt.
 
 Ces mentions sont également affichées **dans le jeu**, à l'écran *Crédits* : un utilisateur qui
 n'ouvrira jamais ce fichier doit tout de même savoir que le jeu embarque Qt sous LGPLv3 et des
-ressources sous CC0 et SIL OFL, et qu'il emprunte à Dungeons & Dragons et à Tanares. La LGPLv3 et
-la SIL OFL l'exigent ; le CC0 non, mais le projet crédite quand même.
+polices sous SIL OFL, et qu'il emprunte à Dungeons & Dragons et à Tanares. La LGPLv3 et la SIL OFL
+l'exigent.
 
 Compatibilité vérifiée : la **LGPLv3** n'impose rien à la licence d'une application **liée
 dynamiquement** à la bibliothèque, donc Qt et une licence non commerciale cohabitent sans conflit.
-Les licences des ressources (CC0, SIL OFL) et celles des bibliothèques (MIT, BSD 3-Clause,
-Apache 2.0) sont permissives : elles autorisent leur usage dans un projet sous une autre licence,
-à charge d'en conserver les mentions.
+La licence des polices (SIL OFL) et celles des bibliothèques (MIT, BSD 3-Clause, Apache 2.0) sont
+permissives : elles autorisent leur usage dans un projet sous une autre licence, à charge d'en
+conserver les mentions.
 
 ## Univers, règles et marques
 
@@ -87,18 +87,13 @@ que l'index.
 
 | Type | Emplacement | Licence | Détail |
 |---|---|---|---|
-| Graphismes | `Source/Elements/Assets/` | **CC0 1.0** (packs Kenney) ; le reste **généré par script** | [`Assets/CREDITS.md`](Source/Elements/Assets/CREDITS.md) |
-| Bruitages | `Source/Elements/Audio/` | **CC0 1.0** (packs Kenney) | [`Audio/CREDITS.md`](Source/Elements/Audio/CREDITS.md) |
+| Graphismes | `Source/Elements/Assets/` | aucune ressource tierce : images propres au projet | [`Assets/CREDITS.md`](Source/Elements/Assets/CREDITS.md) |
 | Police *Cinzel* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Cinzel-LICENSE.txt` |
 | Police *IM Fell English* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `IMFellEnglish-LICENSE.txt` |
 | Police *Inter* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Inter-LICENSE.txt` |
-| Police *Pixelify Sans* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PixelifySans-LICENSE.txt` |
-| Police *Press Start 2P* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PressStart2P-LICENSE.txt` |
 
-Le **CC0** n'exige aucune attribution ; le projet crédite malgré tout ses auteurs. La **SIL OFL**,
-elle, en exige une : les fichiers de licence doivent accompagner les polices partout où elles sont
-redistribuées, et un nom de police réservé (« Press Start 2P ») ne peut pas être réutilisé pour une
-version modifiée.
+La **SIL OFL** exige une attribution : les fichiers de licence doivent accompagner les polices
+partout où elles sont redistribuées.
 
 ## Entretien
 

@@ -154,8 +154,7 @@ static void PlanTurnFourVersusFour(benchmark::State& state) {
     core::ArenaSession session(core::Level(core::LevelData{.name = "salle",
                                                            .tileMap = carteAPiliers(20),
                                                            .entities = {},
-                                                           .entry = {1, 1},
-                                                           .exit = {18, 18}}));
+                                                           .entry = {1, 1}}));
     core::ArenaBout bout{.seed = 7, .lethal = false, .heroicMark = false};
     for (int i = 0; i < 4; ++i) {
         bout.contestants.push_back(

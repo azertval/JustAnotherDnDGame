@@ -3,7 +3,7 @@
 
 /**
  * @file test_gamepad_probe.cpp
- * @brief Tests unitaires de l'espacement des sondages XInput (`EX-CTRL-002`, LOT-69).
+ * @brief Tests unitaires de l'espacement des sondages XInput (`EX-CTRL-002`).
  */
 
 #include <chrono>

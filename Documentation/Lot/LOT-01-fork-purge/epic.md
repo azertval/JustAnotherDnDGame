@@ -8,7 +8,7 @@
 
 ## Objectif
 
-Ramener le dépôt hérité de `ProjectGaming` à un **moteur 2D générique**, sans gameplay de
+Ramener le dépôt d'origine à un **moteur 2D générique**, sans gameplay de
 plateforme ni solveur d'IA, pour que les lots suivants construisent le RPG en vue de dessus sur
 une base propre plutôt qu'à côté d'un jeu qu'on ne finira pas.
 
@@ -90,9 +90,9 @@ signature ni l'ordre des passes.
 
 ### Identité du dépôt
 
-Renommage `ProjectGaming` → `JustAnotherRpgGame` (cibles CMake, binaire, documentation, workflows)
-et préfixe de macro `PROJECTGAMING_` → `JADG_`. Version remise à `0.1.0`. Le programme de lots
-d'origine est déplacé en lecture seule sous `Documentation/Heritage/`.
+Renommage en `JustAnotherRpgGame` (cibles CMake, binaire, documentation, workflows) et préfixe de
+macro `JADG_`. Version remise à `0.1.0`. Le programme de lots d'origine est mis en archive (le
+`LOT-88` l'a depuis retiré du dépôt).
 
 ## Exigences couvertes
 
@@ -103,10 +103,10 @@ sont créées par les lots qui les concrétisent.
 
 ## Critères d'acceptation
 
-- Tag `archive/platformer-v0.1.3` posé **avant** toute suppression.
+- Tag d'archive posé **avant** toute suppression (supprimé depuis par le [LOT-88](@ref lot-88)).
 - `grep -rn "gravity" Source/` ne renvoie plus rien.
 - Configuration CMake réussie, `Core` et `JustAnotherRpgGame` compilés sans avertissement en
   `/W4 /WX`, exécutable produit.
 - Le nombre de tests survivants est mesuré et publié : il devient l'oracle de référence des lots
   `LOT-02` à `LOT-05`, tous des refactorings à comportement constant.
-- Plus aucune référence à `ProjectGaming` hors `Documentation/Heritage/` et de l'historique git.
+- Plus aucune référence au nom d'origine hors de l'archive et de l'historique git.

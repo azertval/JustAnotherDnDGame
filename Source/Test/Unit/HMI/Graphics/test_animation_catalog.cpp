@@ -3,8 +3,8 @@
 
 /**
  * @file test_animation_catalog.cpp
- * @brief Tests unitaires du format `nom-asset.anim.json` (`hmi::AnimationCatalog`, LOT-46
- *        TACHE-03) : lecture, validation, traduction en région de texture. Sans GPU ni Qt.
+ * @brief Tests unitaires du format `nom-asset.anim.json` (`hmi::AnimationCatalog`) :
+ *        lecture, validation, traduction en région de texture. Sans GPU ni Qt.
  */
 
 #include <gtest/gtest.h>
@@ -196,7 +196,8 @@ TEST(AnimationCatalogTest, FichierAbsentEstFileNotFoundSansException) {
  */
 TEST(AnimationCatalogTest, DescriptorFileNameRemplaceLExtension) {
     EXPECT_EQ(hmi::AnimationCatalog::descriptorFileName("water.png"), "water.anim.json");
-    EXPECT_EQ(hmi::AnimationCatalog::descriptorFileName("Skins/lava.png"), "Skins/lava.anim.json");
+    EXPECT_EQ(hmi::AnimationCatalog::descriptorFileName("Npc/anariel/attack.png"),
+              "Npc/anariel/attack.anim.json");
 }
 
 /**
@@ -236,7 +237,7 @@ TEST(AnimationCatalogTest, TailleDImageIncoherenteAvecLePngEstRefusee) {
         hmi::AnimationCatalog::loadFromString(VALID_JSON);
     ASSERT_TRUE(result.ok());
 
-    // Hauteur du PNG differente de frameHeight : plus d'un rang, non supporte (TACHE-03).
+    // Hauteur du PNG differente de frameHeight : plus d'un rang, non supporte.
     const hmi::AssetValidation wrongHeight =
         hmi::AnimationCatalog::validateAgainstTexture(*result.description, "door.png", 96, 32);
     EXPECT_FALSE(wrongHeight.valid);

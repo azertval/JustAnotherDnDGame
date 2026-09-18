@@ -5,7 +5,7 @@
 """Vérifie que la version de Qt est identique en CMake et dans les workflows CI.
 
 `Source/CMakeLists.txt` déclare `QT_VERSION_MINIMUM` : la version de référence utilisée comme
-version minimale de Qt6 (EX-BUILD-010, LOT-66 TACHE-01). `.github/workflows/ci.yml`,
+version minimale de Qt6 (EX-BUILD-010). `.github/workflows/ci.yml`,
 `release.yml` et `nightly.yml` installent Qt à `env.QT_VERSION`. Rien ne reliait ces deux écritures avant ce script
 — même défaut que celui corrigé pour le numéro de version par `build_docs.py`.
 

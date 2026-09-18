@@ -74,7 +74,7 @@ struct FigureAppearance {
     int frameCount = 0;
 };
 
-/// @brief Catégorie d'échec de lecture (même esprit que `hmi::SkinCatalogError`).
+/// @brief Catégorie d'échec de lecture (même esprit que `hmi::AnimationCatalogError`).
 enum class ArenaAppearanceError : std::uint8_t {
     None,
     FileNotFound,
@@ -83,8 +83,8 @@ enum class ArenaAppearanceError : std::uint8_t {
     MalformedStructure,
 };
 
-// Le resultat contient un ArenaAppearanceCatalog par valeur : voir SkinCatalogResult pour la
-// raison de cette annonce.
+// Le resultat contient un ArenaAppearanceCatalog par valeur, et le catalogue le renvoie de ses
+// fonctions de lecture : il est donc annonce ici et defini apres la classe.
 struct ArenaAppearanceCatalogResult;
 
 /**

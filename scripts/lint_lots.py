@@ -23,8 +23,8 @@ Ce lint les refuse en CI. Il vérifie :
 9. aucune **exigence** n'est revendiquée en retrait par deux lots à la fois ;
 10. le **tableau récapitulatif** de la section 6 correspond au graphe déclaré ;
 11. toute arête du **diagramme** de la section 6 correspond à un lien déclaré ;
-12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme** ; un renvoi
-    au programme hérité de ``ProjectGaming`` s'écrit ``LOT-H-NN`` ;
+12. tout ``LOT-NN`` cité dans une **spécification** désigne un lot **de ce programme**, et aucune
+    spécification n'emploie plus l'ancienne notation ``LOT-H-NN`` (retirée au ``LOT-88``) ;
 13. le **tableau d'avancement** en tête de feuille de route est exactement la suite que produit la
     règle d'ordre — *à chaque pas, parmi les lots dont tous les prérequis sont faits, celui du
     jalon de version le plus proche ; à jalon égal, celui qui en débloque le plus* ;
@@ -51,9 +51,11 @@ DOSSIER_LOTS = RACINE / 'Documentation' / 'Lot'
 ROADMAP = DOSSIER_LOTS / 'roadmap.md'
 SPECIFICATIONS = RACINE / 'Documentation' / 'Specification'
 
-# Un renvoi de spécification vers le programme hérité s'écrit LOT-H-NN ; sans le préfixe, LOT-NN
-# désigne un lot de ce programme, et doit donc en désigner un qui existe.
-RENVOI_SPEC_RE = re.compile(r'(?<!H-)LOT-(\d+)')
+# Un renvoi de spécification LOT-NN désigne un lot de ce programme, et doit donc en désigner un qui
+# existe. L'ancienne notation LOT-H-NN, qui renvoyait à un programme de lots aujourd'hui retiré du
+# dépôt, n'a plus rien à désigner (LOT-88).
+RENVOI_SPEC_RE = re.compile(r'LOT-(\d+)')
+ANCIEN_RENVOI_RE = re.compile(r'LOT-H-\d+')
 
 PREMIER_LOT_FILIERE = 30
 
@@ -559,9 +561,11 @@ def main() -> int:
             for n in RENVOI_SPEC_RE.findall(ligne):
                 lot = numero(n)
                 if lot not in connus:
-                    r.erreur("%s:%d cite %s, qui n'existe pas dans ce programme — un renvoi au "
-                             "programme hérité s'écrit LOT-H-%s"
-                             % (chemin.name, numero_ligne, lot, n))
+                    r.erreur("%s:%d cite %s, qui n'existe pas dans ce programme"
+                             % (chemin.name, numero_ligne, lot))
+            for ancien in ANCIEN_RENVOI_RE.findall(ligne):
+                r.erreur("%s:%d cite %s : l'ancienne numérotation de lots est retirée (LOT-88)"
+                         % (chemin.name, numero_ligne, ancien))
 
     print('lots de la filière : %d (LOT-%d à LOT-%d ; %d retiré(s), %d livré(s) hors page)'
           % (len(filiere), min(presents), borne_haute, len(retires_reels),

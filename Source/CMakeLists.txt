@@ -116,8 +116,8 @@ if(NOT Qt6_FOUND)
             message(WARNING
                 "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} est bien installé (${Qt6_DIR}), mais il manque "
                 "le(s) module(s) : ${_qt_missing} — cible ignorée, AUCUN EXÉCUTABLE ne sera produit.\n"
-                "ShaderTools (l'outil `qsb`) et GuiPrivate (les en-têtes QRhi) sont exigés depuis le "
-                "LOT-69 TACHE-02 : le rendu passe par QRhi, plus par Direct3D 11 en direct.\n"
+                "ShaderTools (l'outil `qsb`) et GuiPrivate (les en-têtes QRhi) sont exigés : le rendu "
+                "passe par QRhi, plus par Direct3D 11 en direct.\n"
                 "Quick, Qml et QuickControls2 le sont depuis le LOT-86 : les écrans du jeu sont "
                 "du QML, et Widgets ne sert plus qu'à l'éditeur de niveaux.
 "
@@ -138,7 +138,7 @@ if(NOT Qt6_FOUND)
 endif()
 
 if(JADG_GAME_ENABLED AND NOT Qt6_VERSION VERSION_EQUAL QT_VERSION_MINIMUM)
-    # Avertissement, pas erreur (cf. TACHE-01) : interdire de construire sur une version voisine
+    # Avertissement, pas erreur : interdire de construire sur une version voisine
     # coûterait plus qu'il ne rapporterait. Le but est qu'un écart soit visible, pas interdit.
     message(WARNING
         "JustAnotherRpgGame : Qt6 ${Qt6_VERSION} trouvé (${Qt6_DIR}), différent de la version de "

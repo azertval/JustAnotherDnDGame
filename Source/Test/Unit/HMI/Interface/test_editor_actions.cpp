@@ -4,7 +4,7 @@
 /**
  * @file test_editor_actions.cpp
  * @brief Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur
- *        (`LOT-56` TACHE-04, `EX-IHM-055`).
+ *        (`EX-IHM-055`).
  */
 
 #include <fstream>
@@ -35,9 +35,9 @@ namespace {
  *        une action, aucun manquant ni dupliqué. C'est ce qui garantit l'exclusivité réelle (le
  *        groupe Qt `QActionGroup`, construit à partir de ce même catalogue, EditorActions.cpp) et,
  *        surtout, la **complétude** : `hmi::MainWindow` dérive de ce catalogue les connexions
- *        action → `GameViewport::setTool`, donc un outil absent du groupe `LevelTools` serait
+ *        action → `EditorViewport::setTool`, donc un outil absent du groupe `LevelTools` serait
  *        cochable dans la barre d'outils sans jamais devenir l'outil actif. Le cas s'est produit
- *        avec l'outil « Parcours » (`LOT-67`), qu'une liste écrite à la main avait laissé de côté.
+ *        avec l'outil « Parcours », qu'une liste écrite à la main avait laissé de côté.
  *
  * La liste des outils est **dérivée du catalogue**, jamais recopiée ici : la recopier reproduirait
  * exactement l'erreur que ce test doit détecter. `EDITOR_TOOL_COUNT`, déclaré à côté de
@@ -68,38 +68,6 @@ TEST(EditorActionsTest, LesOutilsDuCatalogueFormentUneBijectionAvecEditorTool) {
     EXPECT_EQ(seenTools.size(), hmi::EDITOR_TOOL_COUNT)
         << "un outil de EditorTool n'a pas d'action dans le groupe LevelTools : il serait "
            "cochable sans jamais devenir l'outil actif";
-}
-
-/**
- * @brief Les quatre outils du canevas pixel art forment une bijection exacte avec `hmi::PixelTool`
- *        (`LOT-54` TACHE-04) — même garantie que pour les six outils de niveau, et le groupe
- *        `PixelTools` reste **distinct** de `LevelTools` (aucun outil de canevas n'appartient au
- *        groupe des outils de niveau).
- * \castest{<b>Les quatre outils de canevas forment une bijection avec PixelTool.</b><br/>
- * \tcat Unitaire · Actions de l'editeur<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Pour chaque hmi::PixelTool, resoudre l'action puis reconvertir vers l'outil.<br/>
- * 2. Verifier que l'action appartient au groupe PixelTools.<br/>
- * \tattendu L'aller-retour restitue l'outil d'origine pour chacun des cinq, et chaque action
- * appartient au groupe PixelTools.
- * }
- */
-TEST(EditorActionsTest, LesCinqOutilsDeCanevasFormentUneBijectionAvecPixelTool) {
-    constexpr hmi::PixelTool tools[] = {hmi::PixelTool::Brush, hmi::PixelTool::Eraser,
-                                        hmi::PixelTool::Fill, hmi::PixelTool::Eyedropper,
-                                        hmi::PixelTool::Selection};
-    std::set<hmi::IconId> seen;
-    for (hmi::PixelTool tool : tools) {
-        const hmi::IconId id = hmi::editorActionForPixelTool(tool);
-        EXPECT_TRUE(seen.insert(id).second) << "action dupliquee pour plusieurs outils";
-        EXPECT_EQ(hmi::editorActionSpec(id).group, hmi::EditorActionGroup::PixelTools);
-        EXPECT_FALSE(hmi::editorActionTool(id).has_value())
-            << "un outil de canevas ne doit pas appartenir au groupe des outils de niveau";
-        const std::optional<hmi::PixelTool> roundTrip = hmi::editorActionPixelTool(id);
-        ASSERT_TRUE(roundTrip.has_value());
-        EXPECT_EQ(*roundTrip, tool);
-    }
-    EXPECT_EQ(seen.size(), 5u);
 }
 
 /**
@@ -174,24 +142,22 @@ TEST(EditorActionsTest, ChaqueLibelleExisteDansLesDeuxLangues) {
 }
 
 /**
- * @brief Garde-fou « aucune action orpheline » (`LOT-57` TACHE-04) : chaque action d'éditeur
- *        remappable, hors sélection d'outil, correspond à une commande effective du catalogue.
+ * @brief Garde-fou « aucune action orpheline » : chaque action d'éditeur
+ *        remappable correspond à une commande effective du catalogue.
  *        Ce test casse si une action est ajoutée à `EditorKeyBindings` sans être branchée ici —
- *        exactement le défaut que cette tâche corrige (neuf actions définies, une seule lue).
+ *        exactement le défaut qu'il a fallu corriger (neuf actions définies, une seule lue).
  * \castest{<b>Chaque action d'editeur remappable a une commande effective.</b><br/>
  * \tcat Unitaire · Actions de l'editeur<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Comparer le nombre d'actions remappables (hors outil) au nombre d'entrees de la
+ * \tetapes 1. Comparer le nombre d'actions remappables au nombre d'entrees de la
  * table de correspondance.<br/>2. Verifier que chaque entree pointe vers une commande reelle du
  * catalogue et que l'aller-retour restitue l'action d'origine.<br/>
  * \tattendu Les deux comptes sont egaux ; chaque commande existe et l'aller-retour est fidele.
  * }
  */
 TEST(EditorActionsTest, AucuneActionRemappableOrpheline) {
-    // EDITOR_ACTION_COUNT - 1 : TextureAssignTool selectionne un outil, pas une commande (exclue
-    // par construction de keyBindingIconCatalog). Une action ajoutee sans etre wiree ferait
-    // diverger ce compte de la taille de la table.
-    EXPECT_EQ(hmi::KEY_BINDING_ICON_COUNT, hmi::EDITOR_ACTION_COUNT - 1);
+    // Une action ajoutee sans etre wiree ferait diverger ce compte de la taille de la table.
+    EXPECT_EQ(hmi::KEY_BINDING_ICON_COUNT, hmi::EDITOR_ACTION_COUNT);
 
     std::set<hmi::IconId> seen;
     for (const hmi::KeyBindingIconEntry& entry : hmi::keyBindingIconCatalog()) {
@@ -206,46 +172,36 @@ TEST(EditorActionsTest, AucuneActionRemappableOrpheline) {
 
 /**
  * @brief La barre d'outils ne porte que la **sélection d'outil** et un petit nombre de commandes à
- *        usage continu (`LOT-68`, `EX-IHM-074`). Elle en portait onze, dont neuf figuraient déjà au
+ *        usage continu (`EX-IHM-074`). Elle en portait onze, dont neuf figuraient déjà au
  *        menu : c'est cette accumulation, et non une duplication de définition, qui la rendait
  *        illisible.
- *
- * Le plafond `TOOLBAR_COMMAND_BUDGET` est vérifié **par groupe d'outils** : une barre commune aux
- * deux espaces ne dirait rien de ce que chacun affiche réellement.
+
  * \castest{<b>La barre d'outils ne porte que les outils et un petit nombre de commandes.</b><br/>
  * \tcat Unitaire · Actions de l'editeur<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Compter les actions de surface ToolBarAndMenu qui ne sont pas des outils, pour
- * l'espace de niveau puis pour l'atelier.<br/>
- * \tattendu Chaque compte reste sous TOOLBAR_COMMAND_BUDGET, et tous les outils des deux familles
- * restent en barre d'outils.
+ * \tetapes 1. Compter les actions de surface ToolBarAndMenu qui ne sont pas des outils.<br/>
+ * \tattendu Le compte reste sous TOOLBAR_COMMAND_BUDGET, et tous les outils restent en barre
+ * d'outils.
  * }
  */
 TEST(EditorActionsTest, LaBarreDOutilsNePorteQueLEssentiel) {
-    int levelCommands = 0;
-    int pixelCommands = 0;
+    int commands = 0;
     int toolsInToolBar = 0;
     for (const hmi::EditorActionSpec& spec : hmi::editorActionCatalog()) {
-        const bool isTool = spec.group == hmi::EditorActionGroup::LevelTools ||
-                            spec.group == hmi::EditorActionGroup::PixelTools;
+        const bool isTool = spec.group == hmi::EditorActionGroup::LevelTools;
         if (spec.surface != hmi::ActionSurface::ToolBarAndMenu) {
             EXPECT_FALSE(isTool) << "un outil doit rester selectionnable a la barre d'outils";
             continue;
         }
         if (isTool) {
             ++toolsInToolBar;
-        } else if (spec.group == hmi::EditorActionGroup::PixelCommands) {
-            ++pixelCommands;
         } else {
-            ++levelCommands;
+            ++commands;
         }
     }
-    EXPECT_LE(levelCommands, hmi::TOOLBAR_COMMAND_BUDGET)
-        << "la barre d'outils du niveau redevient un fourre-tout";
-    EXPECT_LE(pixelCommands, hmi::TOOLBAR_COMMAND_BUDGET)
-        << "la barre d'outils de l'atelier redevient un fourre-tout";
-    EXPECT_EQ(toolsInToolBar, static_cast<int>(hmi::EDITOR_TOOL_COUNT) + 5)
-        << "les huit outils de niveau et les cinq de canevas doivent tous y figurer";
+    EXPECT_LE(commands, hmi::TOOLBAR_COMMAND_BUDGET) << "la barre d'outils redevient un fourre-tout";
+    EXPECT_EQ(toolsInToolBar, static_cast<int>(hmi::EDITOR_TOOL_COUNT))
+        << "tous les outils doivent figurer a la barre d'outils";
 }
 
 /**

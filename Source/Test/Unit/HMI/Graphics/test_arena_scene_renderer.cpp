@@ -123,8 +123,7 @@ core::Level piste() {
     return core::Level(core::LevelData{.name = "piste",
                                        .tileMap = std::move(carte),
                                        .entities = {},
-                                       .entry = {1, 1},
-                                       .exit = {3, 2}});
+                                       .entry = {1, 1}});
 }
 
 core::ArenaContestant concurrent(const std::string& nom, CombatSide camp, int colonne, int ligne) {

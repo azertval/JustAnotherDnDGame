@@ -1,4 +1,4 @@
-/* Modele de feuille de style Qt du CHASSIS D'EDITION (LOT-56 TACHE-02, LOT-73).
+/* Modele de feuille de style Qt du CHASSIS D'EDITION.
    Produit au chargement par substitution de marqueurs (syntaxe dollar-accolade, cf.
    hmi::substituteStyleSheetTemplate -- non repetee ici en toutes lettres pour ne pas etre lue
    comme un marqueur reel par le scanner, non conscient des commentaires) avec les valeurs des
@@ -54,7 +54,7 @@ QMenu::separator {
     margin: ${tokens.spacing.extraSmall}px ${tokens.spacing.small}px;
 }
 
-/* Barre d'outils (TACHE-04) et barre d'etat. */
+/* Barre d'outils et barre d'etat. */
 QToolBar {
     background: ${editor.color.surface};
     border-bottom: 1px solid ${editor.color.border};

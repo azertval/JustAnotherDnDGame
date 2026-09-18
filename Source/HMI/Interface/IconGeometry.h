@@ -7,12 +7,12 @@
 
 /**
  * @file HMI/Interface/IconGeometry.h
- * @brief Géométrie des icônes de l'IHM, dessinées par code (`LOT-56` TACHE-04, `EX-IHM-055`).
+ * @brief Géométrie des icônes de l'IHM, dessinées par code (`EX-IHM-055`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`,
- * comme `HMI/Interface/DesignTokens.cpp`. Même découpage que `hmi::gameHudLines` : cette fonction
- * décide *quoi* dessiner, `hmi::themeIcon` (Qt, `ThemeIcons.h`) décide *comment* le peindre.
+ * comme `HMI/Interface/DesignTokens.cpp`. Cette fonction décide *quoi* dessiner, `hmi::themeIcon`
+ * (Qt, `ThemeIcons.h`) décide *comment* le peindre.
  */
 
 namespace hmi {
@@ -22,9 +22,6 @@ enum class IconId {
     ToolPaint,
     ToolRectangle,
     ToolSelection,
-    ToolLink,
-    ToolTextureAssign,
-    ToolCameraZone,
     ToolEntity,
     Save,
     Playtest,
@@ -32,33 +29,14 @@ enum class IconId {
     Redo,
     ToggleGrid,
     ResetCamera,
-    ToggleRenderMode,
     Copy,
     Paste,
     Rename,
     ShortcutsOverview,
-    // Outils du canevas pixel art (LOT-54 TACHE-04) : groupe exclusif distinct des outils de
-    // niveau ci-dessus (`EditorActionGroup::PixelTools`, `HMI/Interface/ActionCatalog.h`).
-    PixelBrush,
-    PixelEraser,
-    PixelFill,
-    PixelEyedropper,
-    // Commandes de fichier de l'atelier pixel art (LOT-54 TACHE-05) : ouvrir/creer/enregistrer/
-    // enregistrer sous, groupe `EditorActionGroup::PixelCommands`.
-    PixelOpen,
-    PixelCreate,
-    PixelSave,
-    PixelSaveAs,
-    // Sélection et transformations de région (LOT-54 TACHE-06).
-    PixelSelectionTool,
-    PixelFlipHorizontal,
-    PixelFlipVertical,
-    PixelRotateClockwise,
-    PixelRotateCounterClockwise,
 };
 
 /// Rôle de couleur d'un trait, résolu depuis les jetons de design au moment du rendu (recoloration
-/// automatique avec le thème, y compris après une bascule TACHE-06).
+/// automatique avec le thème, y compris après une bascule de thème).
 enum class IconColorRole { Foreground, Accent };
 
 /// Un point en espace normalisé [0,1] x [0,1] (origine en haut à gauche).

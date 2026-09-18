@@ -3,7 +3,7 @@
 
 /**
  * @file test_cache_registry.cpp
- * @brief Tests unitaires du registre de mémoïsation/invalidation (LOT-43 TACHE-03).
+ * @brief Tests unitaires du registre de mémoïsation/invalidation.
  */
 
 #include <optional>
@@ -90,8 +90,8 @@ TEST(CacheRegistryTest, InvalidateForceLeRechargementDeLaCleSeule) {
 
 /**
  * @brief `invalidateAll` vide le registre : sa taille retombe à zéro et **toutes** les clés sont
- * relues au prochain accès. C'est le geste du rechargement global (changement de jeu de skins,
- * bouton « recharger les assets »).
+ * relues au prochain accès. C'est le geste du rechargement global (perte du contexte GPU,
+ * assets modifiés sur le disque).
  * \castest{<b>invalidateAll vide le registre et fait relire toutes les clés.</b><br/>
  * \tcat Unitaire · Registre de cache<br/>
  * \tcrit Critique<br/>

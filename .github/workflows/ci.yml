@@ -23,7 +23,7 @@ env:
   # Version de Qt épinglée (EX-BUILD-010), identique à `QT_VERSION_MINIMUM` dans
   # `Source/HMI/CMakeLists.txt` — vérifié automatiquement par
   # `scripts/check_qt_version_pin.py` (job lint-exigences) pour que les deux ne divergent jamais
-  # silencieusement (LOT-66 TACHE-01).
+  # silencieusement.
   QT_VERSION: '6.11.2'
   # aqtinstall publie sur PyPI (3.3.0) ne sait PAS installer Qt >= 6.11 : Qt a change la
   # disposition de son depot (`qt6_6112/qt6_6112_msvc2022_64/`, un sous-dossier par architecture,
@@ -44,7 +44,7 @@ env:
   # Version de LLVM (clang-tidy, clang-format) épinglée pour la même raison que Doxygen : deux
   # versions majeures ne signalent/ne formatent pas identiquement, et un contrôle qui ne prédit
   # pas le résultat local ne sert qu'à agacer. Installer la même version en local pour que
-  # `clang-tidy`/`clang-format` prédisent le verdict de la CI (LOT-58).
+  # `clang-tidy`/`clang-format` prédisent le verdict de la CI.
   # Relevée de 18.1.8 a 20.1.8 (branche fix/clang-tidy-triage) : l'image `windows-2022` du runner
   # a progresse vers un toolset MSVC dont le STL refuse desormais de se laisser analyser par un
   # clang-cl plus ancien que Clang 19 (`static_assert ... STL1000 : Unexpected compiler version,
@@ -53,7 +53,7 @@ env:
   # sur Chocolatey (clang-tidy) et PyPI (clang-format), une marge au-dessus du minimum strict.
   LLVM_VERSION: 20.1.8
   # Version d'OpenCppCoverage épinglée, même raison que Doxygen/LLVM ci-dessus : le workflow
-  # l'installait jusqu'ici sans version fixée (LOT-58).
+  # l'installait jusqu'ici sans version fixée.
   OPENCPPCOVERAGE_VERSION: 0.9.9.0
   # Gestionnaire de l'environnement Python des scripts (phase 4). Les dépendances elles-mêmes
   # (jsonschema, épinglé ici depuis le LOT-32, pytest, Pillow) sont dans pyproject.toml et figées
@@ -67,11 +67,10 @@ env:
   # Moteur des hooks de .pre-commit-config.yaml (phase 2), même version sur le poste
   # (`scripts/setup_dev.ps1`). Les versions des hooks eux-mêmes sont épinglées dans ce fichier-là.
   PRE_COMMIT_VERSION: 4.6.2
-  # Seuil de couverture (LOT-58, TACHE-05) : cliquet anti-régression, pas un objectif. Mesuré
+  # Seuil de couverture : cliquet anti-régression, pas un objectif. Mesuré
   # localement le 2026-08-10 (build Ninja Debug, UnitTests+IntegrationTests+SystemTests fusionnés) :
-  # 93.66 % (8602/9184 lignes). Seuil calé avec une marge explicite de ~8.5 points — voir
-  # tache-05-couverture.md, section « État de la mesure », pour la méthode et la mise en garde sur
-  # l'écart possible avec la mesure en CI (preset `vs`, image `windows-2022`, non reproduite ici).
+  # 93.66 % (8602/9184 lignes). Seuil calé avec une marge explicite de ~8.5 points, pour
+  # absorber l'écart possible avec la mesure en CI (preset `vs`, image `windows-2022`, non reproduite ici).
   COVERAGE_THRESHOLD_PERCENT: 85
 
 jobs:
@@ -98,7 +97,7 @@ jobs:
       - name: Annotations du compilateur et des tests
         run: echo "::add-matcher::.github/problem-matchers/msvc.json"
 
-      # Nécessaire pour construire l'application Qt (JustAnotherRpgGame, LOT-34). Définition unique
+      # Nécessaire pour construire l'application Qt (JustAnotherRpgGame). Définition unique
       # des modules et de l'action : .github/actions/setup-qt/action.yml.
       - name: Install Qt
         uses: ./.github/actions/setup-qt
@@ -150,12 +149,12 @@ jobs:
           if (-not (Test-Path $exe)) { throw "Executable absent : $exe" }
           Write-Host "OK : $exe"
 
-      - name: Verifier que le module audio est deploye (LOT-60)
+      - name: Verifier que le module audio est deploye
         shell: pwsh
         # windeployqt ne depose Qt6Multimediad.dll que s'il detecte l'usage reel de la bibliotheque
         # ('d' : suffixe des DLL Qt de configuration Debug) : un build local peut compiler sans
         # jamais prouver que le zip de release sera sonore. C'est le seul controle qui valide
-        # reellement le deploiement du module (tache-01, DoD).
+        # reellement le deploiement du module.
         run: |
           $dll = 'build/vs/bin/Debug/Qt6Multimediad.dll'
           if (-not (Test-Path $dll)) { throw "Bibliotheque audio non deployee : $dll" }
@@ -166,14 +165,14 @@ jobs:
 
       - name: Coverage (UnitTests + IntegrationTests + SystemTests, fusionnes)
         shell: pwsh
-        # LOT-58 : les trois suites, fusionnées -- le rapport ne mesurait que UnitTests.exe. Même
+        # Les trois suites, fusionnées -- le rapport ne mesurait que UnitTests.exe. Même
         # script que le site qualité (docs.yml) et que le poste (phase 4) : coverage.xml et
         # coverage-html/ à la racine du workspace.
         run: ./scripts/coverage.ps1 -BinDir build/vs/bin/Debug
 
-      - name: Seuil de couverture (LOT-58)
+      - name: Seuil de couverture
         shell: pwsh
-        # Le seuil est un cliquet anti-régression, pas un objectif (voir tache-05-couverture.md) :
+        # Le seuil est un cliquet anti-régression, pas un objectif :
         # une chute EN DESSOUS fait échouer la CI, il n'est pas destiné à forcer une hausse.
         run: |
           [xml]$report = Get-Content coverage.xml
@@ -181,7 +180,7 @@ jobs:
           Write-Host "Couverture agregee (UnitTests+IntegrationTests+SystemTests) : $percent %"
           $threshold = ${{ env.COVERAGE_THRESHOLD_PERCENT }}
           if ($percent -lt $threshold) {
-            Write-Error "Couverture $percent % sous le seuil $threshold % (EX-NFR-022, LOT-58)."
+            Write-Error "Couverture $percent % sous le seuil $threshold % (EX-NFR-022)."
             exit 1
           }
 
@@ -216,10 +215,10 @@ jobs:
           --file build/vs/bin/Debug/JustAnotherRpgGame.exe
 
   build-test-release:
-    # Les deux jobs ci-dessus (et l'historique de la CI avant ce lot) ne construisent et ne testent
+    # Les deux jobs ci-dessus (et l'historique de la CI avant ce job) ne construisent et ne testent
     # qu'en Debug. Le premier build Release avait lieu dans release.yml, DÉCLENCHÉ PAR LE TAG : une
     # casse Release-only (variable lue uniquement par une assertion, donc inutilisée sous NDEBUG,
-    # cf. 90f85254) n'était découverte qu'après un tag public. Ce job la découvre en PR (LOT-58).
+    # cf. 90f85254) n'était découverte qu'après un tag public. Ce job la découvre en PR.
     runs-on: windows-2022
     timeout-minutes: 60
 
@@ -376,10 +375,10 @@ jobs:
           --file build/ninja/bin/LevelEditor.exe
 
   sanitize:
-    # ENABLE_ASAN existe depuis le LOT-01 et n'etait cable dans aucun workflow : EX-NFR-003
+    # ENABLE_ASAN n'etait cable dans aucun workflow : EX-NFR-003
     # (empreinte memoire, verifiable via AddressSanitizer) etait orpheline. Ce job instrumente les
     # trois executables de test (jamais l'application Qt/D3D11, injouable sans affichage) et les
-    # execute -- meme etablissement de l'environnement MSVC que build-ninja (LOT-58).
+    # execute -- meme etablissement de l'environnement MSVC que build-ninja.
     runs-on: windows-2022
     timeout-minutes: 60
     env:
@@ -412,7 +411,7 @@ jobs:
         # l'effet de vcvars64.bat (PATH, dont le dossier de la DLL runtime ASan) ne survit pas
         # d'un step a l'autre. Executer les .exe dans un step separe les fait echouer avant meme
         # d'afficher un rapport ASan (clang_rt.asan_dynamic-x86_64.dll introuvable, exit code 1
-        # sans message) -- exactement le piege documente dans tache-02-job-asan.md.
+        # sans message).
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
             call "%%i\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
@@ -437,13 +436,13 @@ jobs:
           printf '### AddressSanitizer\n\n%s\n' "$verdict" >> "$GITHUB_STEP_SUMMARY"
 
   clang-tidy:
-    # .clang-tidy est complet depuis le debut du projet et n'etait execute nulle part (LOT-58) :
+    # .clang-tidy est complet depuis le debut du projet et n'etait execute nulle part :
     # conventions.md le presentait comme de l'outillage « en place », a tort. Analyse ciblee sur le
     # DIFF de la PR (pas tout le depot) : la dette existante (jamais passee au crible) ne bloque
     # personne, et le cout de ce job ne croit pas avec la taille du depot. Seule bugprone-* est
-    # bloquante (WarningsAsErrors dans .clang-tidy, apres triage -- voir tache-03) ; les autres
+    # bloquante (WarningsAsErrors dans .clang-tidy, apres triage) ; les autres
     # familles (cppcoreguidelines-*, modernize-*, performance-*, readability-*) restent visibles
-    # dans les logs sans faire echouer le job : un triage complet est hors budget de ce lot.
+    # dans les logs sans faire echouer le job : un triage complet est hors budget.
     # windows-2022 (pas Linux) : le code inclut Direct3D 11/Windows.h, indisponibles sous Linux.
     runs-on: windows-2022
     timeout-minutes: 60
@@ -494,7 +493,7 @@ jobs:
         # clang-tidy lit compile_commands.json mais n'execute jamais AUTOUIC/AUTOMOC lui-meme : sans
         # ce build, tout fichier incluant "ui_*.h" (widgets avec un formulaire .ui) echoue a l'analyse
         # avec "file not found", une erreur de configuration CI, pas un defaut du code (confirme en
-        # premiere execution reelle -- voir tache-03-clang-tidy.md).
+        # premiere execution reelle).
         shell: cmd  # zizmor: ignore[misfeature] -- vcvars64.bat et CMake doivent partager un processus
         run: |
           for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
@@ -570,7 +569,7 @@ jobs:
 
   format:
     # CONTRIBUTING.md exige un code formate (clang-format) avant tout commit depuis le debut du
-    # projet ; rien ne le verifiait (LOT-58). Controle, jamais reecriture : le job signale, il ne
+    # projet ; rien ne le verifiait. Controle, jamais reecriture : le job signale, il ne
     # pousse pas de commit de reformatage. Sur Linux (contrairement a clang-tidy) : clang-format
     # n'a pas besoin des en-tetes Direct3D/Windows, seulement du texte source.
     runs-on: ubuntu-latest
@@ -583,7 +582,7 @@ jobs:
 
       - name: Install clang-format ${{ env.LLVM_VERSION }}
         # Le paquet PyPI redistribue les binaires officiels LLVM : meme mecanisme et memes
-        # garanties de version que le job clang-tidy (LOT-58), sans installer tout LLVM.
+        # garanties de version que le job clang-tidy, sans installer tout LLVM.
         run: pip install "clang-format==${{ env.LLVM_VERSION }}"
 
       # Chaque écart de formatage en annotation sur sa ligne (phase 1).

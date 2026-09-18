@@ -8,7 +8,7 @@
 
 Rendre non ambigu tout renvoi `LOT-NN` d'une spécification, et empêcher l'ambiguïté de se reformer.
 
-Ce dépôt est dérivé de `ProjectGaming`, un jeu de plateforme livré en `0.1.3` après **74 lots**. Les
+Ce dépôt est dérivé d'un jeu de plateforme livré après **74 lots**. Les
 deux numérotations repartent de `LOT-01`. Tant que le programme RPG s'arrêtait à `LOT-29`, on
 pouvait écrire que les deux ensembles ne se croisaient jamais. La feuille de route atteignant
 `LOT-84`, la plage héritée est **entièrement recouverte** : `LOT-54` désigne désormais un atelier
@@ -49,7 +49,7 @@ en `LOT-07` », le tri par Y) et le `LOT-08` **hérité** (« une caméra fixe c
 `LOT-08` », vocabulaire de plateforme) à onze lignes d'écart.
 
 Deux signaux ont suffi dans la quasi-totalité des cas, tous deux vérifiés contre les titres des
-epics de `Documentation/Heritage/Lot/` :
+epics archivés (retirés du dépôt au `LOT-88`) :
 
 - **Le temps du verbe.** Aucun lot du programme RPG au-delà du `LOT-08` n'est commencé. « Concrétisé
   en », « Depuis le », « Introduit en », « livré » ne peuvent donc désigner que l'hérité.

@@ -124,17 +124,7 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
                       .layers = {},
                       .entities = {},
                       .entry = {},
-                      .exit = {},
-                      .mechanisms = {},
-                      .background = level.background(),
-                      .skinSet = level.skinSet(),
-                      .textureOverrides = {},
-                      .cameraFraming = CameraFramingConfig{.mode = CameraFramingMode::WholeLevel,
-                                                           .roomWidthTiles = std::nullopt,
-                                                           .roomHeightTiles = std::nullopt,
-                                                           .zones = {}},
-                      .planes = {},
-                      .parallaxEnabled = level.parallaxEnabled()};
+                      .textureOverrides = {}};
 
     for (const TileLayer& couche : level.layers()) {
         // La grille racine est promue en tete des couches par le chargeur : la redecouper ici en
@@ -168,16 +158,11 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
             .assetName = assignee.assetName});
     }
 
-    // L'entree et la sortie de la carte reduite : celles de la carte si elles sont dans la zone,
-    // son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
+    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
     // leurs points d'entree --, mais un champ menteur finirait par etre lu.
     if (zone.contains(level.entry())) {
         reduite.entry = GridPosition{.column = level.entry().column - zone.origin.column,
                                      .row = level.entry().row - zone.origin.row};
-    }
-    if (zone.contains(level.exit())) {
-        reduite.exit = GridPosition{.column = level.exit().column - zone.origin.column,
-                                    .row = level.exit().row - zone.origin.row};
     }
 
     return Level{std::move(reduite)};

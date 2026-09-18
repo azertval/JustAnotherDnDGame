@@ -59,7 +59,7 @@ struct InteractableKind {
  * @param mapName Nom de la carte, pour les clés de drapeau.
  * @param onEntity Rappel invoqué après chaque création, avec l'entité et l'objet dont elle vient.
  *        Permet à la présentation d'y attacher ses propres composants sans que `Core` connaisse
- *        l'habillage (`EX-NFR-011`) — même principe d'injection que `buildLevelScene`.
+ *        l'habillage (`EX-NFR-011`).
  * @return Le nombre d'entités créées.
  */
 std::size_t spawnMapEntities(World& world, const Level& level, std::string_view mapName,

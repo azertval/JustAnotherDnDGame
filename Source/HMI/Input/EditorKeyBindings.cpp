@@ -36,8 +36,6 @@ namespace {
             return "aide";
         case EditorAction::Rename:
             return "renommer";
-        case EditorAction::TextureAssignTool:
-            return "outilTexture";
     }
     return "";
 }
@@ -64,8 +62,6 @@ Key EditorKeyBindings::defaultKey(EditorAction action) noexcept {
             return Key::F1;
         case EditorAction::Rename:
             return Key::F2;
-        case EditorAction::TextureAssignTool:
-            return Key::T;
     }
     return Key::Escape;  // inatteignable : switch exhaustif sur EditorAction ci-dessus.
 }
@@ -97,7 +93,7 @@ void EditorKeyBindings::resetToDefaults() noexcept {
     }
 }
 
-// Relit le fichier existant (pour preserver la section "jeu" ecrite par GameKeyBindings), remplace
+// Relit le fichier existant (pour preserver les autres sections, ex. "jeu"), remplace
 // uniquement la section "editeur", puis reecrit. Un fichier absent/corrompu en lecture est traite
 // comme vide (on part d'un objet JSON neuf) : jamais bloquant pour la sauvegarde.
 bool EditorKeyBindings::save(const std::filesystem::path& path) const {

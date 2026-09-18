@@ -13,7 +13,7 @@
 #include "Core/Math/Vector2.h"
 #include "Core/World/CityPlan.h"
 #include "Core/World/ExplorationSession.h"
-#include "HMI/Graphics/PlaceAppearance.h"
+#include "HMI/Game/WorldPlay.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
 
 /**
@@ -122,7 +122,7 @@ public:
     [[nodiscard]] qreal heroRow() const;
 
     [[nodiscard]] QString heroFigure() const {
-        return _heroFigure;
+        return QString::fromStdString(_play->heroFigure());
     }
     void setHeroFigure(const QString& figure);
 
@@ -164,18 +164,13 @@ signals:
 private:
     /// Un pas fixe : avance la session, joue ses événements, publie ce qui a changé.
     void step();
-    /// Relit la table d'apparence du lieu de la carte courante.
-    void reloadAppearance();
     /// Retient le quartier de la carte courante parmi les quartiers visités.
     void noteDistrictVisit();
-    /// Les figurines à dessiner : le héros, puis les PNJ de la carte.
-    [[nodiscard]] std::vector<WorldFigureSnapshot> figures() const;
 
-    std::unique_ptr<core::ExplorationSession> _session;
-    PlaceAppearance _appearance;
+    /// La carte qu'on parcourt, et sa mise en scène — partagée avec l'essai de l'éditeur.
+    std::unique_ptr<WorldPlay> _play;
     QTimer _clock;
     QString _status;
-    QString _heroFigure{QStringLiteral("jade")};
     /// Le graphe de la ville qu'on parcourt, lu une fois (`LOT-96`).
     core::CityPlan _city;
     QStringList _visitedDistricts;
@@ -184,10 +179,6 @@ private:
     QString _startArrivalOverride;
     core::Vector2 _move{};
     bool _interact = false;
-    /// Temps écoulé depuis l'entrée sur la carte, en secondes : l'image des bandes d'animation.
-    float _elapsed = 0.0F;
-    /// Vrai si le héros marchait au dernier pas : il montre alors sa bande `walk`.
-    bool _walking = false;
     quint64 _sceneRevision = 1;
 };
 

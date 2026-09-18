@@ -8,8 +8,7 @@
 
 /**
  * @file HMI/Interface/StyleSheetTemplate.h
- * @brief Substitution de marqueurs dollar-accolade dans un modèle de feuille de style (`LOT-56`
- *        TACHE-02).
+ * @brief Substitution de marqueurs dollar-accolade dans un modèle de feuille de style.
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`,

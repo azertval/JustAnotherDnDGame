@@ -18,7 +18,7 @@
 namespace core {
 
 /**
- * @brief Catégorie d'échec de chargement/validation d'un niveau (LOT-15, `EX-EDIT-012`).
+ * @brief Catégorie d'échec de chargement/validation d'un niveau (`EX-EDIT-012`).
  *
  * Complète le message technique (`LevelLoadResult::error`) d'un code **programmatique**, pour
  * qu'un appelant (l'éditeur) puisse traduire une erreur en message non-codeur sans dépendre du
@@ -31,17 +31,9 @@ enum class LevelValidationError {
     UnknownTileType,           ///< Type de tuile non reconnu.
     OutOfBounds,               ///< Tuile positionnée hors des dimensions déclarées.
     DuplicatePosition,         ///< Deux tuiles à la même position.
-    MissingSwitchId,           ///< Interrupteur sans identifiant.
-    DuplicateSwitchId,         ///< Deux interrupteurs partagent le même identifiant.
     InvalidEntryCount,         ///< Zéro ou plusieurs tuiles d'entrée (une seule attendue).
-    InvalidExitCount,          ///< Zéro ou plusieurs tuiles de sortie (une seule attendue).
-    UnresolvedMechanism,       ///< Porte ou danger commuté lié à un identifiant d'interrupteur
-                               ///< inexistant.
-    FileNotFound,              ///< Fichier de niveau introuvable sur disque.
+    FileNotFound,              ///< Fichier de carte introuvable sur disque.
     UnsupportedFormatVersion,  ///< `"version"` du fichier supérieure à celle gérée (`EX-LVL-005`).
-    InvalidCameraFraming,      ///< Cadrage de caméra invalide (`EX-LVL-006`) : mode inconnu, taille
-                               ///< de salle nulle/supérieure au niveau, ou paramètre étranger au
-                               ///< mode retenu.
 };
 
 /**
@@ -49,17 +41,13 @@ enum class LevelValidationError {
  *
  * Écrite par `LevelWriter` dans le champ racine `"version"`. Un fichier sans ce champ est lu
  * comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux
- * antérieurs à ce champ (`LOT-44`). Une version supérieure à celle-ci est une erreur exploitable
+ * antérieurs à ce champ. Une version supérieure à celle-ci est une erreur exploitable
  * (`LevelValidationError::UnsupportedFormatVersion`), pas une lecture au mieux.
- *
- * Version 2 (`LOT-64`) : ajout du champ optionnel `"cameraFraming"` (`EX-LVL-006`). Un fichier de
- * version antérieure, sans ce champ, se charge sans erreur -- la règle de repli
- * (`core::resolveCameraFraming`) reproduit exactement le comportement historique.
  *
  * Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entités**
  * (`"entities"`, `core::MapEntity`), les deux optionnels. `"layers"` ne porte que les couches
  * **visibles** (sol, décor) : la grille de collision d'une carte est son tableau racine
- * `"tiles"`, celui qui porte déjà l'entrée, la sortie et les mécanismes — une couche
+ * `"tiles"`, celui qui porte déjà l'entrée — une couche
  * `"collision"` déclarée est refusée (`EX-LVL-016`). Cette grille racine est **promue** en couche
  * de tête, de rôle `LayerKind::Collision`, ou `LayerKind::Legacy` quand la carte ne déclare aucune
  * couche : aucun fichier existant n'a besoin d'être touché, et rien de son comportement ne change.
@@ -76,7 +64,7 @@ inline constexpr int LEVEL_FORMAT_VERSION = 3;
  * En cas de succès, `level` contient le niveau, `error` est vide et `errorCode` vaut `None`. En
  * cas d'échec (récupérable, `EX-NFR-040`), `level` est vide, `error` décrit le problème de façon
  * exploitable pour les journaux/tests, et `errorCode` catégorise l'échec pour un traitement
- * programmatique (traduction non-codeur, LOT-15).
+ * programmatique (traduction non-codeur).
  */
 struct LevelLoadResult {
     std::optional<Level> level;

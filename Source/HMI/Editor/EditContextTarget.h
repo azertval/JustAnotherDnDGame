@@ -6,7 +6,7 @@
 /**
  * @file HMI/Editor/EditContextTarget.h
  * @brief Cible des commandes Annuler/Refaire/Copier/Coller, indépendante du contexte d'édition qui
- *        les implémente (`LOT-57` TACHE-04, `EX-IHM-062`).
+ *        les implémente (`EX-IHM-062`).
  */
 
 namespace hmi {
@@ -15,11 +15,10 @@ namespace hmi {
  * @brief Interface pure implémentée par le contexte d'édition **actif**.
  *
  * `MainWindow` dispatche les quatre actions dédupliquées (une définition chacune, `EX-IHM-062`) à
- * travers cette interface plutôt que d'appeler `GameViewport` directement : aujourd'hui, `hmi::
- * GameViewport` en est l'unique implémentation (édition de niveau). Le futur atelier pixel art
- * (`LOT-54`) lui donnera une seconde cible (canevas de pixel art, historique et presse-papiers
- * indépendants de `core::LevelDraft`) sans que ce point de dispatch n'ait à être réécrit — c'est la
- * raison d'être de cette interface plutôt qu'un appel direct.
+ * travers cette interface plutôt que d'appeler `EditorViewport` directement : aujourd'hui,
+ * `hmi::EditorViewport` en est l'unique implémentation (édition de carte). Un second contexte
+ * d'édition, avec son propre historique et son propre presse-papiers, s'y brancherait sans que ce
+ * point de dispatch n'ait à être réécrit.
  */
 class EditContextTarget {
 public:

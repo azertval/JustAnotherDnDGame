@@ -65,7 +65,7 @@ ArenaForm {
     gridOriginY: viewport.originY
 
     // La surface de rendu QRhi, posee dans l'hote que le formulaire reserve (LOT-86 Phase 6) --
-    // meme mecanisme que `GameViewport` sur la vue d'exploration (`GameView.qml`) : un type C++
+    // meme mecanisme que `WorldViewport` sur la vue d'exploration (`GameView.qml`) : un type C++
     // (`Jadg.Runtime`), invisible a l'atelier, que le cadre du formulaire recouvre par-dessus.
     ArenaViewport {
         id: viewport

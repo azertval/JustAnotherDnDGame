@@ -1,12 +1,11 @@
 # Source/Test/Systeme/
 
-Tests **système** (bout en bout) : le jeu joué comme un tout, sur les **assets livrés** (niveaux),
-avec des scénarios d'**entrées déterministes**.
+Tests **système** (bout en bout) : un parcours d'utilisateur complet, sur les **données livrées**,
+**sans la couche GPU** (fenêtre, rendu — vérifiée visuellement, cf. conventions).
 
-Ils rejouent la boucle de jeu **sans la couche GPU** (fenêtre, rendu — vérifiée
-visuellement, cf. conventions) : chargement des niveaux réels, physique du personnage, règles de
-fin et **enchaînement** de la séquence. Objectif : prouver qu'un **parcours complet**
-(titre → niveaux → titre) est jouable de bout en bout, et le garder non régressif.
+- `test_parcours_edition_rpg.cpp` — le parcours d'auteur du `LOT-11` : produire une carte du RPG
+  sans écrire de JSON (trois couches, un PNJ, un coffre, un portail, une rencontre), l'enregistrer,
+  la recharger et la peupler comme le fait l'essai immédiat de l'éditeur.
 
 Distinction : `Unit/` teste une brique isolée ; `Integration/` teste quelques briques assemblées ;
-`Systeme/` rejoue un **scénario de jeu complet** sur le contenu livré.
+`Systeme/` rejoue un **scénario complet** sur le contenu livré.

@@ -15,7 +15,6 @@
 #include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/SpriteBatch.h"
 #include "HMI/Graphics/SpriteRenderer.h"
-#include "HMI/Graphics/TextRenderer.h"
 
 namespace hmi {
 

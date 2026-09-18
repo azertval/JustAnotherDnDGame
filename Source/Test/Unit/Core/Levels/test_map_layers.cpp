@@ -7,22 +7,16 @@
  *        libres et migration ascendante (`EX-LVL-016`, `EX-LVL-017`, `EX-LVL-018`, LOT-04).
  */
 
-#include <algorithm>
 #include <cstddef>
-#include <cstdint>
-#include <map>
 #include <string>
 #include <variant>
 #include <vector>
 
 #include <gtest/gtest.h>
 
-#include "Core/Ecs/Components/Sprite.h"
-#include "Core/Ecs/World.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
-#include "Core/Levels/LevelScene.h"
 #include "Core/Levels/LevelWriter.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
@@ -38,12 +32,11 @@ constexpr const char* MAP_V2 = R"({
   "height": 3,
   "tiles": [
     { "x": 0, "y": 0, "type": "solid" },
-    { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" }
+    { "x": 1, "y": 1, "type": "entry" }
   ]
 })";
 
-// Carte version 3 complete : la grille racine (collision, entree, sortie), deux couches visibles,
+// Carte version 3 complete : la grille racine (collision, entree), deux couches visibles,
 // deux entites, et des proprietes libres -- y compris des cles que le chargeur ne connait pas.
 // Chargee, elle porte TROIS couches : la racine promue, puis le sol et le decor.
 constexpr const char* MAP_V3 = R"({
@@ -53,7 +46,6 @@ constexpr const char* MAP_V3 = R"({
   "height": 3,
   "tiles": [
     { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" },
     { "x": 0, "y": 0, "type": "solid" }
   ],
   "layers": [
@@ -68,7 +60,7 @@ constexpr const char* MAP_V3 = R"({
     {
       "name": "decor",
       "kind": "decor",
-      "tiles": [{ "x": 2, "y": 1, "type": "danger" }],
+      "tiles": [{ "x": 2, "y": 1, "type": "wall" }],
       "difficultTerrain": true,
       "coverBonus": 2,
       "heightMeters": 1.5,
@@ -80,11 +72,6 @@ constexpr const char* MAP_V3 = R"({
     { "type": "chest", "x": 0, "y": 2 }
   ]
 })";
-
-// Region d'atlas factice : buildLevelScene n'a besoin que d'une correspondance, pas d'un GPU.
-core::AtlasRegion anyRegion(core::TileType) {
-    return core::AtlasRegion{};
-}
 
 // Couche de @p level portant le role @p kind, ou nullptr.
 const core::TileLayer* layerOfKind(const core::Level& level, core::LayerKind kind) {
@@ -246,7 +233,7 @@ TEST(CouchesDeCarteTest, ChampsInconnusDUneEntitePreservesALaReecriture) {
  * \castest{<b>La couche de collision est la grille du gameplay.</b><br/>
  * \tcat Unitaire · Couches de carte<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Charger une carte dont le decor pose un danger en (2, 1), absent de la
+ * \tetapes 1. Charger une carte dont le decor pose un mur en (2, 1), absent de la
  * collision.<br/>2. Lire la grille du niveau.<br/>
  * \tattendu La case (2, 1) est vide dans la grille du niveau : le decor ne bloque pas.
  * }
@@ -259,43 +246,13 @@ TEST(CouchesDeCarteTest, LaCoucheDeCollisionEstLaGrilleDuGameplay) {
     EXPECT_EQ(loaded.level->tileMap().tile(2, 1), core::TileType::Empty);
     const core::TileLayer* decor = layerOfKind(*loaded.level, core::LayerKind::Decor);
     ASSERT_NE(decor, nullptr);
-    EXPECT_EQ(decor->tiles.tile(2, 1), core::TileType::Danger);
+    EXPECT_EQ(decor->tiles.tile(2, 1), core::TileType::Wall);
 
     // La couche de tete EST la grille racine, promue : meme contenu, role Collision.
     const core::TileLayer* collision = layerOfKind(*loaded.level, core::LayerKind::Collision);
     ASSERT_NE(collision, nullptr);
     EXPECT_EQ(&loaded.level->layers().front(), collision);
     EXPECT_EQ(collision->tiles.tile(1, 1), core::TileType::Entry);
-}
-
-/**
- * @brief La projection en entités ECS parcourt les couches **visibles** et ignore la collision,
- * qui est un masque et non une image (`EX-LVL-016`).
- * \castest{<b>La projection ECS ignore la couche de collision.</b><br/>
- * \tcat Unitaire · Couches de carte<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Charger une carte a trois couches (2 tuiles de sol, 1 de decor, 1 de
- * collision).<br/>2. Projeter le niveau en entites ECS.<br/>
- * \tattendu Trois entites : celles du sol et du decor, aucune pour la collision.
- * }
- */
-TEST(CouchesDeCarteTest, ProjectionEcsIgnoreLaCoucheDeCollision) {
-    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V3);
-    ASSERT_TRUE(loaded.ok()) << loaded.error;
-
-    core::World world;
-    core::buildLevelScene(world, *loaded.level, anyRegion);
-
-    std::size_t spriteCount = 0;
-    std::vector<std::int32_t> orders;
-    world.view<core::Sprite>().each([&](core::Entity, core::Sprite& sprite) {
-        ++spriteCount;
-        orders.push_back(sprite.layer);
-    });
-    EXPECT_EQ(spriteCount, 3u);
-    // Deux tuiles de sol au rang 0, une de decor au rang 1 : le decor se dessine par-dessus.
-    EXPECT_EQ(std::count(orders.begin(), orders.end(), 0), 2);
-    EXPECT_EQ(std::count(orders.begin(), orders.end(), 1), 1);
 }
 
 /**
@@ -316,8 +273,7 @@ TEST(CouchesDeCarteTest, CarteVersion4RefuseeAvecUnMessageExplicite) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ]
     })";
     const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V4);
@@ -343,8 +299,7 @@ TEST(CouchesDeCarteTest, TuileHorsBornesDansUneCoucheRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [
         { "name": "sol", "kind": "ground", "tiles": [{ "x": 5, "y": 0, "type": "solid" }] }
@@ -372,8 +327,7 @@ TEST(CouchesDeCarteTest, EntiteHorsBornesRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "entities": [{ "type": "npc", "x": 9, "y": 0 }]
     })";
@@ -399,8 +353,7 @@ TEST(CouchesDeCarteTest, RoleDeCoucheInconnuRetombeSurLeSol) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [{ "name": "brouillard", "kind": "weather", "tiles": [] }]
     })";
@@ -512,8 +465,7 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [
         { "name": "collision", "kind": "collision", "tiles": [] }
@@ -525,29 +477,3 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
     EXPECT_NE(loaded.error.find("tiles"), std::string::npos) << loaded.error;
 }
 
-/**
- * @brief La projection ECS annonce le **rôle** de la couche d'origine de chaque tuile : c'est ce
- * qui permet à la présentation de poser le décor sur la bande de profondeur (`EX-REN-018`).
- * \castest{<b>La projection ECS annonce le role de la couche de chaque tuile.</b><br/>
- * \tcat Unitaire · Couches de carte<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Projeter une carte version 3 en entites ECS en relevant le role annonce.<br/>
- * \tattendu Les tuiles du sol sont annoncees Ground, celles du decor Decor, et aucune n'est
- * annoncee Collision.
- * }
- */
-TEST(CouchesDeCarteTest, ProjectionEcsAnnonceLeRoleDeChaqueCouche) {
-    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V3);
-    ASSERT_TRUE(loaded.ok()) << loaded.error;
-
-    core::World world;
-    std::map<core::LayerKind, int> parRole;
-    core::buildLevelScene(world, *loaded.level, anyRegion,
-                          [&parRole](core::Entity, core::LayerKind kind, core::TileType, int, int) {
-                              ++parRole[kind];
-                          });
-
-    EXPECT_EQ(parRole[core::LayerKind::Ground], 2);
-    EXPECT_EQ(parRole[core::LayerKind::Decor], 1);
-    EXPECT_EQ(parRole.count(core::LayerKind::Collision), 0u);
-}

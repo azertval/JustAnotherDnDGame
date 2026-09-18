@@ -19,7 +19,7 @@ namespace {
 
 // Deux regions sont "distinctes" si elles ne pointent pas exactement la meme case de la grille
 // procedurale (memes coordonnees x/y) -- deux types partageant une case seraient indiscernables en
-// repli procedural (LOT-63, TACHE-04).
+// repli procedural.
 bool sameRegion(const core::AtlasRegion& a, const core::AtlasRegion& b) {
     return a.x == b.x && a.y == b.y;
 }

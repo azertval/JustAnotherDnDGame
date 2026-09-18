@@ -3,32 +3,25 @@
 
 #pragma once
 
-#include <filesystem>
+#include <cstdint>
 #include <optional>
-#include <set>
-#include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "Core/Combat/TacticalTerrain.h"
-#include "Core/Ecs/Components/Animation.h"
-#include "Core/Ecs/Entity.h"
-#include "Core/Ecs/World.h"
 #include "Core/Levels/GridPosition.h"
 #include "HMI/Editor/LayerView.h"
-#include "HMI/Graphics/LayerVisibility.h"
-#include "HMI/Graphics/PlaneVisibility.h"
-#include "HMI/Graphics/SpriteRenderer.h"
+#include "HMI/Graphics/ComposedScene.h"
 
 /**
  * @file HMI/Graphics/DraftRenderer.h
- * @brief Rendu d'un brouillon d'édition (`core::LevelDraft`) dans le viewport (LOT-35).
+ * @brief Rendu d'un brouillon d'édition (`core::LevelDraft`) dans le canevas de l'éditeur.
  */
 
 namespace core {
 class LevelDraft;
 struct MapEntity;
+class TileMap;
 }  // namespace core
 
 namespace hmi {
@@ -39,23 +32,7 @@ class TextureCache;
 class Camera2D;
 
 /**
- * @brief État d'affichage des liens de mécanismes (LOT-37), fourni par le viewport à chaque rendu.
- *
- * Purement informatif pour `DraftRenderer` : ne modifie jamais le brouillon, seulement la
- * présentation (surbrillance, trait provisoire).
- */
-struct LinkOverlayState {
-    /// Case survolée par la souris (surbrillance des liens incidents ; extrémité du trait
-    /// provisoire si `pendingLink` est posé).
-    std::optional<core::GridPosition> hoveredCell;
-    /// Case du déclencheur/de la cible en attente d'appariement (outil « Lien », premier clic).
-    std::optional<core::GridPosition> pendingLink;
-    /// Liaison sélectionnée dans le panneau « Liens » (déclencheur, cible) : mise en surbrillance.
-    std::optional<std::pair<core::GridPosition, core::GridPosition>> selectedLink;
-};
-
-/**
- * @brief Ce que le viewport montre des entités de carte (`LOT-11`), fourni à chaque rendu.
+ * @brief Ce que le canevas montre des entités de carte (`LOT-11`), fourni à chaque rendu.
  */
 struct DraftEntityOverlay {
     /// Entité sélectionnée : cernée, et sa rencontre montrée sur le terrain.
@@ -67,127 +44,60 @@ struct DraftEntityOverlay {
 };
 
 /**
- * @brief Dessine la grille d'un `core::LevelDraft` en cours d'édition.
+ * @brief Dessine un `core::LevelDraft` en cours d'édition, **à plat**.
  *
- * Réutilise le pipeline de rendu du jeu : chaque tuile non vide du brouillon devient une entité
- * (`Transform` + `Sprite`) d'un `core::World` interne, composée par `hmi::composeWorldSprites`
- * (lecture seule, `EX-ARCH-012`). Le `core::World` n'est **reconstruit** que lorsque le brouillon
- * change (`invalidate()`), pas à chaque frame. Les blocs à taille réduite sont dessinés à leur
- * échelle réelle (`core::tileVisualScale`), comme en jeu — cohérence visuelle stricte.
+ * Une couleur par type de tuile (`hmi::regionForTile`, l'atlas procédural), les couches visuelles
+ * dans leur ordre, la collision en masque teinté par catégorie, puis les entités par leur marqueur
+ * de famille (`LOT-39`). Le canevas ne cherche pas à ressembler au jeu : il montre ce qu'on édite
+ * — le type de chaque case — et l'essai immédiat montre le jeu (`hmi::EditorViewport`).
  *
- * Depuis `LOT-40`, **toutes** les primitives d'une image (tuiles, grille de repère, liens de
- * mécanismes, aperçu de sélection) sont composées dans une seule `hmi::ComposedScene` puis
+ * Toutes les primitives d'une image sont composées dans une seule `hmi::ComposedScene` puis
  * soumises en bloc : les aides d'édition portent le calque `RenderLayer::EditorOverlay`, qui les
- * place au-dessus de tout le reste par construction plutôt que par l'ordre des appels de dessin.
- * La liste obtenue est donc inspectable sans GPU (`EX-NFR-004`) et soumise au culling
- * (`EX-NFR-005`).
+ * place au-dessus du reste par construction. La liste obtenue est inspectable sans GPU
+ * (`EX-NFR-004`).
  */
 class DraftRenderer {
 public:
     DraftRenderer(SpriteBatch& batch, const TextureAtlas& atlas, TextureCache& cache);
 
-    /// Rend le brouillon avec la caméra donnée (reconstruit la scène si invalidée). Si @p showGrid,
-    /// superpose la grille de repère (frontières de cases + frontières de salles) — aide au
-    /// placement, équivalent de la bascule `F10` de l'éditeur historique (`EX-EDIT-023`). Si
-    /// @p highlight est présent, met en surbrillance la zone (bornes min/max incluses) — aperçu de
-    /// l'outil Rectangle/Sélection. @p linkOverlay pilote l'affichage des liens de mécanismes
-    /// (flèches, trait provisoire, surbrillance — `EX-IHM-030`). @p mode choisit le rendu
-    /// Physique ou Texture des tuiles (`EX-REN-046`, `LOT-41`) ; les **aides d'édition** (grille,
-    /// liens, aperçu) restent identiques dans les deux modes — ce sont des repères d'édition, pas
-    /// de l'habillage. Si @p showTextureOverrides, les cases portant une surcharge de texture par
-    /// instance (`EX-EDIT-043`, `LOT-45`) sont signalées sur le calque d'édition — actif seulement
-    /// quand l'outil « Texture par instance » l'est, pour ne pas encombrer les autres outils.
-    /// @p deltaSeconds avance l'aperçu des tuiles animées (`LOT-46` TACHE-05) en **temps réel** —
-    /// contrairement à la simulation (`hmi::GameSession`), l'aperçu d'édition n'a aucune exigence
-    /// de déterminisme (`EX-NFR-002` ne s'applique qu'en jeu) ; `0` (par défaut) fige l'animation.
-    /// Les aides d'édition, comme le reste du calque `RenderLayer::EditorOverlay`, ne sont
-    /// **jamais** composées en jeu ni en essai (`hmi::GameSession` ne passe jamais par
-    /// `DraftRenderer`). @p visibility pilote
-    /// le mode d'inspection « définition des textures » (`LOT-51`, `EX-EDIT-044`) — tout visible
-    /// par défaut, sans effet sur les aides d'édition ci-dessus (jamais un calque de contenu).
+    /**
+     * @brief Rend le brouillon avec la caméra donnée.
+     *
+     * @param draft         Brouillon de carte à dessiner.
+     * @param camera        Caméra qui cadre le canevas.
+     * @param showGrid      Superpose la grille des cases (`EX-EDIT-023`).
+     * @param highlight     Zone à voiler (bornes incluses) : l'aperçu des outils
+     *                      Rectangle/Sélection.
+     * @param entityOverlay Entité sélectionnée et terrains de rencontre à superposer (rien par
+     *                      défaut).
+     */
     void render(const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
                 const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
-                const LinkOverlayState& linkOverlay, RenderMode mode,
-                bool showTextureOverrides = false, float deltaSeconds = 0.0f,
-                const LayerVisibility& visibility = {}, const PlaneVisibility& planeVisibility = {},
                 const DraftEntityOverlay& entityOverlay = {});
 
-    /**
-     * @brief Visibilité et opacité des couches de la carte (`LOT-11`).
-     *
-     * Une carte **à couches** se dessine comme en jeu — sol et décor, dans leur ordre —, et sa
-     * grille racine, qui n'est plus qu'un masque de collision, se superpose en **voiles colorés
-     * par catégorie** (obstacle, danger, entrée, sortie, mécanisme) plutôt qu'en image : c'est ce
-     * qu'elle veut dire, et deux images superposées de la même case ne se liraient pas. Une carte
-     * à grille unique se dessine comme avant le lot. Un réglage différent du précédent reconstruit
-     * la scène.
-     */
     void setLayerView(const LayerViewState& view);
 
-    /**
-     * @brief Fixe le dossier où résoudre les images de plans (`Levels/Plans`), comme
-     *        `hmi::SpriteRenderer::setPlanesDirectory`.
-     * @param directory Dossier des images de plans.
-     */
-    void setPlanesDirectory(std::filesystem::path directory) {
-        _planesDirectory = std::move(directory);
-    }
-
-    /// Marque la scène comme périmée : elle sera reconstruite au prochain `render` (à appeler après
-    /// toute mutation du brouillon — peinture, undo/redo, chargement, redimensionnement).
-    void invalidate() noexcept {
-        _dirty = true;
-    }
+    /// Marque la scène comme périmée (après toute mutation du brouillon). Gardée pour les
+    /// appelants : la composition est refaite à chaque image, le coût d'une carte de quelques
+    /// milliers de cases étant négligeable devant celui de la soumettre.
+    void invalidate() noexcept {}
 
     /// @return La scène composée à la dernière image (primitives soumises et compteurs).
     [[nodiscard]] const ComposedScene& lastScene() const noexcept {
         return _scene;
     }
 
-    /**
-     * @brief Désigne le catalogue de skins et le jeu à utiliser en mode Texture (`LOT-42`).
-     *
-     * Le catalogue n'est **pas** copié : l'appelant en reste propriétaire. Réassigner un skin s'y
-     * voit à l'image suivante, sans reconstruire le brouillon ni la scène.
-     * @param skins   Catalogue, ou `nullptr` pour retomber entièrement sur le damier.
-     * @param skinSet Nom du jeu courant ; vide pour le jeu par défaut du catalogue.
-     */
-    void setSkins(const SkinCatalog* skins, std::string skinSet = {}) {
-        _skins = skins;
-        _skinSet = std::move(skinSet);
-    }
-
 private:
-    void rebuild(const core::LevelDraft& draft);
-    /// Compose la grille de repère (frontières de cases + de salles) sur le calque d'édition. Si
-    /// @p accentuate, les lignes sont plus opaques — indication visuelle de l'aimantation active
-    /// du geste de décors (`LOT-50` TACHE-03), sinon l'auteur ne comprend pas pourquoi sa position
-    /// « saute ».
+    /// Compose les tuiles d'une grille, de rang @p order dans le calque @p layer.
+    void composeTiles(const core::TileMap& tiles, RenderLayer layer, std::int32_t order,
+                      float opacity);
+    /// Compose la grille des cases sur le calque d'édition.
     void composeGrid(const core::LevelDraft& draft);
-    /// Compose la prévisualisation du cadrage de caméra du niveau (`EX-EDIT-028`, LOT-64) sur le
-    /// calque d'édition : le cadre du niveau entier, la grille de salles à taille résolue
-    /// (`hmi::RoomGrid`), ou le rectangle visible et la zone morte matérialisée du mode suivi
-    /// (centré sur l'entrée). Composée **inconditionnellement**, comme les liens de mécanismes et
-    /// les poignées de décors — pas une aide de placement (`showGrid`), une information sur ce que
-    /// montrera la caméra en jeu.
-    void composeCameraFraming(const core::LevelDraft& draft);
-    /// Compose les liens de mécanismes (flèches déclencheur → cible) sur le calque d'édition.
-    void composeLinks(const core::LevelDraft& draft, const LinkOverlayState& overlay);
-    /// Compose la course aller-retour de chaque danger mobile (`EX-GP-051`) sur le calque
-    /// Compose les poignées de @p handles (carrés double ton, même patron que celles des décors).
-    /// @return Un quad plein couvrant @p rect, texturé par la région unie de l'atlas et teinté —
-    /// brique commune des aides d'édition rectangulaires (poignées de parcours).
-    [[nodiscard]] SpriteQuad solidOverlayQuad(const core::Rect& rect, float r, float g, float b,
-                                              float a) const;
     /// Compose le voile d'aperçu d'une zone (outil Rectangle/Sélection) sur le calque d'édition.
     void composeHighlight(const core::GridPosition& minimum, const core::GridPosition& maximum);
-    /// Signale les cases portant une surcharge de texture par instance sur le calque d'édition
-    /// (`EX-EDIT-043`, `LOT-45`).
-    void composeTextureOverrideMarkers(const core::LevelDraft& draft);
     /// Compose le masque de collision d'une carte à couches (voiles par catégorie, `LOT-11`).
     void composeCollisionMask(const core::LevelDraft& draft);
-    /// Compose les entités (marqueur généré du `LOT-39` par famille), la sélection, et le terrain
-    /// de la rencontre sélectionnée (`LOT-11`).
+    /// Compose les entités, la sélection, et le terrain de la rencontre sélectionnée.
     void composeEntities(const core::LevelDraft& draft, const DraftEntityOverlay& overlay);
     /// Compose le terrain d'une rencontre : sa zone, puis la case voulue de chaque combattant.
     void composeEncounterTerrain(const core::EncounterTerrain& terrain);
@@ -196,25 +106,12 @@ private:
     /// Ajoute un quad uni teinté @p (x, y, w, h) au calque d'édition, rang @p order.
     void addOverlayRect(float x, float y, float width, float height, float r, float g, float b,
                         float a, std::int32_t order);
-    /// Réglages de couches de la dernière reconstruction.
+
     LayerViewState _layerView;
-    /// Dossier des images de plans (`setPlanesDirectory`), vide tant qu'aucun n'est fixé.
-    std::filesystem::path _planesDirectory;
     SpriteBatch& _batch;
     const TextureAtlas& _atlas;
     TextureCache& _cache;
-    const SkinCatalog* _skins = nullptr;  // non possédé
-    std::string _skinSet;
     ComposedScene _scene;
-    core::World _world;
-    bool _dirty = true;
-    /// Horloge d'animation partagee par asset (LOT-46 TACHE-05), avancee en temps reel a chaque
-    /// render() -- distincte de celle de GameSession (pas fixe) : l'apercu d'edition n'a pas
-    /// besoin d'etre deterministe.
-    std::unordered_map<std::string, core::Animation> _tileAnimations;
-    /// Assets deja signales pour une combinaison exclue (bitmask16/silhouette + animation) :
-    /// memorise pour ne jamais journaliser a chaque image.
-    std::set<std::string> _warnedExcludedAnimations;
 };
 
 }  // namespace hmi

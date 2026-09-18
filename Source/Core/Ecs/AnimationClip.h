@@ -10,7 +10,7 @@
 
 /**
  * @file Core/Ecs/AnimationClip.h
- * @brief Clip d'animation en tant que donnée, et jeu de clips nommés (`LOT-46`).
+ * @brief Clip d'animation en tant que donnée, et jeu de clips nommés.
  */
 
 namespace core {
@@ -19,7 +19,7 @@ namespace core {
 enum class ClipEndMode {
     /// Revient à la première image et continue (comportement historique, `EX-REN-012`).
     Loop,
-    /// S'arrête à la dernière image puis bascule sur `AnimationClip::nextClip` (`LOT-47`).
+    /// S'arrête à la dernière image puis bascule sur `AnimationClip::nextClip`.
     OneShot,
 };
 
@@ -28,8 +28,8 @@ enum class ClipEndMode {
  *
  * Donnée **pure** (`EX-ARCH-011`) : ni méthode, ni type GPU, ni dépendance fichier — `Core` ne
  * connaît ni la spritesheet, ni la taille des images, ni le fichier d'origine (traduction en
- * région de texture laissée à `HMI`, `LOT-46` TACHE-03). Remplace l'ancien `enum class
- * AnimationClip` figé (`LOT-18`), qui aurait fait de `Core` un catalogue d'apparences à chaque
+ * région de texture laissée à `HMI`). Remplace l'ancien `enum class
+ * AnimationClip` figé, qui aurait fait de `Core` un catalogue d'apparences à chaque
  * nouvel objet animé (`EX-ARCH-012`).
  */
 struct AnimationClip {
@@ -48,11 +48,11 @@ struct AnimationClip {
 
 /**
  * @brief Ensemble nommé de clips, adressable par nom — l'unité que décrit un fichier
- *        `nom-asset.anim.json` (`LOT-46` TACHE-03).
+ *        `nom-asset.anim.json`.
  *
  * Résout un nom en index à l'ajout plutôt qu'à chaque pas fixe (`AnimationSystem`) : la
  * progression générale d'une animation (avancer l'image courante) n'a donc jamais à comparer de
- * chaînes, même pour des centaines de tuiles animées (`LOT-46` TACHE-05). Seule la sélection
+ * chaînes, même pour des centaines de tuiles animées. Seule la sélection
  * initiale d'un clip par son nom (ex. la projection état → clip du personnage) en compare.
  *
  * Accès **sûr** : interroger un clip par un index hors bornes ou un nom absent ne plante ni ne

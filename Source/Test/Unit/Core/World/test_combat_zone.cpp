@@ -49,7 +49,6 @@ core::Level carte(std::vector<core::MapEntity> entites) {
 
     core::LevelData donnees{.name = "colisee", .tileMap = std::move(collision)};
     donnees.entry = {1, 1};
-    donnees.exit = {10, 8};
     donnees.layers.push_back(core::TileLayer{
         .name = "relief", .kind = core::LayerKind::Decor, .tiles = std::move(decor), .properties = {}});
     donnees.textureOverrides.push_back(
@@ -97,7 +96,6 @@ TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
     const core::Level reduite = core::cropLevelToZone(complete, zones.front());
     EXPECT_EQ(reduite.tileMap().width(), 4);
     EXPECT_EQ(reduite.tileMap().height(), 3);
-    EXPECT_EQ(reduite.cameraFraming().mode, core::CameraFramingMode::WholeLevel);
 
     // Deux entites sur trois sont dans la zone, et elles y sont translatees.
     ASSERT_EQ(reduite.entities().size(), 3U);  // la zone elle-meme compte : elle est dans la zone

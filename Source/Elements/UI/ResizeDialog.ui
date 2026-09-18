@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ResizeDialog</class>
- <!-- Redimensionnement du niveau (LOT-68) : la mise en page quitte le C++ pour ce fichier, comme
+ <!-- Redimensionnement du niveau : la mise en page quitte le C++ pour ce fichier, comme
       toute autre mise en page du projet. Le code ne fait plus que borner les valeurs, lire la
       taille courante et confirmer une perte de contenu (EX-EDIT-012, EX-EDIT-017).
       Les libelles poses ici sont des reperes pour Qt Designer : retranslateUi les remplace tous

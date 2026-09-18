@@ -6,7 +6,6 @@
 #include <QObject>
 #include <array>
 
-#include "HMI/Editor/PixelTool.h"
 #include "HMI/Interface/ActionCatalog.h"
 
 class QAction;
@@ -15,7 +14,7 @@ class QToolBar;
 
 /**
  * @file HMI/Interface/EditorActions.h
- * @brief Actions Qt de l'éditeur : outils et commandes principales (`LOT-56` TACHE-04).
+ * @brief Actions Qt de l'éditeur : outils et commandes principales.
  */
 
 namespace hmi {
@@ -30,7 +29,7 @@ struct DesignTokens;
  *        dans la barre d'outils, un menu et un menu contextuel sans duplication.
  *
  * Les icônes sont dessinées par code (`hmi::themeIcon`) et recolorées depuis les jetons ;
- * `refreshIcons` les régénère lors d'un changement de thème (`LOT-56` TACHE-06).
+ * `refreshIcons` les régénère lors d'un changement de thème.
  */
 class EditorActions : public QObject {
     Q_OBJECT
@@ -49,45 +48,29 @@ public:
         return _toolGroup;
     }
 
-    /// @return L'action de l'outil de canevas pixel art @p tool (`LOT-54` TACHE-04).
-    [[nodiscard]] QAction* pixelToolAction(PixelTool tool) const;
-    /// @return Le groupe exclusif des quatre actions d'outil de canevas pixel art, **distinct** de
-    ///         `toolGroup()` (`LOT-54` TACHE-04).
-    [[nodiscard]] QActionGroup* pixelToolGroup() const noexcept {
-        return _pixelToolGroup;
-    }
-
     /// Ajoute les actions d'outils de niveau et les commandes principales à @p toolBar, dans
-    /// l'ordre du catalogue, avec un séparateur entre les deux — **sans** les outils de canevas
-    /// pixel art (`populatePixelToolBar`, barre d'outils distincte).
+    /// l'ordre du catalogue, avec un séparateur entre les deux.
     void populateToolBar(QToolBar& toolBar) const;
-    /// Ajoute les quatre actions d'outil de canevas pixel art à @p toolBar (`LOT-54` TACHE-04) —
-    /// barre d'outils dédiée du canevas, distincte de celle des outils de niveau.
-    void populatePixelToolBar(QToolBar& toolBar) const;
 
     /// Applique la langue active : libellé de chaque action, et infobulle incluant son raccourci
     /// (jamais saisi séparément).
     void retranslateUi(const Localization& loc);
 
-    /// Coche l'action de l'outil actif **sans** émettre `triggered` : resynchronisation depuis la
-    /// touche dédiée de `GameViewport` (remappable, `EditorAction::TextureAssignTool`).
+    /// Coche l'action de l'outil actif **sans** émettre `triggered` : resynchronisation quand le
+    /// canevas change d'outil de lui-même (choisir une famille d'entité arme l'outil Entité).
     void setActiveTool(EditorTool tool) const;
-    /// Coche l'action de l'outil de canevas pixel art actif **sans** émettre `triggered` — même
-    /// garde que `setActiveTool` (`LOT-54` TACHE-04).
-    void setActivePixelTool(PixelTool tool) const;
 
     /// Active/désactive les six commandes qui n'ont de sens qu'en édition (Enregistrer, Essayer,
-    /// Annuler, Refaire, Grille, Recadrer). Le mode de rendu reste toujours actif : il s'applique
-    /// aussi en essai et en jeu réel (`EX-REN-046`).
+    /// Annuler, Refaire, Grille, Recadrer).
     void setEditingCommandsEnabled(bool enabled) const;
 
-    /// Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème, `LOT-56`
-    /// TACHE-06) : sans quoi elles resteraient aux anciennes couleurs après le changement.
+    /// Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème) :
+    /// sans quoi elles resteraient aux anciennes couleurs après le changement.
     void refreshIcons(const DesignTokens& tokens);
 
     /**
      * @brief Fait refléter @p bindings sur le raccourci effectif de chaque commande concernée
-     *        (`hmi::keyBindingIconCatalog`, `LOT-57` TACHE-04).
+     *        (`hmi::keyBindingIconCatalog`).
      *
      * `ActionCatalog` reste sans dépendance Qt (valeurs par défaut littérales) ; c'est ici, côté
      * Qt, que le raccourci **réellement actif** d'un `QAction` est synchronisé avec les touches
@@ -101,8 +84,6 @@ public:
 private:
     std::array<QAction*, EDITOR_ACTION_CATALOG_COUNT> _actions{};
     QActionGroup* _toolGroup;
-    QActionGroup*
-        _pixelToolGroup;  ///< Groupe exclusif des outils de canevas, distinct de `_toolGroup`.
 };
 
 }  // namespace hmi

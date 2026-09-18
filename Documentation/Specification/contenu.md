@@ -4,7 +4,7 @@
 > Dépend de [`vision.md`](@ref spec-vision) (le catalogue en JSON d'`EX-VIS-007`) et de
 > [`architecture.md`](@ref spec-architecture) (frontière `Core` / `HMI`).
 
-Le jeu visé est un **bac à sable dans un univers complet** : dix régions, seize classes, treize
+Le jeu visé est un **bac à sable dans un univers complet** : treize régions, seize classes, treize
 espèces, cent-soixante-seize créatures. Aucune de ces valeurs ne peut vivre dans du C++ — ni en
 constante, ni en `switch`, ni en table codée en dur. Ce document porte les exigences de la
 **filière données** : d'où vient une donnée, ce qu'elle promet, et comment le moteur se comporte

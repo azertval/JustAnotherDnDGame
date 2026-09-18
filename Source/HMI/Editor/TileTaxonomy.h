@@ -10,7 +10,7 @@
 
 /**
  * @file HMI/Editor/TileTaxonomy.h
- * @brief Organisation des types de tuiles en catégories/sous-groupes pour la palette (LOT-35).
+ * @brief Organisation des types de tuiles en catégories/sous-groupes pour la palette.
  */
 
 namespace hmi {
@@ -40,7 +40,7 @@ struct TileCategory {
  * Logique **pure** (aucune dépendance Qt/GPU), testable (`EX-NFR-010`) : sert de source unique à la
  * palette `QTreeView` de l'éditeur (`EX-EDIT-018`, `EX-IHM-010`). **Chaque** `core::TileType` y
  * figure **exactement une fois**, dans un ordre déterministe (invariant vérifié par les tests).
- * Reprend l'organisation de la palette historique (`LOT-27`).
+ * Reprend l'organisation de la palette historique.
  */
 [[nodiscard]] std::vector<TileCategory> tileTaxonomy();
 

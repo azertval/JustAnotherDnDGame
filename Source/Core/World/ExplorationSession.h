@@ -21,15 +21,13 @@
  *
  * ## Pourquoi une session à part
  *
- * `hmi::GameSession` simule un niveau pour le **banc d'essai de l'éditeur** : elle porte son propre
- * rendu (atlas de tuiles carrées, HUD bitmap) et l'héritage du jeu de plateforme. Le jeu, lui,
- * dessine ses lieux comme l'arène, en projection isométrique et avec les planches de l'atelier des
- * textures (`LOT-92`). Cette session est donc la **jumelle de `core::ArenaSession`** : de la
- * simulation pure, sans GPU ni Qt (`EX-NFR-004`), qu'un rendu quelconque met à l'écran.
+ * Le jeu dessine ses lieux comme l'arène, en projection isométrique et avec les planches de
+ * l'atelier des textures (`LOT-92`). Cette session est donc la **jumelle de
+ * `core::ArenaSession`** : de la simulation pure, sans GPU ni Qt (`EX-NFR-004`), qu'un rendu
+ * quelconque met à l'écran — le jeu comme l'essai de l'éditeur.
  *
- * *Décision de l'auteur, 17 septembre 2026* : la feuille de route demandait de compiler
- * `hmi::GameSession` dans le jeu, ce qui y aurait amené un second moteur de rendu. Un lieu et une
- * arène se dessinent par le **même** code ; ils se simulent par deux sessions, comme aujourd'hui.
+ * *Décision de l'auteur, 17 septembre 2026* : un lieu et une arène se dessinent par le **même**
+ * code ; ils se simulent par deux sessions.
  *
  * ## Le repère
  *

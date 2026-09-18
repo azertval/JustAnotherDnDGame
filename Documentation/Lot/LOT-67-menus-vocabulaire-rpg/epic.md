@@ -92,7 +92,7 @@ défaut symétrique de celui qu'on corrigeait :
 
 Les douze autres sont **retirées, pas supprimées** : leurs ancres restent, dans une section
 « Exigences retirées » de leur spécification, avec le texte d'origine et le motif du retrait. C'est
-le patron du `LOT-H-69` pour les décors-sprites, et il a une raison mécanique autant que morale —
+le patron déjà suivi pour les décors-sprites, et il a une raison mécanique autant que morale —
 une vingtaine de lots hérités s'y réfèrent, et supprimer une ancre casserait leurs renvois sans
 rien apprendre à personne.
 

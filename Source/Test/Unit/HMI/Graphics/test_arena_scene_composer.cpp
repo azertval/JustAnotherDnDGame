@@ -70,8 +70,7 @@ core::Level piste() {
     return core::Level(core::LevelData{.name = "piste",
                                        .tileMap = std::move(carte),
                                        .entities = {},
-                                       .entry = {1, 1},
-                                       .exit = {3, 2}});
+                                       .entry = {1, 1}});
 }
 
 constexpr int FLOOR_QUADS = 20;

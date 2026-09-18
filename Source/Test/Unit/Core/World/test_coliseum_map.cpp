@@ -76,7 +76,6 @@ TEST(ColiseumMapTest, LaCarteLivreeSeCharge) {
     EXPECT_EQ(carte.tileMap().width(), 40);
     EXPECT_EQ(carte.tileMap().height(), 34);
     EXPECT_EQ(hmi::scenePlaceOf(carte), "coliseum");
-    EXPECT_EQ(carte.cameraFraming().mode, core::CameraFramingMode::Follow);
 
     bool sol = false;
     bool relief = false;

@@ -59,9 +59,6 @@ coverage.xml
 coverage-html/
 *.cov
 
-# --- Sorties d'entraînement IA (générées, programme Lot-Annexe) ---
-/TrainingRuns/
-
 # --- Corpus source (LOT-30, EX-CNT-023) ---
 # Les huit PDF de référence, plus les neuf ressources de table virtuelle ajoutées le 2026-09-07
 # (cartes, jetons, compendium) : environ 1 600 pages et 785 Mo, dont deux images de plus de 100 Mo.

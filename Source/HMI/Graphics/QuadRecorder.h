@@ -22,7 +22,7 @@ namespace hmi {
  * dans une `hmi::ComposedScene` et la soumet directement ; le recorder ne fait qu'en **copier** le
  * résultat, à la demande, hors du chemin de dessin. Il n'y a donc aucun coût en production.
  *
- * Il existe parce que le programme d'habillage (`LOT-40` → `LOT-55`) empile six couches dont
+ * Il existe parce que l'habillage empile six couches dont
  * l'ordre, la priorité de résolution et l'isolement sont exactement le genre de règle qui casse
  * silencieusement, et dont les critères d'acceptation (« rendu identique », « ordre de calque
  * correct ») seraient sinon des vérifications à l'œil. Les prédicats offerts ici — ordre des

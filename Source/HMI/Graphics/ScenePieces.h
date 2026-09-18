@@ -13,7 +13,6 @@
 #include "Core/Math/Vector2.h"
 #include "HMI/Graphics/Quad.h"
 #include "HMI/Graphics/RenderLayer.h"
-#include "HMI/Graphics/TileAppearance.h"  // hmi::TextureHandle
 
 /**
  * @file HMI/Graphics/ScenePieces.h

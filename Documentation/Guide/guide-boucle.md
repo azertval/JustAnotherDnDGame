@@ -8,7 +8,7 @@ puis détaille comment ce moteur la construit.
 Une application classique (un formulaire, un outil en ligne de commande) est **passive** : elle
 attend un événement (clic, entrée clavier, requête réseau) puis réagit, et ne fait rien entre deux
 événements. Un jeu vidéo, lui, doit donner l'illusion d'un monde **vivant** en continu : un
-personnage tombe sous l'effet de la gravité même si le joueur n'appuie sur aucune touche. Il faut
+personnage continue de marcher tant que la touche reste enfoncée, sans nouvel événement. Il faut
 donc une boucle qui tourne **en permanence**, tant que le jeu est ouvert, et qui à chaque tour :
 
 1. **lit** les entrées disponibles (clavier, souris, fenêtre) ;
@@ -18,9 +18,15 @@ donc une boucle qui tourne **en permanence**, tant que le jeu est ouvert, et qui
 
 Un tour de cette boucle correspond à une **frame** (image). Un jeu qui tourne à 60 *frames per
 second* (FPS) exécute ces quatre étapes 60 fois par seconde, soit un tour toutes les ~16,7 ms. Dans
-ce moteur, cette boucle vit dans le viewport Qt (`hmi::GameViewport`, cadencé par
-`QEvent::UpdateRequest`) et enchaîne : sondage manette + événements Qt → mise à jour → rendu →
-présentation (@ref guide-ihm-qt).
+ce moteur, Qt possède la boucle d'événements ; la logique et le rendu s'y branchent de deux façons
+(@ref guide-ihm-qt) :
+
+- dans le **jeu**, `hmi::WorldModel` avance l'exploration sur un `QTimer` de précision
+  (`WorldModel::STEP_MILLISECONDS`, 16 ms), et la surface de rendu (`hmi::WorldViewportItem`)
+  redessine quand la scène a changé ;
+- dans l'**essai immédiat** de l'éditeur, `hmi::EditorViewport` (un `QRhiWidget`) redemande une
+  image dès la précédente terminée ; chaque image mesure le temps écoulé, avance la simulation par
+  pas fixes, puis dessine.
 
 ## Le piège du framerate variable
 
@@ -36,16 +42,15 @@ while (running) {
 }
 ```
 
-Ici, un personnage qui tombe se déplacerait de `vitesse × deltaTime` à chaque frame. Sur une
-machine rapide (deltaTime petit), la chute avancerait par petits pas fréquents ; sur une machine
+Ici, un personnage qui marche se déplacerait de `vitesse × deltaTime` à chaque frame. Sur une
+machine rapide (deltaTime petit), la marche avancerait par petits pas fréquents ; sur une machine
 lente (deltaTime grand), par grands pas rares. Le résultat numérique final **diffère** selon la
 vitesse de la machine : mêmes entrées, trajectoires différentes. Deux conséquences concrètes :
 
 - **le jeu n'est pas reproductible** : un test automatisé qui rejoue une séquence d'entrées peut
   obtenir un résultat différent d'une exécution à l'autre, ou d'une machine à l'autre ;
-- **le *game feel* change avec la machine** : un saut peut être plus haut ou plus court, une
-  collision peut « traverser » un mur plus facilement quand `deltaTime` grandit (un grand pas
-  saute par-dessus un obstacle fin — voir @ref guide-physique, §1).
+- **le ressenti change avec la machine** : le héros ne s'arrête pas au même endroit contre un
+  mur, et un grand pas peut sauter par-dessus un obstacle fin quand `deltaTime` grandit.
 
 C'est ce défaut que le **pas de temps fixe** élimine.
 
@@ -54,7 +59,7 @@ C'est ce défaut que le **pas de temps fixe** élimine.
 Idée : au lieu de faire avancer la logique de la durée réelle (variable) de la frame, on la fait
 avancer par **incréments constants**, par exemple toujours 1/60 s. Le nombre d'incréments à
 exécuter à chaque frame dépend du temps réel écoulé, mais **chaque incrément individuel** voit
-toujours exactement la même durée. La logique de jeu (physique, mécanismes) ne connaît donc
+toujours exactement la même durée. La logique de jeu (l'exploration) ne connaît donc
 **jamais** de `deltaTime` variable — seulement des pas identiques et répétés — ce qui garantit le
 **déterminisme** : mêmes entrées → **exactement** la même trajectoire, quelle que soit la vitesse
 de la machine (`EX-NFR-002`, `EX-ARCH-030`). C'est indispensable pour des tests reproductibles et
@@ -82,10 +87,16 @@ nombre de pas à exécuter :
 core::FixedTimestep clock;               // pas fixe par défaut : 1/60 s
 const int steps = clock.advance(elapsedSeconds);
 for (int i = 0; i < steps; ++i) {
-    updateCurrentScreen(clock.fixedDeltaSeconds());  // toujours 1/60 s, jamais elapsedSeconds
+    play.step(intent, clock.fixedDeltaSeconds());  // toujours 1/60 s, jamais elapsedSeconds
 }
 render();  // une seule fois, quel que soit le nombre de pas
 ```
+
+C'est, à peu de chose près, `hmi::EditorViewport::renderPlaytest` : l'essai immédiat fait avancer
+un `hmi::WorldPlay` (la même exploration que le jeu) de `steps` pas, puis dessine. Le jeu, lui, se
+passe d'accumulateur : son `QTimer` tire déjà à intervalle fixe, et chaque tir est un pas de
+`STEP_MILLISECONDS` — un retard du minuteur décale le pas dans le temps réel, jamais sa durée
+simulée.
 
 ### Exemple chiffré
 
@@ -114,36 +125,30 @@ quitte à ce que la simulation « perde » du temps réel dans un cas extrême p
 ### \ref core::FixedTimestep::interpolationAlpha "interpolationAlpha"
 
 Après avoir consommé tous les pas fixes disponibles, il peut rester une fraction de pas dans
-l'accumulateur (entre 0 et 1 pas). `interpolationAlpha()` l'expose comme un facteur dans `[0, 1[` :
-le rendu s'en sert pour **interpoler** visuellement entre la position du pas précédent et celle du
-pas courant, afin d'afficher un mouvement lisse même quand le framerate de rendu dépasse la
-fréquence des pas fixes (`EX-ARCH-031`, concrétisé en `LOT-33`). Sans cette interpolation, une
-entité mobile resterait figée à sa dernière position simulée pendant plusieurs frames de rendu puis
-« sauterait » d'un coup au pas suivant — un *judder* en marches d'escalier visible dès qu'un écran
-dépasse 60 Hz. La mécanique côté rendu est détaillée dans @ref guide-rendu (composant
-`hmi::PreviousPosition`, `hmi::SpriteRenderer`).
+l'accumulateur (entre 0 et 1 pas). `interpolationAlpha()` l'expose comme un facteur dans `[0, 1[`,
+qui permettrait au rendu d'**interpoler** entre la position du pas précédent et celle du pas
+courant. Aucun rendu ne s'en sert aujourd'hui : l'image montre la dernière position simulée.
 
 ### Les frames sans pas de simulation et les entrées
 
 Quand le rendu dépasse 60 Hz, certaines frames réelles n'exécutent **aucun** pas fixe (`steps == 0`)
 — l'accumulateur n'a pas encore atteint un pas complet. Ces frames dessinent quand même (le rendu
-est découplé), en interpolant grâce à `interpolationAlpha`. Elles imposent en revanche une
-précaution sur les **entrées** : un appui capturé sur une telle frame doit **survivre** jusqu'à ce
-qu'un pas de simulation le lise, au lieu d'être effacé par la frame suivante. C'est pourquoi la
-boucle avance la ligne de base des fronts d'entrée (`hmi::InputState::beginFrame`) **après chaque
-pas consommé**, et non à chaque frame de rendu — détaillé dans @ref guide-entrees. Sans cette
-précaution, à 144 Hz environ deux appuis sur trois seraient perdus (bug corrigé en `LOT-33`).
+est découplé). Elles imposent en revanche une précaution sur les **entrées** : un appui capturé sur
+une telle frame doit **survivre** jusqu'à ce qu'un pas de simulation le lise, au lieu d'être effacé
+par la frame suivante. C'est pourquoi l'essai immédiat note la demande d'interaction (`E`/Espace)
+dans un drapeau que **le premier pas consommé** remet à zéro, et non la frame de rendu — voir
+@ref guide-entrees. Sans cette précaution, à 144 Hz environ deux appuis sur trois seraient perdus.
 
 ## Conséquence pratique pour tout le code de simulation
 
-**Toute** la logique de jeu (`core::CharacterPhysicsSystem`, les mécanismes) reçoit `fixedDelta`
-— une constante — et **jamais** le temps réel. C'est pour cela que les tests peuvent appeler
+**Toute** la logique de jeu (`core::ExplorationSession::update`, appelée par `hmi::WorldPlay::step`)
+reçoit un pas constant et **jamais** le temps réel. C'est pour cela que les tests peuvent appeler
 `update(..., 1.0f/60.0f)` en boucle, sans horloge ni minuteur : c'est **exactement** ce que fait le
 jeu en exécution normale, pas une approximation. Un système qui lirait le temps réel directement
 romprait cette garantie et deviendrait, par construction, non déterministe et difficile à tester.
 
 ## Voir aussi
 - `core::FixedTimestep`.
-- `hmi::GameViewport` (boucle cadencée par Qt), @ref guide-ihm-qt, @ref guide-ecrans (navigation).
-- @ref guide-ecs — la logique exécutée à chaque pas fixe.
-- @ref guide-physique — le système le plus sensible au déterminisme du pas fixe.
+- `hmi::WorldModel` (pas du jeu), `hmi::EditorViewport` (essai immédiat), `hmi::WorldPlay`.
+- @ref guide-ihm-qt, @ref guide-ecrans (navigation).
+- @ref guide-ecs — les entités que la logique manipule.

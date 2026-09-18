@@ -9,7 +9,7 @@
 
 /**
  * @file HMI/Interface/DesignTokens.h
- * @brief Jetons de design de l'IHM Qt (`LOT-56`, `EX-IHM-050`, `EX-IHM-051`) : source unique des
+ * @brief Jetons de design de l'IHM Qt (`EX-IHM-050`, `EX-IHM-051`) : source unique des
  *        couleurs, espacements, typographie et tailles de l'application.
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
@@ -22,7 +22,7 @@
  *   ne suit jamais aucun réglage d'affichage.
  * - `editorDarkTokens()` — le **châssis d'édition** (panneaux, barre d'outils, barre d'état, barre
  *   de menus de l'éditeur, boîtes de dialogue ouvertes depuis lui) : variable, thème sombre par
- *   défaut ; `editorLightTokens()` (`LOT-56` TACHE-06) lui ajoute un second jeu de valeurs.
+ *   défaut ; `editorLightTokens()` lui ajoute un second jeu de valeurs.
  *
  * Réutiliser la **même** structure pour les deux portées rend leur symétrie de rôles garantie par
  * le système de types plutôt que par convention : un rôle ajouté à l'une existe nécessairement
@@ -101,16 +101,8 @@ struct TypographyLevel {
                                          const TypographyLevel&) noexcept = default;
 };
 
-/// Famille de police d'une portée (`LOT-68`, `EX-IHM-070`). La distinction est un **rôle**, pas un
-/// nom de police : `Identity` reste `Identity` le jour où la police pixel embarquée change.
-enum class FontRole {
-    Ui,        ///< Châssis d'édition : police de travail, lisible en petit et en tableau dense.
-    Identity,  ///< Écrans du jeu : police bitmap, rendue sans lissage à échelle entière.
-};
-
 /// Échelle typographique, par **rôle** — jamais de taille ponctuelle en dehors de cette échelle.
 struct TypographyTokens {
-    FontRole family = FontRole::Ui;  ///< Famille employée par la portée.
     TypographyLevel screenTitle;     ///< Titre d'écran (menu principal, Options).
     TypographyLevel sectionTitle;    ///< Titre de section/panneau.
     TypographyLevel body;            ///< Corps de texte, contrôles.
@@ -122,7 +114,7 @@ struct TypographyTokens {
 };
 
 /// Tailles d'icônes, de vignettes et de contrôles usuels, en pixels logiques (avant mise à
-/// l'échelle d'affichage, `LOT-56` TACHE-05).
+/// l'échelle d'affichage).
 struct SizeTokens {
     int iconSmall = 16;
     int iconMedium = 20;  ///< Icônes de ligne (panneau Textures) et d'action de barre d'outils.
@@ -143,8 +135,8 @@ struct DesignTokens {
     SizeTokens size;
 };
 
-/// Grandeurs de la portée **identité**, exprimées en pixels **à l'échelle 1** (`LOT-68`,
-/// `EX-IHM-070`). Distinctes de `TypographyTokens`/`SpacingTokens`, qui restent partagées et
+/// Grandeurs de la portée **identité**, exprimées en pixels **à l'échelle 1**
+/// (`EX-IHM-070`). Distinctes de `TypographyTokens`/`SpacingTokens`, qui restent partagées et
 /// **jamais multipliées** : le châssis d'édition est un outil de travail dont les tailles suivent
 /// les réglages du système, les écrans du jeu sont une image agrandie d'un facteur entier.
 ///
@@ -168,7 +160,7 @@ struct IdentityBaseScale {
                                          const IdentityBaseScale&) noexcept = default;
 };
 
-/// @return L'échelle de base de la portée identité (`LOT-68`).
+/// @return L'échelle de base de la portée identité.
 [[nodiscard]] const IdentityBaseScale& identityBaseScale() noexcept;
 
 /// @return Le mélange de @p from et @p to, à la proportion @p ratio (0 = @p from, 1 = @p to).
@@ -176,30 +168,24 @@ struct IdentityBaseScale {
 /// littérale ne suivrait pas un changement de palette (`EX-IHM-051`). @p ratio est borné à [0, 1].
 [[nodiscard]] DesignColor mixColor(DesignColor from, DesignColor to, float ratio) noexcept;
 
-/// @return Le mot-clé de famille **générique** CSS correspondant à @p role (`monospace` pour
-/// l'identité à empattements, `sans-serif` pour le châssis d'édition). C'est le repli de la feuille
-/// de style quand aucune police embarquée n'a pu être enregistrée : un mot-clé générique, jamais un
-/// second nom de police codé en dur (`EX-IHM-052`).
-[[nodiscard]] const char* genericCssFamily(FontRole role) noexcept;
-
 /// Jetons de l'identité du jeu (menu principal, écran Options, jeu) : **invariants**, ne suivent
 /// jamais aucun réglage d'affichage (`EX-IHM-050`).
 [[nodiscard]] const DesignTokens& identityTokens() noexcept;
 
 /// Jetons du châssis d'édition en thème **sombre** (défaut) : **variables**, `editorLightTokens()`
-/// (`LOT-56` TACHE-06) en fournit un second jeu.
+/// en fournit un second jeu.
 [[nodiscard]] const DesignTokens& editorDarkTokens() noexcept;
 
-/// Jetons du châssis d'édition en thème **clair** (`LOT-56` TACHE-06) : mêmes rôles, mêmes
+/// Jetons du châssis d'édition en thème **clair** : mêmes rôles, mêmes
 /// échelles que `editorDarkTokens()` — seules les couleurs diffèrent, et pas par simple inversion
 /// (les écarts de luminosité entre bordures/lignes alternées/fond diffèrent en clair et en sombre).
 [[nodiscard]] const DesignTokens& editorLightTokens() noexcept;
 
-/// Couleur d'effacement du viewport (`GameViewport`), dérivée des jetons plutôt que d'une valeur
-/// littérale locale : fond de la portée **variable** en édition (suivant le thème actif de
-/// l'éditeur, `LOT-56` TACHE-06), fond de la portée **invariante** en jeu et en essai — la seule
+/// Couleur d'effacement du viewport de l'éditeur (`EditorViewport`), dérivée des jetons plutôt
+/// que d'une valeur littérale locale : fond de la portée **variable** en édition (suivant le thème
+/// actif de l'éditeur), fond de la portée **invariante** en essai — la seule
 /// surface qui appartient tour à tour aux deux portées.
-/// @param editorMode         `true` en édition, `false` en jeu/essai.
+/// @param editorMode         `true` en édition, `false` en essai.
 /// @param activeEditorTokens Jetons du châssis d'édition **actuellement effectifs** (thème clair
 ///                           ou sombre) ; ignorés si `editorMode` est faux.
 [[nodiscard]] DesignColor viewportClearColor(bool editorMode,
@@ -219,8 +205,8 @@ struct IdentityBaseScale {
 /// Rapport de contraste WCAG entre deux couleurs (1 = aucun contraste, 21 = noir sur blanc).
 [[nodiscard]] double contrastRatio(DesignColor a, DesignColor b) noexcept;
 
-/// Table de substitution marqueur -> valeur pour le modèle de feuille de style (`LOT-56`
-/// TACHE-02), à partir d'un jeu de jetons du châssis d'édition (portée variable) ; les marqueurs de
+/// Table de substitution marqueur -> valeur pour le modèle de feuille de style,
+/// à partir d'un jeu de jetons du châssis d'édition (portée variable) ; les marqueurs de
 /// préfixe "identity." sont toujours résolus depuis `identityTokens()` (portée invariante).
 /// Fonction **pure** : ne dépend que des jetons, jamais de l'état de l'application.
 [[nodiscard]] std::unordered_map<std::string, std::string> buildStyleSheetValues(

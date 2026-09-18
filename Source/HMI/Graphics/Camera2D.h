@@ -15,58 +15,6 @@
 
 namespace hmi {
 
-/// Amplitude conservatrice de la secousse d'écran à un atterrissage lourd (`LOT-53` TACHE-03) :
-/// discrète, un jeu de plateforme précis devient injouable si l'écran bouge trop.
-inline constexpr float LANDING_SHAKE_AMPLITUDE_PIXELS = 2.0f;
-/// Amplitude de la secousse à la mort du personnage : légèrement plus marquée que l'atterrissage.
-inline constexpr float DEATH_SHAKE_AMPLITUDE_PIXELS = 3.0f;
-/// Durée de toute secousse d'écran, en secondes -- brève par construction.
-inline constexpr float SCREEN_SHAKE_DURATION = 0.2f;
-
-/**
- * @brief État déterministe d'une secousse d'écran en cours de décroissance vers zéro.
- *
- * Donnée pure (`EX-NFR-002`) : aucune horloge système, seulement un temps écoulé avancé au pas
- * fixe par `advanceScreenShake`. `elapsed >= duration` signifie « terminée » -- état initial
- * (agrégat par défaut) légitimement déjà terminé, sans secousse active.
- */
-struct ScreenShakeState {
-    /// Amplitude au déclenchement, en pixels écran.
-    float amplitudePixels = 0.0f;
-    /// Temps écoulé depuis le déclenchement, en secondes.
-    float elapsed = 0.0f;
-    /// Durée totale de la secousse, en secondes.
-    float duration = 0.0f;
-};
-
-/**
- * @brief Déclenche (ou relance) une secousse d'écran.
- * @param state         État à réarmer.
- * @param amplitudePixels Amplitude au déclenchement, en pixels écran (constante nommée côté
- *                        appelant, ex. `LANDING_SHAKE_AMPLITUDE_PIXELS`).
- * @param duration      Durée totale, en secondes (ex. `SCREEN_SHAKE_DURATION`).
- */
-void triggerScreenShake(ScreenShakeState& state, float amplitudePixels, float duration) noexcept;
-
-/**
- * @brief Avance une secousse d'écran d'un pas fixe.
- * @param state      État à avancer ; sans effet si déjà terminée (`elapsed >= duration`).
- * @param fixedDelta Durée du pas, en secondes.
- */
-void advanceScreenShake(ScreenShakeState& state, float fixedDelta) noexcept;
-
-/**
- * @brief Décalage courant d'une secousse d'écran, en pixels **entiers** (`EX-ARCH-022`).
- *
- * Décroît **linéairement** de `amplitudePixels` à zéro sur `duration`, sur l'axe vertical
- * uniquement -- une discrétion volontaire (cf. `epic.md`) plutôt qu'une oscillation qui
- * ajouterait un axe de plus à lire. Nul une fois la secousse terminée.
- * @param state Secousse dont on lit le décalage courant.
- * @return Le décalage à appliquer à la **projection de rendu uniquement** (jamais à `_center`, ni
- *         à la logique de cadrage par salle, ni à une position simulée).
- */
-[[nodiscard]] core::Vector2 screenShakeOffset(const ScreenShakeState& state) noexcept;
-
 /**
  * @brief Caméra 2D orthographique : projette le monde vers l'écran pour le rendu.
  *
@@ -106,19 +54,6 @@ public:
      * @param zoom Multiplicateur d'échelle (> 0 ; entier recommandé).
      */
     void setZoom(float zoom);
-
-    /**
-     * @brief Décalage de secousse d'écran (`LOT-53` TACHE-03), en pixels **entiers**.
-     *
-     * Appliqué uniquement à `projectionMatrix()` (rendu) -- jamais à `_center`, donc sans effet
-     * sur `worldToScreen`/`screenToWorld`/`visibleBounds` : le culling et la logique de cadrage
-     * par salle (`hmi::GameSession::updateCurrentRoom`, piloté par la position du personnage, pas
-     * par la caméra) restent structurellement insensibles à la secousse.
-     * @param offsetPixels Décalage courant (`hmi::screenShakeOffset`), nul hors secousse.
-     */
-    void setShakeOffsetPixels(const core::Vector2& offsetPixels) {
-        _shakeOffsetPixels = offsetPixels;
-    }
 
     /// @return Le centre courant de la caméra, en unités monde.
     [[nodiscard]] const core::Vector2& center() const noexcept {
@@ -192,8 +127,6 @@ private:
     int _viewportHeight;
     core::Vector2 _center{};
     float _zoom = 1.0f;
-    /// Décalage de secousse d'écran courant, en pixels (`setShakeOffsetPixels`) ; nul par défaut.
-    core::Vector2 _shakeOffsetPixels{};
 };
 
 }  // namespace hmi

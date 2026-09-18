@@ -20,7 +20,7 @@ class Localization;
  * `hmi::tileTaxonomy` reste une logique **pure**, sans dépendance i18n : elle porte des libellés
  * français, qui servent aussi de clés de correspondance ici. Cette table est le point **unique**
  * de la conversion, partagé par tous les panneaux qui affichent des types de tuiles — la palette
- * (`LOT-35`) et le panneau « Textures » (`LOT-42`). Deux copies divergeraient au premier libellé
+ * et le panneau « Textures ». Deux copies divergeraient au premier libellé
  * ajouté, et un panneau afficherait alors du français au milieu d'une interface anglaise.
  * @param label Libellé issu de la taxonomie.
  * @return La clé de traduction, ou une chaîne vide si le libellé n'en a pas.

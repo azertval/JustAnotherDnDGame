@@ -11,8 +11,11 @@ Vérifie que les identifiants d'exigences forment un référentiel cohérent :
   workflows) pointe vers une exigence déclarée (aucune référence orpheline) ;
 - toute exigence **déclarée** est référencée au moins une fois quelque part (spécification
   détaillée, lot, code) — sauf si elle est explicitement qualifiée d'**invariant transverse** ou de
-  **post-MVP** dans le fichier de spécification qui la déclare (LOT-66 TACHE-03) : ce silence-là est
-  documenté, pas orphelin ;
+  **post-MVP** dans le fichier de spécification qui la déclare, ou **retirée** :
+  ce silence-là est documenté, pas orphelin ;
+- une exigence **retirée** (ligne d'ancre portant ``*(retirée``) n'est plus citée par le **code** :
+  le code qui la mettait en œuvre part avec elle (LOT-88). Les lots livrés, eux, peuvent la citer —
+  c'est leur histoire ;
 - toute référence à une **famille entière** (``EX-XXX-*``) désigne une famille qui existe.
 
 Ce dernier contrôle comble un angle mort : ``ID_RE`` ne capte que ``EX-XXX-NNN``, si bien qu'un
@@ -29,6 +32,10 @@ import sys
 
 ID_RE = re.compile(r'EX-[A-Z]+-[0-9]+')
 ANCHOR_RE = re.compile(r'\\anchor\s+(EX-[A-Z]+-[0-9]+)')
+# Marque d'une exigence retiree, sur sa ligne d'ancre : `\anchor EX-GP-003 **EX-GP-003** *(retirée…`.
+RETIRED_MARK = '*(retirée'
+# Le code ne cite pas une exigence retiree : ce qu'elle exigeait n'existe plus.
+CODE_EXTENSIONS = ('.h', '.hpp', '.cpp', '.yml', '.yaml')
 SPLIT_RE = re.compile(r'(EX-[A-Z]+)-([0-9]+)')
 # Référence à une famille entière : `EX-REG-*`. Volontairement distincte d'ID_RE, qui exige des
 # chiffres — c'est cette distinction qui laissait passer les familles inexistantes.
@@ -37,7 +44,7 @@ FAMILY_REF_RE = re.compile(r'EX-([A-Z]+)-\*')
 SCAN_EXTENSIONS = ('.md', '.h', '.hpp', '.cpp', '.yml', '.yaml')
 EXCLUDED_DIRS = {'.git', 'generated', 'build', 'build-release', 'out', 'External', 'bin', 'obj',
                  # Worktree d'agent (ex. fork Claude Code) : un clone complet du dépôt peut y vivre
-                 # temporairement et fait sortir chaque identifiant en double (LOT-66).
+                 # temporairement et fait sortir chaque identifiant en double.
                  '.claude'}
 
 # Exigences déclarées sans être jamais référencées, PAR CONSTRUCTION : des invariants transverses
@@ -47,7 +54,6 @@ EXCLUDED_DIRS = {'.git', 'generated', 'build', 'build-release', 'out', 'External
 UNREFERENCED_ALLOWED = {
     'EX-ARCH-001', 'EX-ARCH-060', 'EX-ARCH-070',  # invariants transverses, architecture.md
     'EX-NFR-032',                                  # invariant transverse, exigences-non-fonctionnelles.md
-    'EX-DEC-031',                                  # post-MVP (section 3, hors 0.1.0), decors.md
 }
 
 
@@ -60,15 +66,17 @@ def iter_files(root):
 
 
 def collect(root):
-    """Retourne (declarations, references, family_references).
+    """Retourne (declarations, references, family_references, retired).
 
     declarations      : dict id -> liste de (fichier, ligne) des ``\\anchor``.
     references        : dict id -> liste de (fichier, ligne) de toutes les autres mentions.
     family_references : dict famille -> liste de (fichier, ligne) des ``EX-XXX-*``.
+    retired           : ensemble des exigences dont l'ancre est marquee retiree.
     """
     declarations = {}
     references = {}
     family_references = {}
+    retired = set()
     for path in iter_files(root):
         rel = os.path.relpath(path, root)
         try:
@@ -80,17 +88,19 @@ def collect(root):
             anchors_on_line = set(ANCHOR_RE.findall(line))
             for rid in anchors_on_line:
                 declarations.setdefault(rid, []).append((rel, number))
+                if RETIRED_MARK in line:
+                    retired.add(rid)
             for rid in ID_RE.findall(line):
                 if rid in anchors_on_line:
                     continue  # le token de l'ancre n'est pas une référence
                 references.setdefault(rid, []).append((rel, number))
             for family in FAMILY_REF_RE.findall(line):
                 family_references.setdefault('EX-' + family, []).append((rel, number))
-    return declarations, references, family_references
+    return declarations, references, family_references, retired
 
 
 def check(root):
-    declarations, references, family_references = collect(root)
+    declarations, references, family_references, retired = collect(root)
     errors = []
 
     for rid, places in sorted(declarations.items()):
@@ -104,11 +114,17 @@ def check(root):
             errors.append('ORPHELINE : %s referencee mais jamais declaree (%s)' % (rid, spots))
 
     for rid, places in sorted(declarations.items()):
-        if rid not in references and rid not in UNREFERENCED_ALLOWED:
+        if rid not in references and rid not in UNREFERENCED_ALLOWED and rid not in retired:
             spot = '%s:%d' % places[0]
             errors.append('NON REFERENCEE : %s declaree (%s) mais jamais referencee ailleurs '
                           '(a referencer, ou a qualifier d\'invariant/post-MVP dans '
                           'UNREFERENCED_ALLOWED)' % (rid, spot))
+
+    for rid in sorted(retired):
+        for place in references.get(rid, []):
+            if place[0].endswith(CODE_EXTENSIONS):
+                errors.append('RETIREE CITEE : %s est retiree mais citee par le code (%s:%d)'
+                              % (rid, place[0], place[1]))
 
     declared_families = {SPLIT_RE.match(rid).group(1) for rid in declarations}
     for family, places in sorted(family_references.items()):
@@ -131,7 +147,7 @@ def check(root):
 
 
 def next_free(root):
-    declarations, _, _ = collect(root)
+    declarations, _, _, _ = collect(root)
     by_category = {}
     width = {}
     for rid in declarations:

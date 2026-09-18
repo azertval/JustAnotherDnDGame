@@ -3,7 +3,7 @@
 
 /**
  * @file test_design_tokens.cpp
- * @brief Tests unitaires des jetons de design de l'IHM (`LOT-56` TACHE-01, `EX-IHM-050`,
+ * @brief Tests unitaires des jetons de design de l'IHM (`EX-IHM-050`,
  *        `EX-IHM-051`).
  */
 
@@ -72,21 +72,19 @@ TEST(DesignTokensTest, CouleurViewportSuitLaPorteeDuMode) {
 /**
  * @brief Les deux portées d'habillage (identité invariante, châssis variable) partagent
  *        exactement les mêmes échelles d'espacement, de typographie et de tailles — seules les
- *        couleurs diffèrent. Sans cette symétrie, TACHE-06 découvrirait une divergence trop tard.
+ *        couleurs diffèrent. Sans cette symétrie, une divergence se découvrirait trop tard.
  * \castest{<b>Les deux portees partagent les memes echelles et tailles.</b><br/>
  * \tcat Unitaire · Jetons de design<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Comparer espacement, niveaux typographiques et tailles des deux portees.<br/>
- * \tattendu Les echelles sont identiques entre les deux portees ; seule la famille de police
- * differe.
+ * \tattendu Les echelles sont identiques entre les deux portees ; seules les couleurs
+ * different.
  * }
  */
 TEST(DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles) {
     EXPECT_EQ(hmi::identityTokens().spacing, hmi::editorDarkTokens().spacing);
     EXPECT_EQ(hmi::identityTokens().size, hmi::editorDarkTokens().size);
-    // L'echelle typographique reste partagee CHAMP PAR CHAMP, mais plus la famille depuis le
-    // LOT-68 : les ecrans du jeu emploient une police bitmap, le chassis d'edition non. Comparer
-    // les structures entieres confondrait ces deux faits.
+    // L'echelle typographique est partagee champ par champ.
     EXPECT_EQ(hmi::identityTokens().typography.screenTitle,
               hmi::editorDarkTokens().typography.screenTitle);
     EXPECT_EQ(hmi::identityTokens().typography.sectionTitle,
@@ -95,7 +93,7 @@ TEST(DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles) {
     EXPECT_EQ(hmi::identityTokens().typography.caption, hmi::editorDarkTokens().typography.caption);
     EXPECT_EQ(hmi::identityTokens().typography.monospaceBody,
               hmi::editorDarkTokens().typography.monospaceBody);
-    // Les deux themes d'editeur (LOT-56 TACHE-06) partagent aussi ces echelles entre eux, famille
+    // Les deux themes d'editeur partagent aussi ces echelles entre eux, famille
     // comprise : ils habillent le meme chassis.
     EXPECT_EQ(hmi::editorDarkTokens().spacing, hmi::editorLightTokens().spacing);
     EXPECT_EQ(hmi::editorDarkTokens().typography, hmi::editorLightTokens().typography);
@@ -103,26 +101,8 @@ TEST(DesignTokensTest, LesDeuxPorteesPartagentLesMemesEchelles) {
 }
 
 /**
- * @brief Les deux portées emploient des familles de police **distinctes** (`LOT-68`,
- *        `EX-IHM-070`) : identité en police bitmap, châssis d'édition en police de travail.
- *        C'est ce qui empêche la police pixel de se répandre dans les tables et les arbres denses
- *        de l'éditeur, où elle serait illisible.
- * \castest{<b>Chaque portee designe sa propre famille de police.</b><br/>
- * \tcat Unitaire · Jetons de design<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Lire le role de famille des jetons d'identite et des deux themes d'editeur.<br/>
- * \tattendu L'identite designe Identity, les deux themes d'editeur designent Ui.
- * }
- */
-TEST(DesignTokensTest, ChaquePorteeDesigneSaPropreFamille) {
-    EXPECT_EQ(hmi::identityTokens().typography.family, hmi::FontRole::Identity);
-    EXPECT_EQ(hmi::editorDarkTokens().typography.family, hmi::FontRole::Ui);
-    EXPECT_EQ(hmi::editorLightTokens().typography.family, hmi::FontRole::Ui);
-}
-
-/**
  * @brief Les trois rôles du cadre pixel art se distinguent assez pour donner du relief à un trait
- *        d'un seul pixel (`LOT-68`, `EX-IHM-070`), et ce dans les trois jeux de jetons — y compris
+ *        d'un seul pixel (`EX-IHM-070`), et ce dans les trois jeux de jetons — y compris
  *        le thème clair, où un biseau « clair » plus clair que la surface serait invisible.
  * \castest{<b>Les trois roles du cadre pixel art sont distincts dans chaque portee.</b><br/>
  * \tcat Unitaire · Jetons de design<br/>
@@ -168,7 +148,7 @@ TEST(DesignTokensTest, CouleursDesDeuxPorteesDistinctesEtCoherentes) {
 
 /**
  * @brief Les deux widgets de remappage (clavier, manette) doivent exposer la même largeur
- *        minimale : c'est la grandeur que TACHE-01 unifie via `SizeTokens::controlMinWidth`.
+ *        minimale : c'est la grandeur unifiée via `SizeTokens::controlMinWidth`.
  * \castest{<b>Une seule grandeur de largeur minimale existe pour les deux widgets de
  * remappage.</b><br/> \tcat Unitaire · Jetons de design<br/> \tcrit Mineur<br/> \tetapes 1. Lire
  * `controlMinWidth` dans les jetons du chassis d'edition.<br/> \tattendu La valeur est strictement
@@ -182,8 +162,8 @@ TEST(DesignTokensTest, AucunDoublonDeLargeurMinimale) {
 /**
  * @brief Pour chaque thème d'éditeur (sombre, clair), le rapport de contraste entre le texte et
  *        son fond, et entre le texte atténué et son fond, dépasse un seuil de lisibilité fixé —
- *        garde-fou contre un thème clair livré illisible (`LOT-56` TACHE-06), étendu à la portée
- *        identité au `LOT-68` (sa palette change).
+ *        garde-fou contre un thème clair livré illisible, étendu à la portée
+ *        identité (sa palette change).
  * \castest{<b>Chaque jeu de jetons satisfait un seuil de contraste texte/fond.</b><br/>
  * \tcat Unitaire · Jetons de design<br/>
  * \tcrit Critique<br/>
@@ -196,7 +176,7 @@ TEST(DesignTokensTest, AucunDoublonDeLargeurMinimale) {
 TEST(DesignTokensTest, ChaqueThemeSatisfaitLeSeuilDeContraste) {
     constexpr double MIN_TEXT_CONTRAST = 4.5;
     constexpr double MIN_MUTED_TEXT_CONTRAST = 3.0;
-    // La portee identite rejoint le garde-fou au LOT-68 : sa palette change, son contraste doit
+    // La portee identite rejoint le garde-fou : sa palette change, son contraste doit
     // etre verifie comme celui des themes d'editeur.
     for (const hmi::DesignTokens* tokens :
          {&hmi::editorDarkTokens(), &hmi::editorLightTokens(), &hmi::identityTokens()}) {
@@ -228,7 +208,7 @@ TEST(DesignTokensTest, ContrasteSymetriqueEtUnitairePourUneMemeCouleur) {
 
 /**
  * @brief Les grandeurs de la portee identite sont multipliees par le facteur entier, et celles du
- *        chassis d edition ne le sont JAMAIS (`LOT-68`, `EX-IHM-070`). C est toute la regle : les
+ *        chassis d edition ne le sont JAMAIS (`EX-IHM-070`). C est toute la regle : les
  *        ecrans du jeu sont une image agrandie, l editeur est un outil dont les tailles suivent les
  *        reglages du systeme.
  * \castest{<b>Seules les grandeurs d identite suivent le facteur d agrandissement.</b><br/>

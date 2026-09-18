@@ -114,7 +114,7 @@ TEST(FixedTimestepTest, PasFixeExpose) {
 }
 
 /**
- * @brief Ne pas appeler advance() pendant une pause (LOT-59 TACHE-02) n'accumule rien : le
+ * @brief Ne pas appeler advance() pendant une pause n'accumule rien : le
  *        cadenceur n'a aucune horloge propre, seuls ses appels comptent -- une pause de durée
  *        réelle arbitraire, simulée en n'appelant simplement pas advance(), suivie d'un appel
  *        avec un petit delta (l'horloge de référence réarmée à la reprise, EX-GP-041) ne rend
@@ -135,8 +135,7 @@ TEST(FixedTimestepTest, PauseSansAppelNAccumuleAucunPas) {
     // « Pause » : aucun appel à advance() ici, quelle que soit la durée réelle qu'elle
     // représenterait -- c'est l'absence d'appel qui est le test.
 
-    // Reprise : l'appelant réarme son horloge de référence avant le prochain appel
-    // (GameViewport::resumeSimulation), donc le delta suivant est petit -- pas la durée totale de
-    // la pause.
+    // Reprise : l'appelant réarme son horloge de référence avant le prochain appel, donc le delta
+    // suivant est petit -- pas la durée totale de la pause.
     EXPECT_EQ(timestep.advance(STEP), 1);
 }

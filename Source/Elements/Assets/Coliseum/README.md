@@ -19,7 +19,8 @@ python scripts/extract_coliseum_atlas.py --check    # verifie que le dossier sui
 | `props/`, `rocks/`, `vegetation/`, `effects/` | pièces numérotées, non encore consommées |
 | `manifest.json` | chaque fichier, sa taille, sa boîte sur la planche, l'empreinte de la planche |
 
-Consommateur : `Source/Ui/Controls/ArenaScene.ui.qml` et `ArenaTile.ui.qml`. Les pièces sont
+Consommateur : `hmi::ArenaAppearanceCatalog` et `hmi::ArenaSceneComposer`
+(`Source/HMI/Graphics/`), qui composent la scène de combat du Colisée. Les pièces sont
 embarquées en ressource par `Source/Ui/CMakeLists.txt` (motif `Coliseum/*/*.png`) ; la planche
 elle-même ne l'est pas.
 

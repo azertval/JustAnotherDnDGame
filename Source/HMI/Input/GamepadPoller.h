@@ -22,7 +22,7 @@ inline constexpr std::chrono::milliseconds GAMEPAD_DISCONNECTED_PROBE_PERIOD{200
  *
  * `XInputGetState` est notablement coûteux sur un slot vide (le pilote énumère les périphériques à
  * chaque appel) : sonder sans relâche une manette absente provoque des micro-saccades chez un
- * joueur clavier (`LOT-33`). L'espacement est donc décidé **en temps réel**, jamais en nombre
+ * joueur clavier. L'espacement est donc décidé **en temps réel**, jamais en nombre
  * d'appels : le sondage est déclenché tantôt par la boucle de rendu (une fois par image), tantôt
  * par un temporisateur d'interface (150 ms pour la navigation de menu, 500 ms pour l'onglet des
  * options). Un compteur d'appels ferait dépendre le délai de détection de l'appelant, dans un
@@ -51,7 +51,7 @@ inline constexpr std::chrono::milliseconds GAMEPAD_DISCONNECTED_PROBE_PERIOD{200
  * fois par frame** avant que la logique ne consomme les entrées. Le sondage est espacé tant que la
  * manette reste déconnectée (`hmi::gamepadProbeDue`).
  *
- * Extrait de l'ancienne fenêtre Win32 (`LOT-34`) pour être utilisé par le viewport Qt, sans
+ * Extrait de l'ancienne fenêtre Win32 pour être utilisé par le viewport Qt, sans
  * dépendre d'aucune fenêtre.
  */
 class GamepadPoller {

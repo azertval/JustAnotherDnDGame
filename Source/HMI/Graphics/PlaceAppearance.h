@@ -38,7 +38,7 @@ struct JsonDocument;
 
 namespace hmi {
 
-/// @brief Catégorie d'échec de lecture (même esprit que `hmi::SkinCatalogError`).
+/// @brief Catégorie d'échec de lecture (même esprit que `hmi::ArenaAppearanceError`).
 enum class PlaceAppearanceError : std::uint8_t {
     None,
     FileNotFound,

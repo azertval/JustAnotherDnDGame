@@ -7,14 +7,12 @@
 #include <optional>
 
 #include "HMI/Editor/EditorTool.h"
-#include "HMI/Editor/PixelTool.h"
 #include "HMI/Input/EditorKeyBindings.h"
 #include "HMI/Interface/IconGeometry.h"
 
 /**
  * @file HMI/Interface/ActionCatalog.h
- * @brief Catalogue des actions de l'éditeur : outils et commandes principales (`LOT-56` TACHE-04,
- *        `EX-IHM-055`).
+ * @brief Catalogue des actions de l'éditeur : outils et commandes principales (`EX-IHM-055`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`. La
@@ -25,15 +23,10 @@
 namespace hmi {
 
 /// Groupe d'exclusivité d'une action : les outils d'édition forment un groupe **exclusif**
-/// (un seul actif à la fois) ; les commandes n'appartiennent à aucun groupe. `PixelTools` (`LOT-54`
-/// TACHE-04) est un second groupe exclusif, **distinct** de `LevelTools` : les outils du canevas
-/// pixel art et ceux du niveau ne s'excluent jamais entre eux, seulement au sein de leur propre
-/// groupe. `PixelCommands` (`LOT-54` TACHE-05) n'est pas exclusif (comme `None`) mais reste tagué
-/// séparément : ces commandes vivent dans la barre d'outils **du canevas**, jamais dans celle du
-/// niveau.
-enum class EditorActionGroup { None, LevelTools, PixelTools, PixelCommands };
+/// (un seul actif à la fois) ; les commandes n'appartiennent à aucun groupe.
+enum class EditorActionGroup { None, LevelTools };
 
-/// Surface d'une action (`LOT-68`, `EX-IHM-074`). `EX-IHM-055` posait qu'une commande placée à
+/// Surface d'une action (`EX-IHM-074`). `EX-IHM-055` posait qu'une commande placée à
 /// plusieurs endroits reste une seule définition ; il restait à arbitrer **lesquelles** méritent
 /// une place permanente à l'écran.
 ///
@@ -60,21 +53,18 @@ struct EditorActionSpec {
     ActionSurface surface;
 };
 
-/// Nombre total d'actions du catalogue (six outils de niveau, cinq outils de canevas pixel art,
-/// onze commandes principales, quatre commandes de fichier de l'atelier, quatre commandes de
-/// région de l'atelier).
-constexpr int EDITOR_ACTION_CATALOG_COUNT = 31;
+/// Nombre total d'actions du catalogue (quatre outils de carte, dix commandes).
+constexpr int EDITOR_ACTION_CATALOG_COUNT = 14;
 
-/// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les huit
-///         outils de niveau (ordre de la palette/du panneau Outils historique), les outils
-///         de canevas pixel art (`LOT-54` TACHE-04), puis les commandes.
+/// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les
+///         outils de carte (ordre de la palette), puis les commandes.
 [[nodiscard]] const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>&
 editorActionCatalog();
 
 /// @return La spécification de l'action @p id.
 [[nodiscard]] const EditorActionSpec& editorActionSpec(IconId id);
 
-/// Nombre d'actions **hors sélection d'outil** admises dans une barre d'outils (`LOT-68`). Sert de
+/// Nombre d'actions **hors sélection d'outil** admises dans une barre d'outils. Sert de
 /// plafond vérifié par test : c'est le nombre au-delà duquel la barre redevient le fourre-tout que
 /// ce lot supprime, et un plafond qu'on relève sans y penser ne protège de rien.
 constexpr int TOOLBAR_COMMAND_BUDGET = 5;
@@ -86,29 +76,17 @@ constexpr int TOOLBAR_COMMAND_BUDGET = 5;
 /// @return L'identifiant d'action portant l'outil @p tool.
 [[nodiscard]] IconId editorActionForTool(EditorTool tool);
 
-/// @return L'outil de canevas pixel art associé à l'action @p id, si elle appartient au groupe
-///         `PixelTools` ; `std::nullopt` sinon (`LOT-54` TACHE-04).
-[[nodiscard]] std::optional<PixelTool> editorActionPixelTool(IconId id);
-
-/// @return L'identifiant d'action portant l'outil de canevas pixel art @p tool.
-[[nodiscard]] IconId editorActionForPixelTool(PixelTool tool);
-
 /**
  * @brief Correspondance entre une action d'éditeur remappable (`hmi::EditorAction`,
  *        `EditorKeyBindings.h`) et l'identifiant d'action du catalogue qui la rend effective
- *        (`LOT-57` TACHE-04, `EX-IHM-062`).
- *
- * `EditorAction::TextureAssignTool` en est volontairement absente : elle sélectionne un outil
- * (groupe `LevelTools`), pas une commande, et reste lue directement par `hmi::GameViewport` comme
- * un raccourci brut (cf. commentaire à son site d'appel).
+ *        (`EX-IHM-062`).
  */
 struct KeyBindingIconEntry {
     EditorAction action;
     IconId id;
 };
 
-/// Nombre d'actions d'éditeur remappables ayant une commande effective (`EDITOR_ACTION_COUNT`
-/// moins `TextureAssignTool`).
+/// Nombre d'actions d'éditeur remappables : toutes ont une commande effective.
 constexpr int KEY_BINDING_ICON_COUNT = 9;
 
 /// @return La table complète action remappable -> commande du catalogue.

@@ -18,18 +18,9 @@
       "title": { "fr": "Direction artistique", "en": "Art direction" },
       "lines": [
         {
-          "role": { "fr": "Graphismes", "en": "Graphics" },
-          "names": [
-            "Kenney (www.kenney.nl)",
-            "Platformer Pack Remastered, Platformer Pack: Industrial",
-            "CC0 1.0 Universal"
-          ]
-        },
-        {
           "role": { "fr": "Polices", "en": "Fonts" },
           "names": [
             "Cinzel, IM Fell English, Inter",
-            "Pixelify Sans, Press Start 2P",
             "SIL Open Font License 1.1"
           ]
         }
@@ -85,21 +76,6 @@
         {
           "role": { "fr": "Tanares", "en": "Tanares" },
           "names": ["© Dragori Games, Inc."]
-        }
-      ]
-    },
-    {
-      "id": "audio",
-      "column": 1,
-      "title": { "fr": "Audio", "en": "Audio" },
-      "lines": [
-        {
-          "role": { "fr": "Bruitages", "en": "Sound effects" },
-          "names": [
-            "Kenney (www.kenney.nl)",
-            "Digital Audio, Impact Sounds, RPG Audio, Interface Sounds",
-            "CC0 1.0 Universal"
-          ]
         }
       ]
     }

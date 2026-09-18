@@ -15,7 +15,7 @@
 
 /**
  * @file HMI/Graphics/AnimationCatalog.h
- * @brief Lecture et validation du format `nom-asset.anim.json` (`LOT-46` TACHE-03).
+ * @brief Lecture et validation du format `nom-asset.anim.json`.
  */
 
 #include "Core/Data/JsonDocument.h"
@@ -24,7 +24,7 @@ namespace hmi {
 
 /**
  * @brief Catégorie d'échec de lecture d'une description d'animation (même esprit que
- *        `hmi::SkinCatalogError`/`core::LevelValidationError`).
+ *        `core::LevelValidationError`).
  */
 enum class AnimationCatalogError {
     None,                 ///< Pas d'erreur.
@@ -46,13 +46,13 @@ struct AnimationDescription {
     int frameWidth = 0;
     /// Hauteur d'une image, en pixels.
     int frameHeight = 0;
-    /// Clips décrits par le fichier, adressables par nom (`core::ClipSet`, `LOT-46` TACHE-01).
+    /// Clips décrits par le fichier, adressables par nom (`core::ClipSet`).
     core::ClipSet clips;
 };
 
 /**
  * @brief Résultat d'une lecture de description : soit une `AnimationDescription`, soit une
- *        **erreur** décrite. Même patron que `hmi::SkinCatalogResult` (`EX-NFR-040`).
+ *        **erreur** décrite (`EX-NFR-040`).
  */
 struct AnimationDescriptionResult {
     std::optional<AnimationDescription> description;
@@ -69,14 +69,12 @@ struct AnimationDescriptionResult {
  * @brief Lecture, validation et traduction en région de texture du format `nom-asset.anim.json`.
  *
  * Logique **pure** (aucune dépendance GPU/Qt/fichier au-delà de la lecture elle-même) : ne réalise
- * ni chargement PNG ni mise en cache — c'est `hmi::TextureCache` qui compose ce catalogue avec
- * `hmi::AssetPaths` et mémoïse le résultat, exactement comme il compose déjà `hmi::TextureLoader`
- * (`LOT-46` TACHE-03).
+ * ni chargement PNG ni mise en cache — ce sont ses appelants (`hmi::ArenaAnimationDriver`,
+ * `hmi::WorldSceneRenderer`, la galerie des assets) qui le composent avec `hmi::TextureLoader`.
  */
 class AnimationCatalog {
 public:
-    /// Version du format écrite dans le fichier, et plus élevée qui soit lue (voir
-    /// `hmi::SkinCatalog::FORMAT_VERSION` pour le même choix de cadrage).
+    /// Version du format écrite dans le fichier, et plus élevée qui soit lue.
     static constexpr int FORMAT_VERSION = 1;
 
     /// Durée d'image par défaut (secondes), utilisée quand un clip omet « frameDuration ».
@@ -126,7 +124,7 @@ public:
      * seul rang), sa largeur doit être un multiple positif de `frameWidth`, et chaque indice
      * d'image référencé par un clip doit désigner une position existante dans ce rang. Séparée de
      * la lecture JSON (`loadFromString`) : les dimensions réelles ne sont connues qu'après
-     * décodage du PNG, en aval (`EX-REN-007`, même frontière que `hmi::validateAsset`).
+     * décodage du PNG, en aval (`EX-REN-007`).
      * @param description   Description déjà lue.
      * @param fileName      Nom logique de l'asset, repris dans le message d'erreur.
      * @param textureWidth  Largeur décodée du PNG, en pixels.
@@ -153,7 +151,7 @@ public:
 
     /**
      * @brief Région de l'image **courante** d'une animation en cours, d'après son état
-     *        (`core::Animation`) et la description de son asset (`LOT-46` TACHE-05).
+     *        (`core::Animation`) et la description de son asset.
      *
      * Traduit `animation.clipIndex`/`frameIndex` (indices résolus par `core::AnimationSystem`/
      * `core::advanceAnimation`) en indice de spritesheet via `AnimationClip::frames`, puis en
@@ -162,7 +160,7 @@ public:
      * de jeu de clips valide (`EX-NFR-040`).
      * @param description Description de l'asset animé (fournit `frameWidth`/`frameHeight`).
      * @param animation   État d'animation courant (typiquement l'horloge partagée d'un asset de
-     *                    tuile, `LOT-46` TACHE-05).
+     *                    tuile).
      * @return La région à échantillonner pour l'image courante.
      */
     [[nodiscard]] static core::AtlasRegion currentFrameRegion(

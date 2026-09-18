@@ -5856,11 +5856,6 @@
       "texture": "wall-left"
     },
     {
-      "x": 45,
-      "y": 35,
-      "type": "exit"
-    },
-    {
       "x": 46,
       "y": 35,
       "type": "entry"
@@ -12164,8 +12159,5 @@
       "width": 29,
       "height": 13
     }
-  ],
-  "cameraFraming": {
-    "mode": "follow"
-  }
+  ]
 }

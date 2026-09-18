@@ -24,7 +24,7 @@
 
 namespace {
 
-// Carte a grille unique (sans couche declaree) : entree, sortie, un mur, un danger.
+// Carte a grille unique (sans couche declaree) : entree, un mur, de l'herbe.
 constexpr const char* MAP_FLAT = R"({
   "version": 3,
   "name": "Grille plate",
@@ -33,9 +33,7 @@ constexpr const char* MAP_FLAT = R"({
   "tiles": [
     { "x": 0, "y": 0, "type": "wall" },
     { "x": 1, "y": 0, "type": "grass" },
-    { "x": 2, "y": 0, "type": "danger" },
-    { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" }
+    { "x": 1, "y": 1, "type": "entry" }
   ]
 })";
 
@@ -46,8 +44,7 @@ constexpr const char* MAP_LAYERED = R"({
   "width": 4,
   "height": 3,
   "tiles": [
-    { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" }
+    { "x": 1, "y": 1, "type": "entry" }
   ],
   "layers": [
     { "name": "sol", "kind": "ground", "tiles": [{ "x": 0, "y": 0, "type": "grass" }] },
@@ -83,8 +80,8 @@ constexpr const char* MAP_LAYERED = R"({
  * \tcrit Majeur<br/>
  * \tetapes 1. Ouvrir une carte sans couche declaree.<br/>2. Ajouter une couche de sol.<br/>3.
  * Reconvertir en niveau.<br/>
- * \tattendu Le sol porte le mur et l'herbe mais ni le danger ni l'entree ; la racine est de
- * role Collision, en tete, et la collision garde le danger.
+ * \tattendu Le sol porte le mur et l'herbe mais pas l'entree ; la racine est de role
+ * Collision, en tete, et la collision garde l'entree.
  * }
  */
 TEST(EditionDeCarteTest, PremiereCoucheVisuellePromeutLaGrilleUnique) {
@@ -106,7 +103,7 @@ TEST(EditionDeCarteTest, PremiereCoucheVisuellePromeutLaGrilleUnique) {
     ASSERT_TRUE(rebuilt.ok()) << rebuilt.error;
     ASSERT_EQ(rebuilt.level->layers().size(), 2U);
     EXPECT_EQ(rebuilt.level->layers().front().kind, core::LayerKind::Collision);
-    EXPECT_EQ(rebuilt.level->layers().front().tiles.tile(2, 0), core::TileType::Danger);
+    EXPECT_EQ(rebuilt.level->layers().front().tiles.tile(1, 1), core::TileType::Entry);
     EXPECT_EQ(rebuilt.level->layers()[1].tiles.tile(0, 0), core::TileType::Wall);
 }
 
@@ -155,9 +152,9 @@ TEST(EditionDeCarteTest, CoucheNonVisuelleRefusee) {
  * \castest{<b>Peindre le sol laisse la collision intacte.</b><br/>
  * \tcat Unitaire · Edition de carte<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Peindre de l'eau sur le sol.<br/>2. Tenter une porte sur le sol.<br/>3.
+ * \tetapes 1. Peindre de l'eau sur le sol.<br/>2. Tenter une entree sur le sol.<br/>3.
  * Reconvertir.<br/>
- * \tattendu L'eau est sur le sol, la porte refusee, la collision et le decor vides en cette case.
+ * \tattendu L'eau est sur le sol, l'entree refusee, la collision et le decor vides en cette case.
  * }
  */
 TEST(EditionDeCarteTest, PeindreUneCoucheVisuelleNeTouchePasLaCollision) {
@@ -166,7 +163,7 @@ TEST(EditionDeCarteTest, PeindreUneCoucheVisuelleNeTouchePasLaCollision) {
     const std::size_t decor = *indexOfKind(draft.layers(), core::LayerKind::Decor);
 
     EXPECT_TRUE(draft.paintLayerTile(ground, 2, 1, core::TileType::Water));
-    EXPECT_FALSE(draft.paintLayerTile(ground, 2, 1, core::TileType::Door));
+    EXPECT_FALSE(draft.paintLayerTile(ground, 2, 1, core::TileType::Entry));
     EXPECT_FALSE(draft.paintLayerTile(ground, 9, 9, core::TileType::Water));
 
     const core::LevelLoadResult rebuilt = draft.toLevel();

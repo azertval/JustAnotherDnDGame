@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/Level.h"
 
 /**
@@ -21,14 +20,11 @@ namespace core {
 class TileMap;
 
 /**
- * @brief Sérialise un niveau vers le format JSON défini par `EX-LVL-003`.
+ * @brief Sérialise une carte vers le format JSON défini par `EX-LVL-003`.
  *
  * Fonction **pure**, symétrique à `LevelLoader::loadFromString` : recharger la chaîne produite
- * reconstruit un niveau équivalent (mêmes tuiles, entrée/sortie, mécanismes, budgets),
- * `EX-EDIT-011`. Les identifiants d'interrupteurs (`id`/`opensWith`) ne sont pas conservés du
- * fichier d'origine — ni `Level` ni `LevelDraft` ne les retiennent après chargement — ils sont
- * **régénérés** de façon déterministe (balayage de la grille ligne par ligne), sans effet sur la
- * sémantique du niveau rechargé.
+ * reconstruit une carte équivalente (mêmes tuiles, couches, entités, pièces assignées),
+ * `EX-EDIT-011`.
  */
 class LevelWriter {
 public:
@@ -55,16 +51,13 @@ public:
      * @brief Construit le JSON à partir des composantes d'un niveau (utilisé également par
      *        `LevelDraft::toLevel()`, qui n'a pas nécessairement de `Level` construit).
      *
-     * Prend l'agrégat `core::LevelData` du `LOT-03` plutôt que ses neuf composantes en
-     * **paramètres positionnels** : les couches et les entités du `LOT-04` les auraient portées à
-     * onze, dont trois `std::vector` voisins qui s'intervertissent sans que le compilateur
-     * bronche. C'est exactement la dette que le `LOT-03` a soldée du côté du constructeur de
-     * `Level` ; l'écrivain n'avait pas de raison de la garder.
+     * Prend l'agrégat `core::LevelData` du `LOT-03` plutôt que ses composantes en **paramètres
+     * positionnels**, dont plusieurs `std::vector` voisins s'intervertiraient sans que le
+     * compilateur bronche.
      *
      * Champs consommés, et les conventions qui les gouvernent :
-     * - `tileMap` est la **source de vérité** des positions entrée/sortie/mécanismes : une tuile
-     *   `Entry`/`Exit`/`Switch`/`Door` présente dans la grille est émise, qu'elle soit ou non
-     *   reliée/complète. `entry` et `exit` n'en sont que la relecture, jamais écrits à part.
+     * - `tileMap` est la **source de vérité** de l'entrée : une tuile `Entry` présente dans la
+     *   grille est émise ; `entry` n'en est que la relecture, jamais écrit à part.
      * - `layers` et `entities` (`LOT-04`, `EX-LVL-016`/`EX-LVL-017`) sont émis dans les tableaux
      *   racine optionnels `"layers"` et `"entities"`, omis quand ils sont vides ou — pour les
      *   couches — quand la carte n'en porte qu'une, de rôle `Legacy` : une carte `version: 2`
@@ -72,13 +65,10 @@ public:
      *   part.
      * - Les propriétés libres d'une couche ou d'une entité, y compris les clés que le chargeur
      *   n'a pas reconnues, sont réémises à côté des champs connus (`EX-LVL-018`).
-     * - `cameraFraming` (`EX-LVL-006`) n'est émis que s'il **diverge** de ce que la règle de repli
-     *   (`resolveCameraFraming`) recalculerait pour ces dimensions : un fichier **sans** le champ,
-     *   dont le cadrage résolu coïncide avec le repli, ressort **sans** le champ.
-     * - `background`, `skinSet`, `planes` et `parallaxEnabled` suivent la même convention
-     *   « omis à sa valeur par défaut » (`LOT-67`).
+     * - `textureOverrides` (`EX-EDIT-043`) est émis sur la tuile racine de sa case, champ
+     *   `"texture"`.
      *
-     * @param data Composantes du niveau à sérialiser.
+     * @param data Composantes de la carte à sérialiser.
      * @return Le contenu JSON correspondant.
      */
     [[nodiscard]] static std::string buildJson(const LevelData& data);

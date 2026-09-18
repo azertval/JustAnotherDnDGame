@@ -3,7 +3,7 @@
 
 /**
  * @file test_audio_engine.cpp
- * @brief Tests unitaires du moteur audio (LOT-60, EX-REN-047, EX-NFR-040).
+ * @brief Tests unitaires du moteur audio (EX-REN-047, EX-NFR-040).
  */
 
 #include <gtest/gtest.h>

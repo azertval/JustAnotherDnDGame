@@ -207,7 +207,7 @@ TEST(AssetGalleryTest, AssetsLivres) {
     EXPECT_FALSE(attack->loop);
 
     EXPECT_NE(familyNamed(catalog, "Colisée · pièces"), nullptr);
-    EXPECT_NE(familyNamed(catalog, "Skins"), nullptr);
+    EXPECT_NE(familyNamed(catalog, "Scène · martpart"), nullptr);
 
     for (const hmi::AssetGalleryFamily& family : catalog.families) {
         for (const hmi::AssetGalleryEntry& value : family.entries) {
@@ -227,8 +227,8 @@ TEST(AssetGalleryTest, AssetsLivres) {
  * \tcrit Bloquant<br/>
  * \tetapes 1. Lire le catalogue de Source/Elements/Assets. 2. Parcourir toutes les images
  * livrées.<br/>
- * \tattendu Chaque PNG ou JPEG est une forme de la galerie, ou une planche source, l'atlas, une
- * image d'interface ou une police ; les portraits de PNJ et les skins fixes y sont.
+ * \tattendu Chaque PNG ou JPEG est une forme de la galerie, ou une planche source, une image
+ * d'interface, une carte plein écran ou une police ; les portraits de PNJ y sont.
  * }
  */
 TEST(AssetGalleryTest, ToutAssetLivreEstDansLaGalerie) {

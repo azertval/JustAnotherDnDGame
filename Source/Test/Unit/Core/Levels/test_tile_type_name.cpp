@@ -3,7 +3,7 @@
 
 /**
  * @file test_tile_type_name.cpp
- * @brief Tests unitaires de la correspondance type de tuile <-> nom textuel (LOT-42, EX-LVL-003).
+ * @brief Tests unitaires de la correspondance type de tuile <-> nom textuel (EX-LVL-003).
  */
 
 #include <optional>
@@ -17,9 +17,9 @@
 
 namespace {
 
-// Dernier type de l'enumeration : borne du parcours exhaustif. Ajouter un type apres celui-ci sans
-// mettre a jour cette constante ferait passer les tests a cote du nouveau venu.
-constexpr int LAST_TILE_TYPE = static_cast<int>(core::TileType::LockedDoor);
+// Dernier type de l'enumeration : borne du parcours exhaustif, tiree de `TILE_TYPE_COUNT` pour
+// suivre d'elle-meme un type ajoute.
+constexpr int LAST_TILE_TYPE = core::TILE_TYPE_COUNT - 1;
 
 }  // namespace
 

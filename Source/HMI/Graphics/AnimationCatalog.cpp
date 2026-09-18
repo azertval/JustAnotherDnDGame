@@ -16,8 +16,8 @@ namespace hmi {
 
 namespace {
 
-// Noms des champs du format (voir epic LOT-46 TACHE-03) : nommes plutot que repetes en litteraux,
-// meme discipline que hmi::SkinCatalog.
+// Noms des champs du format : nommes plutot que repetes en
+// litteraux.
 constexpr const char* FIELD_VERSION = "version";
 constexpr const char* FIELD_FRAME_WIDTH = "frameWidth";
 constexpr const char* FIELD_FRAME_HEIGHT = "frameHeight";
@@ -27,10 +27,9 @@ constexpr const char* FIELD_FRAME_DURATION = "frameDuration";
 constexpr const char* FIELD_LOOP = "loop";
 constexpr const char* FIELD_NEXT = "next";
 
-// Construit un resultat d'echec. Ne journalise rien : contrairement a hmi::SkinCatalog, le fichier
-// absent (cas par defaut, silencieux) et le fichier invalide (anomalie) empruntent tous deux ce
-// chemin -- c'est a l'appelant (hmi::TextureCache) de decider, a partir du code d'erreur, s'il doit
-// journaliser (EX-NFR-040).
+// Construit un resultat d'echec. Ne journalise rien : le fichier absent (cas par defaut,
+// silencieux) et le fichier invalide (anomalie) empruntent tous deux ce chemin -- c'est a
+// l'appelant de decider, a partir du code d'erreur, s'il doit journaliser (EX-NFR-040).
 // Traduction de la categorie partagee (LOT-79) vers celle, documentee, de ce catalogue. Le
 // `switch` est exhaustif et sans `default` : ajouter une categorie d'un cote fait echouer la
 // compilation plutot que de tomber silencieusement dans un cas par defaut.

@@ -4,16 +4,12 @@
 /**
  * @file test_quad_recorder.cpp
  * @brief Tests unitaires de la composition du rendu et de sa capture sans GPU
- *        (LOT-40, EX-NFR-004, EX-REN-043, EX-REN-014).
+ *        (EX-NFR-004, EX-REN-043, EX-REN-014).
  */
 
 #include <gtest/gtest.h>
 
-#include "Core/Ecs/Components/Sprite.h"
-#include "Core/Ecs/Components/Transform.h"
-#include "Core/Ecs/World.h"
 #include "HMI/Graphics/ComposedScene.h"
-#include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/QuadRecorder.h"
 #include "HMI/Graphics/RenderLayer.h"
 
@@ -27,18 +23,6 @@ int secondTextureStorage = 0;
 hmi::TextureHandle textureA = &firstTextureStorage;
 hmi::TextureHandle textureB = &secondTextureStorage;
 
-/// Textures de reference des tests : atlas de 80x80 (grille de 5 cases de 16 px) et damier.
-hmi::SceneTextures testTextures() {
-    hmi::SceneTextures textures;
-    textures.atlas = textureA;
-    textures.atlasWidth = 80;
-    textures.atlasHeight = 80;
-    textures.missing = textureB;
-    textures.missingWidth = hmi::MISSING_TEXTURE_SIZE;
-    textures.missingHeight = hmi::MISSING_TEXTURE_SIZE;
-    return textures;
-}
-
 /// Rectangle minimal a une position donnee, pour distinguer les primitives entre elles.
 hmi::SpriteQuad quadAt(float x, float y) {
     hmi::SpriteQuad quad;
@@ -47,17 +31,6 @@ hmi::SpriteQuad quadAt(float x, float y) {
     quad.width = 1.0f;
     quad.height = 1.0f;
     return quad;
-}
-
-/// Ajoute une entite tuile (Transform + Sprite) au monde, sans calque explicite.
-core::Entity addTile(core::World& world, float x, float y) {
-    const core::Entity entity = world.createEntity();
-    world.addComponent(entity,
-                       core::Transform{core::Vector2{x, y}, core::Vector2{1.0f, 1.0f}, 0.0f});
-    core::Sprite sprite;
-    sprite.region = core::AtlasRegion{0, 0, 16, 16};
-    world.addComponent(entity, sprite);
-    return entity;
 }
 
 }  // namespace
@@ -230,103 +203,21 @@ TEST(QuadRecorderTest, RectanglesEtSegmentsMelanges) {
 }
 
 /**
- * @brief Scène de référence : trois tuiles et un personnage produisent exactement les primitives
- *        du rendu d'avant le lot — mêmes positions, même ordre, une seule passe.
- * \castest{<b>Non-regression : la scene de reference produit les primitives attendues.</b><br/>
- * \tcat Unitaire · Quad Recorder<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler un monde de trois tuiles puis d'un personnage tague Player.<br/>2. Composer
- * la scene et la trier.<br/>3. Capturer et inspecter la liste.<br/>
- * \tattendu Les trois tuiles sont soumises dans l'ordre de creation, puis le personnage, en une
- * seule passe.
- * }
- */
-TEST(QuadRecorderTest, SceneDeReferenceNonRegression) {
-    core::World world;
-    addTile(world, 0.0f, 0.0f);
-    addTile(world, 1.0f, 0.0f);
-    addTile(world, 2.0f, 0.0f);
-
-    const core::Entity player = world.createEntity();
-    world.addComponent(player,
-                       core::Transform{core::Vector2{1.0f, 5.0f}, core::Vector2{0.4f, 0.8f}, 0.0f});
-    core::Sprite playerSprite;
-    playerSprite.region = core::AtlasRegion{0, 80, 16, 16};
-    world.addComponent(player, playerSprite);
-    world.addComponent(player, hmi::RenderLayerTag{hmi::RenderLayer::Player});
-
-    hmi::ComposedScene scene;
-    hmi::composeWorldSprites(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-    scene.sort();
-
-    hmi::QuadRecorder recorder;
-    recorder.record(scene);
-
-    ASSERT_EQ(recorder.size(), 4u);
-    EXPECT_EQ(recorder.countOnLayer(hmi::RenderLayer::Tile), 3);
-    EXPECT_EQ(recorder.countOnLayer(hmi::RenderLayer::Player), 1);
-    EXPECT_TRUE(recorder.isLayerOrderRespected()) << recorder.describe();
-
-    // Les trois tuiles d'abord, dans leur ordre de creation, puis le personnage.
-    EXPECT_FLOAT_EQ(recorder.quads()[0].sprite.x, 0.0f);
-    EXPECT_FLOAT_EQ(recorder.quads()[1].sprite.x, 1.0f);
-    EXPECT_FLOAT_EQ(recorder.quads()[2].sprite.x, 2.0f);
-    EXPECT_EQ(recorder.quads()[3].layer, hmi::RenderLayer::Player);
-
-    // Taille monde : region 16 px a 16 px/unite, multipliee par l'echelle du Transform.
-    EXPECT_FLOAT_EQ(recorder.quads()[0].sprite.width, 1.0f);
-    EXPECT_FLOAT_EQ(recorder.quads()[3].sprite.width, 0.4f);
-    EXPECT_FLOAT_EQ(recorder.quads()[3].sprite.height, 0.8f);
-
-    // Coordonnees de texture normalisees a partir de la region en pixels.
-    EXPECT_FLOAT_EQ(recorder.quads()[3].sprite.v0, 1.0f);
-
-    // Une seule texture : une seule passe begin/end, comme avant le lot.
-    EXPECT_EQ(recorder.statistics().batches, 1);
-    EXPECT_EQ(recorder.statistics().culled, 0);
-    EXPECT_EQ(recorder.statistics().submitted, 4);
-}
-
-/**
- * @brief Une entité sans `RenderLayerTag` est composée sur le calque des tuiles : l'absence de
- *        composant est le défaut utile, pas un oubli.
- * \castest{<b>Une entite sans RenderLayerTag est composee sur le calque des tuiles.</b><br/>
- * \tcat Unitaire · Quad Recorder<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Composer un monde d'une seule entite non taguee.<br/>
- * \tattendu La primitive porte le calque par defaut.
- * }
- */
-TEST(QuadRecorderTest, CalqueParDefautSansTag) {
-    core::World world;
-    addTile(world, 4.0f, 4.0f);
-
-    hmi::ComposedScene scene;
-    hmi::composeWorldSprites(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-
-    ASSERT_EQ(scene.size(), 1u);
-    EXPECT_EQ(scene.quads()[0].layer, hmi::DEFAULT_RENDER_LAYER);
-    EXPECT_EQ(hmi::DEFAULT_RENDER_LAYER, hmi::RenderLayer::Tile);
-}
-
-/**
- * @brief L'ordonnancement déclaré place le premier plan au-dessus du personnage et les aides
- *        d'édition au-dessus de tout (`EX-REN-014`, `EX-DEC-002`).
- * \castest{<b>L'ordonnancement place le premier plan au-dessus du personnage.</b><br/>
+ * @brief L'ordonnancement déclaré place l'interface au-dessus du personnage et les aides
+ *        d'édition au-dessus de tout (`EX-REN-014`).
+ * \castest{<b>L'ordonnancement place l'interface au-dessus du personnage.</b><br/>
  * \tcat Unitaire · Quad Recorder<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Comparer les valeurs declarees de l'enumeration des calques.<br/>
- * \tattendu L'ordre fond -> plans -> ombres -> tuiles -> objets -> personnage -> premier plan ->
- * interface -> edition est respecte.
+ * \tattendu L'ordre fond -> ombres -> tuiles -> objets -> personnage -> interface -> edition est
+ * respecte.
  * }
  */
 TEST(QuadRecorderTest, OrdonnancementDeclare) {
-    EXPECT_LT(hmi::RenderLayer::Background, hmi::RenderLayer::Plane);
-    EXPECT_LT(hmi::RenderLayer::Plane, hmi::RenderLayer::Shadow);
+    EXPECT_LT(hmi::RenderLayer::Background, hmi::RenderLayer::Shadow);
     EXPECT_LT(hmi::RenderLayer::Shadow, hmi::RenderLayer::Tile);
     EXPECT_LT(hmi::RenderLayer::Tile, hmi::RenderLayer::Object);
     EXPECT_LT(hmi::RenderLayer::Object, hmi::RenderLayer::Player);
-    EXPECT_LT(hmi::RenderLayer::Player, hmi::RenderLayer::Foreground);
-    EXPECT_LT(hmi::RenderLayer::Foreground, hmi::RenderLayer::UI);
+    EXPECT_LT(hmi::RenderLayer::Player, hmi::RenderLayer::UI);
     EXPECT_LT(hmi::RenderLayer::UI, hmi::RenderLayer::EditorOverlay);
 }

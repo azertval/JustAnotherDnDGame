@@ -88,8 +88,8 @@ c'est le **temps**, pas le lieu.
 
 - \anchor EX-CBT-042 **EX-CBT-042** — La mort **hors combat** doit avoir un effet **défini**, et cet
   effet n'est **pas** « redémarrer le niveau ». Le monde est ouvert : il n'y a pas de niveau à
-  recommencer, et la définition héritée du jeu de plateforme doit être retirée plutôt que
-  contournée. Deux définitions de la mort qui coexistent, c'est la plus ancienne qui gagne.
+  recommencer (`EX-GP-031` et `EX-GP-032` sont retirées), et aucune définition de la mort ne doit
+  en coexister avec celle-ci — deux définitions qui coexistent, c'est la plus ancienne qui gagne.
 
 ## 6. L'adversaire
 

@@ -1,7 +1,7 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource prefix="/">
-    <!-- Feuilles de style (Elements/Themes) embarquées, une par PORTÉE (LOT-73, EX-IHM-082).
+    <!-- Feuilles de style (Elements/Themes) embarquées, une par PORTÉE (EX-IHM-082).
          Elles étaient un seul fichier posé sur l'application entière : un changement de facteur
          d'agrandissement, qui ne concerne que les écrans du jeu, repolissait alors les 862 widgets
          de l'application. Séparées, chacune s'applique là où elle porte — l'identité sur la pile

@@ -57,7 +57,6 @@ core::MapEntity pointDArrivee(std::string nom, core::GridPosition position) {
 core::LevelData carteData(std::string nom, std::vector<core::MapEntity> entites) {
     core::LevelData donnees{.name = std::move(nom), .tileMap = core::TileMap{8, 8}};
     donnees.entry = {1, 1};
-    donnees.exit = {7, 7};
     donnees.entities = std::move(entites);
     return donnees;
 }

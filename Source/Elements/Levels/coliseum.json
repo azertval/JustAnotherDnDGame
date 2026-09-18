@@ -1276,11 +1276,6 @@
       "type": "entry"
     },
     {
-      "x": 20,
-      "y": 32,
-      "type": "exit"
-    },
-    {
       "x": 26,
       "y": 32,
       "type": "wall",
@@ -5778,8 +5773,5 @@
       "y": 23,
       "name": "sable"
     }
-  ],
-  "cameraFraming": {
-    "mode": "follow"
-  }
+  ]
 }

@@ -3,8 +3,8 @@
 
 /**
  * @file test_application_theme.cpp
- * @brief Tests unitaires du thème de l'IHM : modèle de feuille de style (`LOT-56` TACHE-02,
- *        `EX-IHM-050`, `EX-IHM-051`) et police/typographie (TACHE-03, `EX-IHM-052`).
+ * @brief Tests unitaires du thème de l'IHM : modèle de feuille de style
+ *        (`EX-IHM-050`, `EX-IHM-051`) et police/typographie (`EX-IHM-052`).
  */
 
 #include <cstdint>
@@ -25,7 +25,7 @@ namespace {
 // Chemin (source) du modele reel, pour verifier le fichier livre plutot qu'une chaine de test
 // isolee -- coherent avec JADG_ASSETS_DIR etc. (Test/CMakeLists.txt).
 [[nodiscard]] std::string readThemeTemplate() {
-    // Les DEUX portees, concatenees (LOT-73, EX-IHM-082) : separer les feuilles ne doit pas
+    // Les DEUX portees, concatenees (EX-IHM-082) : separer les feuilles ne doit pas
     // retrecir ce que ces garde-fous couvrent. Une regle interdite le reste dans l'une comme dans
     // l'autre.
     std::ostringstream buffer;
@@ -36,7 +36,7 @@ namespace {
     return buffer.str();
 }
 
-// Une seule portee. Depuis le LOT-73 (EX-IHM-082) les deux portees sont deux FICHIERS distincts :
+// Une seule portee. Les deux portees sont deux FICHIERS distincts (EX-IHM-082) :
 // l'etancheite se verifie donc sur le fichier entier, sans avoir a reperer une frontiere de
 // section dans un texte concatene -- un reperage qu'un simple deplacement de commentaire cassait.
 [[nodiscard]] std::string readScopeTemplate(const char* path) {
@@ -121,7 +121,7 @@ TEST(ApplicationThemeTest, AucuneCouleurLitteraleDansLeModeleReel) {
 
 /**
  * @brief La police embarquée est retenue quand elle a pu être enregistrée ; sinon, aucun nom de
- *        famille n'est renvoyé (TACHE-03) -- l'appelant Qt doit alors demander une famille
+ *        famille n'est renvoyé -- l'appelant Qt doit alors demander une famille
  *        générique, jamais un second nom codé en dur.
  * \castest{<b>La resolution de police retombe sur une famille generique sans nom code en
  * dur.</b><br/> \tcat Unitaire · Theme de l'IHM<br/> \tcrit Critique<br/> \tetapes 1. Resoudre la
@@ -169,7 +169,7 @@ TEST(ApplicationThemeTest, EchelleTypographiquePositiveEtOrdonnee) {
 // couvre donc plus qu'avant : tous les ecrans, et pas seulement deux.
 
 /**
- * @brief Résolution pure du thème effectif (`LOT-56` TACHE-06) : `Système` suit le système
+ * @brief Résolution pure du thème effectif : `Système` suit le système
  *        d'exploitation, `Clair`/`Sombre` forcé l'ignore.
  * \castest{<b>La resolution du theme effectif suit le reglage et, si Systeme, le systeme.</b><br/>
  * \tcat Unitaire · Theme de l'IHM<br/>
