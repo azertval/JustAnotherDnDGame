@@ -119,11 +119,9 @@ void WorldModel::step() {
     }
     _elapsed += seconds;
 
-    if (_session->heroPoint() != avant) {
-        ++_sceneRevision;
-        emit heroMoved();
-    } else if (marche) {
-        // Il pousse contre un mur : la bande continue de tourner, la scène doit se redessiner.
+    // Un heros qui pousse contre un mur ne change pas de case, mais sa bande continue de tourner :
+    // la scene doit se redessiner autant que s'il avait bouge.
+    if (_session->heroPoint() != avant || marche) {
         ++_sceneRevision;
         emit heroMoved();
     }
@@ -225,12 +223,12 @@ std::vector<WorldFigureSnapshot> WorldModel::figures() const {
         if (figurine.empty()) {
             continue;  // Un PNJ sans figurine ne se dessine pas : il n'est pas encore dessiné.
         }
-        figurines.push_back(WorldFigureSnapshot{
-            .figure = std::move(figurine),
-            .clip = "idle",
-            .point = {static_cast<float>(objet.position.column) + 0.5F,
-                      static_cast<float>(objet.position.row) + 0.5F},
-            .frame = image});
+        figurines.push_back(
+            WorldFigureSnapshot{.figure = std::move(figurine),
+                                .clip = "idle",
+                                .point = {static_cast<float>(objet.position.column) + 0.5F,
+                                          static_cast<float>(objet.position.row) + 0.5F},
+                                .frame = image});
     }
     figurines.push_back(
         WorldFigureSnapshot{.figure = _heroFigure.toStdString(),

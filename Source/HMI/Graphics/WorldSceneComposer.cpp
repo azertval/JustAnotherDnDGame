@@ -111,8 +111,9 @@ void composeRelief(ComposedScene& scene, const WorldSceneSnapshot& snapshot,
     // qu'une piece plus haute que sa case reste derriere ce qui est devant elle.
     const core::Vector2 topVertex = projection.gridToWorld(
         gridPoint(static_cast<float>(cell.column), static_cast<float>(cell.row)));
-    const float footY = projection.gridToWorld(gridPoint(static_cast<float>(cell.column) + 1.0F,
-                                                         static_cast<float>(cell.row) + 1.0F))
+    const float footY = projection
+                            .gridToWorld(gridPoint(static_cast<float>(cell.column) + 1.0F,
+                                                   static_cast<float>(cell.row) + 1.0F))
                             .y;
     const SpriteQuad quad = standingPieceQuad(texture, topVertex, unitsPerScenePixel);
     scene.addSprite(RenderLayer::Object, texture.texture,
@@ -133,8 +134,7 @@ void composeFigure(ComposedScene& scene, const core::IsoProjection& projection,
     // d'images. Une image hors bande est ramenee dedans plutot que de lire a cote de la texture.
     const int frameWidthPixels =
         texture.frameWidth > 0 ? texture.frameWidth : FIGURE_FRAME_WIDTH_PIXELS;
-    const int frameCount =
-        texture.width > 0 ? std::max(1, texture.width / frameWidthPixels) : 1;
+    const int frameCount = texture.width > 0 ? std::max(1, texture.width / frameWidthPixels) : 1;
     const int frame = ((figure.frame % frameCount) + frameCount) % frameCount;
 
     const core::Vector2 center = projection.gridToWorld(figure.point);
@@ -209,14 +209,14 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppea
     }
     snapshot.figures = std::move(figures);
 
-    const auto cases = static_cast<std::size_t>(snapshot.columns) *
-                       static_cast<std::size_t>(snapshot.rows);
+    const auto cases =
+        static_cast<std::size_t>(snapshot.columns) * static_cast<std::size_t>(snapshot.rows);
     snapshot.floors.assign(cases, std::string{});
     snapshot.relief.assign(cases, std::string{});
 
     for (int row = 0; row < snapshot.rows; ++row) {
         for (int column = 0; column < snapshot.columns; ++column) {
-            const core::GridPosition cell{column, row};
+            const core::GridPosition cell{.column = column, .row = row};
             const std::size_t index = indexOf(cell, snapshot.columns);
             snapshot.floors[index] = appearance.floorPiece(sol.tile(column, row), cell);
             if (decor != nullptr && decor->inBounds(column, row)) {
@@ -254,7 +254,7 @@ std::vector<std::string> worldTexturePaths(const WorldSceneSnapshot& snapshot) {
         uniques.insert(figurePath(figure.figure, "idle"));
         uniques.insert(figurePath(figure.figure, "walk"));
     }
-    return std::vector<std::string>(uniques.begin(), uniques.end());
+    return {uniques.begin(), uniques.end()};
 }
 
 void composeWorldScene(ComposedScene& scene, const WorldSceneSnapshot& snapshot,
@@ -265,7 +265,7 @@ void composeWorldScene(ComposedScene& scene, const WorldSceneSnapshot& snapshot,
 
     for (int row = 0; row < snapshot.rows; ++row) {
         for (int column = 0; column < snapshot.columns; ++column) {
-            const core::GridPosition cell{column, row};
+            const core::GridPosition cell{.column = column, .row = row};
             composeFloor(scene, snapshot, projection, textures, cell);
             composeRelief(scene, snapshot, projection, textures, cell, unitsPerScenePixel);
         }

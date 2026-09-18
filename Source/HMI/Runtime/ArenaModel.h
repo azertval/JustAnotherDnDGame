@@ -210,6 +210,11 @@ private:
     struct Catalogs;
 
     void loadCatalogs();
+    /// Charge le personnage de démonstration, par le même chemin que la fiche (LOT-87).
+    void loadCharacterCatalog();
+    /// Charge la carte jouable de l'arène, réduite à sa zone de combat le cas échéant (LOT-09).
+    /// @return true si `_catalogs->level` porte une carte jouable.
+    [[nodiscard]] bool loadPlayableLevel();
     /// `emit changed()` puis `emit combatSceneChanged()` : aux gestes qui mutent la grille de
     /// combat (`core::ArenaSession::mount`, un déplacement, une attaque, un retrait, la fin du
     /// tour, un rejeu, un retour à une composition neuve).
