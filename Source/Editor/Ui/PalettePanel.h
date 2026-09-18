@@ -24,7 +24,7 @@ namespace hmi {
  * @brief Palette de tuiles en **arbre** (`QTreeView`) : catégories → sous-groupes → tuiles.
  *
  * Alimentée par la taxonomie pure (`hmi::tileTaxonomy`), elle remplace l'accordéon « maison »
- * (retiré) par un contrôle Qt natif (`EX-EDIT-018`, `EX-IHM-010`). Sélectionner une
+ * (retiré) par un contrôle Qt natif (`EX-EDIT-018`). Sélectionner une
  * **feuille** met à jour le type de tuile actif (`selectedTile`) et émet `tileSelected` — consommé
  * par l'outil de peinture. Les en-têtes (catégories, sous-groupes) ne sont pas
  * sélectionnables comme tuile.

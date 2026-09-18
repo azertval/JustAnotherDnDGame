@@ -6,6 +6,7 @@
 #include <QRhiWidget>
 #include <QString>
 #include <chrono>
+#include <cstdint>
 #include <filesystem>
 #include <memory>
 #include <optional>
@@ -22,6 +23,7 @@
 #include "Core/Levels/TileType.h"
 #include "Core/Time/FixedTimestep.h"
 #include "Core/World/EntityKinds.h"
+#include "Editor/Logic/DiskGuard.h"
 #include "Editor/Logic/EditContextTarget.h"
 #include "Editor/Logic/EditorDiagnostics.h"
 #include "Editor/Logic/EditorKeyBindings.h"
@@ -69,13 +71,42 @@ public:
     }
 
     /// Enregistre le brouillon sous `Levels/<nom>.json`, après validation (`EX-EDIT-007`).
-    void save();
+    /// @return `true` si le fichier a été écrit.
+    bool save();
     /// Ouvre @p path comme brouillon ; sort d'un éventuel essai.
-    void openLevel(const std::filesystem::path& path);
+    /// @return `true` si la carte s'est ouverte ; en cas d'échec, le brouillon reste intact.
+    bool openLevel(const std::filesystem::path& path);
+    /// Le brouillon porte des modifications : sa révision n'est plus celle de la dernière
+    /// ouverture ou du dernier enregistrement (`core::LevelDraft::revision`). Défaire jusqu'à
+    /// l'état enregistré rend un brouillon propre.
     [[nodiscard]] bool isDirty() const noexcept {
-        return _dirty;
+        return _draft.revision() != _savedRevision;
     }
     bool renameOpenLevel(const std::string& newName);
+
+    // --- Sauvegarde automatique et garde du fichier (LOT-EDITOR-01) ---
+    /// @return L'identifiant de la carte ouverte (`capital/martpart`).
+    [[nodiscard]] const std::string& mapId() const noexcept {
+        return _mapId;
+    }
+    /// @return Le fichier de la carte ouverte, qu'il existe ou non.
+    [[nodiscard]] std::filesystem::path levelPath() const;
+    /// @return Le brouillon en JSON non validé, pour la sauvegarde automatique.
+    [[nodiscard]] std::string draftJson() const {
+        return _draft.toJson();
+    }
+    /**
+     * @brief Reprend un brouillon sauvegardé automatiquement : il remplace le brouillon courant et
+     *        reste marqué modifié, jusqu'à ce qu'on l'enregistre.
+     * @return `false` si le brouillon ne se relit pas (incomplet, format inconnu) : rien n'a
+     *         changé, et le fichier de reprise reste en place.
+     */
+    bool restoreDraft(const std::string& mapId, const std::string& draftJson);
+    /// @return Ce qui a changé sur disque depuis la dernière lecture ou écriture de la carte.
+    [[nodiscard]] DiskChange diskChange() const;
+    /// Prend l'état actuel du fichier pour référence : l'auteur a choisi de garder son brouillon,
+    /// le prochain enregistrement écrasera la version du disque (mise de côté par l'appelant).
+    void acceptDiskVersion();
 
     /// Joue le brouillon avec le moteur du jeu (`EX-EDIT-008`, `EX-EDIT-055`).
     void startPlaytest();
@@ -242,7 +273,10 @@ private:
     /// Identifiant de carte du brouillon (`capital/martpart`) : son chemin sous `Levels/`, sans
     /// extension ; son nom tant qu'il n'a jamais été ouvert ni enregistré.
     std::string _mapId;
-    bool _dirty = false;
+    /// Révision du brouillon à la dernière ouverture ou au dernier enregistrement.
+    std::uint64_t _savedRevision = 0;
+    /// Empreinte du fichier de la carte à la dernière lecture ou écriture de l'éditeur.
+    FileFingerprint _diskFingerprint;
     bool _showGrid = true;
 
     // --- Essai immédiat : la carte jouée par le moteur du jeu ---

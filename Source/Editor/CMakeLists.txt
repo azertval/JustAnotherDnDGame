@@ -29,6 +29,9 @@ add_library(EditorLogic STATIC
     Logic/EditorDiagnostics.cpp
     Logic/WorldGraphLayout.cpp
     Logic/EditorKeyBindings.cpp
+    # Sauvegarde automatique, reprise et garde du fichier modifié sur disque.
+    Logic/Autosave.cpp
+    Logic/DiskGuard.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic

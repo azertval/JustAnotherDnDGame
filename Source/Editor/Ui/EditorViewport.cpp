@@ -11,6 +11,7 @@
 #include <array>
 #include <cmath>
 #include <filesystem>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <utility>
@@ -58,6 +59,10 @@ constexpr std::array<float, 4> PLAYTEST_CLEAR_COLOR = {0xd0 / 255.0F, 0xc0 / 255
 /// Carte ouverte au lancement : la première carte du jeu.
 constexpr const char* START_MAP_ID = "coliseum";
 
+// Révision « jamais enregistrée » : celle d'un brouillon repris, qui reste modifié quoi qu'on
+// fasse jusqu'à son enregistrement. Aucune révision réelle ne l'atteint.
+constexpr std::uint64_t NEVER_SAVED = std::numeric_limits<std::uint64_t>::max();
+
 /// @return L'identifiant de carte de @p path : son chemin sous `Levels/`, sans extension, en
 ///         barres obliques — celui qu'un portail écrit. Hors du dossier : le nom du fichier.
 [[nodiscard]] std::string mapIdOf(const std::filesystem::path& path) {
@@ -89,9 +94,16 @@ constexpr const char* START_MAP_ID = "coliseum";
 EditorViewport::EditorViewport(QWidget* parent)
     : QRhiWidget(parent),
       _editorBindings(hmi::EditorKeyBindings::load(keybindingsPath())),
-      _draft(core::LevelDraft::empty("Nouvelle carte", 24, 14)),
+      _draft(core::LevelDraft::empty("New map", 24, 14)),
       _camera(1280, 720),
-      _mapId(_draft.name()) {}
+      _mapId(_draft.name()) {
+    // La première carte du jeu, comme brouillon. Échec récupérable : on garde le brouillon vierge.
+    const std::filesystem::path startPath =
+        levelsDirectory() / (std::string{START_MAP_ID} + ".json");
+    if (!openLevel(startPath)) {
+        HMI_LOG_WARNING("Editeur : echec du chargement de la carte de depart.");
+    }
+}
 
 EditorViewport::~EditorViewport() = default;
 
@@ -120,18 +132,6 @@ void EditorViewport::createResources() {
     _scene.create(rhi(), _scene.context().updates);
     _draftRenderer =
         std::make_unique<hmi::DraftRenderer>(_scene.sprites(), _scene.atlas(), _scene.textures());
-
-    // La première carte du jeu, comme brouillon. Échec récupérable : on garde le brouillon vierge.
-    const std::filesystem::path levelPath =
-        levelsDirectory() / (std::string{START_MAP_ID} + ".json");
-    core::LevelLoadResult result = core::LevelLoader::loadFromFile(levelPath);
-    if (result.ok()) {
-        _draft = core::LevelDraft::fromLevel(*result.level);
-        _mapId = START_MAP_ID;
-        markDraftMutated();
-    } else {
-        HMI_LOG_WARNING("Editeur : echec du chargement de la carte de depart : " + result.error);
-    }
 }
 
 void EditorViewport::updateEditCamera() {
@@ -203,7 +203,6 @@ bool EditorViewport::paintActiveRegion(int originColumn, int originRow,
                                        const std::vector<std::vector<core::TileType>>& block) {
     if (!_activeLayer) {
         _draft.paintRegion(originColumn, originRow, block);
-        _dirty = true;
         markDraftMutated();
         return true;
     }
@@ -226,7 +225,6 @@ bool EditorViewport::paintActiveRegion(int originColumn, int originRow,
             ? _draft.paintLayerTile(*_activeLayer, originColumn, originRow, block.front().front())
             : _draft.paintLayerRegion(*_activeLayer, originColumn, originRow, block);
     if (changed) {
-        _dirty = true;
         markDraftMutated();
     }
     return changed;
@@ -482,25 +480,29 @@ void EditorViewport::keyReleaseEvent(QKeyEvent* event) {
     _heldKeys.erase(event->key());
 }
 
-void EditorViewport::save() {
+bool EditorViewport::save() {
     const core::LevelLoadResult validated = _draft.toLevel();
     if (!validated.ok()) {
         HMI_LOG_WARNING("Editeur : enregistrement refuse (brouillon invalide) : " +
                         validated.error);
         emit statusMessage(
             QStringLiteral("Cannot save: %1").arg(QString::fromStdString(validated.error)));
-        return;
+        return false;
     }
-    const std::filesystem::path path = levelsDirectory() / (_mapId + ".json");
+    const std::filesystem::path path = levelPath();
     if (core::LevelWriter::saveToFile(*validated.level, path)) {
-        _dirty = false;
+        _savedRevision = _draft.revision();
+        _diskFingerprint = fingerprintFile(path);
         HMI_LOG_INFO("Editeur : carte enregistree : " + path.string());
         emit statusMessage(
             QStringLiteral("Map saved: %1").arg(QString::fromStdString(path.filename().string())));
     } else {
         HMI_LOG_ERROR("Editeur : echec d'ecriture de la carte : " + path.string());
         emit statusMessage(QStringLiteral("Failed to write file."));
+        return false;
     }
+    emit draftChanged();  // la barre d'état relit l'indicateur de modification.
+    return true;
 }
 
 bool EditorViewport::renameOpenLevel(const std::string& newName) {
@@ -527,19 +529,20 @@ bool EditorViewport::renameOpenLevel(const std::string& newName) {
     }
     _draft.setName(trimmed);
     _mapId = mapIdOf(renamedPath);
+    _diskFingerprint = fingerprintFile(renamedPath);
     markDraftMutated();
     HMI_LOG_INFO("Editeur : carte renommee en « " + trimmed + " ».");
     emit statusMessage(QStringLiteral("Map renamed: %1").arg(QString::fromStdString(trimmed)));
     return true;
 }
 
-void EditorViewport::openLevel(const std::filesystem::path& path) {
+bool EditorViewport::openLevel(const std::filesystem::path& path) {
     core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(path);
     if (!loaded.ok()) {
         HMI_LOG_WARNING("Editeur : ouverture impossible (" + path.string() + ") : " + loaded.error);
         emit statusMessage(
             QStringLiteral("Cannot open: %1").arg(QString::fromStdString(loaded.error)));
-        return;
+        return false;
     }
     stopPlaytest();
     _draft = core::LevelDraft::fromLevel(*loaded.level);
@@ -549,12 +552,51 @@ void EditorViewport::openLevel(const std::filesystem::path& path) {
     _layerView.reset();
     setActiveLayer(std::nullopt);
     selectEntity(std::nullopt);
-    _dirty = false;
+    _savedRevision = _draft.revision();
+    _diskFingerprint = fingerprintFile(path);
     _manualCamera = false;
     markDraftMutated();
     HMI_LOG_INFO("Editeur : carte ouverte : " + path.string());
     emit statusMessage(
         QStringLiteral("Map opened: %1").arg(QString::fromStdString(path.filename().string())));
+    return true;
+}
+
+std::filesystem::path EditorViewport::levelPath() const {
+    return levelsDirectory() / (_mapId + ".json");
+}
+
+bool EditorViewport::restoreDraft(const std::string& mapId, const std::string& draftJson) {
+    core::LevelLoadResult loaded = core::LevelLoader::loadFromString(draftJson);
+    if (!loaded.ok()) {
+        HMI_LOG_WARNING("Editeur : brouillon de reprise illisible (" + mapId +
+                        ") : " + loaded.error);
+        return false;
+    }
+    stopPlaytest();
+    _draft = core::LevelDraft::fromLevel(*loaded.level);
+    _mapId = mapId;
+    _layerView.reset();
+    setActiveLayer(std::nullopt);
+    selectEntity(std::nullopt);
+    // Le brouillon repris n'est pas le fichier : il reste modifié jusqu'à l'enregistrement. Le
+    // fichier, lui, est pris tel qu'il est maintenant -- c'est contre lui que la garde compare.
+    _savedRevision = NEVER_SAVED;
+    _diskFingerprint = fingerprintFile(levelPath());
+    _manualCamera = false;
+    markDraftMutated();
+    HMI_LOG_INFO("Editeur : brouillon repris : " + mapId);
+    emit statusMessage(
+        QStringLiteral("Draft recovered: %1 (not saved yet).").arg(QString::fromStdString(mapId)));
+    return true;
+}
+
+DiskChange EditorViewport::diskChange() const {
+    return compareFingerprints(_diskFingerprint, fingerprintFile(levelPath()));
+}
+
+void EditorViewport::acceptDiskVersion() {
+    _diskFingerprint = fingerprintFile(levelPath());
 }
 
 void EditorViewport::startPlaytest() {
@@ -612,14 +654,12 @@ void EditorViewport::stopPlaytest() {
 
 void EditorViewport::undo() {
     if (_draft.undo()) {
-        _dirty = true;
         markDraftMutated();
     }
 }
 
 void EditorViewport::redo() {
     if (_draft.redo()) {
-        _dirty = true;
         markDraftMutated();
     }
 }
@@ -634,7 +674,6 @@ void EditorViewport::resetCamera() noexcept {
 
 void EditorViewport::resizeLevel(int width, int height) {
     _draft.resize(width, height);
-    _dirty = true;
     markDraftMutated();
     emit statusMessage(QStringLiteral("Map resized: %1 × %2").arg(width).arg(height));
 }
@@ -819,14 +858,12 @@ void EditorViewport::addMapLayer(core::LayerKind kind, const std::string& name) 
     if (!index) {
         return;
     }
-    _dirty = true;
     markDraftMutated();
     setActiveLayer(*index);
 }
 
 void EditorViewport::removeMapLayer(std::size_t index) {
     if (_draft.removeLayer(index)) {
-        _dirty = true;
         markDraftMutated();
     }
 }
@@ -838,7 +875,6 @@ void EditorViewport::moveMapLayer(std::size_t index, bool forward) {
     }
     _layerView.swap(index, *moved);
     const bool followActive = _activeLayer == index;
-    _dirty = true;
     markDraftMutated();
     if (followActive) {
         setActiveLayer(*moved);
@@ -847,7 +883,6 @@ void EditorViewport::moveMapLayer(std::size_t index, bool forward) {
 
 void EditorViewport::renameMapLayer(std::size_t index, const std::string& name) {
     if (!name.empty() && _draft.renameLayer(index, name)) {
-        _dirty = true;
         markDraftMutated();
     }
 }
@@ -876,7 +911,6 @@ void EditorViewport::selectEntity(std::optional<std::size_t> index) {
 void EditorViewport::setEntityProperty(std::size_t index, const std::string& key,
                                        core::PropertyValue value) {
     if (_draft.setEntityProperty(index, key, std::move(value))) {
-        _dirty = true;
         markDraftMutated();
     }
 }
@@ -892,7 +926,6 @@ void EditorViewport::removeEntity(std::size_t index) {
         selectEntity(*_selectedEntity - 1);  // la même entité, un rang plus haut.
     }
     _grabbedEntity.reset();
-    _dirty = true;
     markDraftMutated();
     emit statusMessage(QStringLiteral("Entity removed."));
 }
@@ -925,7 +958,6 @@ void EditorViewport::handleEntityPress(const QMouseEvent* event) {
                                                                        .position = decision.cell,
                                                                        .properties = {}};
             if (const std::optional<std::size_t> placed = _draft.placeEntity(std::move(entity))) {
-                _dirty = true;
                 markDraftMutated();
                 selectEntity(*placed);
                 emit statusMessage(QStringLiteral("%1 placed at (%2, %3).")
@@ -949,7 +981,6 @@ void EditorViewport::handleEntityRelease(const QMouseEvent* event) {
         hmi::resolveEntityRelease(grabbed, _entityPressCell, *cell);
     if (decision.action == hmi::EntityGestureAction::Move &&
         _draft.moveEntity(decision.entityIndex, decision.cell)) {
-        _dirty = true;
         markDraftMutated();
         emit statusMessage(QStringLiteral("Entity moved to (%1, %2).")
                                .arg(decision.cell.column)

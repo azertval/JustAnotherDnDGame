@@ -5,11 +5,15 @@
 
 #include <QAction>
 #include <QCloseEvent>
+#include <QDateTime>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QDockWidget>
+#include <QFileInfo>
+#include <QFileSystemWatcher>
 #include <QFontMetrics>
 #include <QFormLayout>
+#include <QGuiApplication>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QLabel>
@@ -17,10 +21,12 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QRect>
 #include <QScreen>
 #include <QSettings>
 #include <QSpinBox>
+#include <QStandardPaths>
 #include <QStatusBar>
 #include <QString>
 #include <QTableWidget>
@@ -29,7 +35,12 @@
 #include <QVBoxLayout>
 #include <algorithm>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
+#include <optional>
 
+#include "Editor/Logic/Autosave.h"
+#include "Editor/Logic/DiskGuard.h"
 #include "Editor/Logic/EditorStatus.h"
 #include "Editor/Logic/EntityReferences.h"
 #include "Editor/Ui/EditorActions.h"
@@ -38,6 +49,8 @@
 #include "Editor/Ui/LayersPanel.h"
 #include "Editor/Ui/LevelBrowserPanel.h"
 #include "Editor/Ui/PalettePanel.h"
+#include "HMI/HmiLog.h"
+#include "HMI/Platform/CrashDump.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 
 namespace hmi {
@@ -57,9 +70,40 @@ constexpr const char* FOLLOW_ACTIVE_TOOL_KEY = "panels/followActiveTool";
 // Taille maximale d'une carte dans la boîte « Resize ».
 constexpr int MAXIMUM_MAP_SIDE = 100;
 
+// Délai entre le dernier geste et la sauvegarde automatique : une rafale de coups de pinceau
+// n'écrit qu'une fois, et un plantage ne perd au plus que ces deux secondes.
+constexpr int AUTOSAVE_DELAY_MS = 2000;
+// Délai avant de relire un fichier signalé changé : un script qui l'écrit en plusieurs fois a fini.
+constexpr int DISK_CHECK_DELAY_MS = 300;
+
+// Dossier des brouillons de reprise, sur le poste et hors du dépôt :
+// %LOCALAPPDATA%/JustAnotherRpgGame/Editor/autosave (organisation et application posées par main).
+[[nodiscard]] std::filesystem::path autosaveDirectory() {
+    const QString base = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    return std::filesystem::path(base.toStdWString()) / "autosave";
+}
+
+// Horodatage des copies mises de côté.
+[[nodiscard]] std::string timestamp() {
+    return QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd-HHmmss")).toStdString();
+}
+
+[[nodiscard]] QString displayPath(const std::filesystem::path& path) {
+    return QString::fromStdWString(path.wstring());
+}
+
+[[nodiscard]] std::optional<std::string> readFile(const std::filesystem::path& path) {
+    std::ifstream file(path, std::ios::binary);
+    if (!file) {
+        return std::nullopt;
+    }
+    return std::string(std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>());
+}
+
 }  // namespace
 
-MainWindow::MainWindow() : _viewport(new EditorViewport()) {
+MainWindow::MainWindow(bool crashAfterAutosave)
+    : _viewport(new EditorViewport()), _crashAfterAutosave(crashAfterAutosave) {
     setWindowTitle(QStringLiteral("Just Another RPG Game — Editor"));
     setDockNestingEnabled(true);
     _editContext = _viewport;
@@ -111,6 +155,8 @@ MainWindow::MainWindow() : _viewport(new EditorViewport()) {
     // éventuelle disposition sauvegardée) : sert de cible à « Reset layout ».
     _defaultState = saveState(LAYOUT_VERSION);
     restoreLayout();
+
+    setUpSafetyNet();
 }
 
 MainWindow::~MainWindow() = default;
@@ -306,7 +352,14 @@ void MainWindow::connectToolActions() {
 
 void MainWindow::connectEditorCommands() {
     connect(_actions->action(EditorCommand::Save), &QAction::triggered, this, [this] {
-        _viewport->save();
+        // La carte a pu changer sur disque : jamais d'écrasement en silence. Si l'auteur choisit la
+        // version du disque, il n'y a plus rien à enregistrer.
+        if (!checkDiskChange() || !_viewport->save()) {
+            return;
+        }
+        // Enregistrée : le fichier de reprise n'a plus d'objet, tout de suite.
+        _autosaveTimer->stop();
+        writeAutosave();
         // Une carte enregistrée peut avoir changé ses points d'arrivée ou son nom : les portails
         // des AUTRES cartes se valident contre le fichier, et le graphe du monde le montre.
         reloadEditorReferences();
@@ -479,8 +532,245 @@ void MainWindow::saveLayout() {
 }
 
 void MainWindow::closeEvent(QCloseEvent* event) {
+    if (_viewport->isDirty()) {
+        const QMessageBox::StandardButton answer = QMessageBox::question(
+            this, QStringLiteral("Unsaved changes"),
+            QStringLiteral("Map \"%1\" has unsaved changes. Save them before closing?")
+                .arg(QString::fromStdString(_viewport->mapId())),
+            QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel, QMessageBox::Save);
+        if (answer == QMessageBox::Cancel) {
+            event->ignore();
+            return;
+        }
+        // Enregistrement refusé ou impossible : la fenêtre reste, le brouillon aussi. Si la garde a
+        // relu le disque, le brouillon d'avant est déjà mis de côté et il n'y a rien à enregistrer.
+        if (answer == QMessageBox::Save) {
+            const bool draftKept = checkDiskChange();
+            if ((draftKept && !_viewport->save()) || (!draftKept && _viewport->isDirty())) {
+                event->ignore();
+                return;
+            }
+        }
+    }
+    // Fermeture voulue : le brouillon est enregistré ou abandonné, sa reprise n'a plus d'objet.
+    _autosaveTimer->stop();
+    if (!_autosavedMapId.empty()) {
+        _autosave->discard(_autosavedMapId);
+        _autosavedMapId.clear();
+    }
     saveLayout();
     QMainWindow::closeEvent(event);
+}
+
+void MainWindow::setUpSafetyNet() {
+    _autosave = std::make_unique<AutosaveStore>(autosaveDirectory());
+    _autosaveTimer = new QTimer(this);
+    _autosaveTimer->setSingleShot(true);
+    connect(_autosaveTimer, &QTimer::timeout, this, &MainWindow::writeAutosave);
+    connect(_viewport, &EditorViewport::draftChanged, this, &MainWindow::scheduleAutosave);
+
+    _watcher = new QFileSystemWatcher(this);
+    _diskCheckTimer = new QTimer(this);
+    _diskCheckTimer->setSingleShot(true);
+    connect(_diskCheckTimer, &QTimer::timeout, this, [this] { checkDiskChange(); });
+    connect(_watcher, &QFileSystemWatcher::fileChanged, this,
+            [this](const QString&) { _diskCheckTimer->start(DISK_CHECK_DELAY_MS); });
+    // Un changement fait pendant que la fenêtre n'avait pas la main (script, git) se voit au
+    // retour.
+    connect(qGuiApp, &QGuiApplication::applicationStateChanged, this,
+            [this](Qt::ApplicationState state) {
+                if (state == Qt::ApplicationActive) {
+                    _diskCheckTimer->start(0);
+                }
+            });
+    watchLevelFile();
+
+    if (_crashAfterAutosave) {
+        HMI_LOG_WARNING(
+            "--crash-test : plantage volontaire apres la premiere sauvegarde automatique.");
+    }
+    // Après l'affichage de la fenêtre : la question de reprise s'y rattache.
+    QTimer::singleShot(0, this, &MainWindow::offerRecovery);
+}
+
+void MainWindow::scheduleAutosave() {
+    watchLevelFile();  // la carte ouverte a pu changer (ouverture, renommage).
+    _autosaveTimer->start(AUTOSAVE_DELAY_MS);
+}
+
+void MainWindow::writeAutosave() {
+    const std::string& mapId = _viewport->mapId();
+    // Le fichier de reprise d'une autre carte (renommée, ou quittée en abandonnant ses
+    // modifications) n'a plus d'objet.
+    if (!_autosavedMapId.empty() && (_autosavedMapId != mapId || !_viewport->isDirty())) {
+        _autosave->discard(_autosavedMapId);
+        _autosavedMapId.clear();
+    }
+    if (!_viewport->isDirty()) {
+        return;
+    }
+    const AutosaveRecord record{
+        .mapId = mapId, .levelPath = _viewport->levelPath(), .draftJson = _viewport->draftJson()};
+    if (!_autosave->write(record)) {
+        HMI_LOG_WARNING("Editeur : sauvegarde automatique impossible dans " +
+                        _autosave->directory().string());
+        return;
+    }
+    _autosavedMapId = mapId;
+    if (_crashAfterAutosave) {
+        hmi::triggerCrashForTest();
+    }
+}
+
+void MainWindow::offerRecovery() {
+    bool recovered = false;
+    for (const AutosaveRecord& record : _autosave->pending()) {
+        const QString map = QString::fromStdString(record.mapId);
+        bool recover = false;
+        // Une seule carte ouverte à la fois : les brouillons suivants sont mis de côté.
+        if (!recovered) {
+            QMessageBox box(QMessageBox::Warning, QStringLiteral("Recover unsaved draft"),
+                            QStringLiteral("The editor did not close normally. An unsaved draft of "
+                                           "map \"%1\" was found.\n\nRecover it? If you discard "
+                                           "it, it is set aside, not deleted.")
+                                .arg(map),
+                            QMessageBox::NoButton, this);
+            QPushButton* const recoverButton =
+                box.addButton(QStringLiteral("Recover"), QMessageBox::AcceptRole);
+            box.addButton(QStringLiteral("Discard"), QMessageBox::DestructiveRole);
+            box.setDefaultButton(recoverButton);
+            box.exec();
+            recover = box.clickedButton() == recoverButton;
+        }
+        if (recover && _viewport->restoreDraft(record.mapId, record.draftJson)) {
+            recovered = true;
+            _autosavedMapId = record.mapId;
+            watchLevelFile();
+            continue;
+        }
+        const std::optional<std::filesystem::path> kept =
+            _autosave->keepAside(record.mapId, "draft", timestamp(), record.draftJson);
+        if (!kept) {
+            HMI_LOG_WARNING("Editeur : brouillon de reprise laisse en place : " + record.mapId);
+            continue;  // rien n'est retiré tant qu'il n'est pas à l'abri.
+        }
+        _autosave->discard(record.mapId);
+        HMI_LOG_INFO("Editeur : brouillon de reprise mis de cote : " + kept->string());
+        if (recover) {
+            QMessageBox::warning(this, QStringLiteral("Recover unsaved draft"),
+                                 QStringLiteral("The draft of map \"%1\" cannot be read as a map. "
+                                                "It was set aside in:\n%2")
+                                     .arg(map, displayPath(*kept)));
+        } else {
+            showTransientStatusMessage(
+                QStringLiteral("Draft of %1 set aside: %2").arg(map, displayPath(*kept)), 8000);
+        }
+    }
+}
+
+void MainWindow::watchLevelFile() {
+    const QString path = displayPath(_viewport->levelPath());
+    const QStringList watched = _watcher->files();
+    // Sous Windows, un fichier remplacé (écriture puis renommage) quitte la surveillance : on le
+    // reprend dès qu'il existe à nouveau.
+    if (watched.size() == 1 && watched.constFirst() == path) {
+        return;
+    }
+    if (!watched.isEmpty()) {
+        _watcher->removePaths(watched);
+    }
+    if (QFileInfo::exists(path)) {
+        _watcher->addPath(path);
+    }
+}
+
+QString MainWindow::keepAside(const char* label, const std::string& content) {
+    const std::optional<std::filesystem::path> kept =
+        _autosave->keepAside(_viewport->mapId(), label, timestamp(), content);
+    return kept ? displayPath(*kept) : QString{};
+}
+
+bool MainWindow::checkDiskChange() {
+    if (_checkingDisk) {
+        return true;
+    }
+    watchLevelFile();
+    const std::filesystem::path path = _viewport->levelPath();
+    const QString map = QString::fromStdString(_viewport->mapId());
+    switch (reactToDiskChange(_viewport->diskChange(), _viewport->isDirty())) {
+        case DiskReaction::Ignore:
+            return true;
+        case DiskReaction::WarnDeleted:
+            _viewport->acceptDiskVersion();
+            showTransientStatusMessage(
+                QStringLiteral("The file of %1 was deleted on disk; saving writes it again.")
+                    .arg(map),
+                8000);
+            return true;
+        case DiskReaction::ReloadQuietly: {
+            // Rien à perdre de ce côté : on relit. Un fichier illisible est mis de côté, pour
+            // qu'un enregistrement ne l'écrase pas sans trace.
+            const std::optional<std::string> disk = readFile(path);
+            if (_viewport->openLevel(path)) {
+                showTransientStatusMessage(
+                    QStringLiteral("%1 changed on disk and was reloaded.").arg(map), 8000);
+                return false;
+            }
+            const QString kept = disk ? keepAside("disk", *disk) : QString{};
+            _viewport->acceptDiskVersion();
+            showTransientStatusMessage(
+                QStringLiteral("%1 changed on disk but cannot be read; the disk version was set "
+                               "aside in %2")
+                    .arg(map, kept),
+                10000);
+            return true;
+        }
+        case DiskReaction::AskReloadOrKeep:
+            break;
+    }
+
+    _checkingDisk = true;
+    QMessageBox box(
+        QMessageBox::Warning, QStringLiteral("Map changed on disk"),
+        QStringLiteral("The file of map \"%1\" was changed outside the editor, and the "
+                       "map has unsaved changes here.\n\nReload: open the disk version; "
+                       "your changes are set aside first.\nKeep: keep your changes; "
+                       "the disk version is set aside, and saving overwrites it.")
+            .arg(map),
+        QMessageBox::NoButton, this);
+    QPushButton* const reloadButton =
+        box.addButton(QStringLiteral("Reload from disk"), QMessageBox::DestructiveRole);
+    QPushButton* const keepButton =
+        box.addButton(QStringLiteral("Keep my version"), QMessageBox::RejectRole);
+    box.setDefaultButton(keepButton);
+    box.exec();
+    _checkingDisk = false;
+
+    if (box.clickedButton() == reloadButton) {
+        const QString kept = keepAside("draft", _viewport->draftJson());
+        if (kept.isEmpty() || !_viewport->openLevel(path)) {
+            QMessageBox::warning(this, QStringLiteral("Map changed on disk"),
+                                 QStringLiteral("The disk version could not be reloaded; your "
+                                                "changes are kept."));
+            return true;
+        }
+        showTransientStatusMessage(
+            QStringLiteral("Reloaded from disk; your changes were set aside in %1").arg(kept),
+            10000);
+        return false;
+    }
+    const std::optional<std::string> disk = readFile(path);
+    const QString kept = disk ? keepAside("disk", *disk) : QString{};
+    if (kept.isEmpty()) {
+        QMessageBox::warning(this, QStringLiteral("Map changed on disk"),
+                             QStringLiteral("The disk version could not be set aside; it is not "
+                                            "overwritten. Try again, or save the map elsewhere."));
+        return false;
+    }
+    _viewport->acceptDiskVersion();
+    showTransientStatusMessage(
+        QStringLiteral("Kept your changes; the disk version was set aside in %1").arg(kept), 10000);
+    return true;
 }
 
 void MainWindow::refreshStatusHelp() {

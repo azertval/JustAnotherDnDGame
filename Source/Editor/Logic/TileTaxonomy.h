@@ -38,7 +38,7 @@ struct TileCategory {
  * @brief Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable (`EX-NFR-010`) : sert de source unique à la
- * palette `QTreeView` de l'éditeur (`EX-EDIT-018`, `EX-IHM-010`). **Chaque** `core::TileType` y
+ * palette `QTreeView` de l'éditeur (`EX-EDIT-018`). **Chaque** `core::TileType` y
  * figure **exactement une fois**, dans un ordre déterministe (invariant vérifié par les tests).
  * Reprend l'organisation de la palette historique.
  */

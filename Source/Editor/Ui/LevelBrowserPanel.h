@@ -22,7 +22,7 @@ namespace hmi {
 /**
  * @brief Panneau de gestion des niveaux : liste filtrable + créer/renommer/dupliquer/supprimer.
  *
- * Liste les fichiers `.json` d'un dossier (`EX-IHM-020`), avec **recherche** incrémentale
+ * Liste les fichiers `.json` d'un dossier, avec **recherche** incrémentale
  * (`QSortFilterProxyModel`) pour rester lisible quel que soit leur nombre. Les opérations
  * (`EX-IHM-021`) délèguent à `hmi::LevelFileOperations` (couche pure, validée/testée) ; les
  * erreurs sont signalées à l'utilisateur, jamais silencieuses. Un double-clic (ou « Ouvrir ») émet

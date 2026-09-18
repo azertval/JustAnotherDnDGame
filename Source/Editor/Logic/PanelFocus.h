@@ -11,7 +11,7 @@
 
 /**
  * @file Editor/Logic/PanelFocus.h
- * @brief Correspondance outil actif → panneau à mettre en avant (`EX-IHM-061`).
+ * @brief Correspondance outil actif → panneau à mettre en avant.
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`).
  * `MainWindow` ne fait que suivre cette table :

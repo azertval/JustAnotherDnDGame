@@ -101,7 +101,8 @@ std::optional<std::string_view> commandLineOption(int argc, char** argv, std::st
     return std::nullopt;
 }
 
-core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view applicationName) {
+core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view applicationName,
+                                    CrashTest crashTest) {
     core::MemoryLogSink* sessionLog = nullptr;
     if constexpr (core::DEVELOPER_BUILD) {
         core::defaultLogger().addSink(std::make_unique<core::ConsoleLogSink>());
@@ -133,7 +134,7 @@ core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view appl
                                 core::Engine::version());
     // Plantage volontaire : le test de fumee de la release prouve ainsi que l'archive livree ecrit
     // son dump, ce qu'aucun test en processus ne peut montrer (filtre installe, DbgHelp deploye).
-    if (commandLineOption(argc, argv, "--crash-test")) {
+    if (crashTest == CrashTest::AtStartup && commandLineOption(argc, argv, "--crash-test")) {
         HMI_LOG_WARNING("--crash-test : plantage volontaire.");
         hmi::triggerCrashForTest();
     }

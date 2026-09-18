@@ -50,14 +50,40 @@ LevelDraft LevelDraft::fromLevel(const Level& level) {
     return draft;
 }
 
+bool LevelDraft::paintChanges(int column, int row, TileType type) const {
+    if (!_tileMap.inBounds(column, row)) {
+        return false;
+    }
+    if (type == TileType::Entry) {
+        return _entry != GridPosition{.column = column, .row = row};
+    }
+    return _tileMap.tile(column, row) != type;
+}
+
 void LevelDraft::paintTile(int column, int row, TileType type) {
+    // Repasser le pinceau sur une case déjà du bon type ne fait rien : ni pas d'historique, ni
+    // révision neuve -- la carte n'en est pas « modifiée ».
+    if (!paintChanges(column, row, type)) {
+        return;
+    }
     pushUndo();
     paintTileInternal(column, row, type);
 }
 
 void LevelDraft::paintRegion(int originColumn, int originRow,
                              const std::vector<std::vector<TileType>>& block) {
-    if (block.empty()) {
+    bool changes = false;
+    for (std::size_t rowOffset = 0; rowOffset < block.size() && !changes; ++rowOffset) {
+        for (std::size_t columnOffset = 0; columnOffset < block[rowOffset].size(); ++columnOffset) {
+            if (paintChanges(originColumn + static_cast<int>(columnOffset),
+                             originRow + static_cast<int>(rowOffset),
+                             block[rowOffset][columnOffset])) {
+                changes = true;
+                break;
+            }
+        }
+    }
+    if (!changes) {
         return;
     }
     pushUndo();
@@ -388,7 +414,8 @@ LevelDraft::State LevelDraft::snapshot() const {
                  .entry = _entry,
                  .layers = _layers,
                  .entities = _entities,
-                 .textureOverrides = _textureOverrides};
+                 .textureOverrides = _textureOverrides,
+                 .revision = _revision};
 }
 
 void LevelDraft::restore(State state) {
@@ -398,14 +425,19 @@ void LevelDraft::restore(State state) {
     _layers = std::move(state.layers);
     _entities = std::move(state.entities);
     _textureOverrides = std::move(state.textureOverrides);
+    _revision = state.revision;
 }
 
 void LevelDraft::pushUndo() {
     _undoHistory.push_back(snapshot());
+    if (_undoHistory.size() > UNDO_HISTORY_LIMIT) {
+        _undoHistory.erase(_undoHistory.begin());
+    }
     _redoHistory.clear();  // une nouvelle mutation invalide la branche de refaire
+    _revision = ++_lastRevision;
 }
 
-LevelLoadResult LevelDraft::toLevel() const {
+std::string LevelDraft::toJson() const {
     // La grille editee EST la couche de collision de la carte (LOT-04) : le brouillon n'en peint
     // qu'une, et laisser la couche de collision figee sur l'etat du fichier d'origine produirait
     // une carte ou l'on traverse un mur qu'on voit. Les couches visuelles -- sol, decor -- sont
@@ -416,12 +448,15 @@ LevelLoadResult LevelDraft::toLevel() const {
             layer.tiles = _tileMap;
         }
     }
-    const std::string json = LevelWriter::buildJson(LevelData{.name = _name,
-                                                              .tileMap = _tileMap,
-                                                              .layers = std::move(layers),
-                                                              .entities = _entities,
-                                                              .textureOverrides = _textureOverrides});
-    return LevelLoader::loadFromString(json);
+    return LevelWriter::buildJson(LevelData{.name = _name,
+                                            .tileMap = _tileMap,
+                                            .layers = std::move(layers),
+                                            .entities = _entities,
+                                            .textureOverrides = _textureOverrides});
+}
+
+LevelLoadResult LevelDraft::toLevel() const {
+    return LevelLoader::loadFromString(toJson());
 }
 
 void LevelDraft::removeTextureOverrideAt(GridPosition position) {

@@ -25,6 +25,12 @@ class MemoryLogSink;
 
 namespace app {
 
+/// Moment du plantage volontaire que demande `--crash-test`.
+enum class CrashTest {
+    AtStartup,  ///< Dès l'amorçage : le test de fumée de la release.
+    Deferred,   ///< Jamais pendant l'amorçage : l'application choisit le moment.
+};
+
 /**
  * @brief Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un
  *        minidump sous `Crashes/` en cas de plantage.
@@ -40,14 +46,18 @@ namespace app {
  *
  * `--crash-test` provoque ensuite un plantage volontaire : c'est ce que lance le test de fumée de
  * la release pour prouver que l'archive livrée écrit son minidump (`hmi::installCrashDumpWriter`).
+ * Avec `CrashTest::Deferred`, l'application choisit elle-même le moment : l'éditeur plante après
+ * sa première sauvegarde automatique, pour éprouver la reprise (`LOT-EDITOR-01`).
  *
  * @param argc            Nombre d'arguments de la ligne de commande.
  * @param argv            Arguments de la ligne de commande.
  * @param applicationName Nom porté par la bannière de démarrage (« JustAnotherRpgGame », «
  * LevelEditor »).
+ * @param crashTest       Moment du plantage demandé par `--crash-test`.
  * @return Le puits mémoire de la session en développement, `nullptr` en release.
  */
-core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view applicationName);
+core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view applicationName,
+                                    CrashTest crashTest = CrashTest::AtStartup);
 
 /**
  * @brief Installe le catalogue de traduction de **Qt lui-même** pour la langue de l'IHM.

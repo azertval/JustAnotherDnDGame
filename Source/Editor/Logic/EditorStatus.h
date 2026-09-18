@@ -13,7 +13,7 @@
 /**
  * @file Editor/Logic/EditorStatus.h
  * @brief Choix du contenu de la barre d'état de l'éditeur : zones permanentes et aide
- *        contextuelle à l'outil actif (`EX-IHM-060`).
+ *        contextuelle à l'outil actif.
  */
 
 namespace hmi {

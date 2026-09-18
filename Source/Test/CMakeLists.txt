@@ -113,6 +113,8 @@ add_executable(UnitTests
     Unit/Editor/test_entity_editing.cpp
     Unit/Editor/test_world_graph_layout.cpp
     Unit/Editor/test_editor_key_bindings.cpp
+    Unit/Editor/test_autosave.cpp
+    Unit/Editor/test_disk_guard.cpp
 )
 
 # Encodage/decodage d'image : QImage (Qt) lit et ecrit le PNG, mais aucun device
