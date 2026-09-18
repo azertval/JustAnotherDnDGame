@@ -12296,6 +12296,13 @@
       "name": "arenarea"
     },
     {
+      "type": "portal",
+      "x": 0,
+      "y": 4,
+      "targetMap": "capital/arenarea",
+      "arrival": "martpart"
+    },
+    {
       "type": "spawnPoint",
       "x": 46,
       "y": 30,

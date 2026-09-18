@@ -13,14 +13,17 @@
 
 #include <deque>
 #include <filesystem>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
 #include <gtest/gtest.h>
 
+#include "Core/Gameplay/WorldFlags.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/Level.h"
 #include "Core/Levels/LevelLoader.h"
@@ -53,6 +56,8 @@ void PrintTo(const Quartier& quartier, std::ostream* flux) {
 // Les quartiers qui ont leur carte. Les dix autres ont une porte gardee (LOT-96, phase 4).
 const Quartier QUARTIERS[] = {
     {"capital/martpart", "Martpart", "martpart", 48, 40},
+    // Arenarea emprunte la planche de Martpart, faute de planche propre (LOT-96, phase 2).
+    {"capital/arenarea", "Arenarea", "martpart", 48, 40},
 };
 
 [[nodiscard]] core::Level charger(const Quartier& quartier) {
@@ -68,6 +73,17 @@ const Quartier QUARTIERS[] = {
         ASSETS / "Scene" / quartier.lieu / "appearance.json");
     EXPECT_TRUE(table.ok()) << quartier.lieu << " : " << table.message;
     return std::move(table.appearance);
+}
+
+/// @return La case du premier portail de @p carte vers @p cible, `{-1, -1}` s'il n'y en a pas.
+[[nodiscard]] core::GridPosition portailVers(const core::Level& carte, std::string_view cible) {
+    for (const core::MapEntity& entite : carte.entities()) {
+        const std::optional<core::PortalTarget> portail = core::portalAt(carte, entite.position);
+        if (entite.type == core::PORTAL_ENTITY_TYPE && portail && portail->map == cible) {
+            return entite.position;
+        }
+    }
+    return {-1, -1};
 }
 
 /// @return La case d'entree de la carte (tuile `entry`), `{-1, -1}` s'il n'y en a pas.
@@ -213,7 +229,45 @@ TEST_P(CapitalMapTest, ChaquePointDArriveeEstFranchissable) {
     EXPECT_GT(points, 0);
 }
 
+/**
+ * @brief Martpart -> Arenarea -> Martpart ramene a la bonne case, sans rien recharger.
+ * \castest{<b>L'avenue se parcourt aller et retour, par points d'arrivee nommes, et la carte
+ * quittee est conservee.</b><br/>
+ * 	cat Unitaire · Quartiers de la Capitale<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Entrer a Martpart par le chargeur du jeu, sur le dossier des niveaux livre.<br/>
+ * 2. Franchir le portail vers Arenarea, puis celui du retour.<br/>
+ * 	attendu A Arenarea, le heros est au point « martpart » ; de retour, au point « arenarea » de
+ * Martpart. Deux cartes chargees en tout, et Martpart est la meme carte qu'a l'aller : l'etat
+ * de la carte quittee est conserve (LOT-96).
+ * }
+ */
+TEST(CapitalTravelTest, MartpartArenareaMartpartRameneALaBonneCase) {
+    core::WorldTravel voyage{core::WorldTravel::directoryLoader(NIVEAUX)};
+    const core::WorldFlags drapeaux;
+
+    ASSERT_EQ(voyage.enter("capital/martpart", ""), core::TravelResult::Moved);
+    const core::Level* const martpart = voyage.currentMap();
+    ASSERT_NE(martpart, nullptr);
+    const core::GridPosition aller = portailVers(*martpart, "capital/arenarea");
+    ASSERT_NE(aller.column, -1) << "Martpart n'a pas de portail vers Arenarea";
+
+    ASSERT_EQ(voyage.cross(aller, drapeaux), core::TravelResult::Moved);
+    EXPECT_EQ(voyage.currentMapId(), "capital/arenarea");
+    const core::Level* const arenarea = voyage.currentMap();
+    ASSERT_NE(arenarea, nullptr);
+    EXPECT_EQ(voyage.position(), core::arrivalPointAt(*arenarea, "martpart"));
+    const core::GridPosition retour = portailVers(*arenarea, "capital/martpart");
+    ASSERT_NE(retour.column, -1) << "Arenarea n'a pas de portail vers Martpart";
+
+    ASSERT_EQ(voyage.cross(retour, drapeaux), core::TravelResult::Moved);
+    EXPECT_EQ(voyage.currentMapId(), "capital/martpart");
+    EXPECT_EQ(voyage.position(), core::arrivalPointAt(*martpart, "arenarea"));
+    EXPECT_EQ(voyage.currentMap(), martpart) << "Martpart a ete rechargee au retour";
+    EXPECT_EQ(voyage.loadedMapCount(), 2U);
+}
+
 INSTANTIATE_TEST_SUITE_P(Quartiers, CapitalMapTest, ::testing::ValuesIn(QUARTIERS),
                          [](const ::testing::TestParamInfo<Quartier>& info) {
-                             return std::string{info.param.lieu};
+                             return std::string{info.param.nom};
                          });

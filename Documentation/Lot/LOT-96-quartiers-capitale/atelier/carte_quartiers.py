@@ -76,6 +76,9 @@ class Porte:
 
     vers: str  # identifiant du quartier voisin (fiche d'atlas)
     nom: str  # nom court, qui nomme aussi le point d'arrivée
+    # La carte du voisin, s'il en a une : la porte est alors un portail, qui arrive au point
+    # nommé d'après ce quartier-ci. Sans carte, la porte est gardée (phase 4).
+    carte: str | None = None
     x: int = 0
     y: int = 0
     bord: str = ""  # "N", "S", "O", "E"
@@ -100,6 +103,8 @@ class Quartier:
     depart: Porte | None = None  # la porte de la ville où « Nouvelle partie » pose le héros
     # Rues secondaires, en L, d'un point à un autre : ce que les portes ne desservent pas.
     rues: list[tuple[tuple[int, int], tuple[int, int]]] = field(default_factory=list)
+    # Vrai si la place est un marché : des rangées d'étals. Un parvis n'en a pas.
+    etals: bool = True
     sol: dict = field(default_factory=dict)
     relief: dict = field(default_factory=dict)
     obstacles: set = field(default_factory=set)
@@ -244,7 +249,7 @@ def habiller(q: Quartier) -> None:
 
     # La place : des rangées d'étals, avec des allées entre elles ; une bannière au milieu.
     px1, py1, px2, py2 = q.place
-    for y in range(py1 + 2, py2 - 1, 4):
+    for y in range(py1 + 2, py2 - 1, 4) if q.etals else ():
         for x in range(px1 + 2, px2 - 1, 3):
             piece = ("prop-1", "prop-2", "prop-4", "prop-1")[variante(x, y, 4)]
             q.relief[(x, y)] = piece
@@ -285,6 +290,13 @@ def habiller(q: Quartier) -> None:
     # place les faisait lire comme des places ouvertes derrière des murets.
     del cours
 
+    # Les grands bâtiments : leurs faces portent des arches et des bannières, pas des fenêtres.
+    for bx1, by1, bx2, by2 in q.batiments:
+        for x, y in rect(bx1, by1, bx2, by2):
+            if (x, y) in q.relief and q.relief[(x, y)].startswith(("window-", "door-")):
+                q.relief[(x, y)] = "prop-3" if (x + y) % 4 == 0 else q.relief[(x, y)].replace(
+                    "window", "wall").replace("door", "wall")
+
     # Un pas de porte devant chaque porte de maison.
     for (x, y), piece in list(q.relief.items()):
         if piece.startswith("door-"):
@@ -292,13 +304,6 @@ def habiller(q: Quartier) -> None:
                 if q.sol.get(voisin) == "dirt" and voisin not in q.obstacles:
                     q.sol[voisin] = "stairs"
                     break
-
-    # Les grands bâtiments : leurs faces portent des arches et des bannières, pas des fenêtres.
-    for bx1, by1, bx2, by2 in q.batiments:
-        for x, y in rect(bx1, by1, bx2, by2):
-            if (x, y) in q.relief and q.relief[(x, y)].startswith(("window-", "door-")):
-                q.relief[(x, y)] = "prop-3" if (x + y) % 4 == 0 else q.relief[(x, y)].replace(
-                    "window", "wall").replace("door", "wall")
 
     # Lanternes le long des rues, du côté des maisons : une toutes les sept cases.
     for (x, y), matiere in sorted(q.sol.items()):
@@ -323,6 +328,11 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
     for porte in q.portes:
         entites.append({"type": "spawnPoint", "x": porte.interieur(2)[0], "y": porte.interieur(2)[1],
                         "name": porte.nom})
+        if porte.carte:
+            # Le portail est la case du bord ; on arrive chez le voisin au point qui porte le nom
+            # de ce quartier-ci, deux pas à l'intérieur : jamais sur son portail de retour.
+            entites.append({"type": "portal", "x": porte.x, "y": porte.y, "targetMap": porte.carte,
+                            "arrival": q.ident})
     if q.depart:
         entites.append({"type": "spawnPoint", "x": entree[0], "y": entree[1], "name": q.depart.nom})
 
@@ -400,12 +410,35 @@ def quartiers() -> list[Quartier]:
             place=(16, 15, 27, 24),
             batiments=[(33, 11, 42, 21)],
             portes=[
-                Porte(vers=fiche("arenarea"), nom="arenarea"),
+                Porte(vers=fiche("arenarea"), nom="arenarea", carte="capital/arenarea"),
             ],
             depart=Porte(vers="", nom="porte-est", bord="E", x=47, y=30),
             # La rue des Lanternes : elle fait le tour de l'arène par le nord et rejoint la rue
             # de la porte de l'Est.
             rues=[((29, 8), (45, 8)), ((45, 8), (45, 29))],
+        ),
+        Quartier(
+            ident="arenarea",
+            fiche=fiche("arenarea"),
+            nom="Arenarea",
+            # Faute de planche propre, Arenarea emprunte celle de Martpart : même ville, mêmes
+            # pavés, mêmes maisons (journal du lot, phase 2).
+            lieu="martpart",
+            largeur=48,
+            hauteur=40,
+            # Le parvis, au pied du Colisée.
+            place=(18, 17, 29, 24),
+            # Les deux arènes donnent directement sur la rue qui ceint le parvis.
+            batiments=[
+                # Le Colisée, au nord, comme sur le plan ; on y entre au LOT-27.
+                (13, 2, 28, 13),
+                # L'Arène du Destin, à l'est du parvis (LOT-27).
+                (33, 18, 42, 27),
+            ],
+            etals=False,
+            portes=[
+                Porte(vers=fiche("martpart"), nom="martpart", carte="capital/martpart"),
+            ],
         ),
     ]
 

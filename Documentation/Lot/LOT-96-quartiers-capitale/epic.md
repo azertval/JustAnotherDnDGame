@@ -79,9 +79,10 @@ nomme ensuite, pour que chaque commit reste vert.
 
 ## Points ouverts
 
-- **La planche d'Arenarea.** La feuille de route autorise le marqueur là où l'atelier n'a rien
-  livré. Si l'auteur commande une planche Arenarea à l'atelier du [LOT-92](@ref lot-92) (envois
-  manuels), la phase 3 la pose ; sinon, le marqueur tient jusqu'au [LOT-27](@ref lot-27).
+- **La planche d'Arenarea.** Arenarea emprunte celle de Martpart (phase 2, voir le journal). Si
+  l'auteur commande une planche Arenarea à l'atelier du [LOT-92](@ref lot-92) (envois manuels),
+  la carte change de lieu d'une ligne (`"scene"` de sa couche de sol) ; sinon, l'emprunt tient
+  jusqu'au [LOT-27](@ref lot-27).
 - **La figurine de la sentinelle.** Même règle : marqueur du [LOT-39](@ref lot-39) jusqu'à ce que
   l'atelier du [LOT-91](@ref lot-91) produise un garde Ironhand. Reprendre une des cinq figurines
   livrées ferait d'un personnage nommé un garde anonyme — écarté.
@@ -124,4 +125,21 @@ nomme ensuite, pour que chaque commit reste vert.
   - *Les cartes d'un sous-dossier ont pour identifiant leur chemin relatif* (`capital/martpart`) :
     `core::loadWorldGraph` et le navigateur de l'éditeur lisaient le seul premier niveau du
     dossier, si bien qu'un portail vers un quartier aurait été déclaré orphelin.
+- **18 septembre 2026, phase 2 — Arenarea, et l'avenue.** `arenarea.json` : le parvis au pied du
+  Colisée (au nord, comme sur le plan), l'Arène du Destin à l'est du parvis, toutes deux fermées
+  et donnant sur la rue qui ceint le parvis ; on y entre au [LOT-27](@ref lot-27). L'avenue relie
+  les deux quartiers par deux portails, chacun arrivant au point nommé d'après le quartier qu'on
+  quitte, deux pas à l'intérieur — jamais sur le portail de retour. `CapitalTravelTest` fait
+  l'aller-retour sur le dossier des niveaux livré : la bonne case, et Martpart retrouvée telle
+  qu'on l'a laissée, sans rechargement.
+  - *Arenarea emprunte la planche de Martpart* (décision prise en phase, à confirmer par
+    l'auteur). La feuille de route voulait le marqueur du [LOT-39](@ref lot-39) là où l'atelier n'a
+    rien livré ; mais un sol sans pièce se dessine en damier, et une carte entière en damier ne se
+    parcourt pas, elle se subit. La planche de Martpart est celle d'une rue de la même ville —
+    pavés, maisons, lanternes — : elle n'est pas un substitut de test, c'est un habillage vrai,
+    qu'une planche propre remplacera. Le marqueur reste le substitut des pièces et figurines qui
+    n'existent nulle part (phase 4).
+  - *Le `requiresFlag` de la porte d'Arenarea n'est pas posé.* Le poser la fermerait jusqu'au
+    [LOT-16](@ref lot-16) ; la feuille de route la veut ouverte d'ici là. Le [LOT-16](@ref lot-16)
+    l'ajoutera sur le portail de Martpart, avec le drapeau qu'il crée.
 
