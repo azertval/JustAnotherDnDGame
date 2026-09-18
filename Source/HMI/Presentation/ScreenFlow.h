@@ -10,7 +10,7 @@
  * @brief Machine à états des écrans de la fenêtre principale (`EX-GP-041`).
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`) —
- * même patron que `HMI/Editor/PanelFocus.h`/`HMI/Interface/ActionCatalog.h`. `hmi::ScreenRouter`
+ * même patron que `Editor/Logic/PanelFocus.h`/`Editor/Logic/ActionCatalog.h`. `hmi::ScreenRouter`
  * ne fait que suivre cette table : toute navigation passe par `resolveTransition()` -- une
  * transition non déclarée ici est **refusée**, jamais silencieusement acceptée.
  */

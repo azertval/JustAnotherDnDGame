@@ -76,7 +76,6 @@ add_executable(UnitTests
     Unit/Core/Diagnostics/test_assert.cpp
     Unit/Core/Diagnostics/test_log_level_parse.cpp
     Unit/HMI/Input/test_input_state.cpp
-    Unit/HMI/Input/test_editor_key_bindings.cpp
     Unit/HMI/Input/test_gamepad_probe.cpp
     Unit/HMI/Input/test_button_repeat.cpp
     Unit/HMI/Graphics/test_camera2d.cpp
@@ -100,23 +99,24 @@ add_executable(UnitTests
     Unit/HMI/Presentation/test_credits_catalog.cpp
     Unit/HMI/Presentation/test_inventory_screen.cpp
     Unit/HMI/Presentation/test_world_maps.cpp
-    Unit/HMI/Interface/test_design_tokens.cpp
-    Unit/HMI/Interface/test_application_theme.cpp
-    Unit/HMI/Interface/test_theme_teardown_guards.cpp
-    Unit/HMI/Interface/test_editor_actions.cpp
     Unit/HMI/Interface/test_screen_flow.cpp
     Unit/HMI/Interface/test_rpg_screens.cpp
     Unit/HMI/Interface/test_character_sheet_values.cpp
     Unit/HMI/Interface/test_dialogue_screen.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
-    Unit/HMI/Editor/test_thumbnail_geometry.cpp
-    Unit/HMI/Editor/test_level_name_validation.cpp
-    Unit/HMI/Editor/test_tile_taxonomy.cpp
-    Unit/HMI/Editor/test_level_file_operations.cpp
-    Unit/HMI/Editor/test_editor_status.cpp
-    Unit/HMI/Editor/test_panel_focus.cpp
-    Unit/HMI/Editor/test_entity_editing.cpp
-    Unit/HMI/Editor/test_world_graph_layout.cpp
+    Unit/Editor/test_thumbnail_geometry.cpp
+    Unit/Editor/test_level_name_validation.cpp
+    Unit/Editor/test_tile_taxonomy.cpp
+    Unit/Editor/test_level_file_operations.cpp
+    Unit/Editor/test_editor_status.cpp
+    Unit/Editor/test_panel_focus.cpp
+    Unit/Editor/test_entity_editing.cpp
+    Unit/Editor/test_world_graph_layout.cpp
+    Unit/Editor/test_design_tokens.cpp
+    Unit/Editor/test_application_theme.cpp
+    Unit/Editor/test_theme_teardown_guards.cpp
+    Unit/Editor/test_editor_actions.cpp
+    Unit/Editor/test_editor_key_bindings.cpp
 )
 
 # Encodage/decodage d'image : QImage (Qt) lit et ecrit le PNG, mais aucun device
@@ -197,6 +197,8 @@ target_link_libraries(UnitTests PRIVATE
     # cette cible relistait pour les recompiler. HmiLib propage Core, la racine Source/ et
     # nlohmann_json.
     HmiLib
+    # La logique pure du module éditeur (LOT-EDITOR-01) : ses tests vivent sous Unit/Editor.
+    EditorLogic
     GTest::gtest_main
     project_warnings
     project_options

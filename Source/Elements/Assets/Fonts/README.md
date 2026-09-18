@@ -21,7 +21,7 @@ texte complet dans `Inter-LICENSE.txt`, à côté des fichiers.
 
 ## Polices de l'interface Qt
 
-Elles sont chargees par `hmi::applyFont` (`HMI/Interface/ApplicationTheme.cpp`)
+Elles sont chargees par `hmi::applyFont` (`Editor/Ui/ApplicationTheme.cpp`)
 depuis ce dossier, deploye a cote de l'executable.
 
 | Fichier | Employe par |

@@ -2,7 +2,7 @@
    Produit au chargement par substitution de marqueurs (syntaxe dollar-accolade, cf.
    hmi::substituteStyleSheetTemplate -- non repetee ici en toutes lettres pour ne pas etre lue
    comme un marqueur reel par le scanner, non conscient des commentaires) avec les valeurs des
-   jetons de design (HMI/Interface/DesignTokens.h). Aucune couleur litterale : chaque couleur
+   jetons de design (Editor/Logic/DesignTokens.h). Aucune couleur litterale : chaque couleur
    passe par un marqueur.
 
    PORTEE : tout le reste -- fenetre, panneaux dockables, barres, arbres/tables/listes, controles,

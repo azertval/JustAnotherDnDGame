@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LevelBrowserPanel</class>
+ <widget class="QWidget" name="LevelBrowserPanel">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin"><number>4</number></property>
+   <property name="topMargin"><number>4</number></property>
+   <property name="rightMargin"><number>4</number></property>
+   <property name="bottomMargin"><number>4</number></property>
+   <item>
+    <widget class="QTabWidget" name="viewTabs">
+     <property name="currentIndex"><number>0</number></property>
+     <widget class="QWidget" name="listTab">
+      <attribute name="title"><string>Liste</string></attribute>
+      <layout class="QVBoxLayout" name="listLayout">
+       <property name="leftMargin"><number>4</number></property>
+       <property name="topMargin"><number>4</number></property>
+       <property name="rightMargin"><number>4</number></property>
+       <property name="bottomMargin"><number>4</number></property>
+       <item>
+        <widget class="QLineEdit" name="searchField">
+         <property name="placeholderText"><string>Rechercher…</string></property>
+         <property name="clearButtonEnabled"><bool>true</bool></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListView" name="levelList"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="buttonRow">
+         <item><widget class="QPushButton" name="newButton"><property name="text"><string>Nouveau</string></property></widget></item>
+         <item><widget class="QPushButton" name="renameButton"><property name="text"><string>Renommer</string></property></widget></item>
+         <item><widget class="QPushButton" name="duplicateButton"><property name="text"><string>Dupliquer</string></property></widget></item>
+         <item><widget class="QPushButton" name="deleteButton"><property name="text"><string>Supprimer</string></property></widget></item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="graphTab">
+      <attribute name="title"><string>Graphe</string></attribute>
+      <layout class="QVBoxLayout" name="graphLayout">
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+       <item>
+        <widget class="hmi::WorldGraphView" name="worldGraph"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>hmi::WorldGraphView</class>
+   <extends>QWidget</extends>
+   <header>Editor/Ui/WorldGraphView.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

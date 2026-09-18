@@ -22,8 +22,8 @@
 
 #include "App/Common/Bootstrap.h"
 #include "HMI/HmiLog.h"
-#include "HMI/Interface/ApplicationTheme.h"
-#include "HMI/Interface/MainWindow.h"
+#include "Editor/Ui/ApplicationTheme.h"
+#include "Editor/Ui/MainWindow.h"
 
 /**
  * @brief Point d'entrée du programme.
