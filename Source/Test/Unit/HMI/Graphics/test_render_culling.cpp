@@ -3,33 +3,20 @@
 
 /**
  * @file test_render_culling.cpp
- * @brief Tests unitaires du culling par cadrage caméra (LOT-40, EX-NFR-005, EX-REN-015).
+ * @brief Tests unitaires du culling par cadrage caméra (LOT-40, EX-NFR-005).
  */
 
 #include <gtest/gtest.h>
 
-#include "Core/Ecs/Components/Sprite.h"
-#include "Core/Ecs/Components/Transform.h"
-#include "Core/Ecs/World.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/QuadRecorder.h"
-#include "HMI/Graphics/RoomGrid.h"
 
 namespace {
 
 // Texture factice : la composition ne fait que comparer des identites (cf. test_quad_recorder).
 int textureStorage = 0;
 hmi::TextureHandle texture = &textureStorage;
-
-/// Textures de reference des tests (le mode Physique lie l'atlas, seul utilise ici).
-hmi::SceneTextures testTextures() {
-    hmi::SceneTextures textures;
-    textures.atlas = texture;
-    textures.atlasWidth = 80;
-    textures.atlasHeight = 80;
-    return textures;
-}
 
 /// Cadrage de reference des tests : la caméra voit le monde de (10, 10) a (30, 20).
 const core::Rect VISIBLE_BOUNDS{core::Vector2{10.0f, 10.0f}, core::Vector2{20.0f, 10.0f}};
@@ -42,16 +29,6 @@ hmi::SpriteQuad tileQuad(float x, float y) {
     quad.width = 1.0f;
     quad.height = 1.0f;
     return quad;
-}
-
-/// Ajoute une entite tuile (Transform + Sprite) au monde.
-void addTile(core::World& world, float x, float y) {
-    const core::Entity entity = world.createEntity();
-    world.addComponent(entity,
-                       core::Transform{core::Vector2{x, y}, core::Vector2{1.0f, 1.0f}, 0.0f});
-    core::Sprite sprite;
-    sprite.region = core::AtlasRegion{0, 0, 16, 16};
-    world.addComponent(entity, sprite);
 }
 
 }  // namespace
@@ -261,41 +238,6 @@ TEST(RenderCullingTest, QuadTourneChevauchantLeCadrageResteSoumis) {
     quad.rotation = 0.78539816339f;  // pi/4
 
     EXPECT_TRUE(scene.addSprite(hmi::RenderLayer::EditorOverlay, texture, 0, quad));
-}
-
-/**
- * @brief Sur un niveau de trois salles, le nombre de primitives composées dépend du contenu de la
- *        salle visible, pas de la taille du niveau.
- * \castest{<b>Le volume compose depend de la salle visible, pas de la taille du niveau.</b><br/>
- * \tcat Unitaire · Render Culling<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler une ligne de tuiles couvrant trois salles.<br/>2. Cadrer la premiere
- * salle.<br/>3. Composer la scene.<br/>
- * \tattendu Seules les tuiles de la salle visible (marge comprise) sont soumises.
- * }
- */
-TEST(RenderCullingTest, VolumeProportionnelALaSalleVisible) {
-    constexpr int ROOM_WIDTH = hmi::RoomGrid::ROOM_WIDTH_TILES;
-    constexpr int LEVEL_WIDTH = 3 * ROOM_WIDTH;
-
-    core::World world;
-    for (int column = 0; column < LEVEL_WIDTH; ++column) {
-        addTile(world, static_cast<float>(column), 0.0f);
-    }
-
-    const hmi::RoomGrid rooms(LEVEL_WIDTH, hmi::RoomGrid::ROOM_HEIGHT_TILES);
-    const hmi::RoomBounds firstRoom = rooms.roomBounds(core::GridPosition{0, 0});
-
-    hmi::ComposedScene scene;
-    scene.setVisibleBounds(core::Rect{
-        core::Vector2{static_cast<float>(firstRoom.column), static_cast<float>(firstRoom.row)},
-        core::Vector2{static_cast<float>(firstRoom.width), static_cast<float>(firstRoom.height)}});
-    hmi::composeWorldSprites(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-
-    // Colonnes 0 a ROOM_WIDTH incluses : la salle, plus la case de marge a droite.
-    EXPECT_EQ(scene.statistics().considered, LEVEL_WIDTH);
-    EXPECT_EQ(scene.statistics().submitted, ROOM_WIDTH + 1);
-    EXPECT_EQ(scene.statistics().culled, LEVEL_WIDTH - ROOM_WIDTH - 1);
 }
 
 /**

@@ -36,12 +36,10 @@ enum class EditorAction {
     ToggleGrid,
     ToggleHelp,
     Rename,
-    /// Sélectionne l'outil « Texture par instance » (`LOT-45`, `EX-EDIT-043`).
-    TextureAssignTool,
 };
 
 /// Nombre d'actions d'éditeur remappables (`EditorAction`).
-constexpr int EDITOR_ACTION_COUNT = 10;
+constexpr int EDITOR_ACTION_COUNT = 9;
 
 /**
  * @brief Association action d'éditeur -> touche, avec persistance JSON (`EX-CTRL-012`, `LOT-29`).
@@ -52,8 +50,8 @@ constexpr int EDITOR_ACTION_COUNT = 10;
  */
 class EditorKeyBindings {
 public:
-    /// Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2/T, cf. l'éditeur
-    /// `hmi::GameViewport`).
+    /// Construit avec les valeurs par défaut (S/Z/Y/C/V/P/F10/F1/F2, cf. l'éditeur
+    /// `hmi::EditorViewport`).
     EditorKeyBindings();
 
     /// @return La touche actuellement liée à @p action.

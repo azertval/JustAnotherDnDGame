@@ -23,7 +23,6 @@
 #include <string>
 
 #include "App/Common/Bootstrap.h"
-#include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
 #include "HMI/Graphics/TextureLoader.h"
 #include "HMI/HmiLog.h"
@@ -35,7 +34,7 @@
  * @return Code de sortie du processus (0 en cas de succès).
  */
 int main(int argc, char** argv) {
-    core::MemoryLogSink* sessionLog = app::installLogging(argc, argv, "LevelEditor");
+    static_cast<void>(app::installLogging(argc, argv, "LevelEditor"));
 
     QApplication application(argc, argv);
     // Style choisi avant tout widget (LOT-56) : appliqué après, il ne se propage pas aux widgets
@@ -77,7 +76,7 @@ int main(int argc, char** argv) {
     // avant la construction de la fenêtre.
     hmi::applyEditorTheme();
 
-    hmi::MainWindow window(sessionLog);
+    hmi::MainWindow window;
     window.show();
 
     const int code = QApplication::exec();

@@ -10,21 +10,14 @@
 #include <vector>
 
 #include "Core/Math/Rect.h"
-#include "HMI/Graphics/LayerVisibility.h"
 #include "HMI/Graphics/Quad.h"
 #include "HMI/Graphics/RenderLayer.h"
-#include "HMI/Graphics/RenderMode.h"
-#include "HMI/Graphics/TileAppearance.h"
 
 /**
  * @file HMI/Graphics/ComposedScene.h
  * @brief Composition du rendu : liste ordonnée des primitives d'une image, **sans GPU**
  *        (`EX-NFR-004`, `EX-NFR-005`).
  */
-
-namespace core {
-class World;
-}
 
 namespace hmi {
 
@@ -47,7 +40,7 @@ enum class QuadKind {
  */
 struct ComposedQuad {
     /// Calque de dessin (critère de tri **prioritaire**, `EX-REN-014`).
-    RenderLayer layer = DEFAULT_RENDER_LAYER;
+    RenderLayer layer = RenderLayer::Tile;
     /// Texture liée (identité opaque) ; `nullptr` = primitive non dessinable.
     TextureHandle texture = nullptr;
     /// Rang de **première apparition** de la texture dans la scène (critère de regroupement).
@@ -260,37 +253,5 @@ private:
  */
 [[nodiscard]] core::Rect lineQuadBounds(const LineQuad& quad) noexcept;
 
-/**
- * @brief Compose les entités affichables d'un monde ECS en primitives.
- *
- * Parcourt les entités portant un `core::Transform` **et** un `core::Sprite`, résout la région
- * d'atlas en coordonnées de texture normalisées, applique l'interpolation de rendu
- * (`hmi::PreviousPosition`) et empile un `hmi::SpriteQuad` par entité. Lecture **seule** de l'ECS
- * (`EX-ARCH-012`) : ni la simulation ni l'interpolation ne sont affectées, y compris pour une
- * entité écartée par le culling (elle reste simulée, elle n'est simplement pas dessinée).
- *
- * Le calque de chaque entité vient de son `hmi::RenderLayerTag`, ou vaut
- * `hmi::DEFAULT_RENDER_LAYER` en son absence ; `core::Sprite::layer` reste le tri **fin** à
- * l'intérieur de ce calque.
- *
- * L'apparence de chaque entité — texture liée et région échantillonnée — est résolue **ici**, à la
- * composition, par `hmi::resolveTileAppearance` (`LOT-41`) : changer de mode de rendu ne
- * reconstruit donc jamais la scène ECS.
- * @param scene              Scène à remplir (non vidée : la composition peut être cumulative).
- * @param world              Monde dont on lit `Transform`, `Sprite`, `PreviousPosition`,
- *                           `RenderLayerTag`.
- * @param mode               Mode de rendu courant (`EX-REN-046`).
- * @param textures           Textures liables et leurs dimensions (atlas et damier de repli).
- * @param interpolationAlpha Facteur d'interpolation `[0, 1[` entre le pas de simulation précédent
- *                           et le pas courant (`EX-ARCH-031`) ; `0` reproduit le rendu non
- *                           interpolé.
- * @param visibility         Jeu de visibilités par calque du mode d'inspection de l'éditeur
- *                           (`hmi::LayerVisibility`, `LOT-51`, `EX-EDIT-044`) : tout visible par
- *                           défaut, donc sans effet pour `hmi::GameSession` qui ne le fournit
- *                           jamais.
- */
-void composeWorldSprites(ComposedScene& scene, core::World& world, RenderMode mode,
-                         const SceneTextures& textures, float interpolationAlpha,
-                         const LayerVisibility& visibility = LayerVisibility{});
 
 }  // namespace hmi

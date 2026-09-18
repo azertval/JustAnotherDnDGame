@@ -10,22 +10,16 @@ add_library(Core STATIC
     Ecs/EntityManager.cpp
     Ecs/World.cpp
     Ecs/AnimationClip.cpp
-    Ecs/Systems/MovementSystem.cpp
-    Ecs/Systems/TopDownMovementSystem.cpp
-    Ecs/Systems/AnimationSystem.cpp
-    Ecs/Systems/ParticleSystem.cpp
     World/Atlas.cpp
     World/CityBlock.cpp
     World/CityPlan.cpp
     World/EntityKinds.cpp
-    World/GridDistanceField.cpp
     World/WorldGraph.cpp
     World/WorldTravel.cpp
     World/ExplorationSession.cpp
     World/CombatZone.cpp
     Gameplay/Interaction.cpp
     Gameplay/MapEntitySpawner.cpp
-    Gameplay/MechanismController.cpp
     Gameplay/WorldFlags.cpp
     Rpg/Ability.cpp
     Rpg/Bestiary.cpp
@@ -65,10 +59,6 @@ add_library(Core STATIC
     Levels/LevelLoader.cpp
     Levels/LevelWriter.cpp
     Levels/LevelDraft.cpp
-    Levels/LevelScene.cpp
-    Levels/LevelOutcome.cpp
-    Physics/SweptCollision.cpp
-    Physics/AabbVsAabb.cpp
     Time/FixedTimestep.cpp
     Diagnostics/LogFormat.cpp
     Diagnostics/Logger.cpp

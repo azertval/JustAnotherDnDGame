@@ -59,7 +59,6 @@ qt_add_qml_module(JadgRuntime
         ../Graphics/TextureLoader.cpp
         ../Graphics/TextureAtlas.cpp
         ../Graphics/TextureCache.cpp
-        ../Graphics/BitmapFont.cpp
         DialogueModel.h DialogueModel.cpp
         # La manette du jeu Qt Quick (LOT-24) : le sondage XInput, jusqu'ici compile dans
         # l'editeur seul, devient un QObject qui emet des appuis nommes.

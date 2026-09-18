@@ -11,12 +11,8 @@
 
 #include <gtest/gtest.h>
 
-#include "Core/Ecs/Components/Sprite.h"
-#include "Core/Ecs/Components/Transform.h"
-#include "Core/Ecs/World.h"
 #include "Core/Math/Vector2.h"
 #include "HMI/Graphics/ComposedScene.h"
-#include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/QuadRecorder.h"
 #include "HMI/Graphics/RenderLayer.h"
 
@@ -29,17 +25,6 @@ int secondTextureStorage = 0;
 hmi::TextureHandle textureA = &firstTextureStorage;
 hmi::TextureHandle textureB = &secondTextureStorage;
 
-hmi::SceneTextures testTextures() {
-    hmi::SceneTextures textures;
-    textures.atlas = textureA;
-    textures.atlasWidth = 80;
-    textures.atlasHeight = 80;
-    textures.missing = textureB;
-    textures.missingWidth = hmi::MISSING_TEXTURE_SIZE;
-    textures.missingHeight = hmi::MISSING_TEXTURE_SIZE;
-    return textures;
-}
-
 // Rectangle d'une case, dont le PIED (bord bas) est a @p footY.
 hmi::SpriteQuad quadWithFoot(float x, float footY) {
     hmi::SpriteQuad quad;
@@ -48,18 +33,6 @@ hmi::SpriteQuad quadWithFoot(float x, float footY) {
     quad.width = 1.0f;
     quad.height = 1.0f;
     return quad;
-}
-
-// Entite d'une case, sur le calque demande.
-core::Entity addSprite(core::World& world, hmi::RenderLayer layer, core::Vector2 position,
-                       core::Vector2 size) {
-    const core::Entity entity = world.createEntity();
-    world.addComponent(entity, core::Transform{position, size, 0.0f});
-    core::Sprite sprite;
-    sprite.region = core::AtlasRegion{0, 0, 16, 16};
-    world.addComponent(entity, sprite);
-    world.addComponent(entity, hmi::RenderLayerTag{layer});
-    return entity;
 }
 
 }  // namespace
@@ -206,60 +179,3 @@ TEST(TriParProfondeurTest, LaProfondeurNeDebordePasDeSaBande) {
     EXPECT_TRUE(recorder.isLayerOrderRespected()) << recorder.describe();
 }
 
-/**
- * @brief La composition depuis l'ECS alimente elle-même l'ordre de profondeur, depuis le **pied**
- * du quad : deux sprites de hauteurs différentes posés sur la même case s'ordonnent pareil
- * (`EX-REN-018`).
- * \castest{<b>La composition alimente l'ordre de profondeur depuis le pied du quad.</b><br/>
- * \tcat Unitaire · Tri par profondeur<br/>
- * \tcrit Critique<br/>
- * \tetapes 1. Peupler un monde d'un objet haut et d'un personnage bas, poses sur la meme
- * ligne.<br/>2. Composer depuis l'ECS et trier.<br/>
- * \tattendu Les deux portent le meme ordre de profondeur, celui de leur pied commun.
- * }
- */
-TEST(TriParProfondeurTest, CompositionAlimenteLaProfondeurDepuisLePied) {
-    core::World world;
-    // Un arbre de deux cases de haut et un personnage d'une case, dont les PIEDS coincident.
-    addSprite(world, hmi::RenderLayer::Object, core::Vector2{0.0f, 2.0f},
-              core::Vector2{1.0f, 2.0f});
-    addSprite(world, hmi::RenderLayer::Player, core::Vector2{1.0f, 3.0f},
-              core::Vector2{1.0f, 1.0f});
-
-    hmi::ComposedScene scene;
-    hmi::composeWorldSprites(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-    scene.sort();
-
-    ASSERT_EQ(scene.size(), 2u);
-    EXPECT_EQ(scene.quads()[0].sortOrder, hmi::depthSortOrder(4.0f));
-    EXPECT_EQ(scene.quads()[1].sortOrder, hmi::depthSortOrder(4.0f));
-}
-
-/**
- * @brief Hors de la bande de profondeur, `core::Sprite::layer` conserve son rôle de tri fin : le
- * rang de couche du `LOT-04` continue d'ordonner sol et décor entre eux (`EX-LVL-016`).
- * \castest{<b>Hors bande de profondeur, le tri fin reste celui de Sprite::layer.</b><br/>
- * \tcat Unitaire · Tri par profondeur<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Peupler un monde de deux tuiles de rangs de couche differents, la seconde plus
- * basse.<br/>2. Composer et trier.<br/>
- * \tattendu L'ordre suit le rang de couche, pas la position.
- * }
- */
-TEST(TriParProfondeurTest, HorsBandeLeTriFinResteCeluiDeLaCouche) {
-    core::World world;
-    const core::Entity haut = addSprite(world, hmi::RenderLayer::Tile, core::Vector2{0.0f, 9.0f},
-                                        core::Vector2{1.0f, 1.0f});
-    world.getComponent<core::Sprite>(haut).layer = 1;  // decor : rang 1
-    const core::Entity bas = addSprite(world, hmi::RenderLayer::Tile, core::Vector2{1.0f, 0.0f},
-                                       core::Vector2{1.0f, 1.0f});
-    world.getComponent<core::Sprite>(bas).layer = 0;  // sol : rang 0
-
-    hmi::ComposedScene scene;
-    hmi::composeWorldSprites(scene, world, hmi::RenderMode::Physique, testTextures(), 0.0f);
-    scene.sort();
-
-    ASSERT_EQ(scene.size(), 2u);
-    EXPECT_EQ(scene.quads()[0].sortOrder, 0);
-    EXPECT_EQ(scene.quads()[1].sortOrder, 1);
-}

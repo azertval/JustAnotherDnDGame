@@ -18,9 +18,6 @@ add_executable(UnitTests
     Unit/Core/Ecs/test_view.cpp
     Unit/Core/Ecs/test_world.cpp
     Unit/Core/Ecs/test_sprite.cpp
-    Unit/Core/Ecs/test_particle_system.cpp
-    Unit/Core/Ecs/test_top_down_movement.cpp
-    Unit/Core/Ecs/test_particle_triggers.cpp
     Unit/Core/Data/test_json_document.cpp
     Unit/Core/Levels/test_level.cpp
     Unit/Core/Levels/test_camera_framing.cpp
@@ -30,7 +27,6 @@ add_executable(UnitTests
     Unit/Core/Levels/test_level_draft.cpp
     Unit/Core/Levels/test_level_draft_editing.cpp
     Unit/Core/Levels/test_plane.cpp
-    Unit/Core/Levels/test_level_outcome.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Rpg/test_check.cpp
     Unit/Core/Rpg/test_dialogue.cpp
@@ -62,9 +58,6 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
     Unit/Core/Levels/test_tile_texture_override.cpp
-    Unit/Core/Physics/test_swept_collision.cpp
-    Unit/Core/Physics/test_aabb_vs_aabb.cpp
-    Unit/Core/World/test_grid_distance_field.cpp
     Unit/Core/World/test_world_graph.cpp
     Unit/Core/World/test_world_travel.cpp
     Unit/Core/World/test_exploration_session.cpp
@@ -76,7 +69,6 @@ add_executable(UnitTests
     Unit/Core/World/test_city_block.cpp
     Unit/Core/World/test_combat_zone.cpp
     Unit/Core/Gameplay/test_interaction.cpp
-    Unit/Core/Gameplay/test_mechanism_controller.cpp
     Unit/Core/Time/test_fixed_timestep.cpp
     Unit/Core/Diagnostics/test_logger.cpp
     Unit/Core/Diagnostics/test_scoped_log_level.cpp
@@ -86,64 +78,30 @@ add_executable(UnitTests
     Unit/Core/Diagnostics/test_assert.cpp
     Unit/Core/Diagnostics/test_log_level_parse.cpp
     Unit/HMI/Input/test_input_state.cpp
-    Unit/HMI/Input/test_player_input_mapper.cpp
-    Unit/HMI/Input/test_game_key_bindings.cpp
     Unit/HMI/Input/test_editor_key_bindings.cpp
-    Unit/HMI/Input/test_key_name.cpp
-    Unit/HMI/Input/test_gamepad_bindings.cpp
     Unit/HMI/Input/test_gamepad_probe.cpp
     Unit/HMI/Input/test_button_repeat.cpp
-    Unit/HMI/Input/test_gamepad_button_name.cpp
     Unit/HMI/Graphics/test_camera2d.cpp
-    Unit/HMI/Graphics/test_room_grid.cpp
-    Unit/HMI/Graphics/test_follow_camera.cpp
-    Unit/HMI/Graphics/test_camera_zones.cpp
     Unit/HMI/Graphics/test_asset_paths.cpp
     Unit/HMI/Graphics/test_procedural_atlas.cpp
     Unit/HMI/Graphics/test_tile_visuals.cpp
     Unit/HMI/Graphics/test_texture_atlas.cpp
     Unit/HMI/Graphics/test_animation_catalog.cpp
-    Unit/HMI/Graphics/test_animated_tiles.cpp
-    Unit/HMI/Graphics/test_player_sprite.cpp
     Unit/HMI/Graphics/test_asset_contract.cpp
     Unit/HMI/Graphics/test_missing_texture.cpp
     Unit/HMI/Graphics/test_quad_recorder.cpp
     Unit/HMI/Graphics/test_depth_sort.cpp
     Unit/HMI/Graphics/test_render_culling.cpp
-    Unit/HMI/Graphics/test_background_fit.cpp
-    Unit/HMI/Graphics/test_render_mode.cpp
-    Unit/HMI/Graphics/test_skin_catalog.cpp
     Unit/HMI/Graphics/test_arena_appearance_catalog.cpp
     Unit/HMI/Graphics/test_asset_gallery.cpp
     Unit/HMI/Graphics/test_arena_scene_composer.cpp
     Unit/HMI/Graphics/test_world_scene_composer.cpp
     Unit/HMI/Graphics/test_arena_animation_driver.cpp
-    Unit/HMI/Graphics/test_tile_autotile.cpp
-    Unit/HMI/Graphics/test_tile_skin_resolution.cpp
-    Unit/HMI/Graphics/test_texture_resolution.cpp
     Unit/HMI/Graphics/test_cache_registry.cpp
-    Unit/HMI/Graphics/test_mechanism_visuals.cpp
-    Unit/HMI/Graphics/test_mechanism_transitions.cpp
-    Unit/HMI/Graphics/test_parallax.cpp
-    Unit/HMI/Graphics/test_layer_visibility.cpp
-    Unit/HMI/Graphics/test_plane_render.cpp
-    Unit/HMI/Graphics/test_bitmap_font.cpp
-    Unit/HMI/Graphics/test_text_renderer.cpp
-    Unit/HMI/Graphics/test_shadow_render.cpp
-    Unit/HMI/Graphics/test_render_budget.cpp
-    Unit/HMI/Graphics/test_particle_render.cpp
     Unit/HMI/Graphics/test_screen_shake.cpp
     Unit/HMI/Graphics/test_entity_markers.cpp
-    Unit/HMI/Game/test_game_hud.cpp
-    Unit/HMI/Game/test_playtest_interaction.cpp
-    Unit/HMI/Game/test_diagnostics_hud.cpp
-    Unit/HMI/Game/test_game_mode.cpp
-    Unit/HMI/Game/test_game_events.cpp
-    Unit/HMI/Audio/test_sound_triggers.cpp
     Unit/HMI/Localization/test_localization.cpp
-    Unit/HMI/Diagnostics/test_session_log.cpp
     Unit/HMI/Platform/test_crash_dump.cpp
-    Unit/HMI/Audio/test_sound_catalog.cpp
     Unit/HMI/Presentation/test_credits_catalog.cpp
     Unit/HMI/Presentation/test_inventory_screen.cpp
     Unit/HMI/Presentation/test_world_maps.cpp
@@ -156,30 +114,12 @@ add_executable(UnitTests
     Unit/HMI/Interface/test_character_sheet_values.cpp
     Unit/HMI/Interface/test_dialogue_screen.cpp
     Unit/HMI/Interface/test_identity_scale.cpp
-    Unit/HMI/Interface/test_editor_workspace.cpp
     Unit/HMI/Editor/test_thumbnail_geometry.cpp
     Unit/HMI/Editor/test_level_name_validation.cpp
     Unit/HMI/Editor/test_tile_taxonomy.cpp
-    Unit/HMI/Editor/test_skin_assignments.cpp
-    Unit/HMI/Editor/test_palette_appearance.cpp
     Unit/HMI/Editor/test_level_file_operations.cpp
-    Unit/HMI/Editor/test_link_geometry.cpp
-    Unit/HMI/Editor/test_link_gesture.cpp
-    Unit/HMI/Editor/test_texture_assign_gesture.cpp
-    Unit/HMI/Editor/test_asset_library.cpp
-    Unit/HMI/Editor/test_asset_file_operations.cpp
-    Unit/HMI/Editor/test_asset_references.cpp
-    Unit/HMI/Editor/test_mechanism_animation_assignments.cpp
     Unit/HMI/Editor/test_editor_status.cpp
     Unit/HMI/Editor/test_panel_focus.cpp
-    Unit/HMI/Editor/test_pixel_operations.cpp
-    Unit/HMI/Editor/test_pixel_history.cpp
-    Unit/HMI/Editor/test_pixel_canvas_geometry.cpp
-    Unit/HMI/Editor/test_plane_reference.cpp
-    Unit/HMI/Editor/test_plane_file_naming.cpp
-    Unit/HMI/Editor/test_pixel_asset_io.cpp
-    Unit/HMI/Editor/test_pixel_palette.cpp
-    Unit/HMI/Editor/test_pixel_autotile_preview.cpp
     Unit/HMI/Editor/test_entity_editing.cpp
     Unit/HMI/Editor/test_world_graph_layout.cpp
 )
@@ -219,7 +159,6 @@ if(Qt6_FOUND)
         ../HMI/Graphics/SpriteRenderer.cpp
         ../HMI/Graphics/TextureAtlas.cpp
         ../HMI/Graphics/TextureCache.cpp
-        ../HMI/Graphics/BitmapFont.cpp
         # Table de correspondance Qt <-> Win32 (LOT-57 TACHE-04) : logique PURE, mais qui lit les
         # constantes de <qnamespace.h> -- elle depend des en-tetes Qt, jamais d'une QApplication.
         # Elle vit donc ici plutot qu'avec les autres sources HMI/Input compilees sans condition.
@@ -380,26 +319,23 @@ endif()
 
 # Tests d'intégration : plusieurs briques assemblées collaborant de bout en bout.
 add_executable(IntegrationTests
-    Integration/test_ecs_mouvement.cpp
-    Integration/test_boucle_simulation.cpp
-    Integration/test_niveau_ecs.cpp
-    Integration/test_animation_personnage.cpp
+    Integration/test_exploration_carte_livree.cpp
 )
 
 target_link_libraries(IntegrationTests PRIVATE
-    Core
+    HmiLib
     GTest::gtest_main
     project_warnings
     project_options
 )
 
-# Chemin (source) des niveaux, pour le test d'intégration « fichier livré → ECS ».
+# Chemins (source) des cartes et des assets, pour le test d'intégration « carte livrée → scène ».
 target_compile_definitions(IntegrationTests PRIVATE
-    JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels")
+    JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels"
+    JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets")
 
 # Tests système : un parcours de jeu complet sur le contenu livré, sans la couche GPU.
 add_executable(SystemTests
-    Systeme/test_parcours_edition.cpp
     Systeme/test_parcours_edition_rpg.cpp
 )
 

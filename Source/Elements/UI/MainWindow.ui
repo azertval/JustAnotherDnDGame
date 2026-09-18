@@ -3,11 +3,8 @@
  <class>EditorMainWindow</class>
  <!-- Chassis de l'editeur (LOT-68, EX-IHM-073/EX-IHM-074).
 
-      La barre de menus est organisee PAR NATURE D'ACTION (fichier, edition, niveau, affichage,
-      atelier, aide) et non plus par ordre d'arrivee : « Enregistrer » et « Annuler » vivaient dans
-      un menu « Niveau » qui n'etait ni l'un ni l'autre. Les reglages nombreux et homogenes
-      (calques, panneaux, theme) sont regroupes en SOUS-MENUS : le menu « Affichage » alignait
-      vingt-trois entrees a plat, ce qui ne se parcourt pas.
+      La barre de menus est organisee PAR NATURE D'ACTION (fichier, edition, carte, affichage,
+      aide). Les reglages nombreux et homogenes (panneaux, theme) sont regroupes en SOUS-MENUS.
 
       Les commandes elles-memes ne sont PAS declarees ici : elles viennent du catalogue d'actions
       (hmi::editorActionCatalog), source unique exigee par EX-IHM-055. Le .ui declare les menus,
@@ -15,17 +12,10 @@
  <widget class="QMainWindow" name="EditorMainWindow">
   <property name="dockNestingEnabled"><bool>true</bool></property>
   <!-- Widget central : coquille exigee par Qt pour une QMainWindow, remplacee en code par le
-       QStackedWidget (menu/options/viewport). -->
+       canevas de l'editeur. -->
   <widget class="QWidget" name="centralHost"/>
 
-  <!-- Barres d'outils : declarees ici (LOT-68) plutot que construites en code. Une seule est
-       visible a la fois, selon l'espace de travail actif (hmi::dressingForWorkspace). -->
   <widget class="QToolBar" name="EditorToolBar">
-   <property name="movable"><bool>false</bool></property>
-   <attribute name="toolBarArea"><enum>TopToolBarArea</enum></attribute>
-   <attribute name="toolBarBreak"><bool>false</bool></attribute>
-  </widget>
-  <widget class="QToolBar" name="PixelToolBar">
    <property name="movable"><bool>false</bool></property>
    <attribute name="toolBarArea"><enum>TopToolBarArea</enum></attribute>
    <attribute name="toolBarBreak"><bool>false</bool></attribute>
@@ -44,54 +34,23 @@
     <!-- Annuler, Refaire, Copier, Coller : inseres en code depuis le catalogue. -->
    </widget>
    <widget class="QMenu" name="levelMenu">
-    <property name="title"><string>Niveau</string></property>
+    <property name="title"><string>Carte</string></property>
     <!-- Essayer : insere en code depuis le catalogue. -->
    </widget>
    <widget class="QMenu" name="viewMenu">
     <property name="title"><string>Affichage</string></property>
-    <!-- Recadrer, Grille, Mode de rendu : inseres en code, avant les sous-menus. -->
+    <!-- Recadrer, Grille : inseres en code, avant les sous-menus. -->
     <addaction name="separator"/>
-    <addaction name="workspaceMenu"/>
-    <addaction name="layersMenu"/>
     <addaction name="panelsMenu"/>
     <addaction name="themeMenu"/>
-   </widget>
-   <widget class="QMenu" name="workshopMenu">
-    <property name="title"><string>Atelier</string></property>
-    <!-- Ouvrir/Nouveau/Enregistrer/Enregistrer sous, miroirs et rotations : inseres en code.
-         Ce menu n'existe que dans l'espace « Atelier pixel art ». -->
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title"><string>Aide</string></property>
     <!-- Aperçu des raccourcis : insere en code depuis le catalogue. -->
    </widget>
 
-   <!-- Sous-menu Espace de travail : trois entrees exclusives depuis le LOT-69 (mode creation).
-        Le selecteur vit ICI et nulle part ailleurs (EX-IHM-062) ; le mettre aussi en barre
-        d'outils y remettrait des boutons que le LOT-68 vient d'en retirer. -->
-   <widget class="QMenu" name="workspaceMenu">
-    <property name="title"><string>Espace de travail</string></property>
-    <addaction name="actWorkspaceLevel"/>
-    <addaction name="actWorkspacePlanes"/>
-    <addaction name="actWorkspacePixelArt"/>
-   </widget>
-   <!-- Sous-menu Calques : les sept actions suivent l'ORDRE DE DESSIN (hmi::RenderLayer,
-        EX-REN-014). Elles sont declarees ici, mais leur connexion au viewport est derivee de
-        l'enumeration, jamais recopiee. -->
-   <widget class="QMenu" name="layersMenu">
-    <property name="title"><string>Calques</string></property>
-    <addaction name="actLayerBackground"/>
-    <addaction name="actLayerPlaneBehind"/>
-    <addaction name="actLayerShadow"/>
-    <addaction name="actLayerTileSkin"/>
-    <addaction name="actLayerObjects"/>
-    <addaction name="actLayerPlayer"/>
-    <addaction name="actLayerPlaneFront"/>
-    <addaction name="separator"/>
-    <addaction name="actShowAllLayers"/>
-   </widget>
    <!-- Sous-menu Panneaux : les bascules de visibilite des docks sont ajoutees en code
-        (toggleViewAction, dynamiques et propres a l'espace actif). -->
+        (toggleViewAction). -->
    <widget class="QMenu" name="panelsMenu">
     <property name="title"><string>Panneaux</string></property>
     <addaction name="separator"/>
@@ -109,31 +68,20 @@
    <addaction name="editMenu"/>
    <addaction name="levelMenu"/>
    <addaction name="viewMenu"/>
-   <addaction name="workshopMenu"/>
    <addaction name="helpMenu"/>
   </widget>
 
   <!-- Panneaux dockables : coquilles nommées (objectName stable pour la persistance QSettings) ;
-       leur contenu (arbre de palette, outils, navigateur) est branché en code (setWidget). -->
+       leur contenu (arbre de palette, navigateur, couches, entites) est branché en code. -->
   <widget class="QDockWidget" name="PalettePanel">
    <property name="windowTitle"><string>Palette</string></property>
    <attribute name="dockWidgetArea"><number>1</number></attribute>
    <widget class="QWidget" name="paletteContents"/>
   </widget>
-  <widget class="QDockWidget" name="PlanesPanel">
-   <property name="windowTitle"><string>Plans</string></property>
-   <attribute name="dockWidgetArea"><number>1</number></attribute>
-   <widget class="QWidget" name="planesContents"/>
-  </widget>
   <widget class="QDockWidget" name="LevelsPanel">
-   <property name="windowTitle"><string>Niveaux</string></property>
+   <property name="windowTitle"><string>Cartes</string></property>
    <attribute name="dockWidgetArea"><number>2</number></attribute>
    <widget class="QWidget" name="levelsContents"/>
-  </widget>
-  <widget class="QDockWidget" name="LinksPanel">
-   <property name="windowTitle"><string>Liens</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="linksContents"/>
   </widget>
   <!-- Couches et entites de la carte (LOT-11). -->
   <widget class="QDockWidget" name="LayersPanel">
@@ -146,29 +94,6 @@
    <attribute name="dockWidgetArea"><number>2</number></attribute>
    <widget class="QWidget" name="entitiesContents"/>
   </widget>
-  <widget class="QDockWidget" name="TexturesPanel">
-   <property name="windowTitle"><string>Textures</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="texturesContents"/>
-  </widget>
-  <!-- Atelier pixel art (LOT-54 TACHE-04) : canevas et historique visuel. Depuis le LOT-68, ces
-       trois docks appartiennent a l'espace « Atelier pixel art » et ne sont plus tabifies avec les
-       panneaux d'edition de niveau — on ne melange plus deux domaines dans la meme pile. -->
-  <widget class="QDockWidget" name="PixelCanvasPanel">
-   <property name="windowTitle"><string>Atelier</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="pixelCanvasContents"/>
-  </widget>
-  <widget class="QDockWidget" name="PixelHistoryPanel">
-   <property name="windowTitle"><string>Historique de l'atelier</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="pixelHistoryContents"/>
-  </widget>
-  <widget class="QDockWidget" name="PixelPalettePanel">
-   <property name="windowTitle"><string>Palette</string></property>
-   <attribute name="dockWidgetArea"><number>2</number></attribute>
-   <widget class="QWidget" name="pixelPaletteContents"/>
-  </widget>
 
   <action name="actQuit"><property name="text"><string>Quitter</string></property></action>
   <action name="actResize"><property name="text"><string>Redimensionner…</string></property></action>
@@ -177,20 +102,6 @@
    <property name="checkable"><bool>true</bool></property>
    <property name="text"><string>Suivre l'outil actif</string></property>
   </action>
-  <action name="actWorkspaceLevel">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Édition de niveau</string></property>
-  </action>
-  <action name="actWorkspacePlanes">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="text"><string>Mode création</string></property>
-  </action>
-  <action name="actWorkspacePixelArt">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="text"><string>Atelier pixel art</string></property>
-  </action>
-  <action name="actShowAllLayers"><property name="text"><string>Tout afficher</string></property></action>
   <action name="actThemeSystem">
    <property name="checkable"><bool>true</bool></property>
    <property name="text"><string>Système</string></property>
@@ -202,41 +113,6 @@
   <action name="actThemeDark">
    <property name="checkable"><bool>true</bool></property>
    <property name="text"><string>Sombre</string></property>
-  </action>
-  <action name="actLayerBackground">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Fond</string></property>
-  </action>
-  <action name="actLayerPlaneBehind">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Plans derrière</string></property>
-  </action>
-  <action name="actLayerShadow">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Ombres</string></property>
-  </action>
-  <action name="actLayerTileSkin">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Skin des tuiles</string></property>
-  </action>
-  <action name="actLayerObjects">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Objets interactifs</string></property>
-  </action>
-  <action name="actLayerPlayer">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Personnage</string></property>
-  </action>
-  <action name="actLayerPlaneFront">
-   <property name="checkable"><bool>true</bool></property>
-   <property name="checked"><bool>true</bool></property>
-   <property name="text"><string>Plans devant</string></property>
   </action>
  </widget>
  <resources/>

@@ -7,22 +7,16 @@
  *        libres et migration ascendante (`EX-LVL-016`, `EX-LVL-017`, `EX-LVL-018`, LOT-04).
  */
 
-#include <algorithm>
 #include <cstddef>
-#include <cstdint>
-#include <map>
 #include <string>
 #include <variant>
 #include <vector>
 
 #include <gtest/gtest.h>
 
-#include "Core/Ecs/Components/Sprite.h"
-#include "Core/Ecs/World.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
-#include "Core/Levels/LevelScene.h"
 #include "Core/Levels/LevelWriter.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
@@ -80,11 +74,6 @@ constexpr const char* MAP_V3 = R"({
     { "type": "chest", "x": 0, "y": 2 }
   ]
 })";
-
-// Region d'atlas factice : buildLevelScene n'a besoin que d'une correspondance, pas d'un GPU.
-core::AtlasRegion anyRegion(core::TileType) {
-    return core::AtlasRegion{};
-}
 
 // Couche de @p level portant le role @p kind, ou nullptr.
 const core::TileLayer* layerOfKind(const core::Level& level, core::LayerKind kind) {
@@ -266,36 +255,6 @@ TEST(CouchesDeCarteTest, LaCoucheDeCollisionEstLaGrilleDuGameplay) {
     ASSERT_NE(collision, nullptr);
     EXPECT_EQ(&loaded.level->layers().front(), collision);
     EXPECT_EQ(collision->tiles.tile(1, 1), core::TileType::Entry);
-}
-
-/**
- * @brief La projection en entités ECS parcourt les couches **visibles** et ignore la collision,
- * qui est un masque et non une image (`EX-LVL-016`).
- * \castest{<b>La projection ECS ignore la couche de collision.</b><br/>
- * \tcat Unitaire · Couches de carte<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Charger une carte a trois couches (2 tuiles de sol, 1 de decor, 1 de
- * collision).<br/>2. Projeter le niveau en entites ECS.<br/>
- * \tattendu Trois entites : celles du sol et du decor, aucune pour la collision.
- * }
- */
-TEST(CouchesDeCarteTest, ProjectionEcsIgnoreLaCoucheDeCollision) {
-    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V3);
-    ASSERT_TRUE(loaded.ok()) << loaded.error;
-
-    core::World world;
-    core::buildLevelScene(world, *loaded.level, anyRegion);
-
-    std::size_t spriteCount = 0;
-    std::vector<std::int32_t> orders;
-    world.view<core::Sprite>().each([&](core::Entity, core::Sprite& sprite) {
-        ++spriteCount;
-        orders.push_back(sprite.layer);
-    });
-    EXPECT_EQ(spriteCount, 3u);
-    // Deux tuiles de sol au rang 0, une de decor au rang 1 : le decor se dessine par-dessus.
-    EXPECT_EQ(std::count(orders.begin(), orders.end(), 0), 2);
-    EXPECT_EQ(std::count(orders.begin(), orders.end(), 1), 1);
 }
 
 /**
@@ -525,29 +484,3 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
     EXPECT_NE(loaded.error.find("tiles"), std::string::npos) << loaded.error;
 }
 
-/**
- * @brief La projection ECS annonce le **rôle** de la couche d'origine de chaque tuile : c'est ce
- * qui permet à la présentation de poser le décor sur la bande de profondeur (`EX-REN-018`).
- * \castest{<b>La projection ECS annonce le role de la couche de chaque tuile.</b><br/>
- * \tcat Unitaire · Couches de carte<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Projeter une carte version 3 en entites ECS en relevant le role annonce.<br/>
- * \tattendu Les tuiles du sol sont annoncees Ground, celles du decor Decor, et aucune n'est
- * annoncee Collision.
- * }
- */
-TEST(CouchesDeCarteTest, ProjectionEcsAnnonceLeRoleDeChaqueCouche) {
-    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V3);
-    ASSERT_TRUE(loaded.ok()) << loaded.error;
-
-    core::World world;
-    std::map<core::LayerKind, int> parRole;
-    core::buildLevelScene(world, *loaded.level, anyRegion,
-                          [&parRole](core::Entity, core::LayerKind kind, core::TileType, int, int) {
-                              ++parRole[kind];
-                          });
-
-    EXPECT_EQ(parRole[core::LayerKind::Ground], 2);
-    EXPECT_EQ(parRole[core::LayerKind::Decor], 1);
-    EXPECT_EQ(parRole.count(core::LayerKind::Collision), 0u);
-}

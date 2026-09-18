@@ -107,22 +107,6 @@ enum class RenderLayer : std::int32_t {
 using TextureHandle = void*;
 
 /**
- * @brief Composant de présentation fixant le calque de dessin d'une entité.
- *
- * Vit côté `HMI` (comme `hmi::PreviousPosition`) : `Core` ne connaît pas `RenderLayer`
- * (`EX-NFR-011`). Une entité **sans** ce composant est dessinée sur `RenderLayer::Tile`, qui est le
- * cas de très loin le plus fréquent (toutes les tuiles d'un niveau) — l'absence de composant est
- * donc le défaut utile, et non un oubli.
- */
-struct RenderLayerTag {
-    /// Calque de dessin de l'entité.
-    RenderLayer value = RenderLayer::Tile;
-};
-
-/// Calque appliqué à une entité dépourvue de `hmi::RenderLayerTag`.
-inline constexpr RenderLayer DEFAULT_RENDER_LAYER = RenderLayer::Tile;
-
-/**
  * @brief Nom lisible d'un calque, pour la journalisation et les messages d'échec de test.
  * @param layer Calque à nommer.
  * @return Le nom du calque (chaîne statique, jamais nulle).

@@ -9,10 +9,7 @@ namespace hmi {
 
 const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCatalog() {
     static const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT> catalog{{
-        // Outils (ordre de la palette/du panneau Outils historique, EX-EDIT-014) : groupe
-        // exclusif. Seul TextureAssign porte un raccourci -- la "touche dédiée" remappable
-        // (EditorKeyBindings::TextureAssignTool), déjà gérée par hmi::GameViewport ; les cinq
-        // autres n'ont pas de raccourci clavier aujourd'hui, et ce lot n'en introduit pas.
+        // Outils (EX-EDIT-014) : groupe exclusif, sans raccourci clavier.
         {.id = IconId::ToolPaint,
          .labelKey = "tool.brush",
          .shortcut = "",
@@ -31,24 +28,6 @@ const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCat
          .checkable = true,
          .group = EditorActionGroup::LevelTools,
          .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::ToolLink,
-         .labelKey = "tool.link",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::LevelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::ToolTextureAssign,
-         .labelKey = "tool.texture_assign",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::LevelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::ToolCameraZone,
-         .labelKey = "tool.camera_zone",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::LevelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
         // Outil Entite (LOT-11) : poser et editer les entites de carte.
         {.id = IconId::ToolEntity,
          .labelKey = "tool.entity",
@@ -56,92 +35,6 @@ const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCat
          .checkable = true,
          .group = EditorActionGroup::LevelTools,
          .surface = ActionSurface::ToolBarAndMenu},
-        // Outils du canevas pixel art (LOT-54 TACHE-04) : groupe exclusif SEPARE des outils de
-        // niveau ci-dessus -- les deux groupes ne s'excluent jamais entre eux. Aucun raccourci
-        // clavier dedie aujourd'hui (choix par la barre d'outils du canevas uniquement).
-        {.id = IconId::PixelBrush,
-         .labelKey = "pixel_tool.brush",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::PixelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelEraser,
-         .labelKey = "pixel_tool.eraser",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::PixelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelFill,
-         .labelKey = "pixel_tool.fill",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::PixelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelEyedropper,
-         .labelKey = "pixel_tool.eyedropper",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::PixelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelSelectionTool,
-         .labelKey = "pixel_tool.selection",
-         .shortcut = "",
-         .checkable = true,
-         .group = EditorActionGroup::PixelTools,
-         .surface = ActionSurface::ToolBarAndMenu},
-        // Commandes de fichier de l'atelier pixel art (LOT-54 TACHE-05) : aucun raccourci clavier
-        // dedie aujourd'hui, comme les outils de canevas ci-dessus.
-        {.id = IconId::PixelOpen,
-         .labelKey = "action.pixel_open",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelCreate,
-         .labelKey = "action.pixel_create",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelSave,
-         .labelKey = "action.pixel_save",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::ToolBarAndMenu},
-        {.id = IconId::PixelSaveAs,
-         .labelKey = "action.pixel_save_as",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::MenuOnly},
-        // Commandes de region (LOT-54 TACHE-06) : Copier/Coller reutilisent les actions
-        // deduplique deja definies (IconId::Copy/Paste, EX-IHM-062) -- rien a ajouter ici pour
-        // elles. Deplacement : geste de glisser de l'outil Selection, pas une commande.
-        {.id = IconId::PixelFlipHorizontal,
-         .labelKey = "action.pixel_flip_horizontal",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::MenuOnly},
-        {.id = IconId::PixelFlipVertical,
-         .labelKey = "action.pixel_flip_vertical",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::MenuOnly},
-        {.id = IconId::PixelRotateClockwise,
-         .labelKey = "action.pixel_rotate_cw",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::MenuOnly},
-        {.id = IconId::PixelRotateCounterClockwise,
-         .labelKey = "action.pixel_rotate_ccw",
-         .shortcut = "",
-         .checkable = false,
-         .group = EditorActionGroup::PixelCommands,
-         .surface = ActionSurface::MenuOnly},
         // Commandes principales : aucun groupe, aucune n'est cochable.
         {.id = IconId::Save,
          .labelKey = "action.save",
@@ -176,12 +69,6 @@ const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCat
         {.id = IconId::ResetCamera,
          .labelKey = "action.reset_camera",
          .shortcut = "0",
-         .checkable = false,
-         .group = EditorActionGroup::None,
-         .surface = ActionSurface::MenuOnly},
-        {.id = IconId::ToggleRenderMode,
-         .labelKey = "action.toggle_render_mode",
-         .shortcut = "F8",
          .checkable = false,
          .group = EditorActionGroup::None,
          .surface = ActionSurface::MenuOnly},
@@ -234,12 +121,6 @@ std::optional<EditorTool> editorActionTool(IconId id) {
             return EditorTool::Rectangle;
         case IconId::ToolSelection:
             return EditorTool::Selection;
-        case IconId::ToolLink:
-            return EditorTool::Link;
-        case IconId::ToolTextureAssign:
-            return EditorTool::TextureAssign;
-        case IconId::ToolCameraZone:
-            return EditorTool::CameraZone;
         case IconId::ToolEntity:
             return EditorTool::Entity;
         default:
@@ -255,49 +136,10 @@ IconId editorActionForTool(EditorTool tool) {
             return IconId::ToolRectangle;
         case EditorTool::Selection:
             return IconId::ToolSelection;
-        case EditorTool::Link:
-            return IconId::ToolLink;
-        case EditorTool::TextureAssign:
-            return IconId::ToolTextureAssign;
-        case EditorTool::CameraZone:
-            return IconId::ToolCameraZone;
         case EditorTool::Entity:
             return IconId::ToolEntity;
     }
     return IconId::ToolPaint;
-}
-
-std::optional<PixelTool> editorActionPixelTool(IconId id) {
-    switch (id) {
-        case IconId::PixelBrush:
-            return PixelTool::Brush;
-        case IconId::PixelEraser:
-            return PixelTool::Eraser;
-        case IconId::PixelFill:
-            return PixelTool::Fill;
-        case IconId::PixelEyedropper:
-            return PixelTool::Eyedropper;
-        case IconId::PixelSelectionTool:
-            return PixelTool::Selection;
-        default:
-            return std::nullopt;
-    }
-}
-
-IconId editorActionForPixelTool(PixelTool tool) {
-    switch (tool) {
-        case PixelTool::Brush:
-            return IconId::PixelBrush;
-        case PixelTool::Eraser:
-            return IconId::PixelEraser;
-        case PixelTool::Fill:
-            return IconId::PixelFill;
-        case PixelTool::Eyedropper:
-            return IconId::PixelEyedropper;
-        case PixelTool::Selection:
-            return IconId::PixelSelectionTool;
-    }
-    return IconId::PixelBrush;
 }
 
 const std::array<KeyBindingIconEntry, KEY_BINDING_ICON_COUNT>& keyBindingIconCatalog() {
@@ -321,7 +163,7 @@ IconId iconForKeyBindingAction(EditorAction action) {
             return entry.id;
         }
     }
-    return IconId::Save;  // inatteignable pour les 9 actions couvertes ; TextureAssignTool exclue.
+    return IconId::Save;  // inatteignable : toute action remappable a son icone.
 }
 
 std::optional<EditorAction> keyBindingActionForIcon(IconId id) {

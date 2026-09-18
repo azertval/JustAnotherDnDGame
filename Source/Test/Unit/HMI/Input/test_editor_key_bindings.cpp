@@ -37,7 +37,6 @@ TEST(EditorKeyBindingsTest, ValeursParDefautALaConstruction) {
     EXPECT_EQ(bindings.key(hmi::EditorAction::ToggleGrid), hmi::Key::F10);
     EXPECT_EQ(bindings.key(hmi::EditorAction::ToggleHelp), hmi::Key::F1);
     EXPECT_EQ(bindings.key(hmi::EditorAction::Rename), hmi::Key::F2);
-    EXPECT_EQ(bindings.key(hmi::EditorAction::TextureAssignTool), hmi::Key::T);
 }
 
 /**
@@ -56,24 +55,6 @@ TEST(EditorKeyBindingsTest, SetKeyEchangeSurConflit) {
     bindings.setKey(hmi::EditorAction::Rename, hmi::Key::S);
     EXPECT_EQ(bindings.key(hmi::EditorAction::Rename), hmi::Key::S);
     EXPECT_EQ(bindings.key(hmi::EditorAction::Save), hmi::Key::F2);
-}
-
-/**
- * @brief `setKey` échange aussi correctement quand l'outil « Texture par instance » est impliqué
- *        (seule action non couverte par `SetKeyEchangeSurConflit`, LOT-57 TACHE-04).
- * \castest{<b>`setKey` echange correctement quand TextureAssignTool est impliquee.</b><br/>
- * \tcat Unitaire · Editor Key Bindings<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Remapper TextureAssignTool sur la touche par defaut de Playtest.<br/>2. Verifier
- * l'echange.<br/>
- * \tattendu TextureAssignTool porte desormais P, Playtest porte T.
- * }
- */
-TEST(EditorKeyBindingsTest, SetKeyEchangeAvecTextureAssignTool) {
-    hmi::EditorKeyBindings bindings;
-    bindings.setKey(hmi::EditorAction::TextureAssignTool, hmi::Key::P);
-    EXPECT_EQ(bindings.key(hmi::EditorAction::TextureAssignTool), hmi::Key::P);
-    EXPECT_EQ(bindings.key(hmi::EditorAction::Playtest), hmi::Key::T);
 }
 
 /**

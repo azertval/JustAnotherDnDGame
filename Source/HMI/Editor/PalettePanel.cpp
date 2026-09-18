@@ -3,7 +3,6 @@
 
 #include "HMI/Editor/PalettePanel.h"
 
-#include <QColor>
 #include <QEvent>
 #include <QIcon>
 #include <QImage>
@@ -18,19 +17,13 @@
 #include <QVariant>
 #include <cstdint>
 #include <cstring>
-#include <optional>
 #include <string>
-#include <unordered_map>
-#include <utility>
 
-#include "HMI/Editor/PaletteAppearance.h"
 #include "HMI/Editor/TaxonomyLabels.h"
 #include "HMI/Editor/ThumbnailGeometry.h"
 #include "HMI/Editor/TileTaxonomy.h"
-#include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
 #include "HMI/Graphics/TextureLoader.h"
-#include "HMI/Graphics/TileSilhouette.h"
 #include "HMI/Graphics/TileVisuals.h"
 #include "HMI/Interface/DesignTokens.h"
 #include "HMI/Localization/Localization.h"
@@ -43,9 +36,7 @@ namespace {
 // Rôle de données portant le `core::TileType` d'une feuille (les en-têtes n'en ont pas).
 constexpr int TILE_TYPE_ROLE = Qt::UserRole + 1;
 
-// Libelle de taxonomie traduit. La table libelle -> cle vit dans TaxonomyLabels : point unique
-// partage avec le panneau « Textures » (LOT-42). Deux copies divergeraient au premier libelle
-// ajoute, et un panneau afficherait alors du francais dans une interface anglaise.
+// Libelle de taxonomie traduit (table libelle -> cle de TaxonomyLabels).
 [[nodiscard]] QString localized(const Localization* loc, const std::string& label) {
     return QString::fromStdString(localizedTaxonomyLabel(loc, label));
 }
@@ -131,77 +122,13 @@ void PalettePanel::retranslateUi(const Localization& loc) {
     _tree->expandAll();
 }
 
-void PalettePanel::setSkinSource(std::filesystem::path skinsDirectory, const SkinCatalog* catalog) {
-    _skinsDirectory = std::move(skinsDirectory);
-    _catalog = catalog;
-}
-
-void PalettePanel::refreshThumbnails(RenderMode mode, const std::string& setName) {
-    _mode = mode;
-    _skinSet = setName;
-    // Les images decodees restent valables : c'est le CHOIX de vignette qui change, pas le contenu
-    // des fichiers. clearThumbnailCache() vide le cache quand le contenu a reellement change
-    // (rechargement a chaud, LOT-43).
-    _model->clear();
-    buildModel();
-    _tree->expandAll();
-}
-
-void PalettePanel::clearThumbnailCache() {
-    _decoded.clear();
-}
-
-// Vignette d'un type dans le mode courant : meme decision que le canevas, rendue en pixels ici.
+// Vignette d'un type : sa couleur dans l'atlas procedural, celle que le canevas peint.
 QPixmap PalettePanel::thumbnailFor(core::TileType type) {
-    const PaletteThumbnail thumbnail =
-        paletteThumbnail(_mode, type, regionForTile(type), _catalog, _skinSet);
-
-    QImage source;
-    switch (thumbnail.source) {
-        case PaletteThumbnailSource::Skin: {
-            // Decodage CPU uniquement : un widget Qt ne doit jamais dependre du device Direct3D.
-            const auto cached = _decoded.find(thumbnail.asset);
-            if (cached != _decoded.end()) {
-                source = cached->second.toImage();
-            } else {
-                const std::optional<DecodedImage> decoded =
-                    decodeImageFile(_skinsDirectory / thumbnail.asset);
-                if (!decoded) {
-                    return QPixmap{};  // fichier illisible : aucune vignette plutot qu'un plantage.
-                }
-                source = toImage(*decoded);
-                _decoded.emplace(thumbnail.asset, QPixmap::fromImage(source));
-            }
-            break;
-        }
-        case PaletteThumbnailSource::MissingTexture: {
-            const ProceduralAtlasImage missing = buildMissingTextureImage();
-            source = toImage(DecodedImage{
-                .width = missing.width, .height = missing.height, .pixels = missing.pixels});
-            break;
-        }
-        case PaletteThumbnailSource::Atlas: {
-            const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
-            source = toImage(
-                DecodedImage{.width = atlas.width, .height = atlas.height, .pixels = atlas.pixels});
-            break;
-        }
-    }
-
-    const core::AtlasRegion& region = thumbnail.region;
-    QImage tile = source.copy(region.x, region.y, region.width, region.height);
-    if (thumbnail.masked) {
-        // Meme detourage que le canevas : sans lui, une pente s'afficherait en carre plein dans la
-        // palette alors qu'elle est decoupee dans le niveau.
-        tile = tile.convertToFormat(QImage::Format_RGBA8888);
-        for (int y = 0; y < tile.height(); ++y) {
-            for (int x = 0; x < tile.width(); ++x) {
-                if (!isInsideSilhouette(type, x, y, tile.width())) {
-                    tile.setPixelColor(x, y, QColor(0, 0, 0, 0));
-                }
-            }
-        }
-    }
+    const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
+    const QImage source = toImage(
+        DecodedImage{.width = atlas.width, .height = atlas.height, .pixels = atlas.pixels});
+    const core::AtlasRegion region = regionForTile(type);
+    const QImage tile = source.copy(region.x, region.y, region.width, region.height);
 
     // Mise a l'echelle en PLUS PROCHE VOISIN, a la resolution REELLE (LOT-56 TACHE-05) : sans quoi
     // l'interpolation lisse de Qt (fond d'ecran a 125%/150%) rendrait le pixel art flou, incoherent
@@ -217,8 +144,7 @@ QPixmap PalettePanel::thumbnailFor(core::TileType type) {
 bool PalettePanel::event(QEvent* event) {
     if (event->type() == QEvent::ScreenChangeInternal) {
         // Un deplacement vers un ecran d'echelle differente doit regenerer les vignettes (LOT-56
-        // TACHE-05) : le cache decode reste valable, seule la mise a l'echelle doit etre rejouee.
-        _decoded.clear();
+        // TACHE-05) : seule la mise a l'echelle doit etre rejouee.
         _model->clear();
         buildModel();
         _tree->expandAll();
