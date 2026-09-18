@@ -22,7 +22,6 @@
 #include "Editor/Logic/ThumbnailGeometry.h"
 #include "Editor/Logic/TileTaxonomy.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
-#include "HMI/Graphics/TextureLoader.h"
 #include "HMI/Graphics/TileVisuals.h"
 
 namespace hmi {
@@ -45,8 +44,8 @@ constexpr int THUMBNAIL_SIZE = 32;
     return item;
 }
 
-// Convertit des pixels RGBA decodes en QImage, sans copier la source deux fois.
-[[nodiscard]] QImage toImage(const DecodedImage& decoded) {
+// Convertit les pixels RGBA de l'atlas en QImage.
+[[nodiscard]] QImage toImage(const ProceduralAtlasImage& decoded) {
     QImage image(decoded.width, decoded.height, QImage::Format_RGBA8888);
     for (int y = 0; y < decoded.height; ++y) {
         const std::uint32_t* const row =
@@ -106,8 +105,7 @@ void PalettePanel::buildModel() {
 // Vignette d'un type : sa couleur dans l'atlas procedural, celle que le canevas peint.
 QPixmap PalettePanel::thumbnailFor(core::TileType type) {
     const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
-    const QImage source =
-        toImage(DecodedImage{.width = atlas.width, .height = atlas.height, .pixels = atlas.pixels});
+    const QImage source = toImage(atlas);
     const core::AtlasRegion region = regionForTile(type);
     const QImage tile = source.copy(region.x, region.y, region.width, region.height);
 

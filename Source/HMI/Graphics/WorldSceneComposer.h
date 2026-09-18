@@ -60,6 +60,10 @@ enum class WorldDepthSlot : std::int32_t {
 /// Nombre de rangs par profondeur.
 inline constexpr std::int32_t WORLD_DEPTH_SLOTS = 2;
 
+/// Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double
+/// (`hmi::worldCamera`). Ici plutôt qu'avec le rendu GPU : l'essai de l'éditeur cadre comme le jeu.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
+
 /// Marge basse d'une figurine, en hauteurs de losange — la même que dans l'arène.
 inline constexpr float WORLD_FIGURE_BOTTOM_MARGIN = 0.42F;
 
@@ -119,9 +123,13 @@ struct WorldSceneSnapshot {
  * »). Des références seulement : la source ne vit pas plus longtemps que la carte.
  */
 struct WorldSceneSource {
+    /// La grille racine : la collision, et le sol d'une carte sans couche visuelle.
     const core::TileMap& root;
+    /// Les couches : la première de sol donne le sol, la première de décor le relief.
     const std::vector<core::TileLayer>& layers;
+    /// Les pièces nommées à la case, qui l'emportent sur la table du lieu pour le relief.
     const std::vector<core::TileTextureOverride>& textureOverrides;
+    /// Les entités : leurs figurines, pour qui en compose (`npcFigures`).
     const std::vector<core::MapEntity>& entities;
 };
 

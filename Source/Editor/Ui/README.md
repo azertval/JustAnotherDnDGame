@@ -3,20 +3,30 @@
 Les **widgets** de l'éditeur (`LevelEditor`, Qt Widgets), tous construits en code : style Fusion,
 textes anglais, aucun formulaire `.ui` (`LOT-EDITOR-01`).
 
-- `MainWindow` — la fenêtre : le canevas au centre, quatre docks (palette, cartes, couches,
-  entités) dont la disposition est persistée (`EX-IHM-011`), les menus et la barre d'état. Elle
+- `MainWindow` — la fenêtre : le canevas au centre, cinq docks (palette, cartes, couches,
+  entités, mini-carte) dont la disposition est persistée (`EX-IHM-011`), les menus et la barre
+  d'état. Elle
   tient aussi le filet de sécurité : sauvegarde automatique et reprise, garde du fichier modifié sur
   disque, question à la fermeture.
 - `EditorActions` — les commandes comme `QAction` uniques, partagées par la barre d'outils, les
   menus et les raccourcis remappables.
-- `EditorViewport` — le canevas (`QRhiWidget`). En **édition**, le brouillon est dessiné à plat par
-  `DraftRenderer` ; en **essai** (`P`), la carte est jouée par `hmi::WorldPlay` et dessinée par
-  `hmi::WorldSceneRenderer`, comme dans le jeu (`EX-EDIT-055`). Réécrit au `LOT-EDITOR-02`.
-- `DraftRenderer` — le brouillon à plat : une couleur par type de tuile, les entités par leur
-  marqueur.
+- `EditorViewport` — le canevas (`LOT-EDITOR-02`) : une `QGraphicsView` et un seul élément peint.
+  En **vue iso** (défaut), il peint la scène que compose le jeu, puis les aides d'édition ; en **vue
+  à plat** (`F9`), la composition de `DraftRenderer`. En **essai** (`P`), la carte est jouée par
+  `hmi::WorldPlay` et peinte de même, caméra sur le héros (`EX-EDIT-055`). `F8` : reliefs en
+  transparence.
+- `ScenePainter` — peint une `hmi::ComposedScene` par `QPainter`, comme le GPU la dessine
+  (échantillonnage au plus proche, remplissage texturé) ; rend aussi hors écran.
+- `SceneImages` — les images des planches et des figurines, chargées à la demande selon les règles
+  du rendu du jeu (marqueur d'une figurine absente, damier d'une pièce absente), l'atlas des types
+  et les marqueurs d'entité.
+- `DraftRenderer` — la vue à plat composée : une couleur par type de tuile, la collision en masque,
+  les entités par leur marqueur.
+- `MiniMap` — toute la carte, un pixel par case, et le cadre de la vue ; un clic y recentre la vue.
 - `PalettePanel` — l'arbre des tuiles (`hmi::tileTaxonomy`).
 - `LevelBrowserPanel`, `WorldGraphView` — la liste des cartes et le graphe du monde.
-- `LayersPanel` — couche active, visibilité, opacité, ajout, retrait, ordre et nom.
+- `LayersPanel` — couche active, visibilité, opacité, grisé, verrou, ajout, retrait, ordre et
+  nom.
 - `EntityPanel` — famille à poser, liste des entités, propriétés et avertissements.
 
 Chaque panneau garde ses widgets dans une `struct Widgets` privée, construite dans son `.cpp`.

@@ -14,8 +14,8 @@
 #include "Core/Math/Vector2.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/ComposedScene.h"
-#include "HMI/Graphics/SceneResources.h"
 #include "HMI/Graphics/ScenePieces.h"
+#include "HMI/Graphics/SceneResources.h"
 #include "HMI/Graphics/TextureLoader.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
 
@@ -58,9 +58,6 @@ namespace hmi {
  */
 [[nodiscard]] Camera2D worldCamera(const core::IsoProjection& projection, core::Vector2 focus,
                                    int pixelWidth, int pixelHeight);
-
-/// Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double.
-inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
 
 /**
  * @brief Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la
@@ -114,7 +111,8 @@ public:
         return _focus;
     }
 
-    /// @brief Dessine une image dans @p target : efface à @p clear, puis le lieu cadré sur le héros.
+    /// @brief Dessine une image dans @p target : efface à @p clear, puis le lieu cadré sur le
+    /// héros.
     void render(QRhiCommandBuffer* commandBuffer, QRhiRenderTarget* target, const float* clear);
 
     [[nodiscard]] const ComposedScene& composed() const noexcept {

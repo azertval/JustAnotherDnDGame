@@ -51,6 +51,9 @@ const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
         {EditorCommand::Redo, "Redo", "Ctrl+Y", QStyle::SP_ArrowForward, true, EditorAction::Redo},
         {EditorCommand::ToggleGrid, "Grid", "F10", TEXT_ONLY, false, EditorAction::ToggleGrid},
         {EditorCommand::ResetCamera, "Reset camera", "0", TEXT_ONLY, false, std::nullopt},
+        {EditorCommand::IsoView, "Iso view", "F9", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::SeeThroughRelief, "See-through relief", "F8", TEXT_ONLY, false,
+         std::nullopt},
         {EditorCommand::Copy, "Copy", "Ctrl+C", TEXT_ONLY, false, EditorAction::Copy},
         {EditorCommand::Paste, "Paste", "Ctrl+V", TEXT_ONLY, false, EditorAction::Paste},
         {EditorCommand::Rename, "Rename", "F2", TEXT_ONLY, false, EditorAction::Rename},
@@ -100,6 +103,10 @@ EditorActions::EditorActions(QObject* parent)
     }
     // Pinceau actif par défaut (EX-EDIT-014).
     action(EditorCommand::ToolPaint)->setChecked(true);
+    // Deux bascules d'affichage (LOT-EDITOR-02) : la vue iso est celle par défaut (décision D1).
+    action(EditorCommand::IsoView)->setCheckable(true);
+    action(EditorCommand::IsoView)->setChecked(true);
+    action(EditorCommand::SeeThroughRelief)->setCheckable(true);
     refreshToolTips();
 }
 

@@ -3,6 +3,7 @@
 
 #include "Editor/Ui/LayersPanel.h"
 
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -38,6 +39,8 @@ struct LayersPanel::Widgets {
     QLabel* opacityLabel;
     QSlider* opacitySlider;
     QLabel* opacityValue;
+    QCheckBox* dimCheck;
+    QCheckBox* lockCheck;
     QPushButton* addGroundButton;
     QPushButton* addDecorButton;
     QPushButton* moveForwardButton;
@@ -49,6 +52,8 @@ struct LayersPanel::Widgets {
           opacityLabel(new QLabel(QStringLiteral("Opacity"), panel)),
           opacitySlider(new QSlider(Qt::Horizontal, panel)),
           opacityValue(new QLabel(QStringLiteral("100 %"), panel)),
+          dimCheck(new QCheckBox(QStringLiteral("Dimmed"), panel)),
+          lockCheck(new QCheckBox(QStringLiteral("Locked"), panel)),
           addGroundButton(new QPushButton(QStringLiteral("Add ground"), panel)),
           addDecorButton(new QPushButton(QStringLiteral("Add decor"), panel)),
           moveForwardButton(new QPushButton(QStringLiteral("Move up"), panel)),
@@ -62,11 +67,17 @@ struct LayersPanel::Widgets {
         opacitySlider->setRange(0, 100);
         opacitySlider->setValue(100);
         opacityValue->setMinimumWidth(36);
+        dimCheck->setToolTip(QStringLiteral("Show the layer faded, to read another one over it"));
+        lockCheck->setToolTip(QStringLiteral("Keep the layer visible but refuse to paint it"));
 
         auto* const opacityRow = new QHBoxLayout;
         opacityRow->addWidget(opacityLabel);
         opacityRow->addWidget(opacitySlider);
         opacityRow->addWidget(opacityValue);
+        auto* const stateRow = new QHBoxLayout;
+        stateRow->addWidget(dimCheck);
+        stateRow->addWidget(lockCheck);
+        stateRow->addStretch();
         auto* const buttons = new QGridLayout;
         buttons->addWidget(addGroundButton, 0, 0);
         buttons->addWidget(addDecorButton, 0, 1);
@@ -76,6 +87,7 @@ struct LayersPanel::Widgets {
         auto* const layout = new QVBoxLayout(panel);
         layout->addWidget(layerList);
         layout->addLayout(opacityRow);
+        layout->addLayout(stateRow);
         layout->addLayout(buttons);
     }
 };
@@ -124,6 +136,16 @@ LayersPanel::LayersPanel(QWidget* parent) : QWidget(parent), _ui(std::make_uniqu
         }
         emit opacityRequested(slotOf(_ui->layerList->currentItem()),
                               static_cast<float>(value) / 100.0F);
+    });
+    connect(_ui->dimCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        if (!_rebuilding && _ui->layerList->currentItem() != nullptr) {
+            emit dimRequested(slotOf(_ui->layerList->currentItem()), checked);
+        }
+    });
+    connect(_ui->lockCheck, &QCheckBox::toggled, this, [this](bool checked) {
+        if (!_rebuilding && _ui->layerList->currentItem() != nullptr) {
+            emit lockRequested(slotOf(_ui->layerList->currentItem()), checked);
+        }
     });
     connect(_ui->addGroundButton, &QPushButton::clicked, this,
             [this] { emit addRequested(core::LayerKind::Ground); });
@@ -224,6 +246,12 @@ void LayersPanel::updateButtons() {
     _rebuilding = true;
     _ui->opacitySlider->setValue(value);
     _ui->opacityValue->setText(QStringLiteral("%1 %").arg(value));
+    _ui->dimCheck->setEnabled(hasRow);
+    _ui->lockCheck->setEnabled(hasRow);
+    _ui->dimCheck->setChecked(hasRow &&
+                              _snapshot.displays[static_cast<std::size_t>(position)].dimmed);
+    _ui->lockCheck->setChecked(hasRow &&
+                               _snapshot.displays[static_cast<std::size_t>(position)].locked);
     _rebuilding = previous;
 }
 

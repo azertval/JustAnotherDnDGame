@@ -129,3 +129,30 @@ TEST(EditorStatusTest, MemeContexteProduitLaMemeAide) {
     EXPECT_EQ(first.help, second.help);
     EXPECT_EQ(first.permanent, second.permanent);
 }
+
+/**
+ * @brief La case survolée montre ses pièces, la zone du zoom dit la vue du canevas.
+ * \castest{<b>La barre d'etat nomme les pieces survolees et la vue du canevas.</b><br/>
+ * 	cat Unitaire · Barre d'etat de l'editeur<br/>
+ * 	crit Mineur<br/>
+ * 	etapes 1. Survoler une case qui porte un sol et un relief, en vue iso.<br/>
+ *          2. Passer en vue a plat.<br/>
+ * 	attendu Les coordonnees sont suivies des pieces ; la zone du zoom finit par « Iso », puis par
+ *           « Flat » (LOT-EDITOR-02).
+ * }
+ */
+TEST(EditorStatusTest, LesPiecesEtLaVueSeLisent) {
+    hmi::EditorStatusContext context;
+    hmi::LevelStatusInfo level = baseLevel();
+    level.hoveredCell = core::GridPosition{.column = 12, .row = 7};
+    level.hoveredPieces = "street · wall-left";
+    context.level = level;
+    hmi::EditorStatusLines lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[3], "(12, 7) street · wall-left");
+    EXPECT_EQ(lines.permanent[4], "Zoom: 100% · Iso");
+
+    level.isoView = false;
+    context.level = level;
+    lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[4], "Zoom: 100% · Flat");
+}

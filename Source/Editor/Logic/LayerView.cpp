@@ -36,6 +36,8 @@ LayerSlot validActiveLayer(const std::vector<core::TileLayer>& layers, LayerSlot
 void LayerViewState::reset() noexcept {
     _layers.clear();
     _rootVisible = true;
+    _rootDimmed = false;
+    _rootLocked = false;
     _rootOpacity.reset();
 }
 
@@ -46,7 +48,10 @@ void LayerViewState::sync(std::size_t layerCount) {
 LayerDisplay LayerViewState::display(LayerSlot slot, bool hasVisualLayers) const {
     if (!slot) {
         const float fallback = hasVisualLayers ? DEFAULT_COLLISION_OVERLAY_OPACITY : 1.0F;
-        return LayerDisplay{.visible = _rootVisible, .opacity = _rootOpacity.value_or(fallback)};
+        return LayerDisplay{.visible = _rootVisible,
+                            .opacity = _rootOpacity.value_or(fallback),
+                            .dimmed = _rootDimmed,
+                            .locked = _rootLocked};
     }
     return *slot < _layers.size() ? _layers[*slot] : LayerDisplay{};
 }
@@ -69,6 +74,22 @@ void LayerViewState::setOpacity(LayerSlot slot, float opacity) {
         return;
     }
     at(*slot).opacity = bounded;
+}
+
+void LayerViewState::setDimmed(LayerSlot slot, bool dimmed) {
+    if (!slot) {
+        _rootDimmed = dimmed;
+        return;
+    }
+    at(*slot).dimmed = dimmed;
+}
+
+void LayerViewState::setLocked(LayerSlot slot, bool locked) {
+    if (!slot) {
+        _rootLocked = locked;
+        return;
+    }
+    at(*slot).locked = locked;
 }
 
 void LayerViewState::swap(std::size_t a, std::size_t b) {

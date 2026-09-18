@@ -37,6 +37,7 @@ class PalettePanel;
 class LevelBrowserPanel;
 class LayersPanel;
 class EntityPanel;
+class MiniMap;
 struct EditorReferences;
 
 /**
@@ -110,6 +111,9 @@ private:
     LayersPanel* _layers = nullptr;
     EntityPanel* _entities = nullptr;
     std::array<QDockWidget*, PANEL_COUNT> _docks{};  ///< Dans l'ordre de `PanelId`.
+    /// La mini-carte (LOT-EDITOR-02) : un dock hors de la mise en avant par outil.
+    MiniMap* _miniMap = nullptr;
+    QDockWidget* _miniMapDock = nullptr;
     std::unique_ptr<EditorReferences> _references;
     EditorActions* _actions = nullptr;
     QToolBar* _toolBar = nullptr;
