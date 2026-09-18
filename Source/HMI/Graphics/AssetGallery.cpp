@@ -113,43 +113,53 @@ bool readAnimatedEntry(AssetGalleryEntry& entry, const std::filesystem::path& de
     return document;
 }
 
-void readNpcs(const std::filesystem::path& root, AssetGalleryCatalog& catalog) {
+/**
+ * @brief Les figurines d'un atelier : un dossier par modèle, ses bandes animées et son portrait.
+ *
+ * Sert aux PNJ (`Npc/`, LOT-91) et aux monstres (`Monsters/`, LOT-93), qui partagent la forme :
+ * un `manifest.json` qui nomme les `animations`, puis `<modèle>/<animation>.png` et son
+ * `.anim.json`. Une animation absente d'un modèle — le `cast` d'une bête sans sort — ne fait pas
+ * d'entrée, et ce n'est pas une erreur. La taille de la cellule est celle de chaque `.anim.json` :
+ * une figurine Grande (96 × 96) s'affiche comme une Moyenne (48 × 64), sans cas particulier.
+ */
+void readFigures(const std::filesystem::path& root, const std::string& directory,
+                 const std::string& title, AssetGalleryCatalog& catalog) {
     const core::JsonDocument document =
-        readManifest(root / "Npc" / "manifest.json", catalog.errors);
+        readManifest(root / directory / "manifest.json", catalog.errors);
     if (!document.ok()) {
         return;
     }
-    AssetGalleryFamily family{.title = "PNJ", .directory = "Npc", .entries = {}};
-    // Tous les dossiers de PNJ, pas seulement la liste `npcs` : celle-ci ne nomme que les PNJ
-    // retenus pour le jeu, et la galerie sert justement à voir les autres.
-    std::vector<std::string> npcs;
+    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
+    // Tous les dossiers, pas seulement ceux que le manifeste retient pour le jeu : la galerie sert
+    // justement à voir les autres.
+    std::vector<std::string> models;
     std::error_code error;
-    for (const auto& item : std::filesystem::directory_iterator(root / "Npc", error)) {
+    for (const auto& item : std::filesystem::directory_iterator(root / directory, error)) {
         if (item.is_directory()) {
-            npcs.push_back(item.path().filename().string());
+            models.push_back(item.path().filename().string());
         }
     }
-    std::ranges::sort(npcs);
+    std::ranges::sort(models);
     const std::vector<std::string> animations = stringList(document.root, "animations");
-    for (const std::string& npc : npcs) {
+    for (const std::string& model : models) {
+        const std::string folder = directory + "/" + model + "/";
         for (const std::string& animation : animations) {
-            AssetGalleryEntry entry{
-                .family = family.title,
-                .model = npc,
-                .form = animation,
-                .path = std::string("Npc/").append(npc).append("/").append(animation + ".png"),
-                .frames = {}};
-            if (readAnimatedEntry(entry, root / "Npc" / npc / (animation + ".anim.json"),
+            AssetGalleryEntry entry{.family = family.title,
+                                    .model = model,
+                                    .form = animation,
+                                    .path = folder + animation + ".png",
+                                    .frames = {}};
+            if (readAnimatedEntry(entry, root / directory / model / (animation + ".anim.json"),
                                   catalog.errors)) {
                 family.entries.push_back(std::move(entry));
             }
         }
-        const auto [width, height] = pngSize(root / "Npc" / npc / "portrait.png");
+        const auto [width, height] = pngSize(root / directory / model / "portrait.png");
         if (width > 0) {
             family.entries.push_back(AssetGalleryEntry{.family = family.title,
-                                                       .model = npc,
+                                                       .model = model,
                                                        .form = "portrait",
-                                                       .path = "Npc/" + npc + "/portrait.png",
+                                                       .path = folder + "portrait.png",
                                                        .frameWidth = width,
                                                        .frameHeight = height,
                                                        .frames = {}});
@@ -292,7 +302,8 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
 
 AssetGalleryCatalog AssetGalleryCatalog::load(const std::filesystem::path& assetsRoot) {
     AssetGalleryCatalog catalog;
-    readNpcs(assetsRoot, catalog);
+    readFigures(assetsRoot, "Npc", "PNJ", catalog);
+    readFigures(assetsRoot, "Monsters", "Monstres", catalog);
     readColiseum(assetsRoot, catalog);
     readScenes(assetsRoot, catalog);
     return catalog;
@@ -302,8 +313,8 @@ bool assetGalleryExcludes(std::string_view path) noexcept {
     const std::size_t slash = path.rfind('/');
     const std::string_view fileName =
         slash == std::string_view::npos ? path : path.substr(slash + 1);
-    return path == "Coliseum/production_source_atlas.png" ||
-           path.starts_with("UI/") || path.starts_with("Maps/") || path.starts_with("Fonts/") ||
+    return path == "Coliseum/production_source_atlas.png" || path.starts_with("UI/") ||
+           path.starts_with("Maps/") || path.starts_with("Fonts/") ||
            (path.starts_with("Scene/") && fileName.starts_with("planche-"));
 }
 

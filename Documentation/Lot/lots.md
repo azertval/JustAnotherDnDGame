@@ -56,6 +56,7 @@ programme.
 - @subpage lot-15
 - @subpage lot-21
 - @subpage lot-22
+- @subpage lot-93
 - @subpage lot-94
 - @subpage lot-09
 - @subpage lot-96
@@ -86,10 +87,10 @@ tactique au d20 » — reste le jalon qui prouve la boucle avant qu'on la géné
 | G — Refonte de l'interface | `LOT-85` → `LOT-87` | Décidés hors de la feuille de route : `LOT-85` abandonné, `LOT-86` (Qt Quick, deux exécutables) et `LOT-87` (charte v2) livrés |
 | H — Relecture des livres | `LOT-88` → `LOT-90` | Ajoutés au second audit : retrait de l'héritage (`LOT-88`, livré, qui absorbe le `LOT-69`), dons et objets magiques de Tanares, le plan pénombral |
 | I — Chantiers au fil de l'eau | `LOT-91` | Hors feuille de route et hors jalon : l'atelier des PNJ, la méthode qui produit une à une les figurines des 160 fiches du *Character Compendium*, au rythme du budget de génération |
-| J — Assets propres au jeu | `LOT-92` → `LOT-96` | Ajoutés le 16 septembre 2026 à la relecture du plan de la Capitale : l'atelier des textures (style de scène par maquette, livré), l'atelier des monstres, les images du corpus hors du dépôt et l'écran « Carte » sur les cartes peintes par l'auteur (`LOT-94`, livré, qui absorbe le `LOT-95`, le plan de la Capitale), les quartiers scindés du `LOT-09` (`LOT-96`, livré) |
+| J — Assets propres au jeu | `LOT-92` → `LOT-96` | Ajoutés le 16 septembre 2026 à la relecture du plan de la Capitale : l'atelier des textures (style de scène par maquette, livré), l'atelier des monstres (`LOT-93`, livré), les images du corpus hors du dépôt et l'écran « Carte » sur les cartes peintes par l'auteur (`LOT-94`, livré, qui absorbe le `LOT-95`, le plan de la Capitale), les quartiers scindés du `LOT-09` (`LOT-96`, livré) |
 
-La filière (phases F, H et J) compte **36 lots à venir** — six numéros (`LOT-31`, `LOT-48`, `LOT-69`, `LOT-71`, `LOT-73`, `LOT-95`)
-ayant été retirés par fusion et n'étant pas réattribués, et vingt de ses lots étant livrés, dont
+La filière (phases F, H et J) compte **35 lots à venir** — six numéros (`LOT-31`, `LOT-48`, `LOT-69`, `LOT-71`, `LOT-73`, `LOT-95`)
+ayant été retirés par fusion et n'étant pas réattribués, et vingt et un de ses lots étant livrés, dont
 ses trois préconditions (`LOT-77`, `LOT-78`, `LOT-79`). Elle **ne suit pas** les précédentes : elle
 s'entrelace avec B à E, chacun de ses lots servant un lot des phases antérieures qui, sans lui, se
 bâtirait sur un catalogue fictif. L'ordre d'exécution recommandé, le chemin critique jusqu'au

@@ -1,5 +1,5 @@
 """Ramène une planche générée au format exact (étape R, préfigure T4).
-Usage : py -3.13 normalise.py <candidat.png> <dossier_sortie> <planche|marche|idle|hit|death|attack|cast|corps|effets> [--hauteur 45 | --facteur-de corps.json] [--vides 3,4]
+Usage : py -3.13 normalise.py <candidat.png> <dossier_sortie> <planche|marche|idle|hit|death|attack|cast|corps|effets> [--hauteur 45 | --facteur-de corps.json] [--vides 3,4] [--gabarit moyen|grand]
 
 Dispositions (voir disposition_*.md) :
   planche : 1536x2048, les 4 rangées du corps puis les 4 des effets : un seul appel, un seul personnage
@@ -12,7 +12,13 @@ Rangées et images sont lues par profil (le générateur ne tient pas la grille 
 binarisé à 127, puis :
   --hauteur N      ramène la pose de garde à N pixels d'art (idle au corps, attack 8 aux effets) ;
   --facteur-de F   reprend le facteur d'un rapport précédent ;
-  --vides 3,4      rangées attendues vides (Jade n'a pas de cast).
+  --vides 3,4      rangées attendues vides (Jade n'a pas de cast) ;
+  --gabarit grand  créature Grande (atelier des monstres, LOT-93) : bandes 96x96, `death` comprise,
+                   et 192x96 pour attack et cast (pieds à x = 64) ; la planche garde sa grille, et ses
+                   cellules de mort passent à 192 px. Par défaut, moyen.
+  --garde-finale hit  l'animation n'a qu'une image de moins que prévu, sa dernière pose (la garde)
+                   manquante : on lit les images dessinées, et la dernière est l'image 1 d'idle, la
+                   pose de garde de la même planche (soldat Ironhand, LOT-93, tour 1 : hit en 3).
 Sans facteur, la planche est supposée déjà au pas 2 et on prend un pixel sur deux.
 Sorties : <dossier>/<disposition>.png, la planche au format exact du prompt (pixels d'art de 2 px,
 pieds à 40 px du bas de la cellule) ; <dossier>/bandes/<anim>.png, une image par cellule de bande,
@@ -34,12 +40,24 @@ DISPOSITIONS = {
                ("cast", 4, 384, 1 / 3, 96, 32), ("cast", 4, 384, 1 / 3, 96, 32)],
     "marche": [("walk", 8, 192, 1 / 2, 48, 24)],   # 1536x256, le rang de marche seul (tour 6 d'Anariel)
 }
+GABARIT = sys.argv[sys.argv.index("--gabarit") + 1] if "--gabarit" in sys.argv else "moyen"
+if GABARIT == "grand":
+    # Une créature Grande tient 2 x 2 cases : la cellule de bande double dans les deux sens. Couchée,
+    # elle ne s'allonge pas plus que debout ne la faisait large (un fauve tombe sur le flanc) : la mort
+    # garde la cellule de base, à la différence du personnage Moyen, qui debout est deux fois plus
+    # haut que large.
+    DISPOSITIONS["corps"] = [("idle", 6, 192, 1 / 2, 96, 48), ("walk", 8, 192, 1 / 2, 96, 48), ("hit", 4, 192, 1 / 2, 96, 48),
+                             ("death", 6, 192, 1 / 2, 96, 48)]
+    DISPOSITIONS["effets"] = [(a, 4, 384, 1 / 3, 192, 64) for a in ("attack", "attack", "cast", "cast")]
+    DISPOSITIONS["marche"] = DISPOSITIONS["corps"][1:2]
+elif GABARIT != "moyen":
+    raise SystemExit(f"gabarit inconnu : {GABARIT} (moyen ou grand)")
 DISPOSITIONS["planche"] = DISPOSITIONS["corps"] + DISPOSITIONS["effets"]
 # passes par animation (décision de sortie du PoC) : les rangées de la planche, seules
 DISPOSITIONS.update({"idle": DISPOSITIONS["corps"][0:1], "hit": DISPOSITIONS["corps"][2:3], "death": DISPOSITIONS["corps"][3:4],
                      "attack": DISPOSITIONS["effets"][0:2], "cast": DISPOSITIONS["effets"][2:4]})
 CH = 256
-PAS, BASE, BANDE_H = 2, 40, 64
+PAS, BASE, BANDE_H = 2, 40, 96 if GABARIT == "grand" else 64
 TOLERANCE = 4   # px d'art rognés au bord d'une bande : avertissement au-delà de 0, erreur au-delà de 4
 
 
@@ -138,9 +156,76 @@ def morceaux(y0, y1, n):
     return res
 
 
+def scinder(lus, y0, y1, n):
+    """4. Une image de moins que prévu, et la plus large fait près de deux fois la médiane : deux
+    figures collées (le lion couché du LOT-93, death 5 et 6). On la coupe à la colonne la moins
+    remplie de son tiers central."""
+    if len(lus) != n - 1 or n < 3:
+        return None
+    largeurs = [b - a for a, b in lus]
+    i = int(np.argmax(largeurs))
+    if largeurs[i] < 1.6 * np.median(largeurs):
+        return None
+    a, b = lus[i]
+    remplissage = mask[y0:y1, a:b].sum(axis=0)
+    t0, t1 = (b - a) // 3, 2 * (b - a) // 3
+    c = a + t0 + int(np.argmin(remplissage[t0:t1]))
+    gauche = np.where(mask[y0:y1, a:c].any(axis=0))[0]
+    droite = np.where(mask[y0:y1, c:b].any(axis=0))[0]
+    return lus[:i] + [(a, a + gauche.max() + 1), (c + droite.min(), b)] + lus[i + 1:]
+
+
+def par_la_grille(y0, y1, n, cw):
+    """3. Dernier recours, quand les figures se touchent (le lion Grand du LOT-93, tour 1 : huit images
+    de marche collées, sur la grille) : on coupe près des bornes de cellule du prompt, ramenées à la
+    taille reçue, à la colonne la moins remplie à ±20 % d'une cellule. Retenu seulement si chaque
+    cellule a son dessin et qu'aucune coupe ne tranche une colonne pleine ; sinon, rien."""
+    remplissage = mask[y0:y1].sum(axis=0)
+    pas = cw * ECH_X
+    fenetre = max(1, int(pas * 0.2))
+    coupes = [0]
+    for k in range(1, n):
+        b = int(round(k * pas))
+        a0, a1 = max(coupes[-1] + 1, b - fenetre), min(mask.shape[1] - 1, b + fenetre)
+        if a0 >= a1:
+            return None
+        c = a0 + int(np.argmin(remplissage[a0:a1]))
+        if remplissage[c] > 0.5 * (y1 - y0):
+            return None
+        coupes.append(c)
+    coupes.append(min(mask.shape[1], int(round(n * pas + fenetre))))
+    res = []
+    for c0, c1 in zip(coupes, coupes[1:]):
+        xs = np.where(remplissage[c0:c1] > 0)[0]
+        if xs.size == 0:
+            return None
+        res.append((c0 + xs.min(), c0 + xs.max() + 1))
+    return res
+
+
 images = {}   # index de rangée attendue -> [(bloc écran, x0 dans la source)]
+garde_finale = option("--garde-finale")
 for r, (y0, y1) in zip(pleines, rangees):
-    images[r] = [(cadrer(y0, y1, x0, x1), x0) for x0, x1 in morceaux(y0, y1, attendu[r][1])]
+    n = attendu[r][1] - (1 if attendu[r][0] == garde_finale else 0)
+    lus = morceaux(y0, y1, n)
+    if n and len(lus) != n:
+        coupe = scinder(lus, y0, y1, n)
+        if coupe:
+            avert.append(f"rangée {r+1} ({attendu[r][0]}) : deux figures collées, coupées au plus creux")
+            lus = coupe
+    if n and len(lus) != n:
+        grille = par_la_grille(y0, y1, n, DISPOSITIONS[dispo][r][2])
+        if grille:
+            avert.append(f"rangée {r+1} ({attendu[r][0]}) : {len(lus)} images séparées, {len(grille)} lues par la grille")
+            lus = grille
+    images[r] = [(cadrer(y0, y1, x0, x1), x0) for x0, x1 in lus]
+if garde_finale:
+    rang = next((i for i, (a, _) in enumerate(attendu) if a == garde_finale), None)
+    if rang is None or rang not in images or 0 not in images:
+        raise SystemExit(f"--garde-finale {garde_finale} : pas de rangée {garde_finale} ou pas d'idle lue")
+    # la pose de garde telle quelle ; son x source ne sert qu'à la mort, jamais à cette rangée
+    images[rang].append(images[0][0])
+    avert.append(f"{garde_finale} {len(images[rang])} : la pose de garde d'idle 1 (--garde-finale)")
 
 facteur = None
 if option("--facteur-de"):
@@ -170,6 +255,7 @@ def vers_art(bloc):
 
 planche = np.zeros((CH * len(DISPOSITIONS[dispo]), 1536, 4), dtype=np.uint8)
 bandes, rapport = {}, []
+centre_mort = 0.0   # centre, dans la bande, de la dernière image de mort placée
 for r, (anim, n) in enumerate(attendu):
     _, _, CW, fx, BW, AX = DISPOSITIONS[dispo][r]
     lus = images.get(r, [])
@@ -186,6 +272,12 @@ for r, (anim, n) in enumerate(attendu):
             grille = int(round(((c * CW + CW * fx) * ECH_X - x0) * (facteur or 1 / PAS)))
             if c == 0: recalage = grille - dx
             dx = grille - recalage
+            # le générateur a pu dériver hors de sa cellule (lion du LOT-93, death 6) : l'image qui
+            # sortirait de la bande garde le centre de la précédente, couchée au même endroit
+            if c > 0 and (AX - dx < 0 or AX - dx + w > BW):
+                dx = int(round(AX + w / 2 - centre_mort))
+                avert.append(f"death {c + 1} : hors de sa cellule, calée sur le centre de la précédente")
+            centre_mort = AX - dx + w / 2
         k = len(bandes.get(anim, [])) + 1
         # planche au format du prompt : pixels d'art de 2 px
         ecran = np.repeat(np.repeat(art, PAS, axis=0), PAS, axis=1)
@@ -227,7 +319,7 @@ sortie.mkdir(parents=True, exist_ok=True); (sortie / "bandes").mkdir(exist_ok=Tr
 Image.fromarray(planche).save(sortie / f"{dispo}.png")
 for anim, cels in bandes.items():
     Image.fromarray(np.concatenate(cels, axis=1)).save(sortie / "bandes" / f"{anim}.png")
-json.dump({"source": src, "disposition": dispo, "facteur": facteur, "attendu": attendu, "erreurs": erreurs, "avertissements": avert, "rapport_walk_idle": marche, "images": rapport},
+json.dump({"source": src, "disposition": dispo, "gabarit": GABARIT, "facteur": facteur, "attendu": attendu, "erreurs": erreurs, "avertissements": avert, "rapport_walk_idle": marche, "images": rapport},
           open(sortie / f"{dispo}.json", "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 print(f"{len(rapport)} images ; bandes " + ", ".join(f"{a} {len(c)}x{c[0].shape[1]}" for a, c in bandes.items()))
 for e in avert: print("AVERTISSEMENT", e)

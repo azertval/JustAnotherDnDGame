@@ -12390,7 +12390,7 @@
       "x": 36,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-dweomer"
     },
     {
@@ -12398,7 +12398,7 @@
       "x": 30,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-neckoffoods"
     },
     {
@@ -12406,7 +12406,7 @@
       "x": 13,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-scholarnest"
     },
     {
