@@ -34,6 +34,8 @@ add_library(Core STATIC
     Combat/Encounter.cpp
     Resources/AssetKey.cpp
     Resources/AssetMarker.cpp
+    # Le manifeste des pièces d'un lieu (LOT-EDITOR-02, constat A9) : lu ici, sans Qt ni GPU.
+    Resources/ScenePieceManifest.cpp
     Combat/CombatTransition.cpp
     Combat/BattleGrid.cpp
     Combat/Pathfinding.cpp

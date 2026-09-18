@@ -18,16 +18,6 @@ namespace {
 /// Durée d'une image des bandes de figurine, en secondes (`idle.anim.json`, `frameDuration`).
 constexpr float FIGURE_FRAME_SECONDS = 0.15F;
 
-/// @return La valeur texte d'une propriété d'entité, vide si elle n'en est pas une.
-[[nodiscard]] std::string textOf(const core::MapEntity& entity, std::string_view key) {
-    const auto found = entity.properties.find(std::string{key});
-    if (found == entity.properties.end()) {
-        return {};
-    }
-    const std::string* text = std::get_if<std::string>(&found->second);
-    return text != nullptr ? *text : std::string{};
-}
-
 }  // namespace
 
 WorldPlay::WorldPlay(core::WorldTravel::MapLoader loader, std::filesystem::path assetsDirectory)
@@ -98,34 +88,19 @@ void WorldPlay::reloadAppearance() {
 }
 
 std::vector<WorldFigureSnapshot> WorldPlay::figures() const {
-    std::vector<WorldFigureSnapshot> figures;
     const core::Level* const map = _session.map();
     if (map == nullptr) {
-        return figures;
+        return {};
     }
     const int frame = static_cast<int>(_elapsed / FIGURE_FRAME_SECONDS);
 
     // Les PNJ d'abord, le héros ensuite : à égalité de profondeur, c'est lui qui passe devant.
-    for (const core::MapEntity& entity : map->entities()) {
-        if (entity.type != core::NPC_ENTITY_TYPE) {
-            continue;
-        }
-        std::string figure = textOf(entity, core::NPC_FIGURE_PROPERTY);
-        if (figure.empty()) {
-            continue;  // Un PNJ sans figurine ne se dessine pas : il n'est pas encore dessiné.
-        }
-        figures.push_back(
-            WorldFigureSnapshot{.figure = std::move(figure),
-                                .clip = "idle",
-                                .point = {static_cast<float>(entity.position.column) + 0.5F,
-                                          static_cast<float>(entity.position.row) + 0.5F},
-                                .frame = frame});
-    }
-    figures.push_back(WorldFigureSnapshot{.figure = _heroFigure,
-                                          .clip = _walking ? "walk" : "idle",
-                                          .point = {_session.heroPoint().column,
-                                                    _session.heroPoint().row},
-                                          .frame = frame});
+    std::vector<WorldFigureSnapshot> figures = npcFigures(map->entities(), frame);
+    figures.push_back(
+        WorldFigureSnapshot{.figure = _heroFigure,
+                            .clip = _walking ? "walk" : "idle",
+                            .point = {_session.heroPoint().column, _session.heroPoint().row},
+                            .frame = frame});
     return figures;
 }
 

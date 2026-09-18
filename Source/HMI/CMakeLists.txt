@@ -12,6 +12,30 @@
 #   Runtime/      les types C++ que les écrans du jeu voient -- module QML `Jadg.Runtime` (LOT-87) ;
 #   Localization/ catalogue de traduction.
 
+# --- SceneComposition : la composition d'un lieu, sans GPU ni Qt (LOT-EDITOR-02) ---
+#
+# Ce qu'un lieu met à l'écran, en primitives ordonnées : la liste (`ComposedScene`), la table du lieu
+# (`PlaceAppearance`), la composition d'une carte (`WorldSceneComposer`) et la géométrie des pièces
+# (`ScenePieces.h`, en-tête seul). Le jeu la soumet au GPU (`WorldSceneRenderer`), l'éditeur la peint
+# avec QPainter : **une** composition, deux façons de la dessiner, et l'ordre de dessin est le même
+# par construction (décision D2 de Documentation/Editeur/feuille-de-route.md, constat A8).
+#
+# Les fichiers restent sous HMI/Graphics, dans l'espace de noms `hmi` : ce qui sort de HmiLib est la
+# frontière d'édition de liens, pas les chemins d'inclusion que quarante fichiers écrivent. HmiLib la
+# lie en PUBLIC, rien ne change pour le jeu.
+add_library(SceneComposition STATIC
+    Graphics/ComposedScene.cpp
+    Graphics/PlaceAppearance.cpp
+    Graphics/WorldSceneComposer.cpp
+)
+target_include_directories(SceneComposition PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+target_link_libraries(SceneComposition
+    PUBLIC Core
+    PRIVATE project_warnings project_options)
+if(ENABLE_PCH)
+    target_precompile_headers(SceneComposition PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
 # --- HmiLib : la couche de présentation **sans Qt Widgets** (LOT-02) ---
 #
 # Ces sources sont de la logique pure : géométrie de caméra, composition de scène (sans GPU),
@@ -35,16 +59,13 @@ add_library(HmiLib STATIC
     Graphics/TextureAtlasRegions.cpp
     Graphics/ArenaAppearanceCatalog.cpp
     Graphics/ArenaSceneComposer.cpp
-    # Le lieu qu'on parcourt : table d'apparence du lieu, et composition (LOT-09).
-    Graphics/PlaceAppearance.cpp
-    Graphics/WorldSceneComposer.cpp
+    # Le lieu qu'on parcourt : sa table et sa composition vivent dans SceneComposition (ci-dessus).
     # La carte qu'on parcourt et sa mise en scene, partagees par le jeu et l'essai de l'editeur.
     Game/WorldPlay.cpp
     Graphics/AssetGallery.cpp
     Graphics/ArenaAnimationDriver.cpp
     Graphics/AnimationCatalog.cpp
     Graphics/MissingTexture.cpp
-    Graphics/ComposedScene.cpp
     Graphics/QuadRecorder.cpp
     # Marqueurs d'entite de carte (LOT-11) : cle d'asset et pixels, sans GPU.
     Graphics/EntityMarkers.cpp
@@ -72,6 +93,8 @@ add_library(HmiLib STATIC
 target_include_directories(HmiLib PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(HmiLib
     PUBLIC Core
+    # La composition d'un lieu, sans GPU (LOT-EDITOR-02) : le jeu et l'éditeur la partagent.
+    PUBLIC SceneComposition
     PRIVATE project_warnings project_options
     # MiniDumpWriteDump (Platform/CrashDump.cpp) : bibliothèque système, présente sur tout Windows.
     PRIVATE dbghelp

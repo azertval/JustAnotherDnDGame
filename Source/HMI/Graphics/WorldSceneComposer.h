@@ -41,6 +41,10 @@
 namespace core {
 class IsoProjection;
 class Level;
+class TileMap;
+struct MapEntity;
+struct TileLayer;
+struct TileTextureOverride;
 }  // namespace core
 
 namespace hmi {
@@ -104,8 +108,48 @@ struct WorldSceneSnapshot {
     [[nodiscard]] bool operator==(const WorldSceneSnapshot&) const = default;
 };
 
+/**
+ * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de
+ *        texture et ses entités.
+ *
+ * Le jeu compose une `core::Level` validée ; l'éditeur compose son brouillon (`core::LevelDraft`),
+ * qui n'est pas toujours valide — une carte en cours de tracé l'est rarement. Les deux exposent les
+ * mêmes accesseurs : `worldSceneSource` les prend chez l'un comme chez l'autre, et la composition
+ * n'a qu'un chemin (`LOT-EDITOR-02`, acceptation : « la même liste de primitives que dans le jeu
+ * »). Des références seulement : la source ne vit pas plus longtemps que la carte.
+ */
+struct WorldSceneSource {
+    const core::TileMap& root;
+    const std::vector<core::TileLayer>& layers;
+    const std::vector<core::TileTextureOverride>& textureOverrides;
+    const std::vector<core::MapEntity>& entities;
+};
+
+/// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
+template <class Map>
+[[nodiscard]] WorldSceneSource worldSceneSource(const Map& map) {
+    return WorldSceneSource{.root = map.tileMap(),
+                            .layers = map.layers(),
+                            .textureOverrides = map.textureOverrides(),
+                            .entities = map.entities()};
+}
+
+/// @return Le lieu que déclarent @p layers (propriété de couche `scene`), vide sinon.
+[[nodiscard]] std::string scenePlaceOf(const std::vector<core::TileLayer>& layers);
+
 /// @return Le lieu que déclare @p level (propriété de couche `scene`), vide s'il n'en déclare pas.
 [[nodiscard]] std::string scenePlaceOf(const core::Level& level);
+
+/**
+ * @brief Les figurines des PNJ d'une carte, dans l'ordre des entités.
+ *
+ * Un PNJ sans propriété `figure` ne se dessine pas : il n'est pas encore dessiné. Le jeu y ajoute
+ * le héros (`hmi::WorldPlay::figures`) ; l'éditeur les montre telles quelles.
+ * @param entities Les entités de la carte.
+ * @param frame    L'image des bandes (0 pour une image fixe).
+ */
+[[nodiscard]] std::vector<WorldFigureSnapshot> npcFigures(
+    const std::vector<core::MapEntity>& entities, int frame);
 
 /**
  * @brief Tire de @p level l'instantané que la composition dessine.
@@ -114,10 +158,15 @@ struct WorldSceneSnapshot {
  * racine), traduit par @p appearance ; le relief de la couche **décor**, où une assignation de
  * texture à la case (`core::TileTextureOverride`) l'emporte sur la table du lieu.
  *
- * @param level      La carte, lue seulement.
+ * @param source     La carte, lue seulement.
  * @param appearance La table du lieu.
  * @param figures    Les figurines à poser, dans l'ordre où l'appelant les veut.
  */
+[[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
+                                                    const PlaceAppearance& appearance,
+                                                    std::vector<WorldFigureSnapshot> figures);
+
+/// @brief Comme ci-dessus, pour une carte validée.
 [[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const core::Level& level,
                                                     const PlaceAppearance& appearance,
                                                     std::vector<WorldFigureSnapshot> figures);

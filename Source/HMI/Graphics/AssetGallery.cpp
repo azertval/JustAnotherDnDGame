@@ -16,6 +16,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Core/Data/JsonDocument.h"
+#include "Core/Resources/ScenePieceManifest.h"
 #include "HMI/Graphics/AnimationCatalog.h"
 
 namespace hmi {
@@ -251,38 +252,33 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
     }
     std::ranges::sort(dispositions);
     for (const std::filesystem::path& directory : dispositions) {
-        const core::JsonDocument document =
-            readManifest(directory / "manifest.json", catalog.errors);
-        if (!document.ok()) {
-            continue;
-        }
-        const auto textures = document.root.find("textures");
-        if (textures == document.root.end() || !textures->is_object()) {
+        // Le manifeste des pièces se lit dans Core depuis le LOT-EDITOR-02 (constat A9) : la
+        // galerie, l'éditeur et demain la collision déduite lisent la même emprise.
+        const core::ScenePieceManifestResult read =
+            core::ScenePieceManifest::loadFromFile(directory / "manifest.json");
+        if (!read.ok()) {
+            if (read.error != core::ScenePieceManifestError::FileNotFound) {
+                catalog.errors.push_back((directory / "manifest.json").generic_string() + " : " +
+                                         read.message);
+            }
             continue;
         }
         const std::string name = directory.filename().string();
         AssetGalleryFamily family{
             .title = "Scène · " + name, .directory = "Scene/" + name, .entries = {}};
-        for (const auto& [key, value] : textures->items()) {
-            if (!value.is_object() || !value.contains("file") || !value["file"].is_string()) {
-                continue;
-            }
-            const auto [width, height] = intPair(value, "size", 0, 0);
-            const auto [columns, rows] = intPair(value, "footprint", 1, 1);
-            const auto [anchorX, anchorY] = intPair(value, "anchor", -1, -1);
-            const std::size_t slash = key.rfind('/');
-            family.entries.push_back(
-                AssetGalleryEntry{.family = family.title,
-                                  .model = value.value("class", std::string("autre")),
-                                  .form = slash == std::string::npos ? key : key.substr(slash + 1),
-                                  .path = family.directory + "/" + value["file"].get<std::string>(),
-                                  .frameWidth = width,
-                                  .frameHeight = height,
-                                  .frames = {},
-                                  .footprintColumns = std::max(1, columns),
-                                  .footprintRows = std::max(1, rows),
-                                  .anchorX = anchorX,
-                                  .anchorY = anchorY});
+        for (const core::ScenePiece& piece : read.manifest.pieces()) {
+            family.entries.push_back(AssetGalleryEntry{
+                .family = family.title,
+                .model = piece.className.empty() ? std::string("autre") : piece.className,
+                .form = piece.name,
+                .path = family.directory + "/" + piece.file,
+                .frameWidth = piece.width,
+                .frameHeight = piece.height,
+                .frames = {},
+                .footprintColumns = piece.footprintColumns,
+                .footprintRows = piece.footprintRows,
+                .anchorX = piece.anchorX,
+                .anchorY = piece.anchorY});
         }
         std::ranges::stable_sort(family.entries,
                                  [](const AssetGalleryEntry& left, const AssetGalleryEntry& right) {
