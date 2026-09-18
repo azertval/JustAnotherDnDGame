@@ -25,6 +25,10 @@ QtObject {
 
     function startNewGame() { return true }
     function enterMap(mapId, arrival) { return true }
+    function mapOfDistrict(districtId) {
+        return districtId.endsWith("-martpart") ? "capital/martpart"
+             : districtId.endsWith("-arenarea") ? "capital/arenarea" : ""
+    }
     function setMove(x, y) {}
     function interact() {}
 }

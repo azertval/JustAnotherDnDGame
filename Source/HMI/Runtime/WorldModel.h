@@ -100,6 +100,9 @@ public:
      */
     void setStartOverride(const QString& mapId, const QString& arrival);
 
+    /// @return La carte du quartier @p districtId de la ville, vide s'il n'en a pas (`LOT-96`).
+    [[nodiscard]] Q_INVOKABLE QString mapOfDistrict(const QString& districtId) const;
+
     /// @brief La direction que le joueur demande, de longueur au plus 1. Tenue jusqu'au prochain
     ///        appel : c'est l'état d'une touche enfoncée, pas un pas.
     Q_INVOKABLE void setMove(qreal x, qreal y);

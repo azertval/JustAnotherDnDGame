@@ -173,4 +173,27 @@ nomme ensuite, pour que chaque commit reste vert.
   - `CapitalGuardTest` et `check_rpg_data.py` vérifient la même chose des deux côtés : une
     sentinelle et une seule par quartier fermé, sur la carte que la ville lui donne, au bord, sur
     une case franchissable, avec un dialogue du catalogue ; aucune pour un quartier qui a sa carte.
+- **18 septembre 2026, phase 5 — Le plan descend.** L'écran « Carte » passe de trois niveaux à
+  cinq : sous le plan de la ville, le **quartier** et ses îlots (`DistrictMapForm`), puis
+  l'**îlot** (`BlockMapForm`). Sur le plan de la ville, un quartier qui a sa carte porte l'anneau
+  d'or de ce qui s'ouvre, un quartier parcouru son point d'or, et le quartier du héros un anneau
+  « Vous êtes ici » ; l'écran s'ouvre là où l'on est. `--map-district=` et `--map-block=`
+  ouvrent un niveau sans le parcourir, pour les captures.
+  - *Le quartier : un cadre sur le plan, et rien de commité.* `world-maps.json` porte, par
+    quartier, un `frame` en fractions du plan de la ville ; `MapCanvas` sait n'en montrer que ce
+    cadre (`frame`). `check_map_assets.py` valide le cadre et **nomme** chaque quartier encore
+    montré ainsi — c'est la décision provisoire de l'auteur, et le rappel la garde visible.
+  - *Les îlots sont des entités de la carte* (`cityBlock` : un nom, une largeur, une hauteur,
+    déclaré à l'éditeur), posés par le script de tracé — cinq par quartier. Leur libellé vient des
+    catalogues (`city_block.<nom>`). Sur la vue du quartier, un îlot se pose au centre de son
+    rectangle : la carte est tracée nord en haut, comme le plan.
+  - *L'îlot est la carte telle que le jeu la dessine.* `hmi::renderCityBlock` cadre la carte du
+    quartier sur l'îlot (`hmi::cityBlockFraming`) et la dessine hors écran par le rendu du lieu —
+    planches, PNJ, marqueurs, héros s'il y est ; `hmi::CityBlockImageProvider` la sert au QML
+    (`image://cityblock/…`), à l'ouverture de l'îlot seulement.
+  - Vérifié : `CityBlockTest`, `CityBlockRenderTest` (la place du marché livrée devient une
+    image), `LesIlotsSontDansLaCarteEtNommes` ; captures de référence QML de `DistrictMapForm` et
+    `BlockMapForm`, celle de `CityMapForm` régénérée (l'anneau du héros) ; relu à l'écran sur les
+    trois niveaux par `--screen=WorldMap`. **Reste à relire en jeu** : l'anneau du héros et le
+    héros dans l'image de l'îlot, qui ne paraissent qu'une partie lancée.
 

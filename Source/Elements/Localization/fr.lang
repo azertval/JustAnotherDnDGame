@@ -753,6 +753,16 @@ dialogue.sentinelle-ironhand.halte = Halte. On ne passe pas : le quartier est fe
 dialogue.sentinelle-ironhand.halte.pourquoi = Fermé ? Et pour quelle raison ?
 dialogue.sentinelle-ironhand.halte.partir = Bien. Je fais demi-tour.
 dialogue.sentinelle-ironhand.pourquoi = L'Armée n'a pas à vous le dire, et moi non plus. Revenez avec un laissez-passer du guet, ou ne revenez pas.
+city_block.place-du-marche = La place du marché
+city_block.avenue-d-arenarea = L'avenue d'Arenarea
+city_block.arene-illu-die = L'arène Illu Die
+city_block.porte-de-l-est = La porte de l'Est
+city_block.ruelles-du-sud = Les ruelles du sud
+city_block.parvis = Le parvis
+city_block.colisee = Le Colisée
+city_block.arene-du-destin = L'Arène du Destin
+city_block.porte-de-martpart = La porte de Martpart
+city_block.portes-du-sud = Les portes du sud
 
 # Éditeur : couches et entités (LOT-11).
 dock.layers = Couches
@@ -809,6 +819,7 @@ entities.property.name = Nom
 entities.property.side = Camp
 entities.property.rank = Rang
 entities.kind.combatZone = Zone de combat
+entities.kind.cityBlock = Îlot de quartier
 entities.property.width = Largeur (cases)
 entities.property.height = Hauteur (cases)
 diagnostic.unknown_type = Type d'entité « %1 » inconnu de l'éditeur.

@@ -12419,6 +12419,46 @@
       "x": 46,
       "y": 30,
       "name": "porte-est"
+    },
+    {
+      "type": "cityBlock",
+      "x": 12,
+      "y": 11,
+      "name": "place-du-marche",
+      "width": 20,
+      "height": 18
+    },
+    {
+      "type": "cityBlock",
+      "x": 0,
+      "y": 0,
+      "name": "avenue-d-arenarea",
+      "width": 18,
+      "height": 12
+    },
+    {
+      "type": "cityBlock",
+      "x": 32,
+      "y": 5,
+      "name": "arene-illu-die",
+      "width": 16,
+      "height": 20
+    },
+    {
+      "type": "cityBlock",
+      "x": 26,
+      "y": 25,
+      "name": "porte-de-l-est",
+      "width": 22,
+      "height": 9
+    },
+    {
+      "type": "cityBlock",
+      "x": 0,
+      "y": 28,
+      "name": "ruelles-du-sud",
+      "width": 26,
+      "height": 12
     }
   ],
   "cameraFraming": {

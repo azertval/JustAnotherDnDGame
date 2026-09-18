@@ -750,6 +750,16 @@ dialogue.sentinelle-ironhand.halte = Halt. No one passes: the district is closed
 dialogue.sentinelle-ironhand.halte.pourquoi = Closed? For what reason?
 dialogue.sentinelle-ironhand.halte.partir = Fine. I'll turn back.
 dialogue.sentinelle-ironhand.pourquoi = The Army owes you no reason, and neither do I. Come back with a pass from the watch, or do not come back.
+city_block.place-du-marche = The market square
+city_block.avenue-d-arenarea = The Arenarea avenue
+city_block.arene-illu-die = The Illu Die Arena
+city_block.porte-de-l-est = The East Gate
+city_block.ruelles-du-sud = The southern alleys
+city_block.parvis = The forecourt
+city_block.colisee = The Coliseum
+city_block.arene-du-destin = The Arena of Fate
+city_block.porte-de-martpart = The Martpart gate
+city_block.portes-du-sud = The southern gates
 
 # Editor: layers and entities (LOT-11).
 dock.layers = Layers
@@ -806,6 +816,7 @@ entities.property.name = Name
 entities.property.side = Side
 entities.property.rank = Rank
 entities.kind.combatZone = Combat zone
+entities.kind.cityBlock = City block
 entities.property.width = Width (tiles)
 entities.property.height = Height (tiles)
 diagnostic.unknown_type = Entity kind "%1" is unknown to the editor.

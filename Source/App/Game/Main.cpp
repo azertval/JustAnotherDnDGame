@@ -38,6 +38,7 @@
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
+#include "HMI/Runtime/CityBlockImageProvider.h"
 #include "HMI/Runtime/OptionsModel.h"
 #include "HMI/Runtime/WorldModel.h"
 
@@ -362,6 +363,9 @@ int main(int argc, char** argv) {
         HMI_LOG_INFO("Interface lue depuis les sources : " JADG_QML_DEV_IMPORT_PATH);
     }
     connectEngineDiagnostics(engine, application);
+    // Les ilots du plan (LOT-96) : dessines a la demande, le moteur prend possession du fournisseur.
+    engine.addImageProvider(QStringLiteral("cityblock"),
+                            new hmi::CityBlockImageProvider(hmi::executableDirectory()));
     armScreenshot(argc, argv, engine, application);
 
     const QVariantMap initialProperties = initialWindowProperties(argc, argv);

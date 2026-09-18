@@ -12123,6 +12123,46 @@
       "dialogue": "sentinelle-ironhand",
       "figure": "sentinelle-ironhand",
       "guards": "central-empire-the-capital-city-palacedomain"
+    },
+    {
+      "type": "cityBlock",
+      "x": 14,
+      "y": 13,
+      "name": "parvis",
+      "width": 20,
+      "height": 16
+    },
+    {
+      "type": "cityBlock",
+      "x": 10,
+      "y": 0,
+      "name": "colisee",
+      "width": 26,
+      "height": 13
+    },
+    {
+      "type": "cityBlock",
+      "x": 33,
+      "y": 14,
+      "name": "arene-du-destin",
+      "width": 15,
+      "height": 15
+    },
+    {
+      "type": "cityBlock",
+      "x": 29,
+      "y": 29,
+      "name": "porte-de-martpart",
+      "width": 19,
+      "height": 11
+    },
+    {
+      "type": "cityBlock",
+      "x": 0,
+      "y": 27,
+      "name": "portes-du-sud",
+      "width": 29,
+      "height": 13
     }
   ],
   "cameraFraming": {

@@ -11,8 +11,11 @@
  * Chaque quartier qui recoit sa carte entre dans la liste `QUARTIERS`, et passe les memes controles.
  */
 
+#include <algorithm>
 #include <deque>
 #include <filesystem>
+#include <fstream>
+#include <sstream>
 #include <optional>
 #include <ostream>
 #include <set>
@@ -31,6 +34,7 @@
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Rpg/Dialogue.h"
+#include "Core/World/CityBlock.h"
 #include "Core/World/CityPlan.h"
 #include "Core/World/EntityKinds.h"
 #include "Core/World/WorldTravel.h"
@@ -241,6 +245,47 @@ TEST_P(CapitalMapTest, ChaquePointDArriveeEstFranchissable) {
             << ", " << entite.position.row << ")";
     }
     EXPECT_GT(points, 0);
+}
+
+/**
+ * @brief Chaque quartier a ses ilots, dans sa carte, avec leur libelle dans les deux langues.
+ * \castest{<b>Les ilots d'un quartier sont dans sa carte, et nommes en francais et en
+ * anglais.</b><br/>
+ * 	cat Unitaire · Quartiers de la Capitale<br/>
+ * 	crit Majeur<br/>
+ * 	etapes 1. Lire les ilots de chaque quartier.<br/>
+ * 2. Chercher `city_block.<nom>` dans `fr.lang` et `en.lang`.<br/>
+ * 	attendu Au moins trois ilots, chacun dans les bornes de la carte, et libelle dans les deux
+ * catalogues ; l'entree du quartier est dans un ilot (LOT-96).
+ * }
+ */
+TEST_P(CapitalMapTest, LesIlotsSontDansLaCarteEtNommes) {
+    const Quartier& quartier = GetParam();
+    const core::Level carte = charger(quartier);
+    const std::vector<core::CityBlock> ilots = core::cityBlocksOf(carte);
+    EXPECT_GE(ilots.size(), 3U);
+
+    const auto catalogue = [](const char* langue) {
+        std::ifstream flux(NIVEAUX.parent_path() / "Localization" / langue);
+        std::stringstream texte;
+        texte << flux.rdbuf();
+        return texte.str();
+    };
+    const std::string francais = catalogue("fr.lang");
+    const std::string anglais = catalogue("en.lang");
+    for (const core::CityBlock& ilot : ilots) {
+        EXPECT_GE(ilot.origin.column, 0);
+        EXPECT_GE(ilot.origin.row, 0);
+        EXPECT_LE(ilot.origin.column + ilot.columns, carte.tileMap().width()) << ilot.name;
+        EXPECT_LE(ilot.origin.row + ilot.rows, carte.tileMap().height()) << ilot.name;
+        const std::string cle = "\ncity_block." + ilot.name + " = ";
+        EXPECT_NE(francais.find(cle), std::string::npos) << "fr.lang : " << ilot.name;
+        EXPECT_NE(anglais.find(cle), std::string::npos) << "en.lang : " << ilot.name;
+    }
+    const core::GridPosition entree = entreeDe(carte);
+    EXPECT_TRUE(std::ranges::any_of(ilots, [entree](const core::CityBlock& ilot) {
+        return ilot.contains(entree);
+    })) << quartier.carte << " : l'entree n'est dans aucun ilot";
 }
 
 /**

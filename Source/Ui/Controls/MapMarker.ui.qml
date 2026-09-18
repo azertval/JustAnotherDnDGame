@@ -35,6 +35,9 @@ Item {
     /// Vrai pour garder le nom affiche hors survol.
     property bool labelAlways: false
 
+    /// Vrai pour un quartier deja parcouru (LOT-96) : un point d'or sous le repere.
+    property bool visited: false
+
     readonly property real markerSize: (root.active ? 44 : 36) * Tokens.uiScale
     readonly property bool hovered: markerPointer.containsMouse
 
@@ -109,6 +112,18 @@ Item {
             font.pixelSize: Tokens.fontCaption
             font.weight: Font.DemiBold
         }
+    }
+
+    // Un quartier deja parcouru : un point d'or, sous le repere.
+    Rectangle {
+        anchors.top: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 8 * Tokens.uiScale
+        height: 8 * Tokens.uiScale
+        radius: width / 2
+        visible: root.visited
+        color: Tokens.goldLight
+        antialiasing: true
     }
 
     MouseArea {

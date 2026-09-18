@@ -73,6 +73,7 @@ add_executable(UnitTests
     # Les quartiers de la Capitale LIVRES (LOT-96) : contenu, pas moteur.
     Unit/Core/World/test_capital_maps.cpp
     Unit/Core/World/test_city_plan.cpp
+    Unit/Core/World/test_city_block.cpp
     Unit/Core/World/test_combat_zone.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp
@@ -208,6 +209,9 @@ if(Qt6_FOUND)
         # heros, et une image du Colisee LIVRE -- la capture de reference du lot.
         Unit/HMI/Graphics/test_world_scene_renderer.cpp
         ../HMI/Graphics/WorldSceneRenderer.cpp
+        # L'ilot du plan (LOT-96) : son cadrage, et la place du marche LIVREE rendue hors ecran.
+        Unit/HMI/Graphics/test_city_block_render.cpp
+        ../HMI/Graphics/CityBlockRender.cpp
         # La galerie des assets hors ecran : chargement de ce qui est voulu, liberation du reste.
         Unit/HMI/Graphics/test_asset_gallery_renderer.cpp
         ../HMI/Graphics/AssetGalleryRenderer.cpp

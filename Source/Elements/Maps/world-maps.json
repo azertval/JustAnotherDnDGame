@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Positions relevees le 17 septembre 2026 sur les cartes peintes par l'auteur (Source/Elements/Assets/Maps/, 1920 x 1080, sans lettrage), en fractions de la largeur et de la hauteur. 'anchor' : repere de la region sur le monde ; 'frame' : cadre APPROXIMATIF de la region sur le monde (les cartes de region sont repeintes, pas recadrees : il ne sert qu'a l'origine du zoom et a la mini-carte) ; 'places' : lieux de l'atlas (LOT-37) ; 'omitted' : entrees de l'atlas qui ne sont pas des lieux (regles, objets, personnages, doublons) ; 'labels' : noms de geographie sans fiche ; 'sites' : lieux numerotes d'un plan de ville, d'apres la legende du livre. Un lieu de l'atlas absent de 'places' et de 'omitted' parait dans la liste de sa region, sans repere : le livre ne le situe pas, ou il sort du cadre peint. Releve a l'oeil, a retoucher : Ctrl+clic sur la carte journalise la fraction sous le pointeur.",
+  "note": "Positions relevees le 17 septembre 2026 sur les cartes peintes par l'auteur (Source/Elements/Assets/Maps/, 1920 x 1080, sans lettrage), en fractions de la largeur et de la hauteur. 'anchor' : repere de la region sur le monde ; 'frame' : cadre APPROXIMATIF de la region sur le monde (les cartes de region sont repeintes, pas recadrees : il ne sert qu'a l'origine du zoom et a la mini-carte) ; 'places' : lieux de l'atlas (LOT-37) ; 'omitted' : entrees de l'atlas qui ne sont pas des lieux (regles, objets, personnages, doublons) ; 'labels' : noms de geographie sans fiche ; 'sites' : lieux numerotes d'un plan de ville, d'apres la legende du livre. 'districts' : cadre d'un quartier sur le plan de sa ville (LOT-96) ; PROVISOIRE, l'ecran agrandit le plan faute de carte peinte du quartier, et 'image' la nommera le jour ou l'auteur la peint. Un lieu de l'atlas absent de 'places' et de 'omitted' parait dans la liste de sa region, sans repere : le livre ne le situe pas, ou il sort du cadre peint. Releve a l'oeil, a retoucher : Ctrl+clic sur la carte journalise la fraction sous le pointeur.",
   "world": {
     "image": "world.jpg"
   },
@@ -1377,6 +1377,24 @@
           0.385,
           0.475
         ]
+      },
+      "districts": {
+        "central-empire-the-capital-city-martpart": {
+          "frame": [
+            0.612,
+            0.415,
+            0.18,
+            0.18
+          ]
+        },
+        "central-empire-the-capital-city-arenarea": {
+          "frame": [
+            0.472,
+            0.247,
+            0.18,
+            0.18
+          ]
+        }
       },
       "labels": [
         {

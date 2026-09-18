@@ -194,6 +194,11 @@ void WorldModel::noteDistrictVisit() {
     }
 }
 
+QString WorldModel::mapOfDistrict(const QString& districtId) const {
+    const core::CityDistrict* const quartier = _city.find(districtId.toStdString());
+    return quartier != nullptr ? QString::fromStdString(quartier->map) : QString{};
+}
+
 QString WorldModel::districtId() const {
     const core::CityDistrict* const quartier = _city.districtOfMap(_session->mapId());
     return quartier != nullptr ? QString::fromStdString(quartier->id) : QString{};

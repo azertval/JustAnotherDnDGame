@@ -42,6 +42,8 @@ ATLAS = ROOT / "Source" / "Elements" / "World"
 EXPECTED_SIZE = [1920, 1080]
 
 errors: list[str] = []
+# Quartiers dont la vue agrandit encore le plan de leur ville, faute de carte peinte (LOT-96).
+pending_districts: list[str] = []
 
 
 def fail(message: str) -> None:
@@ -163,6 +165,21 @@ def check_world_maps(declared: set[str]) -> None:
         for place_id in city.get("places", {}):
             if place_id not in locations:
                 fail(f"world-maps.json : le quartier `{place_id}` n'est pas un lieu de l'atlas")
+        # La vue d'un quartier (LOT-96) : un cadre sur le plan, et plus tard sa carte peinte.
+        for district_id, district in city.get("districts", {}).items():
+            if district_id not in city.get("places", {}):
+                fail(f"world-maps.json : le quartier `{district_id}` a une vue mais aucun repere sur son plan")
+            frame = district.get("frame")
+            if not (isinstance(frame, list) and len(frame) == 4
+                    and all(isinstance(n, (int, float)) and 0 <= n <= 1 for n in frame)
+                    and frame[2] > 0 and frame[3] > 0
+                    and frame[0] + frame[2] <= 1 and frame[1] + frame[3] <= 1):
+                fail(f"world-maps.json : `{district_id}` : cadre hors du plan")
+            if district.get("image"):
+                used.add(district["image"])
+            else:
+                # Pas une faute : la decision provisoire du LOT-96, que ce rappel garde visible.
+                pending_districts.append(district_id)
 
     for name in sorted(used - declared):
         fail(f"world-maps.json nomme `{name}`, absent du manifeste des cartes")
@@ -182,6 +199,9 @@ def main() -> None:
             print(f"check_map_assets : {message}", file=sys.stderr)
         sys.exit(1)
     print(f"check_map_assets : {len(declared)} carte(s) conforme(s) au manifeste, a l'atlas et a world-maps.json.")
+    if pending_districts:
+        print("check_map_assets : quartier(s) montre(s) par un agrandissement du plan, en attendant "
+              "leur carte peinte (LOT-96, provisoire) : " + ", ".join(sorted(pending_districts)) + ".")
 
 
 if __name__ == "__main__":

@@ -114,6 +114,9 @@ class Quartier:
     rues: list[tuple[tuple[int, int], tuple[int, int]]] = field(default_factory=list)
     # Vrai si la place est un marché : des rangées d'étals. Un parvis n'en a pas.
     etals: bool = True
+    # Les îlots que le plan de la ville montre (entités `cityBlock`) : un nom, qui est aussi la clé
+    # de son libellé (`city_block.<nom>`), et un rectangle de cases, bornes incluses.
+    ilots: list[tuple[str, tuple[int, int, int, int]]] = field(default_factory=list)
     sol: dict = field(default_factory=dict)
     relief: dict = field(default_factory=dict)
     obstacles: set = field(default_factory=set)
@@ -354,6 +357,9 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
                             "arrival": q.ident})
     if q.depart:
         entites.append({"type": "spawnPoint", "x": entree[0], "y": entree[1], "name": q.depart.nom})
+    for nom, (x1, y1, x2, y2) in q.ilots:
+        entites.append({"type": "cityBlock", "x": x1, "y": y1, "name": nom,
+                        "width": x2 - x1 + 1, "height": y2 - y1 + 1})
 
     racine: list[dict] = []
     for y in range(q.hauteur):
@@ -435,6 +441,13 @@ def quartiers() -> list[Quartier]:
             # La rue des Lanternes : elle fait le tour de l'arène par le nord et rejoint la rue
             # de la porte de l'Est.
             rues=[((29, 8), (45, 8)), ((45, 8), (45, 29))],
+            ilots=[
+                ("place-du-marche", (12, 11, 31, 28)),
+                ("avenue-d-arenarea", (0, 0, 17, 11)),
+                ("arene-illu-die", (32, 5, 47, 24)),
+                ("porte-de-l-est", (26, 25, 47, 33)),
+                ("ruelles-du-sud", (0, 28, 25, 39)),
+            ],
         ),
         Quartier(
             ident="arenarea",
@@ -455,6 +468,13 @@ def quartiers() -> list[Quartier]:
                 (33, 18, 42, 27),
             ],
             etals=False,
+            ilots=[
+                ("parvis", (14, 13, 33, 28)),
+                ("colisee", (10, 0, 35, 12)),
+                ("arene-du-destin", (33, 14, 47, 28)),
+                ("porte-de-martpart", (29, 29, 47, 39)),
+                ("portes-du-sud", (0, 27, 28, 39)),
+            ],
             portes=[
                 Porte(vers=fiche("martpart"), nom="martpart", carte="capital/martpart"),
             ],

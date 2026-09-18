@@ -3,6 +3,8 @@
 
 #include "HMI/Runtime/WorldMapModel.h"
 
+#include <QRectF>
+
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -78,15 +80,25 @@ namespace {
 [[nodiscard]] QVariantMap cityRow(const MapCityView& city) {
     QVariantList points;
     for (const MapCityPointView& point : city.points) {
-        points.append(
-            QVariantMap{{QStringLiteral("pointId"), QString::fromStdString(point.id)},
+        QVariantMap row{{QStringLiteral("pointId"), QString::fromStdString(point.id)},
                         {QStringLiteral("number"), point.number},
                         {QStringLiteral("name"), QString::fromStdString(point.name)},
                         {QStringLiteral("description"), QString::fromStdString(point.description)},
                         {QStringLiteral("x"), point.at.x},
                         {QStringLiteral("y"), point.at.y},
                         {QStringLiteral("kind"), QStringLiteral("point-of-interest")},
-                        {QStringLiteral("gateway"), false}});
+                        {QStringLiteral("gateway"), false},
+                        {QStringLiteral("hasDistrictView"), point.district.has_value()}};
+        // La vue du quartier (LOT-96) : le cadre du plan qu'on agrandit, et sa carte peinte le jour
+        // ou elle existe.
+        if (point.district) {
+            row.insert(QStringLiteral("frame"),
+                       QRectF(point.district->frame.x, point.district->frame.y,
+                              point.district->frame.width, point.district->frame.height));
+            row.insert(QStringLiteral("districtImage"),
+                       QString::fromStdString(point.district->image));
+        }
+        points.append(row);
     }
     return QVariantMap{{QStringLiteral("cityId"), QString::fromStdString(city.id)},
                        {QStringLiteral("name"), QString::fromStdString(city.name)},

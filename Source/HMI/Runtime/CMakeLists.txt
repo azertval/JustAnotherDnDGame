@@ -45,6 +45,11 @@ qt_add_qml_module(JadgRuntime
         WorldModel.h WorldModel.cpp
         WorldViewportItem.h WorldViewportItem.cpp
         ../Graphics/WorldSceneRenderer.cpp
+        # Les deux niveaux du plan sous la ville (LOT-96) : le quartier et ses ilots, et l'image
+        # d'un ilot, dessinee hors ecran par le rendu du lieu.
+        CityDistrictModel.h CityDistrictModel.cpp
+        CityBlockImageProvider.h CityBlockImageProvider.cpp
+        ../Graphics/CityBlockRender.cpp
         # La galerie des assets : un outil de debug, pas un ecran du jeu (`--screen=AssetGallery`).
         AssetGalleryItem.h AssetGalleryItem.cpp
         ../Graphics/AssetGalleryRenderer.cpp
