@@ -168,7 +168,7 @@ TEST_P(CapitalMapTest, LaCarteLivreeSeCharge) {
 
 /**
  * @brief Chaque piece nommee par la carte existe sur la planche du lieu.
- * \castest{<b>Toute piece qu'un quartier demande existe dans Assets/Scene/<lieu>/.</b><br/>
+ * \castest{<b>Toute piece qu'un quartier demande existe dans Assets/Scene/\<lieu\>/.</b><br/>
  * \tcat Unitaire · Quartiers de la Capitale<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Tirer l'instantane du quartier avec la table d'apparence livree.<br/>

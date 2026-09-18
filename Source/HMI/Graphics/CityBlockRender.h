@@ -50,6 +50,8 @@ struct CityBlockFraming {
  * @brief Dessine @p snapshot cadré sur @p block, hors écran.
  *
  * @param assetsDirectory Le dossier des assets, où les chemins de l'instantané se résolvent.
+ * @param snapshot L'instantané du lieu à peindre, tel que `WorldSceneRenderer` le produit.
+ * @param block L'îlot sur lequel le rendu se cadre.
  * @return L'image, ou une image nulle si aucune interface QRhi n'est disponible — l'écran le dit
  *         plutôt que de planter (`EX-NFR-040`).
  */
