@@ -1,6 +1,14 @@
 # LOT-96 — Martpart et Arenarea se parcourent : le graphe des quartiers {#lot-96}
 
-> Statut : **ouvert le 18 septembre 2026**, sur la branche `lot-96-quartiers-capitale`.
+> Statut : **livré le 18 septembre 2026** (ouvert le même jour), sur la branche
+> `lot-96-quartiers-capitale`, une phase par commit. Vérification automatisée : construction
+> `/W4 /WX` sans avertissement, `ctest` à **1 338/1 338** (dont Martpart, Arenarea et un îlot
+> rendus hors écran sur un vrai `QRhi`), la batterie de `scripts/check.py` verte hormis
+> PSScriptAnalyzer, absent du poste (aucun `.ps1` touché). Relu à l'écran : « Nouvelle partie »
+> à la porte de l'Est de Martpart, Arenarea par `--map=`, la sentinelle et son marqueur, les trois
+> niveaux du plan par `--screen=WorldMap`. Reste la vérification manuelle en jeu — marcher de
+> Martpart à Arenarea et revenir, parler à une sentinelle, ouvrir la carte et y voir l'anneau du
+> héros ; au clavier et à la manette.
 > Prérequis : [LOT-09](@ref lot-09) (l'exploration dans le jeu, le graphe de cartes et les
 > portails, prouvés au Colisée), [LOT-94](@ref lot-94) (le plan de la Capitale peint par l'auteur,
 > source du tracé, ses douze quartiers placés, et l'écran « Carte » qui le montre),
@@ -76,6 +84,17 @@ nomme ensuite, pour que chaque commit reste vert.
 | 4 | **Les dix portes gardées** | Une entité `npc` sentinelle Ironhand à la porte de chaque quartier sans carte, sur le bord qui lui fait face ; `sentinelle-ironhand.json`, un dialogue de refus ; une figurine absente se dessine par le marqueur du [LOT-39](@ref lot-39) |
 | 5 | **Le plan descend** | Le héros et les quartiers visités sur le plan de ville ; le niveau quartier (cadre agrandi du plan) ; le niveau îlot (rendu de la carte) |
 | 6 | **Captures et vérification** | Captures de référence QML de Martpart, d'Arenarea et de chaque niveau ajouté au plan ; le geste au clavier et à la manette |
+
+## Ce que le lot a livré
+
+| Ce que le lot promettait | Ce qui a été fait | Comment c'est vérifié |
+|---|---|---|
+| « Nouvelle partie » ouvre Martpart à sa porte | `World/cities/capital.json` nomme la porte de départ ; `core::loadCityPlan`, `WorldModel::startNewGame` | `CityPlanTest` (3), capture de `--screen=GameView` |
+| Martpart et Arenarea, tracées depuis le plan | `capital/martpart.json`, `capital/arenarea.json` (48 × 40), posées par `atelier/carte_quartiers.py` d'après les directions du plan ; table d'apparence de Martpart | `CapitalMapTest` (5 × 2), `carte_quartiers.py --check`, `LesQuartiersLivresDeviennentDesPixels` |
+| L'aller-retour par l'avenue, au point d'arrivée nommé, état conservé | deux portails, arrivée deux pas à l'intérieur ; le graphe et l'éditeur lisent les sous-dossiers | `CapitalTravelTest`, `UneCarteDUnSousDossierAPourIdentifiantSonCheminRelatif` |
+| Dix portes gardées par une sentinelle Ironhand | une entité `npc` par quartier fermé (`guards`), dialogue `sentinelle-ironhand` (fr, en), figurine par marqueur | `CapitalGuardTest`, `check_rpg_data.py` |
+| `check_rpg_data.py` lie chaque quartier à sa carte ou sa sentinelle, et au plan | `controler_villes`, schéma `city`, fixtures | mutation vérifiée à la main ; auto-test |
+| Le plan montre où l'on est, et descend au quartier puis à l'îlot | cinq niveaux ; quartier = cadre du plan (provisoire), îlot = rendu de la carte (`image://cityblock/`) | `CityBlockTest`, `CityBlockRenderTest` (2), références QML `DistrictMapForm`, `BlockMapForm`, `CityMapForm` |
 
 ## Points ouverts
 
@@ -196,4 +215,10 @@ nomme ensuite, pour que chaque commit reste vert.
     `BlockMapForm`, celle de `CityMapForm` régénérée (l'anneau du héros) ; relu à l'écran sur les
     trois niveaux par `--screen=WorldMap`. **Reste à relire en jeu** : l'anneau du héros et le
     héros dans l'image de l'îlot, qui ne paraissent qu'une partie lancée.
+- **18 septembre 2026, phase 6 — Captures et vérification.** Martpart et Arenarea livrés sont
+  rendus hors écran, cadrés sur une porte gardée (`LesQuartiersLivresDeviennentDesPixels`) : aucune
+  pièce sur le damier, la sentinelle chargée par son marqueur. C'est la « capture de référence »
+  des deux quartiers, au sens du [LOT-09](@ref lot-09) — un rendu vérifié, pas une image comparée
+  au pixel, que la moindre retouche de carte dans l'éditeur ferait échouer. Le cahier de test est
+  régénéré. Le lot est livré ; la vérification manuelle en jeu reste à faire (voir le statut).
 

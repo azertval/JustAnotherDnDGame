@@ -6,6 +6,27 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Martpart et Arenarea se parcourent : le graphe des quartiers de la Capitale (LOT-96).**
+  « Nouvelle partie » ouvre le jeu à la **porte de l'Est de Martpart**, le quartier du marché ;
+  on passe à **Arenarea** par l'avenue et l'on revient au point d'arrivée nommé.
+  - **Deux quartiers tracés depuis le plan de la ville** peint par l'auteur : un script d'atelier
+    pose chaque porte sur le bord que coupe la direction du quartier voisin, puis les rues, la
+    place, les îlots et les ruelles ; les cartes se retouchent dans l'éditeur. Martpart porte sa
+    planche (`LOT-92`) ; Arenarea l'emprunte, faute de planche propre.
+  - **La ville a son graphe** (`World/cities/capital.json`) : ses douze quartiers, chacun avec sa
+    carte ou la porte gardée qui le ferme, et la porte de départ. `check_rpg_data.py` relie chaque
+    quartier à sa fiche d'atlas, à son point du plan et à sa carte.
+  - **Dix portes gardées** par une sentinelle de l'Armée Ironhand, qui refuse le passage. Sa
+    figurine n'existe pas encore : une figurine sans image se dessine désormais par son
+    **marqueur** (`LOT-39`) plutôt que par le damier.
+  - **L'écran « Carte » descend au quartier, puis à l'îlot** : le plan montre le quartier du héros
+    et ceux qu'il a parcourus. Le quartier agrandit le plan de la ville (*provisoire*, en attendant
+    sa carte peinte) ; l'îlot est la carte du quartier telle que le jeu la dessine, rendue hors
+    écran.
+  - Les cartes d'un sous-dossier (`capital/martpart`) entrent au graphe du monde et au
+    navigateur de l'éditeur sous leur chemin relatif ; `--map=<carte>[@<arrivée>]` ouvre une carte
+    dans un build de développement.
+
 - **Analyse statique : les 27 alertes restantes de Code scanning corrigées.** Les fichiers
   arrivés avec `LOT-09`/`LOT-94` (exploration, zones de combat, carte du monde) et une alerte
   plus ancienne d'`ArenaModel` étaient hors du périmètre des corrections précédentes.
