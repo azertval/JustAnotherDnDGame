@@ -13,6 +13,12 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     inventaire de la livraison dans la documentation du lot.
   - **Corrigés** : la mini-carte du HUD n'affiche plus de silhouette de portrait, et un titre de
     plaque se réduit plutôt que de déborder de ses ornements.
+  - **Fiche de personnage** : les six caractéristiques et les statistiques de la compagnie portent
+    leur icône ; abréviations et modificateurs passent sous le médaillon, hors des ornements qui
+    les masquaient. La signature s'écrit à la plume (*Pinyon Script*, SIL OFL 1.1), au-dessus du
+    paraphe.
+  - **Pause et compagnie** : les entrées de la pause sont centrées dans leur panneau ; le fond des
+    portraits suit l'ouverture de chaque cadre et ne déborde plus de l'anneau.
 
 - **Retrait de l'héritage : le dépôt ne garde plus rien du jeu d'origine (LOT-88).**
   - **L'essai de l'éditeur joue le jeu** : **P** lance l'exploration du jeu sur le brouillon —

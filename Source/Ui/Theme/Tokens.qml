@@ -123,6 +123,10 @@ QtObject {
     // citation puisse changer de voix sans que le corps la suive.
     readonly property string loreFamily: "IM Fell English"
 
+    // Signatures a la plume (fiche de personnage) : une anglaise calligraphiee, jamais pour un
+    // texte a lire -- seulement pour un nom que le personnage aurait signe lui-meme.
+    readonly property string signatureFamily: "Pinyon Script"
+
     // --- Echelle typographique de la charte v2 (LOT-87) ----------------------------------------
     //
     // En pixels A 1080p, multipliee ici par `uiScale` : a la conception (uiScale = 1) un

@@ -294,7 +294,7 @@ Item {
             id: minimapMask
 
             anchors.fill: parent
-            anchors.margins: parent.width * 0.1
+            anchors.margins: parent.width * 0.18 // ouverture de l'anneau livre : rayon 0,29
             radius: width / 2
             color: Tokens.panel
             layer.enabled: true
