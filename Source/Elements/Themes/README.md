@@ -1,7 +1,7 @@
 # Elements/Themes/
 
 Feuille de style **Qt** (`.qss`) de l'éditeur, éditable hors code et embarquée via
-`../UI/resources.qrc`. C'est un **modèle** : ses marqueurs sont substitués au chargement par les
+`../../Ui/Editor/resources.qrc`. C'est un **modèle** : ses marqueurs sont substitués au chargement par les
 jetons de `HMI/Interface/DesignTokens.h` — aucune couleur littérale n'y figure.
 
 - `theme-editor.qss` — **châssis d'édition** : fenêtre, panneaux dockables, barres, arbres, tables,

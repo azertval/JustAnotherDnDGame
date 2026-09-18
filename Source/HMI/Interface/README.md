@@ -1,7 +1,7 @@
 # HMI/Interface/
 
 Widgets **Qt** du châssis de l'éditeur de cartes (`LevelEditor`) : la fenêtre principale, ses
-actions et le système de design. Les mises en page sont décrites hors code dans `Elements/UI/*.ui`
+actions et le système de design. Les mises en page sont décrites hors code dans `Source/Ui/Editor/*.ui`
 (Qt Designer) et le thème dans `Elements/Themes/theme-editor.qss`. Les écrans du jeu, eux, sont en
 Qt Quick (`Source/Ui/`, modèles dans `HMI/Runtime/`).
 

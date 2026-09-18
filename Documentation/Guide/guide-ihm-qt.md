@@ -105,7 +105,7 @@ artiste change ne demande jamais de les toucher.
 ### Ouvrir les écrans pour les dessiner
 
 **Ce n'est pas Qt Designer.** Qt Designer dessine des *widgets* et n'ouvre que des `.ui` (XML) — il
-n'en reste que dans `Source/Elements/UI/`, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils
+n'en reste que dans `Source/Ui/Editor/`, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils
 s'ouvrent dans **Qt Design Studio**, qui est un programme distinct.
 
 ```

@@ -1,4 +1,4 @@
-# Elements/UI/
+# Ui/Editor/
 
 Assets **Qt déclaratifs** de l'éditeur, éditables hors code (Qt Designer) et compilés par la cible
 `LevelEditor` (`AUTOUIC`/`AUTORCC`, cf. `Source/HMI/CMakeLists.txt`, propriété
@@ -17,5 +17,5 @@ Assets **Qt déclaratifs** de l'éditeur, éditables hors code (Qt Designer) et 
 > Piège XML : `--` est **interdit à l'intérieur d'un commentaire**, et `uic` le refuse sans
 > indulgence. Employer le tiret cadratin.
 - `resources.qrc` — ressource Qt embarquée ; référence la feuille de style du châssis d'édition,
-  `../Themes/theme-editor.qss` (alias `:/resources/theme-editor.qss`, `EX-IHM-082`). Voir
-  `../Themes/README.md`.
+  `../../Elements/Themes/theme-editor.qss` (alias `:/resources/theme-editor.qss`, `EX-IHM-082`). Voir
+  `../../Elements/Themes/README.md`.

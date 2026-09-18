@@ -138,8 +138,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-# Assets Qt déclaratifs (hors code) : mises en page Designer + ressource embarquée, dans Elements.
-set(ELEMENTS_UI ${PROJECT_SOURCE_DIR}/Source/Elements/UI)
+# Mises en page Designer + ressource embarquée de l'éditeur : avec le reste de l'interface, sous Source/Ui.
+set(EDITOR_UI ${PROJECT_SOURCE_DIR}/Source/Ui/Editor)
 set(APP_DIR ${PROJECT_SOURCE_DIR}/Source/App)
 
 # ---------------------------------------------------------------------------------------------
@@ -174,17 +174,17 @@ add_executable(LevelEditor
     Editor/EntityPanel.cpp
     Editor/WorldGraphView.cpp
     # Ressource embarquée (thème .qss) — traitée par AUTORCC.
-    ${ELEMENTS_UI}/resources.qrc
+    ${EDITOR_UI}/resources.qrc
     # Mises en page Qt Designer — traitées par AUTOUIC (génèrent ui_*.h).
-    ${ELEMENTS_UI}/MainWindow.ui
-    ${ELEMENTS_UI}/LevelBrowserPanel.ui
-    ${ELEMENTS_UI}/LayersPanel.ui
-    ${ELEMENTS_UI}/EntityPanel.ui
+    ${EDITOR_UI}/MainWindow.ui
+    ${EDITOR_UI}/LevelBrowserPanel.ui
+    ${EDITOR_UI}/LayersPanel.ui
+    ${EDITOR_UI}/EntityPanel.ui
 )
 
-# Les mises en page .ui vivent dans Source/Elements/UI (assets), pas à côté des widgets : AUTOUIC
+# Les mises en page .ui vivent dans Source/Ui/Editor, pas à côté des widgets : AUTOUIC
 # doit y chercher le .ui correspondant à chaque include "ui_*.h".
-set_target_properties(LevelEditor PROPERTIES AUTOUIC_SEARCH_PATHS ${ELEMENTS_UI})
+set_target_properties(LevelEditor PROPERTIES AUTOUIC_SEARCH_PATHS ${EDITOR_UI})
 
 target_link_libraries(LevelEditor PRIVATE
     HmiLib
