@@ -3,6 +3,5 @@ LOOK: fully covered, no skin visible: a closed great helm with a narrow dark eye
 SILHOUETTE: the red plume on the helm and the rectangular shield make it readable at a glance; broad armoured shoulders, no cape.
 SIZE: MEDIUM, one tile, exactly as tall as the heroes of reference image 2 (about 90 px), plume included.
 WEAPON: a plain standard-issue longsword held in the right hand; a rectangular steel-rimmed red shield with the white open palm on the left arm, kept raised in front of the body in every frame. Ranged attacks not needed.
-PALETTE (taken from reference image 3; use only these plus their darker/lighter tones): to be filled from the portrait.
-CAST: none, rows 7 and 8 stay empty.
+PALETTE (taken from reference image 3; use only these plus their darker/lighter tones): #9A1E1E, #5B1A1E, #66676B, #2A262F, #333945, #E4C9A6, #A5662C; accent colours (weapon, magic, effects): #E7A84C, #D48F39, #DE3126.
 ANIMATION SET: rows 1 to 6; rows 7 and 8 empty.
