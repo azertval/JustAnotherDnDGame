@@ -11,6 +11,11 @@ confronté le tout à l'état réel du dépôt et aux deux livres de Tanares.
 > complet qui est la `0.1.0`**. Renommée au second audit, le 14 septembre 2026, avec les jalons
 > intermédiaires `0.0.x` ci-dessous. L'ancre Doxygen a suivi (`@ref roadmap`).
 
+> **L'éditeur de cartes a sa propre feuille de route** depuis le 18 septembre 2026 :
+> [`Documentation/Editeur/feuille-de-route.md`](@ref roadmap-editeur), lots `LOT-EDITOR-01` à
+> `LOT-EDITOR-14`. Outil interne, il avance à part ; aucun lot de cette page n'en dépend, et le lint
+> du graphe ne le lit pas.
+
 Les lots **livrés** gardent leur dossier et leur `epic.md` : ils portent ce que leur réalisation a
 tranché, qui est de l'histoire, pas du programme. Tout le reste vit ici, et un dossier se crée
 **au démarrage** d'un lot.
@@ -2420,7 +2425,10 @@ carte, et gagne le verdict de l'Arène du Destin »* — dans une ville qui ress
 ##### Les cartes — quatre, tracées depuis le plan
 
 Dessinées dans l'éditeur ([LOT-11](@ref lot-11)), pas en JSON à la main : c'est le test grandeur
-nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (`EX-VIS-006`). La source
+nature de l'outil, et la preuve qu'un non-développeur pourrait le faire (`EX-VIS-006`). L'éditeur
+en question est celui que refait la [feuille de route de l'éditeur](@ref roadmap-editeur) : ses
+lots `LOT-EDITOR-01` à `LOT-EDITOR-06` passent **avant** ces cartes — un ordre, pas un prérequis
+déclaré, puisque l'éditeur a sa piste à part — et le repaire ne reçoit pas de script d'atelier. La source
 est le **plan de la Capitale peint par l'auteur** ([LOT-94](@ref lot-94)), ses douze quartiers
 placés d'après l'atlas ; le plan du corpus n'est qu'une référence lue sur le poste (§8).
 

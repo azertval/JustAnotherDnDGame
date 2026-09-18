@@ -1,0 +1,513 @@
+# Feuille de route de l'éditeur de cartes {#roadmap-editeur}
+
+Le programme du **module éditeur**, et l'unique source de vérité de ses lots : `LOT-EDITOR-01` à
+`LOT-EDITOR-14`. L'éditeur est un **outil interne**, fait pour l'auteur seul, qui sert à fabriquer
+les cartes du jeu. Il a sa piste à part : cette page ne dépend pas de la
+[feuille de route du jeu](@ref roadmap), et aucun lot du jeu ne déclare de prérequis vers elle.
+
+> **Décidé le 18 septembre 2026.** L'éditeur du [LOT-11](@ref lot-11) peint des types de tuiles en
+> couleurs à plat ; le jeu affiche des lieux en isométrie 0,62, faits de pièces de planche. Entre
+> les deux, rien ne se voit ni ne se pose : les trois cartes livrées (le Colisée, Martpart,
+> Arenarea) sont écrites par script. Le module refait l'outil à neuf **et révise le format de
+> carte une fois** (version 4), tant qu'il n'y a que trois cartes à migrer. Un audit du code a
+> précédé cette page ; ses constats sont en §2, les décisions de l'auteur en §3.
+
+Comme pour le jeu, un dossier de lot se crée **au démarrage** du lot, et un lot livré quitte cette
+page pour son dossier. Les dossiers vivent dans `Documentation/Editeur/LOT-EDITOR-NN-…/`, **pas**
+dans `Documentation/Lot/` : `lint_lots.py` y prend tout dossier `LOT-*` pour un lot du jeu. Ce lint
+ne lit que les numéros `LOT-NN` ; il ignore les `LOT-EDITOR-NN`, ce qui est voulu.
+
+---
+
+## 1. Cadre du module {#roadmap-editeur-cadre}
+
+L'éditeur est un outil d'atelier, pas un produit. On le juge sur une seule question : **une carte
+se fait-elle vite et juste ?** Tout ce qui ne sert pas à ça sort de son périmètre d'exigences.
+
+| Règle | Jeu | Éditeur |
+|---|---|---|
+| Charte v2, design tokens, icônes tracées (`DesignTokens`, `ThemeIcons`, `theme-editor.qss`) | obligatoire | non : style Qt Fusion, icônes standard de Qt ou libellés texte |
+| Assets d'interface | produits par ateliers | aucun ; l'éditeur ne montre que les assets du jeu (planches, figurines) |
+| Traduction (`qsTr`, `lupdate`) | obligatoire | non : **anglais en dur**, sortie des contrôles de traduction |
+| Thème clair/sombre, architecture des panneaux (`EX-IHM-010`, `020`, `054`, `055`, `060`, `061`, `074`) | — | retirées pour l'éditeur ; l'agencement se décide lot par lot |
+| Formulaires `.ui` dans `Source/Ui` | — | non : **widgets construits en code** |
+| Tests | logique, QML, références PNG | logique pure (gestes, collision, contrôles, format), un test de lancement, un scénario sans fenêtre par outil ; aucun test d'IHM |
+| Qualité C++ (format, clang-tidy, build sans avertissement) | oui | oui : même code, même CI, coût nul |
+| Doxygen | complet | **complet** |
+| Guide | complet | README du module, un guide d'usage court |
+| Performance | 60 i/s, budget | une taille de carte maximale déclarée et mesurée (§5, règle 5) |
+
+**Ce qui ne se négocie pas.** Une carte enregistrée est lue par le jeu sans conversion
+(`EX-EDIT-011`). Rien de ce que l'éditeur ne comprend pas n'est perdu. Le modèle et la validation
+de carte restent ceux de `Core`, sans doublon (`EX-EDIT-010`).
+
+**Hors du module** : dessiner les planches et les figurines (ateliers du [LOT-91](@ref lot-91) et
+du [LOT-92](@ref lot-92)), écrire les dialogues ([LOT-15](@ref lot-15)), l'économie et les quêtes.
+
+---
+
+## 2. Ce que l'audit a trouvé {#roadmap-editeur-audit}
+
+Le défaut de fond n'est pas l'outil, c'est le **format de carte** : les limites qui gênent
+l'éditeur y sont écrites. Chaque constat a été vérifié dans le code le 18 septembre 2026.
+
+| # | Constat | Preuve | Conséquence |
+|---|---|---|---|
+| A1 | Une seule pièce nommée par case, et seulement pour le relief | `snapshotWorldScene` écrit `textureOverrides` dans `snapshot.relief` uniquement ; le sol sort de `PlaceAppearance::floorPiece` | impossible de choisir une pièce de sol sur une case |
+| A2 | L'assignation vit sur la grille de collision | `"texture"` est un champ des `tiles` racine ; d'où un `dirt` de collision sous chaque pièce | poser une pièce en un geste automatiserait une astuce au lieu de la retirer |
+| A3 | Le type de tuile porte trois sens | fente d'apparence (`appearance.json`), règle tactique (`BattleGrid`), biome du générateur (`LOT-81`) | `bridge` vaut « ruelle » à Martpart et « pont » pour le [LOT-40](@ref lot-40) |
+| A4 | L'emprise des pièces larges n'est lue par personne | `footprint` n'apparaît que dans `AssetGallery.cpp` ; huit pièces `wide` livrées | occupation, tri de profondeur et collision de la deuxième case ne sont définis nulle part |
+| A5 | La collision n'est pas binaire | `BattleGrid` distingue `Solid` (arrête la vue) et `GroundObstacle` (arrête le pas) ; le [LOT-22](@ref lot-22) ajoute l'abri | la collision déduite d'une pièce est un **type tactique**, pas un booléen |
+| A6 | Les entités n'ont pas d'identifiant | `MapEntity` = type, position, propriétés ; les liens passent par `name` ou par la case | déplacer un coffre casse quêtes et sauvegardes sans que rien le dise |
+| A7 | L'identifiant d'une carte est son chemin | `capital/martpart` est cité par les portails, `world-maps.json`, `cities/capital.json` | renommer une carte casse le monde ; il faut un renommage propagé |
+| A8 | Le composeur est pur, mais logé dans `HmiLib` | `TextureHandle = void*`, aucune dépendance GPU dans `WorldSceneComposer` | le canevas peut dessiner les primitives du jeu, à condition de sortir la composition dans une cible sans GPU |
+| A9 | Déduire la collision dans `Core` demande le manifeste | le manifeste et `PlaceAppearance` sont lus dans `HMI/Graphics` | la lecture du manifeste descend dans `Core` ; `HMI` n'en garde que les images |
+| A10 | L'historique d'annulation n'a pas de plafond | `LevelDraft::_undoHistory` : instantanés complets, jamais purgés | à plafonner ; stocker les pièces par indice |
+| A11 | Retirer les scripts retire ce qu'ils apportaient | `carte_colisee.py`, `carte_quartiers.py` : édition en masse, rejouable, relue en diff | l'éditeur doit se piloter **sans fenêtre** |
+| A12 | Les scripts portent la seule garde des cartes en CI | leur `--check` | le contrôle de l'éditeur tourne en CI **avant** que les scripts ne partent |
+
+---
+
+## 3. Décisions {#roadmap-editeur-decisions}
+
+Toutes tranchées par l'auteur le 18 septembre 2026.
+
+| # | Question | Décision |
+|---|---|---|
+| D1 | Dans quelle vue édite-t-on ? | Les deux, en bascule ; **iso par défaut**, la vue à plat sert à lire les types et la collision |
+| D2 | Avec quoi dessine-t-on le canevas ? | `QGraphicsView` et `QPainter` : **un seul élément peint** parcourt la `ComposedScene` triée du jeu ; des `QGraphicsItem` seulement pour les entités, les zones et les poignées. L'ordre de dessin est celui du jeu par construction, et le même code rend hors écran (D9) |
+| D3 | Que porte une case de couche ? | **Format v4** : chaque case de chaque couche porte `type` et une `piece` facultative ; l'assignation quitte la grille de collision. Le `type` ne garde qu'un sens, celui des règles et du générateur ; `appearance.json` devient le défaut des cartes générées. La v3 reste lue pour toujours |
+| D4 | Qui fait foi, le script ou l'éditeur ? | L'éditeur ; les scripts des cartes faites à la main sont retirés au `LOT-EDITOR-06` |
+| D5 | Où vit le code ? | `Source/Editor/{Logic,Ui}`, cible et tests à lui ; il dépend de `Core` et de la composition, et rien ne dépend de lui |
+| D6 | Le jeu attend-il l'éditeur ? | Aucune dépendance déclarée, **mais un ordre** : les lots 01 à 06 passent avant les cartes du [LOT-27](@ref lot-27). Les [LOT-16](@ref lot-16) et [LOT-17](@ref lot-17) avancent en parallèle. Pas de troisième script pour le repaire |
+| D7 | Que deviennent les exigences ? | `editeur-niveaux.md` reste la spécification du module ; les `EX-IHM` propres à l'éditeur passent au registre des retirées |
+| D8 | Les entités ont-elles un identifiant ? | Oui : `id` court, unique dans la carte, donné par l'éditeur, jamais réemployé ; quêtes, drapeaux et sauvegardes citent `carte#id` |
+| D9 | L'éditeur se pilote-t-il sans fenêtre ? | Oui : `--check`, `--migrate`, `--render carte.png`, `--apply gestes.json`. La souris et `--apply` appellent les mêmes fonctions pures |
+| D10 | Où vit la collision ? | **Écrite dans le fichier** par l'éditeur, avec la liste des cases forcées à la main : le jeu lit la carte sans manifeste, et `--check` vérifie que fichier = déduction + cases forcées. Le manifeste déclare un type tactique par pièce |
+| D11 | Hauteur et étages ? | **Pas prévus aujourd'hui, mais la porte reste ouverte** : le format v4 réserve la place (voir ci-dessous), sans que ni le jeu ni l'éditeur ne s'en servent. D'ici là, un intérieur ou un sous-sol est une carte à part, reliée par portail |
+| D12 | Comment fait-on une variante de carte ? | La variante déclare `base`, change de planche (`scene`) et porte ses propres entités, sans toucher aux cases : l'Arène du Destin du [LOT-27](@ref lot-27), puis le plan pénombral du [LOT-90](@ref lot-90) |
+| D13 | Une zone est-elle toujours un rectangle ? | Non : rectangle **ou** ensemble de cases peint ; `BattleGrid::zonesAt` lit les deux formes |
+
+**Le format v4, en une fois.** Des couches dont chaque case porte `type` et `piece` ; une pièce
+large ancrée sur une case et occupant son `footprint`, par une règle unique dans `Core` ; la
+collision écrite avec ses cases forcées ; des entités à `id` ; des zones à forme ; des variantes
+par `base`. **Réserve de hauteur (D11)** : une couche accepte un champ `floor` (étage, 0 par
+défaut), une case et une entité un champ `elevation` (0 par défaut). Le chargeur les lit, les
+garde et les réécrit ; une valeur non nulle est admise par le format et signalée par `--check`
+tant que le jeu ne la joue pas. Le pointage du canevas prend la hauteur en paramètre dès le
+`LOT-EDITOR-02`, et ne connaît que 0. C'est la seule révision de format prévue.
+
+**Reste ouvert.** Une carte sans lieu (le terrain des régions, [LOT-40](@ref lot-40)) n'a pas de
+planche : planche « terrain » générique faite par l'atelier du [LOT-92](@ref lot-92), ou repli
+sur les types en couleurs ? Le repli est acquis (`LOT-EDITOR-03`) ; la planche se décide avec le
+`LOT-40`.
+
+---
+
+## 4. Architecture {#roadmap-editeur-architecture}
+
+Le module ne crée aucun moteur. Il lit ce que le jeu sait déjà (modèle de carte, composition iso,
+manifestes de pièces), et tout ce qui a une règle vit en fonctions pures testées. L'IHM est libre
+et jetable. Le brouillon `LevelDraft` reste la seule source : tout geste passe par lui, en un pas
+d'annulation.
+
+| Partie | Où | Ce qu'elle fait |
+|---|---|---|
+| Format, migration, contrôles | `Core` | charge toutes les versions, écrit la v4 de façon canonique, déduit la collision (`deriveCollision`), contrôle références, pièces et atteignabilité |
+| Manifeste de pièces | `Core` | classe, emprise, type tactique, `aliases` d'une pièce ; `HMI` n'en garde que les images |
+| Composition | cible sans GPU, partagée avec le jeu | `ComposedScene`, `WorldSceneComposer`, `ScenePieces`, sortis de `HmiLib` |
+| Projet | `Editor/Logic` | la racine `Source/Elements` : cartes, planches, catalogues ; relu à chaud, avec garde de fichier modifié sur disque |
+| Document de carte | `Editor/Logic` | un `LevelDraft`, sa sélection, son état de vue ; plusieurs ouverts en onglets |
+| Pointage | `Editor/Logic` | inverse de `core::IsoProjection` (écran vers case, hauteur en paramètre) ; un relief haut se désigne par son pied |
+| Outils et pinceau | `Editor/Logic` | chaque outil = une fonction pure (grille, geste, pinceau) qui rend une modification ; l'IHM ne fait que l'aperçu |
+| Entrée sans fenêtre | `Editor/Logic` + `App/Editor` | `--check`, `--migrate`, `--render`, `--apply` |
+| Canevas | `Editor/Ui` | une `QGraphicsView` : un élément peint pour la scène, des éléments pour entités, zones et poignées ; vue à plat par les couleurs de `DraftRenderer` |
+| Inspecteur et zones | `Editor/Ui` | dérivés du schéma typé de `core::knownEntityKinds`, sans code par famille |
+| Fichier annexe | à côté de la carte | `<carte>.editor.json` : notes d'auteur, régions verrouillées, état de la carte, dernière vue ; le jeu ne le lit jamais |
+| Préfabriqués | `Source/Elements/Editor/Prefabs/<lieu>/` | tampons enregistrés, que seul l'éditeur lit |
+| Essai | `Editor/Ui` | l'essai immédiat garde `WorldPlay` ; l'essai complet lance `JustAnotherRpgGame --map=… --at=x,y` |
+| Reprise | poste | sauvegarde automatique dans `%LOCALAPPDATA%`, proposée au redémarrage après un plantage |
+
+Ce qui disparaît de l'éditeur : son usage de `DesignTokens`, `ThemeIcons`, `IconGeometry`,
+`theme-editor.qss` et `ActionCatalog`, ses formulaires `.ui`, le rendu `QRhiWidget`, et les
+panneaux actuels, reconstruits plus simples.
+
+---
+
+## 5. Cinq règles pour durer {#roadmap-editeur-perennite}
+
+Un éditeur dure si son **format** dure et si chaque nouveau lot du jeu y entre sans code d'éditeur.
+
+1. **Une politique de format, écrite une fois.** Toute version passée se lit pour toujours, et une
+   fixture par version reste dans les tests. La conversion est un acte explicite (`--migrate`),
+   jamais l'effet de bord d'un enregistrement. L'écriture est canonique : un geste = un diff git
+   lisible, et charger puis enregistrer une carte intacte rend le même fichier, octet pour octet,
+   vérifié en CI sur toutes les cartes. Le format a un **schéma JSON** publié
+   (`Documentation/Editeur/level.schema.json`), lu par les outils Python et par l'éditeur de texte.
+2. **Un contrat d'extension avec les lots du jeu.** Un lot qui ajoute une famille d'entité, une
+   propriété ou une forme de zone la déclare dans `EntityKinds` avec son type ; l'inspecteur, les
+   poignées et le contrôle la reçoivent sans code. Un test bloquant le garantit, sur le modèle de
+   `EX-CNT-042` pour la galerie des assets.
+3. **Les assets bougent, les cartes survivent.** Une planche réextraite renomme ou retire des
+   pièces : le manifeste accepte des `aliases`, une pièce introuvable reste dans le fichier et
+   s'affiche en damier, et le `LOT-EDITOR-14` remplace en masse.
+4. **Deux façons d'éditer, un seul chemin de code.** La souris et `--apply` appellent les mêmes
+   fonctions pures ; un scénario `--apply` par outil, comparé à un fichier attendu, tient lieu de
+   test d'IHM.
+5. **Une taille maximale déclarée et mesurée.** Borne proposée : 128 × 128 cases, refusée
+   au-delà par le chargeur ; composition et dessin mesurés dans `Source/Benchmark`.
+
+**Ce que les lots du jeu demanderont aux cartes.** Aucune ligne ne demande un lot d'éditeur de
+plus si la règle 2 est tenue.
+
+| Lot du jeu | Ce que la carte portera | Couvert par |
+|---|---|---|
+| [LOT-16](@ref lot-16), quêtes et drapeaux | entités et portails conditionnés par un drapeau ; quêtes qui citent `carte#id` | D8, référence « drapeau » (05), contrôle (07), essai sous drapeaux (10) |
+| [LOT-17](@ref lot-17), sauvegarde riche | l'état d'un coffre retrouvé après une retouche de carte | D8 : l'état se range par `id`, pas par case |
+| [LOT-26](@ref lot-26), butin et marchands | contenu de coffre, étal de marchand | références au catalogue d'objets (05) |
+| [LOT-27](@ref lot-27), la Capitale | le repaire (intérieur), l'Arène du Destin en variante du Colisée | D11, D12 |
+| [LOT-28](@ref lot-28), audio | ambiance de carte, zones sonores | propriétés de carte (09), zones à forme (D13) |
+| `LOT-41`, peuplement | zones de rencontre et leurs tables | zones peintes (05) |
+| `LOT-42`, voyage | position d'une carte sur `world-maps.json` | vue du monde (09) |
+| `LOT-70` et `LOT-82`, horloge et PNJ civils | trajets et horaires ; beaucoup de PNJ par carte | famille « trajet », liste filtrable, multi-sélection (05) |
+| `LOT-75`, campement | lieux où camper | une famille d'entité de plus, sans code |
+| [LOT-81](@ref lot-81), règles de zone | zones sans soin, sans combat, à dégâts de froid | D13, propriétés typées (05) |
+| [LOT-90](@ref lot-90), plan pénombral | la même carte sous une autre planche | D12 |
+| textes de carte (panneaux, noms) | des clés de traduction, pas du texte | le contrôle vérifie que la clé existe (07) |
+
+---
+
+## 6. Les lots {#roadmap-editeur-lots}
+
+Quatorze lots ; chacun livre une chose qu'on utilise le jour même. Ils se vérifient sur Martpart,
+la carte la plus chargée (48 × 40, 429 pièces). **Premier jalon : `LOT-EDITOR-06`**, après lequel
+les cartes du jeu se font dans l'éditeur ; les lots suivants se prennent au besoin. Les numéros
+sont des noms, pas un ordre : l'ordre vient des prérequis.
+
+| Lot | Titre | Prérequis | Taille |
+|---|---|---|---|
+| `LOT-EDITOR-01` | Le socle du module | — | M |
+| `LOT-EDITOR-02` | Le canevas montre le lieu | 01 | L |
+| `LOT-EDITOR-12` | Le format v4 et sa garde en CI | 01 | M |
+| `LOT-EDITOR-03` | Peindre avec les pièces du lieu | 02, 12 | M |
+| `LOT-EDITOR-04` | Les outils du peintre | 03 | M |
+| `LOT-EDITOR-05` | Entités et zones sur le canevas | 02, 12 | M |
+| `LOT-EDITOR-13` | L'éditeur sans fenêtre | 04 | S |
+| `LOT-EDITOR-06` | Les cartes quittent leurs scripts | 05, 13 | S |
+| `LOT-EDITOR-07` | Contrôle du contenu | 06 | M |
+| `LOT-EDITOR-14` | Renommer et remplacer | 06 | M |
+| `LOT-EDITOR-08` | Tampons et préfabriqués | 04 | S |
+| `LOT-EDITOR-09` | Le monde : onglets, portails, ville | 05, 13 | M |
+| `LOT-EDITOR-10` | Essai complet dans le jeu | 01 | S |
+| `LOT-EDITOR-11` | Génération assistée | 07 et [LOT-40](@ref lot-40) | M |
+
+Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
+
+Ordre conseillé jusqu'au jalon : 01, 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source
+Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
+
+```dot
+digraph editeur {
+  rankdir=LR;
+  node [shape=box, style=rounded, fontsize=10];
+  E01 [label="01\nsocle"];
+  E02 [label="02\ncanevas iso"];
+  E12 [label="12\nformat v4\n+ check en CI"];
+  E03 [label="03\npièces"];
+  E04 [label="04\noutils"];
+  E05 [label="05\nentités, zones"];
+  E13 [label="13\nsans fenêtre"];
+  E06 [label="06\nfin des scripts\n(jalon)", style="rounded,bold"];
+  E07 [label="07\ncontrôles"];
+  E14 [label="14\nrenommer, remplacer"];
+  E08 [label="08\ntampons"];
+  E09 [label="09\nmonde"];
+  E10 [label="10\nessai complet"];
+  E11 [label="11\ngénération"];
+  L40 [label="LOT-40\n(jeu)", style="rounded,dashed"];
+  E01 -> E02; E01 -> E12; E01 -> E10;
+  E02 -> E03; E12 -> E03;
+  E02 -> E05; E12 -> E05;
+  E03 -> E04; E04 -> E13; E04 -> E08;
+  E13 -> E06; E05 -> E06;
+  E06 -> E07; E06 -> E14;
+  E05 -> E09; E13 -> E09;
+  E07 -> E11; L40 -> E11;
+}
+```
+
+### LOT-EDITOR-01 — Le socle du module {#lot-editor-01}
+
+> Statut : **à faire**. Prérequis : aucun.
+
+L'éditeur sort dans son propre module, débarrassé de la charte, et gagne de quoi travailler
+longtemps sans risque.
+
+- **Déménagement à l'identique d'abord** : un commit de `git mv` vers `Source/Editor/{Logic,Ui}`,
+  cible `LevelEditor`, tests `Source/Test/Unit/Editor`, comportement inchangé. Le reste vient
+  ensuite. Ne rien polir dans `EditorViewport` (965 lignes de rendu QRhi) : il est réécrit au 02.
+- Style Fusion, icônes standard, **anglais en dur**, widgets construits en code à la place des
+  formulaires `.ui` ; retrait de l'éditeur des contrôles de traduction et de charte ; registre des
+  `EX-IHM` retirées pour l'éditeur (D7).
+- Sauvegarde automatique et reprise après plantage ; correction du « Modifié » affiché à
+  l'ouverture (bogue relevé au [LOT-11](@ref lot-11)).
+- **Garde de fichier modifié sur disque** : une carte changée par un script ou par Claude pendant
+  qu'elle est ouverte n'est jamais écrasée en silence.
+- Historique d'annulation plafonné (A10).
+
+*Acceptation* — les fonctions actuelles marchent à l'identique ; `ctest` vert ; un plantage
+provoqué (`--crash-test`) est suivi d'une proposition de reprise qui rend le brouillon ; modifier
+le JSON d'une carte ouverte et modifiée fait proposer « recharger » ou « garder », sans rien
+perdre de l'un ni de l'autre.
+
+### LOT-EDITOR-02 — Le canevas montre le lieu {#lot-editor-02}
+
+> Statut : **à faire**. Prérequis : 01.
+
+On édite sur le lieu rendu en iso comme dans le jeu, avec une bascule vers la vue à plat (D1, D2).
+
+- **Phase 1** — sortir `ComposedScene`, `WorldSceneComposer` et `ScenePieces` de `HmiLib` dans une
+  cible sans GPU, et descendre la lecture du manifeste dans `Core` (A8, A9). Le jeu ne change pas.
+- **Phase 2** — l'élément peint unique, qui parcourt la scène composée et ne dessine que la partie
+  visible ; le pointage inverse (hauteur en paramètre, D11), le quadrillage en losanges, la case
+  survolée, les coordonnées dans la barre d'état.
+- **Phase 3** — calques visibles, grisés ou verrouillés ; reliefs en transparence ; mini-carte.
+
+*Acceptation* — Martpart ouverte dans l'éditeur produit la même liste de primitives que dans le
+jeu ; son **rendu hors écran égale, à une tolérance près, la référence PNG du jeu** (comparer les
+listes ne prouve pas que `QPainter` pose les ancres, l'échelle 0,25 et les `mirrorOf` comme le
+GPU) ; le pointage est juste aux quatre coins de la carte et sous un mur haut ; les gestes et
+l'essai du [LOT-11](@ref lot-11) marchent en iso.
+
+### LOT-EDITOR-12 — Le format v4 et sa garde en CI {#lot-editor-12}
+
+> Statut : **à faire**. Prérequis : 01. Dans `Core`, sans IHM.
+
+La seule révision de format du module, faite tant qu'il n'y a que trois cartes (D3, D8, D10, D11,
+D12, D13).
+
+- `piece` par case de couche ; règle d'emprise des pièces larges (occupation, tri de profondeur,
+  collision), unique, dans `Core`, lue par le composeur du jeu (A4).
+- Collision écrite dans le fichier, avec la liste des cases forcées ; `core::deriveCollision` ;
+  **type tactique** par pièce dans le manifeste (passe, gêne, arrête le pas, arrête la vue, abri).
+- `id` d'entité ; forme de zone (rectangle ou cases peintes), lue par `BattleGrid::zonesAt` ;
+  variante par `base` ; réserve `floor` et `elevation`.
+- Écriture canonique ; schéma JSON publié ; `aliases` du manifeste.
+- `LevelEditor --migrate`, et un **`--check` minimal branché dans `ci.yml`** : aller-retour octet
+  pour octet, références, pièces présentes, fichier = déduction + cases forcées (A12).
+- Révision de `niveaux.md` et de `EX-EDIT-043`.
+
+*Acceptation* — les trois cartes migrées se jouent à l'identique (même instantané de scène, même
+`BattleGrid`) ; une carte v1, v2 et v3 gardée en fixture se charge pour toujours ; charger puis
+enregistrer une carte intacte rend le même fichier ; le fuzz du chargeur couvre la v4 ; une valeur
+`elevation` non nulle survit à un aller-retour et sort en avertissement du `--check`.
+
+### LOT-EDITOR-03 — Peindre avec les pièces du lieu {#lot-editor-03}
+
+> Statut : **à faire**. Prérequis : 02, 12.
+
+La palette est la planche du lieu. Poser une pièce écrit sa couche, sa `piece` et sa collision en
+un seul geste.
+
+- Catalogue de pièces, vignettes groupées par `class`, libellés du lieu, recherche.
+- Les écarts de collision forcés à la main sont montrés en masque.
+- Une pièce absente de la planche reste dans la carte, montrée en damier, jamais retirée.
+- Carte sans lieu : repli sur les types en couleurs.
+- Révision de `EX-EDIT-002` et `EX-EDIT-018` : poser une pièce devient l'affaire de l'éditeur.
+
+*Acceptation* — repeindre une rue et une façade de Martpart sans toucher à la collision rend un
+fichier identique à l'original ; poser puis gommer un étal 2 × 1 occupe puis libère ses deux
+cases, collision comprise.
+
+### LOT-EDITOR-04 — Les outils du peintre {#lot-editor-04}
+
+> Statut : **à faire**. Prérequis : 03.
+
+Seau, ligne, pipette, gomme et miroir, plus la mesure en cases et en pieds (1 case = 5 pieds), les
+notes d'auteur et l'essai lancé à la case survolée.
+
+- Chaque outil est une fonction pure, avec un test ; un geste = un pas d'annulation.
+- Raccourcis à une touche par outil ; `Alt` + clic = pipette depuis n'importe quel outil.
+- Notes d'auteur dans `<carte>.editor.json`.
+
+*Acceptation* — tracer une maison de Martpart (sol, murs, porte, seuil) prend moins de dix gestes,
+sans ouvrir la couche collision ni un formulaire.
+
+### LOT-EDITOR-05 — Entités et zones sur le canevas {#lot-editor-05}
+
+> Statut : **à faire**. Prérequis : 02, 12.
+
+Les zones se tirent à la souris, les entités montrent leur figurine et leurs liens.
+
+- Poignées pour toute famille à emprise ; zones **peintes** en plus des rectangles (D13) ; famille
+  « trajet » en ligne brisée (rondes, horaires).
+- Figurine de l'atelier du [LOT-91](@ref lot-91) à la place du marqueur quand elle existe ;
+  portail : étiquette de la carte cible ; rencontre : formation et créatures dessinées.
+- Multi-sélection, déplacement groupé, liste filtrable des entités.
+- Inspecteur tiré d'un **schéma typé** de `EntityKinds` : entier borné, énumération, référence à
+  un catalogue (dialogue, objet, drapeau, figurine, `carte#id`) avec liste de choix.
+
+*Acceptation* — redimensionner la zone de combat du Colisée à la souris met à jour son verdict
+tactique ; aucune famille n'a de code propre dans le canevas ; un test bloque toute famille
+d'entité lue par le jeu et absente de `EntityKinds` (§5, règle 2).
+
+### LOT-EDITOR-13 — L'éditeur sans fenêtre {#lot-editor-13}
+
+> Statut : **à faire**. Prérequis : 04.
+
+Ce que les scripts apportaient, sans les scripts (D9, A11).
+
+- `--render carte.png` : rendu iso hors écran, calques au choix.
+- `--apply gestes.json` : rejoue les fonctions pures des outils ; un geste refusé rend une erreur
+  lisible et ne touche pas au fichier.
+- Un scénario `--apply` par outil, comparé à un fichier attendu (§5, règle 4).
+
+*Acceptation* — refaire par `--apply` une rue de Martpart rend le même fichier que le geste à la
+souris ; la CI publie le rendu PNG des cartes qu'une PR change.
+
+### LOT-EDITOR-06 — Les cartes quittent leurs scripts {#lot-editor-06}
+
+> Statut : **à faire**. Prérequis : 05, 13. **Premier jalon.**
+
+L'éditeur devient la source des cartes faites à la main (D4).
+
+- Dernière génération de `carte_colisee.py` et `carte_quartiers.py`, puis retrait de leur
+  `--check` — celui du 12 tourne déjà en CI ; les scripts restent dans leurs dossiers de lot, comme
+  trace.
+- Une vraie retouche faite dans l'éditeur sur chacune des trois cartes.
+- Guide d'usage : créer une carte de bout en bout.
+
+*Acceptation* — les trois cartes se modifient, s'enregistrent et se rechargent dans l'éditeur sans
+perte et sans script.
+
+### LOT-EDITOR-07 — Contrôle du contenu {#lot-editor-07}
+
+> Statut : **à faire**. Prérequis : 06.
+
+Un panneau « Problèmes » couvre toutes les cartes du projet ; le contrôle de la CI s'étend.
+
+- Atteignabilité : toute case utile (portail, PNJ, coffre, zone) est joignable depuis une entrée.
+- Rencontres tactiques (le contrôle du [LOT-11](@ref lot-11) étendu à toutes les cartes) ; portails
+  sans retour, points d'arrivée orphelins.
+- Drapeaux de monde et clés de traduction cités par les cartes ; variantes dont la base a changé.
+- Double-clic = aller à la case.
+
+*Acceptation* — une carte de test avec un défaut de chaque sorte les fait tous sortir ; la CI
+échoue sur l'un d'eux.
+
+### LOT-EDITOR-14 — Renommer et remplacer {#lot-editor-14}
+
+> Statut : **à faire**. Prérequis : 06.
+
+Les renommages se propagent, et les cartes survivent aux planches qui changent (A7, §5 règle 3).
+
+- Renommer une carte (son chemin), un point d'arrivée, un `id`, une pièce, partout où ils sont
+  cités ; le fichier annexe suit sa carte ; « qui cite ceci ? ».
+- « Remplacer la pièce A par B », sur une carte ou sur toutes.
+- **Changer une carte de planche**, avec une table de correspondance des pièces.
+
+*Acceptation* — Arenarea passe de la planche de Martpart à la sienne sans être repeinte ; renommer
+`capital/martpart` laisse le `--check` vert.
+
+### LOT-EDITOR-08 — Tampons et préfabriqués {#lot-editor-08}
+
+> Statut : **à faire**. Prérequis : 04.
+
+La sélection copiée emporte ses couches, ses pièces et ses entités, et peut s'enregistrer comme
+préfabriqué.
+
+- Bibliothèque par lieu (`Source/Elements/Editor/Prefabs/<lieu>/`), vignette générée, miroir à la
+  pose.
+- Modèles de carte : intérieur, rue, arène — une nouvelle carte part d'un modèle.
+
+*Acceptation* — un étal de Martpart enregistré se repose ailleurs avec son marchand, qui reçoit un
+nouvel `id` ; l'annulation le retire en un pas.
+
+### LOT-EDITOR-09 — Le monde : onglets, portails, ville {#lot-editor-09}
+
+> Statut : **à faire**. Prérequis : 05, 13.
+
+Plusieurs cartes sont ouvertes en onglets ; le graphe des portails devient éditable ; la ville se
+voit par quartiers.
+
+- Tirer un lien entre deux cartes du graphe crée la paire portail / point d'arrivée des deux côtés.
+- Vue de ville : les cadres de `world-maps.json` et les îlots ; ouvrir le quartier d'un clic.
+- Propriétés de carte : lieu, région, ambiance.
+- Navigateur à vignettes (rendu du 13), recherche, et **état de chaque carte** (générée,
+  retouchée, finie) dans le fichier annexe : à cent cartes, c'est le tableau de bord du monde.
+
+*Acceptation* — relier Martpart au repaire depuis le graphe produit deux cartes valides qu'on
+traverse en essai, dans les deux sens.
+
+### LOT-EDITOR-10 — Essai complet dans le jeu {#lot-editor-10}
+
+> Statut : **à faire**. Prérequis : 01.
+
+Un bouton lance le vrai jeu sur la carte en cours, à la case voulue, avec dialogues et combats.
+
+- `JustAnotherRpgGame --map=<id> --at=x,y`, qui charge le brouillon enregistré dans un dossier
+  temporaire ; `--flags=…` pose un jeu de drapeaux, pour voir la carte avant et après une quête.
+  Ce sont les seuls changements côté jeu.
+- L'essai immédiat reste pour la marche et les portails.
+
+*Acceptation* — depuis l'éditeur, parler à Myr puis engager une rencontre sur Martpart sans passer
+par les menus du jeu.
+
+### LOT-EDITOR-11 — Génération assistée {#lot-editor-11}
+
+> Statut : **à faire**. Prérequis : 07, et le [LOT-40](@ref lot-40) du jeu.
+
+Le générateur se pilote depuis l'éditeur, et ce qui a été retouché survit à une nouvelle
+génération.
+
+- Nouvelle carte : région, lieu, graine ; régénérer une zone sélectionnée.
+- Régions verrouillées dans `<carte>.editor.json`, respectées par le générateur.
+- La carte générée note sa **provenance** (descripteur, graine, version du générateur) ; une
+  version de générateur qui change ne régénère rien sans demande.
+
+*Acceptation* — générer, retoucher une place, régénérer avec une autre graine : la place est
+intacte et le contrôle du 07 reste vert.
+
+---
+
+## 7. Points de contact avec le jeu {#roadmap-editeur-contacts}
+
+Les deux feuilles de route avancent en parallèle. Les points de contact sont peu nombreux, et
+chacun est nommé.
+
+| Lot du jeu | Contact avec l'éditeur |
+|---|---|
+| [LOT-11](@ref lot-11) (livré) | reste livré ; ses `EX-EDIT` passent sous la responsabilité du module |
+| [LOT-27](@ref lot-27) | ses cartes se tracent dans l'éditeur refait : les lots 01 à 06 passent avant elles (D6), sans prérequis déclaré |
+| [LOT-40](@ref lot-40) | le générateur écrit la v4, appelle `core::deriveCollision` et respecte les régions verrouillées ; `LOT-EDITOR-11` vient après lui |
+| [LOT-92](@ref lot-92) (ateliers) | le manifeste d'un lieu déclare le type tactique et les `aliases` de ses pièces |
+| [LOT-91](@ref lot-91) (figurines) | le canevas montre les figurines livrées, sans rien demander de plus |
+| tout lot qui ajoute une famille d'entité | la déclare dans `EntityKinds` (§5, règle 2) |
+
+---
+
+## 8. Risques et pistes écartées {#roadmap-editeur-risques}
+
+| Risque | Parade |
+|---|---|
+| Le canevas `QPainter` s'écarte du rendu du jeu | mêmes primitives, et comparaison d'image à la référence du jeu (`LOT-EDITOR-02`) |
+| Le pointage iso se trompe sous un relief haut | pointer par le pied ; reliefs en transparence ; vue à plat en secours |
+| La migration v4 change ce que le jeu joue | acceptation du `LOT-EDITOR-12` : même instantané de scène, même `BattleGrid` sur les trois cartes |
+| Un « outil interne » qui laisse filer la qualité du format | les règles non négociables, le schéma, et `--check` en CI dès le 12 |
+| La piste éditeur prend le pas sur le jeu | premier jalon limité au 06 ; les lots suivants se prennent au besoin |
+| La réserve de hauteur devient une demi-fonction | le `--check` signale toute valeur non nulle tant que le jeu ne la joue pas |
+
+Écarté :
+
+- **Passer l'éditeur en Qt Quick** : il faudrait refaire panneaux et formulaires, sans rien gagner
+  côté rendu.
+- **Éditer dans le jeu** : tranché au [LOT-11](@ref lot-11) (`EX-EDIT-030`).
+- **Un éditeur externe (Tiled) avec un convertisseur** : il ne connaît ni l'iso 0,62, ni les
+  entités, ni les contrôles, et il ferait deux formats à tenir.
+- **Raccords automatiques de tuiles** : retirés au [LOT-88](@ref lot-88) ; à revoir pour le terrain
+  généré, pas pour des lieux faits de pièces.
+- **Annuler par différences** : les instantanés restent adaptés, une fois l'historique plafonné.
+- **Un système de greffons ou un langage de script dans les cartes** : le contrat d'extension par
+  `EntityKinds` suffit à un auteur seul.
+- **L'édition à plusieurs** : git et la garde de fichier modifié couvrent le cas réel, qui est
+  Claude ou un script à côté de l'auteur.

@@ -4,6 +4,10 @@
 > entités, montre le graphe du monde, avertit d'un terrain tactique invalide, et joue la carte en
 > cours avec le moteur du jeu. Dépend de [`niveaux.md`](niveaux.md).
 
+> **Refonte décidée le 18 septembre 2026.** L'éditeur devient un module à part, refait lot par lot
+> selon la [feuille de route de l'éditeur](@ref roadmap-editeur). Cette page reste sa
+> spécification ; chaque `LOT-EDITOR` révise les exigences qu'il touche.
+
 ## Objectif
 Permettre la **création et la modification des cartes sans écrire de code ni de JSON**, afin que
 des membres de l'équipe **non-développeurs** (game design, level design) contribuent directement
