@@ -152,7 +152,7 @@ Les trois modules QML</h1>
 <p>Il est engendré depuis <b>la même liste</b> que la ressource : ajouter un écran ne crée pas un second endroit à synchroniser — ce serait exactement la surcouche que ce lot supprime ailleurs. C'est aussi lui qui rend <span class="tt">Source/Ui</span> importable tel quel, donc ouvrable par Qt Design Studio. Seul <span class="tt">Jadg.Ui</span> se relit ainsi : <span class="tt">Jadg.App</span> et <span class="tt">Jadg.Runtime</span> restent ceux du binaire, et c'est voulu — ce qu'un artiste change ne demande jamais de les toucher.</p>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md119"></a>
 Ouvrir les écrans pour les dessiner</h2>
-<p><b>Ce n'est pas Qt Designer.</b> Qt Designer dessine des <em>widgets</em> et n'ouvre que des <span class="tt">.ui</span> (XML) — il n'en reste que dans <span class="tt">Source/Elements/UI/</span>, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils s'ouvrent dans <b>Qt Design Studio</b>, qui est un programme distinct.</p>
+<p><b>Ce n'est pas Qt Designer.</b> Qt Designer dessine des <em>widgets</em> et n'ouvre que des <span class="tt">.ui</span> (XML) — il n'en reste que dans <span class="tt">Source/Ui/Editor/</span>, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils s'ouvrent dans <b>Qt Design Studio</b>, qui est un programme distinct.</p>
 <div class="fragment"><div class="line">D:/Qt/Tools/QtDesignStudio/bin/qtdesignstudio.exe Source/Ui/JadgUi.qmlproject</div>
 </div><!-- fragment --><p>Trois règles, dont deux se paient par un mode <em>Design</em> vide plutôt que par un message :</p>
 <ul>
