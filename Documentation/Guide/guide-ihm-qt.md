@@ -11,7 +11,9 @@ L'éditeur et le jeu vivaient dans une seule application, et c'est de là que ve
 lignes** de `MainWindow.cpp` : une seule technologie d'IHM devait servir deux besoins opposés.
 
 - L'**éditeur** est un outil d'auteur : docks détachables, arbres, disposition persistée
-  (`EX-IHM-010`/`011`). Qt Widgets y est le bon outil, et QML n'y apporterait rien.
+  (`EX-IHM-011`). Qt Widgets y est le bon outil, et QML n'y apporterait rien. Depuis le
+  `LOT-EDITOR-01`, c'est un module à part (`Source/Editor`), outil interne : style Fusion, textes
+  anglais écrits dans le code, widgets construits en code.
 - Le **jeu** est l'inverse : une image agrandie d'un facteur entier, dont l'apparence doit pouvoir
   changer **sans compiler** (`EX-IHM-100`).
 
@@ -104,8 +106,8 @@ artiste change ne demande jamais de les toucher.
 
 ### Ouvrir les écrans pour les dessiner
 
-**Ce n'est pas Qt Designer.** Qt Designer dessine des *widgets* et n'ouvre que des `.ui` (XML) — il
-n'en reste que dans `Source/Ui/Editor/`, pour l'éditeur. Les écrans du jeu sont du Qt Quick : ils
+**Ce n'est pas Qt Designer.** Qt Designer dessine des *widgets* et n'ouvre que des `.ui` (XML) — le
+dépôt n'en a plus aucun depuis le `LOT-EDITOR-01`, qui construit les widgets de l'éditeur en code. Les écrans du jeu sont du Qt Quick : ils
 s'ouvrent dans **Qt Design Studio**, qui est un programme distinct.
 
 ```
@@ -255,7 +257,7 @@ JustAnotherRpgGame --screen=MainMenu --window-size=1920x1080 --screenshot=menu-1
 ## Voir aussi
 
 - @ref guide-conception-qds — le mode d'emploi de la **conception** : ce qu'on modifie sans code.
-- @ref guide-design-ihm — les jetons et la répartition de l'information dans l'éditeur.
+- @ref guide-design-ihm — la répartition de l'information dans l'éditeur.
 - @ref guide-ecrans — la navigation entre écrans.
 - @ref guide-boucle — la boucle et le pas de temps fixe.
 - @ref guide-rendu — le pipeline QRhi, partagé par les deux applications.

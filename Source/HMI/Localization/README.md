@@ -10,8 +10,8 @@ Résolution des textes d'interface **par clé**, jamais par chaîne écrite en d
 Les catalogues eux-mêmes sont des données, pas du code : ils vivent dans
 [`../../Elements/Localization/`](../../Elements/Localization/README.md) (`fr.lang`, `en.lang`).
 
-Chaque écran expose un `retranslateUi(const Localization&)` rejoué **à chaque changement de
-langue** — libellés **et** infobulles comprises : une infobulle posée une seule fois à la
-construction resterait dans la langue de départ.
+Le catalogue sert les libellés de règles du jeu (`HMI/Runtime/RuleLabels`) et les dialogues ; les
+écrans du jeu traduisent leurs textes par `qsTr`. L'éditeur n'en lit plus rien : outil interne, il
+écrit ses textes en anglais dans le code (`LOT-EDITOR-01`).
 
 Réf. specs : `EX-REN-033` ; guide [`guide-ecrans`](../../../Documentation/Guide/guide-ecrans.md).

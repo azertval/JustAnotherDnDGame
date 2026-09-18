@@ -1,15 +1,17 @@
 # Éditeur de niveaux {#guide-editeur}
 
-> **Binaire séparé depuis le `LOT-86`** (`LevelEditor`). Il n'héberge aucun écran du jeu, qui vit
-> en Qt Quick dans `JustAnotherRpgGame` : sa fenêtre s'ouvre directement sur la carte de départ, et
-> son widget central est le canevas.
+> **Binaire séparé depuis le `LOT-86`** (`LevelEditor`), **module à part depuis le
+> `LOT-EDITOR-01`** (`Source/Editor`). Il n'héberge aucun écran du jeu, qui vit en Qt Quick dans
+> `JustAnotherRpgGame` : sa fenêtre s'ouvre directement sur la carte de départ, et son widget
+> central est le canevas. C'est un outil interne : style Fusion, textes anglais, widgets construits
+> en code. Son programme : la [feuille de route de l'éditeur](@ref roadmap-editeur).
 
 
 Cette page explique comment l'éditeur transforme le modèle de carte déjà vu dans @ref guide-niveaux
 en un **outil de création de contenu**, sans écrire un second moteur. Le **modèle d'édition**
 (mutabilité, validation, annuler/refaire, sérialisation) vit dans
 `Source/Core/Levels/LevelDraft.*`/`LevelWriter.*` ; l'**interaction** (peinture souris, outils,
-essai, garde-fous) vit dans le canevas Qt `Source/HMI/Editor/EditorViewport.*`. L'habillage de
+essai, garde-fous) vit dans le canevas Qt `Source/Editor/Ui/EditorViewport.*`. L'habillage de
 l'IHM Qt lui-même — fenêtre, docks (Palette, Niveaux, Couches, Entités), arbre de palette,
 navigateur de fichiers — est décrit dans @ref guide-ihm-qt ; cette page se concentre sur ce qui est
 **propre à l'édition**.
@@ -85,16 +87,15 @@ pas peindre une case cachée sous un panneau.
 - la **Palette** (`hmi::PalettePanel`, un `QTreeView` alimenté par la taxonomie pure
   `hmi::tileTaxonomy`) émet le type sélectionné, que `MainWindow` relaie au canevas via
   `EditorViewport::setActiveTile` ;
-- l'**outil actif** est choisi depuis la barre d'outils à icônes (`hmi::EditorActions`) et relayé
-  via `EditorViewport::setTool` ;
+- l'**outil actif** est choisi depuis la barre d'outils (`hmi::EditorActions`) et relayé via
+  `EditorViewport::setTool` ;
 - les panneaux **Couches** (`hmi::LayersPanel`) et **Entités** (`hmi::EntityPanel`) choisissent la
   couche peinte et renseignent l'entité sélectionnée ; ils demandent, le canevas — seul
   propriétaire du brouillon — applique.
 
 La barre d'outils ne porte **que** la sélection d'outil et quatre commandes à usage continu —
-enregistrer, annuler, refaire, essayer. Tout le reste vit dans la barre de menus, organisée par
-nature d'action (Fichier, Édition, Niveau, Affichage, Aide) : le détail de ces arbitrages est en
-@ref guide-design-ihm.
+Save, Playtest, Undo, Redo. Tout le reste vit dans la barre de menus, organisée par nature d'action
+(File, Edit, Map, View, Help) : voir @ref guide-design-ihm.
 
 Le canevas ne reçoit donc que des **clics de grille** ; il n'a jamais à arbitrer entre « peindre »
 et « cliquer un panneau ». Détail de ces widgets Qt : @ref guide-ihm-qt.
@@ -144,6 +145,12 @@ milliers de cases au plus) : copier l'état entier à chaque étape est largemen
 garantie de correction (« l'état restitué est identique à l'octet près ») est bien plus simple à
 établir qu'avec des deltas.
 
+L'historique est **plafonné** à `LevelDraft::UNDO_HISTORY_LIMIT` pas (200) : au-delà, le plus ancien
+est oublié (`EX-EDIT-058`). Un geste sans effet — repeindre une case déjà du bon type — n'empile
+rien. Chaque instantané porte la **révision** du brouillon (`LevelDraft::revision`) : une mutation
+en donne une neuve, `undo` et `redo` rendent celle de l'état qu'ils restaurent. C'est elle qui dit
+si la carte est modifiée.
+
 ## Essai immédiat : jouer sans quitter l'éditeur
 
 Appuyer sur `P` lance une **vraie** exploration sur la carte en cours d'édition, puis, à `Échap`,
@@ -171,14 +178,29 @@ Le `LevelDraft` et son historique ne sont, à aucun moment, touchés.
 émis via le signal `statusMessage` (barre d'état de la fenêtre). Si elle réussit,
 `LevelWriter::saveToFile` écrit le JSON dans le dossier `Levels` de l'application — le **même**
 dossier que le jeu lit (@ref guide-niveaux), garantissant qu'une carte enregistrée est
-immédiatement jouable.
+immédiatement jouable. Avant d'écrire, la fenêtre vérifie que le fichier n'a pas changé sur disque
+depuis sa lecture (voir ci-dessous).
 
 ## Garde-fous contre la perte de travail
 
-**Ouvrir en écrasant un travail non enregistré.** Le canevas suit les modifications non
-enregistrées (`_dirty`, mis à jour par toute mutation, remis à `false` après un enregistrement
-réussi) : ouvrir une autre carte alors que `isDirty()` est vrai pose une confirmation avant
-d'abandonner le brouillon courant.
+**Ouvrir ou fermer en écrasant un travail non enregistré.** Le canevas est « modifié » quand la
+révision du brouillon n'est plus celle de l'ouverture ou du dernier enregistrement (`isDirty()`,
+`EX-EDIT-058`) : ouvrir une autre carte pose alors une confirmation, et fermer la fenêtre demande
+Save, Discard ou Cancel.
+
+**Planter.** Deux secondes après le dernier geste, un brouillon modifié est écrit dans
+`%LOCALAPPDATA%\JustAnotherRpgGame\Editor\autosave` (`hmi::AutosaveStore`, `EX-EDIT-056`) ; le
+fichier part à l'enregistrement et à la fermeture voulue. Au démarrage, un fichier restant est la
+trace d'une session interrompue : l'éditeur propose « Recover » ou « Discard », et ce qui est écarté
+va dans `autosave\conflicts\`, jamais effacé. `LevelEditor --crash-test` plante juste après la
+première sauvegarde automatique : c'est la façon d'éprouver la reprise.
+
+**Voir sa carte changer sur disque.** L'éditeur retient l'empreinte de contenu du fichier qu'il a
+lu ou écrit (`hmi::FileFingerprint`, `EX-EDIT-057`) et la compare quand le fichier est signalé
+changé, quand la fenêtre reprend la main et avant d'enregistrer. Brouillon intact : la carte est
+relue. Brouillon modifié : « Reload from disk » ou « Keep my version », et l'autre version est mise
+de côté dans `autosave\conflicts\` avant tout. Un script ou Claude peut donc retoucher une carte
+ouverte sans que l'éditeur l'écrase en silence.
 
 **Redimensionner en perdant du contenu.** Détecter un redimensionnement destructeur ne duplique
 aucune règle de `resize` : une requête pure, `LevelDraft::wouldResizeDropContent(largeur, hauteur)`
@@ -230,7 +252,7 @@ accès disque » que `LevelLoader`/`Core` appliquent à la validation. Détail d
 - `hmi::WorldPlay`, `hmi::WorldSceneRenderer` — la mise en scène partagée par le jeu et l'essai.
 - `hmi::Camera2D::fitZoom` — le cadrage automatique du canevas.
 - @ref guide-ihm-qt — l'IHM Qt : fenêtre, docks, arbre de palette, navigateur de fichiers, canevas.
-- @ref guide-design-ihm — la barre d'état permanente, le regroupement des panneaux et l'unicité des
+- @ref guide-design-ihm — l'éditeur outil interne, la barre d'état, le regroupement des panneaux et l'unicité des
   commandes de l'éditeur.
 - @ref guide-niveaux — le modèle de carte immuable, la validation et le format JSON réutilisés sans
   duplication.

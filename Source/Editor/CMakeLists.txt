@@ -1,0 +1,132 @@
+# SPDX-FileCopyrightText: 2026 Valentin Eloy
+# SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+# Le module éditeur (LOT-EDITOR-01, décision D5 de Documentation/Editeur/feuille-de-route.md).
+#
+#   Logic/  la logique pure de l'éditeur, sans Qt : bibliothèque `EditorLogic`, testée par
+#           `UnitTests` (Source/Test/Unit/Editor) ;
+#   Ui/     les widgets, construits en code (ni .ui ni charte) : fenêtre, canevas, panneaux --
+#           l'exécutable `LevelEditor`.
+#
+# Le module dépend de Core et de HmiLib (composition, rendu, carte jouée par l'essai). Rien ne
+# dépend de lui : ni le jeu, ni HmiLib. L'éditeur est un outil interne ; son point d'entrée reste
+# dans Source/App/Editor, à côté de celui du jeu.
+
+# --- EditorLogic : sans Qt, déclarée avant la garde Qt --------------------------------------------
+#
+# Même raison que HmiLib : sur un poste sans Qt (job sanitize, BUILD_EDITOR_QT=OFF), l'éditeur
+# n'est pas construit, mais ses tests doivent l'être.
+add_library(EditorLogic STATIC
+    Logic/LevelNameValidation.cpp
+    Logic/TileTaxonomy.cpp
+    Logic/LevelFileOperations.cpp
+    Logic/EditorStatus.cpp
+    Logic/PanelFocus.cpp
+    Logic/ThumbnailGeometry.cpp
+    Logic/LayerView.cpp
+    Logic/EntityGesture.cpp
+    Logic/EntityReferences.cpp
+    Logic/EditorDiagnostics.cpp
+    Logic/WorldGraphLayout.cpp
+    Logic/EditorKeyBindings.cpp
+    # Sauvegarde automatique, reprise et garde du fichier modifié sur disque.
+    Logic/Autosave.cpp
+    Logic/DiskGuard.cpp
+)
+target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
+target_link_libraries(EditorLogic
+    PUBLIC HmiLib
+    PRIVATE project_warnings project_options)
+if(ENABLE_PCH)
+    target_precompile_headers(EditorLogic PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
+if(NOT JADG_GAME_ENABLED)
+    return()
+endif()
+
+# --- LevelEditor : l'outil d'auteur, en Qt Widgets ------------------------------------------------
+#
+# Deux applications depuis le LOT-86 : le jeu (Qt Quick, ne lie pas Qt6::Widgets) et l'éditeur. Elles
+# ne partagent aucune technologie d'IHM : un widget ne peut pas réapparaître dans le jeu par
+# inadvertance, l'édition de liens échouerait.
+set(CMAKE_AUTOMOC ON)
+
+set(APP_DIR ${PROJECT_SOURCE_DIR}/Source/App)
+set(HMI_DIR ${PROJECT_SOURCE_DIR}/Source/HMI)
+
+add_executable(LevelEditor
+    ${APP_DIR}/Editor/Main.cpp
+    ${APP_DIR}/Common/Bootstrap.cpp
+    # Pont Qt -> Key : les raccourcis remappables de l'éditeur.
+    ${HMI_DIR}/Input/QtKeyMap.cpp
+    # Rendu 2D sur QRhi -- cible Direct3D 11 sous Windows (EX-REN-002).
+    ${HMI_DIR}/Graphics/SpriteBatch.cpp
+    ${HMI_DIR}/Graphics/SceneResources.cpp
+    ${HMI_DIR}/Graphics/TextureLoader.cpp
+    ${HMI_DIR}/Graphics/TextureAtlas.cpp
+    ${HMI_DIR}/Graphics/TextureCache.cpp
+    ${HMI_DIR}/Graphics/SpriteRenderer.cpp
+    # Le lieu joué par l'essai immédiat : le même rendu que le jeu (hmi::WorldSceneRenderer).
+    ${HMI_DIR}/Graphics/WorldSceneRenderer.cpp
+    Ui/DraftRenderer.cpp
+    # La fenêtre et ses actions.
+    Ui/EditorActions.cpp
+    Ui/MainWindow.cpp
+    # Canevas et panneaux.
+    Ui/EditorViewport.cpp
+    Ui/PalettePanel.cpp
+    Ui/LevelBrowserPanel.cpp
+    Ui/LayersPanel.cpp
+    Ui/EntityPanel.cpp
+    Ui/WorldGraphView.cpp
+)
+
+target_link_libraries(LevelEditor PRIVATE
+    EditorLogic
+    HmiLib
+    Qt6::Widgets
+    Qt6::Gui
+    # QRhi vit dans les en-têtes privés de QtGui : API privée, stable en pratique mais non couverte
+    # par la garantie de compatibilité binaire -- assumé, QRhiWidget n'existe pas sans.
+    Qt6::GuiPrivate
+    project_warnings
+    project_options
+)
+
+target_include_directories(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source)
+target_compile_definitions(LevelEditor PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+if(ENABLE_PCH)
+    target_precompile_headers(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
+endif()
+
+# Shaders du pipeline 2D, compilés en .qsb et embarqués comme ressource Qt : le canevas et l'essai
+# dessinent par hmi::SpriteBatch, qui les charge depuis `:/shaders/`.
+qt6_add_shaders(LevelEditor "jadg_shaders"
+    PREFIX "/shaders"
+    BASE "${HMI_DIR}/Graphics/Shaders"
+    FILES
+        ${HMI_DIR}/Graphics/Shaders/sprite.vert
+        ${HMI_DIR}/Graphics/Shaders/sprite.frag
+)
+
+# Données de jeu à côté de l'exécutable : la cible CopyGameData est déclarée dans Source/HMI.
+add_dependencies(LevelEditor CopyGameData)
+
+# Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'éditeur. Le jeu a le sien, dans
+# Source/App : lui seul a des modules QML à embarquer.
+get_target_property(_qmake_exe Qt6::qmake IMPORTED_LOCATION)
+get_filename_component(_qt_bin_dir "${_qmake_exe}" DIRECTORY)
+find_program(WINDEPLOYQT_EXE windeployqt HINTS "${_qt_bin_dir}")
+if(WINDEPLOYQT_EXE)
+    add_custom_command(TARGET LevelEditor POST_BUILD
+        COMMAND "${WINDEPLOYQT_EXE}"
+            --no-translations --compiler-runtime
+            "$<TARGET_FILE:LevelEditor>"
+        COMMENT "Déploiement des DLL Qt + runtime à côté de l'éditeur (windeployqt)")
+    # Le déploiement du jeu vise le même `bin/` : jamais en même temps (Source/CMakeLists.txt).
+    set_property(TARGET LevelEditor PROPERTY JOB_POOL_LINK deploiement_qt)
+else()
+    message(STATUS "LevelEditor : windeployqt introuvable, DLL Qt non déployées "
+        "automatiquement (exécution possible depuis un environnement Qt).")
+endif()

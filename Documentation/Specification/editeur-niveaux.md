@@ -6,7 +6,9 @@
 
 > **Refonte décidée le 18 septembre 2026.** L'éditeur devient un module à part, refait lot par lot
 > selon la [feuille de route de l'éditeur](@ref roadmap-editeur). Cette page reste sa
-> spécification ; chaque `LOT-EDITOR` révise les exigences qu'il touche.
+> spécification ; chaque `LOT-EDITOR` révise les exigences qu'il touche. Le
+> [LOT-EDITOR-01](@ref lot-editor-01) a déplacé le code dans `Source/Editor`, fait de l'éditeur un
+> outil interne (style Fusion, textes anglais, sans charte) et ajouté la section 8.
 
 ## Objectif
 Permettre la **création et la modification des cartes sans écrire de code ni de JSON**, afin que
@@ -145,6 +147,25 @@ depuis le jeu, est l'**arène** du `LOT-50`.
   l'éditeur n'ouvre pas — un dialogue, un combat — est **dit** dans la barre d'état plutôt que tu.
   Refondue au `LOT-88`.
 
+## 8. Le socle du module (`LOT-EDITOR-01`)
+Un outil d'atelier dure si l'on n'y perd jamais de travail. Ces trois exigences viennent du socle
+du module ([LOT-EDITOR-01](@ref lot-editor-01)).
+
+- \anchor EX-EDIT-056 **EX-EDIT-056** — L'éditeur doit **sauvegarder automatiquement** un brouillon
+  modifié, hors du dépôt, peu après chaque geste, et proposer de le **reprendre** au démarrage
+  suivant quand la session précédente ne s'est pas terminée normalement. Un brouillon que l'auteur
+  refuse de reprendre est mis de côté, pas effacé. Fermer l'éditeur avec des modifications demande
+  s'il faut les enregistrer.
+- \anchor EX-EDIT-057 **EX-EDIT-057** — Une carte ouverte **changée sur disque** (par un script, un
+  autre outil, un changement de branche) ne doit jamais être **écrasée en silence**. Brouillon
+  intact : la carte est relue. Brouillon modifié : l'auteur choisit de relire le disque ou de garder
+  son brouillon, et la version écartée est mise de côté avant tout. La comparaison porte sur le
+  **contenu** du fichier, pas sur sa date.
+- \anchor EX-EDIT-058 **EX-EDIT-058** — L'historique d'annulation est **plafonné** (le pas le plus
+  ancien est oublié au-delà), et l'état « modifié » suit le **contenu** : défaire jusqu'à l'état
+  enregistré rend une carte non modifiée, et un geste sans effet (repeindre une case du même type)
+  ne la modifie pas.
+
 ## Exigences retirées {#edit-retirees}
 
 > Ancres conservées, jamais renumérotées : les lots livrés s'y réfèrent. Chacune servait un
@@ -172,6 +193,7 @@ depuis le jeu, est l'**arène** du `LOT-50`.
 - \anchor EX-EDIT-047 **EX-EDIT-047** *(retirée au `LOT-88`)* — panneau des plans.
 
 ## Traçabilité
-L'éditeur s'appuie sur `Core` (modèle et validation de carte, `niveaux.md`) et sur le rendu de
-`HMI` (`rendu-technique.md`) ; sa présentation est décrite dans
-[`interface-ihm.md`](interface-ihm.md).
+Le code vit dans `Source/Editor` : `Logic/` (bibliothèque `EditorLogic`, testée sous
+`Source/Test/Unit/Editor`) et `Ui/` (l'exécutable `LevelEditor`). L'éditeur s'appuie sur `Core`
+(modèle et validation de carte, `niveaux.md`) et sur le rendu de `HMI` (`rendu-technique.md`) ; ce
+qui reste de sa présentation est dans [`interface-ihm.md`](interface-ihm.md).

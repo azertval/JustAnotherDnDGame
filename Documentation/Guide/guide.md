@@ -50,5 +50,5 @@ affiche. Cette frontière est ce qui rend le moteur analysable domaine par domai
 - @subpage guide-ecrans — la **navigation** : table de transitions, routeur et pile d'écrans QML, pause.
 - @subpage guide-ihm-qt — l'**IHM Qt** : deux applications (jeu en Qt Quick, éditeur en Widgets), module QML, surface de rendu QRhi.
 - @subpage guide-conception-qds — **concevoir les écrans** dans Qt Design Studio : ce qui se modifie sans jamais ouvrir un fichier source.
-- @subpage guide-design-ihm — le **système de design** et l'**architecture de l'information** : jetons, thème, actions, barre d'état.
+- @subpage guide-design-ihm — l'**éditeur outil interne** et l'**architecture de l'information** : barre d'état, panneaux, échelle des écrans du jeu.
 - @subpage guide-audio — l'**audio** : moteur Qt Multimedia et réglage du volume.

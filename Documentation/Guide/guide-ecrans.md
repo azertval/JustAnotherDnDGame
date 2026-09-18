@@ -10,7 +10,7 @@ binaire séparé (@ref guide-editeur) : aucun chemin du jeu n'y mène.
 
 `Source/HMI/Presentation/ScreenFlow.h` porte la navigation comme une **table pure**, sans
 dépendance Qt — testable hors instance d'application (`EX-NFR-010`), même patron que
-`hmi::PanelFocus`/`hmi::ActionCatalog`. Deux fonctions :
+`hmi::PanelFocus`. Deux fonctions :
 
 - `hmi::resolveTransition(current, event)` : résout un `hmi::ScreenEvent` depuis l'état courant
   (`hmi::ScreenState`) vers le nouvel écran, ou `std::nullopt` si la transition est **interdite**

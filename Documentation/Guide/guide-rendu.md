@@ -3,7 +3,7 @@
 Cette page explique comment un lieu qu'on parcourt, l'arène du Colisée ou le brouillon de l'éditeur
 finissent par apparaître comme une image à l'écran, en partant des notions de base du rendu temps
 réel pour qui n'en a jamais écrit. Tout le rendu vit dans `Source/HMI/Graphics`, sur une surface
-fournie par Qt (l'éditeur dans `Source/HMI/Editor`, le jeu dans `Source/HMI/Runtime`) ; c'est la
+fournie par Qt (l'éditeur dans `Source/Editor/Ui`, le jeu dans `Source/HMI/Runtime`) ; c'est la
 seule partie du moteur qui dépend du GPU, via **QRhi** (voir plus bas — `Core` en reste totalement
 indépendant, @ref guide-boucle et `EX-ARCH-040`).
 
@@ -63,7 +63,7 @@ Le rendu n'est jamais présenté dans une fenêtre native embarquée (`EX-REN-05
 d'une fenêtre native ne se dessine pas de façon fiable par-dessus elle. Trois surfaces existent,
 toutes composées avec le reste de l'interface :
 
-- `hmi::EditorViewport` (`Source/HMI/Editor`) : le canevas de l'éditeur, un **`QRhiWidget`**. Il
+- `hmi::EditorViewport` (`Source/Editor/Ui`) : le canevas de l'éditeur, un **`QRhiWidget`**. Il
   dessine le brouillon à plat en édition et joue la carte en essai immédiat (@ref guide-editeur) ;
   il possède sa **boucle de rendu** (chaque image redemande la suivante par `QWidget::update()`, et
   `QRhiWidget::render` l'exécute) et reçoit les événements clavier/souris **Qt** (@ref

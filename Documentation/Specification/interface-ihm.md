@@ -1,7 +1,15 @@
 # Interface utilisateur (IHM) {#spec-interface-ihm}
 
-> Statut : **livré**. Écrans du jeu en Qt Quick, éditeur de cartes en Qt Widgets, système de
-> design commun, charte v2 des écrans du jeu.
+> Statut : **livré**. Écrans du jeu en Qt Quick, éditeur de cartes en Qt Widgets, charte v2 des
+> écrans du jeu.
+>
+> **Révisée au `LOT-EDITOR-01`** (décision D7 de la [feuille de route de l'éditeur](@ref
+> roadmap-editeur)). L'éditeur est un **outil interne** : style Fusion de Qt, textes anglais écrits
+> dans le code, widgets construits en code, sans charte ni thème. Les exigences qui ne visaient que
+> son habillage et l'agencement de ses panneaux sont retirées ; son agencement se décide lot par lot
+> dans sa feuille de route. Ce qui reste ici de l'éditeur : un binaire Qt Widgets à part
+> (`EX-IHM-041`), une disposition persistée (`EX-IHM-011`), la gestion des cartes sans perte
+> (`EX-IHM-021`) et l'unicité des commandes (`EX-IHM-062`).
 > Dépend de [`rendu-technique.md`](rendu-technique.md) et [`editeur-niveaux.md`](editeur-niveaux.md).
 
 L'**interface** — écrans du jeu, éditeur de cartes — est distincte de la **scène** : celle-ci est
@@ -33,18 +41,12 @@ maintenable, à fenêtres réglables. `Core` demeure indépendant de la présent
   > n'apporte d'information (`EX-IHM-072`).
 
 ## 2. Éditeur
-- \anchor EX-IHM-010 **EX-IHM-010** — L'éditeur de cartes doit se présenter en **fenêtre à
-  panneaux dockables** (palette, cartes, couches, entités, canevas central) : panneaux
-  **déplaçables, redimensionnables, détachables**.
-- \anchor EX-IHM-011 **EX-IHM-011** — La **disposition** des panneaux doit être **persistée hors
-  code** (sauvegardée et restaurée entre deux sessions), et réinitialisable à une disposition par
-  défaut.
+- \anchor EX-IHM-011 **EX-IHM-011** — La **disposition** des panneaux de l'éditeur doit être
+  **persistée** (sauvegardée et restaurée entre deux sessions), et réinitialisable à une disposition
+  par défaut.
 
 ## 3. Gestion des cartes
-- \anchor EX-IHM-020 **EX-IHM-020** — L'éditeur doit offrir un **panneau de gestion des cartes**
-  listant les fichiers du dossier des cartes, avec **recherche/filtre**, restant lisible quel que
-  soit le nombre de cartes.
-- \anchor EX-IHM-021 **EX-IHM-021** — Ce panneau doit permettre de **créer, renommer, dupliquer et
+- \anchor EX-IHM-021 **EX-IHM-021** — L'éditeur doit permettre de **créer, renommer, dupliquer et
   supprimer** une carte, avec **validation de nom** (`EX-EDIT-006`) et **confirmation** des actions
   destructrices ; aucune modification non enregistrée ne doit être perdue silencieusement.
 
@@ -74,9 +76,12 @@ et des constantes locales à chaque widget.
   menus et d'état, onglets, arbres et tables, champs de saisie, barres de défilement, infobulles,
   boîtes de dialogue standard — et non un sous-ensemble d'écrans. Ce thème distingue deux portées :
   une part **invariante**, qui porte l'identité visuelle du jeu (menu principal, Options, jeu), et une
-  part **variable**, le châssis d'édition, seule concernée par `EX-IHM-054`. L'état de **focus** doit rester
-  visible en toute circonstance : la navigation à la manette dans les menus repose sur le parcours de
-  focus (`EX-IHM-040`), qu'un focus invisible rend inutilisable.
+  part **variable**, le châssis d'édition. L'état de **focus** doit rester visible en toute
+  circonstance : la navigation à la manette dans les menus repose sur le parcours de focus
+  (`EX-IHM-040`), qu'un focus invisible rend inutilisable.
+  > **Précisée au `LOT-EDITOR-01`.** L'éditeur n'est plus dans sa portée : outil interne, il prend
+  > le style Fusion de Qt tel quel. `EX-IHM-051` à `053` et `EX-IHM-082` ne visent plus, eux aussi,
+  > que les écrans du jeu.
 - \anchor EX-IHM-051 **EX-IHM-051** — Les grandeurs d'habillage (couleurs, espacements, tailles
   d'icônes et de vignettes, largeurs de contrôles) doivent provenir d'une **source unique**, dont
   dérivent à la fois la palette de l'application, la feuille de style et la **couleur d'effacement du
@@ -88,8 +93,7 @@ et des constantes locales à chaque widget.
   **police embarquée avec l'application**, avec **repli** sur une famille générique si elle est
   absente — l'interface ne doit dépendre d'aucune police installée sur le système hôte.
 - \anchor EX-IHM-053 **EX-IHM-053** — Les **icônes et vignettes** de l'interface doivent rester
-  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système). Une **icône de
-  l'éditeur** est vectorielle et se retrace à la taille demandée. Une **icône des écrans
+  **nettes à toute échelle d'affichage** (facteur de mise à l'échelle du système). Une **icône des écrans
   du jeu** est une image **produite** comme les ornements (`EX-IHM-075`), depuis une entrée du cahier
   des assets du [LOT-87](@ref lot-87-cahier-assets), à **deux fois sa plus grande taille d'affichage
   à 1080p**, et réduite avec lissage. Une **vignette** d'asset est agrandie selon la nature de l'image
@@ -106,37 +110,11 @@ et des constantes locales à chaque widget.
   > netteté reste l'objet de l'exigence ; elle est tenue autrement — une icône est la plus petite
   > pièce d'un écran, donc la première qu'un agrandissement au-delà de 1080p abîme, et c'est pourquoi
   > elle seule est produite au double de sa taille d'affichage.
-- \anchor EX-IHM-054 **EX-IHM-054** — L'**éditeur** doit proposer un thème **clair et sombre**, suivant
-  par défaut le réglage du système, modifiable par l'utilisateur et **persisté** entre deux sessions ;
-  le changement s'applique sans redémarrage. Ce réglage est **strictement limité au châssis
-  d'édition** : le **menu principal, l'écran Options et le jeu conservent en toute circonstance
-  l'identité visuelle sombre du jeu**, qui n'est pas un thème mais une composante de son apparence.
-  L'éditeur est un **outil de travail**, utilisé de jour et pendant de longues sessions, et c'est à ce
-  titre — et à ce titre seul — qu'il suit les préférences d'affichage de son utilisateur.
-- \anchor EX-IHM-055 **EX-IHM-055** — Les **commandes de l'éditeur** doivent être exposées comme des
-  **actions réutilisables** — porteuses de leur libellé, de leur icône, de leur raccourci et de leur
-  état — présentées dans une **barre d'outils à icônes**, de sorte qu'une même commande placée à
-  plusieurs endroits reste une seule définition (condition d'`EX-IHM-062`).
 
-## 6. Architecture de l'information de l'éditeur
-L'éditeur avait gagné un panneau ou un onglet à presque chaque lot, sans que la répartition
-d'ensemble soit jamais revue. Tous
-ses panneaux restent affichés simultanément quel que soit l'outil actif, plusieurs états sont pilotés
-depuis deux endroits distincts, et l'aide de la barre d'état est une ligne unique de raccourcis
-concaténés qu'un simple message transitoire efface définitivement. À l'inverse, l'état dont l'auteur
-d'une carte a besoin en permanence — quelle carte est ouverte, si elle comporte des modifications non
-enregistrées, quel outil est actif, quelle case est survolée — n'est affiché nulle part, alors que
-l'application le connaît.
+## 6. Architecture de l'information
+Depuis le `LOT-EDITOR-01`, l'agencement de l'éditeur (panneaux, barre d'état, barre d'outils) se
+décide dans sa [feuille de route](@ref roadmap-editeur) ; une seule règle reste commune.
 
-- \anchor EX-IHM-060 **EX-IHM-060** — L'éditeur doit afficher **en permanence** son état de travail :
-  carte ouverte, présence de **modifications non enregistrées**, outil actif, case survolée et niveau
-  de zoom. L'aide affichée doit être **contextuelle à l'outil actif**, et un message transitoire ne
-  doit jamais la faire disparaître définitivement.
-- \anchor EX-IHM-061 **EX-IHM-061** — Les panneaux de l'éditeur doivent être **groupés** plutôt que
-  tous déployés simultanément, le panneau pertinent étant mis en avant selon l'outil actif. Cette mise
-  en avant est une **suggestion** : un panneau que l'utilisateur a ouvert explicitement n'est jamais
-  masqué automatiquement, et la disposition reste réglable et persistée (`EX-IHM-010`,
-  `EX-IHM-011`).
 - \anchor EX-IHM-062 **EX-IHM-062** — Un même **état** ou une même **commande** ne doit être exposé
   qu'à **un seul endroit** de l'interface, **raccourci clavier compris** : deux contrôles pilotant la
   même valeur peuvent diverger et obligent l'utilisateur à deviner lequel fait autorité. Un raccourci
@@ -168,7 +146,7 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   la définition de conception de 1920 × 1080. Le facteur **entier** ne subsiste que pour le viewport
   de la scène, où il protège encore des pixels de tuile.
   Cette identité est **bornée aux écrans du jeu** — le châssis d'édition conserve son apparence
-  d'outil de travail et ses thèmes clair/sombre (`EX-IHM-054`), et ni parchemin ni panneau doré ne se
+  d'outil de travail, et ni parchemin ni panneau doré ne se
   répand dans ses tables et ses arbres denses.
   > **Précisée au `LOT-92`.** Le pixel art écarté ici l'est **de l'interface** : la scène y
   > revient (`EX-VIS-008`), et `EX-VIS-009` trace la frontière entre les deux identités — ce qui
@@ -200,16 +178,6 @@ souris, insuffisant à la manette, qui n'a pas de pointeur pour dire où elle en
   ou il se branche. Symétriquement, une capacité qui existe déjà (comptage de cadence, bascule de
   rendu) s'expose comme réglage plutôt que de rester derrière une touche non documentée — sans jamais
   en faire un **second** état (`EX-IHM-062`).
-
-- \anchor EX-IHM-074 **EX-IHM-074** — Les surfaces de commande de l'éditeur doivent être
-  **hiérarchisées** : la barre d'outils ne porte que la sélection d'outil et les commandes à usage
-  **continu** ; toute autre commande reste atteignable par la barre de menus et son raccourci.
-  `EX-IHM-055` garantissait déjà qu'une commande placée à plusieurs endroits reste une seule
-  définition ; il restait à arbitrer **lesquelles** méritent une place permanente à l'écran — une
-  barre d'outils portant onze commandes, dont neuf figuraient déjà au menu, est illisible sans
-  qu'aucune ne soit pour autant dupliquée. Cette répartition doit être portée par la **description**
-  de chaque commande, et non décidée par le code qui peuple les barres : une répartition implicite
-  ne se relit pas et dérive au premier ajout.
 
 - \anchor EX-IHM-075 **EX-IHM-075** — L'habillage ornemental des écrans du jeu — cadres, plaques,
   bandeaux, boutons, médaillons — est livré en **images produites** à la définition de conception
@@ -319,9 +287,9 @@ Debug. Et un écran exposait des réglages que rien ne transmettait au moteur.
   > **Précisée au `LOT-87`**, qui ajoute le facteur réel : dérivé de la fenêtre, lui-même bornée par
   > l'écran, et d'aucun contenu (`EX-IHM-080`), il n'ouvre pas de nouvelle boucle.
 - \anchor EX-IHM-082 **EX-IHM-082** — Une préoccupation limitée à une **portée** ne doit jamais
-  provoquer un rejeu de style d'une portée **plus large**. Les deux portées d'`EX-IHM-050` (identité
-  du jeu, châssis d'édition) sont donc deux feuilles **disjointes**, appliquées chacune là où elle
-  porte : l'identité sur la pile d'écrans, le châssis sur l'application. Le coût d'un changement
+  provoquer un rejeu de style d'une portée **plus large** : un habillage s'applique là où il porte,
+  et nulle part ailleurs. (Le châssis d'édition, seconde portée d'`EX-IHM-050`, n'a plus de feuille
+  depuis le `LOT-EDITOR-01`.) Le coût d'un changement
   d'habillage doit rester proportionnel à ce qui change réellement.
 - \anchor EX-IHM-083 **EX-IHM-083** — Tout **réglage exposé** par un écran doit **atteindre** le
   moteur, ou ne pas être exposé ; et l'écran doit **ouvrir sur les valeurs par défaut du moteur**,
@@ -493,11 +461,25 @@ de la Capitale impériale et de Fisherman's Wharf —, en 1 920 × 1 080 et **sa
 - \anchor EX-IHM-031 **EX-IHM-031** *(retirée au `LOT-88`)* — panneau « Liens ».
 - \anchor EX-IHM-073 **EX-IHM-073** *(retirée au `LOT-88`)* — espaces de travail exclusifs : l'éditeur
   n'a plus qu'une activité.
+- \anchor EX-IHM-010 **EX-IHM-010** *(retirée au `LOT-EDITOR-01`)* — fenêtre de l'éditeur à panneaux
+  dockables ; son agencement se décide dans la feuille de route de l'éditeur.
+- \anchor EX-IHM-020 **EX-IHM-020** *(retirée au `LOT-EDITOR-01`)* — panneau de gestion des cartes
+  avec recherche ; la gestion elle-même reste (`EX-IHM-021`).
+- \anchor EX-IHM-054 **EX-IHM-054** *(retirée au `LOT-EDITOR-01`)* — thème clair et sombre de
+  l'éditeur : Fusion suit le réglage du système.
+- \anchor EX-IHM-055 **EX-IHM-055** *(retirée au `LOT-EDITOR-01`)* — commandes de l'éditeur à icônes
+  tracées, depuis un catalogue d'actions.
+- \anchor EX-IHM-060 **EX-IHM-060** *(retirée au `LOT-EDITOR-01`)* — barre d'état permanente de
+  l'éditeur (elle reste, sans être exigée).
+- \anchor EX-IHM-061 **EX-IHM-061** *(retirée au `LOT-EDITOR-01`)* — panneaux groupés et mis en
+  avant selon l'outil actif.
+- \anchor EX-IHM-074 **EX-IHM-074** *(retirée au `LOT-EDITOR-01`)* — hiérarchie des surfaces de
+  commande de l'éditeur.
 
 ## Traçabilité
-Tout ceci relève de `Source/HMI` — l'éditeur (`LevelEditor`, Qt Widgets) et les types que voient
-les écrans du jeu (`Runtime/`) — et de `Source/Ui`, `Source/App` pour les formulaires et le câblage
-QML du jeu ; les assets Qt déclaratifs vivent dans `Source/Elements`. La logique testable (édition,
+Tout ceci relève de `Source/HMI` — les types que voient les écrans du jeu (`Runtime/`) — de
+`Source/Editor` pour l'éditeur (`LevelEditor`, Qt Widgets, `LOT-EDITOR-01`), et de `Source/Ui`,
+`Source/App` pour les formulaires et le câblage QML du jeu ; les assets Qt déclaratifs vivent dans `Source/Elements`. La logique testable (édition,
 validation, présentation) reste découplée de l'UI et couverte par des tests (`EX-NFR-010`,
 `EX-NFR-020`). Séquencement : `LOT-66` et `LOT-87` pour la charte (section 7) ; `LOT-68` (section
 9) pour le châssis des écrans du RPG ; `LOT-86` (section 10) pour la séparation de la conception et

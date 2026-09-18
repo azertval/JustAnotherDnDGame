@@ -12,7 +12,7 @@
  *        `EX-IHM-091`).
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`) --
- * même patron que `HMI/Presentation/ScreenFlow.h` et `HMI/Interface/ActionCatalog.h`.
+ * même patron que `HMI/Presentation/ScreenFlow.h`.
  *
  * ## Une table, et non huit écrans écrits à la main
  *

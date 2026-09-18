@@ -4,6 +4,7 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <vector>
@@ -41,6 +42,15 @@ namespace core {
  */
 class LevelDraft {
 public:
+    /**
+     * @brief Nombre maximal de pas d'annulation gardés (`EX-EDIT-058`).
+     *
+     * Chaque pas est un instantané complet du brouillon : sans plafond, une longue séance sur
+     * Martpart (48 × 40, trois couches) accumulait des centaines d'instantanés jamais rendus.
+     * Au-delà, le pas le plus ancien est oublié.
+     */
+    static constexpr std::size_t UNDO_HISTORY_LIMIT = 200;
+
     /**
      * @brief Crée un brouillon vierge (grille entièrement `Empty`), sans entrée.
      * @param name   Nom du niveau.
@@ -221,6 +231,24 @@ public:
      */
     bool redo();
 
+    /// @return Le nombre de pas que `undo()` peut défaire (au plus `UNDO_HISTORY_LIMIT`).
+    [[nodiscard]] std::size_t undoDepth() const noexcept {
+        return _undoHistory.size();
+    }
+
+    /**
+     * @brief Identifie l'état du contenu : change à chaque mutation, et revient à sa valeur
+     *        d'avant quand `undo()` défait la mutation (et inversement pour `redo()`,
+     * `EX-EDIT-058`).
+     *
+     * L'éditeur compare cette révision à celle de la dernière ouverture ou du dernier
+     * enregistrement pour dire si le brouillon porte des modifications : défaire jusqu'à l'état
+     * enregistré rend un brouillon propre, et rien ne le marque modifié sans mutation réelle.
+     */
+    [[nodiscard]] std::uint64_t revision() const noexcept {
+        return _revision;
+    }
+
     /// @return `true` si `undo()` aurait un effet.
     [[nodiscard]] bool canUndo() const noexcept {
         return !_undoHistory.empty();
@@ -279,6 +307,14 @@ public:
      */
     [[nodiscard]] LevelLoadResult toLevel() const;
 
+    /**
+     * @brief Le brouillon en JSON, **sans validation** : ce que `toLevel()` relit.
+     *
+     * Sert à la sauvegarde automatique (`LOT-EDITOR-01`), qui doit garder un brouillon même
+     * incomplet (sans entrée, par exemple).
+     */
+    [[nodiscard]] std::string toJson() const;
+
 private:
     LevelDraft(std::string name, TileMap tileMap);
 
@@ -308,6 +344,7 @@ private:
         std::vector<TileLayer> layers;
         std::vector<MapEntity> entities;
         std::vector<TileTextureOverride> textureOverrides;
+        std::uint64_t revision = 0;
     };
 
     /// Capture l'état courant (pour empiler dans l'historique undo/redo).
@@ -317,8 +354,12 @@ private:
     void restore(State state);
 
     /// Empile l'état courant sur la pile d'annulation ; à appeler avant toute mutation
-    /// undoable. Une nouvelle mutation invalide toujours la branche de refaire.
+    /// undoable. Une nouvelle mutation invalide toujours la branche de refaire, oublie le pas le
+    /// plus ancien au-delà de `UNDO_HISTORY_LIMIT` et donne au contenu une révision neuve.
     void pushUndo();
+
+    /// Vrai si peindre @p type en (@p column, @p row) changerait la carte.
+    [[nodiscard]] bool paintChanges(int column, int row, TileType type) const;
 
     std::string _name;
     TileMap _tileMap;
@@ -328,6 +369,9 @@ private:
     std::vector<TileTextureOverride> _textureOverrides;
     std::vector<State> _undoHistory;
     std::vector<State> _redoHistory;
+    std::uint64_t _revision = 0;
+    /// Dernière révision donnée : jamais réemployée, même après un `undo()`.
+    std::uint64_t _lastRevision = 0;
 };
 
 }  // namespace core

@@ -211,6 +211,6 @@ quelque chose de neuf.
 ## Voir aussi
 
 - @ref guide-ihm-qt — le socle applicatif : deux binaires, module QML, surface de rendu.
-- @ref guide-design-ihm — les jetons et la répartition de l'information.
+- @ref guide-design-ihm — la répartition de l'information dans l'éditeur et l'échelle des écrans du jeu.
 - [Spécification IHM](@ref spec-interface-ihm), section 11 — le *pourquoi* de cette frontière
   (`EX-IHM-100` à `EX-IHM-105`).

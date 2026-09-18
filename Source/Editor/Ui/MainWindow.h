@@ -1,0 +1,137 @@
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include <QByteArray>
+#include <QMainWindow>
+#include <array>
+#include <memory>
+#include <optional>
+#include <string>
+
+#include "Editor/Logic/EditContextTarget.h"
+#include "Editor/Logic/EditorTool.h"
+#include "Editor/Logic/PanelFocus.h"
+
+class QAction;
+class QDockWidget;
+class QFileSystemWatcher;
+class QLabel;
+class QMenu;
+class QTimer;
+class QToolBar;
+
+/**
+ * @file Editor/Ui/MainWindow.h
+ * @brief Fenêtre de l'éditeur de cartes (`LevelEditor`) : le canevas au centre, les panneaux
+ *        d'édition en docks.
+ */
+
+namespace hmi {
+
+class AutosaveStore;
+class EditorActions;
+class EditorViewport;
+class PalettePanel;
+class LevelBrowserPanel;
+class LayersPanel;
+class EntityPanel;
+struct EditorReferences;
+
+/**
+ * @brief Fenêtre principale de l'éditeur (Qt Widgets, style Fusion, textes anglais).
+ *
+ * Le canevas (`hmi::EditorViewport`) est le widget central ; la palette, le navigateur de cartes,
+ * les couches et les entités sont des docks détachables dont la disposition est persistée
+ * (`EX-IHM-011`). Tout est construit en code (`LOT-EDITOR-01`). La fenêtre ne possède aucune donnée
+ * d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il
+ * applique.
+ *
+ * Elle garde aussi le travail de l'auteur (`LOT-EDITOR-01`) : un brouillon modifié est sauvegardé
+ * automatiquement hors du dépôt et proposé à la reprise après un plantage ; une carte changée sur
+ * disque pendant qu'elle est ouverte n'est jamais écrasée en silence ; fermer avec des
+ * modifications demande quoi en faire.
+ */
+class MainWindow : public QMainWindow {
+public:
+    /// @param crashAfterAutosave `--crash-test` : planter juste après la première sauvegarde
+    ///        automatique, pour éprouver la reprise.
+    explicit MainWindow(bool crashAfterAutosave = false);
+    ~MainWindow() override;
+    MainWindow(const MainWindow&) = delete;
+    MainWindow& operator=(const MainWindow&) = delete;
+
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
+private:
+    void buildUi();
+    [[nodiscard]] QDockWidget* addPanel(const QString& objectName, const QString& title,
+                                        QWidget* content, Qt::DockWidgetArea area);
+    void buildMenus();
+    void connectMapPanels();
+    void connectToolActions();
+    void connectEditorCommands();
+    void buildStatusBar();
+    void reloadEditorReferences();
+    void restoreLayout();
+    void saveLayout();
+    void openResizeDialog();
+    void openShortcutsDialog();
+    void refreshStatusHelp();
+    void showTransientStatusMessage(const QString& message, int timeoutMs);
+    void applyPanelFocus(hmi::EditorTool tool);
+    [[nodiscard]] QDockWidget* dockFor(PanelId panel) const;
+
+    // --- Sauvegarde automatique, reprise, garde du fichier (LOT-EDITOR-01) ---
+    void setUpSafetyNet();
+    /// Relance le délai de sauvegarde automatique : une rafale de gestes n'écrit qu'une fois.
+    void scheduleAutosave();
+    /// Écrit le brouillon modifié, ou retire le fichier de reprise d'un brouillon redevenu propre.
+    void writeAutosave();
+    /// Au démarrage : propose de reprendre les brouillons laissés par une session interrompue.
+    void offerRecovery();
+    /// Surveille le fichier de la carte ouverte (à refaire après un remplacement du fichier).
+    void watchLevelFile();
+    /**
+     * @brief Compare la carte sur disque à celle que l'éditeur a lue ou écrite, et réagit.
+     * @return `false` si le brouillon a été remplacé par la version du disque (un enregistrement
+     *         en cours doit alors s'arrêter).
+     */
+    bool checkDiskChange();
+    /// Met @p content de côté pour la carte ouverte ; @return le chemin écrit, vide en cas d'échec.
+    [[nodiscard]] QString keepAside(const char* label, const std::string& content);
+
+    EditorViewport* _viewport;  ///< Canevas (possédé par la fenêtre, widget central).
+    EditContextTarget* _editContext = nullptr;
+    PalettePanel* _palette = nullptr;
+    LevelBrowserPanel* _levels = nullptr;
+    LayersPanel* _layers = nullptr;
+    EntityPanel* _entities = nullptr;
+    std::array<QDockWidget*, PANEL_COUNT> _docks{};  ///< Dans l'ordre de `PanelId`.
+    std::unique_ptr<EditorReferences> _references;
+    EditorActions* _actions = nullptr;
+    QToolBar* _toolBar = nullptr;
+    QAction* _resizeAction = nullptr;
+    QAction* _resetLayoutAction = nullptr;
+    QByteArray _defaultState;                 ///< Disposition par défaut (pour « Reset layout »).
+    QAction* _actFollowActiveTool = nullptr;  ///< Réglage persisté (menu View).
+    /// L'utilisateur a choisi un onglet lui-même : la mise en avant automatique s'efface.
+    bool _userPickedTab = false;
+    bool _suppressPanelFocusTracking = false;
+    std::array<QLabel*, 5> _statusZones{};
+    QTimer* _statusMessageTimer = nullptr;
+
+    std::unique_ptr<AutosaveStore> _autosave;
+    QTimer* _autosaveTimer = nullptr;
+    /// Carte dont un fichier de reprise existe, écrit par cette session.
+    std::string _autosavedMapId;
+    QFileSystemWatcher* _watcher = nullptr;
+    QTimer* _diskCheckTimer = nullptr;
+    /// Une question sur le disque est déjà posée : ne pas en ouvrir une seconde.
+    bool _checkingDisk = false;
+    bool _crashAfterAutosave = false;
+};
+
+}  // namespace hmi

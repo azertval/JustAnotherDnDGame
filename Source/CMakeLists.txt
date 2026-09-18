@@ -167,6 +167,8 @@ if(JADG_GAME_ENABLED)
 endif()
 
 add_subdirectory(HMI)
+# Le module éditeur (LOT-EDITOR-01) : dépend de HMI, et rien ne dépend de lui.
+add_subdirectory(Editor)
 if(JADG_GAME_ENABLED)
     add_subdirectory(Ui)
     add_subdirectory(App)

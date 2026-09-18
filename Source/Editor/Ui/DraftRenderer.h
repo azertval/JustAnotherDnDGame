@@ -1,0 +1,117 @@
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include <cstdint>
+#include <optional>
+#include <utility>
+#include <vector>
+
+#include "Core/Combat/TacticalTerrain.h"
+#include "Core/Levels/GridPosition.h"
+#include "Editor/Logic/LayerView.h"
+#include "HMI/Graphics/ComposedScene.h"
+
+/**
+ * @file Editor/Ui/DraftRenderer.h
+ * @brief Rendu d'un brouillon d'édition (`core::LevelDraft`) dans le canevas de l'éditeur.
+ */
+
+namespace core {
+class LevelDraft;
+struct MapEntity;
+class TileMap;
+}  // namespace core
+
+namespace hmi {
+
+class SpriteBatch;
+class TextureAtlas;
+class TextureCache;
+class Camera2D;
+
+/**
+ * @brief Ce que le canevas montre des entités de carte (`LOT-11`), fourni à chaque rendu.
+ */
+struct DraftEntityOverlay {
+    /// Entité sélectionnée : cernée, et sa rencontre montrée sur le terrain.
+    std::optional<std::size_t> selectedEntity;
+    /// Verdicts de terrain tactique des rencontres de la carte (non possédés), ou `nullptr`.
+    const std::vector<core::EncounterTerrain>* terrains = nullptr;
+    /// Montrer la zone et la formation de la rencontre sélectionnée — outil « Entité » actif.
+    bool showTerrain = false;
+};
+
+/**
+ * @brief Dessine un `core::LevelDraft` en cours d'édition, **à plat**.
+ *
+ * Une couleur par type de tuile (`hmi::regionForTile`, l'atlas procédural), les couches visuelles
+ * dans leur ordre, la collision en masque teinté par catégorie, puis les entités par leur marqueur
+ * de famille (`LOT-39`). Le canevas ne cherche pas à ressembler au jeu : il montre ce qu'on édite
+ * — le type de chaque case — et l'essai immédiat montre le jeu (`hmi::EditorViewport`).
+ *
+ * Toutes les primitives d'une image sont composées dans une seule `hmi::ComposedScene` puis
+ * soumises en bloc : les aides d'édition portent le calque `RenderLayer::EditorOverlay`, qui les
+ * place au-dessus du reste par construction. La liste obtenue est inspectable sans GPU
+ * (`EX-NFR-004`).
+ */
+class DraftRenderer {
+public:
+    DraftRenderer(SpriteBatch& batch, const TextureAtlas& atlas, TextureCache& cache);
+
+    /**
+     * @brief Rend le brouillon avec la caméra donnée.
+     *
+     * @param draft         Brouillon de carte à dessiner.
+     * @param camera        Caméra qui cadre le canevas.
+     * @param showGrid      Superpose la grille des cases (`EX-EDIT-023`).
+     * @param highlight     Zone à voiler (bornes incluses) : l'aperçu des outils
+     *                      Rectangle/Sélection.
+     * @param entityOverlay Entité sélectionnée et terrains de rencontre à superposer (rien par
+     *                      défaut).
+     */
+    void render(const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
+                const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
+                const DraftEntityOverlay& entityOverlay = {});
+
+    void setLayerView(const LayerViewState& view);
+
+    /// Marque la scène comme périmée (après toute mutation du brouillon). Gardée pour les
+    /// appelants : la composition est refaite à chaque image, le coût d'une carte de quelques
+    /// milliers de cases étant négligeable devant celui de la soumettre.
+    void invalidate() noexcept {}
+
+    /// @return La scène composée à la dernière image (primitives soumises et compteurs).
+    [[nodiscard]] const ComposedScene& lastScene() const noexcept {
+        return _scene;
+    }
+
+private:
+    /// Compose les tuiles d'une grille, de rang @p order dans le calque @p layer.
+    void composeTiles(const core::TileMap& tiles, RenderLayer layer, std::int32_t order,
+                      float opacity);
+    /// Compose la grille des cases sur le calque d'édition.
+    void composeGrid(const core::LevelDraft& draft);
+    /// Compose le voile d'aperçu d'une zone (outil Rectangle/Sélection) sur le calque d'édition.
+    void composeHighlight(const core::GridPosition& minimum, const core::GridPosition& maximum);
+    /// Compose le masque de collision d'une carte à couches (voiles par catégorie, `LOT-11`).
+    void composeCollisionMask(const core::LevelDraft& draft);
+    /// Compose les entités, la sélection, et le terrain de la rencontre sélectionnée.
+    void composeEntities(const core::LevelDraft& draft, const DraftEntityOverlay& overlay);
+    /// Compose le terrain d'une rencontre : sa zone, puis la case voulue de chaque combattant.
+    void composeEncounterTerrain(const core::EncounterTerrain& terrain);
+    /// Compose le marqueur d'une entité et, si @p selected, son cadre de sélection.
+    void composeEntityMarker(const core::MapEntity& entity, bool selected);
+    /// Ajoute un quad uni teinté @p (x, y, w, h) au calque d'édition, rang @p order.
+    void addOverlayRect(float x, float y, float width, float height, float r, float g, float b,
+                        float a, std::int32_t order);
+
+    LayerViewState _layerView;
+    SpriteBatch& _batch;
+    const TextureAtlas& _atlas;
+    TextureCache& _cache;
+    ComposedScene _scene;
+};
+
+}  // namespace hmi

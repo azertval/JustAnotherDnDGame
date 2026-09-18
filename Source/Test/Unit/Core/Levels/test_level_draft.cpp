@@ -474,3 +474,112 @@ TEST(LevelDraftTest, UndoApresRedimensionnementRestitueLesDimensions) {
     ASSERT_TRUE(draft.entry().has_value());
     EXPECT_EQ(*draft.entry(), (GridPosition{4, 4}));
 }
+
+/**
+ * @brief La révision change à chaque mutation et revient à sa valeur quand `undo()` la défait :
+ *        c'est elle qui dit à l'éditeur si la carte porte des modifications (`LOT-EDITOR-01`).
+ * \castest{<b>La révision du brouillon suit l'historique d'annulation.</b><br/>
+ * \tcat Unitaire · Level Draft<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Relever la révision d'un brouillon neuf.<br/>2. Peindre, défaire, refaire.<br/>
+ * \tattendu Peindre change la révision ; défaire rend la révision de départ ; refaire rend celle
+ * d'après la peinture ; une nouvelle mutation après un défaire donne une révision jamais vue.
+ * }
+ */
+TEST(LevelDraftTest, LaRevisionSuitLHistorique) {
+    LevelDraft draft = LevelDraft::empty("N", 3, 3);
+    const auto initial = draft.revision();
+    draft.paintTile(1, 1, TileType::Solid);
+    const auto painted = draft.revision();
+    EXPECT_NE(painted, initial);
+
+    ASSERT_TRUE(draft.undo());
+    EXPECT_EQ(draft.revision(), initial);
+    ASSERT_TRUE(draft.redo());
+    EXPECT_EQ(draft.revision(), painted);
+
+    ASSERT_TRUE(draft.undo());
+    draft.paintTile(2, 2, TileType::Solid);
+    EXPECT_NE(draft.revision(), initial);
+    EXPECT_NE(draft.revision(), painted);
+}
+
+/**
+ * @brief Repeindre une case du même type ne fait rien : ni pas d'historique, ni révision neuve.
+ * \castest{<b>Repasser le pinceau sur une case déjà du bon type ne modifie pas la carte.</b><br/>
+ * \tcat Unitaire · Level Draft<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Peindre une case, relever la révision.<br/>2. Repeindre la même case du même type, et
+ * un bloc qui ne change rien.<br/>
+ * \tattendu Révision et profondeur d'historique inchangées.
+ * }
+ */
+TEST(LevelDraftTest, RepeindreLeMemeTypeNeModifieRien) {
+    LevelDraft draft = LevelDraft::empty("N", 3, 3);
+    draft.paintTile(1, 1, TileType::Solid);
+    const auto revision = draft.revision();
+    const std::size_t depth = draft.undoDepth();
+
+    draft.paintTile(1, 1, TileType::Solid);
+    draft.paintRegion(1, 1, {{TileType::Solid}});
+    draft.paintRegion(5, 5, {{TileType::Wall}});  // hors de la carte
+    EXPECT_EQ(draft.revision(), revision);
+    EXPECT_EQ(draft.undoDepth(), depth);
+}
+
+/**
+ * @brief L'historique d'annulation est plafonné : au-delà, le pas le plus ancien est oublié et le
+ *        plus récent reste défaisable.
+ * \castest{<b>L'historique d'annulation est plafonné.</b><br/>
+ * \tcat Unitaire · Level Draft<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Enchaîner plus de mutations que le plafond.<br/>2. Défaire autant que possible.<br/>
+ * \tattendu La profondeur s'arrête au plafond ; tout défaire rend l'état d'après les mutations
+ * oubliées, pas le brouillon vierge.
+ * }
+ */
+TEST(LevelDraftTest, LHistoriqueEstPlafonne) {
+    constexpr int WIDTH = 20;
+    const std::size_t extra = 10;
+    const std::size_t total = LevelDraft::UNDO_HISTORY_LIMIT + extra;
+    LevelDraft draft = LevelDraft::empty("N", WIDTH, static_cast<int>(total / WIDTH) + 1);
+    for (std::size_t index = 0; index < total; ++index) {
+        draft.paintTile(static_cast<int>(index % WIDTH), static_cast<int>(index / WIDTH),
+                        TileType::Solid);
+    }
+    EXPECT_EQ(draft.undoDepth(), LevelDraft::UNDO_HISTORY_LIMIT);
+
+    while (draft.undo()) {}
+    // Les dix premières cases, peintes avant le plafond, ne se défont plus.
+    for (std::size_t index = 0; index < extra; ++index) {
+        EXPECT_EQ(
+            draft.tileMap().tile(static_cast<int>(index % WIDTH), static_cast<int>(index / WIDTH)),
+            TileType::Solid);
+    }
+    EXPECT_EQ(
+        draft.tileMap().tile(static_cast<int>(extra % WIDTH), static_cast<int>(extra / WIDTH)),
+        TileType::Empty);
+}
+
+/**
+ * @brief `toJson` rend le brouillon même incomplet, et relu par le chargeur il redonne la carte.
+ * \castest{<b>Le brouillon se sérialise sans validation, pour la sauvegarde automatique.</b><br/>
+ * \tcat Unitaire · Level Draft<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Sérialiser un brouillon sans entrée.<br/>2. Poser une entrée, sérialiser,
+ * recharger.<br/>
+ * \tattendu Le premier JSON n'est pas vide (le chargeur le refuse) ; le second se recharge à
+ * l'identique de ce que `toLevel` rend.
+ * }
+ */
+TEST(LevelDraftTest, ToJsonRendUnBrouillonIncomplet) {
+    LevelDraft draft = LevelDraft::empty("N", 3, 3);
+    const std::string incomplete = draft.toJson();
+    EXPECT_FALSE(incomplete.empty());
+    EXPECT_FALSE(core::LevelLoader::loadFromString(incomplete).ok());
+
+    draft.paintTile(1, 1, TileType::Entry);
+    const core::LevelLoadResult reloaded = core::LevelLoader::loadFromString(draft.toJson());
+    ASSERT_TRUE(reloaded.ok()) << reloaded.error;
+    EXPECT_EQ(reloaded.level->entry(), (GridPosition{.column = 1, .row = 1}));
+}

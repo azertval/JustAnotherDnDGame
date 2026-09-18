@@ -129,8 +129,8 @@ d'annulation.
 | Reprise | poste | sauvegarde automatique dans `%LOCALAPPDATA%`, proposée au redémarrage après un plantage |
 
 Ce qui disparaît de l'éditeur : son usage de `DesignTokens`, `ThemeIcons`, `IconGeometry`,
-`theme-editor.qss` et `ActionCatalog`, ses formulaires `.ui`, le rendu `QRhiWidget`, et les
-panneaux actuels, reconstruits plus simples.
+`theme-editor.qss` et `ActionCatalog`, ses formulaires `.ui` (tous retirés au `LOT-EDITOR-01`), le
+rendu `QRhiWidget` (au `LOT-EDITOR-02`), et les panneaux actuels, reconstruits plus simples.
 
 ---
 
@@ -186,7 +186,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 | Lot | Titre | Prérequis | Taille |
 |---|---|---|---|
-| `LOT-EDITOR-01` | Le socle du module | — | M |
+| `LOT-EDITOR-01` | Le socle du module — **livré** | — | M |
 | `LOT-EDITOR-02` | Le canevas montre le lieu | 01 | L |
 | `LOT-EDITOR-12` | Le format v4 et sa garde en CI | 01 | M |
 | `LOT-EDITOR-03` | Peindre avec les pièces du lieu | 02, 12 | M |
@@ -203,14 +203,14 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01, 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01 (livré), 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
 digraph editeur {
   rankdir=LR;
   node [shape=box, style=rounded, fontsize=10];
-  E01 [label="01\nsocle"];
+  E01 [label="01\nsocle\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E02 [label="02\ncanevas iso"];
   E12 [label="12\nformat v4\n+ check en CI"];
   E03 [label="03\npièces"];
@@ -236,29 +236,16 @@ digraph editeur {
 }
 ```
 
-### LOT-EDITOR-01 — Le socle du module {#lot-editor-01}
+### LOT-EDITOR-01 — Le socle du module
 
-> Statut : **à faire**. Prérequis : aucun.
+> Statut : **livré le 18 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-01.
 
-L'éditeur sort dans son propre module, débarrassé de la charte, et gagne de quoi travailler
-longtemps sans risque.
-
-- **Déménagement à l'identique d'abord** : un commit de `git mv` vers `Source/Editor/{Logic,Ui}`,
-  cible `LevelEditor`, tests `Source/Test/Unit/Editor`, comportement inchangé. Le reste vient
-  ensuite. Ne rien polir dans `EditorViewport` (965 lignes de rendu QRhi) : il est réécrit au 02.
-- Style Fusion, icônes standard, **anglais en dur**, widgets construits en code à la place des
-  formulaires `.ui` ; retrait de l'éditeur des contrôles de traduction et de charte ; registre des
-  `EX-IHM` retirées pour l'éditeur (D7).
-- Sauvegarde automatique et reprise après plantage ; correction du « Modifié » affiché à
-  l'ouverture (bogue relevé au [LOT-11](@ref lot-11)).
-- **Garde de fichier modifié sur disque** : une carte changée par un script ou par Claude pendant
-  qu'elle est ouverte n'est jamais écrasée en silence.
-- Historique d'annulation plafonné (A10).
-
-*Acceptation* — les fonctions actuelles marchent à l'identique ; `ctest` vert ; un plantage
-provoqué (`--crash-test`) est suivi d'une proposition de reprise qui rend le brouillon ; modifier
-le JSON d'une carte ouverte et modifiée fait proposer « recharger » ou « garder », sans rien
-perdre de l'un ni de l'autre.
+L'éditeur vit dans `Source/Editor/{Logic,Ui}` (bibliothèque `EditorLogic`, exécutable
+`LevelEditor`) ; il prend le style Fusion, écrit ses textes en anglais et construit ses widgets en
+code. Un brouillon modifié est sauvegardé automatiquement et proposé à la reprise après un plantage
+(`EX-EDIT-056`), une carte changée sur disque n'est jamais écrasée en silence (`EX-EDIT-057`), et
+l'historique d'annulation est plafonné, « modifié » suivant le contenu (`EX-EDIT-058`).
 
 ### LOT-EDITOR-02 — Le canevas montre le lieu {#lot-editor-02}
 

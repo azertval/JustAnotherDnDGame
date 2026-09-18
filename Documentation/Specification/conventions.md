@@ -66,11 +66,9 @@ Dans un `.cpp`, du plus proche au plus général, chaque groupe trié et sépar�
 - **`Elements`** : données/assets statiques, aucun code exécutable — dont les **assets Qt déclaratifs** (`.ui`, `.qrc`, thèmes `.qss`).
 - Aucune dépendance cyclique. `Core` reste testable sans fenêtre ni GPU.
 
-### IHM Qt : le moins de code possible, la mise en page hors code
-- **La mise en page d'un écran/panneau vit dans un fichier `.ui`** (Qt Designer, `Source/Ui/Editor`), **jamais construite bouton par bouton en C++**. Objectif explicite : **un non-développeur configure et fait évoluer l'IHM depuis l'éditeur Qt (Qt Designer) sans ouvrir le code**.
-- Le **code C++ d'un widget ne fait que brancher le fonctionnel** : `setupUi`, connexions signaux/slots, remplissage des données, et localisation (`retranslateUi`). Il ne pose pas la géométrie, les libellés statiques, ni la hiérarchie des conteneurs — tout cela appartient au `.ui`.
-- **Exception admise** : le contenu réellement **dynamique** (une liste de lignes générée à partir des données, ex. une ligne par action de remappage) peut être créé en code, faute de pouvoir le décrire statiquement — mais reste minimal.
-- Tout **texte affiché** passe par une **clé de traduction** (`hmi::Localization`, `EX-REN-033`) ; aucun libellé en dur dans le code (les `.ui` ne portent que le français de repli, écrasé par `retranslateUi`).
+### IHM Qt : la mise en page hors code pour le jeu, en code pour l'éditeur
+- **Les écrans du jeu** sont des formulaires `.ui.qml` (`Source/Ui`), dessinés dans Qt Design Studio ; leurs textes passent par `qsTr` (`EX-REN-033`, `EX-IHM-103`).
+- **L'éditeur** est un outil interne (`LOT-EDITOR-01`) : ses widgets sont **construits en code**, chaque panneau gardant les siens dans une `struct Widgets` privée ; ses textes sont en **anglais, écrits dans le code**, sans clé de traduction ; son style est Fusion, sans feuille de style.
 
 ### Classes plutôt que fonctions libres
 - **Privilégier une classe** (avec état encapsulé et membres privés) à un ensemble de fonctions libres dans un espace de noms. Une classe se dérive et se spécialise : elle permet d'étendre les comportements sans réécrire les appelants.
