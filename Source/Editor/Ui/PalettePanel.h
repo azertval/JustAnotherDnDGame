@@ -5,7 +5,6 @@
 
 #include <QPixmap>
 #include <QWidget>
-#include <memory>
 
 #include "Core/Levels/TileType.h"
 
@@ -19,13 +18,7 @@ class QModelIndex;
 class QStandardItemModel;
 class QTreeView;
 
-namespace Ui {
-class PalettePanel;
-}
-
 namespace hmi {
-
-class Localization;
 
 /**
  * @brief Palette de tuiles en **arbre** (`QTreeView`) : catégories → sous-groupes → tuiles.
@@ -42,16 +35,10 @@ class PalettePanel : public QWidget {
 public:
     explicit PalettePanel(QWidget* parent = nullptr);
 
-    /// Hors-ligne : `std::unique_ptr<Ui::PalettePanel>` porte un type incomplet.
-    ~PalettePanel() override;
-
     /// @return Le type de tuile actuellement sélectionné (`Solid` par défaut).
     [[nodiscard]] core::TileType selectedTile() const noexcept {
         return _selected;
     }
-
-    /// Applique la langue active (reconstruit l'arbre avec les libellés traduits).
-    void retranslateUi(const Localization& loc);
 
 signals:
     /// Émis quand l'utilisateur sélectionne une tuile (feuille) dans l'arbre.
@@ -68,14 +55,9 @@ private:
     /// Vignette d'un type : sa couleur dans l'atlas procédural.
     [[nodiscard]] QPixmap thumbnailFor(core::TileType type);
 
-    /// Mise en page issue de `PalettePanel.ui` : le C++ ne branche plus que le
-    /// fonctionnel, conformément à la convention du projet.
-    std::unique_ptr<Ui::PalettePanel> _ui;
-    QTreeView* _tree = nullptr;  ///< Posé après setupUi (vit dans la mise en page).
+    QTreeView* _tree;
     QStandardItemModel* _model;
     core::TileType _selected = core::TileType::Solid;
-    const Localization* _loc = nullptr;  ///< Catalogue courant (nul avant première retraduction).
-
 };
 
 }  // namespace hmi

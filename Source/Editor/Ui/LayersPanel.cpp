@@ -3,17 +3,19 @@
 
 #include "Editor/Ui/LayersPanel.h"
 
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QLabel>
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QPushButton>
 #include <QSignalBlocker>
 #include <QSlider>
+#include <QVBoxLayout>
 #include <algorithm>
 #include <cmath>
 
 #include "Core/Levels/LevelDraft.h"
-#include "HMI/Localization/Localization.h"
-#include "ui_LayersPanel.h"
 
 namespace hmi {
 
@@ -28,10 +30,57 @@ constexpr int ROOT_SLOT = -1;
 
 }  // namespace
 
-LayersPanel::LayersPanel(QWidget* parent)
-    : QWidget(parent), _ui(std::make_unique<Ui::LayersPanel>()) {
-    _ui->setupUi(this);
+/// Les widgets du panneau. La liste montre les couches du dessus vers le dessous, telles que
+/// l'éditeur les dessine : la grille racine en tête (la collision se superpose à l'image), puis les
+/// couches visuelles de la plus en avant à la plus en arrière.
+struct LayersPanel::Widgets {
+    QListWidget* layerList;
+    QLabel* opacityLabel;
+    QSlider* opacitySlider;
+    QLabel* opacityValue;
+    QPushButton* addGroundButton;
+    QPushButton* addDecorButton;
+    QPushButton* moveForwardButton;
+    QPushButton* moveBackwardButton;
+    QPushButton* removeButton;
 
+    explicit Widgets(QWidget* panel)
+        : layerList(new QListWidget(panel)),
+          opacityLabel(new QLabel(QStringLiteral("Opacity"), panel)),
+          opacitySlider(new QSlider(Qt::Horizontal, panel)),
+          opacityValue(new QLabel(QStringLiteral("100 %"), panel)),
+          addGroundButton(new QPushButton(QStringLiteral("Add ground"), panel)),
+          addDecorButton(new QPushButton(QStringLiteral("Add decor"), panel)),
+          moveForwardButton(new QPushButton(QStringLiteral("Move up"), panel)),
+          moveBackwardButton(new QPushButton(QStringLiteral("Move down"), panel)),
+          removeButton(new QPushButton(QStringLiteral("Remove"), panel)) {
+        layerList->setSelectionMode(QAbstractItemView::SingleSelection);
+        layerList->setEditTriggers(QAbstractItemView::DoubleClicked |
+                                   QAbstractItemView::EditKeyPressed);
+        layerList->setToolTip(
+            QStringLiteral("Layer painted by the brush, the rectangle and paste"));
+        opacitySlider->setRange(0, 100);
+        opacitySlider->setValue(100);
+        opacityValue->setMinimumWidth(36);
+
+        auto* const opacityRow = new QHBoxLayout;
+        opacityRow->addWidget(opacityLabel);
+        opacityRow->addWidget(opacitySlider);
+        opacityRow->addWidget(opacityValue);
+        auto* const buttons = new QGridLayout;
+        buttons->addWidget(addGroundButton, 0, 0);
+        buttons->addWidget(addDecorButton, 0, 1);
+        buttons->addWidget(moveForwardButton, 1, 0);
+        buttons->addWidget(moveBackwardButton, 1, 1);
+        buttons->addWidget(removeButton, 2, 0, 1, 2);
+        auto* const layout = new QVBoxLayout(panel);
+        layout->addWidget(layerList);
+        layout->addLayout(opacityRow);
+        layout->addLayout(buttons);
+    }
+};
+
+LayersPanel::LayersPanel(QWidget* parent) : QWidget(parent), _ui(std::make_unique<Widgets>(this)) {
     connect(_ui->layerList, &QListWidget::currentItemChanged, this,
             [this](QListWidgetItem* current, QListWidgetItem*) {
                 updateButtons();
@@ -138,11 +187,13 @@ void LayersPanel::rebuild() {
         item->setCheckState(_snapshot.displays[position].visible ? Qt::Checked : Qt::Unchecked);
         QString kindLabel = rowLabel(row);
         if (row.kind == core::LayerKind::Decor) {
-            kindLabel = text("layers.kind.decor", QStringLiteral("Décor"));
+            kindLabel = QStringLiteral("Decor");
         } else if (row.kind == core::LayerKind::Ground) {
-            kindLabel = text("layers.kind.ground", QStringLiteral("Sol"));
+            kindLabel = QStringLiteral("Ground");
         }
-        item->setToolTip(kindLabel + QStringLiteral(" — ") + text("layers.visible_tooltip", {}));
+        item->setToolTip(
+            kindLabel + QStringLiteral(" — ") +
+            QStringLiteral("Show or hide the layer in the editor (no effect in game)"));
         if (row.slot == _snapshot.active) {
             _ui->layerList->setCurrentItem(item);
         }
@@ -179,9 +230,9 @@ void LayersPanel::updateButtons() {
 QString LayersPanel::rowLabel(const LayerRow& row) const {
     switch (row.kind) {
         case core::LayerKind::Legacy:
-            return text("layers.root_legacy", QStringLiteral("Grille unique"));
+            return QStringLiteral("Single grid (image and collision)");
         case core::LayerKind::Collision:
-            return text("layers.root_collision", QStringLiteral("Collision"));
+            return QStringLiteral("Collision");
         case core::LayerKind::Ground:
         case core::LayerKind::Decor:
             break;
@@ -197,22 +248,6 @@ LayerSlot LayersPanel::slotOf(const QListWidgetItem* item) {
     }
     const int slotValue = item->data(Qt::UserRole).toInt();
     return slotValue == ROOT_SLOT ? LayerSlot{} : LayerSlot{static_cast<std::size_t>(slotValue)};
-}
-
-QString LayersPanel::text(const char* key, const QString& fallback) const {
-    return _loc != nullptr ? QString::fromStdString(_loc->text(key)) : fallback;
-}
-
-void LayersPanel::retranslateUi(const Localization& loc) {
-    _loc = &loc;
-    _ui->opacityLabel->setText(text("layers.opacity", {}));
-    _ui->addGroundButton->setText(text("layers.add_ground", {}));
-    _ui->addDecorButton->setText(text("layers.add_decor", {}));
-    _ui->removeButton->setText(text("layers.remove", {}));
-    _ui->moveForwardButton->setText(text("layers.move_forward", {}));
-    _ui->moveBackwardButton->setText(text("layers.move_backward", {}));
-    _ui->layerList->setToolTip(text("layers.active_tooltip", {}));
-    rebuild();
 }
 
 }  // namespace hmi

@@ -6,8 +6,6 @@
 #include <cmath>
 #include <cstddef>
 
-#include "HMI/Localization/Localization.h"
-
 namespace hmi {
 
 namespace {
@@ -37,40 +35,40 @@ std::string formatTwo(const std::string& templateText, int first, int second) {
 }
 
 // Cle de traduction du libelle court d'un outil (deja utilisees par EditorActions).
-const char* toolLabelKey(EditorTool tool) {
+const char* toolLabel(EditorTool tool) {
     switch (tool) {
         case EditorTool::Paint:
-            return "tool.brush";
+            return "Brush";
         case EditorTool::Rectangle:
-            return "tool.rectangle";
+            return "Rectangle";
         case EditorTool::Selection:
-            return "tool.selection";
+            return "Selection";
         case EditorTool::Entity:
-            return "tool.entity";
+            return "Entity";
     }
-    return "tool.brush";
+    return "Brush";
 }
 
-// Cle de traduction de l'aide contextuelle d'un outil (retire status.edit_help).
-const char* toolHelpKey(EditorTool tool) {
+const char* toolHelp(EditorTool tool) {
     switch (tool) {
         case EditorTool::Paint:
-            return "status.help_paint";
+            return "Paint: left click/drag · Ctrl+Z/Y: undo/redo";
         case EditorTool::Rectangle:
-            return "status.help_rectangle";
+            return "Rectangle: drag to paint an area · Ctrl+Z/Y: undo/redo";
         case EditorTool::Selection:
-            return "status.help_selection";
+            return "Selection: drag to select · Ctrl+C/V: copy/paste";
         case EditorTool::Entity:
-            return "status.help_entity";
+            return "Entity: click an empty cell to place the chosen kind · click an entity to "
+                   "select it, drag to move it · Del removes it · Ctrl+click places on an "
+                   "occupied cell";
     }
-    return "status.help_paint";
+    return "";
 }
 
 }  // namespace
 
 // Contenu de la barre d'etat de l'editeur (voir en-tete) : zones permanentes puis aide.
-EditorStatusLines editorStatusLines(const EditorStatusContext& context,
-                                    const Localization& localization) {
+EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
     EditorStatusLines lines;
     lines.permanent.assign(EDITOR_STATUS_ZONE_COUNT, std::string{});
     if (!context.level) {
@@ -78,19 +76,19 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context,
     }
     const LevelStatusInfo& level = *context.level;
 
-    lines.permanent[0] = formatOne(localization.text("status.zone.level"), level.name);
+    lines.permanent[0] = formatOne("Map: %1", level.name);
     if (level.dirty) {
-        lines.permanent[1] = localization.text("status.zone.dirty");
+        lines.permanent[1] = "Modified";
     }
-    lines.permanent[2] = localization.text(toolLabelKey(level.tool));
+    lines.permanent[2] = toolLabel(level.tool);
     if (level.hoveredCell) {
-        lines.permanent[3] = formatTwo(localization.text("status.zone.hover"),
-                                       level.hoveredCell->column, level.hoveredCell->row);
+        lines.permanent[3] =
+            formatTwo("(%1, %2)", level.hoveredCell->column, level.hoveredCell->row);
     }
     const int zoomPercent = static_cast<int>(std::lround(level.zoom * 100.0F));
-    lines.permanent[4] = formatOne(localization.text("status.zone.zoom"), zoomPercent);
+    lines.permanent[4] = formatOne("Zoom: %1%", zoomPercent);
 
-    lines.help = localization.text(toolHelpKey(level.tool));
+    lines.help = toolHelp(level.tool);
     return lines;
 }
 

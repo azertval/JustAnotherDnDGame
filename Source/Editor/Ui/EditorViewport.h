@@ -24,11 +24,11 @@
 #include "Core/World/EntityKinds.h"
 #include "Editor/Logic/EditContextTarget.h"
 #include "Editor/Logic/EditorDiagnostics.h"
+#include "Editor/Logic/EditorKeyBindings.h"
 #include "Editor/Logic/EditorTool.h"
 #include "Editor/Logic/LayerView.h"
 #include "HMI/Graphics/Camera2D.h"
 #include "HMI/Graphics/SceneResources.h"
-#include "Editor/Logic/EditorKeyBindings.h"
 
 /**
  * @file Editor/Ui/EditorViewport.h
@@ -43,7 +43,6 @@
 
 namespace hmi {
 class DraftRenderer;
-class Localization;
 class WorldPlay;
 class WorldSceneRenderer;
 struct EditorReferences;
@@ -65,9 +64,6 @@ public:
         _activeTile = type;
     }
     void setTool(hmi::EditorTool tool);
-    void setLocalization(const Localization* loc) noexcept {
-        _loc = loc;
-    }
     [[nodiscard]] hmi::EditorKeyBindings& editorBindings() noexcept {
         return _editorBindings;
     }
@@ -218,7 +214,6 @@ private:
     void handleEntityRelease(const QMouseEvent* event);
     [[nodiscard]] int pixelWidth() const;
     [[nodiscard]] int pixelHeight() const;
-    [[nodiscard]] QString statusText(const char* key) const;
 
     using Clock = std::chrono::steady_clock;
 
@@ -242,7 +237,6 @@ private:
     core::GridPosition _dragCurrent{};
     std::optional<core::GridPosition> _hoverCell;
     float _lastEmittedZoom = 0.0F;
-    const Localization* _loc = nullptr;
     std::optional<std::pair<core::GridPosition, core::GridPosition>> _selection;
     std::vector<std::vector<core::TileType>> _clipboard;
     /// Identifiant de carte du brouillon (`capital/martpart`) : son chemin sous `Levels/`, sans

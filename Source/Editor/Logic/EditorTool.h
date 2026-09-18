@@ -25,10 +25,7 @@ namespace hmi {
  */
 enum class EditorTool { Paint, Rectangle, Selection, Entity };
 
-/// Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte. Sert de garde
-/// de **complétude** : le catalogue d'actions doit exposer exactement autant d'outils de niveau
-/// (`hmi::editorActionCatalog`), ce qu'un test vérifie — sans quoi un outil ajouté à
-/// l'énumération peut apparaître dans la barre d'outils sans jamais être relié au viewport.
+/// Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte.
 inline constexpr std::size_t EDITOR_TOOL_COUNT = 4;
 
 }  // namespace hmi

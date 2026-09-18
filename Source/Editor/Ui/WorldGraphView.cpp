@@ -10,6 +10,7 @@
 #include <QHelpEvent>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPalette>
 #include <QPen>
 #include <QPolygonF>
 #include <QStringList>
@@ -17,9 +18,6 @@
 #include <algorithm>
 #include <cmath>
 #include <utility>
-
-#include "Editor/Ui/ApplicationTheme.h"
-#include "HMI/Localization/Localization.h"
 
 namespace hmi {
 
@@ -38,8 +36,26 @@ constexpr int LEGEND_PADDING = 8;
 constexpr int LEGEND_SAMPLE = 26;
 constexpr int LEGEND_ROWS = 5;
 
-[[nodiscard]] QColor toQColor(DesignColor color) {
-    return {color.r, color.g, color.b, color.a};
+/// Les couleurs du graphe, tirées de la palette du widget (style Fusion) : l'éditeur n'a pas de
+/// charte (`LOT-EDITOR-01`).
+struct GraphColors {
+    QColor background;
+    QColor text;
+    QColor textMuted;
+    QColor accent;
+    QColor surface;
+    QColor surfaceAlt;
+    QColor error;
+};
+
+[[nodiscard]] GraphColors graphColors(const QPalette& palette) {
+    return GraphColors{.background = palette.color(QPalette::Base),
+                       .text = palette.color(QPalette::Text),
+                       .textMuted = palette.color(QPalette::PlaceholderText),
+                       .accent = palette.color(QPalette::Highlight),
+                       .surface = palette.color(QPalette::Button),
+                       .surfaceAlt = palette.color(QPalette::AlternateBase),
+                       .error = QColor(0xc6, 0x28, 0x28)};
 }
 
 [[nodiscard]] QPointF toPoint(core::Vector2 vector) {
@@ -77,15 +93,6 @@ void WorldGraphView::setGraph(core::WorldGraph graph, std::filesystem::path leve
     update();
 }
 
-void WorldGraphView::retranslateUi(const Localization& loc) {
-    _loc = &loc;
-    update();
-}
-
-QString WorldGraphView::localized(const char* key) const {
-    return _loc != nullptr ? QString::fromStdString(_loc->text(key)) : QString::fromLatin1(key);
-}
-
 qreal WorldGraphView::scale() const {
     const qreal extent = 2.0 * (static_cast<qreal>(_layout.circleRadius) + LABEL_MARGIN);
     const qreal available = std::min<qreal>(width(), height() - (LEGEND_ROWS * LEGEND_ROW));
@@ -101,7 +108,7 @@ core::Vector2 WorldGraphView::toLayout(QPointF widgetPoint) const {
 QString WorldGraphView::nodeLabel(std::size_t node) const {
     const WorldGraphLayoutNode& n = _layout.nodes.at(node);
     if (n.ghost && n.mapId.empty()) {
-        return localized("world_graph.ghost.no_target");
+        return QStringLiteral("(no target)");
     }
     return QString::fromStdString(n.name.empty() ? n.mapId : n.name);
 }
@@ -109,17 +116,17 @@ QString WorldGraphView::nodeLabel(std::size_t node) const {
 QString WorldGraphView::statusText(core::PortalLinkStatus status) const {
     switch (status) {
         case core::PortalLinkStatus::Resolved:
-            return localized("world_graph.status.resolved");
+            return QStringLiteral("linked");
         case core::PortalLinkStatus::MissingTarget:
-            return localized("world_graph.status.missing_target");
+            return QStringLiteral("no target map");
         case core::PortalLinkStatus::UnknownMap:
-            return localized("world_graph.status.unknown_map");
+            return QStringLiteral("target map not in the folder");
         case core::PortalLinkStatus::MissingArrival:
-            return localized("world_graph.status.missing_arrival");
+            return QStringLiteral("no arrival point");
         case core::PortalLinkStatus::UnknownArrival:
-            return localized("world_graph.status.unknown_arrival");
+            return QStringLiteral("arrival point unknown on the target map");
         case core::PortalLinkStatus::TargetUnreadable:
-            return localized("world_graph.status.target_unreadable");
+            return QStringLiteral("target map unreadable");
     }
     return {};
 }
@@ -127,30 +134,28 @@ QString WorldGraphView::statusText(core::PortalLinkStatus status) const {
 QString WorldGraphView::nodeToolTip(std::size_t node) const {
     const WorldGraphLayoutNode& n = _layout.nodes.at(node);
     if (n.ghost) {
-        return n.mapId.empty()
-                   ? localized("world_graph.tooltip.ghost_no_target")
-                   : localized("world_graph.tooltip.ghost").arg(QString::fromStdString(n.mapId));
+        return n.mapId.empty() ? QStringLiteral("Portals without a target map.")
+                               : QStringLiteral("Map “%1” is not in the folder; portals name it.")
+                                     .arg(QString::fromStdString(n.mapId));
     }
     QStringList lines{
-        localized("world_graph.tooltip.map").arg(nodeLabel(node), QString::fromStdString(n.mapId))};
+        QStringLiteral("%1 (%2)").arg(nodeLabel(node), QString::fromStdString(n.mapId))};
     if (n.unreadable) {
-        lines
-            << localized("world_graph.tooltip.unreadable").arg(QString::fromStdString(n.loadError));
+        lines << QStringLiteral("Unreadable map: %1").arg(QString::fromStdString(n.loadError));
     } else {
-        lines << localized("world_graph.tooltip.open");
+        lines << QStringLiteral("Double-click to open the map.");
     }
     return lines.join(QLatin1Char('\n'));
 }
 
 QString WorldGraphView::edgeToolTip(std::size_t edge) const {
     const WorldGraphLayoutEdge& e = _layout.edges.at(edge);
-    QStringList lines{
-        localized("world_graph.tooltip.edge").arg(nodeLabel(e.from), nodeLabel(e.to))};
+    QStringList lines{QStringLiteral("%1 → %2").arg(nodeLabel(e.from), nodeLabel(e.to))};
     for (const std::size_t index : e.portals) {
         const core::WorldPortalLink& portal = _graph.portals.at(index);
-        const QString arrival = portal.arrival.empty() ? localized("world_graph.tooltip.no_arrival")
+        const QString arrival = portal.arrival.empty() ? QStringLiteral("(no arrival point)")
                                                        : QString::fromStdString(portal.arrival);
-        lines << localized("world_graph.tooltip.portal")
+        lines << QStringLiteral("(%1, %2) → “%3”: %4")
                      .arg(QString::number(portal.position.column),
                           QString::number(portal.position.row), arrival, statusText(portal.status));
     }
@@ -215,15 +220,15 @@ void WorldGraphView::mouseDoubleClickEvent(QMouseEvent* event) {
 }
 
 void WorldGraphView::paintEvent(QPaintEvent* /*event*/) {
-    const ColorTokens& colors = currentEditorTokens().color;
+    const GraphColors colors = graphColors(palette());
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillRect(rect(), toQColor(colors.background));
+    painter.fillRect(rect(), colors.background);
 
     if (_layout.nodes.empty()) {
-        painter.setPen(toQColor(colors.textMuted));
+        painter.setPen(colors.textMuted);
         painter.drawText(rect(), Qt::AlignCenter | Qt::TextWordWrap,
-                         localized("world_graph.empty"));
+                         QStringLiteral("No map in the levels folder."));
         return;
     }
 
@@ -238,11 +243,11 @@ void WorldGraphView::paintEvent(QPaintEvent* /*event*/) {
 }
 
 void WorldGraphView::paintEdges(QPainter& painter) const {
-    const ColorTokens& colors = currentEditorTokens().color;
+    const GraphColors colors = graphColors(palette());
     for (std::size_t i = 0; i < _layout.edges.size(); ++i) {
         const WorldGraphLayoutEdge& edge = _layout.edges[i];
         const WorldGraphEdgeGeometry geometry = worldGraphEdgeGeometry(_layout, i);
-        const QColor color = toQColor(edge.broken ? colors.error : colors.textMuted);
+        const QColor color = edge.broken ? colors.error : colors.textMuted;
         const bool hovered = _hoveredEdge == i;
         QPen pen(color, hovered ? 3.0 : 1.6, edge.broken ? Qt::DashLine : Qt::SolidLine);
         painter.setPen(pen);
@@ -269,14 +274,14 @@ void WorldGraphView::paintEdges(QPainter& painter) const {
             painter.setPen(Qt::NoPen);
             painter.setBrush(color);
             painter.drawRoundedRect(badge, 8.0, 8.0);
-            painter.setPen(toQColor(colors.background));
+            painter.setPen(colors.background);
             painter.drawText(badge, Qt::AlignCenter, text);
         }
     }
 }
 
 void WorldGraphView::paintNodes(QPainter& painter) const {
-    const ColorTokens& colors = currentEditorTokens().color;
+    const GraphColors colors = graphColors(palette());
     const QFont baseFont = painter.font();
     QFont nameFont = baseFont;
     nameFont.setBold(true);
@@ -290,21 +295,21 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
         const qreal penWidth = hovered ? 3.0 : 1.8;
 
         if (node.ghost) {
-            painter.setPen(QPen(toQColor(colors.textMuted), penWidth, Qt::DashLine));
+            painter.setPen(QPen(colors.textMuted, penWidth, Qt::DashLine));
             painter.setBrush(Qt::NoBrush);
         } else if (node.unreadable) {
-            painter.setPen(QPen(toQColor(colors.error), penWidth, Qt::DotLine));
-            painter.setBrush(toQColor(colors.surfaceAlt));
+            painter.setPen(QPen(colors.error, penWidth, Qt::DotLine));
+            painter.setBrush(colors.surfaceAlt);
         } else {
-            painter.setPen(QPen(toQColor(colors.accent), penWidth));
-            painter.setBrush(toQColor(colors.surface));
+            painter.setPen(QPen(colors.accent, penWidth));
+            painter.setBrush(colors.surface);
         }
         painter.drawEllipse(center, WORLD_GRAPH_NODE_RADIUS, WORLD_GRAPH_NODE_RADIUS);
 
         // Marque au cœur du disque : « ? » pour un fantôme, « ! » pour une carte illisible.
         if (node.ghost || node.unreadable) {
             painter.setFont(nameFont);
-            painter.setPen(toQColor(node.ghost ? colors.textMuted : colors.error));
+            painter.setPen(node.ghost ? colors.textMuted : colors.error);
             const QRectF heart(
                 center - QPointF(WORLD_GRAPH_NODE_RADIUS, WORLD_GRAPH_NODE_RADIUS),
                 QSizeF(2.0 * WORLD_GRAPH_NODE_RADIUS, 2.0 * WORLD_GRAPH_NODE_RADIUS));
@@ -320,7 +325,7 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
         QFont labelFont = nameFont;
         labelFont.setItalic(node.ghost);
         painter.setFont(labelFont);
-        painter.setPen(toQColor(node.ghost ? colors.textMuted : colors.text));
+        painter.setPen(node.ghost ? colors.textMuted : colors.text);
         const QString name = nodeLabel(i);
         painter.drawText(
             nameRect, Qt::AlignHCenter | Qt::AlignTop,
@@ -329,7 +334,7 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
         const QString detail = nodeDetail(node);
         if (!detail.isEmpty()) {
             painter.setFont(idFont);
-            painter.setPen(toQColor(node.unreadable ? colors.error : colors.textMuted));
+            painter.setPen(node.unreadable ? colors.error : colors.textMuted);
             painter.drawText(idRect, Qt::AlignHCenter | Qt::AlignTop,
                              QFontMetrics(idFont).elidedText(detail, Qt::ElideRight,
                                                              static_cast<int>(labelWidth)));
@@ -341,10 +346,10 @@ void WorldGraphView::paintNodes(QPainter& painter) const {
 QString WorldGraphView::nodeDetail(const WorldGraphLayoutNode& node) const {
     // L'identifiant d'une carte nommée, ou l'état d'une carte à problème.
     if (node.unreadable) {
-        return localized("world_graph.node.unreadable");
+        return QStringLiteral("unreadable");
     }
     if (node.ghost) {
-        return localized("world_graph.node.ghost");
+        return QStringLiteral("missing");
     }
     if (!node.name.empty() && node.name != node.mapId) {
         return QString::fromStdString(node.mapId);
@@ -353,42 +358,42 @@ QString WorldGraphView::nodeDetail(const WorldGraphLayoutNode& node) const {
 }
 
 void WorldGraphView::paintLegend(QPainter& painter) const {
-    const ColorTokens& colors = currentEditorTokens().color;
+    const GraphColors colors = graphColors(palette());
     const qreal radius = 6.0;
     int y = height() - (LEGEND_ROWS * LEGEND_ROW) + (LEGEND_ROW / 2) - (LEGEND_PADDING / 2);
     const int x = LEGEND_PADDING;
     const int textX = x + LEGEND_SAMPLE + LEGEND_PADDING;
 
-    const auto label = [&](const char* key) {
-        painter.setPen(toQColor(colors.textMuted));
+    const auto label = [&](const QString& text) {
+        painter.setPen(colors.textMuted);
         painter.drawText(QRectF(textX, y - (LEGEND_ROW / 2.0), width() - textX, LEGEND_ROW),
-                         Qt::AlignLeft | Qt::AlignVCenter, localized(key));
+                         Qt::AlignLeft | Qt::AlignVCenter, text);
         y += LEGEND_ROW;
     };
     const QPointF sample(x + (LEGEND_SAMPLE / 2.0), 0.0);
 
-    painter.setPen(QPen(toQColor(colors.accent), 1.5));
-    painter.setBrush(toQColor(colors.surface));
+    painter.setPen(QPen(colors.accent, 1.5));
+    painter.setBrush(colors.surface);
     painter.drawEllipse(sample + QPointF(0.0, y), radius, radius);
-    label("world_graph.legend.map");
+    label(QStringLiteral("Map"));
 
-    painter.setPen(QPen(toQColor(colors.error), 1.5, Qt::DotLine));
-    painter.setBrush(toQColor(colors.surfaceAlt));
+    painter.setPen(QPen(colors.error, 1.5, Qt::DotLine));
+    painter.setBrush(colors.surfaceAlt);
     painter.drawEllipse(sample + QPointF(0.0, y), radius, radius);
-    label("world_graph.legend.unreadable");
+    label(QStringLiteral("Unreadable map"));
 
-    painter.setPen(QPen(toQColor(colors.textMuted), 1.5, Qt::DashLine));
+    painter.setPen(QPen(colors.textMuted, 1.5, Qt::DashLine));
     painter.setBrush(Qt::NoBrush);
     painter.drawEllipse(sample + QPointF(0.0, y), radius, radius);
-    label("world_graph.legend.ghost");
+    label(QStringLiteral("Missing map"));
 
-    painter.setPen(QPen(toQColor(colors.textMuted), 1.6));
+    painter.setPen(QPen(colors.textMuted, 1.6));
     painter.drawLine(QPointF(x, y), QPointF(x + LEGEND_SAMPLE, y));
-    label("world_graph.legend.portal");
+    label(QStringLiteral("Portal"));
 
-    painter.setPen(QPen(toQColor(colors.error), 1.6, Qt::DashLine));
+    painter.setPen(QPen(colors.error, 1.6, Qt::DashLine));
     painter.drawLine(QPointF(x, y), QPointF(x + LEGEND_SAMPLE, y));
-    label("world_graph.legend.broken");
+    label(QStringLiteral("Broken portal"));
 }
 
 }  // namespace hmi

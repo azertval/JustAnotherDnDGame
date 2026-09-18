@@ -24,13 +24,7 @@ namespace core {
 class LevelDraft;
 }
 
-namespace Ui {
-class LayersPanel;
-}
-
 namespace hmi {
-
-class Localization;
 
 /**
  * @brief Vue des couches du brouillon courant.
@@ -50,8 +44,6 @@ public:
     /// Reconstruit la liste. Sans effet visible si rien n'a changé : la sélection et l'édition en
     /// cours d'un nom ne sautent pas à chaque coup de pinceau.
     void refresh(const core::LevelDraft& draft, LayerSlot active, const LayerViewState& view);
-
-    void retranslateUi(const Localization& loc);
 
 signals:
     void activeLayerRequested(hmi::LayerSlot slot);
@@ -75,14 +67,14 @@ private:
     void updateButtons();
     [[nodiscard]] QString rowLabel(const LayerRow& row) const;
     [[nodiscard]] static LayerSlot slotOf(const QListWidgetItem* item);
-    [[nodiscard]] QString text(const char* key, const QString& fallback) const;
 
-    std::unique_ptr<Ui::LayersPanel> _ui;
+    /// Les widgets du panneau, construits en code (`LayersPanel.cpp`).
+    struct Widgets;
+    std::unique_ptr<Widgets> _ui;
     Snapshot _snapshot;
     bool _hasVisualLayers = false;
     /// Vrai pendant une reconstruction : les signaux des widgets n'y sont pas des gestes.
     bool _rebuilding = false;
-    const Localization* _loc = nullptr;
 };
 
 }  // namespace hmi

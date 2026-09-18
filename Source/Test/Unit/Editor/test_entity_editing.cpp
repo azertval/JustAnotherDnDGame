@@ -29,7 +29,6 @@
 #include "Editor/Logic/EntityGesture.h"
 #include "Editor/Logic/EntityReferences.h"
 #include "Editor/Logic/LayerView.h"
-#include "HMI/Localization/Localization.h"
 
 namespace {
 
@@ -249,8 +248,8 @@ TEST(EditionEntitesTest, ChoixProposesParLePanneau) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Lire les references sous Source/Elements.<br/>2. Valider les entites de l'arene du
  * futur.<br/>
- * \tattendu Le dialogue du heraut, la rencontre du Colisee et l'arene sont connus ; aucune entite de
- * l'arene n'est signalee.
+ * \tattendu Le dialogue du heraut, la rencontre du Colisee et l'arene sont connus ; aucune entite
+ * de l'arene n'est signalee.
  * }
  */
 TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
@@ -275,7 +274,7 @@ TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
  * \tcrit Majeur<br/>
  * \tetapes 1. Traduire un dialogue inconnu, un combattant dans un mur et une zone trop
  * etroite.<br/>
- * \tattendu Trois lignes, references d'abord, avec leurs cles et arguments.
+ * \tattendu Trois lignes, references d'abord, avec leur message.
  * }
  */
 TEST(EditionEntitesTest, AvertissementsDeLEditeur) {
@@ -306,49 +305,12 @@ TEST(EditionEntitesTest, AvertissementsDeLEditeur) {
     EXPECT_EQ(lines[0], (hmi::EditorDiagnostic{.kind = hmi::EditorDiagnosticKind::Reference,
                                                .entityIndex = 0,
                                                .cell = {.column = 1, .row = 1},
-                                               .key = "diagnostic.unknown_dialogue",
-                                               .args = {"npc", "dialogue", "absent"}}));
-    EXPECT_EQ(lines[1].key, "diagnostic.terrain_obstructed");
+                                               .message = "npc: dialogue \"absent\" does not "
+                                                          "exist, or was rejected when loading."}));
+    EXPECT_EQ(lines[1].message,
+              "Encounter \"colisee-fauves\": \"rat\" would stand on an obstacle.");
     EXPECT_EQ(lines[1].cell, (core::GridPosition{.column = 4, .row = 2}));
-    EXPECT_EQ(lines[1].args, (std::vector<std::string>{"colisee-fauves", "rat"}));
-    EXPECT_EQ(lines[2].args, (std::vector<std::string>{"colisee-fauves", "5", "24"}));
-}
-
-/**
- * @brief Chaque clé de l'édition de couches et d'entités existe dans les deux catalogues.
- * \castest{<b>Les cles de l'edition de couches et d'entites sont traduites.</b><br/>
- * \tcat Unitaire · Edition d'entites<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Charger fr.lang puis en.lang.<br/>2. Resoudre chaque cle d'avertissement, chaque
- * famille et chaque propriete de la table.<br/>
- * \tattendu Chaque cle resout vers un texte distinct de la cle.
- * }
- */
-TEST(EditionEntitesTest, ClesTraduitesDansLesDeuxCatalogues) {
-    std::vector<std::string> keys;
-    for (int code = 0; code <= static_cast<int>(core::EntityIssueCode::DuplicateArrivalPoint);
-         ++code) {
-        keys.emplace_back(hmi::entityIssueKey(static_cast<core::EntityIssueCode>(code)));
-    }
-    for (int code = 0; code <= static_cast<int>(core::TacticalIssueCode::AreaTooNarrow); ++code) {
-        keys.emplace_back(hmi::tacticalIssueKey(static_cast<core::TacticalIssueCode>(code)));
-    }
-    for (const core::EntityKind& kind : core::knownEntityKinds()) {
-        keys.push_back("entities.kind." + std::string{kind.type});
-        for (const core::EntityPropertySpec& spec : kind.properties) {
-            keys.push_back("entities.property." + std::string{spec.key});
-        }
-    }
-    for (const char* const key :
-         {"dock.layers", "dock.entities", "tool.entity", "status.help_entity", "layers.root_legacy",
-          "layers.root_collision", "layers.kind.ground", "layers.kind.decor"}) {
-        keys.emplace_back(key);
-    }
-    for (const std::string& language : {"fr", "en"}) {
-        hmi::Localization localization(std::filesystem::path{JADG_LOCALIZATION_DIR});
-        ASSERT_TRUE(localization.loadDefaultLanguage(language)) << language;
-        for (const std::string& key : keys) {
-            EXPECT_NE(localization.text(key), key) << language << " / " << key;
-        }
-    }
+    EXPECT_EQ(lines[2].message,
+              "Encounter \"colisee-fauves\": area too narrow to fight in (5 free cells, 24 "
+              "required).");
 }

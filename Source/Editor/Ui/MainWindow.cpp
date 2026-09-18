@@ -4,14 +4,12 @@
 #include "Editor/Ui/MainWindow.h"
 
 #include <QAction>
-#include <QActionGroup>
-#include <QApplication>
 #include <QCloseEvent>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QDockWidget>
 #include <QFontMetrics>
-#include <QGuiApplication>
+#include <QFormLayout>
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QLabel>
@@ -25,28 +23,22 @@
 #include <QSpinBox>
 #include <QStatusBar>
 #include <QString>
-#include <QStyleHints>
 #include <QTableWidget>
 #include <QTimer>
 #include <QToolBar>
+#include <QVBoxLayout>
 #include <algorithm>
 #include <filesystem>
 
 #include "Editor/Logic/EditorStatus.h"
+#include "Editor/Logic/EntityReferences.h"
+#include "Editor/Ui/EditorActions.h"
 #include "Editor/Ui/EditorViewport.h"
 #include "Editor/Ui/EntityPanel.h"
-#include "Editor/Logic/EntityReferences.h"
 #include "Editor/Ui/LayersPanel.h"
 #include "Editor/Ui/LevelBrowserPanel.h"
 #include "Editor/Ui/PalettePanel.h"
-#include "HMI/HmiLog.h"
-#include "Editor/Ui/ApplicationTheme.h"
-#include "Editor/Logic/DesignTokens.h"
-#include "Editor/Ui/EditorActions.h"
 #include "HMI/Platform/ExecutableDirectory.h"
-#include "ui_MainWindow.h"
-#include "ui_ResizeDialog.h"
-#include "ui_ShortcutsDialog.h"
 
 namespace hmi {
 
@@ -62,22 +54,14 @@ constexpr const char* STATE_KEY = "mainWindow/state";
 // Réglage de mise en avant automatique des panneaux.
 constexpr const char* FOLLOW_ACTIVE_TOOL_KEY = "panels/followActiveTool";
 
+// Taille maximale d'une carte dans la boîte « Resize ».
+constexpr int MAXIMUM_MAP_SIDE = 100;
+
 }  // namespace
 
-MainWindow::MainWindow()
-    : _ui(std::make_unique<Ui::EditorMainWindow>()),
-      _viewport(new EditorViewport()),
-      _loc(hmi::executableDirectory() / "Localization") {
-    _ui->setupUi(this);
-
-    // Catalogue de traduction : français par défaut (repli), langue active depuis les réglages.
-    static_cast<void>(_loc.loadDefaultLanguage("fr"));
-    const QString savedLanguage =
-        QSettings().value(QStringLiteral("language"), QStringLiteral("fr")).toString();
-    if (savedLanguage != QLatin1String("fr")) {
-        static_cast<void>(_loc.loadLanguage(savedLanguage.toStdString()));
-    }
-    _viewport->setLocalization(&_loc);
+MainWindow::MainWindow() : _viewport(new EditorViewport()) {
+    setWindowTitle(QStringLiteral("Just Another RPG Game — Editor"));
+    setDockNestingEnabled(true);
     _editContext = _viewport;
 
     _viewport->setMinimumSize(320, 240);
@@ -107,7 +91,9 @@ MainWindow::MainWindow()
     connect(_levels, &LevelBrowserPanel::levelOpenRequested, this, [this](const QString& path) {
         if (_viewport->isDirty()) {
             const QMessageBox::StandardButton answer = QMessageBox::question(
-                this, text("dialog.unsaved_title"), text("dialog.unsaved_text"));
+                this, QStringLiteral("Unsaved changes"),
+                QStringLiteral("The current map has unsaved changes. Discard them and open the "
+                               "other map?"));
             if (answer != QMessageBox::Yes) {
                 return;
             }
@@ -119,15 +105,116 @@ MainWindow::MainWindow()
     reloadEditorReferences();
 
     resize(1280, 720);
-    retranslateUi();
+    refreshStatusHelp();
 
     // Capture la disposition par défaut (après création des docks, avant restauration d'une
-    // éventuelle disposition sauvegardée) : sert de cible à « Réinitialiser la disposition ».
+    // éventuelle disposition sauvegardée) : sert de cible à « Reset layout ».
     _defaultState = saveState(LAYOUT_VERSION);
     restoreLayout();
 }
 
 MainWindow::~MainWindow() = default;
+
+QDockWidget* MainWindow::addPanel(const QString& objectName, const QString& title, QWidget* content,
+                                  Qt::DockWidgetArea area) {
+    auto* const dock = new QDockWidget(title, this);
+    // objectName stable : c'est la clé de la disposition persistée (`saveState`).
+    dock->setObjectName(objectName);
+    dock->setWidget(content);
+    addDockWidget(area, dock);
+    return dock;
+}
+
+void MainWindow::buildUi() {
+    // Outils et commandes : une action unique par commande, partagée entre la barre d'outils, le
+    // menu et son raccourci.
+    _actions = new EditorActions(this);
+    _actions->applyShortcuts(_viewport->editorBindings());
+    _toolBar = addToolBar(QStringLiteral("Tools"));
+    _toolBar->setObjectName(QStringLiteral("EditorToolBar"));
+    _toolBar->setMovable(false);
+    _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    _actions->populateToolBar(*_toolBar);
+
+    _palette = new PalettePanel;
+    _levels = new LevelBrowserPanel(hmi::executableDirectory() / "Levels");
+    _layers = new LayersPanel;
+    _entities = new EntityPanel;
+    _docks = {
+        addPanel(QStringLiteral("PalettePanel"), QStringLiteral("Palette"), _palette,
+                 Qt::LeftDockWidgetArea),
+        addPanel(QStringLiteral("LevelsPanel"), QStringLiteral("Maps"), _levels,
+                 Qt::RightDockWidgetArea),
+        addPanel(QStringLiteral("LayersPanel"), QStringLiteral("Layers"), _layers,
+                 Qt::LeftDockWidgetArea),
+        addPanel(QStringLiteral("EntitiesPanel"), QStringLiteral("Entities"), _entities,
+                 Qt::RightDockWidgetArea),
+    };
+
+    // Cartes et Entités partagent une pile d'onglets par défaut ; chacun reste déplaçable,
+    // détachable et refermable. Doit précéder la capture de _defaultState.
+    QDockWidget* const levelsDock = dockFor(PanelId::Levels);
+    QDockWidget* const entitiesDock = dockFor(PanelId::Entities);
+    tabifyDockWidget(levelsDock, entitiesDock);
+    // Un changement de visibilité non provoqué par notre propre code ne peut venir que d'un choix
+    // explicite de l'utilisateur : cliquer un onglet, fermer ou détacher le panneau.
+    for (QDockWidget* const dock : {levelsDock, entitiesDock}) {
+        connect(dock, &QDockWidget::visibilityChanged, this, [this](bool) {
+            if (!_suppressPanelFocusTracking) {
+                _userPickedTab = true;
+            }
+        });
+        connect(dock, &QDockWidget::topLevelChanged, this, [this](bool) { _userPickedTab = true; });
+    }
+
+    buildMenus();
+    connectToolActions();
+    connectEditorCommands();
+    buildStatusBar();
+}
+
+void MainWindow::buildMenus() {
+    // Menus PAR NATURE D'ACTION ; les commandes sont les mêmes QAction que la barre d'outils.
+    QMenu* const fileMenu = menuBar()->addMenu(QStringLiteral("&File"));
+    fileMenu->addAction(_actions->action(EditorCommand::Save));
+    fileMenu->addAction(_actions->action(EditorCommand::Rename));
+    _resizeAction = fileMenu->addAction(QStringLiteral("Resize…"));
+    fileMenu->addSeparator();
+    QAction* const quit = fileMenu->addAction(QStringLiteral("Quit"));
+    connect(quit, &QAction::triggered, this, &MainWindow::close);
+
+    QMenu* const editMenu = menuBar()->addMenu(QStringLiteral("&Edit"));
+    editMenu->addAction(_actions->action(EditorCommand::Undo));
+    editMenu->addAction(_actions->action(EditorCommand::Redo));
+    editMenu->addSeparator();
+    editMenu->addAction(_actions->action(EditorCommand::Copy));
+    editMenu->addAction(_actions->action(EditorCommand::Paste));
+
+    QMenu* const mapMenu = menuBar()->addMenu(QStringLiteral("&Map"));
+    mapMenu->addAction(_actions->action(EditorCommand::Playtest));
+
+    QMenu* const viewMenu = menuBar()->addMenu(QStringLiteral("&View"));
+    viewMenu->addAction(_actions->action(EditorCommand::ResetCamera));
+    viewMenu->addAction(_actions->action(EditorCommand::ToggleGrid));
+    viewMenu->addSeparator();
+    QMenu* const panelsMenu = viewMenu->addMenu(QStringLiteral("Panels"));
+    for (QDockWidget* const dock : _docks) {
+        panelsMenu->addAction(dock->toggleViewAction());
+    }
+    panelsMenu->addSeparator();
+    // Mise en avant automatique du panneau de l'outil actif : persistée, active par défaut.
+    _actFollowActiveTool = panelsMenu->addAction(QStringLiteral("Follow active tool"));
+    _actFollowActiveTool->setCheckable(true);
+    _actFollowActiveTool->setChecked(
+        QSettings().value(QString::fromLatin1(FOLLOW_ACTIVE_TOOL_KEY), true).toBool());
+    connect(_actFollowActiveTool, &QAction::toggled, this, [](bool enabled) {
+        QSettings().setValue(QString::fromLatin1(FOLLOW_ACTIVE_TOOL_KEY), enabled);
+    });
+    _resetLayoutAction = panelsMenu->addAction(QStringLiteral("Reset layout"));
+
+    QMenu* const helpMenu = menuBar()->addMenu(QStringLiteral("&Help"));
+    helpMenu->addAction(_actions->action(EditorCommand::ShortcutsOverview));
+}
 
 void MainWindow::connectMapPanels() {
     const auto refreshLayers = [this] {
@@ -156,17 +243,17 @@ void MainWindow::connectMapPanels() {
     connect(_layers, &LayersPanel::opacityRequested, _viewport,
             &EditorViewport::setMapLayerOpacity);
     connect(_layers, &LayersPanel::addRequested, this, [this](core::LayerKind kind) {
-        const char* const nameKey = kind == core::LayerKind::Decor ? "layers.default_name.decor"
-                                                                   : "layers.default_name.ground";
-        _viewport->addMapLayer(kind, text(nameKey).toStdString());
+        _viewport->addMapLayer(kind, kind == core::LayerKind::Decor ? "decor" : "ground");
     });
     connect(_layers, &LayersPanel::removeRequested, this, [this](std::size_t index) {
         if (index >= _viewport->draft().layers().size()) {
             return;
         }
         const QString name = QString::fromStdString(_viewport->draft().layers()[index].name);
-        if (QMessageBox::question(this, text("layers.remove_confirm_title"),
-                                  text("layers.remove_confirm").arg(name)) != QMessageBox::Yes) {
+        if (QMessageBox::question(
+                this, QStringLiteral("Remove layer"),
+                QStringLiteral("Remove layer \"%1\"? Ctrl+Z undoes it.").arg(name)) !=
+            QMessageBox::Yes) {
             return;
         }
         _viewport->removeMapLayer(index);
@@ -201,57 +288,14 @@ void MainWindow::reloadEditorReferences() {
     _viewport->setEditorReferences(_references.get());
 }
 
-void MainWindow::buildUi() {
-    // Outils et commandes principales : une action unique par commande, partagée
-    // entre la barre d'outils, le menu et son raccourci.
-    _actions = new EditorActions(hmi::currentEditorTokens(), this);
-    _actions->applyShortcuts(_viewport->editorBindings(), _loc);
-    _toolBar = _ui->EditorToolBar;
-    _actions->populateToolBar(*_toolBar);
-
-    _palette = new PalettePanel(_ui->PalettePanel);
-    _ui->PalettePanel->setWidget(_palette);
-    _levels = new LevelBrowserPanel(hmi::executableDirectory() / "Levels", _ui->LevelsPanel);
-    _ui->LevelsPanel->setWidget(_levels);
-    _layers = new LayersPanel(_ui->LayersPanel);
-    _ui->LayersPanel->setWidget(_layers);
-    _entities = new EntityPanel(_ui->EntitiesPanel);
-    _ui->EntitiesPanel->setWidget(_entities);
-
-    // Cartes et Entités partagent une pile d'onglets par défaut ; chacun reste
-    // déplaçable, détachable et refermable (EX-IHM-010). Doit précéder la capture de
-    // _defaultState.
-    tabifyDockWidget(_ui->LevelsPanel, _ui->EntitiesPanel);
-    // Un changement de visibilité non provoqué par notre propre code ne peut venir que d'un choix
-    // explicite de l'utilisateur : cliquer un onglet, fermer ou détacher le panneau.
-    for (QDockWidget* const dock : {_ui->LevelsPanel, _ui->EntitiesPanel}) {
-        connect(dock, &QDockWidget::visibilityChanged, this, [this](bool) {
-            if (!_suppressPanelFocusTracking) {
-                _userPickedTab = true;
-            }
-        });
-        connect(dock, &QDockWidget::topLevelChanged, this, [this](bool) { _userPickedTab = true; });
-    }
-
-    connectToolActions();
-    connectEditorCommands();
-    buildThemeMenu();
-    buildViewMenu();
-    buildStatusBar();
-}
-
 void MainWindow::connectToolActions() {
-    // Outils : la liste est DÉRIVÉE du catalogue, jamais recopiée ici -- un outil ajouté au
-    // catalogue est relié au canevas par construction.
-    for (const hmi::EditorActionSpec& spec : hmi::editorActionCatalog()) {
-        if (spec.group != hmi::EditorActionGroup::LevelTools) {
-            continue;
-        }
-        const std::optional<hmi::EditorTool> tool = hmi::editorActionTool(spec.id);
+    for (std::size_t index = 0; index < EDITOR_COMMAND_COUNT; ++index) {
+        const auto command = static_cast<EditorCommand>(index);
+        const std::optional<hmi::EditorTool> tool = EditorActions::toolOf(command);
         if (!tool) {
             continue;
         }
-        connect(_actions->action(spec.id), &QAction::toggled, _viewport,
+        connect(_actions->action(command), &QAction::toggled, _viewport,
                 [this, tool = *tool](bool on) {
                     if (on) {
                         _viewport->setTool(tool);
@@ -261,32 +305,32 @@ void MainWindow::connectToolActions() {
 }
 
 void MainWindow::connectEditorCommands() {
-    connect(_actions->action(hmi::IconId::Save), &QAction::triggered, this, [this] {
+    connect(_actions->action(EditorCommand::Save), &QAction::triggered, this, [this] {
         _viewport->save();
         // Une carte enregistrée peut avoir changé ses points d'arrivée ou son nom : les portails
         // des AUTRES cartes se valident contre le fichier, et le graphe du monde le montre.
         reloadEditorReferences();
         _levels->refreshWorldGraph();
     });
-    connect(_actions->action(hmi::IconId::Playtest), &QAction::triggered, _viewport,
+    connect(_actions->action(EditorCommand::Playtest), &QAction::triggered, _viewport,
             [this] { _viewport->startPlaytest(); });
-    connect(_actions->action(hmi::IconId::Undo), &QAction::triggered, this,
+    connect(_actions->action(EditorCommand::Undo), &QAction::triggered, this,
             [this] { _editContext->undo(); });
-    connect(_actions->action(hmi::IconId::Redo), &QAction::triggered, this,
+    connect(_actions->action(EditorCommand::Redo), &QAction::triggered, this,
             [this] { _editContext->redo(); });
-    connect(_actions->action(hmi::IconId::Copy), &QAction::triggered, this,
+    connect(_actions->action(EditorCommand::Copy), &QAction::triggered, this,
             [this] { _editContext->copy(); });
-    connect(_actions->action(hmi::IconId::Paste), &QAction::triggered, this,
+    connect(_actions->action(EditorCommand::Paste), &QAction::triggered, this,
             [this] { _editContext->paste(); });
-    connect(_actions->action(hmi::IconId::ToggleGrid), &QAction::triggered, _viewport,
+    connect(_actions->action(EditorCommand::ToggleGrid), &QAction::triggered, _viewport,
             [this] { _viewport->toggleGrid(); });
-    connect(_actions->action(hmi::IconId::ResetCamera), &QAction::triggered, _viewport,
+    connect(_actions->action(EditorCommand::ResetCamera), &QAction::triggered, _viewport,
             [this] { _viewport->resetCamera(); });
     // Renommer la carte ouverte : même dialogue que LevelBrowserPanel::onRename.
-    connect(_actions->action(hmi::IconId::Rename), &QAction::triggered, this, [this] {
+    connect(_actions->action(EditorCommand::Rename), &QAction::triggered, this, [this] {
         bool accepted = false;
         const QString name = QInputDialog::getText(
-            this, text("map.rename"), text("map.rename_prompt"), QLineEdit::Normal,
+            this, QStringLiteral("Rename"), QStringLiteral("New name:"), QLineEdit::Normal,
             QString::fromStdString(_viewport->draft().name()), &accepted);
         if (!accepted || name.isEmpty()) {
             return;
@@ -295,24 +339,10 @@ void MainWindow::connectEditorCommands() {
             _levels->refresh();  // le fichier a pu changer de nom dans le dossier listé.
         }
     });
-    connect(_actions->action(hmi::IconId::ShortcutsOverview), &QAction::triggered, this,
+    connect(_actions->action(EditorCommand::ShortcutsOverview), &QAction::triggered, this,
             [this] { openShortcutsDialog(); });
-
-    // Commandes principales, réparties PAR NATURE D'ACTION (EX-IHM-074). Toujours les
-    // mêmes actions que la barre d'outils : aucune seconde définition (EX-IHM-055).
-    _ui->fileMenu->insertAction(_ui->actResize, _actions->action(hmi::IconId::Save));
-    _ui->fileMenu->insertAction(_ui->actResize, _actions->action(hmi::IconId::Rename));
-    _ui->editMenu->addAction(_actions->action(hmi::IconId::Undo));
-    _ui->editMenu->addAction(_actions->action(hmi::IconId::Redo));
-    _ui->editMenu->addSeparator();
-    _ui->editMenu->addAction(_actions->action(hmi::IconId::Copy));
-    _ui->editMenu->addAction(_actions->action(hmi::IconId::Paste));
-    _ui->levelMenu->addAction(_actions->action(hmi::IconId::Playtest));
-    _ui->helpMenu->addAction(_actions->action(hmi::IconId::ShortcutsOverview));
-
-    connect(_ui->actQuit, &QAction::triggered, this, &MainWindow::close);
-    connect(_ui->actResize, &QAction::triggered, this, [this] { openResizeDialog(); });
-    connect(_ui->actResetLayout, &QAction::triggered, this, [this] {
+    connect(_resizeAction, &QAction::triggered, this, [this] { openResizeDialog(); });
+    connect(_resetLayoutAction, &QAction::triggered, this, [this] {
         _suppressPanelFocusTracking = true;
         restoreState(_defaultState, LAYOUT_VERSION);
         _suppressPanelFocusTracking = false;
@@ -320,80 +350,16 @@ void MainWindow::connectEditorCommands() {
     });
 }
 
-void MainWindow::buildThemeMenu() {
-    // Thème clair/sombre de l'éditeur : réglage Système/Clair/Sombre, persisté.
-    auto* const themeGroup = new QActionGroup(this);
-    themeGroup->setExclusive(true);
-    for (QAction* const act : {_ui->actThemeSystem, _ui->actThemeLight, _ui->actThemeDark}) {
-        act->setActionGroup(themeGroup);
-    }
-    switch (hmi::editorThemeSetting()) {
-        case hmi::EditorThemeSetting::Light:
-            _ui->actThemeLight->setChecked(true);
-            break;
-        case hmi::EditorThemeSetting::Dark:
-            _ui->actThemeDark->setChecked(true);
-            break;
-        case hmi::EditorThemeSetting::System:
-            _ui->actThemeSystem->setChecked(true);
-            break;
-    }
-    // Régénère palette + feuille de style + icônes depuis le thème désormais effectif.
-    const auto applyThemeSetting = [this](hmi::EditorThemeSetting setting) {
-        hmi::setEditorThemeSetting(setting);
-        hmi::reapplyEditorTheme();
-        _actions->refreshIcons(hmi::currentEditorTokens());
-    };
-    connect(_ui->actThemeSystem, &QAction::triggered, this,
-            [applyThemeSetting] { applyThemeSetting(hmi::EditorThemeSetting::System); });
-    connect(_ui->actThemeLight, &QAction::triggered, this,
-            [applyThemeSetting] { applyThemeSetting(hmi::EditorThemeSetting::Light); });
-    connect(_ui->actThemeDark, &QAction::triggered, this,
-            [applyThemeSetting] { applyThemeSetting(hmi::EditorThemeSetting::Dark); });
-    // Réglage « Système » : réagit à un changement live du thème du système d'exploitation.
-    connect(QGuiApplication::styleHints(), &QStyleHints::colorSchemeChanged, this,
-            [this](Qt::ColorScheme) {
-                if (hmi::editorThemeSetting() == hmi::EditorThemeSetting::System) {
-                    hmi::reapplyEditorTheme();
-                    _actions->refreshIcons(hmi::currentEditorTokens());
-                }
-            });
-}
-
-void MainWindow::buildViewMenu() {
-    // Commandes de VUE, en tête du menu Affichage : ce sont les seules qui agissent tout de suite ;
-    // le reste du menu est un réglage, rangé en sous-menu.
-    QAction* const firstViewSeparator = _ui->viewMenu->actions().constFirst();
-    _ui->viewMenu->insertAction(firstViewSeparator, _actions->action(hmi::IconId::ResetCamera));
-    _ui->viewMenu->insertAction(firstViewSeparator, _actions->action(hmi::IconId::ToggleGrid));
-
-    for (QDockWidget* const dock :
-         {_ui->PalettePanel, _ui->LevelsPanel, _ui->LayersPanel, _ui->EntitiesPanel}) {
-        _ui->panelsMenu->insertAction(_ui->panelsMenu->actions().constFirst(),
-                                      dock->toggleViewAction());
-    }
-
-    // Mise en avant automatique du panneau de l'outil actif : persistée, active
-    // par défaut.
-    _actFollowActiveTool = _ui->actFollowActiveTool;
-    _actFollowActiveTool->setChecked(
-        QSettings().value(QString::fromLatin1(FOLLOW_ACTIVE_TOOL_KEY), true).toBool());
-    connect(_actFollowActiveTool, &QAction::toggled, this, [](bool enabled) {
-        QSettings().setValue(QString::fromLatin1(FOLLOW_ACTIVE_TOOL_KEY), enabled);
-    });
-}
-
 void MainWindow::buildStatusBar() {
-    // Barre d'état structurée : zones permanentes, jamais recouvertes par un
-    // message transitoire. Largeur minimale sur les zones qui changent au survol (case, zoom) :
-    // sans elle, la barre « saute » à chaque déplacement de souris.
+    // Barre d'état structurée : zones permanentes, jamais recouvertes par un message transitoire.
+    // Largeur minimale sur les zones qui changent au survol (case, zoom) : sans elle, la barre
+    // « saute » à chaque déplacement de souris.
     for (QLabel*& zone : _statusZones) {
         zone = new QLabel(this);
         statusBar()->addPermanentWidget(zone);
     }
     _statusZones[3]->setMinimumWidth(fontMetrics().horizontalAdvance(QStringLiteral("(999, 999)")));
-    _statusZones[4]->setMinimumWidth(
-        fontMetrics().horizontalAdvance(QStringLiteral("Zoom : 999%")));
+    _statusZones[4]->setMinimumWidth(fontMetrics().horizontalAdvance(QStringLiteral("Zoom: 999%")));
     _statusMessageTimer = new QTimer(this);
     _statusMessageTimer->setSingleShot(true);
     connect(_statusMessageTimer, &QTimer::timeout, this, &MainWindow::refreshStatusHelp);
@@ -401,25 +367,36 @@ void MainWindow::buildStatusBar() {
 
 void MainWindow::openResizeDialog() {
     QDialog dialog(this);
-    Ui::ResizeDialog ui;
-    ui.setupUi(&dialog);
-    dialog.setWindowTitle(text("dialog.resize_title"));
-    ui.widthLabel->setText(text("dialog.width"));
-    ui.heightLabel->setText(text("dialog.height"));
-    ui.widthSpin->setValue(_viewport->levelWidth());
-    ui.heightSpin->setValue(_viewport->levelHeight());
-    connect(ui.buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    connect(ui.buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    dialog.setWindowTitle(QStringLiteral("Resize map"));
+    auto* const widthSpin = new QSpinBox(&dialog);
+    auto* const heightSpin = new QSpinBox(&dialog);
+    for (QSpinBox* const spin : {widthSpin, heightSpin}) {
+        spin->setRange(1, MAXIMUM_MAP_SIDE);
+    }
+    widthSpin->setValue(_viewport->levelWidth());
+    heightSpin->setValue(_viewport->levelHeight());
+    auto* const buttons =
+        new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    auto* const form = new QFormLayout(&dialog);
+    form->addRow(QStringLiteral("Width (cells)"), widthSpin);
+    form->addRow(QStringLiteral("Height (cells)"), heightSpin);
+    form->addRow(buttons);
 
     if (dialog.exec() != QDialog::Accepted) {
         return;
     }
-    const int width = ui.widthSpin->value();
-    const int height = ui.heightSpin->value();
+    const int width = widthSpin->value();
+    const int height = heightSpin->value();
     // Confirmation si le redimensionnement supprimerait du contenu déjà posé (EX-EDIT-012).
     if (_viewport->wouldResizeDrop(width, height)) {
         const QMessageBox::StandardButton answer = QMessageBox::question(
-            this, text("dialog.resize_title"), text("dialog.resize_drop").arg(width).arg(height));
+            this, QStringLiteral("Resize map"),
+            QStringLiteral(
+                "Shrinking to %1 × %2 will remove content (entry or entities). Continue?")
+                .arg(width)
+                .arg(height));
         if (answer != QMessageBox::Yes) {
             return;
         }
@@ -431,27 +408,31 @@ void MainWindow::openShortcutsDialog() {
     // Lit les raccourcis EFFECTIFS des actions à l'ouverture, jamais un texte figé (EX-EDIT-015).
     // Les commandes SANS raccourci sont omises -- une ligne vide n'apprendrait rien.
     QDialog dialog(this);
-    Ui::ShortcutsDialog ui;
-    ui.setupUi(&dialog);
-    dialog.setWindowTitle(text("dialog.shortcuts_title"));
-    ui.table->setHorizontalHeaderLabels(
-        {text("dialog.shortcuts_command"), text("dialog.shortcuts_key")});
-    ui.table->horizontalHeader()->setStretchLastSection(true);
-    ui.table->verticalHeader()->setVisible(false);
-
-    for (const hmi::EditorActionSpec& spec : hmi::editorActionCatalog()) {
-        QAction* const act = _actions->action(spec.id);
+    dialog.setWindowTitle(QStringLiteral("Keyboard shortcuts"));
+    auto* const table = new QTableWidget(0, 2, &dialog);
+    table->setHorizontalHeaderLabels({QStringLiteral("Command"), QStringLiteral("Shortcut")});
+    table->horizontalHeader()->setStretchLastSection(true);
+    table->verticalHeader()->setVisible(false);
+    table->setAlternatingRowColors(true);
+    table->setSelectionMode(QAbstractItemView::NoSelection);
+    table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    table->setShowGrid(false);
+    for (QAction* const act : _actions->all()) {
         if (act->shortcut().isEmpty()) {
             continue;
         }
-        const int row = ui.table->rowCount();
-        ui.table->insertRow(row);
-        ui.table->setItem(row, 0, new QTableWidgetItem(act->text()));
-        ui.table->setItem(row, 1,
-                          new QTableWidgetItem(act->shortcut().toString(QKeySequence::NativeText)));
+        const int row = table->rowCount();
+        table->insertRow(row);
+        table->setItem(row, 0, new QTableWidgetItem(act->text()));
+        table->setItem(row, 1,
+                       new QTableWidgetItem(act->shortcut().toString(QKeySequence::NativeText)));
     }
-    ui.table->resizeColumnsToContents();
-    connect(ui.buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    table->resizeColumnsToContents();
+    auto* const buttons = new QDialogButtonBox(QDialogButtonBox::Ok, &dialog);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    auto* const layout = new QVBoxLayout(&dialog);
+    layout->addWidget(table);
+    layout->addWidget(buttons);
     dialog.exec();
 }
 
@@ -502,10 +483,6 @@ void MainWindow::closeEvent(QCloseEvent* event) {
     QMainWindow::closeEvent(event);
 }
 
-QString MainWindow::text(const char* key) const {
-    return QString::fromStdString(_loc.text(key));
-}
-
 void MainWindow::refreshStatusHelp() {
     EditorStatusContext context;
     // L'essai n'édite rien : la barre d'état ne décrit alors aucun outil.
@@ -518,7 +495,7 @@ void MainWindow::refreshStatusHelp() {
         level.zoom = _viewport->zoom();
         context.level = level;
     }
-    const EditorStatusLines lines = editorStatusLines(context, _loc);
+    const EditorStatusLines lines = editorStatusLines(context);
     for (std::size_t index = 0; index < _statusZones.size(); ++index) {
         _statusZones[index]->setText(QString::fromStdString(lines.permanent[index]));
     }
@@ -535,6 +512,10 @@ void MainWindow::showTransientStatusMessage(const QString& message, int timeoutM
     _statusMessageTimer->start(timeoutMs);
 }
 
+QDockWidget* MainWindow::dockFor(PanelId panel) const {
+    return _docks[static_cast<std::size_t>(panel)];
+}
+
 void MainWindow::applyPanelFocus(hmi::EditorTool tool) {
     if (!_actFollowActiveTool->isChecked() || _userPickedTab) {
         return;  // réglage désactivé, ou l'utilisateur a déjà imposé un onglet pour la session.
@@ -543,58 +524,11 @@ void MainWindow::applyPanelFocus(hmi::EditorTool tool) {
     if (!panel) {
         return;
     }
-    QDockWidget* dock = nullptr;
-    switch (*panel) {
-        case hmi::PanelId::Palette:
-            dock = _ui->PalettePanel;
-            break;
-        case hmi::PanelId::Levels:
-            dock = _ui->LevelsPanel;
-            break;
-        case hmi::PanelId::Layers:
-            dock = _ui->LayersPanel;
-            break;
-        case hmi::PanelId::Entities:
-            dock = _ui->EntitiesPanel;
-            break;
-    }
     // raise() met l'onglet au premier plan sans voler le focus clavier au canevas -- une
     // suggestion, jamais une confiscation.
     _suppressPanelFocusTracking = true;
-    dock->raise();
+    dockFor(*panel)->raise();
     _suppressPanelFocusTracking = false;
-}
-
-void MainWindow::retranslateUi() {
-    setWindowTitle(text("window.title"));
-
-    _ui->PalettePanel->setWindowTitle(text("dock.palette"));
-    _ui->LevelsPanel->setWindowTitle(text("dock.levels"));
-    _ui->LayersPanel->setWindowTitle(text("dock.layers"));
-    _ui->EntitiesPanel->setWindowTitle(text("dock.entities"));
-
-    _ui->fileMenu->setTitle(text("menubar.file"));
-    _ui->actQuit->setText(text("menubar.quit"));
-    _ui->actResize->setText(text("menubar.resize"));
-    _ui->editMenu->setTitle(text("menubar.edit"));
-    _ui->levelMenu->setTitle(text("menubar.level"));
-    _ui->helpMenu->setTitle(text("menubar.help"));
-    _ui->viewMenu->setTitle(text("menubar.view"));
-    _ui->panelsMenu->setTitle(text("menubar.panels"));
-    _ui->themeMenu->setTitle(text("menubar.theme"));
-    _ui->actThemeSystem->setText(text("menubar.theme_system"));
-    _ui->actThemeLight->setText(text("menubar.theme_light"));
-    _ui->actThemeDark->setText(text("menubar.theme_dark"));
-    _actFollowActiveTool->setText(text("menubar.follow_active_tool"));
-    _ui->actResetLayout->setText(text("menubar.reset_layout"));
-    _actions->retranslateUi(_loc);
-
-    _palette->retranslateUi(_loc);
-    _levels->retranslateUi(_loc);
-    _layers->retranslateUi(_loc);
-    _entities->retranslateUi(_loc);
-
-    refreshStatusHelp();
 }
 
 }  // namespace hmi

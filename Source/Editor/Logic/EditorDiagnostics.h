@@ -27,19 +27,18 @@ enum class EditorDiagnosticKind {
 };
 
 /**
- * @brief Un avertissement prêt à traduire : une clé de `hmi::Localization` et ses arguments, dans
- *        l'ordre des `%1`, `%2`… du texte.
+ * @brief Un avertissement prêt à afficher, en anglais.
  *
- * Le `Core` rend des codes (`EX-NFR-011`) ; cette table les nomme, une fois, pour que le panneau et
- * les tests lisent la même chose.
+ * Le `Core` rend des codes (`EX-NFR-011`) ; ce module les dit, une fois, pour que le panneau et les
+ * tests lisent la même chose. L'éditeur n'a pas de traduction (`LOT-EDITOR-01`) : une famille
+ * d'entité et une propriété s'y nomment par leur identifiant du format (`npc`, `dialogue`).
  */
 struct EditorDiagnostic {
     EditorDiagnosticKind kind = EditorDiagnosticKind::Reference;
     std::size_t entityIndex = 0;
     /// Case de l'entité, ou case en cause (combattant hors de la zone jouable).
     core::GridPosition cell;
-    std::string key;
-    std::vector<std::string> args;
+    std::string message;
 
     [[nodiscard]] bool operator==(const EditorDiagnostic&) const = default;
 };
@@ -53,10 +52,6 @@ struct EditorDiagnostic {
 /**
  * @brief Les avertissements de la carte, les références d'abord, puis le terrain, chacun dans
  *        l'ordre des entités.
- *
- * Arguments : pour une référence, le type d'entité, la propriété, puis la valeur ; pour un
- * combattant, la rencontre puis la créature ; pour une zone trop étroite, la rencontre, les cases
- * libres, puis les cases exigées.
  */
 [[nodiscard]] std::vector<EditorDiagnostic> editorDiagnostics(
     const std::vector<core::MapEntity>& entities, const std::vector<core::EntityIssue>& issues,

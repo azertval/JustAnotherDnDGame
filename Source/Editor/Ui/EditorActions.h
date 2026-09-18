@@ -5,8 +5,10 @@
 
 #include <QObject>
 #include <array>
+#include <cstddef>
+#include <optional>
 
-#include "Editor/Logic/ActionCatalog.h"
+#include "Editor/Logic/EditorTool.h"
 
 class QAction;
 class QActionGroup;
@@ -20,69 +22,70 @@ class QToolBar;
 namespace hmi {
 
 class EditorKeyBindings;
-class Localization;
-struct DesignTokens;
+
+/// Une commande de l'éditeur : quatre outils, puis les commandes.
+enum class EditorCommand {
+    ToolPaint,
+    ToolRectangle,
+    ToolSelection,
+    ToolEntity,
+    Save,
+    Playtest,
+    Undo,
+    Redo,
+    ToggleGrid,
+    ResetCamera,
+    Copy,
+    Paste,
+    Rename,
+    ShortcutsOverview,
+};
+
+/// Nombre de commandes, déclaré au plus près de l'énumération qu'il compte.
+inline constexpr std::size_t EDITOR_COMMAND_COUNT = 14;
 
 /**
- * @brief Construit et possède les `QAction` du catalogue (`Editor/Logic/ActionCatalog.h`) :
- *        chaque outil et chaque commande principale n'existe qu'une fois, placée simultanément
- *        dans la barre d'outils, un menu et un menu contextuel sans duplication.
+ * @brief Construit et possède les `QAction` de l'éditeur : chaque outil et chaque commande
+ *        n'existe qu'une fois, placée dans la barre d'outils, un menu et son raccourci.
  *
- * Les icônes sont dessinées par code (`hmi::themeIcon`) et recolorées depuis les jetons ;
- * `refreshIcons` les régénère lors d'un changement de thème.
+ * Outil interne (`LOT-EDITOR-01`) : libellés anglais écrits ici, icônes standard du style Qt quand
+ * il en a une, texte sinon. La barre d'outils porte les outils et les commandes d'usage continu ;
+ * le reste vit au menu.
  */
 class EditorActions : public QObject {
     Q_OBJECT
 
 public:
-    /// @param tokens Jetons du châssis d'édition, pour la première génération des icônes.
-    /// @param parent Parent Qt (propriétaire des `QAction` construits), optionnel.
-    explicit EditorActions(const DesignTokens& tokens, QObject* parent = nullptr);
+    explicit EditorActions(QObject* parent = nullptr);
 
-    /// @return L'action portant @p id.
-    [[nodiscard]] QAction* action(IconId id) const;
-    /// @return L'action de l'outil @p tool (raccourci vers `action(editorActionForTool(tool))`).
+    /// @return L'action de @p command.
+    [[nodiscard]] QAction* action(EditorCommand command) const;
+    /// @return L'action de l'outil @p tool.
     [[nodiscard]] QAction* toolAction(EditorTool tool) const;
-    /// @return Le groupe exclusif des six actions d'outil de niveau.
-    [[nodiscard]] QActionGroup* toolGroup() const noexcept {
-        return _toolGroup;
+    /// @return L'outil porté par @p command, si c'est un outil.
+    [[nodiscard]] static std::optional<EditorTool> toolOf(EditorCommand command);
+    /// @return Toutes les actions, dans l'ordre de l'énumération.
+    [[nodiscard]] const std::array<QAction*, EDITOR_COMMAND_COUNT>& all() const noexcept {
+        return _actions;
     }
 
-    /// Ajoute les actions d'outils de niveau et les commandes principales à @p toolBar, dans
-    /// l'ordre du catalogue, avec un séparateur entre les deux.
+    /// Ajoute à @p toolBar les outils, un séparateur, puis les commandes d'usage continu.
     void populateToolBar(QToolBar& toolBar) const;
-
-    /// Applique la langue active : libellé de chaque action, et infobulle incluant son raccourci
-    /// (jamais saisi séparément).
-    void retranslateUi(const Localization& loc);
 
     /// Coche l'action de l'outil actif **sans** émettre `triggered` : resynchronisation quand le
     /// canevas change d'outil de lui-même (choisir une famille d'entité arme l'outil Entité).
     void setActiveTool(EditorTool tool) const;
 
-    /// Active/désactive les six commandes qui n'ont de sens qu'en édition (Enregistrer, Essayer,
-    /// Annuler, Refaire, Grille, Recadrer).
-    void setEditingCommandsEnabled(bool enabled) const;
-
-    /// Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème) :
-    /// sans quoi elles resteraient aux anciennes couleurs après le changement.
-    void refreshIcons(const DesignTokens& tokens);
-
     /**
-     * @brief Fait refléter @p bindings sur le raccourci effectif de chaque commande concernée
-     *        (`hmi::keyBindingIconCatalog`).
-     *
-     * `ActionCatalog` reste sans dépendance Qt (valeurs par défaut littérales) ; c'est ici, côté
-     * Qt, que le raccourci **réellement actif** d'un `QAction` est synchronisé avec les touches
-     * remappables — sans quoi un remappage dans les Options ne changerait rien à l'action.
-     * Refait aussi les infobulles (`retranslateUi`), pour que « libellé + raccourci » reste vrai.
-     * @param bindings Touches d'éditeur courantes.
-     * @param loc      Catalogue de traduction courant, pour les infobulles.
+     * @brief Fait refléter @p bindings sur le raccourci effectif de chaque commande remappable,
+     *        puis refait les infobulles (« libellé (raccourci) »).
      */
-    void applyShortcuts(const EditorKeyBindings& bindings, const Localization& loc);
+    void applyShortcuts(const EditorKeyBindings& bindings);
 
 private:
-    std::array<QAction*, EDITOR_ACTION_CATALOG_COUNT> _actions{};
+    void refreshToolTips() const;
+
+    std::array<QAction*, EDITOR_COMMAND_COUNT> _actions{};
     QActionGroup* _toolGroup;
 };
 

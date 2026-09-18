@@ -3,6 +3,7 @@
 
 #include "Editor/Ui/LevelBrowserPanel.h"
 
+#include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QListView>
@@ -13,14 +14,13 @@
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QTabWidget>
+#include <QVBoxLayout>
 #include <utility>
 
 #include "Core/World/WorldGraph.h"
 #include "Editor/Logic/LevelFileOperations.h"
 #include "Editor/Ui/WorldGraphView.h"
 #include "HMI/HmiLog.h"
-#include "HMI/Localization/Localization.h"
-#include "ui_LevelBrowserPanel.h"
 
 namespace hmi {
 
@@ -30,10 +30,6 @@ namespace {
 constexpr int PATH_ROLE = Qt::UserRole + 1;
 
 // Texte localisé d'une clé (repli sur la clé si aucun catalogue — ne survient pas en pratique).
-[[nodiscard]] QString t(const Localization* loc, const char* key) {
-    return loc != nullptr ? QString::fromStdString(loc->text(key)) : QString::fromLatin1(key);
-}
-
 // Signale l'échec éventuel d'une opération à l'utilisateur (jamais silencieux) et le journalise.
 void reportIfError(QWidget* parent, const QString& title, const FileOperationResult& result) {
     if (!result.ok()) {
@@ -44,15 +40,58 @@ void reportIfError(QWidget* parent, const QString& title, const FileOperationRes
 
 }  // namespace
 
+/// Les widgets du panneau : un onglet « List » (recherche, liste, boutons de gestion) et un onglet
+/// « Graph » (le graphe du monde).
+struct LevelBrowserPanel::Widgets {
+    QTabWidget* viewTabs;
+    QLineEdit* searchField;
+    QListView* levelList;
+    QPushButton* newButton;
+    QPushButton* renameButton;
+    QPushButton* duplicateButton;
+    QPushButton* deleteButton;
+    WorldGraphView* worldGraph;
+
+    explicit Widgets(QWidget* panel)
+        : viewTabs(new QTabWidget(panel)),
+          searchField(new QLineEdit),
+          levelList(new QListView),
+          newButton(new QPushButton(QStringLiteral("New"))),
+          renameButton(new QPushButton(QStringLiteral("Rename"))),
+          duplicateButton(new QPushButton(QStringLiteral("Duplicate"))),
+          deleteButton(new QPushButton(QStringLiteral("Delete"))),
+          worldGraph(new WorldGraphView) {
+        searchField->setPlaceholderText(QStringLiteral("Search…"));
+        searchField->setClearButtonEnabled(true);
+
+        auto* const listTab = new QWidget;
+        auto* const buttonRow = new QHBoxLayout;
+        for (QPushButton* const button : {newButton, renameButton, duplicateButton, deleteButton}) {
+            buttonRow->addWidget(button);
+        }
+        auto* const listLayout = new QVBoxLayout(listTab);
+        listLayout->addWidget(searchField);
+        listLayout->addWidget(levelList);
+        listLayout->addLayout(buttonRow);
+        auto* const graphTab = new QWidget;
+        auto* const graphLayout = new QVBoxLayout(graphTab);
+        graphLayout->addWidget(worldGraph);
+        viewTabs->addTab(listTab, QStringLiteral("List"));
+        viewTabs->addTab(graphTab, QStringLiteral("Graph"));
+
+        auto* const layout = new QVBoxLayout(panel);
+        layout->setContentsMargins(0, 0, 0, 0);
+        layout->addWidget(viewTabs);
+    }
+};
+
 LevelBrowserPanel::LevelBrowserPanel(std::filesystem::path levelsDir, QWidget* parent)
     : QWidget(parent),
-      _ui(std::make_unique<Ui::LevelBrowserPanel>()),
+      _ui(std::make_unique<Widgets>(this)),
       _dir(std::move(levelsDir)),
       _model(new QStandardItemModel(this)),
       _proxy(new QSortFilterProxyModel(this)) {
-    _ui->setupUi(this);
-
-    // Filtre de recherche (modèle -> proxy) et branchement de la liste (mise en page dans le .ui).
+    // Filtre de recherche (modèle -> proxy) et branchement de la liste.
     _proxy->setSourceModel(_model);
     _proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
     _ui->levelList->setModel(_proxy);
@@ -105,7 +144,7 @@ std::filesystem::path LevelBrowserPanel::selectedPath() const {
 void LevelBrowserPanel::onNew() {
     bool accepted = false;
     const QString name =
-        QInputDialog::getText(this, t(_loc, "map.new_title"), t(_loc, "map.name_prompt"),
+        QInputDialog::getText(this, QStringLiteral("New map"), QStringLiteral("Map name:"),
                               QLineEdit::Normal, QString(), &accepted);
     if (!accepted || name.isEmpty()) {
         return;
@@ -115,7 +154,7 @@ void LevelBrowserPanel::onNew() {
     if (result.ok()) {
         HMI_LOG_INFO("Niveaux : cree « " + name.toStdString() + " ».");
     }
-    reportIfError(this, t(_loc, "map.operation_failed"), result);
+    reportIfError(this, QStringLiteral("Operation failed"), result);
     refresh();
 }
 
@@ -126,7 +165,7 @@ void LevelBrowserPanel::onRename() {
     }
     bool accepted = false;
     const QString name = QInputDialog::getText(
-        this, t(_loc, "map.rename"), t(_loc, "map.rename_prompt"), QLineEdit::Normal,
+        this, QStringLiteral("Rename"), QStringLiteral("New name:"), QLineEdit::Normal,
         QString::fromStdString(path.stem().string()), &accepted);
     if (!accepted || name.isEmpty()) {
         return;
@@ -134,7 +173,7 @@ void LevelBrowserPanel::onRename() {
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : renommage de « " + path.stem().string() + " » en « " +
                  name.toStdString() + " ».");
-    reportIfError(this, t(_loc, "map.operation_failed"), ops.rename(path, name.toStdString()));
+    reportIfError(this, QStringLiteral("Operation failed"), ops.rename(path, name.toStdString()));
     refresh();
 }
 
@@ -145,7 +184,7 @@ void LevelBrowserPanel::onDuplicate() {
     }
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : duplication de « " + path.stem().string() + " ».");
-    reportIfError(this, t(_loc, "map.operation_failed"), ops.duplicate(path));
+    reportIfError(this, QStringLiteral("Operation failed"), ops.duplicate(path));
     refresh();
 }
 
@@ -154,28 +193,17 @@ void LevelBrowserPanel::onDelete() {
     if (path.empty()) {
         return;
     }
-    const QMessageBox::StandardButton answer = QMessageBox::question(
-        this, t(_loc, "map.delete_title"),
-        t(_loc, "map.delete_confirm").arg(QString::fromStdString(path.stem().string())));
+    const QMessageBox::StandardButton answer =
+        QMessageBox::question(this, QStringLiteral("Delete"),
+                              QStringLiteral("Permanently delete “%1”?")
+                                  .arg(QString::fromStdString(path.stem().string())));
     if (answer != QMessageBox::Yes) {
         return;
     }
     const LevelFileOperations ops(_dir);
     HMI_LOG_INFO("Niveaux : suppression de « " + path.stem().string() + " ».");
-    reportIfError(this, t(_loc, "map.operation_failed"), hmi::LevelFileOperations::remove(path));
+    reportIfError(this, QStringLiteral("Operation failed"), hmi::LevelFileOperations::remove(path));
     refresh();
-}
-
-void LevelBrowserPanel::retranslateUi(const Localization& loc) {
-    _loc = &loc;
-    _ui->viewTabs->setTabText(_ui->viewTabs->indexOf(_ui->listTab), t(_loc, "map.tab.list"));
-    _ui->viewTabs->setTabText(_ui->viewTabs->indexOf(_ui->graphTab), t(_loc, "map.tab.graph"));
-    _ui->worldGraph->retranslateUi(loc);
-    _ui->searchField->setPlaceholderText(t(_loc, "map.search"));
-    _ui->newButton->setText(t(_loc, "map.new"));
-    _ui->renameButton->setText(t(_loc, "map.rename"));
-    _ui->duplicateButton->setText(t(_loc, "map.duplicate"));
-    _ui->deleteButton->setText(t(_loc, "map.delete"));
 }
 
 void LevelBrowserPanel::onActivated(const QModelIndex& index) {

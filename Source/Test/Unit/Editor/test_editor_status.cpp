@@ -7,31 +7,11 @@
  *        (EX-IHM-060). Fonction pure, sans Qt/GPU.
  */
 
-#include <filesystem>
-
 #include <gtest/gtest.h>
 
 #include "Editor/Logic/EditorStatus.h"
-#include "HMI/Localization/Localization.h"
 
 namespace {
-
-hmi::Localization testLocalization() {
-    hmi::Localization localization;
-    localization.setDefaultCatalog("fr", {{"status.zone.level", "Carte : %1"},
-                                          {"status.zone.dirty", "Modifie"},
-                                          {"status.zone.hover", "(%1, %2)"},
-                                          {"status.zone.zoom", "Zoom : %1%"},
-                                          {"tool.brush", "Pinceau"},
-                                          {"tool.rectangle", "Rectangle"},
-                                          {"tool.selection", "Selection"},
-                                          {"tool.entity", "Entite"},
-                                          {"status.help_paint", "Aide pinceau"},
-                                          {"status.help_rectangle", "Aide rectangle"},
-                                          {"status.help_selection", "Aide selection"},
-                                          {"status.help_entity", "Aide entite"}});
-    return localization;
-}
 
 hmi::LevelStatusInfo baseLevel() {
     hmi::LevelStatusInfo level;
@@ -55,8 +35,7 @@ hmi::LevelStatusInfo baseLevel() {
  * }
  */
 TEST(EditorStatusTest, AucunNiveauOuvertNAfficheRien) {
-    const hmi::EditorStatusLines lines =
-        hmi::editorStatusLines(hmi::EditorStatusContext{}, testLocalization());
+    const hmi::EditorStatusLines lines = hmi::editorStatusLines(hmi::EditorStatusContext{});
 
     ASSERT_EQ(lines.permanent.size(), hmi::EDITOR_STATUS_ZONE_COUNT);
     for (const std::string& zone : lines.permanent) {
@@ -78,9 +57,9 @@ TEST(EditorStatusTest, AucuneCaseSurvoleeLaisseLaZoneVide) {
     hmi::EditorStatusContext context;
     context.level = baseLevel();
 
-    const hmi::EditorStatusLines lines = hmi::editorStatusLines(context, testLocalization());
+    const hmi::EditorStatusLines lines = hmi::editorStatusLines(context);
 
-    EXPECT_EQ(lines.permanent[0], "Carte : Salle des epreuves");
+    EXPECT_EQ(lines.permanent[0], "Map: Salle des epreuves");
     EXPECT_EQ(lines.permanent[3], "");
 }
 
@@ -103,9 +82,8 @@ TEST(EditorStatusTest, IndicateurDeModificationSuitLEtatDirty) {
     hmi::EditorStatusContext cleanContext;
     cleanContext.level = baseLevel();  // dirty = false par defaut.
 
-    const hmi::Localization localization = testLocalization();
-    EXPECT_EQ(hmi::editorStatusLines(dirtyContext, localization).permanent[1], "Modifie");
-    EXPECT_EQ(hmi::editorStatusLines(cleanContext, localization).permanent[1], "");
+    EXPECT_EQ(hmi::editorStatusLines(dirtyContext).permanent[1], "Modified");
+    EXPECT_EQ(hmi::editorStatusLines(cleanContext).permanent[1], "");
 }
 
 /**
@@ -114,21 +92,19 @@ TEST(EditorStatusTest, IndicateurDeModificationSuitLEtatDirty) {
  * \tcat Unitaire · Barre d'etat de l'editeur<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Calculer les lignes avec l'outil Pinceau, puis Entite.<br/>2. Comparer l'aide.<br/>
- * \tattendu L'aide differe entre les deux outils et correspond a la cle attendue.
+ * \tattendu L'aide differe entre les deux outils et commence par le nom de l'outil.
  * }
  */
 TEST(EditorStatusTest, AideChangeAvecLOutilActif) {
-    const hmi::Localization localization = testLocalization();
-
     hmi::EditorStatusContext paintContext;
     paintContext.level = baseLevel();
-    EXPECT_EQ(hmi::editorStatusLines(paintContext, localization).help, "Aide pinceau");
+    EXPECT_EQ(hmi::editorStatusLines(paintContext).help.rfind("Paint:", 0), 0U);
 
     hmi::LevelStatusInfo entityLevel = baseLevel();
     entityLevel.tool = hmi::EditorTool::Entity;
     hmi::EditorStatusContext entityContext;
     entityContext.level = entityLevel;
-    EXPECT_EQ(hmi::editorStatusLines(entityContext, localization).help, "Aide entite");
+    EXPECT_EQ(hmi::editorStatusLines(entityContext).help.rfind("Entity:", 0), 0U);
 }
 
 /**
@@ -146,37 +122,10 @@ TEST(EditorStatusTest, AideChangeAvecLOutilActif) {
 TEST(EditorStatusTest, MemeContexteProduitLaMemeAide) {
     hmi::EditorStatusContext context;
     context.level = baseLevel();
-    const hmi::Localization localization = testLocalization();
 
-    const hmi::EditorStatusLines first = hmi::editorStatusLines(context, localization);
-    const hmi::EditorStatusLines second = hmi::editorStatusLines(context, localization);
+    const hmi::EditorStatusLines first = hmi::editorStatusLines(context);
+    const hmi::EditorStatusLines second = hmi::editorStatusLines(context);
 
     EXPECT_EQ(first.help, second.help);
     EXPECT_EQ(first.permanent, second.permanent);
-}
-
-/**
- * @brief Chaque cle de traduction utilisee par la barre d'etat existe, traduite, dans les deux
- *        catalogues livres (francais et anglais).
- * \castest{<b>Les cles de traduction de la barre d'etat existent dans les deux catalogues.</b><br/>
- * \tcat Unitaire · Barre d'etat de l'editeur<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Charger fr.lang puis en.lang depuis les catalogues livres.<br/>2. Resoudre chaque
- * cle utilisee.<br/>
- * \tattendu Chaque cle resout vers un texte traduit, distinct de la cle elle-meme.
- * }
- */
-TEST(EditorStatusTest, ClesDeTraductionExistentDansLesDeuxCatalogues) {
-    const std::filesystem::path directory(JADG_LOCALIZATION_DIR);
-    const char* const keys[] = {"status.zone.level",     "status.zone.dirty",
-                                "status.zone.hover",     "status.zone.zoom",
-                                "status.help_paint",     "status.help_rectangle",
-                                "status.help_selection", "status.help_entity"};
-    for (const std::string& language : {"fr", "en"}) {
-        hmi::Localization localization(directory);
-        ASSERT_TRUE(localization.loadDefaultLanguage(language)) << language;
-        for (const char* const key : keys) {
-            EXPECT_NE(localization.text(key), key) << language << " / " << key;
-        }
-    }
 }

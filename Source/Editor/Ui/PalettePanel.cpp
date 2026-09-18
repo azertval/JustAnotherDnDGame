@@ -19,15 +19,11 @@
 #include <cstring>
 #include <string>
 
-#include "Editor/Logic/TaxonomyLabels.h"
 #include "Editor/Logic/ThumbnailGeometry.h"
 #include "Editor/Logic/TileTaxonomy.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
 #include "HMI/Graphics/TextureLoader.h"
 #include "HMI/Graphics/TileVisuals.h"
-#include "Editor/Logic/DesignTokens.h"
-#include "HMI/Localization/Localization.h"
-#include "ui_PalettePanel.h"
 
 namespace hmi {
 
@@ -36,19 +32,14 @@ namespace {
 // Rôle de données portant le `core::TileType` d'une feuille (les en-têtes n'en ont pas).
 constexpr int TILE_TYPE_ROLE = Qt::UserRole + 1;
 
-// Libelle de taxonomie traduit (table libelle -> cle de TaxonomyLabels).
-[[nodiscard]] QString localized(const Localization* loc, const std::string& label) {
-    return QString::fromStdString(localizedTaxonomyLabel(loc, label));
-}
-
-// Cote des vignettes de la palette, en pixels d'ecran : jeton de taille, deja un multiple
-// entier de la taille d'une case (16) -- toute autre valeur reechantillonnerait le pixel art de
-// travers, meme en plus proche voisin.
-const int THUMBNAIL_SIZE = editorDarkTokens().size.paletteThumbnail;
+// Cote des vignettes de la palette, en pixels d'ecran : un multiple entier de la taille d'une case
+// (16) -- toute autre valeur reechantillonnerait le pixel art de travers, meme en plus proche
+// voisin.
+constexpr int THUMBNAIL_SIZE = 32;
 
 // Crée une feuille sélectionnable portant son type de tuile.
-[[nodiscard]] QStandardItem* makeLeaf(const TileEntry& entry, const Localization* loc) {
-    auto* const item = new QStandardItem(localized(loc, entry.label));
+[[nodiscard]] QStandardItem* makeLeaf(const TileEntry& entry) {
+    auto* const item = new QStandardItem(QString::fromStdString(entry.label));
     item->setEditable(false);
     item->setData(static_cast<int>(entry.type), TILE_TYPE_ROLE);
     return item;
@@ -76,13 +67,11 @@ const int THUMBNAIL_SIZE = editorDarkTokens().size.paletteThumbnail;
 }  // namespace
 
 PalettePanel::PalettePanel(QWidget* parent)
-    : QWidget(parent),
-      _ui(std::make_unique<Ui::PalettePanel>()),
-      _model(new QStandardItemModel(this)) {
-    _ui->setupUi(this);
-    // Après setupUi seulement : avant, _ui->tree est encore nul.
-    _tree = _ui->tree;
-
+    : QWidget(parent), _tree(new QTreeView(this)), _model(new QStandardItemModel(this)) {
+    auto* const layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(_tree);
+    _tree->setHeaderHidden(true);
     _tree->setModel(_model);
     _tree->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -93,20 +82,18 @@ PalettePanel::PalettePanel(QWidget* parent)
             [this](const QModelIndex& current, const QModelIndex&) { onCurrentChanged(current); });
 }
 
-PalettePanel::~PalettePanel() = default;
-
 void PalettePanel::buildModel() {
     for (const TileCategory& category : tileTaxonomy()) {
-        QStandardItem* const categoryItem = makeHeader(localized(_loc, category.label));
+        QStandardItem* const categoryItem = makeHeader(QString::fromStdString(category.label));
         for (const TileEntry& entry : category.tiles) {
-            QStandardItem* const leaf = makeLeaf(entry, _loc);
+            QStandardItem* const leaf = makeLeaf(entry);
             leaf->setIcon(QIcon(thumbnailFor(entry.type)));
             categoryItem->appendRow(leaf);
         }
         for (const TileSubgroup& subgroup : category.subgroups) {
-            QStandardItem* const subgroupItem = makeHeader(localized(_loc, subgroup.label));
+            QStandardItem* const subgroupItem = makeHeader(QString::fromStdString(subgroup.label));
             for (const TileEntry& entry : subgroup.tiles) {
-                QStandardItem* const leaf = makeLeaf(entry, _loc);
+                QStandardItem* const leaf = makeLeaf(entry);
                 leaf->setIcon(QIcon(thumbnailFor(entry.type)));
                 subgroupItem->appendRow(leaf);
             }
@@ -116,18 +103,11 @@ void PalettePanel::buildModel() {
     }
 }
 
-void PalettePanel::retranslateUi(const Localization& loc) {
-    _loc = &loc;
-    _model->clear();
-    buildModel();
-    _tree->expandAll();
-}
-
 // Vignette d'un type : sa couleur dans l'atlas procedural, celle que le canevas peint.
 QPixmap PalettePanel::thumbnailFor(core::TileType type) {
     const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
-    const QImage source = toImage(
-        DecodedImage{.width = atlas.width, .height = atlas.height, .pixels = atlas.pixels});
+    const QImage source =
+        toImage(DecodedImage{.width = atlas.width, .height = atlas.height, .pixels = atlas.pixels});
     const core::AtlasRegion region = regionForTile(type);
     const QImage tile = source.copy(region.x, region.y, region.width, region.height);
 

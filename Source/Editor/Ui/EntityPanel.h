@@ -28,13 +28,7 @@ namespace core {
 class LevelDraft;
 }
 
-namespace Ui {
-class EntityPanel;
-}
-
 namespace hmi {
-
-class Localization;
 
 /**
  * @brief Vue des entités du brouillon courant — remplace le panneau « Propriétés » retiré au
@@ -63,8 +57,6 @@ public:
     void refresh(const core::LevelDraft& draft, std::optional<std::size_t> selected,
                  const core::EntityReferenceContext& context,
                  const std::vector<EditorDiagnostic>& diagnostics);
-
-    void retranslateUi(const Localization& loc);
 
     /// @return Le type que l'outil « Entité » pose, vide en simple sélection.
     [[nodiscard]] std::string kindToPlace() const;
@@ -100,11 +92,10 @@ private:
     void addChoiceRow(std::size_t index, const core::EntityPropertySpec& spec,
                       const core::PropertyValue& value, const std::vector<std::string>& choices);
     void rebuildWarnings();
-    [[nodiscard]] QString text(const char* key, const QString& fallback) const;
-    [[nodiscard]] QString kindLabel(const std::string& type) const;
-    [[nodiscard]] QString propertyLabel(const std::string& key) const;
 
-    std::unique_ptr<Ui::EntityPanel> _ui;
+    /// Les widgets du panneau, construits en code (`EntityPanel.cpp`).
+    struct Widgets;
+    std::unique_ptr<Widgets> _ui;
     QFormLayout* _form;
     std::vector<core::MapEntity> _entities;
     std::optional<std::size_t> _selected;
@@ -115,7 +106,6 @@ private:
     std::optional<core::MapEntity> _formEntity;
     std::vector<std::vector<std::string>> _formChoices;
     bool _rebuilding = false;
-    const Localization* _loc = nullptr;
 };
 
 }  // namespace hmi

@@ -6,6 +6,8 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QFormLayout>
+#include <QGroupBox>
+#include <QHBoxLayout>
 #include <QHeaderView>
 #include <QItemSelectionModel>
 #include <QLabel>
@@ -17,14 +19,13 @@
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QVBoxLayout>
 #include <cstdint>
 #include <limits>
 #include <variant>
 
 #include "Core/Levels/LevelDraft.h"
 #include "Editor/Logic/EntityReferences.h"
-#include "HMI/Localization/Localization.h"
-#include "ui_EntityPanel.h"
 
 namespace hmi {
 
@@ -55,18 +56,72 @@ constexpr int INTEGER_MAXIMUM = 9999;
     return QStringLiteral("(%1, %2)").arg(position.column).arg(position.row);
 }
 
+// Une famille et une propriété se nomment par leur identifiant du format : l'éditeur est un outil
+// interne, sans traduction, et l'identifiant est ce que l'auteur lit dans le fichier.
+[[nodiscard]] QString kindLabel(const std::string& type) {
+    return QString::fromStdString(type);
+}
+
+[[nodiscard]] QString propertyLabel(const std::string& key) {
+    return QString::fromStdString(key);
+}
+
 }  // namespace
 
-EntityPanel::EntityPanel(QWidget* parent)
-    : QWidget(parent), _ui(std::make_unique<Ui::EntityPanel>()), _form(nullptr) {
-    _ui->setupUi(this);
-    // Le conteneur du formulaire n'existe qu'apres setupUi : pas d'initialisation de membre.
-    // NOLINTNEXTLINE(cppcoreguidelines-prefer-member-initializer)
-    _form = new QFormLayout(_ui->propertiesForm);
-    _form->setContentsMargins(0, 0, 0, 0);
+/// Les widgets du panneau : la famille que l'outil Entité pose, la liste des entités de la carte,
+/// les propriétés de l'entité sélectionnée (formulaire construit depuis `core::knownEntityKinds`)
+/// et les avertissements.
+struct EntityPanel::Widgets {
+    QComboBox* kindCombo;
+    QTableWidget* entityTable;
+    QLabel* selectionLabel;
+    QWidget* propertiesForm;
+    QPushButton* removeButton;
+    QListWidget* warningList;
 
-    _ui->entityTable->horizontalHeader()->setStretchLastSection(true);
-    _ui->entityTable->verticalHeader()->setVisible(false);
+    explicit Widgets(QWidget* panel)
+        : kindCombo(new QComboBox(panel)),
+          entityTable(new QTableWidget(0, 2, panel)),
+          selectionLabel(new QLabel(panel)),
+          propertiesForm(new QWidget(panel)),
+          removeButton(new QPushButton(QStringLiteral("Remove"), panel)),
+          warningList(new QListWidget(panel)) {
+        kindCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        entityTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+        entityTable->setSelectionMode(QAbstractItemView::SingleSelection);
+        entityTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        entityTable->setHorizontalHeaderLabels({QStringLiteral("Type"), QStringLiteral("Cell")});
+        entityTable->horizontalHeader()->setStretchLastSection(true);
+        entityTable->verticalHeader()->setVisible(false);
+        selectionLabel->setWordWrap(true);
+        removeButton->setEnabled(false);
+        warningList->setWordWrap(true);
+        warningList->setSelectionMode(QAbstractItemView::SingleSelection);
+
+        auto* const placeRow = new QHBoxLayout;
+        placeRow->addWidget(new QLabel(QStringLiteral("Place"), panel));
+        placeRow->addWidget(kindCombo, 1);
+        auto* const propertiesBox = new QGroupBox(QStringLiteral("Properties"), panel);
+        auto* const propertiesLayout = new QVBoxLayout(propertiesBox);
+        propertiesLayout->addWidget(selectionLabel);
+        propertiesLayout->addWidget(propertiesForm);
+        propertiesLayout->addWidget(removeButton);
+        auto* const warningsBox = new QGroupBox(QStringLiteral("Warnings"), panel);
+        auto* const warningsLayout = new QVBoxLayout(warningsBox);
+        warningsLayout->addWidget(warningList);
+        auto* const layout = new QVBoxLayout(panel);
+        layout->addLayout(placeRow);
+        layout->addWidget(entityTable);
+        layout->addWidget(propertiesBox);
+        layout->addWidget(warningsBox);
+    }
+};
+
+EntityPanel::EntityPanel(QWidget* parent)
+    : QWidget(parent),
+      _ui(std::make_unique<Widgets>(this)),
+      _form(new QFormLayout(_ui->propertiesForm)) {
+    _form->setContentsMargins(0, 0, 0, 0);
 
     connect(_ui->kindCombo, &QComboBox::currentIndexChanged, this, [this](int) {
         if (!_rebuilding) {
@@ -94,6 +149,8 @@ EntityPanel::EntityPanel(QWidget* parent)
         }
     });
     rebuildKinds();
+    rebuildForm();
+    rebuildWarnings();
 }
 
 EntityPanel::~EntityPanel() = default;
@@ -118,8 +175,7 @@ void EntityPanel::rebuildKinds() {
     _rebuilding = true;
     const QString current = _ui->kindCombo->currentData().toString();
     _ui->kindCombo->clear();
-    _ui->kindCombo->addItem(text("entities.select_only", QStringLiteral("(sélection seule)")),
-                            QString{});
+    _ui->kindCombo->addItem(QStringLiteral("(select only)"), QString{});
     for (const core::EntityKind& kind : core::knownEntityKinds()) {
         const QString type =
             QString::fromUtf8(kind.type.data(), static_cast<qsizetype>(kind.type.size()));
@@ -174,13 +230,14 @@ void EntityPanel::rebuildForm() {
     clearForm();
     _ui->removeButton->setEnabled(entity != nullptr);
     if (entity == nullptr) {
-        _ui->selectionLabel->setText(text("entities.no_selection", {}));
+        _ui->selectionLabel->setText(QStringLiteral("No entity selected."));
         return;
     }
     const std::size_t index = *_selected;
     _ui->selectionLabel->setText(
         kind != nullptr ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
-                        : text("entities.unknown_kind", QStringLiteral("%1"))
+                        : QStringLiteral("Kind \"%1\" is unknown to the editor: its properties are "
+                                         "carried over unchanged.")
                               .arg(QString::fromStdString(entity->type)));
 
     if (kind != nullptr) {
@@ -275,7 +332,7 @@ void EntityPanel::addChoiceRow(std::size_t index, const core::EntityPropertySpec
     // qu'il ecrira ensuite. L'avertissement le lui rappellera.
     combo->setEditable(spec.source != core::EntityChoiceSource::Fixed);
     if (!spec.required || spec.source != core::EntityChoiceSource::Fixed) {
-        combo->addItem(text("entities.none", QStringLiteral("(aucun)")), QString{});
+        combo->addItem(QStringLiteral("(none)"), QString{});
     }
     for (const std::string& choice : choices) {
         combo->addItem(QString::fromStdString(choice), QString::fromStdString(choice));
@@ -305,59 +362,16 @@ void EntityPanel::addChoiceRow(std::size_t index, const core::EntityPropertySpec
 void EntityPanel::rebuildWarnings() {
     _ui->warningList->clear();
     if (_diagnostics.empty()) {
-        auto* const none =
-            new QListWidgetItem(text("entities.warnings_none", {}), _ui->warningList);
+        auto* const none = new QListWidgetItem(QStringLiteral("No warnings."), _ui->warningList);
         none->setFlags(Qt::ItemIsEnabled);
         return;
     }
     for (const EditorDiagnostic& diagnostic : _diagnostics) {
-        QString message = text(diagnostic.key.c_str(), QString::fromStdString(diagnostic.key));
-        for (std::size_t position = 0; position < diagnostic.args.size(); ++position) {
-            // Le premier argument d'une reference est le type d'entite : il se lit traduit. Les
-            // autres sont des identifiants de donnee, montres tels quels.
-            const std::string& argument = diagnostic.args[position];
-            const bool entityType =
-                diagnostic.kind == EditorDiagnosticKind::Reference && position == 0;
-            message =
-                message.arg(entityType ? kindLabel(argument) : QString::fromStdString(argument));
-        }
-        auto* const item = new QListWidgetItem(
-            cellText(diagnostic.cell) + QStringLiteral(" ") + message, _ui->warningList);
+        auto* const item = new QListWidgetItem(cellText(diagnostic.cell) + QStringLiteral(" ") +
+                                                   QString::fromStdString(diagnostic.message),
+                                               _ui->warningList);
         item->setData(Qt::UserRole, QVariant::fromValue<qulonglong>(diagnostic.entityIndex));
     }
-}
-
-QString EntityPanel::text(const char* key, const QString& fallback) const {
-    return _loc != nullptr ? QString::fromStdString(_loc->text(key)) : fallback;
-}
-
-QString EntityPanel::kindLabel(const std::string& type) const {
-    if (core::findEntityKind(type) == nullptr) {
-        return QString::fromStdString(type);
-    }
-    const std::string key = "entities.kind." + type;
-    return text(key.c_str(), QString::fromStdString(type));
-}
-
-QString EntityPanel::propertyLabel(const std::string& key) const {
-    const std::string localizationKey = "entities.property." + key;
-    return text(localizationKey.c_str(), QString::fromStdString(key));
-}
-
-void EntityPanel::retranslateUi(const Localization& loc) {
-    _loc = &loc;
-    _ui->placeLabel->setText(text("entities.place", {}));
-    _ui->propertiesBox->setTitle(text("entities.properties", {}));
-    _ui->removeButton->setText(text("entities.remove", {}));
-    _ui->warningsBox->setTitle(text("entities.warnings", {}));
-    _ui->entityTable->setHorizontalHeaderLabels(
-        {text("entities.column.type", {}), text("entities.column.cell", {})});
-    rebuildKinds();
-    rebuildTable();
-    _formIndex.reset();
-    _formEntity.reset();
-    rebuildForm();
-    rebuildWarnings();
 }
 
 }  // namespace hmi

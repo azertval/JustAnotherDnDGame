@@ -8,10 +8,8 @@
  * @brief Facteur d'agrandissement **entier** des écrans du jeu (`LOT-66`, `EX-IHM-070`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
- * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`,
- * comme `Editor/Logic/DesignTokens.cpp`. Même découpage que `hmi::thumbnailPixelSize` : cette
- * fonction décide *de combien* agrandir, la couche Qt (`hmi::applyStyleSheet`) décide *quoi*
- * multiplier.
+ * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`.
+ * Cette fonction décide *de combien* agrandir ; les écrans Qt Quick décident *quoi* multiplier.
  *
  * @par Pourquoi le facteur reste entier après la sortie du pixel art
  * Il était entier pour une raison qui n'existe plus : le filtrage au plus proche voisin ne

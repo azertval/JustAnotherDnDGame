@@ -18,8 +18,6 @@
 
 namespace hmi {
 
-class Localization;
-
 /// État affiché pour une carte en cours d'édition (barre d'état, `EX-EDIT-013`/`EX-EDIT-012`).
 struct LevelStatusInfo {
     std::string name;                               ///< Nom de la carte ouverte.
@@ -51,11 +49,11 @@ inline constexpr std::size_t EDITOR_STATUS_ZONE_COUNT = 5;
  * @brief Décide le contenu de la barre d'état de l'éditeur pour @p context.
  *
  * Fonction **pure** (`EX-NFR-010`) : ne lit que ce qu'on lui passe, aucune dépendance Qt/GPU.
- * @param context      Contexte d'édition courant ; `context.level` absent produit des zones et une
- *                     aide vides.
- * @param localization Catalogue de traduction (`EX-REN-033`) — aucune chaîne en dur.
+ * Les textes sont en anglais, écrits ici : l'éditeur est un outil interne, sans traduction
+ * (`LOT-EDITOR-01`).
+ * @param context Contexte d'édition courant ; `context.level` absent produit des zones et une aide
+ *                vides.
  */
-[[nodiscard]] EditorStatusLines editorStatusLines(const EditorStatusContext& context,
-                                                  const Localization& localization);
+[[nodiscard]] EditorStatusLines editorStatusLines(const EditorStatusContext& context);
 
 }  // namespace hmi

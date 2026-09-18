@@ -1,35 +1,11 @@
 # Elements/Assets/Fonts/
 
-Polices TTF de l'application et leurs licences, déployées à côté de l'exécutable. Aucune police
-n'est dessinée dans la scène rendue : tout le texte passe par Qt (widgets de l'éditeur, écrans
-Qt Quick du jeu).
+Polices TTF des écrans du jeu et leurs licences, déployées à côté de l'exécutable. Aucune police
+n'est dessinée dans la scène rendue : tout le texte passe par Qt Quick. L'éditeur, outil interne,
+écrit avec la police du système (style Fusion) depuis le `LOT-EDITOR-01`, qui a retiré *Inter*, sa
+police embarquée.
 
-## Police de l'interface hors-jeu
-
-`Inter-Regular.ttf` et `Inter-Bold.ttf` sont la police **embarquée de l'IHM Qt** (menus, panneaux,
-boîtes de dialogue), enregistrées auprès de `QFontDatabase` au démarrage (`hmi::applyEditorTheme`) ;
-famille couvrant les caractères accentués français du catalogue de traduction (`EX-REN-033`) et
-lisible aux petites tailles des libellés de panneaux.
-
-**Repli** : si l'un des deux fichiers est absent ou refusé par Qt, l'application retombe sur une
-famille générique demandée à Qt (jamais un second nom de police codé en dur), en journalisant un
-avertissement (`EX-NFR-040`).
-
-**Licence** : [Inter](https://github.com/rsms/inter) est distribuée sous licence
-[SIL Open Font License 1.1](https://scripts.sil.org/OFL), redistribuable avec l'application ;
-texte complet dans `Inter-LICENSE.txt`, à côté des fichiers.
-
-## Polices de l'interface Qt
-
-Elles sont chargees par `hmi::applyFont` (`Editor/Ui/ApplicationTheme.cpp`)
-depuis ce dossier, deploye a cote de l'executable.
-
-| Fichier | Employe par |
-|---|---|
-| `Inter-{Regular,Bold}.ttf` | Chassis d'edition : panneaux, tables, arbres, boites de dialogue. Police **par defaut** de l'application. |
-
-**Repli.** Si un fichier manque ou est refuse par Qt, l'application tombe sur une famille
-**generique** — jamais un second nom de police en dur (`EX-IHM-052`).
+## Règles communes
 
 **Licences.** Toutes les polices de ce dossier sont sous SIL Open Font License 1.1, donc
 redistribuables avec le jeu ; chaque `*-LICENSE.txt` accompagne sa famille et doit le rester.
@@ -63,7 +39,5 @@ figees par `fonttools varLib.instancer`, sans modification de dessin — seul le
 par les deux licences (pas de `Reserved Font Name` apres la mention de copyright) : cette
 derivation reste couverte par l'OFL.
 
-**Repli.** Meme garantie que la charte v1 : un fichier absent ou refuse par Qt journalise un
-avertissement (`EX-NFR-040`) et Qt Quick retombe sur la famille demandee telle quelle, resolue par
-le systeme — `Tokens.qml` ne connait pas de mot-cle CSS generique, a la difference de la feuille de
-style du chassis d'edition.
+**Repli.** Un fichier absent ou refuse par Qt journalise un avertissement (`EX-NFR-040`) et Qt
+Quick retombe sur la famille demandee telle quelle, resolue par le systeme.

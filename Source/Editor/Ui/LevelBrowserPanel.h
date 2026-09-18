@@ -17,13 +17,7 @@ class QModelIndex;
 class QSortFilterProxyModel;
 class QStandardItemModel;
 
-namespace Ui {
-class LevelBrowserPanel;
-}
-
 namespace hmi {
-
-class Localization;
 
 /**
  * @brief Panneau de gestion des niveaux : liste filtrable + créer/renommer/dupliquer/supprimer.
@@ -54,9 +48,6 @@ public:
     /// enregistrement, qui peut changer les portails d'une carte sans changer les fichiers).
     void refreshWorldGraph();
 
-    /// Applique la langue active (onglets, boutons, champ de recherche, graphe).
-    void retranslateUi(const Localization& loc);
-
 signals:
     /// Émis quand l'utilisateur demande l'ouverture d'un niveau (chemin absolu du fichier).
     void levelOpenRequested(const QString& path);
@@ -71,11 +62,12 @@ private:
     /// Chemin du niveau sélectionné, ou chemin vide si aucune sélection.
     [[nodiscard]] std::filesystem::path selectedPath() const;
 
-    std::unique_ptr<Ui::LevelBrowserPanel> _ui;  ///< Mise en page (LevelBrowserPanel.ui).
+    /// Les widgets du panneau, construits en code (`LevelBrowserPanel.cpp`).
+    struct Widgets;
+    std::unique_ptr<Widgets> _ui;
     std::filesystem::path _dir;
-    QStandardItemModel* _model;          ///< Modèle source (données), rempli par refresh().
-    QSortFilterProxyModel* _proxy;       ///< Filtre de recherche au-dessus du modèle.
-    const Localization* _loc = nullptr;  ///< Catalogue courant (pour les dialogues localisés).
+    QStandardItemModel* _model;     ///< Modèle source (données), rempli par refresh().
+    QSortFilterProxyModel* _proxy;  ///< Filtre de recherche au-dessus du modèle.
 };
 
 }  // namespace hmi

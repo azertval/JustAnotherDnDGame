@@ -112,10 +112,6 @@ add_executable(UnitTests
     Unit/Editor/test_panel_focus.cpp
     Unit/Editor/test_entity_editing.cpp
     Unit/Editor/test_world_graph_layout.cpp
-    Unit/Editor/test_design_tokens.cpp
-    Unit/Editor/test_application_theme.cpp
-    Unit/Editor/test_theme_teardown_guards.cpp
-    Unit/Editor/test_editor_actions.cpp
     Unit/Editor/test_editor_key_bindings.cpp
 )
 
@@ -239,9 +235,6 @@ target_compile_definitions(UnitTests PRIVATE
     # Positions relevees sur les cartes (LOT-94, LOT-95) : le test joint le fichier REEL a l'atlas.
     JADG_WORLD_MAPS="${PROJECT_SOURCE_DIR}/Source/Elements/Maps/world-maps.json"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
-    # Feuille du chassis d'edition (EX-IHM-082) : les garde-fous des tests de theme couvrent
-    # la totalite du style livre.
-    JADG_THEME_EDITOR_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Themes/theme-editor.qss"
     JADG_FR_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/fr.lang"
     JADG_EN_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/en.lang")
 # La planche de la fiche (LOT-38) se lit desormais sous JADG_ASSETS_DIR : depuis la reprise, sa mise

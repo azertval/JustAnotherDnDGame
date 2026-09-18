@@ -5,24 +5,63 @@
 
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
 #include <QKeyCombination>
 #include <QKeySequence>
 #include <QSignalBlocker>
 #include <QString>
+#include <QStyle>
 #include <QToolBar>
 
 #include "Editor/Logic/EditorKeyBindings.h"
 #include "HMI/Input/QtKeyMap.h"
-#include "Editor/Logic/DesignTokens.h"
-#include "Editor/Ui/ThemeIcons.h"
-#include "HMI/Localization/Localization.h"
 
 namespace hmi {
 
 namespace {
 
-// Le modificateur Ctrl de Save/Undo/Redo/Copy/Paste reste cable en dur (EditorKeyBindings.h) :
-// seule la touche-lettre associee est remappable. Les autres actions n'ont pas de modificateur.
+/// Description d'une commande : de quoi construire son `QAction`.
+struct CommandSpec {
+    EditorCommand command;
+    const char* label;
+    /// Raccourci par défaut (`QKeySequence`), vide si aucun. Celui d'une commande remappable est
+    /// remplacé par `applyShortcuts`.
+    const char* shortcut;
+    /// Icône standard du style, ou `QStyle::SP_CustomBase` pour un simple libellé.
+    QStyle::StandardPixmap icon;
+    /// Dans la barre d'outils (usage continu), ou au menu seul.
+    bool onToolBar;
+    /// Commande remappable qui la déclenche, s'il y en a une.
+    std::optional<EditorAction> binding;
+};
+
+constexpr QStyle::StandardPixmap TEXT_ONLY = QStyle::SP_CustomBase;
+
+const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
+    static const std::array<CommandSpec, EDITOR_COMMAND_COUNT> specs{{
+        {EditorCommand::ToolPaint, "Brush", "", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolRectangle, "Rectangle", "", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolSelection, "Selection", "", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolEntity, "Entity", "", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::Save, "Save", "Ctrl+S", QStyle::SP_DialogSaveButton, true,
+         EditorAction::Save},
+        {EditorCommand::Playtest, "Playtest", "P", QStyle::SP_MediaPlay, true,
+         EditorAction::Playtest},
+        {EditorCommand::Undo, "Undo", "Ctrl+Z", QStyle::SP_ArrowBack, true, EditorAction::Undo},
+        {EditorCommand::Redo, "Redo", "Ctrl+Y", QStyle::SP_ArrowForward, true, EditorAction::Redo},
+        {EditorCommand::ToggleGrid, "Grid", "F10", TEXT_ONLY, false, EditorAction::ToggleGrid},
+        {EditorCommand::ResetCamera, "Reset camera", "0", TEXT_ONLY, false, std::nullopt},
+        {EditorCommand::Copy, "Copy", "Ctrl+C", TEXT_ONLY, false, EditorAction::Copy},
+        {EditorCommand::Paste, "Paste", "Ctrl+V", TEXT_ONLY, false, EditorAction::Paste},
+        {EditorCommand::Rename, "Rename", "F2", TEXT_ONLY, false, EditorAction::Rename},
+        {EditorCommand::ShortcutsOverview, "Shortcuts overview", "F1", TEXT_ONLY, false,
+         EditorAction::ToggleHelp},
+    }};
+    return specs;
+}
+
+// Le modificateur Ctrl de Save/Undo/Redo/Copy/Paste reste câblé en dur (EditorKeyBindings.h) :
+// seule la touche-lettre associée est remappable.
 [[nodiscard]] bool carriesImplicitCtrl(EditorAction action) {
     switch (action) {
         case EditorAction::Save:
@@ -36,75 +75,73 @@ namespace {
     }
 }
 
+[[nodiscard]] std::size_t indexOf(EditorCommand command) {
+    return static_cast<std::size_t>(command);
+}
+
 }  // namespace
 
-EditorActions::EditorActions(const DesignTokens& tokens, QObject* parent)
+EditorActions::EditorActions(QObject* parent)
     : QObject(parent), _toolGroup(new QActionGroup(this)) {
     _toolGroup->setExclusive(true);
-
-    for (std::size_t i = 0; i < editorActionCatalog().size(); ++i) {
-        const EditorActionSpec& spec = editorActionCatalog()[i];
-        auto* const act = new QAction(this);
-        act->setIcon(themeIcon(spec.id, tokens.size.iconMedium, tokens));
-        act->setCheckable(spec.checkable);
+    for (const CommandSpec& spec : commandSpecs()) {
+        auto* const act = new QAction(QString::fromUtf8(spec.label), this);
+        if (spec.icon != TEXT_ONLY) {
+            act->setIcon(QApplication::style()->standardIcon(spec.icon));
+        }
         if (spec.shortcut[0] != '\0') {
             act->setShortcut(QKeySequence(QString::fromLatin1(spec.shortcut)));
         }
-        if (spec.group == EditorActionGroup::LevelTools) {
+        if (toolOf(spec.command)) {
+            act->setCheckable(true);
             act->setActionGroup(_toolGroup);
         }
-        _actions[i] = act;
+        _actions[indexOf(spec.command)] = act;
     }
     // Pinceau actif par défaut (EX-EDIT-014).
-    action(IconId::ToolPaint)->setChecked(true);
+    action(EditorCommand::ToolPaint)->setChecked(true);
+    refreshToolTips();
 }
 
-QAction* EditorActions::action(IconId id) const {
-    const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& catalog =
-        editorActionCatalog();
-    for (std::size_t i = 0; i < catalog.size(); ++i) {
-        if (catalog[i].id == id) {
-            return _actions[i];
+QAction* EditorActions::action(EditorCommand command) const {
+    return _actions[indexOf(command)];
+}
+
+std::optional<EditorTool> EditorActions::toolOf(EditorCommand command) {
+    switch (command) {
+        case EditorCommand::ToolPaint:
+            return EditorTool::Paint;
+        case EditorCommand::ToolRectangle:
+            return EditorTool::Rectangle;
+        case EditorCommand::ToolSelection:
+            return EditorTool::Selection;
+        case EditorCommand::ToolEntity:
+            return EditorTool::Entity;
+        default:
+            return std::nullopt;
+    }
+}
+
+QAction* EditorActions::toolAction(EditorTool tool) const {
+    for (const CommandSpec& spec : commandSpecs()) {
+        if (toolOf(spec.command) == tool) {
+            return action(spec.command);
         }
     }
     return nullptr;
 }
 
-QAction* EditorActions::toolAction(EditorTool tool) const {
-    return action(editorActionForTool(tool));
-}
-
 void EditorActions::populateToolBar(QToolBar& toolBar) const {
-    // Outils de niveau puis commandes. Le filtre sur `surface` (EX-IHM-074) est ce qui ramene la barre a l'essentiel : les
-    // commandes ponctuelles (grille, recadrage, copier/coller, renommer, apercu des raccourcis)
-    // restent atteignables par le menu et leur raccourci, sans occuper l'ecran en permanence.
     bool separatorInserted = false;
-    for (const EditorActionSpec& spec : editorActionCatalog()) {
-        if (spec.surface != ActionSurface::ToolBarAndMenu) {
+    for (const CommandSpec& spec : commandSpecs()) {
+        if (!spec.onToolBar) {
             continue;
         }
-        if (!separatorInserted && spec.group != EditorActionGroup::LevelTools) {
+        if (!separatorInserted && !toolOf(spec.command)) {
             toolBar.addSeparator();
             separatorInserted = true;
         }
-        toolBar.addAction(action(spec.id));
-    }
-}
-
-void EditorActions::retranslateUi(const Localization& loc) {
-    const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& catalog =
-        editorActionCatalog();
-    for (std::size_t i = 0; i < catalog.size(); ++i) {
-        const QString label = QString::fromStdString(loc.text(catalog[i].labelKey));
-        _actions[i]->setText(label);
-        // Infobulle = libelle + raccourci de l'ACTION elle-meme (jamais une chaine traduite
-        // decrivant la touche) : le remappage ne peut donc jamais la rendre fausse.
-        const QKeySequence shortcut = _actions[i]->shortcut();
-        _actions[i]->setToolTip(shortcut.isEmpty()
-                                    ? label
-                                    : label + QStringLiteral(" (") +
-                                          shortcut.toString(QKeySequence::NativeText) +
-                                          QStringLiteral(")"));
+        toolBar.addAction(action(spec.command));
     }
 }
 
@@ -117,30 +154,29 @@ void EditorActions::setActiveTool(EditorTool tool) const {
     act->setChecked(true);
 }
 
-void EditorActions::setEditingCommandsEnabled(bool enabled) const {
-    for (const EditorActionSpec& spec : editorActionCatalog()) {
-        if (spec.group == EditorActionGroup::None) {
-            action(spec.id)->setEnabled(enabled);
+void EditorActions::applyShortcuts(const EditorKeyBindings& bindings) {
+    for (const CommandSpec& spec : commandSpecs()) {
+        if (!spec.binding) {
+            continue;
         }
-    }
-}
-
-void EditorActions::refreshIcons(const DesignTokens& tokens) {
-    const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& catalog =
-        editorActionCatalog();
-    for (std::size_t i = 0; i < catalog.size(); ++i) {
-        _actions[i]->setIcon(themeIcon(catalog[i].id, tokens.size.iconMedium, tokens));
-    }
-}
-
-void EditorActions::applyShortcuts(const EditorKeyBindings& bindings, const Localization& loc) {
-    for (const KeyBindingIconEntry& entry : keyBindingIconCatalog()) {
-        const auto qtKey = static_cast<Qt::Key>(hmiKeyToQtKey(bindings.key(entry.action)));
+        const auto qtKey = static_cast<Qt::Key>(hmiKeyToQtKey(bindings.key(*spec.binding)));
         const Qt::KeyboardModifiers modifiers =
-            carriesImplicitCtrl(entry.action) ? Qt::ControlModifier : Qt::NoModifier;
-        action(entry.id)->setShortcut(QKeySequence(QKeyCombination(modifiers, qtKey)));
+            carriesImplicitCtrl(*spec.binding) ? Qt::ControlModifier : Qt::NoModifier;
+        action(spec.command)->setShortcut(QKeySequence(QKeyCombination(modifiers, qtKey)));
     }
-    retranslateUi(loc);  // les infobulles incluent le raccourci : les refaire pour rester exactes.
+    refreshToolTips();
+}
+
+void EditorActions::refreshToolTips() const {
+    // Infobulle = libellé + raccourci de l'action elle-même : un remappage ne peut pas la rendre
+    // fausse.
+    for (QAction* const act : _actions) {
+        const QKeySequence shortcut = act->shortcut();
+        act->setToolTip(shortcut.isEmpty() ? act->text()
+                                           : act->text() + QStringLiteral(" (") +
+                                                 shortcut.toString(QKeySequence::NativeText) +
+                                                 QStringLiteral(")"));
+    }
 }
 
 }  // namespace hmi

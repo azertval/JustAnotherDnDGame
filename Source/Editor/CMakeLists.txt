@@ -3,9 +3,10 @@
 
 # Le module éditeur (LOT-EDITOR-01, décision D5 de Documentation/Editeur/feuille-de-route.md).
 #
-#   Logic/  la logique pure de l'éditeur, sans Qt Widgets : bibliothèque `EditorLogic`, testée par
+#   Logic/  la logique pure de l'éditeur, sans Qt : bibliothèque `EditorLogic`, testée par
 #           `UnitTests` (Source/Test/Unit/Editor) ;
-#   Ui/     les widgets : fenêtre, canevas, panneaux -- l'exécutable `LevelEditor`.
+#   Ui/     les widgets, construits en code (ni .ui ni charte) : fenêtre, canevas, panneaux --
+#           l'exécutable `LevelEditor`.
 #
 # Le module dépend de Core et de HmiLib (composition, rendu, carte jouée par l'essai). Rien ne
 # dépend de lui : ni le jeu, ni HmiLib. L'éditeur est un outil interne ; son point d'entrée reste
@@ -18,7 +19,6 @@
 add_library(EditorLogic STATIC
     Logic/LevelNameValidation.cpp
     Logic/TileTaxonomy.cpp
-    Logic/TaxonomyLabels.cpp
     Logic/LevelFileOperations.cpp
     Logic/EditorStatus.cpp
     Logic/PanelFocus.cpp
@@ -29,12 +29,6 @@ add_library(EditorLogic STATIC
     Logic/EditorDiagnostics.cpp
     Logic/WorldGraphLayout.cpp
     Logic/EditorKeyBindings.cpp
-    Logic/DesignTokens.cpp
-    Logic/StyleSheetTemplate.cpp
-    Logic/FontResolution.cpp
-    Logic/ThemeResolution.cpp
-    Logic/IconGeometry.cpp
-    Logic/ActionCatalog.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic
@@ -54,10 +48,7 @@ endif()
 # ne partagent aucune technologie d'IHM : un widget ne peut pas réapparaître dans le jeu par
 # inadvertance, l'édition de liens échouerait.
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
 
-set(EDITOR_FORMS ${CMAKE_CURRENT_SOURCE_DIR}/Ui/Forms)
 set(APP_DIR ${PROJECT_SOURCE_DIR}/Source/App)
 set(HMI_DIR ${PROJECT_SOURCE_DIR}/Source/HMI)
 
@@ -76,9 +67,7 @@ add_executable(LevelEditor
     # Le lieu joué par l'essai immédiat : le même rendu que le jeu (hmi::WorldSceneRenderer).
     ${HMI_DIR}/Graphics/WorldSceneRenderer.cpp
     Ui/DraftRenderer.cpp
-    # Le châssis d'édition (fenêtre, actions, thème).
-    Ui/ApplicationTheme.cpp
-    Ui/ThemeIcons.cpp
+    # La fenêtre et ses actions.
     Ui/EditorActions.cpp
     Ui/MainWindow.cpp
     # Canevas et panneaux.
@@ -88,18 +77,7 @@ add_executable(LevelEditor
     Ui/LayersPanel.cpp
     Ui/EntityPanel.cpp
     Ui/WorldGraphView.cpp
-    # Ressource embarquée (thème .qss) -- traitée par AUTORCC.
-    ${EDITOR_FORMS}/resources.qrc
-    # Mises en page Qt Designer -- traitées par AUTOUIC (génèrent ui_*.h).
-    ${EDITOR_FORMS}/MainWindow.ui
-    ${EDITOR_FORMS}/LevelBrowserPanel.ui
-    ${EDITOR_FORMS}/LayersPanel.ui
-    ${EDITOR_FORMS}/EntityPanel.ui
 )
-
-# Les mises en page .ui vivent dans Ui/Forms, pas à côté des widgets : AUTOUIC doit y chercher le
-# .ui correspondant à chaque include "ui_*.h".
-set_target_properties(LevelEditor PROPERTIES AUTOUIC_SEARCH_PATHS ${EDITOR_FORMS})
 
 target_link_libraries(LevelEditor PRIVATE
     EditorLogic

@@ -22,8 +22,6 @@ class QPainter;
 
 namespace hmi {
 
-class Localization;
-
 /**
  * @brief Peint un `core::WorldGraph` disposé par `hmi::layoutWorldGraph`.
  *
@@ -34,7 +32,7 @@ class Localization;
  * carte ou une flèche en donne le détail en infobulle ; double-cliquer une carte lisible émet
  * `levelOpenRequested`, le même signal que la liste du navigateur.
  *
- * Les couleurs sont les jetons du châssis d'édition (`hmi::currentEditorTokens`), relus à chaque
+ * Les couleurs sont celles de la palette du widget (style Fusion), relues à chaque
  * peinture : la vue suit une bascule de thème à chaud.
  */
 class WorldGraphView : public QWidget {
@@ -45,9 +43,6 @@ public:
 
     /// Remplace le graphe affiché ; @p levelsDir sert à rebâtir le chemin d'une carte à ouvrir.
     void setGraph(core::WorldGraph graph, std::filesystem::path levelsDir);
-
-    /// Applique la langue active (légende, infobulles, libellés des fantômes).
-    void retranslateUi(const Localization& loc);
 
     /// @return La disposition peinte (pour les tests et le diagnostic).
     [[nodiscard]] const WorldGraphLayout& graphLayout() const noexcept {
@@ -68,8 +63,6 @@ protected:
     void leaveEvent(QEvent* event) override;
 
 private:
-    /// @return Texte localisé de @p key (la clé elle-même sans catalogue).
-    [[nodiscard]] QString localized(const char* key) const;
     /// @return Le point de disposition sous le point @p widgetPoint du widget.
     [[nodiscard]] core::Vector2 toLayout(QPointF widgetPoint) const;
     /// @return L'échelle appliquée à la disposition pour la faire tenir dans le widget.
@@ -93,7 +86,6 @@ private:
     core::WorldGraph _graph;
     WorldGraphLayout _layout;
     std::filesystem::path _dir;
-    const Localization* _loc = nullptr;
     std::optional<std::size_t> _hoveredNode;
     std::optional<std::size_t> _hoveredEdge;
 };

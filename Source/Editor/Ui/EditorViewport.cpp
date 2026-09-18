@@ -29,19 +29,23 @@
 #include "Editor/Logic/EntityReferences.h"
 #include "Editor/Logic/LevelFileOperations.h"
 #include "Editor/Logic/LevelNameValidation.h"
-#include "HMI/Game/WorldPlay.h"
 #include "Editor/Ui/DraftRenderer.h"
+#include "HMI/Game/WorldPlay.h"
 #include "HMI/Graphics/SpriteBatch.h"
 #include "HMI/Graphics/WorldSceneRenderer.h"
 #include "HMI/HmiLog.h"
-#include "Editor/Ui/ApplicationTheme.h"
-#include "Editor/Logic/DesignTokens.h"
-#include "HMI/Localization/Localization.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 
 namespace hmi {
 
 namespace {
+
+// Fond du canevas en édition (gris ardoise) et pendant l'essai (parchemin, la couleur du jeu) : les
+// valeurs que portaient les jetons de la charte, retirés de l'éditeur (LOT-EDITOR-01).
+constexpr std::array<float, 4> EDIT_CLEAR_COLOR = {0x1e / 255.0F, 0x22 / 255.0F, 0x2b / 255.0F,
+                                                   1.0F};
+constexpr std::array<float, 4> PLAYTEST_CLEAR_COLOR = {0xd0 / 255.0F, 0xc0 / 255.0F, 0xa0 / 255.0F,
+                                                       1.0F};
 
 [[nodiscard]] std::filesystem::path keybindingsPath() {
     return hmi::executableDirectory() / "Settings" / "keybindings.json";
@@ -118,7 +122,8 @@ void EditorViewport::createResources() {
         std::make_unique<hmi::DraftRenderer>(_scene.sprites(), _scene.atlas(), _scene.textures());
 
     // La première carte du jeu, comme brouillon. Échec récupérable : on garde le brouillon vierge.
-    const std::filesystem::path levelPath = levelsDirectory() / (std::string{START_MAP_ID} + ".json");
+    const std::filesystem::path levelPath =
+        levelsDirectory() / (std::string{START_MAP_ID} + ".json");
     core::LevelLoadResult result = core::LevelLoader::loadFromFile(levelPath);
     if (result.ok()) {
         _draft = core::LevelDraft::fromLevel(*result.level);
@@ -208,7 +213,8 @@ bool EditorViewport::paintActiveRegion(int originColumn, int originRow,
                 if (!_refusalReported) {
                     _refusalReported = true;
                     emit statusMessage(
-                        statusText("status.layer_tile_refused")
+                        QStringLiteral("\"%1\" cannot be painted on a visual layer: the entry "
+                                       "lives in the collision grid.")
                             .arg(QString::fromStdString(std::string{core::tileTypeName(type)})));
                 }
                 return false;
@@ -260,8 +266,9 @@ void EditorViewport::copySelection() {
         }
         _clipboard.push_back(std::move(line));
     }
-    emit statusMessage(
-        statusText("status.region_copied").arg(mx.column - mn.column + 1).arg(mx.row - mn.row + 1));
+    emit statusMessage(QStringLiteral("Region copied (%1 × %2).")
+                           .arg(mx.column - mn.column + 1)
+                           .arg(mx.row - mn.row + 1));
 }
 
 void EditorViewport::pasteClipboard() {
@@ -269,13 +276,12 @@ void EditorViewport::pasteClipboard() {
         return;
     }
     if (paintActiveRegion(_hoverCell->column, _hoverCell->row, _clipboard)) {
-        emit statusMessage(statusText("status.region_pasted"));
+        emit statusMessage(QStringLiteral("Region pasted."));
     }
     _refusalReported = false;
 }
 
-std::optional<std::pair<core::GridPosition, core::GridPosition>> EditorViewport::highlight()
-    const {
+std::optional<std::pair<core::GridPosition, core::GridPosition>> EditorViewport::highlight() const {
     if (_dragging) {
         return std::make_pair(
             core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
@@ -339,11 +345,7 @@ void EditorViewport::render(QRhiCommandBuffer* commandBuffer) {
 void EditorViewport::renderDraft(QRhiCommandBuffer* commandBuffer) {
     _scene.context().updates = _scene.context().rhi->nextResourceUpdateBatch();
     _scene.sprites().beginFrame();
-    const hmi::DesignColor clearColor =
-        hmi::viewportClearColor(/*editorMode=*/true, hmi::currentEditorTokens());
-    const std::array<float, 4> clear = {static_cast<float>(clearColor.r) / 255.0F,
-                                        static_cast<float>(clearColor.g) / 255.0F,
-                                        static_cast<float>(clearColor.b) / 255.0F, 1.0F};
+    const std::array<float, 4> clear = EDIT_CLEAR_COLOR;
     updateEditCamera();
     if (_camera.zoom() != _lastEmittedZoom) {
         _lastEmittedZoom = _camera.zoom();
@@ -389,22 +391,22 @@ void EditorViewport::renderPlaytest(QRhiCommandBuffer* commandBuffer, float elap
             QString message;
             switch (event.kind) {
                 case core::ExplorationEventKind::MapEntered:
-                    message = statusText("status.playtest_map_entered");
+                    message = QStringLiteral("Playtest: entered map %1.");
                     break;
                 case core::ExplorationEventKind::Dialogue:
-                    message = statusText("status.playtest_dialogue");
+                    message = QStringLiteral("Playtest: dialogue %1 would open.");
                     break;
                 case core::ExplorationEventKind::Encounter:
-                    message = statusText("status.playtest_encounter");
+                    message = QStringLiteral("Playtest: encounter %1 would start.");
                     break;
                 case core::ExplorationEventKind::PortalLocked:
-                    message = statusText("status.playtest_portal_locked");
+                    message = QStringLiteral("Playtest: portal locked, requires %1.");
                     break;
                 case core::ExplorationEventKind::PortalBroken:
-                    message = statusText("status.playtest_portal_broken");
+                    message = QStringLiteral("Playtest: broken portal to %1.");
                     break;
                 case core::ExplorationEventKind::Interacted:
-                    message = statusText("status.playtest_interacted");
+                    message = QStringLiteral("Playtest: interacted with %1.");
                     break;
             }
             emit statusMessage(message.arg(QString::fromStdString(event.value)));
@@ -423,11 +425,7 @@ void EditorViewport::renderPlaytest(QRhiCommandBuffer* commandBuffer, float elap
     }
     const core::CellPoint hero = _play->session().heroPoint();
     _world->setFocus({hero.column, hero.row});
-    const hmi::DesignColor clearColor =
-        hmi::viewportClearColor(/*editorMode=*/false, hmi::currentEditorTokens());
-    const std::array<float, 4> clear = {static_cast<float>(clearColor.r) / 255.0F,
-                                        static_cast<float>(clearColor.g) / 255.0F,
-                                        static_cast<float>(clearColor.b) / 255.0F, 1.0F};
+    const std::array<float, 4> clear = PLAYTEST_CLEAR_COLOR;
     _world->render(commandBuffer, renderTarget(), clear.data());
 }
 
@@ -490,7 +488,7 @@ void EditorViewport::save() {
         HMI_LOG_WARNING("Editeur : enregistrement refuse (brouillon invalide) : " +
                         validated.error);
         emit statusMessage(
-            statusText("status.save_failed").arg(QString::fromStdString(validated.error)));
+            QStringLiteral("Cannot save: %1").arg(QString::fromStdString(validated.error)));
         return;
     }
     const std::filesystem::path path = levelsDirectory() / (_mapId + ".json");
@@ -498,16 +496,16 @@ void EditorViewport::save() {
         _dirty = false;
         HMI_LOG_INFO("Editeur : carte enregistree : " + path.string());
         emit statusMessage(
-            statusText("status.level_saved").arg(QString::fromStdString(path.filename().string())));
+            QStringLiteral("Map saved: %1").arg(QString::fromStdString(path.filename().string())));
     } else {
         HMI_LOG_ERROR("Editeur : echec d'ecriture de la carte : " + path.string());
-        emit statusMessage(statusText("status.write_failed"));
+        emit statusMessage(QStringLiteral("Failed to write file."));
     }
 }
 
 bool EditorViewport::renameOpenLevel(const std::string& newName) {
     if (!hmi::isValidLevelName(newName)) {
-        emit statusMessage(statusText("status.rename_failed"));
+        emit statusMessage(QStringLiteral("Invalid map name."));
         return false;
     }
     const std::string trimmed = hmi::trimLevelName(newName);
@@ -522,8 +520,8 @@ bool EditorViewport::renameOpenLevel(const std::string& newName) {
         const hmi::FileOperationResult result = ops.rename(oldPath, trimmed);
         if (!result.ok()) {
             HMI_LOG_WARNING("Editeur : renommage refuse : " + result.error);
-            emit statusMessage(statusText("status.rename_failed_reason")
-                                   .arg(QString::fromStdString(result.error)));
+            emit statusMessage(
+                QStringLiteral("Rename failed: %1").arg(QString::fromStdString(result.error)));
             return false;
         }
     }
@@ -531,7 +529,7 @@ bool EditorViewport::renameOpenLevel(const std::string& newName) {
     _mapId = mapIdOf(renamedPath);
     markDraftMutated();
     HMI_LOG_INFO("Editeur : carte renommee en « " + trimmed + " ».");
-    emit statusMessage(statusText("status.level_renamed").arg(QString::fromStdString(trimmed)));
+    emit statusMessage(QStringLiteral("Map renamed: %1").arg(QString::fromStdString(trimmed)));
     return true;
 }
 
@@ -540,7 +538,7 @@ void EditorViewport::openLevel(const std::filesystem::path& path) {
     if (!loaded.ok()) {
         HMI_LOG_WARNING("Editeur : ouverture impossible (" + path.string() + ") : " + loaded.error);
         emit statusMessage(
-            statusText("status.open_failed").arg(QString::fromStdString(loaded.error)));
+            QStringLiteral("Cannot open: %1").arg(QString::fromStdString(loaded.error)));
         return;
     }
     stopPlaytest();
@@ -556,7 +554,7 @@ void EditorViewport::openLevel(const std::filesystem::path& path) {
     markDraftMutated();
     HMI_LOG_INFO("Editeur : carte ouverte : " + path.string());
     emit statusMessage(
-        statusText("status.level_opened").arg(QString::fromStdString(path.filename().string())));
+        QStringLiteral("Map opened: %1").arg(QString::fromStdString(path.filename().string())));
 }
 
 void EditorViewport::startPlaytest() {
@@ -567,7 +565,7 @@ void EditorViewport::startPlaytest() {
     if (!validated.ok()) {
         HMI_LOG_WARNING("Editeur : essai refuse (brouillon invalide) : " + validated.error);
         emit statusMessage(
-            statusText("status.playtest_failed").arg(QString::fromStdString(validated.error)));
+            QStringLiteral("Cannot playtest: %1").arg(QString::fromStdString(validated.error)));
         return;
     }
     // Le brouillon est servi sous l'identifiant de sa carte ; toute autre carte vient du disque,
@@ -583,10 +581,11 @@ void EditorViewport::startPlaytest() {
         }
         return fromDisk(requested);
     };
-    auto play = std::make_unique<WorldPlay>(std::move(loader), hmi::executableDirectory() / "Assets");
+    auto play =
+        std::make_unique<WorldPlay>(std::move(loader), hmi::executableDirectory() / "Assets");
     if (!play->enter(_mapId, {})) {
         HMI_LOG_WARNING("Editeur : essai refuse, la carte ne s'ouvre pas.");
-        emit statusMessage(statusText("status.playtest_failed").arg(QString{}));
+        emit statusMessage(QStringLiteral("Cannot playtest: %1").arg(QString{}));
         return;
     }
     _play = std::move(play);
@@ -596,7 +595,7 @@ void EditorViewport::startPlaytest() {
     _timestep = core::FixedTimestep{};
     setFocus();
     HMI_LOG_INFO("Editeur : essai immediat demarre.");
-    emit statusMessage(statusText("status.playtesting"));
+    emit statusMessage(QStringLiteral("Playtesting — Esc to return to editing."));
 }
 
 void EditorViewport::stopPlaytest() {
@@ -608,7 +607,7 @@ void EditorViewport::stopPlaytest() {
     if (_draftRenderer) {
         _draftRenderer->invalidate();  // ré-affiche le brouillon (intact).
     }
-    emit statusMessage(statusText("status.back_to_edit"));
+    emit statusMessage(QStringLiteral("Back to editing."));
 }
 
 void EditorViewport::undo() {
@@ -637,7 +636,7 @@ void EditorViewport::resizeLevel(int width, int height) {
     _draft.resize(width, height);
     _dirty = true;
     markDraftMutated();
-    emit statusMessage(statusText("status.level_resized").arg(width).arg(height));
+    emit statusMessage(QStringLiteral("Map resized: %1 × %2").arg(width).arg(height));
 }
 
 bool EditorViewport::wouldResizeDrop(int width, int height) const {
@@ -650,10 +649,6 @@ int EditorViewport::levelWidth() const {
 
 int EditorViewport::levelHeight() const {
     return _draft.tileMap().height();
-}
-
-QString EditorViewport::statusText(const char* key) const {
-    return _loc != nullptr ? QString::fromStdString(_loc->text(key)) : QString::fromLatin1(key);
 }
 
 void EditorViewport::mousePressEvent(QMouseEvent* event) {
@@ -899,7 +894,7 @@ void EditorViewport::removeEntity(std::size_t index) {
     _grabbedEntity.reset();
     _dirty = true;
     markDraftMutated();
-    emit statusMessage(statusText("status.entity_removed"));
+    emit statusMessage(QStringLiteral("Entity removed."));
 }
 
 void EditorViewport::handleEntityPress(const QMouseEvent* event) {
@@ -933,9 +928,8 @@ void EditorViewport::handleEntityPress(const QMouseEvent* event) {
                 _dirty = true;
                 markDraftMutated();
                 selectEntity(*placed);
-                const std::string labelKey = "entities.kind." + _entityKindToPlace;
-                emit statusMessage(statusText("status.entity_placed")
-                                       .arg(statusText(labelKey.c_str()))
+                emit statusMessage(QStringLiteral("%1 placed at (%2, %3).")
+                                       .arg(QString::fromStdString(_entityKindToPlace))
                                        .arg(decision.cell.column)
                                        .arg(decision.cell.row));
             }
@@ -957,8 +951,9 @@ void EditorViewport::handleEntityRelease(const QMouseEvent* event) {
         _draft.moveEntity(decision.entityIndex, decision.cell)) {
         _dirty = true;
         markDraftMutated();
-        emit statusMessage(
-            statusText("status.entity_moved").arg(decision.cell.column).arg(decision.cell.row));
+        emit statusMessage(QStringLiteral("Entity moved to (%1, %2).")
+                               .arg(decision.cell.column)
+                               .arg(decision.cell.row));
     }
 }
 
