@@ -24,9 +24,8 @@ ce moteur, Qt possède la boucle d'événements ; la logique et le rendu s'y bra
 - dans le **jeu**, `hmi::WorldModel` avance l'exploration sur un `QTimer` de précision
   (`WorldModel::STEP_MILLISECONDS`, 16 ms), et la surface de rendu (`hmi::WorldViewportItem`)
   redessine quand la scène a changé ;
-- dans l'**essai immédiat** de l'éditeur, `hmi::EditorViewport` (un `QRhiWidget`) redemande une
-  image dès la précédente terminée ; chaque image mesure le temps écoulé, avance la simulation par
-  pas fixes, puis dessine.
+- dans l'**essai immédiat** de l'éditeur, `hmi::EditorViewport` avance sur un `QTimer` de 16 ms ;
+  chaque tir mesure le temps écoulé, avance la simulation par pas fixes, puis recompose et peint.
 
 ## Le piège du framerate variable
 
@@ -92,7 +91,7 @@ for (int i = 0; i < steps; ++i) {
 render();  // une seule fois, quel que soit le nombre de pas
 ```
 
-C'est, à peu de chose près, `hmi::EditorViewport::renderPlaytest` : l'essai immédiat fait avancer
+C'est, à peu de chose près, `hmi::EditorViewport::stepPlaytest` : l'essai immédiat fait avancer
 un `hmi::WorldPlay` (la même exploration que le jeu) de `steps` pas, puis dessine. Le jeu, lui, se
 passe d'accumulateur : son `QTimer` tire déjà à intervalle fixe, et chaque tir est un pas de
 `STEP_MILLISECONDS` — un retard du minuteur décale le pas dans le temps réel, jamais sa durée

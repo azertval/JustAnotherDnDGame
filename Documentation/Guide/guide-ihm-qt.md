@@ -163,13 +163,14 @@ Le jeu pose ses surfaces QRhi comme des items Qt Quick (`QQuickRhiItem`, dans `H
 `hmi::WorldViewportItem` (`WorldViewport` en QML) pour la carte explorée,
 `hmi::ArenaViewportItem` pour le Colisée, `hmi::GameViewportItem` sous le HUD de combat. C'est le
 jumeau (`GameView.qml`, `Arena.qml`…) qui les pose, dans l'hôte que le formulaire lui réserve : un
-type C++ n'a pas sa place dans un formulaire. L'éditeur, lui, dessine dans un `QRhiWidget`
-(`hmi::EditorViewport`). Tous rendent dans une **texture d'appui** que leur hôte compose : la cible
-technique ne change pas (`EX-ARCH-050`), seul l'hôte change. Un recouvrement redevient donc un
-enfant ordinaire — plus aucun empilement de fenêtres natives.
+type C++ n'a pas sa place dans un formulaire. Tous rendent dans une **texture d'appui** que leur
+hôte compose : la cible technique ne change pas (`EX-ARCH-050`), seul l'hôte change. Un
+recouvrement redevient donc un enfant ordinaire — plus aucun empilement de fenêtres natives.
+L'éditeur, lui, ne parle plus au GPU depuis le `LOT-EDITOR-02` : son canevas est une
+`QGraphicsView` qui peint par `QPainter` la scène que le jeu compose (`hmi::EditorViewport`).
 
-**La différence qui compte** : `QRhiWidget` peint sur le fil graphique, `QQuickRhiItem` sur le **fil
-de rendu**. Toute donnée que la simulation produit doit traverser `synchronize()`, appelée pendant
+**La différence qui compte** : `QQuickRhiItem` peint sur le **fil de rendu**, pas sur le fil
+graphique. Toute donnée que la simulation produit doit traverser `synchronize()`, appelée pendant
 que le fil graphique est **bloqué** — le seul instant où les deux fils peuvent se parler sans verrou.
 
 C'est pour cela que les surfaces n'échangent que des **valeurs** : `hmi::WorldViewportItem` reçoit

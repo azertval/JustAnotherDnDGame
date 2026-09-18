@@ -63,11 +63,11 @@ Le rendu n'est jamais présenté dans une fenêtre native embarquée (`EX-REN-05
 d'une fenêtre native ne se dessine pas de façon fiable par-dessus elle. Trois surfaces existent,
 toutes composées avec le reste de l'interface :
 
-- `hmi::EditorViewport` (`Source/Editor/Ui`) : le canevas de l'éditeur, un **`QRhiWidget`**. Il
-  dessine le brouillon à plat en édition et joue la carte en essai immédiat (@ref guide-editeur) ;
-  il possède sa **boucle de rendu** (chaque image redemande la suivante par `QWidget::update()`, et
-  `QRhiWidget::render` l'exécute) et reçoit les événements clavier/souris **Qt** (@ref
-  guide-entrees) — c'est pour cela que la capture d'entrée vit au même endroit que le rendu.
+- `hmi::EditorViewport` (`Source/Editor/Ui`) : le canevas de l'éditeur, une **`QGraphicsView`**
+  (`LOT-EDITOR-02`). Il ne parle pas au GPU : il peint par `QPainter` la **même** scène composée
+  que le jeu soumet (`hmi::paintComposedScene`), en édition comme en essai immédiat (@ref
+  guide-editeur), et reçoit les événements clavier/souris **Qt** (@ref guide-entrees). Un test
+  compare son image au rendu QRhi du jeu, cadrage pour cadrage.
 - `hmi::WorldViewportItem` et `hmi::ArenaViewportItem` (`Source/HMI/Runtime`) : le lieu qu'on
   parcourt et l'arène, dans le jeu Qt Quick. Ce sont des **`QQuickRhiItem`**, exposés au QML
   (@ref guide-ihm-qt).
@@ -354,11 +354,12 @@ création, l'ordre de libération, la recréation sur une autre interface QRhi �
 qu'un test fait tourner sur un vrai `QRhi` sans fenêtre. Le même rendu sert aussi hors écran à
 `hmi::renderCityBlock` (`CityBlockRender.h`), qui peint l'îlot d'un quartier pour l'écran « Carte ».
 
-Le canevas de l'éditeur suit le même chemin dans `EditorViewport::render` : en édition,
-`hmi::DraftRenderer` compose le brouillon ; en essai, `hmi::WorldSceneRenderer` dessine la carte
-jouée par `hmi::WorldPlay` — la mise en scène du jeu, à l'identique (`EX-EDIT-055`). C'est la même
-boucle que celle décrite en @ref guide-boucle, dont le rendu n'est qu'une étape — toujours exécutée
-**une fois par frame réelle**, après les pas de simulation fixes de cette frame.
+Le canevas de l'éditeur partage la **composition**, pas la soumission : `hmi::composeWorldScene`
+compose le brouillon (vue iso) ou la carte jouée par `hmi::WorldPlay` (essai), puis
+`hmi::paintComposedScene` la peint par `QPainter` — échantillonnage au plus proche, remplissage
+texturé qui prend le centre des pixels comme le GPU. La composition vit dans la cible
+`SceneComposition`, sans GPU ni Qt, que `HmiLib` et l'éditeur lient. En essai, c'est la boucle
+décrite en @ref guide-boucle : des pas de simulation fixes, puis **une** peinture.
 
 ## Voir aussi
 - `hmi::SpriteBatch`, `hmi::SpriteQuad`, `hmi::LineQuad`, `hmi::RhiContext`,
@@ -371,8 +372,8 @@ boucle que celle décrite en @ref guide-boucle, dont le rendu n'est qu'une étap
 - `hmi::composeWorldScene`, `hmi::WorldSceneRenderer`, `hmi::worldCamera`,
   `hmi::composeArenaScene`, `hmi::ArenaSceneRenderer`, `hmi::arenaCamera`, `hmi::PlaceAppearance`
   — les scènes du jeu (`EX-REN-010`, `EX-REN-011`, `EX-REN-013`).
-- `hmi::DraftRenderer`, `hmi::regionForTile`, `hmi::TextureAtlas`, `hmi::buildProceduralAtlasImage`
-  — le canevas de l'éditeur.
+- `hmi::paintComposedScene`, `hmi::SceneImages`, `hmi::DraftRenderer`, `hmi::regionForTile`,
+  `hmi::buildProceduralAtlasImage` — le canevas de l'éditeur, peint par `QPainter`.
 - `hmi::TextureLoader` (`decodeImageFile`, `createTexture`, `loadTextureFromFile`),
   `hmi::TextureCache`, `hmi::AssetValidation`, `hmi::buildMissingTextureImage` — textures depuis
   fichiers et replis (`EX-REN-041`, `EX-REN-042`, `EX-REN-007`).

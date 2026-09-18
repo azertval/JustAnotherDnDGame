@@ -66,17 +66,28 @@ Cette sérialisation sert `EX-EDIT-011` : sérialiser puis recharger une carte p
 
 ## Peindre, c'est convertir un pixel en case
 
-Le canevas d'édition (`hmi::EditorViewport`) réutilise l'infrastructure de rendu déjà vue en
-@ref guide-rendu (`SpriteBatch`, `TextureAtlas`, `Camera2D`) via `hmi::DraftRenderer` — aucun
-nouveau pipeline graphique n'existe pour l'éditeur. Il dessine le brouillon **à plat** : une
-couleur par type de tuile, les couches visuelles dans leur ordre, la collision en masque teinté,
-puis les entités par leur marqueur. Il montre ce qu'on édite ; c'est l'essai qui montre le jeu.
+Le canevas d'édition (`hmi::EditorViewport`, `LOT-EDITOR-02`) montre **le lieu tel qu'on le
+jouera** : une `QGraphicsView` dont l'élément unique parcourt la liste de primitives que compose le
+jeu (`hmi::composeWorldScene`, @ref guide-rendu) et la peint par `QPainter`
+(`hmi::paintComposedScene`), en ne touchant que la partie visible (`EX-EDIT-059`). Aucun second
+moteur : la composition est celle du jeu, dans la cible `SceneComposition`, et un test compare
+l'image du canevas au rendu GPU du jeu. Par-dessus viennent les aides d'édition : quadrillage en
+losanges, case survolée, aperçu des outils, marqueurs d'entité, et le masque de collision quand on
+peint la collision.
 
-La seule nouveauté conceptuelle est l'**interaction** : convertir une position souris
-(`QMouseEvent`, en pixels physiques) en case de grille, en composant deux briques déjà connues,
-`Camera2D::screenToWorld` (@ref guide-rendu) puis `std::floor` (une position monde `4.7` désigne la
-case `4`, pas la case `5`). C'est le rôle de `EditorViewport::cellAt` ; `paintAt` applique ensuite
-le type actif à la case survolée.
+`F9` bascule vers la **vue à plat** (`hmi::DraftRenderer`) : une case par unité, une couleur par
+type, les couches visuelles dans leur ordre et la collision en masque teinté — la vue qui lit les
+types et la collision. `F8` passe les reliefs **en transparence**, pour voir ce qu'on pointe
+derrière un mur ; le panneau des couches **grise** ou **verrouille** une couche, et la mini-carte
+(« Overview ») montre toute la carte et le cadre de la vue (`EX-EDIT-061`).
+
+La seule nouveauté conceptuelle est l'**interaction** : convertir une position souris en case de
+grille. La vue la ramène en unités monde (`QGraphicsView::mapToScene`), puis le pointage pur
+(`Editor/Logic/CanvasPicking.h`) désigne la case dont le **losange** est sous le pointeur — jamais
+l'image qui la couvre : sous un mur haut, on pointe la case de derrière (`EX-EDIT-060`). À plat,
+c'est `std::floor` (une position `4.7` désigne la case `4`). C'est le rôle de
+`EditorViewport::cellAt` ; `paintAt` applique ensuite le type actif à la case survolée, dont la barre
+d'état donne les coordonnées et les pièces.
 
 ### La palette et les outils : des panneaux Qt séparés du canevas
 
@@ -155,9 +166,9 @@ si la carte est modifiée.
 
 Appuyer sur `P` lance une **vraie** exploration sur la carte en cours d'édition, puis, à `Échap`,
 **revient exactement où l'édition en était**. Le canevas a deux états, jamais mêlés
-(`EditorViewport::startPlaytest`/`stopPlaytest`) : en édition, il dessine le brouillon ; en essai,
-la carte est jouée par `hmi::WorldPlay` et dessinée par `hmi::WorldSceneRenderer` — la **même**
-mise en scène que le jeu, partagée avec `hmi::WorldModel` (`EX-EDIT-055`). Un essai qui montrerait
+(`EditorViewport::startPlaytest`/`stopPlaytest`) : en édition, il peint le brouillon ; en essai,
+la carte est jouée par `hmi::WorldPlay` et composée comme dans le jeu, caméra sur le héros — la
+**même** mise en scène que le jeu, partagée avec `hmi::WorldModel` (`EX-EDIT-055`). Un essai qui montrerait
 autre chose que le jeu ne vérifierait rien.
 
 Pendant l'essai, le canevas lit lui-même le clavier avec les touches du jeu : flèches, `ZQSD` ou
@@ -249,12 +260,13 @@ accès disque » que `LevelLoader`/`Core` appliquent à la validation. Détail d
 - `hmi::EditorViewport`, `hmi::EditorTool`, `hmi::PalettePanel`, `hmi::tileTaxonomy`,
   `hmi::LayersPanel`, `hmi::EntityPanel`, `hmi::LevelBrowserPanel`, `hmi::LevelFileOperations`,
   `hmi::isValidLevelName`.
-- `hmi::WorldPlay`, `hmi::WorldSceneRenderer` — la mise en scène partagée par le jeu et l'essai.
-- `hmi::Camera2D::fitZoom` — le cadrage automatique du canevas.
+- `hmi::WorldPlay`, `hmi::composeWorldScene` — la mise en scène partagée par le jeu et l'essai.
+- `hmi::paintComposedScene`, `hmi::SceneImages`, `hmi::pickIsoCell`, `hmi::isoBandOpacity`,
+  `hmi::MiniMap` — le canevas qui montre le lieu (`LOT-EDITOR-02`).
 - @ref guide-ihm-qt — l'IHM Qt : fenêtre, docks, arbre de palette, navigateur de fichiers, canevas.
 - @ref guide-design-ihm — l'éditeur outil interne, la barre d'état, le regroupement des panneaux et l'unicité des
   commandes de l'éditeur.
 - @ref guide-niveaux — le modèle de carte immuable, la validation et le format JSON réutilisés sans
   duplication.
-- @ref guide-rendu — `SpriteBatch`/`Camera2D`/`TextureAtlas`, réutilisés tels quels par
-  `hmi::DraftRenderer` pour dessiner la grille.
+- @ref guide-rendu — la composition d'un lieu (`hmi::ComposedScene`, `hmi::composeWorldScene`), que
+  le canevas peint par `QPainter` comme le jeu la soumet au GPU.
