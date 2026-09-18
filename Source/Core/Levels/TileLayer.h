@@ -89,11 +89,10 @@ inline constexpr int LAYER_KIND_COUNT = static_cast<int>(LayerKind::Legacy) + 1;
  * @brief Vrai si @p type se peint sur une couche **visuelle** (sol ou décor, `LOT-11`).
  *
  * Une couche visuelle est une image : elle accepte le vide, la matière générique et tout le
- * vocabulaire de terrain du `LOT-08`. Elle refuse ce qui n'a de sens que dans la grille de
- * collision — entrée, sortie, mécanismes, danger, bloc poussable : ces types portent une
- * **règle**, et une règle posée sur une couche que le gameplay ne lit pas serait un piège
- * silencieux (une porte dessinée qu'aucun interrupteur n'ouvre). Le `switch` est exhaustif : un
- * type ajouté sans décision ne compile pas.
+ * vocabulaire de terrain du `LOT-08`. Elle refuse l'entrée, qui n'a de sens que dans la grille de
+ * collision : elle porte une **règle**, et une règle posée sur une couche que le jeu ne lit pas
+ * serait un piège silencieux. Le `switch` est exhaustif : un type ajouté sans décision ne compile
+ * pas.
  */
 [[nodiscard]] constexpr bool isVisualLayerTileType(TileType type) noexcept {
     switch (type) {
@@ -109,15 +108,7 @@ inline constexpr int LAYER_KIND_COUNT = static_cast<int>(LayerKind::Legacy) + 1;
         case TileType::Bridge:
         case TileType::Stairs:
             return true;
-        case TileType::Danger:
         case TileType::Entry:
-        case TileType::Exit:
-        case TileType::Switch:
-        case TileType::Door:
-        case TileType::PressurePlate:
-        case TileType::Block:
-        case TileType::Key:
-        case TileType::LockedDoor:
             return false;
     }
     return false;

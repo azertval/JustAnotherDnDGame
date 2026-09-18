@@ -39,8 +39,7 @@ constexpr const char* MAP = R"({
   "width": 5,
   "height": 4,
   "tiles": [
-    { "x": 0, "y": 0, "type": "entry" },
-    { "x": 4, "y": 3, "type": "exit" }
+    { "x": 0, "y": 0, "type": "entry" }
   ],
   "layers": [
     { "name": "sol", "kind": "ground", "tiles": [] },

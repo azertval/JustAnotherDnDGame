@@ -24,34 +24,6 @@ namespace core {
 
 namespace {
 
-// Vrai pour les tuiles "déclencheur" liables à une cible (interrupteur, plaque de pression ou
-// clé, EX-GP-020/EX-GP-025/EX-GP-023) : toutes partagent la même règle d'identifiant
-// (LevelLoader.cpp).
-[[nodiscard]] bool isTriggerType(TileType type) {
-    return type == TileType::Switch || type == TileType::PressurePlate || type == TileType::Key;
-}
-
-// Vrai pour les tuiles "cible" d'une liaison de mécanisme (porte classique ou porte verrouillée) :
-// les deux se résolvent depuis le même vecteur `mechanisms` (LevelLoader.cpp), écrivent le même
-// champ 'opensWith'.
-[[nodiscard]] bool isDoorLikeType(TileType type) {
-    return type == TileType::Door || type == TileType::LockedDoor;
-}
-
-// Nom JSON d'un PlaneDepth (LOT-69, EX-DEC-042), symétrique à parsePlaneDepth (LevelLoader.cpp).
-// La profondeur par défaut (Behind) n'est jamais écrite (voir buildJson) : ce nom ne sert donc en
-// pratique que pour Front, mais le switch reste exhaustif pour que l'ajout d'une valeur soit
-// signalé par le compilateur.
-[[nodiscard]] const char* planeDepthName(PlaneDepth depth) {
-    switch (depth) {
-        case PlaneDepth::Behind:
-            return "behind";
-        case PlaneDepth::Front:
-            return "front";
-    }
-    return "behind";
-}
-
 // --- Couches et entites (LOT-04, format version 3) -------------------------------------------
 
 // Reemet les proprietes libres d'une couche ou d'une entite A PLAT dans son objet JSON, a cote de
@@ -79,9 +51,8 @@ void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
 }
 
 // Tuiles non vides d'une grille, au format {x, y, type}. Les cases vides sont omises (EX-LVL-003),
-// et une couche ne porte AUCUN des champs specifiques du tableau racine (id, opensWith, texture) :
-// les mecanismes et les textures par instance restent attaches a la grille racine, seule source de
-// verite des liaisons.
+// et une couche ne porte pas le champ specifique du tableau racine (texture) : les pieces
+// assignees par case restent attachees a la grille racine.
 [[nodiscard]] nlohmann::json layerTilesJson(const TileMap& tiles) {
     nlohmann::json array = nlohmann::json::array();
     for (int row = 0; row < tiles.height(); ++row) {
@@ -108,66 +79,8 @@ void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
     return layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy;
 }
 
-// Position (colonne, ligne) -> chaine associee (identifiant, texture...).
+// Position (colonne, ligne) -> chaine associee (piece assignee).
 using PositionMap = std::map<std::pair<int, int>, std::string>;
-
-// Cadrage de camera (EX-LVL-006, LOT-64) au format JSON : seuls le mode et les champs renseignes.
-[[nodiscard]] nlohmann::json cameraFramingJson(const CameraFramingConfig& cameraFraming) {
-    nlohmann::json framingJson;
-    framingJson["mode"] = std::string(cameraFramingModeName(cameraFraming.mode));
-    if (cameraFraming.roomWidthTiles) {
-        framingJson["roomWidthTiles"] = *cameraFraming.roomWidthTiles;
-    }
-    if (cameraFraming.roomHeightTiles) {
-        framingJson["roomHeightTiles"] = *cameraFraming.roomHeightTiles;
-    }
-    if (!cameraFraming.zones.empty()) {
-        nlohmann::json zonesJson = nlohmann::json::array();
-        for (const CameraZone& zone : cameraFraming.zones) {
-            nlohmann::json zoneJson;
-            zoneJson["x"] = zone.x;
-            zoneJson["y"] = zone.y;
-            zoneJson["width"] = zone.width;
-            zoneJson["height"] = zone.height;
-            zonesJson.push_back(std::move(zoneJson));
-        }
-        framingJson["zones"] = std::move(zonesJson);
-    }
-    return framingJson;
-}
-
-// Identifiants de déclencheurs (interrupteur ou plaque de pression) régénérés de façon
-// déterministe (balayage ligne par ligne) : ni Level ni LevelDraft ne conservent les
-// identifiants du fichier d'origine.
-[[nodiscard]] PositionMap triggerIds(const TileMap& tileMap) {
-    PositionMap switchIds;
-    int nextSwitchId = 0;
-    for (int row = 0; row < tileMap.height(); ++row) {
-        for (int column = 0; column < tileMap.width(); ++column) {
-            if (isTriggerType(tileMap.tile(column, row))) {
-                switchIds.emplace(std::make_pair(column, row),
-                                  "s" + std::to_string(nextSwitchId++));
-            }
-        }
-    }
-    return switchIds;
-}
-
-// Position de porte -> identifiant de l'interrupteur qui l'ouvre, d'après les mécanismes.
-[[nodiscard]] PositionMap doorOpensWithIds(const std::vector<Mechanism>& mechanisms,
-                                           const PositionMap& switchIds) {
-    PositionMap doorOpensWith;
-    for (const Mechanism& mechanism : mechanisms) {
-        const auto found = switchIds.find(
-            std::make_pair(mechanism.switchPosition.column, mechanism.switchPosition.row));
-        if (found != switchIds.end()) {
-            doorOpensWith.emplace(
-                std::make_pair(mechanism.doorPosition.column, mechanism.doorPosition.row),
-                found->second);
-        }
-    }
-    return doorOpensWith;
-}
 
 // Position -> nom d'asset de la texture assignee par instance (EX-EDIT-043), independamment
 // du type de la tuile a cette position.
@@ -190,10 +103,8 @@ void writeIfFound(const PositionMap& values, const std::pair<int, int>& key, con
     }
 }
 
-// Tableau racine "tiles" : grille de collision, identifiants de declencheurs, liaisons de portes et
-// textures par instance.
-[[nodiscard]] nlohmann::json rootTilesJson(const TileMap& tileMap, const PositionMap& switchIds,
-                                           const PositionMap& doorOpensWith,
+// Tableau racine "tiles" : grille de collision et pieces assignees par case.
+[[nodiscard]] nlohmann::json rootTilesJson(const TileMap& tileMap,
                                            const PositionMap& textureOverrideByPosition) {
     nlohmann::json tiles = nlohmann::json::array();
     for (int row = 0; row < tileMap.height(); ++row) {
@@ -206,15 +117,8 @@ void writeIfFound(const PositionMap& values, const std::pair<int, int>& key, con
             tile["x"] = column;
             tile["y"] = row;
             tile["type"] = tileTypeName(type);
-            const std::pair<int, int> position = std::make_pair(column, row);
-            if (isTriggerType(type)) {
-                writeIfFound(switchIds, position, "id", tile);
-            } else if (isDoorLikeType(type)) {
-                writeIfFound(doorOpensWith, position, "opensWith", tile);
-            }
-            // Texture assignee par instance (EX-EDIT-043) : independante du type, peut
-            // accompagner n'importe quel champ ci-dessus.
-            writeIfFound(textureOverrideByPosition, position, "texture", tile);
+            // Piece assignee a la case (EX-EDIT-043), independante du type.
+            writeIfFound(textureOverrideByPosition, std::make_pair(column, row), "texture", tile);
             tiles.push_back(std::move(tile));
         }
     }
@@ -261,50 +165,18 @@ void writeIfFound(const PositionMap& values, const std::pair<int, int>& key, con
     return array;
 }
 
-// Un plan (EX-DEC-040, LOT-69). Chaque champ a sa valeur par defaut est omis, comme partout
-// ailleurs dans ce format (convention du LOT-67) -- un plan solidaire du niveau a densite native
-// ne produit donc qu'un seul champ, "file".
-[[nodiscard]] nlohmann::json planeJson(const Plane& plane) {
-    nlohmann::json entry;
-    entry["file"] = plane.fileName;
-    if (plane.pixelsPerUnit != PLANE_NATIVE_PIXELS_PER_UNIT) {
-        entry["pixelsPerUnit"] = plane.pixelsPerUnit;
-    }
-    if (plane.parallaxX != 1.0F) {
-        entry["parallaxX"] = plane.parallaxX;
-    }
-    // parallaxY n'est ecrit que s'il differe de parallaxX : le chargeur le fait retomber
-    // sur ce dernier, ecrire les deux quand ils sont egaux serait du bruit.
-    if (plane.parallaxY != plane.parallaxX) {
-        entry["parallaxY"] = plane.parallaxY;
-    }
-    if (plane.opacity != 1.0F) {
-        entry["opacity"] = plane.opacity;
-    }
-    if (plane.depth != PlaneDepth::Behind) {
-        entry["depth"] = planeDepthName(plane.depth);
-    }
-    return entry;
-}
-
 }  // namespace
 
 std::string LevelWriter::toJsonString(const Level& level) {
     // Recompose l'agregat a partir des accesseurs : Level ne conserve pas de LevelData, et le
     // cout (une copie de la grille et des vecteurs) est celui d'un enregistrement de fichier, pas
-    // d'une boucle de jeu. entry/exit sont volontairement omis -- buildJson les relit de la
-    // grille, jamais du champ.
+    // d'une boucle de jeu. L'entree est volontairement omise -- buildJson la relit de la grille,
+    // jamais du champ.
     return buildJson(LevelData{.name = level.name(),
                                .tileMap = level.tileMap(),
                                .layers = level.layers(),
                                .entities = level.entities(),
-                               .mechanisms = level.mechanisms(),
-                               .background = level.background(),
-                               .skinSet = level.skinSet(),
-                               .textureOverrides = level.textureOverrides(),
-                               .cameraFraming = level.cameraFraming(),
-                               .planes = level.planes(),
-                               .parallaxEnabled = level.parallaxEnabled()});
+                               .textureOverrides = level.textureOverrides()});
 }
 
 bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& path) {
@@ -318,40 +190,14 @@ bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& pa
 }
 
 std::string LevelWriter::buildJson(const LevelData& data) {
-    // Composantes lues sous leur nom court. Des references, jamais des copies : le seul but est
-    // que le corps ci-dessous se lise sans un "data." sur chaque ligne.
-    const std::string& name = data.name;
     const TileMap& tileMap = data.tileMap;
-    const std::optional<std::string>& background = data.background;
-    const std::optional<std::string>& skinSet = data.skinSet;
-    const CameraFramingConfig& cameraFraming = data.cameraFraming;
-    const std::vector<Plane>& planes = data.planes;
-    const bool parallaxEnabled = data.parallaxEnabled;
 
     nlohmann::json root;
     root["version"] = LEVEL_FORMAT_VERSION;
-    root["name"] = name;
+    root["name"] = data.name;
     root["width"] = tileMap.width();
     root["height"] = tileMap.height();
-    // Capacites du tableau (EX-GP-055), a distinguer des budgets ci-dessus : omises quand le
-    // niveau s'en remet aux reglages du moteur.
-    if (background) {
-        root["background"] = *background;
-    }
-    if (skinSet) {
-        root["skinSet"] = *skinSet;
-    }
-    // Cadrage de camera (EX-LVL-006, LOT-64) : omis quand il coincide avec ce que la regle de
-    // repli recalculerait pour ces dimensions -- meme convention "omis si defaut" que
-    // background/skinSet ci-dessus, condition necessaire pour qu'un niveau jamais
-    // retouche sur ce point reste sans le champ apres un aller-retour editeur.
-    if (cameraFraming != resolveCameraFraming(std::nullopt, tileMap.width(), tileMap.height())) {
-        root["cameraFraming"] = cameraFramingJson(cameraFraming);
-    }
-
-    const PositionMap switchIds = triggerIds(tileMap);
-    root["tiles"] = rootTilesJson(tileMap, switchIds, doorOpensWithIds(data.mechanisms, switchIds),
-                                  textureOverridesByPosition(data.textureOverrides));
+    root["tiles"] = rootTilesJson(tileMap, textureOverridesByPosition(data.textureOverrides));
 
     nlohmann::json layersJson = visibleLayersJson(data.layers);
     if (!layersJson.empty()) {
@@ -363,23 +209,9 @@ std::string LevelWriter::buildJson(const LevelData& data) {
         root["entities"] = entitiesJson(data.entities);
     }
 
-    // Tableau racine optionnel "planes" (EX-DEC-040, LOT-69), omis si vide : l'ordre du vecteur
-    // est preserve (rang = superposition).
-    if (!planes.empty()) {
-        nlohmann::json planesJson = nlohmann::json::array();
-        for (const Plane& plane : planes) {
-            planesJson.push_back(planeJson(plane));
-        }
-        root["planes"] = std::move(planesJson);
-    }
-    // Drapeau de parallaxe (EX-DEC-043) : omis a sa valeur par defaut (true).
-    if (!parallaxEnabled) {
-        root["parallax"] = false;
-    }
-
-    // Indentation a deux espaces et saut de ligne final, comme tout ecrivain JSON du projet
-    // (rejeu, configuration d'entrainement, progression, raccourcis) : un niveau est un fichier
-    // versionne, dont la relecture en revue de code suppose un diff ligne a ligne.
+    // Indentation a deux espaces et saut de ligne final, comme tout ecrivain JSON du projet : une
+    // carte est un fichier versionne, dont la relecture en revue de code suppose un diff ligne a
+    // ligne.
     return root.dump(2) + "\n";
 }
 

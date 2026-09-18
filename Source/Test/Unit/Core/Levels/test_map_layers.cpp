@@ -32,12 +32,11 @@ constexpr const char* MAP_V2 = R"({
   "height": 3,
   "tiles": [
     { "x": 0, "y": 0, "type": "solid" },
-    { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" }
+    { "x": 1, "y": 1, "type": "entry" }
   ]
 })";
 
-// Carte version 3 complete : la grille racine (collision, entree, sortie), deux couches visibles,
+// Carte version 3 complete : la grille racine (collision, entree), deux couches visibles,
 // deux entites, et des proprietes libres -- y compris des cles que le chargeur ne connait pas.
 // Chargee, elle porte TROIS couches : la racine promue, puis le sol et le decor.
 constexpr const char* MAP_V3 = R"({
@@ -47,7 +46,6 @@ constexpr const char* MAP_V3 = R"({
   "height": 3,
   "tiles": [
     { "x": 1, "y": 1, "type": "entry" },
-    { "x": 3, "y": 2, "type": "exit" },
     { "x": 0, "y": 0, "type": "solid" }
   ],
   "layers": [
@@ -62,7 +60,7 @@ constexpr const char* MAP_V3 = R"({
     {
       "name": "decor",
       "kind": "decor",
-      "tiles": [{ "x": 2, "y": 1, "type": "danger" }],
+      "tiles": [{ "x": 2, "y": 1, "type": "wall" }],
       "difficultTerrain": true,
       "coverBonus": 2,
       "heightMeters": 1.5,
@@ -235,7 +233,7 @@ TEST(CouchesDeCarteTest, ChampsInconnusDUneEntitePreservesALaReecriture) {
  * \castest{<b>La couche de collision est la grille du gameplay.</b><br/>
  * \tcat Unitaire · Couches de carte<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Charger une carte dont le decor pose un danger en (2, 1), absent de la
+ * \tetapes 1. Charger une carte dont le decor pose un mur en (2, 1), absent de la
  * collision.<br/>2. Lire la grille du niveau.<br/>
  * \tattendu La case (2, 1) est vide dans la grille du niveau : le decor ne bloque pas.
  * }
@@ -248,7 +246,7 @@ TEST(CouchesDeCarteTest, LaCoucheDeCollisionEstLaGrilleDuGameplay) {
     EXPECT_EQ(loaded.level->tileMap().tile(2, 1), core::TileType::Empty);
     const core::TileLayer* decor = layerOfKind(*loaded.level, core::LayerKind::Decor);
     ASSERT_NE(decor, nullptr);
-    EXPECT_EQ(decor->tiles.tile(2, 1), core::TileType::Danger);
+    EXPECT_EQ(decor->tiles.tile(2, 1), core::TileType::Wall);
 
     // La couche de tete EST la grille racine, promue : meme contenu, role Collision.
     const core::TileLayer* collision = layerOfKind(*loaded.level, core::LayerKind::Collision);
@@ -275,8 +273,7 @@ TEST(CouchesDeCarteTest, CarteVersion4RefuseeAvecUnMessageExplicite) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ]
     })";
     const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V4);
@@ -302,8 +299,7 @@ TEST(CouchesDeCarteTest, TuileHorsBornesDansUneCoucheRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [
         { "name": "sol", "kind": "ground", "tiles": [{ "x": 5, "y": 0, "type": "solid" }] }
@@ -331,8 +327,7 @@ TEST(CouchesDeCarteTest, EntiteHorsBornesRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "entities": [{ "type": "npc", "x": 9, "y": 0 }]
     })";
@@ -358,8 +353,7 @@ TEST(CouchesDeCarteTest, RoleDeCoucheInconnuRetombeSurLeSol) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [{ "name": "brouillard", "kind": "weather", "tiles": [] }]
     })";
@@ -471,8 +465,7 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
       "width": 2,
       "height": 2,
       "tiles": [
-        { "x": 0, "y": 0, "type": "entry" },
-        { "x": 1, "y": 1, "type": "exit" }
+        { "x": 0, "y": 0, "type": "entry" }
       ],
       "layers": [
         { "name": "collision", "kind": "collision", "tiles": [] }

@@ -19,9 +19,9 @@
 /// Journalise un message pour une catégorie et un niveau donnés, via le journaliseur global.
 #define JADG_LOG(category, level, message)                                                \
     do {                                                                                  \
-        ::core::Logger& projectgamingLogger = ::core::defaultLogger();                    \
-        if (projectgamingLogger.isEnabled(level)) {                                       \
-            projectgamingLogger.log(                                                      \
+        ::core::Logger& jadgLogger = ::core::defaultLogger();                             \
+        if (jadgLogger.isEnabled(level)) {                                                \
+            jadgLogger.log(                                                               \
                 level, ::core::formatLogLine(::core::currentTimestamp(), level, category, \
                                              __FILE__, __LINE__, message));               \
         }                                                                                 \

@@ -17,9 +17,9 @@
 
 namespace {
 
-// Dernier type de l'enumeration : borne du parcours exhaustif. Ajouter un type apres celui-ci sans
-// mettre a jour cette constante ferait passer les tests a cote du nouveau venu.
-constexpr int LAST_TILE_TYPE = static_cast<int>(core::TileType::LockedDoor);
+// Dernier type de l'enumeration : borne du parcours exhaustif, tiree de `TILE_TYPE_COUNT` pour
+// suivre d'elle-meme un type ajoute.
+constexpr int LAST_TILE_TYPE = core::TILE_TYPE_COUNT - 1;
 
 }  // namespace
 

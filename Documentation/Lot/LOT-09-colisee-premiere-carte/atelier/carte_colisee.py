@@ -74,8 +74,8 @@ SEUIL = [(19, 33), (20, 33)]
 # Le grand escalier : du hall aux gradins du sud.
 ESCALIER = [(18, 29), (19, 29), (20, 29), (21, 29)]
 
-# L'entrée et la sortie de la carte, que le format exige en un seul exemplaire chacune. Héritage du
-# jeu de plateforme (`LOT-88` les retirera) : ici, les deux dalles du hall, derrière la porte.
+# L'entrée de la carte, que le format exige en un seul exemplaire : une dalle du hall, derrière la
+# porte. Sa voisine (la sortie jusqu'au `LOT-88`) reste une dalle du hall.
 ENTREE = (19, 32)
 SORTIE = (20, 32)
 
@@ -135,7 +135,7 @@ def matieres() -> dict[tuple[int, int], str]:
         sol[case] = "dirt"
     for case in SEUIL:
         sol[case] = "cliff"
-    # Les deux dalles d'entrée et de sortie sont du hall : elles en gardent la pierre.
+    # Les deux dalles du hall, derrière la porte, en gardent la pierre.
     sol[ENTREE] = "solid"
     sol[SORTIE] = "solid"
     return sol
@@ -241,8 +241,6 @@ def tracer() -> dict:
             if franchissable:
                 if case == ENTREE:
                     type_ = "entry"
-                elif case == SORTIE:
-                    type_ = "exit"
                 elif piece is not None:
                     type_ = "dirt"
                 else:
@@ -311,7 +309,6 @@ def tracer() -> dict:
             },
         ],
         "entities": entites,
-        "cameraFraming": {"mode": "follow"},
     }
 
 

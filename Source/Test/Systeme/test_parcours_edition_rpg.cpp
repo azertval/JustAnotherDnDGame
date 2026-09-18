@@ -60,7 +60,7 @@ std::size_t place(core::LevelDraft& draft, std::string_view type, int column, in
  * \castest{<b>Produire une carte du RPG dans l'editeur, sans JSON ecrit a la main.</b><br/>
  * \tcat Système · Éditeur de niveaux<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Creer une carte, poser entree, sortie et un couloir de murs dans la collision.<br/>2.
+ * \tetapes 1. Creer une carte, poser l'entree et un couloir de murs dans la collision.<br/>2.
  * Ajouter un sol (qui reprend l'image) puis un decor, peindre l'un et l'autre.<br/>3. Poser un PNJ
  * au dialogue du heraut, un coffre, un point d'arrivee et un portail qui y mene, une rencontre en
  * terrain ouvert et une dans le couloir.<br/>4. Valider contre les catalogues livres et analyser
@@ -72,10 +72,9 @@ std::size_t place(core::LevelDraft& draft, std::string_view type, int column, in
  * }
  */
 TEST(ParcoursEditionSysteme, ProduitUneCarteDuRpgSansEcrireDeJson) {
-    // 1. Collision : entree, sortie, et un couloir d'une case de large ferme par des murs.
+    // 1. Collision : l'entree, et un couloir d'une case de large ferme par des murs.
     core::LevelDraft draft = core::LevelDraft::empty("parcours-lot-11", 20, 12);
     draft.setEntry(1, 1);
-    draft.setExit(18, 10);
     for (int column = 12; column < 20; ++column) {
         draft.paintTile(column, 5, core::TileType::Wall);
         draft.paintTile(column, 7, core::TileType::Wall);
@@ -92,7 +91,7 @@ TEST(ParcoursEditionSysteme, ProduitUneCarteDuRpgSansEcrireDeJson) {
                                std::vector<std::vector<core::TileType>>(
                                    4, std::vector<core::TileType>(6, core::TileType::Grass))));
     EXPECT_TRUE(draft.paintLayerTile(*decor, 3, 3, core::TileType::Water));
-    EXPECT_FALSE(draft.paintLayerTile(*decor, 3, 4, core::TileType::Door));
+    EXPECT_FALSE(draft.paintLayerTile(*decor, 3, 4, core::TileType::Entry));
 
     // 3. Entites.
     place(draft, core::NPC_ENTITY_TYPE, 4, 2, {{"dialogue", std::string{"heraut-colisee"}}});

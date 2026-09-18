@@ -8,7 +8,6 @@
 
 #include <gtest/gtest.h>
 
-#include "Core/Levels/CameraFraming.h"
 #include "Core/Levels/Level.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
@@ -87,7 +86,7 @@ TEST(TileMapTest, Bornes) {
 TEST(TileMapTest, Solidite) {
     core::TileMap map(3, 1);
     map.setTile(0, 0, core::TileType::Solid);
-    map.setTile(1, 0, core::TileType::Danger);
+    map.setTile(1, 0, core::TileType::Grass);
     // (2, 0) reste Empty
 
     EXPECT_TRUE(map.isSolid(0, 0));
@@ -108,106 +107,28 @@ TEST(TileMapTest, Solidite) {
 TEST(TileMapTest, IsSolidParType) {
     EXPECT_TRUE(core::isSolid(core::TileType::Solid));
     EXPECT_FALSE(core::isSolid(core::TileType::Empty));
-    EXPECT_FALSE(core::isSolid(core::TileType::Door));
-    EXPECT_FALSE(core::isSolid(core::TileType::Danger));
+    EXPECT_FALSE(core::isSolid(core::TileType::Entry));
+    EXPECT_FALSE(core::isSolid(core::TileType::Grass));
 }
 
 /**
- * @brief Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).
- * \castest{<b>Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).</b><br/>
+ * @brief Un Level restitue ses composantes (nom, grille, entrée).
+ * \castest{<b>Un Level restitue ses composantes (nom, grille, entrée).</b><br/>
  * \tcat Unitaire · Level<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
  * verifier les assertions.<br/>
- * \tattendu Un Level restitue ses composantes (nom, grille, entrée/sortie, mécanismes).
+ * \tattendu Un Level restitue ses composantes (nom, grille, entrée).
  * }
  */
 TEST(LevelTest, RestitueSesComposantes) {
     core::TileMap map(5, 4);
     map.setTile(1, 1, core::TileType::Entry);
-    map.setTile(3, 2, core::TileType::Exit);
 
-    const std::vector<core::Mechanism> mechanisms = {
-        {core::GridPosition{2, 1}, core::GridPosition{4, 2}},
-    };
-    const core::Level level(core::LevelData{.name = "Tutoriel",
-                                            .tileMap = std::move(map),
-                                            .entry = core::GridPosition{1, 1},
-                                            .exit = core::GridPosition{3, 2},
-                                            .mechanisms = mechanisms});
+    const core::Level level(core::LevelData{
+        .name = "Tutoriel", .tileMap = std::move(map), .entry = core::GridPosition{1, 1}});
 
     EXPECT_EQ(level.name(), "Tutoriel");
     EXPECT_EQ(level.tileMap().width(), 5);
     EXPECT_EQ(level.entry(), (core::GridPosition{1, 1}));
-    EXPECT_EQ(level.exit(), (core::GridPosition{3, 2}));
-    ASSERT_EQ(level.mechanisms().size(), 1u);
-    EXPECT_EQ(level.mechanisms().front().switchPosition, (core::GridPosition{2, 1}));
-    EXPECT_EQ(level.mechanisms().front().doorPosition, (core::GridPosition{4, 2}));
-}
-
-/**
- * @brief Un Level sans fond ni jeu de skins configurés restitue les deux champs absents
- * (`EX-REN-044`, `EX-EDIT-024`) ; construit avec les deux, il les restitue tels quels.
- * \castest{<b>Un Level restitue son fond et son jeu de skins, ou leur absence.</b><br/>
- * \tcat Unitaire · Level<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un Level restitue son fond et son jeu de skins, ou leur absence.
- * }
- */
-TEST(LevelTest, RestitueSonFondEtSonJeuDeSkinsOuLeurAbsence) {
-    core::TileMap map(3, 3);
-    map.setTile(0, 0, core::TileType::Entry);
-    map.setTile(2, 2, core::TileType::Exit);
-
-    const core::Level sansFond(core::LevelData{.name = "N",
-                                               .tileMap = map,
-                                               .entry = core::GridPosition{0, 0},
-                                               .exit = core::GridPosition{2, 2}});
-    EXPECT_FALSE(sansFond.background().has_value());
-    EXPECT_FALSE(sansFond.skinSet().has_value());
-
-    const core::Level avecFond(core::LevelData{.name = "N",
-                                               .tileMap = std::move(map),
-                                               .entry = core::GridPosition{0, 0},
-                                               .exit = core::GridPosition{2, 2},
-                                               .background = std::string{"forest.png"},
-                                               .skinSet = std::string{"foret"}});
-    ASSERT_TRUE(avecFond.background().has_value());
-    EXPECT_EQ(*avecFond.background(), "forest.png");
-    ASSERT_TRUE(avecFond.skinSet().has_value());
-    EXPECT_EQ(*avecFond.skinSet(), "foret");
-}
-
-/**
- * @brief Un Level construit sans cadrage explicite (hors `LevelLoader`) a le cadrage par défaut
- * (*niveau entier*) ; construit avec un cadrage, il le restitue tel quel (`EX-LVL-006`).
- * \castest{<b>Un Level restitue son cadrage de caméra, ou le défaut à défaut d'un cadrage
- * fourni.</b><br/>
- * \tcat Unitaire · Level<br/>
- * \tcrit Majeur<br/>
- * \tetapes 1. Mettre en place le contexte du test (arrangement).<br/>2. Executer le scenario et
- * verifier les assertions.<br/>
- * \tattendu Un Level restitue son cadrage de caméra, ou le défaut à défaut d'un cadrage fourni.
- * }
- */
-TEST(LevelTest, RestitueSonCadrageDeCameraOuLeDefaut) {
-    core::TileMap map(3, 3);
-    map.setTile(0, 0, core::TileType::Entry);
-    map.setTile(2, 2, core::TileType::Exit);
-
-    const core::Level defaut(core::LevelData{.name = "N",
-                                             .tileMap = map,
-                                             .entry = core::GridPosition{0, 0},
-                                             .exit = core::GridPosition{2, 2}});
-    EXPECT_EQ(defaut.cameraFraming().mode, core::CameraFramingMode::WholeLevel);
-
-    const core::CameraFramingConfig follow{.mode = core::CameraFramingMode::Follow};
-    const core::Level avecCadrage(core::LevelData{.name = "N",
-                                                  .tileMap = std::move(map),
-                                                  .entry = core::GridPosition{0, 0},
-                                                  .exit = core::GridPosition{2, 2},
-                                                  .cameraFraming = follow});
-    EXPECT_EQ(avecCadrage.cameraFraming().mode, core::CameraFramingMode::Follow);
 }

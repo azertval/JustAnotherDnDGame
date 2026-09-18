@@ -338,7 +338,6 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
     habiller(q)
 
     entree = depart.interieur(1)
-    sortie = depart.interieur(2)
     entites: list[dict] = []
     for porte in q.portes:
         if porte.gardee:
@@ -369,8 +368,6 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
             if case in q.sol and case not in q.obstacles:
                 if case == entree:
                     type_ = "entry"
-                elif case == sortie:
-                    type_ = "exit"
                 elif piece is not None:
                     type_ = "dirt"
                 else:
@@ -408,7 +405,6 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
             },
         ],
         "entities": entites,
-        "cameraFraming": {"mode": "follow"},
     }
 
 

@@ -55,7 +55,6 @@ add_library(Core STATIC
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
     Levels/TileTypeName.cpp
-    Levels/CameraFraming.cpp
     Levels/LevelLoader.cpp
     Levels/LevelWriter.cpp
     Levels/LevelDraft.cpp

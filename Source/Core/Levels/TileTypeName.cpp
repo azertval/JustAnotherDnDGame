@@ -31,24 +31,8 @@ std::string tileTypeName(TileType type) {
             return "empty";  // jamais emis dans un niveau : les cases vides sont omises de 'tiles'.
         case TileType::Solid:
             return "solid";
-        case TileType::Danger:
-            return "danger";
         case TileType::Entry:
             return "entry";
-        case TileType::Exit:
-            return "exit";
-        case TileType::Switch:
-            return "switch";
-        case TileType::Door:
-            return "door";
-        case TileType::PressurePlate:
-            return "pressurePlate";
-        case TileType::Block:
-            return "block";
-        case TileType::Key:
-            return "key";
-        case TileType::LockedDoor:
-            return "lockedDoor";
         case TileType::Grass:
             return "grass";
         case TileType::Dirt:

@@ -87,10 +87,9 @@ FileOperationResult LevelFileOperations::create(const std::string& name, int wid
     if (std::filesystem::exists(target, error)) {
         return FileOperationResult::failure("Un niveau porte déjà ce nom.");
     }
-    // Niveau minimal valide : grille vide + une entrée et une sortie distinctes (coins bas).
+    // Niveau minimal valide : grille vide + une entrée (coin bas gauche).
     core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
     draft.setEntry(0, height - 1);
-    draft.setExit(width - 1, height - 1);
     core::LevelLoadResult validated = draft.toLevel();
     if (!validated.ok()) {
         return FileOperationResult::failure("Niveau invalide : " + validated.error);

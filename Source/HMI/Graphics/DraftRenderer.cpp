@@ -221,7 +221,7 @@ void DraftRenderer::composeCollisionMask(const core::LevelDraft& draft) {
         for (int column = 0; column < map.width(); ++column) {
             const core::TileType type = map.tile(column, row);
             // Une teinte par CATEGORIE de regle, pas par type : l'auteur lit ou l'on bute, ou
-            // l'on entre et ou l'on sort.
+            // l'on entre.
             float r = 0.0F;
             float g = 0.0F;
             float b = 0.0F;
@@ -229,8 +229,6 @@ void DraftRenderer::composeCollisionMask(const core::LevelDraft& draft) {
                 r = 0.85F, g = 0.20F, b = 0.20F;  // obstacle
             } else if (type == core::TileType::Entry) {
                 r = 0.20F, g = 0.85F, b = 0.30F;  // entree
-            } else if (type == core::TileType::Exit) {
-                r = 0.25F, g = 0.50F, b = 1.00F;  // sortie
             } else {
                 continue;  // terrain franchissable : rien a masquer.
             }

@@ -161,7 +161,6 @@ TEST_P(CapitalMapTest, LaCarteLivreeSeCharge) {
     EXPECT_EQ(carte.tileMap().width(), quartier.largeur);
     EXPECT_EQ(carte.tileMap().height(), quartier.hauteur);
     EXPECT_EQ(hmi::scenePlaceOf(carte), quartier.lieu);
-    EXPECT_EQ(carte.cameraFraming().mode, core::CameraFramingMode::Follow);
     EXPECT_NE(entreeDe(carte).column, -1) << "aucune tuile d'entree";
     EXPECT_TRUE(core::validateWorldMap(quartier.carte, carte).empty());
 }
@@ -251,11 +250,11 @@ TEST_P(CapitalMapTest, ChaquePointDArriveeEstFranchissable) {
  * @brief Chaque quartier a ses ilots, dans sa carte, avec leur libelle dans les deux langues.
  * \castest{<b>Les ilots d'un quartier sont dans sa carte, et nommes en francais et en
  * anglais.</b><br/>
- * 	cat Unitaire · Quartiers de la Capitale<br/>
- * 	crit Majeur<br/>
- * 	etapes 1. Lire les ilots de chaque quartier.<br/>
+ * \tcat Unitaire · Quartiers de la Capitale<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lire les ilots de chaque quartier.<br/>
  * 2. Chercher `city_block.<nom>` dans `fr.lang` et `en.lang`.<br/>
- * 	attendu Au moins trois ilots, chacun dans les bornes de la carte, et libelle dans les deux
+ * \tattendu Au moins trois ilots, chacun dans les bornes de la carte, et libelle dans les deux
  * catalogues ; l'entree du quartier est dans un ilot (LOT-96).
  * }
  */
@@ -292,11 +291,11 @@ TEST_P(CapitalMapTest, LesIlotsSontDansLaCarteEtNommes) {
  * @brief Martpart -> Arenarea -> Martpart ramene a la bonne case, sans rien recharger.
  * \castest{<b>L'avenue se parcourt aller et retour, par points d'arrivee nommes, et la carte
  * quittee est conservee.</b><br/>
- * 	cat Unitaire · Quartiers de la Capitale<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Entrer a Martpart par le chargeur du jeu, sur le dossier des niveaux livre.<br/>
+ * \tcat Unitaire · Quartiers de la Capitale<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Entrer a Martpart par le chargeur du jeu, sur le dossier des niveaux livre.<br/>
  * 2. Franchir le portail vers Arenarea, puis celui du retour.<br/>
- * 	attendu A Arenarea, le heros est au point « martpart » ; de retour, au point « arenarea » de
+ * \tattendu A Arenarea, le heros est au point « martpart » ; de retour, au point « arenarea » de
  * Martpart. Deux cartes chargees en tout, et Martpart est la meme carte qu'a l'aller : l'etat
  * de la carte quittee est conserve (LOT-96).
  * }
@@ -330,11 +329,11 @@ TEST(CapitalTravelTest, MartpartArenareaMartpartRameneALaBonneCase) {
  * @brief Chaque quartier ferme a sa sentinelle, sur la carte que la ville lui donne.
  * \castest{<b>Les dix portes gardees ont chacune leur sentinelle Ironhand, qui ouvre un dialogue
  * du catalogue.</b><br/>
- * 	cat Unitaire · Quartiers de la Capitale<br/>
- * 	crit Critique<br/>
- * 	etapes 1. Lire la Capitale livree et le catalogue des dialogues.<br/>
+ * \tcat Unitaire · Quartiers de la Capitale<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Lire la Capitale livree et le catalogue des dialogues.<br/>
  * 2. Pour chaque quartier ferme, relever les PNJ de sa carte de garde qui le gardent.<br/>
- * 	attendu Exactement une sentinelle par quartier ferme, au bord de la carte, sur une case ou
+ * \tattendu Exactement une sentinelle par quartier ferme, au bord de la carte, sur une case ou
  * l'on peut aller lui parler, avec un dialogue accepte et une figurine qui a au moins son
  * marqueur ; aucune sentinelle ne garde un quartier qui a sa carte (LOT-96).
  * }

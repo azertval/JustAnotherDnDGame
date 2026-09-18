@@ -20,13 +20,11 @@ add_executable(UnitTests
     Unit/Core/Ecs/test_sprite.cpp
     Unit/Core/Data/test_json_document.cpp
     Unit/Core/Levels/test_level.cpp
-    Unit/Core/Levels/test_camera_framing.cpp
     Unit/Core/Levels/test_level_loader.cpp
     Unit/Core/Levels/test_level_writer.cpp
     Unit/Core/Levels/test_map_layers.cpp
     Unit/Core/Levels/test_level_draft.cpp
     Unit/Core/Levels/test_level_draft_editing.cpp
-    Unit/Core/Levels/test_plane.cpp
     Unit/Core/Levels/test_tile_type_name.cpp
     Unit/Core/Rpg/test_check.cpp
     Unit/Core/Rpg/test_dialogue.cpp

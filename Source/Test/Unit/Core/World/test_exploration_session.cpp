@@ -65,7 +65,6 @@ core::LevelData carteMuree(std::string nom, std::vector<core::MapEntity> entites
     }
     core::LevelData donnees{.name = std::move(nom), .tileMap = std::move(grille)};
     donnees.entry = {1, 1};
-    donnees.exit = {8, 8};
     donnees.entities = std::move(entites);
     return donnees;
 }

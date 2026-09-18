@@ -49,8 +49,7 @@ core::Level salle(int largeur, int hauteur, const std::vector<GridPosition>& pil
     return core::Level(core::LevelData{.name = "salle",
                                        .tileMap = std::move(carte),
                                        .entities = {},
-                                       .entry = {1, 1},
-                                       .exit = {largeur - 2, hauteur - 2}});
+                                       .entry = {1, 1}});
 }
 
 core::ArenaContestant combattant(const std::string& nom, CombatSide camp, GridPosition case_,

@@ -12,25 +12,8 @@ core::AtlasRegion regionForTile(core::TileType type) {
     switch (type) {
         case core::TileType::Solid:
             return TextureAtlas::tile(0, 2);  // gris
-        case core::TileType::Danger:
-            return TextureAtlas::tile(0, 0);  // rouge
         case core::TileType::Entry:
             return TextureAtlas::tile(1, 0);  // vert
-        case core::TileType::Exit:
-            return TextureAtlas::tile(2, 0);  // bleu
-        case core::TileType::Switch:
-            return TextureAtlas::tile(3, 0);  // jaune
-        case core::TileType::PressurePlate:
-            return TextureAtlas::tile(
-                1, 1);  // cyan (libere par LOT-17 : ancien placeholder du personnage)
-        case core::TileType::Door:
-            return TextureAtlas::tile(2, 1);  // orange
-        case core::TileType::Key:
-            return TextureAtlas::tile(4, 0);  // or (EX-GP-023, LOT-63)
-        case core::TileType::LockedDoor:
-            return TextureAtlas::tile(3, 4);  // brun fonce (EX-GP-023, LOT-63)
-        case core::TileType::Block:
-            return TextureAtlas::tile(3, 1);  // violet
         // Terrain du RPG (LOT-08) : cases jusqu'ici libres de la grille, chacune peinte d'une
         // teinte distincte par l'atlas procedural -- le jeu reste lancable sans aucun fichier
         // d'image (EX-NFR-040).
