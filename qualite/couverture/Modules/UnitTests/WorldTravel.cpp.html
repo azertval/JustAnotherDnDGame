@@ -136,7 +136,11 @@ namespace {
             continue;</span>
         }
 <span style = "background-color:#dfd">        std::string nom = texteDe(entite, SPAWN_POINT_NAME_PROPERTY);
-        if (nom.empty() || vus.insert(nom).second) {
+        if (nom.empty()) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        const bool premiereFois = vus.insert(nom).second;
+        if (premiereFois) {
             continue;</span>
         }
 <span style = "background-color:#dfd">        defauts.push_back(WorldIssue{.mapId = std::string{mapId},</span>

@@ -40,6 +40,8 @@ var classhmi_1_1ArenaModel =
     [ "journal", "classhmi_1_1ArenaModel.html#a20d730990238a92cecdbe35c7c07bc19", null ],
     [ "launch", "classhmi_1_1ArenaModel.html#a1c364203649d375b354ac1c3ccd3a280", null ],
     [ "loadCatalogs", "classhmi_1_1ArenaModel.html#abcd9a4436ac920c5f44085ec006aa56a", null ],
+    [ "loadCharacterCatalog", "classhmi_1_1ArenaModel.html#af646ceb7673cdee7aae3581c51bf9bf1", null ],
+    [ "loadPlayableLevel", "classhmi_1_1ArenaModel.html#a59668333337ab23933ef24fe8ed20d33", null ],
     [ "marks", "classhmi_1_1ArenaModel.html#a6b3646e217d8a185b14c836a0e955fda", null ],
     [ "moveCursor", "classhmi_1_1ArenaModel.html#a693b41c41da1af8774b8a92147ec7bda", null ],
     [ "moveTo", "classhmi_1_1ArenaModel.html#a131f43e650fa2ef3cc13dffbc9c809b2", null ],

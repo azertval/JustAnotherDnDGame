@@ -122,8 +122,9 @@ void composeRelief(ComposedScene&amp; scene, const WorldSceneSnapshot&amp; snaps
     // qu'une piece plus haute que sa case reste derriere ce qui est devant elle.
 <span style = "background-color:#dfd">    const core::Vector2 topVertex = projection.gridToWorld(</span>
         gridPoint(static_cast&lt;float&gt;(cell.column), static_cast&lt;float&gt;(cell.row)));
-<span style = "background-color:#dfd">    const float footY = projection.gridToWorld(gridPoint(static_cast&lt;float&gt;(cell.column) + 1.0F,</span>
-                                                         static_cast&lt;float&gt;(cell.row) + 1.0F))
+<span style = "background-color:#dfd">    const float footY = projection</span>
+                            .gridToWorld(gridPoint(static_cast&lt;float&gt;(cell.column) + 1.0F,
+                                                   static_cast&lt;float&gt;(cell.row) + 1.0F))
                             .y;
 <span style = "background-color:#dfd">    const SpriteQuad quad = standingPieceQuad(texture, topVertex, unitsPerScenePixel);
     scene.addSprite(RenderLayer::Object, texture.texture,</span>
@@ -144,9 +145,8 @@ void composeFigure(ComposedScene&amp; scene, const core::IsoProjection&amp; proj
     // d'images. Une image hors bande est ramenee dedans plutot que de lire a cote de la texture.
 <span style = "background-color:#dfd">    const int frameWidthPixels =</span>
         texture.frameWidth &gt; 0 ? texture.frameWidth : FIGURE_FRAME_WIDTH_PIXELS;
-<span style = "background-color:#dfd">    const int frameCount =</span>
-        texture.width &gt; 0 ? std::max(1, texture.width / frameWidthPixels) : 1;
-<span style = "background-color:#dfd">    const int frame = ((figure.frame % frameCount) + frameCount) % frameCount;</span>
+<span style = "background-color:#dfd">    const int frameCount = texture.width &gt; 0 ? std::max(1, texture.width / frameWidthPixels) : 1;
+    const int frame = ((figure.frame % frameCount) + frameCount) % frameCount;</span>
 
 <span style = "background-color:#dfd">    const core::Vector2 center = projection.gridToWorld(figure.point);
     const float footY =</span>
@@ -220,14 +220,14 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
     }
 <span style = "background-color:#dfd">    snapshot.figures = std::move(figures);</span>
 
-<span style = "background-color:#dfd">    const auto cases = static_cast&lt;std::size_t&gt;(snapshot.columns) *</span>
-                       static_cast&lt;std::size_t&gt;(snapshot.rows);
+<span style = "background-color:#dfd">    const auto cases =</span>
+        static_cast&lt;std::size_t&gt;(snapshot.columns) * static_cast&lt;std::size_t&gt;(snapshot.rows);
 <span style = "background-color:#dfd">    snapshot.floors.assign(cases, std::string{});
     snapshot.relief.assign(cases, std::string{});</span>
 
 <span style = "background-color:#dfd">    for (int row = 0; row &lt; snapshot.rows; ++row) {
         for (int column = 0; column &lt; snapshot.columns; ++column) {
-            const core::GridPosition cell{column, row};
+            const core::GridPosition cell{.column = column, .row = row};
             const std::size_t index = indexOf(cell, snapshot.columns);
             snapshot.floors[index] = appearance.floorPiece(sol.tile(column, row), cell);
             if (decor != nullptr &amp;&amp; decor-&gt;inBounds(column, row)) {
@@ -265,7 +265,7 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
 <span style = "background-color:#dfd">        uniques.insert(figurePath(figure.figure, "idle"));
         uniques.insert(figurePath(figure.figure, "walk"));
     }
-    return std::vector&lt;std::string&gt;(uniques.begin(), uniques.end());
+    return {uniques.begin(), uniques.end()};
 }</span>
 
 void composeWorldScene(ComposedScene&amp; scene, const WorldSceneSnapshot&amp; snapshot,
@@ -276,7 +276,7 @@ void composeWorldScene(ComposedScene&amp; scene, const WorldSceneSnapshot&amp; s
 
 <span style = "background-color:#dfd">    for (int row = 0; row &lt; snapshot.rows; ++row) {
         for (int column = 0; column &lt; snapshot.columns; ++column) {
-            const core::GridPosition cell{column, row};
+            const core::GridPosition cell{.column = column, .row = row};
             composeFloor(scene, snapshot, projection, textures, cell);
             composeRelief(scene, snapshot, projection, textures, cell, unitsPerScenePixel);
         }

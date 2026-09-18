@@ -1,5 +1,9 @@
 var NAVTREEINDEX40 =
 {
+"structcore_1_1CreatureTrait.html#a8b2b03382885fa99fdf129b706c81a73":[16,0,0,140,0],
+"structcore_1_1CreatureTrait.html#ae71bf030bb7558d78cf6da60620eb67a":[15,0,1,140,1],
+"structcore_1_1CreatureTrait.html#ae71bf030bb7558d78cf6da60620eb67a":[16,0,0,140,1],
+"structcore_1_1DamageAffinity.html":[15,0,1,40],
 "structcore_1_1DamageAffinity.html":[16,0,0,40],
 "structcore_1_1DamageAffinity.html#a02b76bc7d2d4b713113770131942009e":[15,0,1,40,2],
 "structcore_1_1DamageAffinity.html#a02b76bc7d2d4b713113770131942009e":[16,0,0,40,2],
@@ -245,9 +249,5 @@ var NAVTREEINDEX40 =
 "structcore_1_1Encounter.html#ada4e40f492122dec0b76e69bbe5c339d":[16,0,0,52,2],
 "structcore_1_1EncounterCatalog.html":[15,0,1,53],
 "structcore_1_1EncounterCatalog.html":[16,0,0,53],
-"structcore_1_1EncounterCatalog.html#a9f64bd7b5361dcc45acda01be1505e12":[15,0,1,53,2],
-"structcore_1_1EncounterCatalog.html#a9f64bd7b5361dcc45acda01be1505e12":[16,0,0,53,2],
-"structcore_1_1EncounterCatalog.html#adbd2f256ac224df8bb48bc7ee6aed70e":[15,0,1,53,1],
-"structcore_1_1EncounterCatalog.html#adbd2f256ac224df8bb48bc7ee6aed70e":[16,0,0,53,1],
-"structcore_1_1EncounterCatalog.html#ae2d2c6b769155e1268b1ffe9e5a1cc0b":[15,0,1,53,0]
+"structcore_1_1EncounterCatalog.html#a9f64bd7b5361dcc45acda01be1505e12":[15,0,1,53,2]
 };

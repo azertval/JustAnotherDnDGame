@@ -15,8 +15,8 @@
 #include "HMI/Graphics/PlaceAppearance.h"
 
 #include &lt;algorithm&gt;
-#include &lt;set&gt;
 #include &lt;optional&gt;
+#include &lt;set&gt;
 #include &lt;utility&gt;
 
 #include "Core/Data/JsonDocument.h"
@@ -47,9 +47,8 @@ constexpr std::string_view FIELD_RELIEF = "relief";
 }</span>
 
 <span style = "background-color:#fdd">[[nodiscard]] PlaceAppearanceResult failure(std::string message, PlaceAppearanceError error) {
-    return PlaceAppearanceResult{</span>
-        .appearance = {}, .error = error, .message = std::move(message)};
-<span style = "background-color:#fdd">}</span>
+    return PlaceAppearanceResult{.appearance = {}, .error = error, .message = std::move(message)};
+}</span>
 
 // Lit un objet Â« type de tuile -&gt; liste de pieces Â». Un type inconnu est une donnee fautive, pas
 // un type a deviner : le signaler vaut mieux que dessiner du sable sous un mur.
@@ -91,8 +90,8 @@ constexpr std::string_view FIELD_RELIEF = "relief";
 // parcours. Les deux facteurs sont premiers entre eux et avec les petits nombres de variantes, si
 // bien que les voisines ne tombent pas toutes sur la meme.
 <span style = "background-color:#dfd">[[nodiscard]] std::size_t variantOf(core::GridPosition cell, std::size_t count) {
-    const long long melange = static_cast&lt;long long&gt;(cell.column) * 7 +</span>
-                              static_cast&lt;long long&gt;(cell.row) * 13;
+    const long long melange =</span>
+        (static_cast&lt;long long&gt;(cell.column) * 7) + (static_cast&lt;long long&gt;(cell.row) * 13);
 <span style = "background-color:#dfd">    const long long positif = melange &lt; 0 ? -melange : melange;
     return count == 0 ? 0 : static_cast&lt;std::size_t&gt;(positif) % count;
 }</span>
@@ -133,9 +132,9 @@ constexpr std::string_view FIELD_RELIEF = "relief";
         !readTable(document.root, FIELD_RELIEF, appearance._relief, error)) {
 <span style = "background-color:#fdd">        return failure(std::move(error), PlaceAppearanceError::MalformedStructure);</span>
     }
-<span style = "background-color:#dfd">    return PlaceAppearanceResult{</span>
+<span style = "background-color:#dfd">    return {</span>
         .appearance = std::move(appearance), .error = PlaceAppearanceError::None, .message = {}};
-<span style = "background-color:#dfd">}</span>
+<span style = "background-color:#fdd">}</span>
 
 <span style = "background-color:#dfd">std::string_view PlaceAppearance::floorPiece(core::TileType type, core::GridPosition cell) const {
     return pieceOf(_floors, type, cell);
@@ -152,7 +151,7 @@ constexpr std::string_view FIELD_RELIEF = "relief";
             uniques.insert(noms.begin(), noms.end());
         }
     }
-    return std::vector&lt;std::string&gt;(uniques.begin(), uniques.end());
+    return {uniques.begin(), uniques.end()};
 }</span>
 
 }  // namespace hmi</pre>

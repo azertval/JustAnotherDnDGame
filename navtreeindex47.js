@@ -1,5 +1,9 @@
 var NAVTREEINDEX47 =
 {
+"structhmi_1_1AutotileCell.html#af0563e130bf797a533e67e0991494450":[16,0,1,157,2],
+"structhmi_1_1BackgroundFit.html":[15,0,2,104],
+"structhmi_1_1BackgroundFit.html":[16,0,1,104],
+"structhmi_1_1BackgroundFit.html#a1e431b706e1bbcafceb1dca083a6c42f":[15,0,2,104,0],
 "structhmi_1_1BackgroundFit.html#a1e431b706e1bbcafceb1dca083a6c42f":[16,0,1,104,0],
 "structhmi_1_1BackgroundFit.html#a321876eec3c17d05eceb5d66890c5701":[15,0,2,104,3],
 "structhmi_1_1BackgroundFit.html#a321876eec3c17d05eceb5d66890c5701":[16,0,1,104,3],
@@ -245,9 +249,5 @@ var NAVTREEINDEX47 =
 "structhmi_1_1EditorActionSpec.html#ae57c07b18c77b3fb0f82518b3c9894e8":[16,0,1,168,2],
 "structhmi_1_1EditorActionSpec.html#affc2dfeea5c3939150e2df41b3d4aee8":[15,0,2,168,3],
 "structhmi_1_1EditorActionSpec.html#affc2dfeea5c3939150e2df41b3d4aee8":[16,0,1,168,3],
-"structhmi_1_1EditorDiagnostic.html":[15,0,2,7],
-"structhmi_1_1EditorDiagnostic.html":[16,0,1,7],
-"structhmi_1_1EditorDiagnostic.html#a0676d852b4f99bfb8863c6caec84d35f":[15,0,2,7,3],
-"structhmi_1_1EditorDiagnostic.html#a0676d852b4f99bfb8863c6caec84d35f":[16,0,1,7,3],
-"structhmi_1_1EditorDiagnostic.html#a0bd64b4c910df794ff2c4072e4a50a3e":[15,0,2,7,4]
+"structhmi_1_1EditorDiagnostic.html":[15,0,2,7]
 };

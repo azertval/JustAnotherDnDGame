@@ -1,5 +1,9 @@
 var NAVTREEINDEX58 =
 {
+"test__text__renderer_8cpp.html#a4f4fa92267c6f93b0d456dc0df226f43":[17,0,3,6,3,1,4,37,6],
+"test__text__renderer_8cpp.html#a5a60d0ea0c8452d0549459696ebb100a":[17,0,3,6,3,1,4,37,1],
+"test__text__renderer_8cpp.html#a7853d72bdc54d6ac1db0c6cd2f682d9c":[17,0,3,6,3,1,4,37,4],
+"test__text__renderer_8cpp.html#a7ec9e52e376adc434708684801724ffb":[17,0,3,6,3,1,4,37,2],
 "test__text__renderer_8cpp.html#a8f0c070ea702bf9515e5dfe3cbd4a77e":[17,0,3,6,3,1,4,37,7],
 "test__text__renderer_8cpp.html#aae8ddb212f27924206969fadf90550f5":[17,0,3,6,3,1,4,37,5],
 "test__text__renderer_8cpp.html#ac31a4dfe4ea746a87c92fee2a4cef81c":[17,0,3,6,3,1,4,37,0],

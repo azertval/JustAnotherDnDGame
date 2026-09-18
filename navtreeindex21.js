@@ -1,5 +1,9 @@
 var NAVTREEINDEX21 =
 {
+"classhmi_1_1PixelCanvas.html#a822794d88da5c13eedaebf660f7c9b12":[16,0,1,34,64],
+"classhmi_1_1PixelCanvas.html#a858c9149d9180a896b4ea721b86c201b":[15,0,2,34,32],
+"classhmi_1_1PixelCanvas.html#a858c9149d9180a896b4ea721b86c201b":[16,0,1,34,32],
+"classhmi_1_1PixelCanvas.html#a87cfdc983a37d4af6204bf08455e843f":[15,0,2,34,22],
 "classhmi_1_1PixelCanvas.html#a87cfdc983a37d4af6204bf08455e843f":[16,0,1,34,22],
 "classhmi_1_1PixelCanvas.html#a89d563608e0bb3507a98aa9335c01d61":[15,0,2,34,10],
 "classhmi_1_1PixelCanvas.html#a89d563608e0bb3507a98aa9335c01d61":[16,0,1,34,10],
@@ -245,9 +249,5 @@ var NAVTREEINDEX21 =
 "classhmi_1_1PlaceAppearance.html#ad226619598bfbc5692d7b6b80a6bb367":[16,0,1,119,11],
 "classhmi_1_1PlaceAppearance.html#ae39372602315857b3d4baac10da85cdf":[15,0,2,119,0],
 "classhmi_1_1PlaceAppearance.html#ae39372602315857b3d4baac10da85cdf":[16,0,1,119,0],
-"classhmi_1_1PlaceAppearance.html#af354a8991988a958ed0899d055c1666d":[15,0,2,119,10],
-"classhmi_1_1PlaceAppearance.html#af354a8991988a958ed0899d055c1666d":[16,0,1,119,10],
-"classhmi_1_1PlaneVisibility.html":[15,0,2,121],
-"classhmi_1_1PlaneVisibility.html":[16,0,1,121],
-"classhmi_1_1PlaneVisibility.html#a332247afe983597010120cca6f9cacd2":[15,0,2,121,4]
+"classhmi_1_1PlaceAppearance.html#af354a8991988a958ed0899d055c1666d":[15,0,2,119,10]
 };

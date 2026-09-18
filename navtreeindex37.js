@@ -1,5 +1,9 @@
 var NAVTREEINDEX37 =
 {
+"spec-vision.html#autotoc_md404":[6,1,5],
+"spec-vision.html#autotoc_md405":[6,1,6],
+"spec-vision.html#autotoc_md406":[6,1,7],
+"specifications.html":[6],
 "specifications.html#autotoc_md397":[6,0],
 "structcore_1_1Aabb.html":[15,0,1,129],
 "structcore_1_1Aabb.html":[16,0,0,129],
@@ -245,9 +249,5 @@ var NAVTREEINDEX37 =
 "structcore_1_1AttackPreview.html#a06a9af404fb5a101cab8548476a13033":[16,0,0,25,11],
 "structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[15,0,1,25,6],
 "structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de":[16,0,0,25,6],
-"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[15,0,1,25,8],
-"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[16,0,0,25,8],
-"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[15,0,1,25,0],
-"structcore_1_1AttackPreview.html#a430f22202d91668413229aeb4b661e77":[16,0,0,25,0],
-"structcore_1_1AttackPreview.html#a51ffd26eb40dee217746d53bbf8d01ef":[15,0,1,25,10]
+"structcore_1_1AttackPreview.html#a391016c0310e8098c51376985908eb78":[15,0,1,25,8]
 };

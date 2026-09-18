@@ -1,5 +1,9 @@
 var NAVTREEINDEX27 =
 {
+"guide-design-ihm.html":[4,16],
+"guide-design-ihm.html#autotoc_md80":[4,16,0],
+"guide-design-ihm.html#autotoc_md81":[4,16,1],
+"guide-design-ihm.html#autotoc_md82":[4,16,2],
 "guide-design-ihm.html#autotoc_md83":[4,16,3],
 "guide-design-ihm.html#autotoc_md84":[4,16,4],
 "guide-design-ihm.html#autotoc_md85":[4,16,5],
@@ -245,9 +249,5 @@ var NAVTREEINDEX27 =
 "lot-06.html#autotoc_md446":[7,8,2],
 "lot-06.html#autotoc_md447":[7,8,3],
 "lot-06.html#autotoc_md448":[7,8,4],
-"lot-06.html#autotoc_md449":[7,8,5],
-"lot-06.html#autotoc_md450":[7,8,6],
-"lot-07.html":[7,9],
-"lot-07.html#autotoc_md451":[7,9,0],
-"lot-07.html#autotoc_md452":[7,9,1]
+"lot-06.html#autotoc_md449":[7,8,5]
 };

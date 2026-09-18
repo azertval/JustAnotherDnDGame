@@ -37,7 +37,7 @@ public:
 };
 
 <span style = "background-color:#dfd">[[nodiscard]] ReadFailure failure(const std::string&amp; where, const std::string&amp; what) {
-    return ReadFailure(std::string(ORIGIN) + " : " + where + " â " + what);
+    return ReadFailure{std::string(ORIGIN) + " : " + where + " â " + what};
 }</span>
 
 <span style = "background-color:#dfd">[[nodiscard]] bool isFraction(const nlohmann::json&amp; value) {
@@ -96,7 +96,10 @@ public:
 <span style = "background-color:#fdd">        throw failure(where, "le champ Â« places Â» n'est pas un objet.");</span>
     }
 <span style = "background-color:#dfd">    for (const auto&amp; [id, position] : found-&gt;items()) {
-        places.emplace(id, readPoint(position, where + " / " + id));
+        std::string sousChemin = where;
+        sousChemin += " / ";
+        sousChemin += id;
+        places.emplace(id, readPoint(position, sousChemin));
     }
     return places;
 }</span>

@@ -1,5 +1,9 @@
 var NAVTREEINDEX44 =
 {
+"structcore_1_1PlayerInput.html#a82259f11fc02e6548e64cbdf2a2acae9":[16,0,0,131,3],
+"structcore_1_1PlayerInput.html#a8fb113d4f6429ea94935827f5b2e93db":[15,0,1,131,5],
+"structcore_1_1PlayerInput.html#a8fb113d4f6429ea94935827f5b2e93db":[16,0,0,131,5],
+"structcore_1_1PlayerInput.html#abcac0b75aeffc17a50a48e9a6208c1e2":[15,0,1,131,8],
 "structcore_1_1PlayerInput.html#abcac0b75aeffc17a50a48e9a6208c1e2":[16,0,0,131,8],
 "structcore_1_1PlayerInput.html#abd62bcb70351576926bda10c8d118cd7":[15,0,1,131,0],
 "structcore_1_1PlayerInput.html#abd62bcb70351576926bda10c8d118cd7":[16,0,0,131,0],
@@ -245,9 +249,5 @@ var NAVTREEINDEX44 =
 "structcore_1_1TurnPlan.html#a543a967bb796e1b9a99ce9326e7f1283":[16,0,0,58,1],
 "structcore_1_1TurnPlan.html#a7d63368b90a14776be9f2f34c08ce07d":[15,0,1,58,8],
 "structcore_1_1TurnPlan.html#a7d63368b90a14776be9f2f34c08ce07d":[16,0,0,58,8],
-"structcore_1_1TurnPlan.html#ac393c9a154c07900b7db6594d3eafa5b":[15,0,1,58,6],
-"structcore_1_1TurnPlan.html#ac393c9a154c07900b7db6594d3eafa5b":[16,0,0,58,6],
-"structcore_1_1TurnPlan.html#ac4c1f69895df4bb15900e7fd555ade52":[15,0,1,58,2],
-"structcore_1_1TurnPlan.html#ac4c1f69895df4bb15900e7fd555ade52":[16,0,0,58,2],
-"structcore_1_1TurnPlan.html#ad0b9c6000643683bb1b23456e9def138":[15,0,1,58,10]
+"structcore_1_1TurnPlan.html#ac393c9a154c07900b7db6594d3eafa5b":[15,0,1,58,6]
 };

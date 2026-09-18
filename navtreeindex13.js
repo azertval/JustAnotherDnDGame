@@ -1,5 +1,9 @@
 var NAVTREEINDEX13 =
 {
+"classhmi_1_1CreditsModel.html#a6343d30143e15dc5f32a14fa0bc0db20":[16,0,1,221,4],
+"classhmi_1_1CreditsModel.html#a844732a564ea76a0a66dd0a1da10e874":[15,0,2,221,6],
+"classhmi_1_1CreditsModel.html#a844732a564ea76a0a66dd0a1da10e874":[16,0,1,221,6],
+"classhmi_1_1CreditsModel.html#a994e7561044d11ab2f8652df97ec7837":[15,0,2,221,1],
 "classhmi_1_1CreditsModel.html#a994e7561044d11ab2f8652df97ec7837":[16,0,1,221,1],
 "classhmi_1_1CreditsModel.html#aa4a16a7b03da1c441298da06f7af0fa3":[15,0,2,221,9],
 "classhmi_1_1CreditsModel.html#aa4a16a7b03da1c441298da06f7af0fa3":[16,0,1,221,9],
@@ -245,9 +249,5 @@ var NAVTREEINDEX13 =
 "classhmi_1_1EditorKeybindingsWidget.html#ab6f0e6b6e0ad04f8acecc35f1eded704":[16,0,1,179,4],
 "classhmi_1_1EditorKeybindingsWidget.html#acd1eb751f26664542f784825b1d029a5":[15,0,2,179,9],
 "classhmi_1_1EditorKeybindingsWidget.html#acd1eb751f26664542f784825b1d029a5":[16,0,1,179,9],
-"classhmi_1_1EditorKeybindingsWidget.html#ad802770b228d4c1c469e7095033dc536":[15,0,2,179,0],
-"classhmi_1_1EditorKeybindingsWidget.html#ad802770b228d4c1c469e7095033dc536":[16,0,1,179,0],
-"classhmi_1_1EditorKeybindingsWidget.html#ae1d8e849d59673909f1a78ca7c27ffbc":[15,0,2,179,5],
-"classhmi_1_1EditorKeybindingsWidget.html#ae1d8e849d59673909f1a78ca7c27ffbc":[16,0,1,179,5],
-"classhmi_1_1EntityPanel.html":[15,0,2,14]
+"classhmi_1_1EditorKeybindingsWidget.html#ad802770b228d4c1c469e7095033dc536":[15,0,2,179,0]
 };

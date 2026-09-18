@@ -235,6 +235,10 @@ hitPointsRatio}</span>.  <br /></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:abcd9a4436ac920c5f44085ec006aa56a" id="r_abcd9a4436ac920c5f44085ec006aa56a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abcd9a4436ac920c5f44085ec006aa56a">loadCatalogs</a> ()</td></tr>
+<tr class="memitem:af646ceb7673cdee7aae3581c51bf9bf1" id="r_af646ceb7673cdee7aae3581c51bf9bf1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af646ceb7673cdee7aae3581c51bf9bf1">loadCharacterCatalog</a> ()</td></tr>
+<tr class="memdesc:af646ceb7673cdee7aae3581c51bf9bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge le personnage de démonstration, par le même chemin que la fiche (LOT-87).  <br /></td></tr>
+<tr class="memitem:a59668333337ab23933ef24fe8ed20d33" id="r_a59668333337ab23933ef24fe8ed20d33"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a59668333337ab23933ef24fe8ed20d33">loadPlayableLevel</a> ()</td></tr>
+<tr class="memdesc:a59668333337ab23933ef24fe8ed20d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge la carte jouable de l'arène, réduite à sa zone de combat le cas échéant (LOT-09).  <br /></td></tr>
 <tr class="memitem:a4592c2d0424a7395defe3a8232ad1e35" id="r_a4592c2d0424a7395defe3a8232ad1e35"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4592c2d0424a7395defe3a8232ad1e35">emitSceneChanged</a> ()</td></tr>
 <tr class="memdesc:a4592c2d0424a7395defe3a8232ad1e35"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">emit <a class="el" href="#a279bb9f9ff32e8573df589640baa7775">changed()</a></span> puis <span class="tt">emit <a class="el" href="#a6f08373bcc9dc0e0c113b8750a469c9c" title="changed restreint à ce qui peut avoir mué la grille de combat : la surface de rendu (hmi::ArenaViewpo...">combatSceneChanged()</a></span> : aux gestes qui mutent la grille de combat (<span class="tt"><a class="el" href="classcore_1_1ArenaSession.html#aea7190e8fbf012b1210fa26d1a85f31d" title="Monte l&#39;affrontement : enrôle chaque combattant à sa case ou au prochain point d&#39;entrée libre de son ...">core::ArenaSession::mount</a></span>, un déplacement, une attaque, un retrait, la fin du tour, un rejeu, un retour à une composition neuve).  <br /></td></tr>
 <tr class="memitem:a31512f4b76371c73927844d36346c3b6" id="r_a31512f4b76371c73927844d36346c3b6"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1ArenaModel_1_1Fighter.html">Fighter</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a31512f4b76371c73927844d36346c3b6">fighterFor</a> (const QString &amp;id, <a class="el" href="namespacecore.html#a5de8069e593ab57dab3a12c60b40b717">core::CombatSide</a> side) const</td></tr>
@@ -1167,6 +1171,61 @@ Signal et notification de changement</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="af646ceb7673cdee7aae3581c51bf9bf1" name="af646ceb7673cdee7aae3581c51bf9bf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af646ceb7673cdee7aae3581c51bf9bf1">&#9670;&#160;</a></span>loadCharacterCatalog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::ArenaModel::loadCharacterCatalog </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge le personnage de démonstration, par le même chemin que la fiche (LOT-87). </p>
+
+</div>
+</div>
+<a id="a59668333337ab23933ef24fe8ed20d33" name="a59668333337ab23933ef24fe8ed20d33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59668333337ab23933ef24fe8ed20d33">&#9670;&#160;</a></span>loadPlayableLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::ArenaModel::loadPlayableLevel </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Charge la carte jouable de l'arène, réduite à sa zone de combat le cas échéant (LOT-09). </p>
+<dl class="section return"><dt>Returns</dt><dd>true si <span class="tt">_catalogs-&gt;level</span> porte une carte jouable. </dd></dl>
 
 </div>
 </div>

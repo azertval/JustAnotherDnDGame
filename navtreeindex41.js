@@ -1,5 +1,9 @@
 var NAVTREEINDEX41 =
 {
+"structcore_1_1EncounterCatalog.html#a9f64bd7b5361dcc45acda01be1505e12":[16,0,0,53,2],
+"structcore_1_1EncounterCatalog.html#adbd2f256ac224df8bb48bc7ee6aed70e":[15,0,1,53,1],
+"structcore_1_1EncounterCatalog.html#adbd2f256ac224df8bb48bc7ee6aed70e":[16,0,0,53,1],
+"structcore_1_1EncounterCatalog.html#ae2d2c6b769155e1268b1ffe9e5a1cc0b":[15,0,1,53,0],
 "structcore_1_1EncounterCatalog.html#ae2d2c6b769155e1268b1ffe9e5a1cc0b":[16,0,0,53,0],
 "structcore_1_1EncounterCombatant.html":[15,0,1,51],
 "structcore_1_1EncounterCombatant.html":[16,0,0,51],
@@ -245,9 +249,5 @@ var NAVTREEINDEX41 =
 "structcore_1_1HeroicMark.html":[16,0,0,4],
 "structcore_1_1HeroicMark.html#a798cc6f745f5c472c3fda6e773219cdc":[15,0,1,4,1],
 "structcore_1_1HeroicMark.html#a798cc6f745f5c472c3fda6e773219cdc":[16,0,0,4,1],
-"structcore_1_1HeroicMark.html#aa6238d2eed9ee292110fa19864746081":[15,0,1,4,2],
-"structcore_1_1HeroicMark.html#aa6238d2eed9ee292110fa19864746081":[16,0,0,4,2],
-"structcore_1_1HeroicMark.html#ae275d4649d5ffd378b47bb69b293764f":[15,0,1,4,0],
-"structcore_1_1HeroicMark.html#ae275d4649d5ffd378b47bb69b293764f":[16,0,0,4,0],
-"structcore_1_1HeroicMarkCatalog.html":[15,0,1,5]
+"structcore_1_1HeroicMark.html#aa6238d2eed9ee292110fa19864746081":[15,0,1,4,2]
 };

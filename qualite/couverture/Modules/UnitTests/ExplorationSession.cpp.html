@@ -15,6 +15,7 @@
 #include "Core/World/ExplorationSession.h"
 
 #include &lt;algorithm&gt;
+#include &lt;array&gt;
 #include &lt;cmath&gt;
 #include &lt;optional&gt;
 #include &lt;utility&gt;
@@ -29,13 +30,13 @@
 namespace core {
 
 <span style = "background-color:#dfd">GridPosition cellOf(CellPoint point) noexcept {
-    return GridPosition{static_cast&lt;int&gt;(std::floor(point.column)),</span>
-                        static_cast&lt;int&gt;(std::floor(point.row))};
+    return {.column = static_cast&lt;int&gt;(std::floor(point.column)),</span>
+            .row = static_cast&lt;int&gt;(std::floor(point.row))};
 <span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">CellPoint cellCenter(GridPosition cell) noexcept {
-    return CellPoint{static_cast&lt;float&gt;(cell.column) + 0.5F,</span>
-                     static_cast&lt;float&gt;(cell.row) + 0.5F};
+    return {.column = static_cast&lt;float&gt;(cell.column) + 0.5F,</span>
+            .row = static_cast&lt;float&gt;(cell.row) + 0.5F};
 <span style = "background-color:#dfd">}</span>
 
 ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
@@ -94,10 +95,11 @@ ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
 <span style = "background-color:#dfd">    const TileMap&amp; collision = carte-&gt;tileMap();</span>
     // Les quatre coins du gabarit : un heros qui tient dans un couloir d'une case ne doit pas
     // pouvoir couper l'angle d'un mur par sa moitie de case.
-<span style = "background-color:#dfd">    const float cotes[2] = {-HERO_HALF_SIZE_CELLS, HERO_HALF_SIZE_CELLS};
+<span style = "background-color:#dfd">    const std::array&lt;float, 2&gt; cotes = {-HERO_HALF_SIZE_CELLS, HERO_HALF_SIZE_CELLS};
     for (const float dx : cotes) {
-        for (const float dy : cotes) {
-            const GridPosition coin = cellOf(CellPoint{point.column + dx, point.row + dy});
+        for (const float dy : cotes) {</span>
+            const GridPosition coin =
+<span style = "background-color:#dfd">                cellOf(CellPoint{.column = point.column + dx, .row = point.row + dy});
             if (!collision.inBounds(coin.column, coin.row) ||</span>
                 collision.isSolid(coin.column, coin.row)) {
 <span style = "background-color:#dfd">                return false;</span>
@@ -115,11 +117,11 @@ ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
     const float pas = WALK_SPEED_CELLS_PER_SECOND * seconds;</span>
     // Axe par axe : un mur pris en biais fait glisser le long au lieu d'arreter net, ce qui est la
     // difference entre un couloir jouable et un couloir ou l'on s'accroche.
-<span style = "background-color:#dfd">    const CellPoint enX{_hero.column + move.x * pas, _hero.row};
+<span style = "background-color:#dfd">    const CellPoint enX{.column = _hero.column + (move.x * pas), .row = _hero.row};
     if (fits(enX)) {
         _hero = enX;</span>
     }
-<span style = "background-color:#dfd">    const CellPoint enY{_hero.column, _hero.row + move.y * pas};
+<span style = "background-color:#dfd">    const CellPoint enY{.column = _hero.column, .row = _hero.row + (move.y * pas)};
     if (fits(enY)) {
         _hero = enY;</span>
     }
@@ -155,9 +157,8 @@ ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
 <span style = "background-color:#fdd">            break;</span>
         case TravelResult::UnreadableMap:
         case TravelResult::UnknownArrival:
-<span style = "background-color:#fdd">            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::PortalBroken,</span>
-                                              .value = portail-&gt;map,
-                                              .cell = ici});
+<span style = "background-color:#fdd">            events.push_back(ExplorationEvent{</span>
+                .kind = ExplorationEventKind::PortalBroken, .value = portail-&gt;map, .cell = ici});
             break;
         case TravelResult::NoPortal:
             break;
@@ -174,10 +175,10 @@ ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
     for (std::size_t rang = 0; rang &lt; _interactables.size(); ++rang) {
         candidats.push_back(</span>
             InteractionCandidate{.interactable = &amp;_interactables[rang], .index = rang});
-<span style = "background-color:#dfd">    }
-    const InteractionTarget cible = findInteractionTarget(heroCell(), _facing, carte-&gt;tileMap(),</span>
-                                                          candidats, _flags);
-<span style = "background-color:#dfd">    if (!cible.found()) {</span>
+<span style = "background-color:#dfd">    }</span>
+    const InteractionTarget cible =
+<span style = "background-color:#dfd">        findInteractionTarget(heroCell(), _facing, carte-&gt;tileMap(), candidats, _flags);
+    if (!cible.found()) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
 <span style = "background-color:#dfd">    const InteractionOutcome issue = interact(cible, _flags);
@@ -194,22 +195,20 @@ ExplorationSession::ExplorationSession(WorldTravel::MapLoader loader)
         }
 <span style = "background-color:#dfd">        if (const std::optional&lt;DialogueTrigger&gt; parole = dialogueTriggerFor(objet);
             parole.has_value()) {
-            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::Dialogue,</span>
-                                              .value = parole-&gt;dialogueId,
-                                              .cell = ou});
+            events.push_back(ExplorationEvent{</span>
+                .kind = ExplorationEventKind::Dialogue, .value = parole-&gt;dialogueId, .cell = ou});
 <span style = "background-color:#dfd">            return;</span>
 <span style = "background-color:#fdd">        }
         if (const std::optional&lt;EncounterTrigger&gt; combat = encounterTriggerFor(objet, mapId());
             combat.has_value()) {
-            events.push_back(ExplorationEvent{.kind = ExplorationEventKind::Encounter,</span>
-                                              .value = combat-&gt;encounterId,
-                                              .cell = ou});
+            events.push_back(ExplorationEvent{</span>
+                .kind = ExplorationEventKind::Encounter, .value = combat-&gt;encounterId, .cell = ou});
 <span style = "background-color:#fdd">            return;
         }
         break;
     }
-    events.push_back(</span>
-        ExplorationEvent{.kind = ExplorationEventKind::Interacted, .value = issue.type, .cell = ou});
+    events.push_back(ExplorationEvent{</span>
+        .kind = ExplorationEventKind::Interacted, .value = issue.type, .cell = ou});
 <span style = "background-color:#fdd">}</span>
 
 std::vector&lt;ExplorationEvent&gt; ExplorationSession::update(const ExplorationIntent&amp; intent,
