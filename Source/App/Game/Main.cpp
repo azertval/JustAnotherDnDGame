@@ -32,12 +32,14 @@
 #include <string>
 
 #include "App/Common/Bootstrap.h"
+#include "Core/BuildConfig.h"
 #include "Core/Core.h"
 #include "Core/Diagnostics/MemoryLogSink.h"
 #include "HMI/Audio/AudioEngine.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 #include "HMI/Runtime/OptionsModel.h"
+#include "HMI/Runtime/WorldModel.h"
 
 namespace {
 
@@ -263,6 +265,39 @@ void connectOptions(QQmlApplicationEngine& engine, hmi::AudioEngine& audio,
     });
 }
 
+/**
+ * @brief Carte d'ouverture imposée (--map=<carte>[@<arrivée>]), dans un build de développement.
+ *
+ * Pour voir ou capturer une carte sans y marcher depuis la porte de départ (`LOT-96`). Un binaire
+ * livré l'ignore : « Nouvelle partie » y ouvre toujours la porte de départ.
+ */
+void applyStartMap(int argc, char** argv, QQmlApplicationEngine& engine) {
+    // `if constexpr` avec sa branche `else` : un retour anticipe laisserait en Release un code
+    // inatteignable, que /W4 /WX refuse (C4702).
+    if constexpr (core::DEVELOPER_BUILD) {
+        const std::optional<std::string_view> option =
+            app::commandLineOption(argc, argv, "--map=");
+        if (!option) {
+            return;
+        }
+        auto* const world =
+            engine.singletonInstance<hmi::WorldModel*>("Jadg.Runtime", "WorldModel");
+        if (world == nullptr) {
+            HMI_LOG_WARNING("--map= : le modele du monde est introuvable.");
+            return;
+        }
+        const QStringList parts =
+            QString::fromUtf8(option->data(), static_cast<qsizetype>(option->size()))
+                .split(QLatin1Char('@'));
+        world->setStartOverride(parts.value(0), parts.value(1));
+        HMI_LOG_INFO("Carte d'ouverture imposee : " + parts.value(0).toStdString());
+    } else {
+        static_cast<void>(argc);
+        static_cast<void>(argv);
+        static_cast<void>(engine);
+    }
+}
+
 }  // namespace
 
 /**
@@ -340,6 +375,7 @@ int main(int argc, char** argv) {
     // elle ne se serait jamais reevaluee : le bouton d'export des journaux serait reste grise
     // pour toujours, dans un build ou les journaux existent pourtant.
     connectOptions(engine, audio, sessionLog);
+    applyStartMap(argc, argv, engine);
 
     // En dernier : la fenetre et tous ses ecrans naissent ici, et doivent trouver un modele deja
     // branche.

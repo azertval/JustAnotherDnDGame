@@ -70,6 +70,8 @@ add_executable(UnitTests
     Unit/Core/World/test_exploration_session.cpp
     # La carte du Colisee LIVREE (LOT-09) : contenu, pas moteur.
     Unit/Core/World/test_coliseum_map.cpp
+    # Les quartiers de la Capitale LIVRES (LOT-96) : contenu, pas moteur.
+    Unit/Core/World/test_capital_maps.cpp
     Unit/Core/World/test_combat_zone.cpp
     Unit/Core/Gameplay/test_interaction.cpp
     Unit/Core/Gameplay/test_mechanism_controller.cpp

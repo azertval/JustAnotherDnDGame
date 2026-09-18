@@ -80,6 +80,13 @@ public:
     /// @brief Entre sur @p mapId au point d'arrivée @p arrival (vide : l'entrée de la carte).
     Q_INVOKABLE bool enterMap(const QString& mapId, const QString& arrival);
 
+    /**
+     * @brief Remplace la carte où « Nouvelle partie » ouvre le jeu — outil de développement
+     *        (`--map=<carte>[@<arrivée>]`, `LOT-96`) : ouvrir Arenarea sans marcher depuis
+     *        Martpart, pour la voir ou la capturer.
+     */
+    void setStartOverride(const QString& mapId, const QString& arrival);
+
     /// @brief La direction que le joueur demande, de longueur au plus 1. Tenue jusqu'au prochain
     ///        appel : c'est l'état d'une touche enfoncée, pas un pas.
     Q_INVOKABLE void setMove(qreal x, qreal y);
@@ -143,6 +150,9 @@ private:
     QTimer _clock;
     QString _status;
     QString _heroFigure{QStringLiteral("jade")};
+    /// La carte et l'arrivée imposées par `--map=`, vides sinon.
+    QString _startMapOverride;
+    QString _startArrivalOverride;
     core::Vector2 _move{};
     bool _interact = false;
     /// Temps écoulé depuis l'entrée sur la carte, en secondes : l'image des bandes d'animation.

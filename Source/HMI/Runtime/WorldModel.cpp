@@ -42,7 +42,15 @@ WorldModel::WorldModel(QObject* parent) : QObject(parent) {
 WorldModel::~WorldModel() = default;
 
 bool WorldModel::startNewGame() {
+    if (!_startMapOverride.isEmpty()) {
+        return enterMap(_startMapOverride, _startArrivalOverride);
+    }
     return enterMap(QString::fromLatin1(START_MAP), QString{});
+}
+
+void WorldModel::setStartOverride(const QString& mapId, const QString& arrival) {
+    _startMapOverride = mapId;
+    _startArrivalOverride = arrival;
 }
 
 bool WorldModel::enterMap(const QString& mapId, const QString& arrival) {

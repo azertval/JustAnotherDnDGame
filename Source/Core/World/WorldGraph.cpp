@@ -147,14 +147,25 @@ WorldGraph buildWorldGraph(std::vector<WorldMapInput> maps) {
     return graphe;
 }
 
+std::string mapIdOf(const std::filesystem::path& levelsDir, const std::filesystem::path& file) {
+    std::filesystem::path relatif = file.lexically_relative(levelsDir);
+    relatif.replace_extension();
+    return relatif.generic_string();
+}
+
 WorldGraph loadWorldGraph(const std::filesystem::path& levelsDir) {
     std::vector<WorldMapInput> cartes;
     std::error_code code;
     if (!std::filesystem::is_directory(levelsDir, code)) {
         return buildWorldGraph(std::move(cartes));
     }
-    for (const std::filesystem::directory_entry& fichier :
-         std::filesystem::directory_iterator(levelsDir, code)) {
+    // Recursif : les quartiers de la Capitale vivent dans `capital/` (`LOT-96`), et leur
+    // identifiant de carte est leur chemin relatif, sans extension, en barres obliques --
+    // `capital/martpart`, ce que le chargeur du jeu (`WorldTravel::directoryLoader`) resout.
+    for (auto iterateur = std::filesystem::recursive_directory_iterator(levelsDir, code);
+         !code && iterateur != std::filesystem::recursive_directory_iterator();
+         iterateur.increment(code)) {
+        const std::filesystem::directory_entry& fichier = *iterateur;
         const std::filesystem::path& chemin = fichier.path();
         // Memes exclusions que le navigateur de cartes (`hmi::LevelFileOperations::list`) : les
         // scripts `sequence-*.json` vivent a cote des niveaux sans en etre.
@@ -162,8 +173,10 @@ WorldGraph loadWorldGraph(const std::filesystem::path& levelsDir) {
             chemin.filename().string().starts_with("sequence-")) {
             continue;
         }
-        WorldMapInput carte{
-            .mapId = chemin.stem().string(), .name = {}, .entities = {}, .loadError = {}};
+        WorldMapInput carte{.mapId = mapIdOf(levelsDir, chemin),
+                            .name = {},
+                            .entities = {},
+                            .loadError = {}};
         LevelLoadResult lu = LevelLoader::loadFromFile(chemin);
         if (lu.ok()) {
             carte.name = lu.level->name();

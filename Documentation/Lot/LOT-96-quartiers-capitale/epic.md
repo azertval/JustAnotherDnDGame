@@ -65,14 +65,17 @@ Ce lot livre une ville qu'on **parcourt**, pas une ville qu'on regarde : l'habil
 
 ## Les phases
 
+L'ordre a changé à la première phase (voir le journal) : les cartes d'abord, le graphe qui les
+nomme ensuite, pour que chaque commit reste vert.
+
 | # | Phase | Ce qu'elle livre |
 |---|---|---|
-| 1 | **Le graphe de la Capitale** | `Source/Elements/World/capital.json` : les douze quartiers, leur fiche d'atlas, leur point sur le plan, et pour chacun **soit** sa carte de niveau, **soit** sa sentinelle ; la porte de départ ; « Nouvelle partie » lit la porte de départ au lieu de `START_MAP` ; `check_rpg_data.py` lie chaque quartier à sa carte ou à sa sentinelle, et à son point de `world-maps.json` |
-| 2 | **Martpart** | `Source/Elements/Levels/capital/martpart.json`, tracée par le script d'atelier depuis le plan, sur la planche du [LOT-92](@ref lot-92) ; la porte de départ, l'avenue vers Arenarea, les îlots nommés |
-| 3 | **Arenarea** | `Source/Elements/Levels/capital/arenarea.json`, sur le marqueur du [LOT-39](@ref lot-39) faute de planche ; le portail vers Martpart, avec le `requiresFlag` que le [LOT-16](@ref lot-16) posera (ouvert jusque-là) ; l'emplacement du Colisée, sans portail (au [LOT-27](@ref lot-27)) |
-| 4 | **Les dix portes gardées** | Une entité `npc` sentinelle Ironhand à la porte de chaque quartier sans carte, sur les bords de Martpart et d'Arenarea qui leur font face ; `sentinelle-ironhand.json`, un dialogue de refus |
-| 5 | **Le plan descend** | Le héros et les quartiers visités sur le plan de ville ; le niveau quartier (cadre agrandi du plan) ; le niveau îlot (rendu de la carte) ; une capture de référence QML par niveau ajouté |
-| 6 | **Aller-retour et captures** | Martpart → Arenarea → Martpart en headless, à la bonne case, l'état de la carte quittée conservé ; captures de référence de Martpart et d'Arenarea ; le geste au clavier et à la manette |
+| 1 | **Martpart** | `Source/Elements/Levels/capital/martpart.json`, tracée par le script d'atelier sur la planche du [LOT-92](@ref lot-92) et sa table d'apparence ; le graphe du monde et le navigateur de l'éditeur lisent les sous-dossiers ; `--map=<carte>[@<arrivée>]` pour ouvrir une carte en développement |
+| 2 | **Arenarea, et l'avenue** | `Source/Elements/Levels/capital/arenarea.json` ; les portails de l'avenue, aller et retour, par points d'arrivée nommés ; l'aller-retour Martpart → Arenarea → Martpart en headless, à la bonne case, l'état de la carte quittée conservé |
+| 3 | **Le graphe de la Capitale** | `Source/Elements/World/cities/capital.json` : les douze quartiers, leur fiche d'atlas, et pour chacun **soit** sa carte, **soit** sa sentinelle ; la porte de départ, que « Nouvelle partie » lit ; `check_rpg_data.py` lie chaque quartier à sa carte ou à sa sentinelle, et à son point de `world-maps.json` |
+| 4 | **Les dix portes gardées** | Une entité `npc` sentinelle Ironhand à la porte de chaque quartier sans carte, sur le bord qui lui fait face ; `sentinelle-ironhand.json`, un dialogue de refus ; une figurine absente se dessine par le marqueur du [LOT-39](@ref lot-39) |
+| 5 | **Le plan descend** | Le héros et les quartiers visités sur le plan de ville ; le niveau quartier (cadre agrandi du plan) ; le niveau îlot (rendu de la carte) |
+| 6 | **Captures et vérification** | Captures de référence QML de Martpart, d'Arenarea et de chaque niveau ajouté au plan ; le geste au clavier et à la manette |
 
 ## Points ouverts
 
@@ -106,3 +109,19 @@ Ce lot livre une ville qu'on **parcourt**, pas une ville qu'on regarde : l'habil
   section 6 sont régénérés (`lint_lots.py --regenerer`) ; le diagramme perd les arêtes entrantes
   du lot, et son nœud est marqué « en cours ». Au passage, le nœud du [LOT-09](@ref lot-09),
   livré le 17, prend sa marque « livré », oubliée à la livraison.
+- **18 septembre 2026, phase 1 — Martpart.** Trois constats en traçant, et ce qu'ils ont décidé :
+  - *L'ordre des phases change.* Le graphe (`capital.json`) nomme les cartes de chaque quartier ;
+    le poser d'abord aurait fait échouer son contrôle jusqu'à ce qu'elles existent. Les cartes
+    viennent donc d'abord.
+  - *Les portes se posent d'après le plan.* Le script lit les points des quartiers dans
+    `world-maps.json` et pose chaque porte sur le bord que coupe la direction du voisin : on sort
+    de Martpart par l'ouest-nord-ouest vers Arenarea, comme sur le plan. Le reste — rues, place,
+    îlots, ruelles — n'est écrit nulle part dans le livre, et le script le décide.
+  - *Le cœur des îlots reste noir.* La planche de Martpart n'a pas de toit. Des murs pleins dans
+    le cœur des îlots dessinaient un treillis de clôtures, un pavé de place les faisait lire comme
+    des places ouvertes derrière des murets ; sans sol ni pièce, l'îlot se lit comme une masse
+    bâtie, comme le dehors du Colisée. Les toits sont un habillage, au [LOT-27](@ref lot-27).
+  - *Les cartes d'un sous-dossier ont pour identifiant leur chemin relatif* (`capital/martpart`) :
+    `core::loadWorldGraph` et le navigateur de l'éditeur lisaient le seul premier niveau du
+    dossier, si bien qu'un portail vers un quartier aurait été déclaré orphelin.
+

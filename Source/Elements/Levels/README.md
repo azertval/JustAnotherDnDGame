@@ -12,6 +12,13 @@ Cartes du jeu, un fichier **JSON** par carte (`EX-LVL-001`, `EX-LVL-003`).
 > retouchable dans l'éditeur ; `arena-of-the-future.json`, la piste nue du `LOT-50`, est partie avec
 > elle. Le contenu du *vertical slice* arrive avec le `LOT-27`.
 
+> **`capital/`, au `LOT-96`** : les quartiers de la Capitale qui ont leur carte — `martpart.json`
+> (le quartier du marché, 48 × 40). Même méthode que le Colisée : un script d'atelier les pose
+> (`Documentation/Lot/LOT-96-quartiers-capitale/atelier/carte_quartiers.py`, `--check` pour savoir
+> si une carte a été retouchée), l'éditeur les retouche. Une carte d'un sous-dossier a pour
+> identifiant son **chemin relatif** : un portail vise `capital/martpart`, et le graphe du monde
+> comme le navigateur de l'éditeur lisent les sous-dossiers.
+
 - Une carte est un objet JSON : `name`, `width`, `height`, et une liste **`tiles`** d'objets
   `{ "x", "y", "type", … }`. Les cases **vides** ne sont pas listées (absence = vide). Une tuile
   peut porter un champ `"texture"` (nom d'asset, `EX-EDIT-043`) : texture assignée **par instance**,
