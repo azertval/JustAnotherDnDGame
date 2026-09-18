@@ -2417,8 +2417,10 @@ des aventuriers et les forme ». Les autres se rédigent depuis la prose du Sour
 la sentinelle et la patrouille Ironhand, le spadassin et l'archer du Troisième Œil, le marchand du
 marché, le parent d'un enfant disparu, un enfant, le héraut de l'Arène, le noble des Blood Bound.
 Dix figurines ; le marqueur du [LOT-39](@ref lot-39) remplace chacune tant qu'elle n'est pas
-livrée, et le contenu se joue sans attendre l'art. Les **champions loués** du noble ne sont pas
-des PNJ mais des blocs du bestiaire, dessinés par l'atelier des monstres (`LOT-93`).
+livrée, et le contenu se joue sans attendre l'art. La sentinelle et la patrouille Ironhand sont
+**déjà dessinées** : c'est le soldat Ironhand de l'atelier des monstres ([LOT-93](@ref lot-93)),
+que portent les sentinelles de Martpart et d'Arenarea. Les **champions loués** du noble ne sont pas
+des PNJ mais des blocs du bestiaire, dessinés par le même atelier.
 
 Le **marchand** parle, il ne vend pas : la boutique est au [LOT-26](@ref lot-26) (`0.0.2`), et
 `MerchantForm` attend sa vue-modèle. Le slice ne le cache pas.
