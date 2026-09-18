@@ -6,6 +6,16 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'éditeur montre le lieu tel qu'on le jouera (LOT-EDITOR-02).**
+  - **Vue iso par défaut** : le canevas peint les pièces des planches comme le jeu, même liste,
+    même ordre ; son image égale celle du jeu à 0,06 % des pixels près. `F9` bascule vers la vue à
+    plat, qui lit types et collision.
+  - **Pointage juste** : on désigne la case par son losange, y compris derrière un mur haut ; la
+    barre d'état donne la case survolée et ses pièces.
+  - **Calques** : une couche peut être grisée ou verrouillée ; `F8` passe les reliefs en
+    transparence ; une mini-carte (« Overview ») montre toute la carte et ramène la vue d'un clic.
+  - **L'essai immédiat** est peint de la même façon : l'éditeur ne passe plus par le GPU.
+
 - **L'éditeur de cartes devient un module à part, et ne perd plus de travail (LOT-EDITOR-01).**
   - **Un module** : le code quitte `Source/HMI` pour `Source/Editor` (`Logic/`, bibliothèque
     `EditorLogic` ; `Ui/`, l'exécutable `LevelEditor`) ; le jeu n'en dépend plus.
