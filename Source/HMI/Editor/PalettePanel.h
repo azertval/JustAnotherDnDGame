@@ -71,7 +71,7 @@ private:
     /// Mise en page issue de `PalettePanel.ui` : le C++ ne branche plus que le
     /// fonctionnel, conformément à la convention du projet.
     std::unique_ptr<Ui::PalettePanel> _ui;
-    QTreeView* _tree;
+    QTreeView* _tree = nullptr;  ///< Posé après setupUi (vit dans la mise en page).
     QStandardItemModel* _model;
     core::TileType _selected = core::TileType::Solid;
     const Localization* _loc = nullptr;  ///< Catalogue courant (nul avant première retraduction).
