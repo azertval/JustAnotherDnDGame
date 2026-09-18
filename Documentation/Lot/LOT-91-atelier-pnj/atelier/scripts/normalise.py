@@ -255,6 +255,7 @@ def vers_art(bloc):
 
 planche = np.zeros((CH * len(DISPOSITIONS[dispo]), 1536, 4), dtype=np.uint8)
 bandes, rapport = {}, []
+centre_mort = 0.0   # centre, dans la bande, de la dernière image de mort placée
 for r, (anim, n) in enumerate(attendu):
     _, _, CW, fx, BW, AX = DISPOSITIONS[dispo][r]
     lus = images.get(r, [])
