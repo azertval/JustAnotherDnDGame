@@ -72,8 +72,8 @@ multiplier une seconde fois donnerait une interface deux fois trop grande sur un
 200 %. La division est entière et non arrondie : une fenêtre de 700 px passerait sinon à l'échelle 2,
 pour laquelle il manque 20 px, et la dernière entrée du menu disparaîtrait sous le bord.
 
-\ref hmi::IdentityBaseScale "IdentityBaseScale" porte les grandeurs de la portée identité **en
-pixels à l'échelle 1**. En pixels et non en points : un point vaut une fraction variable de pixel
+Les grandeurs des écrans du jeu (`Source/Ui/Theme/Tokens.qml`) s'écrivent **en pixels à
+l'échelle 1**. En pixels et non en points : un point vaut une fraction variable de pixel
 selon l'écran, et le facteur entier n'aurait alors plus rien d'entier.
 
 **Et le facteur se borne à l'écran, pas à la fenêtre** (`EX-IHM-081`,
