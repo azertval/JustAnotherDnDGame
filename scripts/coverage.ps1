@@ -5,7 +5,7 @@
 .DESCRIPTION
     OpenCppCoverage n'accepte qu'un exécutable par invocation : chaque suite (UnitTests,
     IntegrationTests, SystemTests) est exportée au format binaire intermédiaire, puis les trois sont
-    fusionnées en un seul rapport (LOT-58 : le rapport précédent ne mesurait que UnitTests, rendant le
+    fusionnées en un seul rapport (un rapport limité à UnitTests rendrait le
     chiffre affiché faux par construction).
 
     Une seule définition pour la CI (job build-test-coverage de ci.yml, qui applique le seuil) et

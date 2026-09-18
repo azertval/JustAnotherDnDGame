@@ -32,11 +32,9 @@
 add_library(HmiLib STATIC
     # Graphismes : logique de rendu sans GPU (composition, catalogues, géométrie de caméra).
     Graphics/Camera2D.cpp
-    Graphics/AssetPaths.cpp
     Graphics/TileVisuals.cpp
     Graphics/ProceduralAtlas.cpp
     Graphics/TextureAtlasRegions.cpp
-    Graphics/AssetContract.cpp
     Graphics/ArenaAppearanceCatalog.cpp
     Graphics/ArenaSceneComposer.cpp
     # Le lieu qu'on parcourt : table d'apparence du lieu, et composition (LOT-09).
@@ -57,7 +55,6 @@ add_library(HmiLib STATIC
     Input/EditorKeyBindings.cpp
     # Localisation, journal de session.
     Localization/Localization.cpp
-    # Audio : catalogue des sons (le moteur lui-même dépend de Qt Multimedia).
     # Éditeur : validation, taxonomie, gestes et géométrie, diagnostics des entités.
     Editor/LevelNameValidation.cpp
     Editor/TileTaxonomy.cpp
@@ -153,7 +150,7 @@ add_executable(LevelEditor
     ${APP_DIR}/Common/Bootstrap.cpp
     # Pont Qt -> Key : les raccourcis remappables de l'éditeur.
     Input/QtKeyMap.cpp
-    # Rendu 2D sur QRhi (LOT-69 TACHE-02) — cible Direct3D 11 sous Windows (EX-REN-002),
+    # Rendu 2D sur QRhi — cible Direct3D 11 sous Windows (EX-REN-002),
     # atteinte au travers de QRhi plutôt qu'en appelant l'API directement.
     Graphics/SpriteBatch.cpp
     Graphics/SceneResources.cpp
@@ -246,9 +243,6 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Assets
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/Assets
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${PROJECT_SOURCE_DIR}/Source/Elements/Audio
-        $<TARGET_FILE_DIR:JustAnotherRpgGame>/Audio
     # Catalogues RPG (LOT-38) : espèces, classes, historiques, compétences, règles et fiches.
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Rpg
@@ -260,7 +254,7 @@ add_custom_target(CopyGameData ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${PROJECT_SOURCE_DIR}/Source/Elements/Maps
         $<TARGET_FILE_DIR:JustAnotherRpgGame>/Maps
-    COMMENT "Copie des données de jeu (traductions, cartes, assets, audio, catalogues RPG)")
+    COMMENT "Copie des données de jeu (traductions, cartes, assets, catalogues RPG)")
 add_dependencies(LevelEditor CopyGameData)
 
 # Déploiement Qt : copie les DLL Qt (plateforme, styles) à côté de l'éditeur pour que

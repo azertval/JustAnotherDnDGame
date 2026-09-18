@@ -3,8 +3,8 @@
 
 /**
  * @file test_thumbnail_geometry.cpp
- * @brief Tests unitaires du dimensionnement des vignettes à l'échelle d'affichage (`LOT-56`
- *        TACHE-05, `EX-IHM-053`).
+ * @brief Tests unitaires du dimensionnement des vignettes à l'échelle d'affichage
+ *        (`EX-IHM-053`).
  */
 
 #include <gtest/gtest.h>

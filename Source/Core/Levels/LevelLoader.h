@@ -18,7 +18,7 @@
 namespace core {
 
 /**
- * @brief Catégorie d'échec de chargement/validation d'un niveau (LOT-15, `EX-EDIT-012`).
+ * @brief Catégorie d'échec de chargement/validation d'un niveau (`EX-EDIT-012`).
  *
  * Complète le message technique (`LevelLoadResult::error`) d'un code **programmatique**, pour
  * qu'un appelant (l'éditeur) puisse traduire une erreur en message non-codeur sans dépendre du
@@ -41,7 +41,7 @@ enum class LevelValidationError {
  *
  * Écrite par `LevelWriter` dans le champ racine `"version"`. Un fichier sans ce champ est lu
  * comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux
- * antérieurs à ce champ (`LOT-44`). Une version supérieure à celle-ci est une erreur exploitable
+ * antérieurs à ce champ. Une version supérieure à celle-ci est une erreur exploitable
  * (`LevelValidationError::UnsupportedFormatVersion`), pas une lecture au mieux.
  *
  * Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entités**
@@ -64,7 +64,7 @@ inline constexpr int LEVEL_FORMAT_VERSION = 3;
  * En cas de succès, `level` contient le niveau, `error` est vide et `errorCode` vaut `None`. En
  * cas d'échec (récupérable, `EX-NFR-040`), `level` est vide, `error` décrit le problème de façon
  * exploitable pour les journaux/tests, et `errorCode` catégorise l'échec pour un traitement
- * programmatique (traduction non-codeur, LOT-15).
+ * programmatique (traduction non-codeur).
  */
 struct LevelLoadResult {
     std::optional<Level> level;

@@ -58,8 +58,7 @@ class ScreenRouter : public QObject {
     Q_PROPERTY(bool developerBuild READ developerBuild CONSTANT)
 
 public:
-    /// Écran affiché. Reprend `hmi::ScreenId`, moins `Editor` : l'éditeur de niveaux est un
-    /// binaire séparé depuis le `LOT-86`, et le jeu n'a aucun chemin qui y mène.
+    /// Écran affiché. Reprend `hmi::ScreenId`.
     enum class Screen {
         Menu,
         Game,

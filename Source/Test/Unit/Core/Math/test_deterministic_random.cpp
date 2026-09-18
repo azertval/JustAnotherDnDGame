@@ -4,7 +4,7 @@
 /**
  * @file test_deterministic_random.cpp
  * @brief Tests unitaires de `core::DeterministicRandom`, `splitMix64` et `deriveSeed`
- * (`LOT-53` TACHE-01, `EX-NFR-002`).
+ * (`EX-NFR-002`).
  *
  * Ce fichier fige des **vecteurs de référence** : les valeurs attendues y sont écrites en dur,
  * calculées indépendamment de l'implémentation. C'est le seul moyen de détecter qu'une refonte a

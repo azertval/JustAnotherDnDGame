@@ -11,8 +11,7 @@
 
 /**
  * @file HMI/Editor/LevelFileOperations.h
- * @brief Opérations fichiers sur les niveaux (créer/renommer/dupliquer/supprimer), sans Qt
- * (LOT-36).
+ * @brief Opérations fichiers sur les niveaux (créer/renommer/dupliquer/supprimer), sans Qt.
  */
 
 namespace hmi {
@@ -32,7 +31,7 @@ public:
     /// @return Les fichiers `.json` du dossier, triés par nom (vide si le dossier n'existe pas).
     [[nodiscard]] std::vector<std::filesystem::path> list() const;
 
-    /// Crée un niveau minimal valide (grille vide + entrée/sortie) nommé @p name.
+    /// Crée un niveau minimal valide (grille vide + entrée) nommé @p name, d'une case au moins.
     [[nodiscard]] FileOperationResult create(const std::string& name, int width, int height) const;
 
     /// Renomme le niveau @p source en @p newName (met à jour le nom interne).

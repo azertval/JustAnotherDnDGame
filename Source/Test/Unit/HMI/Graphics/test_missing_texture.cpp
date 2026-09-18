@@ -3,7 +3,7 @@
 
 /**
  * @file test_missing_texture.cpp
- * @brief Tests unitaires du repli « texture manquante » en damier magenta (LOT-40, EX-NFR-040).
+ * @brief Tests unitaires du repli « texture manquante » en damier magenta (EX-NFR-040).
  */
 
 #include <gtest/gtest.h>

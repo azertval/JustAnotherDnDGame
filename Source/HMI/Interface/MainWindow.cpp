@@ -59,7 +59,7 @@ constexpr int LAYOUT_VERSION = 11;  // 11 : un seul espace, quatre panneaux (LOT
 // Clés de persistance (portée application ; l'organisation/appli sont fixées dans `main`).
 constexpr const char* GEOMETRY_KEY = "mainWindow/geometry";
 constexpr const char* STATE_KEY = "mainWindow/state";
-// Réglage de mise en avant automatique des panneaux (LOT-57 TACHE-02).
+// Réglage de mise en avant automatique des panneaux.
 constexpr const char* FOLLOW_ACTIVE_TOOL_KEY = "panels/followActiveTool";
 
 }  // namespace
@@ -93,7 +93,7 @@ MainWindow::MainWindow()
     // la barre d'outils suit, sans reboucler (setActiveTool n'émet rien).
     connect(_viewport, &EditorViewport::toolChanged, _actions, &EditorActions::setActiveTool);
     // Les messages d'état du canevas (enregistrement, essai, erreurs) s'affichent en bas, puis
-    // laissent la main à l'aide contextuelle (LOT-57 TACHE-01).
+    // laissent la main à l'aide contextuelle.
     connect(_viewport, &EditorViewport::statusMessage, this,
             [this](const QString& message) { showTransientStatusMessage(message, 5000); });
     connect(_viewport, &EditorViewport::toolChanged, this,
@@ -202,7 +202,7 @@ void MainWindow::reloadEditorReferences() {
 }
 
 void MainWindow::buildUi() {
-    // Outils et commandes principales (LOT-56 TACHE-04) : une action unique par commande, partagée
+    // Outils et commandes principales : une action unique par commande, partagée
     // entre la barre d'outils, le menu et son raccourci.
     _actions = new EditorActions(hmi::currentEditorTokens(), this);
     _actions->applyShortcuts(_viewport->editorBindings(), _loc);
@@ -218,7 +218,7 @@ void MainWindow::buildUi() {
     _entities = new EntityPanel(_ui->EntitiesPanel);
     _ui->EntitiesPanel->setWidget(_entities);
 
-    // Cartes et Entités partagent une pile d'onglets par défaut (LOT-57 TACHE-02) ; chacun reste
+    // Cartes et Entités partagent une pile d'onglets par défaut ; chacun reste
     // déplaçable, détachable et refermable (EX-IHM-010). Doit précéder la capture de
     // _defaultState.
     tabifyDockWidget(_ui->LevelsPanel, _ui->EntitiesPanel);
@@ -282,7 +282,7 @@ void MainWindow::connectEditorCommands() {
             [this] { _viewport->toggleGrid(); });
     connect(_actions->action(hmi::IconId::ResetCamera), &QAction::triggered, _viewport,
             [this] { _viewport->resetCamera(); });
-    // Renommer la carte ouverte (LOT-57 TACHE-04) : même dialogue que LevelBrowserPanel::onRename.
+    // Renommer la carte ouverte : même dialogue que LevelBrowserPanel::onRename.
     connect(_actions->action(hmi::IconId::Rename), &QAction::triggered, this, [this] {
         bool accepted = false;
         const QString name = QInputDialog::getText(
@@ -298,7 +298,7 @@ void MainWindow::connectEditorCommands() {
     connect(_actions->action(hmi::IconId::ShortcutsOverview), &QAction::triggered, this,
             [this] { openShortcutsDialog(); });
 
-    // Commandes principales, réparties PAR NATURE D'ACTION (LOT-68, EX-IHM-074). Toujours les
+    // Commandes principales, réparties PAR NATURE D'ACTION (EX-IHM-074). Toujours les
     // mêmes actions que la barre d'outils : aucune seconde définition (EX-IHM-055).
     _ui->fileMenu->insertAction(_ui->actResize, _actions->action(hmi::IconId::Save));
     _ui->fileMenu->insertAction(_ui->actResize, _actions->action(hmi::IconId::Rename));
@@ -321,7 +321,7 @@ void MainWindow::connectEditorCommands() {
 }
 
 void MainWindow::buildThemeMenu() {
-    // Thème clair/sombre de l'éditeur (LOT-56 TACHE-06) : réglage Système/Clair/Sombre, persisté.
+    // Thème clair/sombre de l'éditeur : réglage Système/Clair/Sombre, persisté.
     auto* const themeGroup = new QActionGroup(this);
     themeGroup->setExclusive(true);
     for (QAction* const act : {_ui->actThemeSystem, _ui->actThemeLight, _ui->actThemeDark}) {
@@ -373,7 +373,7 @@ void MainWindow::buildViewMenu() {
                                       dock->toggleViewAction());
     }
 
-    // Mise en avant automatique du panneau de l'outil actif (LOT-57 TACHE-02) : persistée, active
+    // Mise en avant automatique du panneau de l'outil actif : persistée, active
     // par défaut.
     _actFollowActiveTool = _ui->actFollowActiveTool;
     _actFollowActiveTool->setChecked(
@@ -384,7 +384,7 @@ void MainWindow::buildViewMenu() {
 }
 
 void MainWindow::buildStatusBar() {
-    // Barre d'état structurée (LOT-57 TACHE-01) : zones permanentes, jamais recouvertes par un
+    // Barre d'état structurée : zones permanentes, jamais recouvertes par un
     // message transitoire. Largeur minimale sur les zones qui changent au survol (case, zoom) :
     // sans elle, la barre « saute » à chaque déplacement de souris.
     for (QLabel*& zone : _statusZones) {

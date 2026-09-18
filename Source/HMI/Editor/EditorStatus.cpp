@@ -13,7 +13,7 @@ namespace hmi {
 namespace {
 
 // Remplace la premiere occurrence de "%1" (et "%2" pour les gabarits a deux valeurs) -- pas de
-// dependance Qt, meme discipline que hmi::gameHudLines (LOT-52).
+// dependance Qt.
 std::string replacePlaceholder(std::string text, const std::string& placeholder,
                                const std::string& value) {
     const std::size_t position = text.find(placeholder);
@@ -51,7 +51,7 @@ const char* toolLabelKey(EditorTool tool) {
     return "tool.brush";
 }
 
-// Cle de traduction de l'aide contextuelle d'un outil (LOT-57 TACHE-01, retire status.edit_help).
+// Cle de traduction de l'aide contextuelle d'un outil (retire status.edit_help).
 const char* toolHelpKey(EditorTool tool) {
     switch (tool) {
         case EditorTool::Paint:

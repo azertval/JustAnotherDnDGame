@@ -11,7 +11,6 @@
 #include <set>
 #include <string_view>
 #include <system_error>
-#include <tuple>
 #include <utility>
 
 #include <nlohmann/json.hpp>
@@ -285,47 +284,6 @@ void readScenes(const std::filesystem::path& root, AssetGalleryCatalog& catalog)
     }
 }
 
-/**
- * @brief Toutes les images d'un dossier : animée si un `<nom>.anim.json` l'accompagne, fixe sinon.
- */
-void readFolder(const std::filesystem::path& root, AssetGalleryCatalog& catalog, const char* title,
-                const char* directory) {
-    std::vector<std::filesystem::path> images;
-    std::error_code error;
-    for (const auto& item : std::filesystem::directory_iterator(root / directory, error)) {
-        if (item.is_regular_file() && item.path().extension() == ".png") {
-            images.push_back(item.path());
-        }
-    }
-    std::ranges::sort(images);
-    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};
-    for (const std::filesystem::path& image : images) {
-        const std::string stem = stemOf(image.filename().string());
-        AssetGalleryEntry entry{.family = family.title,
-                                .model = directory,
-                                .form = stem,
-                                .path = std::string(directory) + "/" + stem + ".png",
-                                .frames = {}};
-        const std::filesystem::path descriptor = image.parent_path() / (stem + ".anim.json");
-        std::error_code ignored;
-        if (std::filesystem::is_regular_file(descriptor, ignored)) {
-            if (!readAnimatedEntry(entry, descriptor, catalog.errors)) {
-                continue;
-            }
-        } else {
-            std::tie(entry.frameWidth, entry.frameHeight) = pngSize(image);
-            if (entry.frameWidth <= 0) {
-                catalog.errors.push_back(image.generic_string() + " : PNG illisible");
-                continue;
-            }
-        }
-        family.entries.push_back(std::move(entry));
-    }
-    if (!family.entries.empty()) {
-        catalog.families.push_back(std::move(family));
-    }
-}
-
 [[nodiscard]] int ceilCells(int pixels) {
     return pixels <= 0 ? 0 : (pixels + ASSET_GALLERY_CELL_PIXELS - 1) / ASSET_GALLERY_CELL_PIXELS;
 }
@@ -337,10 +295,6 @@ AssetGalleryCatalog AssetGalleryCatalog::load(const std::filesystem::path& asset
     readNpcs(assetsRoot, catalog);
     readColiseum(assetsRoot, catalog);
     readScenes(assetsRoot, catalog);
-    readFolder(assetsRoot, catalog, "Joueur", "Player");
-    readFolder(assetsRoot, catalog, "Skins", "Skins");
-    readFolder(assetsRoot, catalog, "Objets", "Objects");
-    readFolder(assetsRoot, catalog, "Fonds", "Backgrounds");
     return catalog;
 }
 
@@ -348,7 +302,7 @@ bool assetGalleryExcludes(std::string_view path) noexcept {
     const std::size_t slash = path.rfind('/');
     const std::string_view fileName =
         slash == std::string_view::npos ? path : path.substr(slash + 1);
-    return path == "atlas.png" || path == "Coliseum/production_source_atlas.png" ||
+    return path == "Coliseum/production_source_atlas.png" ||
            path.starts_with("UI/") || path.starts_with("Maps/") || path.starts_with("Fonts/") ||
            (path.starts_with("Scene/") && fileName.starts_with("planche-"));
 }

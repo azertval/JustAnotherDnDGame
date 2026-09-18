@@ -4,7 +4,7 @@
 /**
  * @file test_editor_actions.cpp
  * @brief Tests unitaires du catalogue d'actions et de la géométrie des icônes de l'éditeur
- *        (`LOT-56` TACHE-04, `EX-IHM-055`).
+ *        (`EX-IHM-055`).
  */
 
 #include <fstream>
@@ -37,7 +37,7 @@ namespace {
  *        surtout, la **complétude** : `hmi::MainWindow` dérive de ce catalogue les connexions
  *        action → `EditorViewport::setTool`, donc un outil absent du groupe `LevelTools` serait
  *        cochable dans la barre d'outils sans jamais devenir l'outil actif. Le cas s'est produit
- *        avec l'outil « Parcours » (`LOT-67`), qu'une liste écrite à la main avait laissé de côté.
+ *        avec l'outil « Parcours », qu'une liste écrite à la main avait laissé de côté.
  *
  * La liste des outils est **dérivée du catalogue**, jamais recopiée ici : la recopier reproduirait
  * exactement l'erreur que ce test doit détecter. `EDITOR_TOOL_COUNT`, déclaré à côté de
@@ -142,10 +142,10 @@ TEST(EditorActionsTest, ChaqueLibelleExisteDansLesDeuxLangues) {
 }
 
 /**
- * @brief Garde-fou « aucune action orpheline » (`LOT-57` TACHE-04) : chaque action d'éditeur
+ * @brief Garde-fou « aucune action orpheline » : chaque action d'éditeur
  *        remappable correspond à une commande effective du catalogue.
  *        Ce test casse si une action est ajoutée à `EditorKeyBindings` sans être branchée ici —
- *        exactement le défaut que cette tâche corrige (neuf actions définies, une seule lue).
+ *        exactement le défaut qu'il a fallu corriger (neuf actions définies, une seule lue).
  * \castest{<b>Chaque action d'editeur remappable a une commande effective.</b><br/>
  * \tcat Unitaire · Actions de l'editeur<br/>
  * \tcrit Critique<br/>
@@ -172,7 +172,7 @@ TEST(EditorActionsTest, AucuneActionRemappableOrpheline) {
 
 /**
  * @brief La barre d'outils ne porte que la **sélection d'outil** et un petit nombre de commandes à
- *        usage continu (`LOT-68`, `EX-IHM-074`). Elle en portait onze, dont neuf figuraient déjà au
+ *        usage continu (`EX-IHM-074`). Elle en portait onze, dont neuf figuraient déjà au
  *        menu : c'est cette accumulation, et non une duplication de définition, qui la rendait
  *        illisible.
 

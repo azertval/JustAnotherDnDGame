@@ -1,14 +1,14 @@
 # Vision & périmètre {#spec-vision}
 
-> Statut : **cadré** (`LOT-01`). Cette page remplace la vision du jeu de plateforme dont ce dépôt
-> est dérivé (voir §Origine). Les objectifs ci-dessous sont **à concrétiser** : aucun n'est encore
-> livré, le programme de lots (@ref lots) dit lequel les porte.
+> Statut : **en cours**. Le premier jalon, le *vertical slice* dans la Capitale, concrétise ces
+> objectifs un à un ; la [feuille de route](@ref roadmap) dit lesquels restent, et quel lot les
+> porte.
 
 ## Concept
 
 **RPG 2D en vue de dessus**, à monde de cartes connectées. Le joueur dirige un personnage qui
 explore en **temps réel** (déplacement libre 8 directions, interaction avec les PNJ, les coffres
-et les mécanismes) et affronte les rencontres en **combat tactique au tour par tour** sur la grille
+et les portails) et affronte les rencontres en **combat tactique au tour par tour** sur la grille
 de la carte, régi par un système **d20**.
 
 - **Genre** : action-RPG d'exploration + combat tactique.
@@ -97,8 +97,8 @@ elle-même, et la frontière entre les deux est écrite, pas laissée à l'œil.
 ## Objectifs produit (au-delà du moteur)
 
 - \anchor EX-VIS-006 **EX-VIS-006** — Le projet doit fournir un **éditeur de cartes** permettant à
-  des membres non-développeurs de créer du contenu sans coder : couches, entités, portails. Hérité
-  de l'éditeur du dépôt d'origine, retargeté par le `LOT-11`.
+  des membres non-développeurs de créer du contenu sans coder : couches, entités, portails
+  (`LOT-11`).
 - \anchor EX-VIS-007 **EX-VIS-007** — Toute règle chiffrée (classes, sorts, objets, ennemis) doit
   être **définie en données** (JSON), jamais codée en dur dans le C++ : c'est ce qui rend
   l'équilibrage possible sans recompiler.
@@ -111,20 +111,12 @@ elle-même, et la frontière entre les deux est écrite, pas laissée à l'œil.
 - Édition collaborative en temps réel dans l'éditeur.
 - Portabilité hors Windows.
 
-## Origine
-
-Ce dépôt est dérivé de `ProjectGaming`, jeu 2D de plateforme et puzzle en vue de côté livré en
-`0.1.3` après 74 lots. Le `LOT-01` en a conservé le moteur — ECS, boucle à pas fixe, mathématiques
-déterministes, balayage AABB, modèle et chargeur de niveaux, rendu, éditeur, IHM Qt — et retiré
-tout le gameplay propre à la vue de côté. La vision du platformer et son programme de lots restent
-consultables en lecture seule sous `Documentation/Heritage/`.
-
 ## Traçabilité
 
 Ces objectifs sont détaillés dans [`gameplay.md`](gameplay.md), [`controles.md`](controles.md),
 [`rendu-technique.md`](rendu-technique.md), [`niveaux.md`](niveaux.md),
 [`exigences-non-fonctionnelles.md`](exigences-non-fonctionnelles.md),
-[`editeur-niveaux.md`](editeur-niveaux.md) et [`architecture.md`](architecture.md). Les
-spécifications propres au RPG (`exploration.md`, `regles-d20.md`, `combat.md`, `rpg.md`) sont
-créées par les lots qui les concrétisent. Chaque lot de `../Lot/` référence les exigences `EX-…`
-qu'il couvre.
+[`editeur-niveaux.md`](editeur-niveaux.md), [`architecture.md`](architecture.md) et, pour le
+RPG, [`exploration.md`](exploration.md), [`regles-d20.md`](regles-d20.md), [`rpg.md`](rpg.md),
+[`combat.md`](combat.md), [`inventaire.md`](inventaire.md) et [`contenu.md`](contenu.md). Chaque
+lot de `../Lot/` référence les exigences `EX-…` qu'il couvre.

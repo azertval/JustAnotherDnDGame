@@ -146,8 +146,8 @@ ailleurs où pointer. Voir « Qt 6.8.7 » dans l'atelier alors que le jeu se con
 pas un défaut d'installation : c'est la conception de l'outil, et seule une version plus récente de
 Design Studio la déplacera.
 
-Les types **C++** (`OptionsModel`, `ScreenRouter`, `PendingData`, `CharacterSheetModel`,
-`InventoryModel`, `GameViewport`) sont invisibles à Design Studio ; `Source/Ui/Mocks/Jadg/Runtime/`
+Les types **C++** (`OptionsModel`, `ScreenRouter`, `PendingData`, `WorldModel`,
+`CharacterSheetModel`, `InventoryModel`, `WorldViewport`…) sont invisibles à Design Studio ; `Source/Ui/Mocks/Jadg/Runtime/`
 en porte des doublures QML aux mêmes noms et propriétés, que le `.qmlproject` place dans ses
 `importPaths`. Les quatorze formulaires et les quatorze jumeaux se résolvent ainsi dans l'atelier —
 vérifié avec le `qmllint` du Qt 6.8.7 embarqué. Seuls `Main.qml` et `ScreenStack.qml` restent
@@ -157,30 +157,30 @@ ne s'y dessine. `check_qml_designer_compat.py` tient les doublures alignées sur
 
 ## La surface de rendu
 
-`hmi::GameViewportItem` (`QQuickRhiItem`, dans `HMI/Runtime`) est le jumeau Qt Quick de
-`hmi::GameViewport` (`QRhiWidget`, côté éditeur). C'est le jumeau `GameView.qml` qui le pose, dans
-l'hôte que `GameViewForm.ui.qml` lui réserve : un type C++ n'a pas sa place dans un formulaire. Les deux rendent dans une **texture d'appui** que leur hôte compose :
-la cible technique ne change pas (`EX-ARCH-050`), seul l'hôte change. Un recouvrement redevient donc
-un enfant ordinaire — plus aucun empilement de fenêtres natives.
+Le jeu pose ses surfaces QRhi comme des items Qt Quick (`QQuickRhiItem`, dans `HMI/Runtime`) :
+`hmi::WorldViewportItem` (`WorldViewport` en QML) pour la carte explorée,
+`hmi::ArenaViewportItem` pour le Colisée, `hmi::GameViewportItem` sous le HUD de combat. C'est le
+jumeau (`GameView.qml`, `Arena.qml`…) qui les pose, dans l'hôte que le formulaire lui réserve : un
+type C++ n'a pas sa place dans un formulaire. L'éditeur, lui, dessine dans un `QRhiWidget`
+(`hmi::EditorViewport`). Tous rendent dans une **texture d'appui** que leur hôte compose : la cible
+technique ne change pas (`EX-ARCH-050`), seul l'hôte change. Un recouvrement redevient donc un
+enfant ordinaire — plus aucun empilement de fenêtres natives.
 
 **La différence qui compte** : `QRhiWidget` peint sur le fil graphique, `QQuickRhiItem` sur le **fil
 de rendu**. Toute donnée que la simulation produit doit traverser `synchronize()`, appelée pendant
 que le fil graphique est **bloqué** — le seul instant où les deux fils peuvent se parler sans verrou.
 
-C'est pour cela que `hmi::ComposedScene` — liste de primitives **pure et sans GPU**
-(`EX-NFR-004`/`005`) — est le bon objet de transfert : le fil graphique la remplit, `synchronize()`
-la remet, le fil de rendu la soumet. La frontière que le projet s'était donnée pour tester le rendu
-sans GPU sert ici une seconde fois.
+C'est pour cela que les surfaces n'échangent que des **valeurs** : `hmi::WorldViewportItem` reçoit
+la couleur d'effacement, le point suivi par la caméra et, si la scène a changé (compté par
+`WorldModel::sceneRevision`), un instantané de la scène — des primitives **pures et sans GPU**
+(`EX-NFR-004`/`005`), que le fil de rendu soumet par `hmi::WorldSceneRenderer`. La frontière que
+le projet s'était donnée pour tester le rendu sans GPU sert ici une seconde fois.
 
-`hmi::SceneResources` regroupe ce que les **deux** surfaces créent à l'identique — lot de sprites,
-atlas, police bitmap, cache de textures, catalogue de skins. Le regroupement tient moins à
-l'économie qu'à l'**ordre de libération** : ce qui tient une texture doit mourir avant elle, et la
-texture avant le pipeline qui l'échantillonne. Le désordre ne produit pas une erreur nette mais un
-plantage à la fermeture, intermittent selon le pilote.
-
-> Le viewport du jeu **n'affiche encore aucune scène** : `Source/Elements/Levels/` est vide par
-> construction depuis le `LOT-01`. La plomberie est établie et vérifiée — le journal nomme le
-> backend au démarrage — et la session se branchera quand il y aura une carte à jouer.
+`hmi::SceneResources` regroupe ce que les surfaces créent à l'identique — lot de sprites, atlas,
+cache de textures. Le regroupement tient moins à l'économie qu'à l'**ordre de libération** : ce
+qui tient une texture doit mourir avant elle, et la texture avant le pipeline qui l'échantillonne.
+Le désordre ne produit pas une erreur nette mais un plantage à la fermeture, intermittent selon le
+pilote.
 
 ## La navigation
 
@@ -191,16 +191,16 @@ cette discipline, un `openOptions()` appelé depuis un écran d'où les options 
 produirait un état que la table ne décrit pas, et dont personne ne saurait revenir.
 
 Il publie un **état**, jamais un chemin de fichier. La correspondance entre état et écran vit dans
-`Source/Ui/Logic/ScreenStack.qml` — côté développeur, mais du bon côté de la frontière : la
+`Source/App/Game/Qml/Logic/ScreenStack.qml` — côté développeur, mais du bon côté de la frontière : la
 conception peut réorganiser `Screens/` sans qu'une ligne de C++ ne s'en aperçoive.
 
 `--screen=<Nom>` court-circuite le routeur et ouvre un écran directement. C'est un outil de
 vérification, pas un chemin de jeu.
 
-`Source/Ui/Logic/ScreenProbe.qml` fait la même chose **en cours d'exécution** : deux boutons posés
-en bas de la fenêtre font défiler les quatorze écrans. Ils existent parce que le viewport n'affiche
-encore aucune scène — sans eux, les sept écrans dessinés mais pas encore alimentés ne sont
-atteignables par aucun chemin de jeu, et ne se vérifient donc pas.
+`Source/App/Game/Qml/Logic/ScreenProbe.qml` fait la même chose **en cours d'exécution** : deux
+boutons posés en bas de la fenêtre font défiler les écrans. Ils existent parce que plusieurs écrans
+sont dessinés mais pas encore alimentés — sans eux, ils ne seraient atteignables par aucun chemin
+de jeu, et ne se vérifieraient donc pas.
 
 Deux choses le distinguent d'une fonctionnalité :
 

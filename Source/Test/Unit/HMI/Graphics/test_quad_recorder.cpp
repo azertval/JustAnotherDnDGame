@@ -4,7 +4,7 @@
 /**
  * @file test_quad_recorder.cpp
  * @brief Tests unitaires de la composition du rendu et de sa capture sans GPU
- *        (LOT-40, EX-NFR-004, EX-REN-043, EX-REN-014).
+ *        (EX-NFR-004, EX-REN-043, EX-REN-014).
  */
 
 #include <gtest/gtest.h>
@@ -203,23 +203,21 @@ TEST(QuadRecorderTest, RectanglesEtSegmentsMelanges) {
 }
 
 /**
- * @brief L'ordonnancement déclaré place le premier plan au-dessus du personnage et les aides
- *        d'édition au-dessus de tout (`EX-REN-014`, `EX-DEC-002`).
- * \castest{<b>L'ordonnancement place le premier plan au-dessus du personnage.</b><br/>
+ * @brief L'ordonnancement déclaré place l'interface au-dessus du personnage et les aides
+ *        d'édition au-dessus de tout (`EX-REN-014`).
+ * \castest{<b>L'ordonnancement place l'interface au-dessus du personnage.</b><br/>
  * \tcat Unitaire · Quad Recorder<br/>
  * \tcrit Critique<br/>
  * \tetapes 1. Comparer les valeurs declarees de l'enumeration des calques.<br/>
- * \tattendu L'ordre fond -> plans -> ombres -> tuiles -> objets -> personnage -> premier plan ->
- * interface -> edition est respecte.
+ * \tattendu L'ordre fond -> ombres -> tuiles -> objets -> personnage -> interface -> edition est
+ * respecte.
  * }
  */
 TEST(QuadRecorderTest, OrdonnancementDeclare) {
-    EXPECT_LT(hmi::RenderLayer::Background, hmi::RenderLayer::Plane);
-    EXPECT_LT(hmi::RenderLayer::Plane, hmi::RenderLayer::Shadow);
+    EXPECT_LT(hmi::RenderLayer::Background, hmi::RenderLayer::Shadow);
     EXPECT_LT(hmi::RenderLayer::Shadow, hmi::RenderLayer::Tile);
     EXPECT_LT(hmi::RenderLayer::Tile, hmi::RenderLayer::Object);
     EXPECT_LT(hmi::RenderLayer::Object, hmi::RenderLayer::Player);
-    EXPECT_LT(hmi::RenderLayer::Player, hmi::RenderLayer::Foreground);
-    EXPECT_LT(hmi::RenderLayer::Foreground, hmi::RenderLayer::UI);
+    EXPECT_LT(hmi::RenderLayer::Player, hmi::RenderLayer::UI);
     EXPECT_LT(hmi::RenderLayer::UI, hmi::RenderLayer::EditorOverlay);
 }

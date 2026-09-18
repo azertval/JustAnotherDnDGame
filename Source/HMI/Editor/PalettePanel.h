@@ -11,7 +11,7 @@
 
 /**
  * @file HMI/Editor/PalettePanel.h
- * @brief Panneau « Palette » : arbre de sélection du type de tuile à peindre (LOT-35).
+ * @brief Panneau « Palette » : arbre de sélection du type de tuile à peindre.
  */
 
 class QEvent;
@@ -31,9 +31,9 @@ class Localization;
  * @brief Palette de tuiles en **arbre** (`QTreeView`) : catégories → sous-groupes → tuiles.
  *
  * Alimentée par la taxonomie pure (`hmi::tileTaxonomy`), elle remplace l'accordéon « maison »
- * (retiré au `LOT-38`) par un contrôle Qt natif (`EX-EDIT-018`, `EX-IHM-010`). Sélectionner une
+ * (retiré) par un contrôle Qt natif (`EX-EDIT-018`, `EX-IHM-010`). Sélectionner une
  * **feuille** met à jour le type de tuile actif (`selectedTile`) et émet `tileSelected` — consommé
- * par l'outil de peinture (LOT-35 TACHE-03). Les en-têtes (catégories, sous-groupes) ne sont pas
+ * par l'outil de peinture. Les en-têtes (catégories, sous-groupes) ne sont pas
  * sélectionnables comme tuile.
  */
 class PalettePanel : public QWidget {
@@ -59,7 +59,7 @@ signals:
 
 protected:
     /// Régénère les vignettes lors d'un changement d'écran (`QEvent::ScreenChangeInternal`) :
-    /// l'échelle d'affichage a pu changer (`LOT-56` TACHE-05).
+    /// l'échelle d'affichage a pu changer.
     bool event(QEvent* event) override;
 
 private:
@@ -68,7 +68,7 @@ private:
     /// Vignette d'un type : sa couleur dans l'atlas procédural.
     [[nodiscard]] QPixmap thumbnailFor(core::TileType type);
 
-    /// Mise en page issue de `PalettePanel.ui` (`LOT-68`) : le C++ ne branche plus que le
+    /// Mise en page issue de `PalettePanel.ui` : le C++ ne branche plus que le
     /// fonctionnel, conformément à la convention du projet.
     std::unique_ptr<Ui::PalettePanel> _ui;
     QTreeView* _tree;

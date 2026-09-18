@@ -5,7 +5,7 @@
 
 /**
  * @file HMI/Interface/ThemeResolution.h
- * @brief Résolution du thème effectif du châssis d'édition (`LOT-56` TACHE-06, `EX-IHM-054`).
+ * @brief Résolution du thème effectif du châssis d'édition (`EX-IHM-054`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`.

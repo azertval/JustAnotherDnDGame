@@ -1,52 +1,44 @@
 # HMI/Editor/
 
-Périmètre **éditeur de niveau** de l'application Qt : les **panneaux** dockables et la **logique pure**
-(testable hors Qt/GPU) qui les alimente. Le canevas d'édition lui-même est le viewport partagé
-`hmi::GameViewport` (dossier `Game/`, mode édition : peinture, outils, grille `F10`) ; il opère sur
-`core::LevelDraft` (modèle mutable/sérialisable de `Core`) et rend via `hmi::DraftRenderer`
-(dossier `Graphics/`).
+Périmètre **éditeur de cartes** (cible `LevelEditor`) : le canevas, les **panneaux** dockables et la
+**logique pure** (testable hors Qt/GPU) qui les alimente. Le canevas opère sur `core::LevelDraft`
+(modèle mutable/sérialisable de `Core`).
+
+Canevas :
+
+- `EditorViewport` — deux états, jamais mêlés. En **édition**, le brouillon est dessiné à plat par
+  `hmi::DraftRenderer` (dossier `Graphics/`) — une couleur par type de tuile, les entités par leur
+  marqueur — sous les aides d'édition (grille `F10`). En **essai** (`P`), la carte est jouée par
+  `hmi::WorldPlay` (dossier `Game/`) et dessinée par `hmi::WorldSceneRenderer`, avec les touches du
+  jeu : la mise en scène du jeu, à l'identique (`EX-EDIT-055`).
 
 Panneaux Qt :
 
 - **Palette** (`PalettePanel`) — `QTreeView` catégories → sous-groupes → tuiles, alimenté par la
   taxonomie pure `tileTaxonomy` (`TileTaxonomy.{h,cpp}`, tous les `core::TileType` couverts).
-
 - **Niveaux** (`LevelBrowserPanel`) — liste/recherche du dossier `Levels`, création / renommage /
   duplication / suppression, déléguant aux opérations fichiers pures.
   Un onglet « Graphe » (`WorldGraphView`, `LOT-11`) montre les cartes du dossier et leurs portails.
-- **Liens** (`LinkPanel`) — liaisons déclencheur → cible (interrupteur/plaque → porte, danger
-  commuté) du niveau courant, en regard des flèches dessinées dans le viewport (`LOT-37`).
-- **Textures** (`TexturePanel`) — panneau d'habillage unique, organisé en sections (Skins pour
-  l'instant, `LOT-42`) : jeu de skins courant, association type de tuile → asset/mode, choix de
-  l'asset par vignettes (double-clic, `AssetPickerDialog` interne, `LOT-43`).
-
-**`AssetThumbnailView`** — widget de vignettes partagé (grille, recherche, import / renommage /
-duplication / suppression avec avertissement de références), réutilisable tel quel par toutes les
-sections du panneau « Textures » à venir (Fond, Objets, Animations, Décors — `LOT-43`). Ignore
-délibérément la sémantique d'une section : la détection des références lui est fournie par un
-`ReferenceChecker` externe.
+- **Couches** (`LayersPanel`) — couche active, visibilité, opacité, ajout, retrait, ordre et nom.
+- **Entités** (`EntityPanel`) — famille à poser, liste des entités, propriétés de l'entité
+  sélectionnée.
 
 Logique pure (aucune dépendance Qt/GPU, couverte par `Source/Test/Unit`) :
 
-- `tileTaxonomy` — arbre catégories/tuiles de la palette.
+- `tileTaxonomy` — arbre catégories/tuiles de la palette ; `TaxonomyLabels` — ses clés de
+  traduction.
 - `LevelFileOperations` — créer / renommer / dupliquer / supprimer un fichier de niveau.
 - `LevelNameValidation` — validation d'un nom de niveau saisi.
-- `EditorTool` — énumération de l'outil actif.
-- `LinkGesture` — machine à états du geste de liaison (`resolveLinkClick`), indépendante de Qt.
-- `LinkGeometry` — géométrie des flèches de liaison (segment, pointe, écartement anti-superposition).
+- `EditorTool` — énumération de l'outil actif ; `PanelFocus` — panneau à mettre en avant selon
+  l'outil.
+- `EntityGesture` — geste de l'outil « Entité » : sélectionner, poser, déplacer (`LOT-11`).
+- `EntityReferences` — catalogues que les entités référencent (dialogues, rencontres, cartes,
+  points d'arrivée) ; `EditorDiagnostics` — avertissements sur les entités d'une carte.
+- `LayerView` — couches d'une carte telles que l'éditeur les montre.
+- `EditorStatus` — contenu de la barre d'état ; `EditContextTarget` — cible des commandes
+  Annuler/Refaire/Copier/Coller.
 - `WorldGraphLayout` — disposition du graphe du monde (cercle, fantômes, flèches regroupées, désignation).
-- `SkinAssignments` — lignes du panneau « Textures », balayage des skins, effet d'une assignation.
-- `AssetLibrary` — balayage/filtrage d'un dossier d'assets, partagé par `AssetThumbnailView`.
-- `AssetFileOperations` — import / renommer / dupliquer / supprimer un fichier d'asset (`LOT-43`).
-- `AssetReferences` — détection des entrées de `skins.json` citant un asset (`LOT-43`).
-
-## À venir
-
-Le programme d'habillage `LOT-40` → `LOT-55` ajoute ici : les sections Fond, Objets, Animations et
-Décors du panneau « Textures » (`LOT-44` et suivants), un outil d'**assignation de texture** par
-case (`LOT-45`), un outil de **placement de décors** (`LOT-50`), le contrôle de **visibilité par
-calque** (`LOT-51`) et l'**atelier pixel art** (`LOT-54`), qui se branchera sur
-`AssetThumbnailView` comme point d'entrée.
+- `ThumbnailGeometry` — dimensionnement des vignettes à l'échelle d'affichage réelle.
 
 Réf. specs : [`editeur-niveaux.md`](../../../Documentation/Specification/editeur-niveaux.md),
 [`interface-ihm.md`](../../../Documentation/Specification/interface-ihm.md) (`EX-EDIT-*`, `EX-IHM-*`).

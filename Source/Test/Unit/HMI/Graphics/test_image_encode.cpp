@@ -3,8 +3,7 @@
 
 /**
  * @file test_image_encode.cpp
- * @brief Tests unitaires de l'encodage/enregistrement d'image, symétrique du décodage
- *        (LOT-54 TACHE-01, `EX-EDIT-045`).
+ * @brief Tests unitaires de l'encodage/enregistrement d'image, symétrique du décodage.
  */
 
 #include <cstdint>

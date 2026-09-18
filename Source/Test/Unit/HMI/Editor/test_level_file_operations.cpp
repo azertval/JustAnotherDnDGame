@@ -52,7 +52,26 @@ TEST_F(LevelFileOps, CreeUnNiveauValide) {
 }
 
 /**
- * @brief Un fichier de séquence de contenu (`sequence-*.json`, `LOT-59` TACHE-04) partageant le
+ * @brief Une carte ne demande qu'une case d'entrée : 1×1 se crée, une dimension nulle est refusée.
+ * \castest{<b>La plus petite carte créable est 1×1.</b><br/>
+ * \tcat Unitaire · Opérations sur fichiers de niveau<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Créer une carte 1×1.<br/>2. Tenter une carte de largeur nulle, puis de hauteur
+ * nulle.<br/>
+ * \tattendu La carte 1×1 est écrite ; les deux autres sont refusées sans fichier.
+ * }
+ */
+TEST_F(LevelFileOps, LaPlusPetiteCarteFaitUneCase) {
+    const hmi::LevelFileOperations ops(dir);
+    const hmi::FileOperationResult single = ops.create("Case", 1, 1);
+    ASSERT_TRUE(single.ok()) << single.error;
+    EXPECT_FALSE(ops.create("Vide", 0, 1).ok());
+    EXPECT_FALSE(ops.create("Plate", 1, 0).ok());
+    EXPECT_EQ(ops.list().size(), 1U);
+}
+
+/**
+ * @brief Un fichier de séquence de contenu (`sequence-*.json`) partageant le
  * dossier des niveaux n'est **pas** un niveau et ne doit jamais apparaître dans la liste : il ne
  * se chargerait pas comme tel si l'utilisateur tentait de l'ouvrir depuis ce panneau.
  * \castest{<b>Un fichier de séquence n'apparaît jamais dans la liste des niveaux.</b><br/>

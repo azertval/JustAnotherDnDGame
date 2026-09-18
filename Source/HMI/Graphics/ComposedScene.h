@@ -91,14 +91,6 @@ struct SceneStatistics {
     int submitted = 0;
     /// Passes `begin/end` nécessaires : nombre de groupes contigus de même texture.
     int batches = 0;
-    /// Mémoire de texture des **plans picturaux** liés par cette image, en octets
-    /// (`EX-NFR-043`, `LOT-69` TACHE-09).
-    ///
-    /// Second axe d'observabilité, à côté des compteurs de primitives : les plans ajoutent **un
-    /// seul quad** chacun mais occupent une texture à l'échelle du niveau — un plafond exprimé en
-    /// primitives ne les verrait pas grossir. Seuls les plans l'alimentent : les autres primitives
-    /// se partagent l'atlas, dont le coût ne dépend ni du niveau ni de leur nombre.
-    std::size_t textureBytes = 0;
 };
 
 /**
@@ -182,17 +174,6 @@ public:
     bool addLine(RenderLayer layer, TextureHandle texture, std::int32_t sortOrder,
                  const LineQuad& quad);
 
-    /**
-     * @brief Déclare la mémoire de texture d'une primitive déjà ajoutée (`EX-NFR-043`).
-     *
-     * Séparé de `addSprite` plutôt qu'ajouté à `hmi::SpriteQuad` : seuls les plans picturaux
-     * portent une texture dont la taille dépend du niveau, et grossir chaque primitive de la scène
-     * — atlas, damier, texte, particules — de deux champs jamais lus coûterait sur le chemin
-     * parcouru des centaines de fois par image, pour une information qu'un seul émetteur possède.
-     * @param bytes Poids de la texture liée, en octets.
-     */
-    void addTextureBytes(std::size_t bytes) noexcept;
-
     /// Ordonne la scène (calque, puis texture, puis `sortOrder`), de façon **stable**.
     void sort();
 
@@ -225,7 +206,6 @@ private:
     std::optional<core::Rect> _visibleBounds;
     int _considered = 0;
     int _culled = 0;
-    std::size_t _textureBytes = 0;
 };
 
 /**

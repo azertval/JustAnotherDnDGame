@@ -72,7 +72,7 @@ const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>& editorActionCat
          .checkable = false,
          .group = EditorActionGroup::None,
          .surface = ActionSurface::MenuOnly},
-        // Déduplication des commandes (LOT-57 TACHE-04) : branchées sur les actions d'éditeur
+        // Déduplication des commandes : branchées sur les actions d'éditeur
         // remappables jusqu'ici définies et jamais lues (`EditorKeyBindings`). Valeurs par défaut
         // alignées sur `EditorKeyBindings::defaultKey` ; la valeur effective vient toujours
         // d'`EditorActions::applyShortcuts`, jamais de ce littéral seul (cf. son commentaire).

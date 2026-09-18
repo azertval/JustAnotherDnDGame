@@ -3,8 +3,8 @@
 
 /**
  * @file test_editor_status.cpp
- * @brief Tests unitaires du choix de contenu de la barre d'état de l'éditeur (LOT-57 TACHE-01,
- *        EX-IHM-060). Fonction pure, sans Qt/GPU.
+ * @brief Tests unitaires du choix de contenu de la barre d'état de l'éditeur
+ *        (EX-IHM-060). Fonction pure, sans Qt/GPU.
  */
 
 #include <filesystem>

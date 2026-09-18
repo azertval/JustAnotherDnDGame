@@ -1,28 +1,20 @@
 # JustAnotherRpgGame
 
 RPG 2D **en vue de dessus** développé **from scratch** en **C++20 / Qt QRhi** (Direct3D 11 sous
-Windows), sans moteur tiers : exploration en temps réel façon Zelda, et rencontres en **combat
-tactique au tour par tour** régi par un système **d20** maison.
+Windows), sans moteur tiers : exploration en temps réel, et rencontres en **combat tactique au tour
+par tour** régi par un système **d20** maison.
 
 Cette documentation rassemble, en un seul endroit, les **spécifications** du
 projet, les **lots de travail**, le **manuel utilisateur** et la **référence de
 code** générée à partir des sources.
 
 ## En bref
-- **Langage & rendu** : C++20, Qt QRhi (Direct3D 11 sous Windows), boucle de jeu à pas de temps
-  fixe déterministe.
-- **Architecture** : un cœur de simulation (`Core`) **indépendant** de la présentation
-  (`HMI`), reposant sur un **ECS maison** ; les assets statiques vivent dans `Elements`.
+- **Langage & rendu** : C++20, Qt QRhi (Direct3D 11 sous Windows), scène dessinée en isométrique.
+- **Architecture** : un cœur de simulation (`Core`) **indépendant** de la présentation (`HMI`) ;
+  le jeu en Qt Quick, l'éditeur de cartes en Qt Widgets ; les données et assets vivent dans
+  `Elements`.
 - **Qualité** : build sans avertissement (`/W4 /WX`), tests unitaires et d'intégration
   (GoogleTest), documentation Doxygen et CI GitHub Actions.
-
-## Origine
-
-Ce dépôt est **dérivé de `ProjectGaming`**, un jeu de plateforme/puzzle en vue de côté livré en
-`0.1.3` après 74 lots. Le `LOT-01` en a repris le moteur (ECS, pas fixe, mathématiques, balayage
-AABB, chargeur de niveaux, rendu, éditeur, IHM Qt) et retiré tout le gameplay propre à la vue de
-côté. L'historique git d'origine est **intégralement conservé**, et le programme de lots du
-platformer reste consultable en lecture seule sous `Documentation/Heritage/`.
 
 ## Avancement
 

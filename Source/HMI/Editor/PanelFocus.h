@@ -11,7 +11,7 @@
 
 /**
  * @file HMI/Editor/PanelFocus.h
- * @brief Correspondance outil actif → panneau à mettre en avant (`LOT-57` TACHE-02, `EX-IHM-061`).
+ * @brief Correspondance outil actif → panneau à mettre en avant (`EX-IHM-061`).
  *
  * Logique **pure** (aucune dépendance Qt), testable hors instance d'application (`EX-NFR-010`) —
  * même patron que `HMI/Interface/ActionCatalog.h`. `MainWindow` ne fait que suivre cette table :

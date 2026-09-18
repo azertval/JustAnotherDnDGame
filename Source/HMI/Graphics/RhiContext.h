@@ -9,7 +9,7 @@ class QRhiResourceUpdateBatch;
 /**
  * @file HMI/Graphics/RhiContext.h
  * @brief Accès partagé au `QRhi` courant et au lot de mises à jour de ressources de l'image en
- *        cours (`EX-REN-050`, LOT-69 TACHE-02).
+ *        cours (`EX-REN-050`).
  */
 
 namespace hmi {

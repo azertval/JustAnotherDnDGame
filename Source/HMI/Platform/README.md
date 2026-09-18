@@ -2,8 +2,6 @@
 
 Intégration au système d'exploitation.
 
-- `Window` — fenêtre Win32, pompe de messages, événements (fermeture, redimensionnement), sondage
-  manette XInput (`pollGamepad`) fusionné dans l'`InputState` de la fenêtre.
 - `ExecutableDirectory` — dossier contenant l'exécutable en cours, pour localiser les ressources
   copiées à côté (niveaux, catalogues de langue) indépendamment du répertoire de travail.
 - `CrashDump` — minidump écrit sous `Crashes/` sur toute fin anormale (exception structurée,

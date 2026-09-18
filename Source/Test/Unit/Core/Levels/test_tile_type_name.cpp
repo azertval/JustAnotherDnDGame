@@ -3,7 +3,7 @@
 
 /**
  * @file test_tile_type_name.cpp
- * @brief Tests unitaires de la correspondance type de tuile <-> nom textuel (LOT-42, EX-LVL-003).
+ * @brief Tests unitaires de la correspondance type de tuile <-> nom textuel (EX-LVL-003).
  */
 
 #include <optional>

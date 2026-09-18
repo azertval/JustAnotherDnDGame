@@ -29,10 +29,10 @@ runs:
         host: windows
         target: desktop
         arch: win64_msvc2022_64
-        # qtmultimedia : module audio (LOT-60) -- Qt6::Multimedia (QSoundEffect) est un composant
+        # qtmultimedia : module audio -- Qt6::Multimedia (QSoundEffect) est un composant
         # additionnel de l'installation Qt, pas une dependance tierce separee.
-        # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi
-        # (LOT-69 TACHE-02). qtcanvaspainter : peinture 2D acceleree (LOT-69), nouveau en 6.11.
+        # qtshadertools : fournit `qsb`, le compilateur de shaders exige par le rendu QRhi.
+        # qtcanvaspainter : peinture 2D acceleree, nouveau en 6.11.
         # Un nom de module inconnu fait echouer aqt : ces trois lignes valent donc verification
         # que le provisionnement fournit bien ce dont le code depend.
         #

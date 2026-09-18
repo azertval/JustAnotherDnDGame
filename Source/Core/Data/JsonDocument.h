@@ -21,7 +21,7 @@ namespace core {
  * @brief Catégorie d'échec de lecture d'un document JSON.
  *
  * Les cinq catégories que les six lecteurs du dépôt avaient chacun redéfinies pour leur compte
- * (`hmi::SkinCatalogError`, `hmi::SoundCatalogError`, `hmi::AnimationCatalogError`…). Elles sont
+ * (`hmi::AnimationCatalogError`, `hmi::ArenaAppearanceError`…). Elles sont
  * ici **une seule fois** : deux définitions de « version non gérée » finissent par diverger sur
  * ce qu'elles recouvrent.
  */
@@ -84,7 +84,7 @@ struct JsonDocument {
  * @param supportedVersion Version la plus élevée que le lecteur sait lire. **`0` désactive la
  *        garde** : l'appelant porte alors sa propre catégorie d'échec de version, ce qui est le
  *        cas du chargeur de niveaux (`core::LevelValidationError::UnsupportedFormatVersion`).
- * @param origin Nom à faire figurer dans les messages (« sounds.json »). Facultatif.
+ * @param origin Nom à faire figurer dans les messages (« manifest.json »). Facultatif.
  * @param versionField Nom du champ de version. Vaut `"version"` par défaut.
  * @return Le document, ou l'échec décrit. Ne lève jamais.
  */

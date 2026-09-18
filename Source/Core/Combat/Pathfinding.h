@@ -76,11 +76,10 @@ struct Path {
  * Manuel des Joueurs, « Jouer sur un quadrillage » : entrer dans une case coûte **1**, même en
  * **diagonale** ; entrer dans une case de terrain difficile coûte **2**, et il faut qu'il reste de
  * quoi payer ; on ne passe pas en diagonale par le **coin** d'un mur. Trois faits qu'un parcours en
- * largeur à quatre voisins — `core::GridDistanceField`, sauvé de la purge pour ce lot — ne sait pas
- * exprimer : il ignore les diagonales, et tous ses pas coûtent un. La case d'une créature qu'on
- * **traverse** compte, elle aussi, pour du terrain difficile (« Se déplacer au milieu d'autres
- * créatures », PDF p. 193), en vol comme au sol. Il reste l'outil de la
- * récompense de progression (`EX-IA-023`), et ce calcul-ci est un Dijkstra sur les huit voisins.
+ * largeur à quatre voisins ne sait pas exprimer : il ignore les diagonales, et tous ses pas coûtent
+ * un. La case d'une créature qu'on **traverse** compte, elle aussi, pour du terrain difficile
+ * (« Se déplacer au milieu d'autres créatures », PDF p. 193), en vol comme au sol. Ce calcul-ci est
+ * donc un Dijkstra sur les huit voisins.
  *
  * ## Le départage est une règle, pas un hasard
  *

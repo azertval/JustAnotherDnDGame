@@ -63,8 +63,13 @@ public:
     /**
      * @brief Rend le brouillon avec la caméra donnée.
      *
-     * @param showGrid  Superpose la grille des cases (`EX-EDIT-023`).
-     * @param highlight Zone à voiler (bornes incluses) : l'aperçu des outils Rectangle/Sélection.
+     * @param draft         Brouillon de carte à dessiner.
+     * @param camera        Caméra qui cadre le canevas.
+     * @param showGrid      Superpose la grille des cases (`EX-EDIT-023`).
+     * @param highlight     Zone à voiler (bornes incluses) : l'aperçu des outils
+     *                      Rectangle/Sélection.
+     * @param entityOverlay Entité sélectionnée et terrains de rencontre à superposer (rien par
+     *                      défaut).
      */
     void render(const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
                 const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,

@@ -65,7 +65,7 @@ core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view appl
 void installQtTranslations(std::string_view language);
 
 /// @return La valeur d'un argument `--<nom>=…`, ou `std::nullopt` si l'argument est absent.
-/// Un `optional` plutôt qu'une chaîne vide : `--export-atlas=` sans valeur est une erreur de
+/// Un `optional` plutôt qu'une chaîne vide : `--map=` sans valeur est une erreur de
 /// l'appelant, pas une absence d'option.
 [[nodiscard]] std::optional<std::string_view> commandLineOption(int argc, char** argv,
                                                                 std::string_view name);

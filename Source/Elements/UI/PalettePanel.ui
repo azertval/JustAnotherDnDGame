@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>PalettePanel</class>
- <!-- Palette des types de tuile, en categories repliables (LOT-35 TACHE-02, EX-EDIT-018 ; mise en
-      page descendue du C++ au LOT-68). L'arbre est peuple en code depuis la taxonomie pure
+ <!-- Palette des types de tuile, en categories repliables (EX-EDIT-018 ; mise en
+      page tenue hors du C++). L'arbre est peuple en code depuis la taxonomie pure
       (hmi::tileTaxonomy) : c'est du contenu, pas de la mise en page. -->
  <widget class="QWidget" name="PalettePanel">
   <layout class="QVBoxLayout" name="layout">

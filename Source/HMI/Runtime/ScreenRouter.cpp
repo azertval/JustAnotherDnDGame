@@ -6,7 +6,6 @@
 #include <optional>
 
 #include "Core/BuildConfig.h"
-#include "HMI/HmiLog.h"
 
 namespace hmi {
 
@@ -16,8 +15,7 @@ bool ScreenRouter::developerBuild() noexcept {
 
 namespace {
 
-/// Correspondance entre l'état de la table et celui que le QML lit. `Editor` n'y figure pas : le
-/// jeu n'a aucun chemin qui y mène, et l'y traduire aurait donné un état que rien ne peut afficher.
+/// Correspondance entre l'état de la table et celui que le QML lit.
 [[nodiscard]] ScreenRouter::Screen toRouterScreen(ScreenId screen) noexcept {
     switch (screen) {
         case ScreenId::Menu:
@@ -34,14 +32,8 @@ namespace {
             return ScreenRouter::Screen::RpgScreen;
         case ScreenId::Arena:
             return ScreenRouter::Screen::Arena;
-        case ScreenId::Editor:
-            break;
     }
-    // Inatteignable : le jeu n'émet aucun événement qui mène à l'éditeur. Retomber sur le menu
-    // plutôt que sur un état indéfini — et le dire, parce qu'y arriver signifierait que la table
-    // a changé sans que ce routeur le sache.
-    HMI_LOG_WARNING("Routeur d'ecrans : etat 'Editeur' atteint depuis le jeu, retour au menu.");
-    return ScreenRouter::Screen::Menu;
+    return ScreenRouter::Screen::Menu;  // inatteignable : switch exhaustif sur ScreenId.
 }
 
 // Les deux énumérations décrivent les mêmes huit écrans, dans le même ordre : la conversion est

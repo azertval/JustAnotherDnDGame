@@ -3,7 +3,7 @@
 
 /**
  * @file test_panel_focus.cpp
- * @brief Tests unitaires de la correspondance outil → panneau (LOT-57 TACHE-02, EX-IHM-061).
+ * @brief Tests unitaires de la correspondance outil → panneau (EX-IHM-061).
  *        Logique pure, sans Qt.
  */
 

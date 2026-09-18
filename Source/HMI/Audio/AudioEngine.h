@@ -29,9 +29,8 @@ namespace hmi {
  * « muet » ne font jamais rien de plus qu'un avertissement journalisé une seule fois.
  *
  * **Aucune dépendance dans `Core`** : cette classe vit exclusivement dans `HMI`
- * (`EX-ARCH-012`, `EX-NFR-010`). La simulation expose des transitions d'état ; c'est ce moteur,
- * piloté par `HMI/Audio/SoundTriggers` (LOT-60 TACHE-03), qui décide qu'une transition fait du
- * bruit.
+ * (`EX-ARCH-012`, `EX-NFR-010`). Aujourd'hui, seul le volume de l'option Audio le règle : aucun
+ * son n'est encore livré.
  */
 class AudioEngine {
 public:
@@ -76,12 +75,12 @@ public:
     /**
      * @brief Précharge un échantillon sous un identifiant logique.
      *
-     * À appeler au démarrage pour chaque son du catalogue (`HMI/Audio/SoundCatalog`, TACHE-02) :
-     * `QSoundEffect` charge son fichier de façon asynchrone, jouer immédiatement après
+     * À appeler au démarrage pour chaque son à jouer : `QSoundEffect` charge son fichier de façon
+     * asynchrone, jouer immédiatement après
      * construction ne produit rien. Précharger ici, jamais au premier déclenchement. Prépare en
      * réalité `MAX_INSTANCES_PER_EVENT` échantillons identiques (une petite réserve), pour qu'un
      * même événement déclenché en rafale se recouvre sans s'interrompre lui-même de façon audible.
-     * @param id Identifiant logique (ex. "saut"). Un second appel avec le même identifiant
+     * @param id Identifiant logique (ex. "coup"). Un second appel avec le même identifiant
      *        remplace la réserve précédente.
      * @param file Chemin du fichier WAV. Un fichier absent ne fait pas échouer l'appel : la
      *        lecture ultérieure de cet identifiant restera silencieuse.
@@ -102,7 +101,7 @@ public:
 
 private:
     /// Nombre d'instances préchargées par événement — plafonne le recouvrement audible d'un même
-    /// son déclenché en rafale, sans l'empêcher complètement (`TACHE-02`).
+    /// son déclenché en rafale, sans l'empêcher complètement.
     static constexpr std::size_t MAX_INSTANCES_PER_EVENT = 3;
 
     struct Sample {

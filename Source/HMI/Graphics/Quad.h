@@ -22,8 +22,8 @@ namespace hmi {
  *
  * Le coin (`x`, `y`) est haut-gauche **avant rotation**, l'axe Y va vers le bas (convention du
  * projet). Les coordonnées de texture `u,v` sont normalisées dans [0, 1] ; la conversion depuis
- * une région d'atlas en pixels est faite en amont (par le rendu des sprites). `rotation` (radians,
- * `LOT-50` TACHE-02) tourne le rectangle autour de **son propre centre** — nul par défaut, donc
+ * une région d'atlas en pixels est faite en amont (par le rendu des sprites). `rotation` (radians)
+ * tourne le rectangle autour de **son propre centre** — nul par défaut, donc
  * sans coût ni différence visuelle pour les quads alignés aux axes (tuiles, personnage).
  */
 struct SpriteQuad {
@@ -47,7 +47,7 @@ struct SpriteQuad {
  *        (perpendiculaire au segment, unités monde) et une teinte.
  *
  * Contrairement à `SpriteQuad` (rectangle toujours aligné aux axes), ce quad peut être **orienté**
- * dans n'importe quelle direction — utilisé pour les liens de mécanismes (`LOT-37`, flèches
+ * dans n'importe quelle direction — utilisé pour les liens de mécanismes (flèches
  * déclencheur → cible). Mêmes conventions que `SpriteQuad` (Y vers le bas, UV normalisées).
  */
 struct LineQuad {

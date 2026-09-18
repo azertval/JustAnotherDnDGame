@@ -10,7 +10,7 @@
 
 /**
  * @file HMI/Editor/LevelBrowserPanel.h
- * @brief Panneau « Niveaux » : liste, recherche et gestion des fichiers de niveaux (LOT-36).
+ * @brief Panneau « Niveaux » : liste, recherche et gestion des fichiers de niveaux.
  */
 
 class QModelIndex;

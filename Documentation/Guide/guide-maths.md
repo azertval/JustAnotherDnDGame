@@ -1,7 +1,7 @@
 # Mathématiques du moteur {#guide-maths}
 
 Cette page redéfinit, sans présupposer de bagage en algèbre appliquée aux jeux vidéo, les quelques
-outils mathématiques dont dépend tout le reste du moteur : vecteurs, boîtes englobantes,
+outils mathématiques dont dépend tout le reste du moteur : vecteurs, rectangles alignés aux axes,
 conventions d'unités, comparaison de nombres flottants.
 
 Le moteur n'utilise **aucune** bibliothèque mathématique tierce dans `Core` (pas de DirectXMath, pas
@@ -15,8 +15,9 @@ Un **vecteur 2D** est simplement une paire de nombres `(x, y)`. Il sert à deux 
 selon le contexte, qu'il faut garder à l'esprit en lisant le code :
 
 - comme **position** : « où se trouve cette entité dans le monde ? » (`core::Transform::position`) ;
-- comme **direction/vitesse** : « dans quel sens et à quelle vitesse ce point bouge-t-il ? »
-  (`core::Velocity::value`), en unités monde **par seconde**.
+- comme **direction** : « dans quel sens le joueur veut-il aller ? »
+  (`core::ExplorationIntent::move`), qu'une vitesse en unités monde **par seconde** transforme en
+  déplacement.
 
 `core::Vector2` porte deux `float`, `x` et `y`, et fournit l'algèbre nécessaire :
 
@@ -28,17 +29,17 @@ selon le contexte, qu'il faut garder à l'esprit en lisant le code :
 - **produit scalaire** ([dot product](https://fr.wikipedia.org/wiki/Produit_scalaire) ⧉, méthode
   `dot`) : `a.dot(b) = a.x*b.x + a.y*b.y`. Géométriquement, ce nombre unique résume la relation
   entre deux directions : positif si elles pointent globalement dans le même sens, négatif si elles
-  s'opposent, nul si elles sont perpendiculaires. Ce moteur ne l'utilise pas encore activement en
-  dehors de l'algèbre de base, mais c'est l'opération fondamentale sur laquelle repose la plupart des
-  calculs d'angle et de projection en 2D/3D ;
+  s'opposent, nul si elles sont perpendiculaires. C'est l'opération fondamentale des calculs
+  d'angle et de projection — l'éditeur s'en sert pour mesurer la distance d'un clic à un lien du
+  graphe du monde (`HMI/Editor/WorldGraphLayout.cpp`) ;
 - **longueur** (`length`, [norme euclidienne](https://fr.wikipedia.org/wiki/Norme_euclidienne) ⧉) :
   la distance entre l'origine et le point `(x, y)`, calculée par le théorème de Pythagore :
   `sqrt(x*x + y*y)` ;
 - **normalisation** (`normalized`) : produit un vecteur de **même direction** mais de longueur
   exactement **1** (un « vecteur unitaire »), en divisant chaque composante par la longueur. Utile
   pour obtenir une direction pure, indépendante de la distance — par exemple normaliser l'intention
-  de dash 8 directions (@ref guide-physique, §4) garantit qu'une diagonale ne va pas plus vite
-  qu'un mouvement cardinal, alors que `(1, 1)` non normalisé a une longueur de `√2 ≈ 1,41`, soit 41 %
+  de déplacement (`core::ExplorationIntent::move`, de longueur au plus 1) garantit qu'une diagonale
+  ne va pas plus vite qu'un mouvement cardinal, alors que `(1, 1)` non normalisé a une longueur de `√2 ≈ 1,41`, soit 41 %
   plus rapide qu'attendu sans cette étape. Cas particulier : normaliser le vecteur nul (longueur
   quasi nulle) n'a pas de direction définie — `normalized()` renvoie alors le vecteur nul plutôt que
   de diviser par zéro.
@@ -62,38 +63,37 @@ l'arithmétique flottante accumule de minuscules erreurs d'arrondi : deux calcul
 différents au dernier bit. Comparer de tels résultats avec `==` strict échouerait de façon
 imprévisible et intermittente — un piège classique documenté plus bas.
 
-## \ref core::Aabb "Aabb" : la boîte englobante alignée aux axes
+## \ref core::Rect "Rect" : le rectangle aligné aux axes
 
 Une [AABB](https://en.wikipedia.org/wiki/Bounding_volume) ⧉ (*Axis-Aligned Bounding Box*, « boîte
-englobante alignée aux axes ») est la forme géométrique la plus simple pour représenter
-l'encombrement d'un objet : un **rectangle dont les côtés sont toujours parallèles aux axes X et
-Y** — jamais tourné. C'est un compromis délibéré : une boîte tournée ou une forme complexe (cercle,
-polygone) collerait mieux à la silhouette d'un sprite, mais coûterait bien plus cher à tester en
-collision (voir @ref guide-physique) pour un gain de précision inutile dans un plateformer où les
-niveaux sont eux-mêmes des grilles de tuiles alignées aux axes.
+englobante alignée aux axes ») est la forme géométrique la plus simple pour représenter une zone :
+un **rectangle dont les côtés sont toujours parallèles aux axes X et Y** — jamais tourné. C'est un
+compromis délibéré : une forme tournée ou complexe (cercle, polygone) serait bien plus chère à
+tester, pour un gain inutile dans un monde fait de grilles de tuiles alignées aux axes.
 
-`core::Aabb` décrit un rectangle par ses deux coins opposés :
-
-- `min` : le coin **haut-gauche** — les plus **petites** coordonnées `x` et `y` de la boîte ;
-- `max` : le coin **bas-droite** — les plus **grandes** coordonnées.
+`core::Rect` décrit un tel rectangle par son **coin haut-gauche** (`position`) et sa **taille**
+(`size`) ; `left()`, `right()`, `top()` et `bottom()` en donnent les bords :
 
 ```
-  (min.x, min.y) ┌──────────────┐
-                 │              │
-                 │     boîte    │
-                 │              │
-                 └──────────────┘ (max.x, max.y)
+  (left, top) ┌──────────────┐
+              │              │
+              │   rectangle  │
+              │              │
+              └──────────────┘ (right, bottom) = position + size
 ```
 
-En pratique, le code manipule souvent une entité par son coin haut-gauche (`core::Collider`
-combine une taille avec la position du `Transform`) plutôt que directement par `min`/`max` :
-`Aabb::fromTopLeftSize(topLeft, size)` construit la boîte correspondante (`max = topLeft + size`),
-évitant de refaire ce calcul — et l'erreur de signe qui va avec — à chaque site d'appel.
+Deux tests suffisent aux usages du moteur — la zone visible de la caméra
+(`hmi::Camera2D::visibleBounds`), l'emprise d'une tuile projetée (`core::IsoProjection`) :
+
+- `contains(point)` est **inclusif** en haut/à gauche et **exclusif** en bas/à droite, pour qu'une
+  grille de rectangles jointifs pave le plan sans recouvrement ni trou ;
+- `intersects(other)` exige une aire commune strictement positive : deux rectangles qui se
+  touchent seulement par un bord ne se recouvrent pas.
 
 ## Conventions d'unités et de repère
 
 Trois conventions, fixées une fois pour toutes et valables dans **tout** `Core`, expliquent la
-plupart des signes rencontrés dans le code de physique et de niveau :
+plupart des signes rencontrés dans le code de déplacement et de niveau :
 
 - **Une tuile = une unité monde.** Les positions, tailles et vitesses sont exprimées en
   « unités monde » (ou « unités par seconde » pour les vitesses), **jamais en pixels** à l'intérieur
@@ -104,10 +104,8 @@ plupart des signes rencontrés dans le code de physique et de niveau :
 - **Origine en haut-gauche, `y` vers le bas** (`EX-ARCH-020`) — la convention standard de
   l'affichage écran (héritée du sens de balayage d'un moniteur, ligne du haut en premier), à
   l'opposé de la convention mathématique habituelle où `y` monte. Conséquence directe et
-  contre-intuitive pour qui découvre ce domaine : « monter » correspond à une coordonnée `y` qui
-  **diminue**, et la gravité (qui tire vers le bas) est une accélération en `y` **positif**. Toute
-  la physique du personnage (@ref guide-physique) découle de cette convention — s'y référer dès
-  qu'un signe surprend.
+  contre-intuitive pour qui découvre ce domaine : « monter » (aller vers le nord de la carte)
+  correspond à une coordonnée `y` qui **diminue** — s'y référer dès qu'un signe surprend.
 - **Angles en radians**, pas en degrés (`Transform::rotation`) — la convention native des fonctions
   trigonométriques du C++ standard (`std::sin`, `std::cos`, …), qui évite une conversion à chaque
   appel.
@@ -134,6 +132,6 @@ composante par composante, et celle que les tests du moteur utilisent systémati
 comparer des résultats de calcul flottant plutôt qu'un `==` direct.
 
 ## Voir aussi
-- `core::Vector2`, `core::Aabb`, `core::Rect`, `core::approximatelyEqual`.
-- @ref guide-physique — usage concret de `Vector2` et `Aabb` dans la simulation.
-- @ref guide-ecs — `Transform`/`Velocity`, les composants qui portent ces types.
+- `core::Vector2`, `core::Rect`, `core::approximatelyEqual`.
+- @ref guide-ecs — `Transform`, le composant qui porte ces types.
+- @ref guide-rendu — la conversion des unités monde en pixels.

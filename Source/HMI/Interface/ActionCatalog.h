@@ -12,8 +12,7 @@
 
 /**
  * @file HMI/Interface/ActionCatalog.h
- * @brief Catalogue des actions de l'éditeur : outils et commandes principales (`LOT-56` TACHE-04,
- *        `EX-IHM-055`).
+ * @brief Catalogue des actions de l'éditeur : outils et commandes principales (`EX-IHM-055`).
  *
  * Logique **pure** (aucune dépendance Qt/GPU), testable hors instance d'application
  * (`EX-NFR-010`) — compilée à la fois dans `JustAnotherRpgGame` et directement dans `UnitTests`. La
@@ -27,7 +26,7 @@ namespace hmi {
 /// (un seul actif à la fois) ; les commandes n'appartiennent à aucun groupe.
 enum class EditorActionGroup { None, LevelTools };
 
-/// Surface d'une action (`LOT-68`, `EX-IHM-074`). `EX-IHM-055` posait qu'une commande placée à
+/// Surface d'une action (`EX-IHM-074`). `EX-IHM-055` posait qu'une commande placée à
 /// plusieurs endroits reste une seule définition ; il restait à arbitrer **lesquelles** méritent
 /// une place permanente à l'écran.
 ///
@@ -54,21 +53,18 @@ struct EditorActionSpec {
     ActionSurface surface;
 };
 
-/// Nombre total d'actions du catalogue (six outils de niveau, cinq outils de canevas pixel art,
-/// onze commandes principales, quatre commandes de fichier de l'atelier, quatre commandes de
-/// région de l'atelier).
+/// Nombre total d'actions du catalogue (quatre outils de carte, dix commandes).
 constexpr int EDITOR_ACTION_CATALOG_COUNT = 14;
 
-/// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les huit
-///         outils de niveau (ordre de la palette/du panneau Outils historique), les outils
-///         de canevas pixel art (`LOT-54` TACHE-04), puis les commandes.
+/// @return Le catalogue complet, dans l'ordre d'affichage voulu de la barre d'outils : les
+///         outils de carte (ordre de la palette), puis les commandes.
 [[nodiscard]] const std::array<EditorActionSpec, EDITOR_ACTION_CATALOG_COUNT>&
 editorActionCatalog();
 
 /// @return La spécification de l'action @p id.
 [[nodiscard]] const EditorActionSpec& editorActionSpec(IconId id);
 
-/// Nombre d'actions **hors sélection d'outil** admises dans une barre d'outils (`LOT-68`). Sert de
+/// Nombre d'actions **hors sélection d'outil** admises dans une barre d'outils. Sert de
 /// plafond vérifié par test : c'est le nombre au-delà duquel la barre redevient le fourre-tout que
 /// ce lot supprime, et un plafond qu'on relève sans y penser ne protège de rien.
 constexpr int TOOLBAR_COMMAND_BUDGET = 5;
@@ -83,7 +79,7 @@ constexpr int TOOLBAR_COMMAND_BUDGET = 5;
 /**
  * @brief Correspondance entre une action d'éditeur remappable (`hmi::EditorAction`,
  *        `EditorKeyBindings.h`) et l'identifiant d'action du catalogue qui la rend effective
- *        (`LOT-57` TACHE-04, `EX-IHM-062`).
+ *        (`EX-IHM-062`).
  */
 struct KeyBindingIconEntry {
     EditorAction action;

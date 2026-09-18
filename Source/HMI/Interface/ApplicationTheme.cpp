@@ -51,7 +51,7 @@ void setCommonRoles(QPalette& palette, QPalette::ColorGroup group, const ColorTo
     palette.setColor(group, QPalette::Highlight, toQColor(color.accent));
     // Texte de sélection lu sur l'accent : noir ou blanc, celui des deux qui contraste le mieux
     // avec l'accent -- fonctionne aussi bien pour l'accent clair du thème sombre que pour l'accent
-    // assombri du thème clair (LOT-56 TACHE-06), sans étude de cas par thème.
+    // assombri du thème clair, sans étude de cas par thème.
     constexpr DesignColor BLACK{.r = 0, .g = 0, .b = 0};
     constexpr DesignColor WHITE{.r = 255, .g = 255, .b = 255};
     const DesignColor highlightedText =
@@ -127,7 +127,7 @@ ResolvedFamilies& resolvedFamilies() {
     return families;
 }
 
-// Facteur d'agrandissement courant des ecrans du jeu (LOT-68). Meme raison d'etre que les familles
+// Facteur d'agrandissement courant des ecrans du jeu. Meme raison d'etre que les familles
 // resolues ci-dessus : buildStyleSheetValues est pur et ne connait pas la fenetre.
 int& identityScaleState() {
     static int scale = 1;
@@ -211,7 +211,7 @@ namespace {
 }  // namespace
 
 void applyStyleSheet(const DesignTokens& editorTokens) {
-    // PORTEE APPLICATION : le chassis d'edition SEUL (LOT-73, EX-IHM-082). La portee identite est
+    // PORTEE APPLICATION : le chassis d'edition SEUL (EX-IHM-082). La portee identite est
     // posee a part sur la pile d'ecrans par MainWindow -- l'y laisser faisait payer un rejeu
     // applicatif complet (862 widgets, cinq secondes en Debug) au moindre changement de facteur
     // d'agrandissement, qui ne concerne pourtant que les ecrans du jeu.
@@ -227,7 +227,7 @@ void applyFont() {
     const std::filesystem::path fonts = executableDirectory() / "Assets" / "Fonts";
     ResolvedFamilies& families = resolvedFamilies();
     families.ui = registerFamily(fonts / "Inter-Regular.ttf", fonts / "Inter-Bold.ttf");
-    // Portee identite (LOT-68) : corps en Pixelify Sans, titres en Press Start 2P. Les deux sont
+    // Portee identite : corps en Pixelify Sans, titres en Press Start 2P. Les deux sont
     // enregistrees independamment -- l'echec de l'une n'entraine pas l'autre.
     families.identityBody =
         registerFamily(fonts / "PixelifySans-Regular.ttf", fonts / "PixelifySans-Bold.ttf");

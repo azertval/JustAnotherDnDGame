@@ -51,7 +51,7 @@ enum class TileType {
 
 /**
  * @brief Nombre de valeurs de `core::TileType` — **seule** source de vérité de la fin de
- *        l'énumération (`LOT-74` TACHE-02).
+ *        l'énumération.
  *
  * Ajouter un type ne demande rien d'autre que de l'ajouter ci-dessus, **avant** le dernier
  * énumérateur : cette constante suit, et ses consommateurs avec elle. L'ajouter en **fin** de

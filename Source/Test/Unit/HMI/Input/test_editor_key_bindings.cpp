@@ -158,7 +158,7 @@ TEST(EditorKeyBindingsTest, SavePreserveLaSectionJeu) {
 
 /**
  * @brief Sauvegarder les touches d'éditeur préserve une section « manette » déjà présente
- *        (symétrique de `SavePreserveLaSectionJeu`, LOT-57 TACHE-04).
+ *        (symétrique de `SavePreserveLaSectionJeu`).
  * \castest{<b>Sauvegarder les touches d'editeur preserve une section manette deja
  * presente.</b><br/> \tcat Unitaire · Editor Key Bindings<br/> \tcrit Majeur<br/> \tetapes 1.
  * Ecrire un fichier avec une section manette.<br/>2. Sauvegarder des touches d'editeur

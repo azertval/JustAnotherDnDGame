@@ -3,7 +3,7 @@
 
 /**
  * @file test_rhi_offscreen.cpp
- * @brief Non-régression **visuelle** du portage QRhi (LOT-69 TACHE-02, `EX-REN-050`,
+ * @brief Non-régression **visuelle** du portage QRhi (`EX-REN-050`,
  *        `EX-ARCH-022`) : rendu **hors écran** d'un motif témoin, relu pixel par pixel.
  *
  * C'est le seul test qui protège vraiment l'objectif du portage. Le risque dominant du lot est

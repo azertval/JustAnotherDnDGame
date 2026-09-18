@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>EditorMainWindow</class>
- <!-- Chassis de l'editeur (LOT-68, EX-IHM-073/EX-IHM-074).
+ <!-- Chassis de l'editeur (EX-IHM-073/EX-IHM-074).
 
       La barre de menus est organisee PAR NATURE D'ACTION (fichier, edition, carte, affichage,
       aide). Les reglages nombreux et homogenes (panneaux, theme) sont regroupes en SOUS-MENUS.

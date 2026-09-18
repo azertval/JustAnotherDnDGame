@@ -190,8 +190,8 @@ TEST(LocalizationTest, CatalogueFrancaisLivreSeCharge) {
 }
 
 /**
- * @brief Les deux catalogues livrés déclarent **exactement** les mêmes clés (`LOT-73`,
- *        `EX-REN-033`).
+ * @brief Les deux catalogues livrés déclarent **exactement** les mêmes clés
+ *        (`EX-REN-033`).
  *
  * Une clé ajoutée d'un seul côté ne casse rien de visible : `Localization::text` replie sur la
  * langue par défaut, et l'interface s'affiche — en français au milieu d'un écran anglais. Le

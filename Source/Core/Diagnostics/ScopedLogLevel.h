@@ -19,16 +19,14 @@ namespace core {
  *
  * N'assouplit jamais un niveau déjà plus strict que @p floor : un utilisateur qui a explicitement
  * demandé `--log-level=error` reste à `error` même à l'intérieur d'une portée qui ne demande que
- * `warning`. Sert notamment à faire taire les traces de cycle de vie (chargement de niveau,
- * déclenchement de mécanisme…) pendant une simulation IA headless (`HeadlessLevelEnvironment`),
- * rejouée des milliers de fois par entraînement/évaluation — un volume de journalisation sans
- * rapport avec une partie réelle, qui ralentit l'entraînement pour rien (`LOT-ANNEXE-21`).
+ * `warning`. Sert à faire taire les traces de cycle de vie (chargement de carte, ouverture d'un
+ * catalogue…) pendant un traitement répété sans joueur — un volume de journalisation sans rapport
+ * avec une partie réelle, qui ralentit le traitement pour rien.
  *
  * **Réentrant et sûr entre fils** : la comptabilité vit dans le `Logger`
  * (`beginLevelElevation`/`endLevelElevation`), pas dans chaque objet de portée. Deux portées qui se
- * chevauchent — l'écran Mode IA peut faire tourner un entraînement et une évaluation en même
- * temps, chacun sur son fil — restauraient sinon le niveau que la première avait relevé, laissant
- * le journal muet pour le reste de la session.
+ * chevauchent — deux traitements lancés chacun sur son fil — restauraient sinon le niveau que la
+ * première avait relevé, laissant le journal muet pour le reste de la session.
  */
 class ScopedLogLevel {
 public:

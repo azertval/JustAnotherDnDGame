@@ -20,10 +20,9 @@ namespace core {
  * @brief Convertit un type de tuile en son nom textuel.
  *
  * Point unique de vérité de la correspondance type ↔ nom, partagé par le format de niveau
- * (`core::LevelWriter`, `core::LevelLoader`) et par les configurations de présentation qui
- * désignent des types de tuiles (`hmi::SkinCatalog`, `EX-EDIT-042`). Deux tables distinctes
- * divergeraient au premier type ajouté : un niveau écrit avec un nom qu'un autre lecteur ne
- * reconnaîtrait pas.
+ * (`core::LevelWriter`, `core::LevelLoader`) et par les messages qui nomment un type de tuile.
+ * Deux tables distinctes divergeraient au premier type ajouté : un niveau écrit avec un nom qu'un
+ * autre lecteur ne reconnaîtrait pas.
  *
  * Le `switch` est **exhaustif et sans `default`** : ajouter une valeur à `core::TileType` sans
  * lui donner de nom devient une erreur de compilation (`/W4 /WX`), et non un nom silencieusement

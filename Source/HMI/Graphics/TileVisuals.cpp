@@ -41,15 +41,4 @@ core::AtlasRegion regionForTile(core::TileType type) {
     return TextureAtlas::tile(0, 0);
 }
 
-// Cherche la surcharge de texture assignee a une case precise (EX-EDIT-043, LOT-45).
-std::optional<std::string> textureOverrideAt(
-    const std::vector<core::TileTextureOverride>& overrides, core::GridPosition position) {
-    for (const core::TileTextureOverride& override : overrides) {
-        if (override.position == position) {
-            return override.assetName;
-        }
-    }
-    return std::nullopt;
-}
-
 }  // namespace hmi

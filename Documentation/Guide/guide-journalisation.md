@@ -63,10 +63,12 @@ transiter une référence de `Logger` à travers tout le code applicatif.
 ## Les sinks : où finissent les messages
 
 Un **sink** (« puits », au sens d'un point de destination) implémente l'interface `core::ILogSink`
-— une seule méthode, `write(level, message)`. Deux implémentations existent :
+— une seule méthode, `write(level, message)`. Trois implémentations existent :
 
 - `core::ConsoleLogSink` : écrit sur la sortie standard et, sous Windows, vers le débogueur (visible
   par exemple dans la fenêtre de sortie de Visual Studio même sans console ouverte) ;
+- `core::FileLogSink` : écrit chaque ligne dans un fichier sur disque (dossier parent créé au
+  besoin) ;
 - `core::MemoryLogSink` : ne fait **aucune** entrée-sortie — il **mémorise** les messages reçus dans
   un vecteur, consultable via `entries()`. Deux usages distincts en pratique : dans les **tests**
   automatisés, vérifier qu'un message précis a bien été journalisé sans dépendre d'un fichier ou
@@ -75,8 +77,8 @@ Un **sink** (« puits », au sens d'un point de destination) implémente l'inter
   d'ouvrir une console au préalable).
 
 Comme le `Logger` **possède** ses sinks (`std::unique_ptr`, RAII), ajouter un nouveau type de
-destination (par exemple, plus tard, un fichier sur disque) revient à écrire une nouvelle classe
-implémentant `ILogSink`, sans toucher au `Logger` ni au code qui journalise.
+destination revient à écrire une nouvelle classe implémentant `ILogSink`, sans toucher au `Logger`
+ni au code qui journalise.
 
 ## Les macros de journalisation, par catégorie
 
@@ -110,14 +112,13 @@ raccourcis — le **modèle** à dupliquer pour un nouveau module est `HMI/HmiLo
 #define HMI_LOG_ERROR(message)   JADG_LOG_ERROR("HMI", message)
 ```
 
-`Core/CoreLog.h` (catégorie `"Core"`), `Core/Ecs/EcsLog.h` (`"Ecs"`), `Core/Gameplay/GameplayLog.h`
-(`"Gameplay"`), `Core/Levels/LevelsLog.h` (`"Levels"`), `HMI/Graphics/GraphicsLog.h` (`"Graphics"`),
-`HMI/Platform/PlatformLog.h` (`"Platform"`) et `HMI/Editor/EditorLog.h` (`"Editor"`) suivent
-exactement le même modèle. La **catégorie** apparaît ensuite dans chaque ligne journalisée (voir le
-format ci-dessous), ce qui permet, en lisant un journal, de savoir immédiatement quel sous-système a
+`Core/CoreLog.h` (catégorie `"Core"`), `Core/Ecs/EcsLog.h` (`"Ecs"`), `Core/Levels/LevelsLog.h`
+(`"Levels"`), `HMI/Graphics/GraphicsLog.h` (`"Graphics"`) et `HMI/Audio/AudioLog.h` (`"Audio"`)
+suivent exactement le même modèle. La **catégorie** apparaît ensuite dans chaque ligne journalisée
+(voir le format ci-dessous), ce qui permet, en lisant un journal, de savoir immédiatement quel sous-système a
 émis un message donné — utile dès qu'un jeu grandit au-delà de quelques fichiers, et pour filtrer un
 journal verbeux en ne gardant que la catégorie qui intéresse un diagnostic précis (par exemple
-`grep "\[Gameplay\]"` pour ne voir que les bascules de mécanismes).
+`grep "\[Levels\]"` pour ne voir que les chargements de cartes).
 
 ### Une règle de performance à respecter
 
@@ -154,7 +155,8 @@ Deux détails valent d'être notés :
 Le niveau minimal du `Logger` n'est pas figé dans le code : `core::parseLogLevel(text)`
 (`Core/Diagnostics/LogLevelParse.h`) convertit une chaîne (« trace », « info », « warning »/« warn »,
 « error », insensible à la casse) en `LogLevel`, ce qui permet de le régler **au lancement** sans
-recompiler. Dans ce moteur (`Source/HMI/Main.cpp`), deux sources sont acceptées, avec priorité à la
+recompiler. Dans ce moteur (`app::installLogging`, `Source/App/Common/Bootstrap.cpp`, partagé par le jeu et
+l'éditeur), deux sources sont acceptées, avec priorité à la
 seconde si les deux sont présentes :
 
 1. la variable d'environnement `JADG_LOG_LEVEL` ;
@@ -166,20 +168,21 @@ jeu pour une simple faute de frappe dans un paramètre de diagnostic.
 
 ### Bootstrap réel : sinks différents en développement et en Release
 
-`main()` illustre bien pourquoi séparer `Logger` (filtrage) et sinks (destination) est utile en
-pratique : en build de **développement** (`core::kDeveloperBuild`, dérivé de `NDEBUG`), un
+`app::installLogging` illustre bien pourquoi séparer `Logger` (filtrage) et sinks (destination) est
+utile en pratique : en build de **développement** (`core::DEVELOPER_BUILD`, dérivé de `NDEBUG`), un
 `ConsoleLogSink` **et** un `MemoryLogSink` sont enregistrés (le second alimentant le bouton
-d'enregistrement de session évoqué plus haut) ; en **Release**, **aucun** sink n'est ajouté —
-l'exécutable Release n'a pas de console (sous-système Windows pur) et il serait inutile de faire
-grandir indéfiniment un tampon mémoire qu'aucune interface de développement n'exploite. Le code qui
-journalise, lui, reste **identique** dans les deux configurations : `HMI_LOG_INFO("Demarrage...")`
-s'exécute pareil des deux côtés — c'est le nombre de sinks enregistrés, décidé une fois au
-démarrage, qui change ce qu'il en advient.
+d'enregistrement de session évoqué plus haut) ; dans **les deux** configurations, un
+`FileLogSink` écrit un fichier horodaté par lancement (`Logs/run_<date>_<heure>.log`, à côté de
+l'exécutable) — un crash n'écrase jamais les preuves du lancement précédent. L'exécutable Release
+n'a pas de console (sous-système Windows pur) et il serait inutile d'y faire grandir un tampon
+mémoire. Le code qui journalise, lui, reste **identique** dans les deux configurations :
+`HMI_LOG_INFO("Demarrage...")` s'exécute pareil des deux côtés — c'est le nombre de sinks
+enregistrés, décidé une fois au démarrage, qui change ce qu'il en advient.
 
 Le `MemoryLogSink` (`Core`) collecte ces entrées en mémoire en build développement ; les écrire sur
-disque relève de la couche présentation. L'onglet **Général** de la page Options Qt expose un bouton
-**« Enregistrer les journaux »** : `hmi::saveSessionLog` (`Source/HMI/Diagnostics/SessionLog.h`,
-logique pure testée) sérialise `MemoryLogSink::entries()` dans un fichier horodaté (`Logs/`), sans
+disque relève de la couche présentation. L'écran **Options** du jeu expose un bouton **«
+Enregistrer les journaux »** : `hmi::OptionsModel::saveLogs` sérialise `MemoryLogSink::entries()`,
+niveau en tête de chaque ligne, dans un fichier horodaté (`Logs/session_<date>_<heure>.log`), sans
 toucher à ce que `Core` a déjà collecté. En Release, aucun sink mémoire n'est enregistré : le bouton
 signale simplement des journaux indisponibles.
 
@@ -204,7 +207,7 @@ Deux différences fondamentales avec la journalisation :
   personnalisé — utile en test, pour vérifier qu'une fonction **déclenche bien** une assertion sur
   une entrée invalide, sans faire planter la suite de tests elle-même.
 
-En résumé : **journaliser** un événement (« le niveau 3 a été chargé ») documente un fait pour un
+En résumé : **journaliser** un événement (« la carte du Colisée a été chargée ») documente un fait pour un
 humain qui lira le journal plus tard ; **asserter** une condition (« cette entité doit être vivante
 ici ») protège contre un bug du code, et n'a de sens qu'en développement.
 

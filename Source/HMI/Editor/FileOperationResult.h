@@ -22,9 +22,8 @@ namespace hmi {
  * @brief Succès (avec le chemin résultant) ou échec (avec un message lisible).
  *
  * Ne lève jamais d'exception (`EX-NFR-040`) : l'échec est une valeur, pas un incident. Expose
- * `ok()` en **méthode**, comme `core::LevelLoadResult`, `core::LevelSequenceLoadResult`,
- * `hmi::SoundCatalogResult` — un lecteur qui écrit `result.ok()` ne doit
- * pas avoir à se souvenir duquel des cinq types il parle.
+ * `ok()` en **méthode**, comme `core::LevelLoadResult` ou `hmi::AnimationDescriptionResult` — un
+ * lecteur qui écrit `result.ok()` ne doit pas avoir à se souvenir duquel de ces types il parle.
  */
 struct FileOperationResult {
     bool succeeded = false;

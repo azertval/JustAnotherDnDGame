@@ -151,18 +151,18 @@ TEST(TriParProfondeurTest, QuantificationAuPixel) {
 
 /**
  * @brief Les bandes restent hiérarchisées : la profondeur ne fait jamais passer un objet devant
- * un plan de premier plan, ni sous les tuiles (`EX-REN-014`).
+ * l'interface, ni sous les tuiles (`EX-REN-014`).
  * \castest{<b>La profondeur ne deborde pas de sa bande.</b><br/>
  * \tcat Unitaire · Tri par profondeur<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Composer une tuile, un objet tres bas, un plan de premier plan tres haut.<br/>2.
+ * \tetapes 1. Composer une tuile, un objet tres bas, un element d'interface tres haut.<br/>2.
  * Trier.<br/>
- * \tattendu La tuile sort en premier, l'objet ensuite, le premier plan en dernier.
+ * \tattendu La tuile sort en premier, l'objet ensuite, l'interface en dernier.
  * }
  */
 TEST(TriParProfondeurTest, LaProfondeurNeDebordePasDeSaBande) {
     hmi::ComposedScene scene;
-    scene.addSprite(hmi::RenderLayer::Foreground, textureA, hmi::depthSortOrder(0.0f),
+    scene.addSprite(hmi::RenderLayer::UI, textureA, hmi::depthSortOrder(0.0f),
                     quadWithFoot(0.0f, 0.0f));
     scene.addSprite(hmi::RenderLayer::Object, textureA, hmi::depthSortOrder(99.0f),
                     quadWithFoot(1.0f, 99.0f));
@@ -175,7 +175,7 @@ TEST(TriParProfondeurTest, LaProfondeurNeDebordePasDeSaBande) {
     ASSERT_EQ(scene.size(), 3u);
     EXPECT_EQ(scene.quads()[0].layer, hmi::RenderLayer::Tile);
     EXPECT_EQ(scene.quads()[1].layer, hmi::RenderLayer::Object);
-    EXPECT_EQ(scene.quads()[2].layer, hmi::RenderLayer::Foreground);
+    EXPECT_EQ(scene.quads()[2].layer, hmi::RenderLayer::UI);
     EXPECT_TRUE(recorder.isLayerOrderRespected()) << recorder.describe();
 }
 

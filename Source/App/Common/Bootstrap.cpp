@@ -121,7 +121,7 @@ core::MemoryLogSink* installLogging(int argc, char** argv, std::string_view appl
         HMI_LOG_WARNING("Niveau de log fourni invalide : valeur ignoree.");
     }
     // Version du binaire et de Qt contre lequel il a ete compile (QT_VERSION_STR, fourni par les
-    // en-tetes Qt) : capture dans le journal de session (LOT-61) pour qu'un rapport de defaut dise
+    // en-tetes Qt) : capture dans le journal de session pour qu'un rapport de defaut dise
     // contre quel Qt le binaire signale a ete construit, sans dependre d'une reproduction locale.
     HMI_LOG_INFO(name + " " + core::Engine::version() + " (compile avec Qt " + QT_VERSION_STR +
                  ").");

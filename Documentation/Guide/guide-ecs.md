@@ -10,14 +10,15 @@ Dans un moteur orienté objet « classique », on modéliserait naturellement un
 classe `Character` héritant de `GameObject`, avec des méthodes comme `update()`, `render()`,
 `takeDamage()`. Très vite, ce modèle par héritage devient un obstacle dans un jeu :
 
-- un `Player` a besoin de physique, de rendu, d'entrée ; un `Switch` (interrupteur de niveau) a
-  besoin de physique et de rendu mais pas d'entrée ; une plateforme mobile a besoin de physique
-  mais ni rendu animé ni entrée. L'héritage simple ne capture pas ces combinaisons : on finit avec
-  une hiérarchie de classes profonde, ou des interfaces vides à implémenter « pour la forme » ;
-- ajouter un comportement à une seule sorte d'objet (par exemple, rendre les interrupteurs
+- un PNJ a besoin d'une position, d'un visuel, d'une fiche de personnage et d'être sollicitable ;
+  un coffre a besoin d'une position, d'un visuel et d'être sollicitable, mais pas de fiche ; un
+  décor animé n'a besoin que d'une position et d'un visuel. L'héritage simple ne capture pas ces
+  combinaisons : on finit avec une hiérarchie de classes profonde, ou des interfaces vides à
+  implémenter « pour la forme » ;
+- ajouter un comportement à une seule sorte d'objet (par exemple, rendre les coffres
   destructibles) oblige à modifier une classe existante ou à multiplier les sous-classes ;
-- itérer sur « tous les objets qui bougent » demande de parcourir des objets hétérogènes en testant
-  leur type dynamiquement, ce qui est lent et fragile.
+- itérer sur « tous les objets sollicitables » demande de parcourir des objets hétérogènes en
+  testant leur type dynamiquement, ce qui est lent et fragile.
 
 L'ECS répond en **séparant radicalement** trois notions que l'orienté objet mélange dans une seule
 classe :
@@ -25,17 +26,17 @@ classe :
 - **Entité** : juste un **identifiant**. Aucune donnée, aucun comportement — un numéro qui désigne
   « une chose qui existe dans le monde ».
 - **Composant** : une **donnée pure**, sans aucune méthode de logique (`EX-ARCH-011`) — par exemple
-  une position (`core::Transform`), une vitesse (`core::Velocity`), une boîte de collision
-  (`core::Collider`), un visuel (`core::Sprite`), ou un simple marqueur « ceci est le joueur »
-  (`core::Player`). Un composant répond à la question « **quelle donnée** ? », jamais « que fait
-  cette donnée ? ».
+  une position (`core::Transform`), un visuel (`core::Sprite`), un état d'animation
+  (`core::Animation`), une cible d'interaction (`core::Interactable`) ou le lien vers une fiche de
+  personnage (`core::RpgActor`). Un composant répond à la question « **quelle donnée** ? », jamais
+  « que fait cette donnée ? ».
 - **Système** : la **logique**, qui parcourt toutes les entités possédant un certain ensemble de
-  composants et les fait évoluer — par exemple `core::CharacterPhysicsSystem` (physique du
-  personnage) ou `core::MovementSystem` (applique une vitesse à une position).
+  composants et les fait évoluer — par exemple une logique qui désigne, parmi les entités
+  `Interactable`, celle que le personnage vise.
 
-Un « personnage joueur » n'est alors qu'une entité qui **possède** les composants `Transform`,
-`Velocity`, `Collider`, `Sprite` et `Player` — une **combinaison** de données, pas une classe dédiée.
-Un interrupteur est une entité avec `Transform`, `Collider`, `Sprite` mais sans `Player`. Ajouter un
+Un PNJ n'est alors qu'une entité qui **possède** les composants `Transform`, `Sprite`,
+`Interactable` et `RpgActor` — une **combinaison** de données, pas une classe dédiée. Un coffre est
+une entité avec `Transform`, `Sprite` et `Interactable`, mais sans `RpgActor`. Ajouter un
 comportement à un sous-ensemble d'entités revient à écrire un nouveau système qui parcourt les
 composants pertinents, sans toucher au reste. La règle d'or à retenir : **les données vivent dans
 les composants, la logique vit dans les systèmes** ; un composant ne contient jamais de
@@ -59,7 +60,7 @@ Une entité (`core::Entity`) est un **handle générationnel** : une paire `{ind
   les données d'une entité sans rapport.
 
 Une entité, à elle seule, ne « fait » rien : elle ne devient un personnage, un décor ou un
-interrupteur que par les composants qu'on lui attache.
+coffre que par les composants qu'on lui attache.
 
 ## Le \ref core::World "World"
 
@@ -124,14 +125,14 @@ ordre, ce n'est jamais un problème.
 
 ### Exemple pas à pas
 
-Imaginons trois entités `A`, `B`, `C` ayant chacune un composant `Velocity`, dans cet ordre
-d'insertion : dense = `[Va, Vb, Vc]`, entités = `[A, B, C]`. On retire le composant de `B`
+Imaginons trois entités `A`, `B`, `C` ayant chacune un composant `Interactable`, dans cet ordre
+d'insertion : dense = `[Ia, Ib, Ic]`, entités = `[A, B, C]`. On retire le composant de `B`
 (position 1) :
 
 1. `removed = 1`, `last = 2` ;
-2. `_components[1] = _components[2]` → dense devient `[Va, Vc, Vc]` ; `_entities[1] = C` ;
+2. `_components[1] = _components[2]` → dense devient `[Ia, Ic, Ic]` ; `_entities[1] = C` ;
 3. le tableau creux de `C` est mis à jour : il pointe maintenant vers la position 1 ;
-4. `pop_back()` → dense final = `[Va, Vc]`, entités = `[A, C]`.
+4. `pop_back()` → dense final = `[Ia, Ic]`, entités = `[A, C]`.
 
 `C` a « pris la place » de `B` dans le tableau dense — l'itération reste dense et rapide, et
 `get(C)` continue de fonctionner grâce au tableau creux mis à jour.
@@ -144,7 +145,8 @@ d'insertion : dense = `[Va, Vb, Vc]`, entités = `[A, B, C]`. On retire le compo
 ## Les vues : core::View<Components...>
 
 Un système a typiquement besoin d'itérer sur « toutes les entités qui ont **à la fois** tel et tel
-composant » (par exemple `Transform` **et** `Velocity` pour un déplacement). `World::view<A,
+composant » (par exemple `Transform` **et** `Interactable` pour les objets sollicitables posés sur
+la carte). `World::view<A,
 B, …>()` construit une `core::View` qui **joint** les pools demandées et n'expose que
 l'**intersection** — les entités présentes dans **toutes**.
 
@@ -158,17 +160,16 @@ opérande.
 Deux syntaxes équivalentes :
 
 ```cpp
-for (auto [entity, transform, velocity] : world.view<Transform, Velocity>()) {
-    transform.position += velocity.value * dt;
+for (auto [entity, transform, sprite] : world.view<Transform, Sprite>()) {
+    transform.scale = {2.0f, 2.0f};
 }
 
 // équivalent, forme fonctionnelle :
-world.view<Transform, Velocity>().each(
-    [dt](core::Entity, core::Transform& t, core::Velocity& v) { t.position += v.value * dt; });
+world.view<Transform, Sprite>().each(
+    [](core::Entity, core::Transform& t, core::Sprite&) { t.scale = {2.0f, 2.0f}; });
 ```
 
-C'est **exactement** le motif de tous les systèmes du moteur : une vue, une lambda, la logique de
-mise à jour. `core::MovementSystem` n'est rien de plus qu'une enveloppe autour de cet exemple.
+C'est **exactement** le motif d'un système : une vue, une lambda, la logique de mise à jour.
 
 > ⚠️ Contrat d'itération : à l'intérieur d'un `each` ou d'une boucle sur une vue, on ne modifie que
 > la **valeur** des composants obtenus. Ajouter/retirer un composant ou détruire une entité
@@ -182,25 +183,19 @@ mise à jour. `core::MovementSystem` n'est rien de plus qu'une enveloppe autour 
 exécute **tous** les systèmes enregistrés, **dans l'ordre d'enregistrement**, une fois par pas de
 temps fixe (@ref guide-boucle). Cet ordre est significatif et fait partie du contrat de
 déterminisme (`EX-NFR-002`) : deux systèmes qui lisent et écrivent les mêmes composants doivent
-s'exécuter dans un ordre stable pour produire toujours le même résultat (voir l'« ordre d'un pas »
-détaillé dans @ref guide-physique pour un exemple concret à l'intérieur d'un seul système).
+s'exécuter dans un ordre stable pour produire toujours le même résultat.
 
-Certains systèmes (comme `core::CharacterPhysicsSystem`) ont besoin de données supplémentaires que
-l'`ISystem` générique ne transporte pas (la grille de collision, l'intention d'entrée) : ils
-exposent alors leur propre méthode `update(...)` avec une signature dédiée, appelée directement par
-l'orchestration plutôt que via le mécanisme générique `addSystem`/`World::update`. Dans les deux
-cas, le principe reste identique : la logique parcourt des vues et modifie des composants.
-
-`core::AnimationSystem` (LOT-18) illustre concrètement pourquoi l'ordre compte : il lit
-`Player::grounded`, calculé par `CharacterPhysicsSystem` pour dériver le clip d'animation actif
-(repos/course/saut). `hmi::GameSession::update` l'appelle donc **après** la physique, dans le même
-pas — l'inverser lirait l'état du pas précédent (décalage d'une frame). C'est aussi un exemple de
-système qui ne **modifie aucun état de simulation** au sens strict (position, vitesse) : il ne fait
-que projeter un état déjà déterminé (`Player`/`Velocity`) vers un état de présentation
-(`core::Animation`), consommé ensuite par `HMI` pour choisir la bonne région d'atlas
-(@ref guide-rendu).
+Aucun système n'est enregistré aujourd'hui : le mécanisme est en place, mais la logique qui
+existe n'en a pas eu besoin. Le monde se peuple par `core::spawnMapEntities`, qui crée **une
+entité par objet** de la couche `objects` d'une carte — un `Transform` à sa case, et un
+`Interactable` si son type figure dans `core::knownInteractableKinds` (coffre, panneau, PNJ…).
+Une logique qui a besoin de données que l'`ISystem` générique ne transporte pas (la grille de la
+carte, l'orientation du personnage, les drapeaux de monde) prend alors la forme d'une **fonction
+libre** à signature dédiée, comme `core::findInteractionTarget`. Le principe reste identique : la
+logique lit des composants et n'en garde aucun état.
 
 ## Voir aussi
 - `core::World`, `core::Entity`, `core::EntityManager`, `core::ComponentPool`, `core::View`.
-- `core::ISystem`, `core::MovementSystem`, `core::CharacterPhysicsSystem`, `core::AnimationSystem`.
-- @ref guide-physique (le système de physique), @ref guide-maths (les types de données des composants).
+- `core::ISystem`, `core::spawnMapEntities`, `core::findInteractionTarget`.
+- `core::Transform`, `core::Sprite`, `core::Animation`, `core::Interactable`, `core::RpgActor`.
+- @ref guide-maths (les types de données des composants), @ref guide-niveaux (la couche `objects`).

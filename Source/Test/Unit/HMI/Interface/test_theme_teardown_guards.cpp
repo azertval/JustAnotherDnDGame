@@ -3,8 +3,7 @@
 
 /**
  * @file test_theme_teardown_guards.cpp
- * @brief Garde-fous contre le plantage **à la fermeture**, régression récurrente du projet
- *        (`LOT-56`, `LOT-68`).
+ * @brief Garde-fous contre le plantage **à la fermeture**, régression récurrente du projet.
  *
  * L'IHM a planté deux fois à la fermeture, pour deux causes différentes, et les deux fois de façon
  * **intermittente** — donc invisible en essai rapide et coûteuse à diagnostiquer. Les deux causes
@@ -50,7 +49,7 @@ namespace {
 /**
  * @brief Aucune propriété de **barre de titre de dock** dans la feuille de style. `titlebar-close-
  *        icon` et `titlebar-normal-icon` ont provoqué un plantage intermittent à la fermeture
- *        depuis l'éditeur pendant le `LOT-56` : Qt y détruit les boutons de barre de titre du dock
+ *        depuis l'éditeur : Qt y détruit les boutons de barre de titre du dock
  *        au moment où la feuille de style prétend encore les habiller.
  *
  * Masquer un bouton de barre de titre se fait par les `features` du `QDockWidget`, jamais par la
@@ -70,7 +69,7 @@ TEST(ThemeTeardownGuardsTest, AucunePropieteDeBarreDeTitreDeDock) {
     for (const char* forbidden : {"titlebar-close-icon", "titlebar-normal-icon"}) {
         EXPECT_EQ(theme.find(forbidden), std::string::npos)
             << forbidden
-            << " : provoque un plantage intermittent a la fermeture depuis l'editeur (LOT-56). "
+            << " : provoque un plantage intermittent a la fermeture depuis l'editeur. "
                "Masquer un bouton de barre de titre passe par les features du QDockWidget.";
     }
 }

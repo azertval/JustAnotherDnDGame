@@ -3,7 +3,7 @@
 
 /**
  * @file test_render_culling.cpp
- * @brief Tests unitaires du culling par cadrage caméra (LOT-40, EX-NFR-005).
+ * @brief Tests unitaires du culling par cadrage caméra (EX-NFR-005).
  */
 
 #include <gtest/gtest.h>
@@ -135,7 +135,7 @@ TEST(RenderCullingTest, SegmentHorizontalConserve) {
 
 /**
  * @brief La boîte englobante réelle est testée, pas la position d'ancrage : une primitive très
- *        étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau, LOT-44).
+ *        étirée dont le coin est hors cadrage reste soumise (cas du fond de niveau).
  * \castest{<b>Une primitive etiree dont l'ancrage est hors cadrage reste soumise.</b><br/>
  * \tcat Unitaire · Render Culling<br/>
  * \tcrit Critique<br/>
@@ -185,7 +185,7 @@ TEST(RenderCullingTest, SpriteQuadBoundsSansRotationEstLeRectangleBrut) {
 /**
  * @brief Un quad texturé tourné d'un quart de tour (90°) a une boîte englobante correspondant à ses
  * dimensions permutées (large devient haut), centrée au même endroit que le rectangle non tourné —
- * le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut (`LOT-50` TACHE-02).
+ * le culling doit juger ce rectangle-là, jamais (x, y, width, height) brut.
  * \castest{<b>spriteQuadBounds a 90 degres permute largeur et hauteur.</b><br/>
  * \tcat Unitaire · Render Culling<br/>
  * \tcrit Critique<br/>

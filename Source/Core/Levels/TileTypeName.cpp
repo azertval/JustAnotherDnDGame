@@ -59,7 +59,7 @@ std::optional<TileType> parseTileType(std::string_view name) {
     // Table construite une fois a partir de tileTypeName : la reciprocite des deux conversions est
     // ainsi structurelle, pas seulement testee. Ajouter un TileType suffit donc a le rendre
     // lisible -- la borne d'iteration vient de core::TILE_TYPE_COUNT (Core/Levels/TileType.h),
-    // seule source de verite de la fin de l'enumeration depuis le LOT-74 : il n'y a plus de
+    // seule source de verite de la fin de l'enumeration : il n'y a plus de
     // dernier enumerateur recopie ici, donc plus rien a mettre a jour a la main. Les cles sont des
     // std::string (proprietaires) : tileTypeName renvoie une valeur, dont un string_view ne
     // survivrait pas.

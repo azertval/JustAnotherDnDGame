@@ -8,7 +8,7 @@
 namespace core {
 
 namespace {
-// Clip de repli d'un jeu vide (LOT-46 TACHE-01) : une seule image d'indice 0, jamais animee.
+// Clip de repli d'un jeu vide : une seule image d'indice 0, jamais animee.
 // Statique plutot que reconstruit a chaque appel : clipAt() est lu potentiellement a chaque pas
 // fixe pour chaque entite animee.
 const AnimationClip& emptyClip() {

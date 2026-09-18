@@ -30,7 +30,7 @@ namespace core {
 
 /**
  * @brief Combine une graine de base, un numéro de pas et un identifiant reproductible en une
- *        graine unique, propre à ce triplet (`LOT-53` TACHE-01).
+ *        graine unique, propre à ce triplet.
  *
  * Reproductible quel que soit l'ordre ou le nombre d'appels : deux tirages faits pour le même
  * triplet (graine, pas, identifiant) produisent toujours la même graine dérivée, jamais
@@ -53,7 +53,7 @@ namespace core {
  *
  * Aucune dépendance à `<random>` ni à l'horloge système : deux instances construites avec la
  * même graine produisent exactement la même suite de valeurs (`EX-NFR-002`). Utilisé par
- * `core::ParticleSystem` (`LOT-53`), où tout tirage doit rester reproductible d'une exécution à
+ * `core::ParticleSystem`, où tout tirage doit rester reproductible d'une exécution à
  * l'autre pour une même séquence d'entrées.
  */
 class DeterministicRandom {

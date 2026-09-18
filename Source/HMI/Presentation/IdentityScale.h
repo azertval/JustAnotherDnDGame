@@ -14,7 +14,7 @@
  * multiplier.
  *
  * @par Pourquoi le facteur reste entier après la sortie du pixel art
- * Le `LOT-68` l'exigeait pour une raison qui n'existe plus : le filtrage au plus proche voisin ne
+ * Il était entier pour une raison qui n'existe plus : le filtrage au plus proche voisin ne
  * sait pas rendre une bordure d'un pixel et demi. La charte parchemin du `LOT-66` peint des traits
  * anticrénelés, que rien n'oblige à tomber sur la grille. Le facteur reste néanmoins entier pour
  * une **seconde** raison, elle intacte : toutes les grandeurs d'identité passent par la feuille de

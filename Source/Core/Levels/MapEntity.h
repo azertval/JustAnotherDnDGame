@@ -20,10 +20,9 @@ namespace core {
  *
  * La grille ne porte qu'un `core::TileType` par case, sans métadonnée : un PNJ a un nom et un
  * dialogue, un coffre un contenu et un état « déjà ouvert », un portail une carte cible et un
- * point d'arrivée. Le jeu de plateforme d'origine contournait cette limite avec des vecteurs
- * annexes indexés par position, un par famille — le `LOT-01` en a retiré quatre, tous devenus
- * caducs en même temps que leur type de tuile. Une **liste d'objets à propriétés** évite de
- * reconstruire ce schéma une famille à la fois.
+ * point d'arrivée. Des vecteurs annexes indexés par position, un par famille, obligeraient à
+ * ajouter un vecteur à chaque famille nouvelle. Une **liste d'objets à propriétés** les porte
+ * toutes.
  *
  * `Core` ne connaît **aucune** sémantique de `type` : c'est une chaîne, interprétée par le
  * gameplay (`LOT-10` et suivants). Le chargeur ne valide donc pas qu'un type existe — une entité

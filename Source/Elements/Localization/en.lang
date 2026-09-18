@@ -8,34 +8,15 @@
 # binaire, depot, prefixe de macro JADG_) : un renommage global de l'un a deja ecrase
 # l'autre une fois (LOT-01). Les deux sont distincts, et doivent le rester.
 menu.new_game = New Game
-menu.edit_mode = Edit Mode
-menu.options = Options
-menu.credits = Credits
 menu.quit = Quit
-
-# Pause screen. "Restart" is gone since LOT-67: an open world has no stage to replay from its
-# start. The RPG entries -- sheet, inventory, journal, map -- come with the LOT-68 screens: a menu
-# entry that leads nowhere costs more trust than it carries information (EX-IHM-072).
-pause.title = Pause
-pause.resume = Resume
-pause.options = Options
-pause.quit_to_menu = Quit to Menu
-pause.quit_confirm_title = Quit to menu?
-pause.quit_confirm_text = The current game will be lost. Quit to menu?
 
 # Main window and menu bar
 window.title = Just Another RPG Game — Editor
-menubar.main_menu = Main menu
 menubar.quit = Quit
 menubar.file = File
 menubar.edit = Edit
 menubar.help = Help
-menubar.layers = Layers
 menubar.panels = Panels
-menubar.workspace = Workspace
-menubar.workspace_level = Map editing
-menubar.workspace_planes = Creation mode
-menubar.workspace_pixel_art = Pixel art workshop
 menubar.level = Map
 menubar.resize = Resize…
 menubar.view = View
@@ -44,124 +25,24 @@ menubar.theme_system = System
 menubar.theme_light = Light
 menubar.theme_dark = Dark
 menubar.follow_active_tool = Follow active tool
-# Per-layer inspection mode (LOT-57 TACHE-03, moved from the Textures panel's Layers tab):
-# DECOMPOSES the render for auditing, distinct from the Game/F8 toggle which COMPOSES it.
-menubar.layer_background = Background
-menubar.layer_plane_behind = Planes behind
-menubar.layer_shadow = Shadows
-menubar.layer_tile_skin = Tile skin
-menubar.layer_objects = Interactive objects
-menubar.layer_player = Character
-menubar.layer_plane_front = Planes in front
-menubar.layer_show_all = Show all
 menubar.reset_layout = Reset layout
 
 # Dock panels
 dock.palette = Palette
 dock.levels = Maps
-dock.links = Links
-dock.textures = Textures
-dock.pixel_canvas = Workshop
-dock.pixel_history = Workshop history
-dock.pixel_palette = Palette
-
-# Textures panel (LOT-42)
-textures.skin_set = Skin set
-textures.skin_set_tooltip = Skin set for the editing session, distinct from the map's (see "Background" section).
-textures.section_skins = Skins
-textures.column_type = Tile type
-textures.column_asset = File
-textures.column_mode = Mode
-textures.none = (none)
-textures.pick_asset = Choose an asset
-textures.reload = Reload
-textures.reload_tooltip = Reload textures from disk
-textures.reload_done = Textures reloaded.
-
-# "Background" section of the Textures panel (LOT-44)
-textures.section_background = Background
-textures.background_mode_hint = Background rendering requires Texture mode (F8).
-textures.background_label = Background
-textures.level_skin_set = Map skin set
-textures.level_skin_set_tooltip = Skin set used by THIS map, distinct from the "Skin set" selector above (current editing set).
-textures.default_set = (default set)
-
-# "Camera framing" section of the Textures panel (LOT-64)
-textures.section_camera_framing = Camera framing
-textures.camera_framing_mode = Framing mode
-textures.camera_framing_room_width = View width
-textures.camera_framing_room_height = View height
-textures.camera_framing_room_default = Default
-camera_framing.whole_level = Whole map
-camera_framing.per_room = Per room
-camera_framing.follow = Follow character
-textures.camera_framing_zones_hint = Drag on the canvas with the "Camera zone" tool to add one.
-textures.camera_framing_zones_remove = Remove
-textures.camera_framing_zones_column_x = X
-textures.camera_framing_zones_column_y = Y
-textures.camera_framing_zones_column_width = Width
-textures.camera_framing_zones_column_height = Height
-
-# "Objects" section of the Textures panel (LOT-45)
-textures.section_objects = Objects
-textures.objects_asset_label = Asset to assign
-textures.objects_list_label = Map overrides
-textures.objects_remove = Remove
-textures.objects_column_position = Position
-textures.objects_column_asset = File
-
-# "Animations" section of the Textures panel (LOT-47)
-textures.section_animations = Animations
-textures.animations_column_diagnostic = Clips
-textures.animations_preview = Preview
-textures.animations_complete = Complete
-textures.animations_missing = Missing
-
-
-# Shared asset library (LOT-43)
-assets.search = Search…
-assets.none = (none)
-assets.import = Import
-assets.rename = Rename
-assets.duplicate = Duplicate
-assets.delete = Delete
-assets.rename_prompt = New name:
-assets.delete_title = Delete
-assets.delete_confirm = Permanently delete “%1”?
-assets.references_warning = “%1” is used by: %2
-assets.operation_failed = Operation failed
 
 # Status bar and dialogs
 status.zone.level = Map: %1
-status.zone.asset = Asset: %1
 status.zone.dirty = Modified
 status.zone.hover = (%1, %2)
 status.zone.zoom = Zoom: %1%
-status.zone.camera_framing = Framing: %1
-status.zone.color = Color: %1
-status.zone.color_constrained = Color: %1 (constrained to palette)
-status.zone.plane_file = Plane: %1
-status.zone.plane = Plane: %1×%2 px · %3 px/unit · %4 MiB
 status.help_paint = Paint: left click/drag · Ctrl+Z/Y: undo/redo
 status.help_rectangle = Rectangle: drag to paint an area · Ctrl+Z/Y: undo/redo
 status.help_selection = Selection: drag to select · Ctrl+C/V: copy/paste
-status.help_link = Link: click a trigger then its target · re-clicking the same pair unlinks
-status.help_texture_assign = Texture: left click assigns, re-click or right click removes
-status.help_camera_zone = Camera zone: drag to draw a zone (per-room mode); remove it from the "Framing" section
-status.path_waypoint_removed = Path point removed
-panel.properties = Properties
-status.help_pixel_brush = Brush: left click/drag paints · Ctrl+Z/Y: undo/redo
-status.help_pixel_eraser = Eraser: left click/drag erases · Ctrl+Z/Y: undo/redo
-status.help_pixel_fill = Bucket: click fills the connected area
-status.help_pixel_eyedropper = Eyedropper: click picks the color under the cursor
-status.help_pixel_selection = Selection: drag to select or move · Ctrl+C/V: copy/paste
-status.texture_assigned = Texture assigned: %1
-status.texture_removed = Texture removed.
-status.texture_no_asset_selected = No asset selected: pick one in the "Objects" tab of the Textures panel.
 dialog.unsaved_title = Unsaved changes
 dialog.unsaved_text = The current map has unsaved changes. Quit anyway?
 dialog.resize_title = Resize map
-dialog.resize_drop = Shrinking to %1 × %2 will remove content (entry, exit or links). Continue?
+dialog.resize_drop = Shrinking to %1 × %2 will remove content (entry or entities). Continue?
 dialog.width = Width (cells)
 dialog.height = Height (cells)
 
@@ -169,19 +50,8 @@ dialog.height = Height (cells)
 tool.brush = Brush
 tool.rectangle = Rectangle
 tool.selection = Selection
-tool.link = Link
-tool.texture_assign = Texture
-tool.camera_zone = Camera zone
 
-# Pixel art canvas tools (LOT-54 TACHE-04): exclusive group distinct from the map tools above,
-# also reused as the short label in the status bar (hmi::EditorStatus).
-pixel_tool.brush = Brush
-pixel_tool.eraser = Eraser
-pixel_tool.fill = Bucket
-pixel_tool.eyedropper = Eyedropper
-pixel_tool.selection = Selection
-
-# Toolbar actions/commands (LOT-56 TACHE-04): label only, the shortcut comes from the action
+# Toolbar actions/commands: label only, the shortcut comes from the action
 # itself (EditorActions::retranslateUi), never entered here.
 action.save = Save
 action.playtest = Playtest
@@ -189,73 +59,10 @@ action.undo = Undo
 action.redo = Redo
 action.toggle_grid = Grid
 action.reset_camera = Reset camera
-action.toggle_render_mode = Render mode
 action.copy = Copy
 action.paste = Paste
 action.rename = Rename
 action.shortcuts_overview = Shortcuts overview
-
-# Pixel art workshop file commands (LOT-54 TACHE-05).
-action.pixel_open = Open asset…
-action.pixel_create = Create asset…
-action.pixel_save = Save asset
-action.pixel_save_as = Save asset as…
-action.pixel_flip_horizontal = Flip horizontal
-action.pixel_flip_vertical = Flip vertical
-action.pixel_rotate_cw = Rotate (clockwise)
-action.pixel_rotate_ccw = Rotate (counter-clockwise)
-
-# Pixel art workshop palette panel (LOT-54 TACHE-07).
-pixel_palette.add = Add
-pixel_palette.remove = Remove
-pixel_palette.rename = Rename
-pixel_palette.move_up = Move up
-pixel_palette.move_down = Move down
-pixel_palette.extract = Extract from asset
-pixel_palette.constrain = Constrain to palette
-pixel_palette.rename_prompt = New color name
-pixel_palette.new_color_name = Color %1
-
-# Autotile sheet neighbor configurations (LOT-42, same table as TileAutotile.cpp): label shown in
-# the pixel art workshop's sheet mode (LOT-54 TACHE-08).
-autotile.config.0 = Isolated tile
-autotile.config.1 = Column bottom end
-autotile.config.2 = Row left end
-autotile.config.3 = Outer corner bottom-left
-autotile.config.4 = Column top end
-autotile.config.5 = Vertical segment
-autotile.config.6 = Outer corner top-left
-autotile.config.7 = Left edge
-autotile.config.8 = Row right end
-autotile.config.9 = Outer corner bottom-right
-autotile.config.10 = Horizontal segment
-autotile.config.11 = Bottom edge
-autotile.config.12 = Outer corner top-right
-autotile.config.13 = Right edge
-autotile.config.14 = Top edge
-autotile.config.15 = Solid interior
-
-# Pixel art workshop dialogs (LOT-54 TACHE-05).
-menubar.pixel = Workshop
-pixel.open_title = Open asset
-pixel.open_failed = Failed to open the asset.
-pixel.create_title = Create asset
-pixel.create_family = Family
-pixel.create_size = Size
-pixel.save_title = Save asset
-pixel.save_failed = Failed to save the asset.
-pixel.save_done = Asset saved: %1
-pixel.overwrite_title = Replace asset?
-pixel.overwrite_text = "%1" is referenced by: %2. Replace it anyway?
-pixel.color_picker_title = Current color
-
-# Links panel (LOT-37)
-link.column.type = Type
-link.column.trigger = Trigger
-link.column.target = Target
-link.delete_button = Delete
-link.type.mechanism = Mechanism
-link.type.danger = Switched danger
 
 # Map browser
 map.new = New
@@ -297,44 +104,11 @@ world_graph.tooltip.edge = %1 → %2
 world_graph.tooltip.portal = (%1, %2) → “%3”: %4
 world_graph.tooltip.no_arrival = (no arrival point)
 
-# Options page: tabs and labels
-tab.video = Video
-tab.audio = Audio
-tab.general = General
-tab.keyboard = Keyboard
-tab.gamepad = Gamepad
-tab.editor = Editor
+# Shortcuts overview
 dialog.shortcuts_title = Keyboard shortcuts
 dialog.shortcuts_command = Command
 dialog.shortcuts_key = Shortcut
-options.title = Options
 options.back = Back
-options.vsync = Vertical sync
-options.enabled = Enabled
-options.display = Display
-options.fullscreen = Fullscreen
-options.diagnostics = Diagnostics counter
-options.diagnostics_show = Show in the top-right corner
-options.volume = Volume
-options.language = Language
-options.logs = Logs
-options.save_logs = Save session logs
-options.logs_saved = Logs saved: %1
-options.logs_failed = Failed to save logs.
-options.logs_unavailable = Logs unavailable (Release build).
-options.gamepad_connected = Gamepad: connected
-options.gamepad_disconnected = Gamepad: not connected
-language.fr = Français
-language.en = English
-
-# Credits screen (LOT-60)
-credits.title = Credits
-credits.development = Development
-credits.audio = Music and sound effects
-credits.graphics = Graphics
-credits.fonts = Fonts
-credits.libraries = Libraries
-credits.license = License
 
 # Viewport status messages
 status.region_copied = Region copied (%1 × %2).
@@ -346,62 +120,20 @@ status.open_failed = Cannot open: %1
 status.level_opened = Map opened: %1
 status.playtest_failed = Cannot playtest: %1
 status.playtesting = Playtesting — Esc to return to editing.
+status.playtest_map_entered = Playtest: entered map %1.
+status.playtest_dialogue = Playtest: dialogue %1 would open.
+status.playtest_encounter = Playtest: encounter %1 would start.
+status.playtest_portal_locked = Playtest: portal locked, requires %1.
+status.playtest_portal_broken = Playtest: broken portal to %1.
+status.playtest_interacted = Playtest: interacted with %1.
 status.back_to_edit = Back to editing.
 status.level_resized = Map resized: %1 × %2
 status.rename_failed = Invalid map name.
 status.rename_failed_reason = Rename failed: %1
 status.level_renamed = Map renamed: %1
 
-# Keybinding remapping (LOT-29/LOT-30, EX-CTRL-012, EX-CTRL-002)
-keybindings.game_title = Game keybindings
-keybindings.editor_title = Editor keybindings
-keybindings.gamepad_title = Gamepad keybindings
-keybindings.reset = Reset
-keybindings.press_key = Press a key...
-keybindings.press_button = Press a gamepad button...
-keybindings.key_hint = Click an action, then press the new key (Esc cancels).
-keybindings.gamepad_hint = Click an action, then press the new button (Esc cancels).
-keybindings.action.left = Move left
-keybindings.action.right = Move right
-keybindings.action.aim_up = Aim dash upward
-keybindings.action.aim_down = Aim dash downward
-keybindings.action.jump = Jump
-keybindings.action.dash = Dash
-keybindings.action.interact = Interact
-keybindings.action.save = Save
-keybindings.action.undo = Undo
-keybindings.action.redo = Redo
-keybindings.action.copy = Copy
-keybindings.action.paste = Paste
-keybindings.action.playtest = Playtest
-keybindings.action.grid = Grid
-keybindings.action.help = Help
-keybindings.action.rename = Rename
-keybindings.action.texture_tool = Texture tool
-
-# In-game head-up display (LOT-52, EX-IHM-003)
-hud.interact_prompt = Interact to pick up
-
-# Editor play-test: report of an interaction with a placed entity (LOT-11)
-playtest.interaction.chest_opened = Chest opened
-playtest.interaction.chest_already_opened = Chest already opened
-playtest.interaction.sign_read = Sign read
-playtest.interaction.npc_dialogue = NPC: dialogue %1
-playtest.interaction.npc_silent = NPC without dialogue
-playtest.interaction.portal = Portal to %1, arrival %2 (traversal comes with LOT-09)
-playtest.interaction.portal_incomplete = Incomplete portal: target map or arrival missing
-playtest.interaction.other = Entity %1: no interaction
-
-# In-game diagnostics overlay (LOT-62, F9, EX-NFR-001, EX-NFR-005)
-diag.fps = FPS: %1
-diag.primitives = Primitives: %1 composed / %2 submitted
-diag.batches = Batches: %1
-diag.steps = Simulation steps: %1
-
 # Tile palette: categories, subgroups, tiles
 palette.cat.tile = Tile
-palette.cat.interactive = Interactive
-palette.cat.trap = Trap
 palette.cat.marker = Marker
 palette.cat.ground = Ground
 palette.cat.obstacle = Obstacle
@@ -417,79 +149,11 @@ palette.tile.bridge = Bridge
 palette.tile.stairs = Stairs
 palette.tile.empty = Empty (eraser)
 palette.tile.solid = Solid
-palette.tile.block = Pushable block
-palette.tile.switch = Switch
-palette.tile.plate = Pressure plate
-palette.tile.door = Door
-palette.tile.key = Key
-palette.tile.locked_door = Locked door
-palette.tile.danger = Danger
 palette.tile.entry = Entry
-palette.tile.exit = Exit
 
-# Pixel art workshop (LOT-54) : canvas history operation names, distinct from the map's history
-# (EX-IHM-062, TACHE-02).
-pixel_editor.operation.brush = brush
-pixel_editor.operation.eraser = eraser
-pixel_editor.operation.fill = fill
-pixel_editor.operation.move = region move
-pixel_editor.operation.flip_horizontal = horizontal flip
-pixel_editor.operation.flip_vertical = vertical flip
-pixel_editor.operation.rotate_cw = clockwise rotation
-pixel_editor.operation.rotate_ccw = counter-clockwise rotation
-pixel_editor.operation.paste = paste
-
-# Rappels de touches en bas des ecrans du jeu (LOT-68).
-key.up_down = ↑↓
-key.left_right = ←→
-key.confirm = A
-key.back = B
-key.escape = ESC
-hint.navigate = Navigate
-hint.confirm = Confirm
-hint.back = Back
-hint.tab = Tab
-hint.play = Play
-hint.resume = Resume
+# Rappels de touches en bas des ecrans du jeu.
 key.shoulders = LB/RB
 hint.change_screen = Switch screen
-
-# "Planes" panel (LOT-69 TACHE-08)
-planes.column_file = File
-planes.column_density = Density
-planes.column_depth = Depth
-planes.column_visible = Visible
-planes.add = Add
-planes.remove = Remove
-planes.paint = Paint
-planes.isolate = Isolate
-planes.forward = Move up
-planes.backward = Move down
-planes.front = In front
-planes.behind = Behind
-planes.settings = Selected plane
-planes.density = Density (px/unit)
-planes.depth = Depth
-planes.depth_behind = Behind the tiles
-planes.depth_front = In front of the character
-planes.parallax_x = Parallax X
-planes.parallax_y = Parallax Y
-planes.opacity = Opacity
-planes.level_group = Map
-planes.parallax_enabled = Parallax enabled
-planes.parallax_whole_level_hint = No effect with whole-map framing: the camera does not scroll, so the offset would only be a constant misalignment.
-planes.added = Plane added: %1
-planes.removed = Plane removed from the list. The file itself is kept.
-planes.create_failed = Could not create the plane: check the planes folder.
-planes.paint_failed = This plane cannot be painted: its density or the map size is out of format.
-planes.saved = Plane saved: %1
-planes.save_failed = Could not save the plane: check the planes folder.
-planes.none_selected = No plane selected: pick one in the "Planes" panel, or add one.
-planes.discard_title = Unsaved plane
-planes.discard_text = The current plane has unsaved changes. Save them before continuing?
-dock.planes = Planes
-
-# AI mode
 
 # --- RPG screens: the LOT-68 chassis ----------------------------------------------------------
 # The eight screens exist, and are EMPTY: this lot delivers their frame, not their content (sheet
@@ -536,7 +200,7 @@ rpg.block.target = Target
 rpg.block.actions = Actions
 
 # Fields taken from core::CharacterSheet (LOT-13) and core::Equipment (LOT-34). "Level" here is a
-# CHARACTER level (LOT-74), not the platformer stage retired in LOT-67.
+# CHARACTER level (LOT-74), not a map.
 rpg.field.name = Name
 rpg.field.species = Species
 rpg.field.class = Class
@@ -766,7 +430,7 @@ dock.layers = Layers
 dock.entities = Entities
 tool.entity = Entity
 status.help_entity = Entity: click an empty cell to place the chosen kind · click an entity to select it, drag to move it · Del removes it · Ctrl+click places on an occupied cell
-status.layer_tile_refused = "%1" cannot be painted on a visual layer: entry, exit and mechanisms live in the collision grid.
+status.layer_tile_refused = "%1" cannot be painted on a visual layer: the entry lives in the collision grid.
 status.entity_placed = %1 placed at (%2, %3).
 status.entity_moved = Entity moved to (%1, %2).
 status.entity_removed = Entity removed.

@@ -75,7 +75,7 @@ QAction* EditorActions::toolAction(EditorTool tool) const {
 }
 
 void EditorActions::populateToolBar(QToolBar& toolBar) const {
-    // Outils de niveau puis commandes. Le filtre sur `surface` (LOT-68, EX-IHM-074) est ce qui ramene la barre a l'essentiel : les
+    // Outils de niveau puis commandes. Le filtre sur `surface` (EX-IHM-074) est ce qui ramene la barre a l'essentiel : les
     // commandes ponctuelles (grille, recadrage, copier/coller, renommer, apercu des raccourcis)
     // restent atteignables par le menu et leur raccourci, sans occuper l'ecran en permanence.
     bool separatorInserted = false;

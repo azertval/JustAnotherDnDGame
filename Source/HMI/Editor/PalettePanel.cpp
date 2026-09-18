@@ -41,7 +41,7 @@ constexpr int TILE_TYPE_ROLE = Qt::UserRole + 1;
     return QString::fromStdString(localizedTaxonomyLabel(loc, label));
 }
 
-// Cote des vignettes de la palette, en pixels d'ecran : jeton de taille (LOT-56), deja un multiple
+// Cote des vignettes de la palette, en pixels d'ecran : jeton de taille, deja un multiple
 // entier de la taille d'une case (16) -- toute autre valeur reechantillonnerait le pixel art de
 // travers, meme en plus proche voisin.
 const int THUMBNAIL_SIZE = editorDarkTokens().size.paletteThumbnail;
@@ -130,7 +130,7 @@ QPixmap PalettePanel::thumbnailFor(core::TileType type) {
     const core::AtlasRegion region = regionForTile(type);
     const QImage tile = source.copy(region.x, region.y, region.width, region.height);
 
-    // Mise a l'echelle en PLUS PROCHE VOISIN, a la resolution REELLE (LOT-56 TACHE-05) : sans quoi
+    // Mise a l'echelle en PLUS PROCHE VOISIN, a la resolution REELLE : sans quoi
     // l'interpolation lisse de Qt (fond d'ecran a 125%/150%) rendrait le pixel art flou, incoherent
     // avec le rendu du canevas (EX-ARCH-022).
     const qreal scale = devicePixelRatioF();
@@ -143,8 +143,8 @@ QPixmap PalettePanel::thumbnailFor(core::TileType type) {
 
 bool PalettePanel::event(QEvent* event) {
     if (event->type() == QEvent::ScreenChangeInternal) {
-        // Un deplacement vers un ecran d'echelle differente doit regenerer les vignettes (LOT-56
-        // TACHE-05) : seule la mise a l'echelle doit etre rejouee.
+        // Un deplacement vers un ecran d'echelle differente doit regenerer les vignettes :
+        // seule la mise a l'echelle doit etre rejouee.
         _model->clear();
         buildModel();
         _tree->expandAll();

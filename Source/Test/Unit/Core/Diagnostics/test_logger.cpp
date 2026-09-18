@@ -81,7 +81,7 @@ TEST(LoggerTest, ClearSinksArreteLaDiffusion) {
     logger.clearSinks();
 
     // clearSinks() detruit le sink retire (le logger en possede le unique_ptr) : verifier son
-    // etat apres coup serait un use-after-free (trouve par AddressSanitizer, LOT-58 TACHE-02).
+    // etat apres coup serait un use-after-free (trouve par AddressSanitizer).
     // On verifie a la place qu'un sink ajoute APRES clearSinks() est le seul a recevoir le
     // message : si l'ancien sink etait reste attache (bogue de clearSinks), l'appel toucherait de
     // la memoire liberee et planterait sous ASan.

@@ -3,7 +3,7 @@
 
 /**
  * @file test_level_name_validation.cpp
- * @brief Tests unitaires de la validation d'un nom de niveau saisi (LOT-15, EX-EDIT-009).
+ * @brief Tests unitaires de la validation d'un nom de niveau saisi (EX-EDIT-009).
  */
 
 #include <gtest/gtest.h>

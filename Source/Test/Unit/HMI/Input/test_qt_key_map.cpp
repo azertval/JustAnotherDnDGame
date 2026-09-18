@@ -3,7 +3,7 @@
 
 /**
  * @file test_qt_key_map.cpp
- * @brief Tests unitaires de `hmi::qtKeyToHmiKey` / `hmi::hmiKeyToQtKey` (`LOT-57` TACHE-04).
+ * @brief Tests unitaires de `hmi::qtKeyToHmiKey` / `hmi::hmiKeyToQtKey`.
  *
  * Table de correspondance pure : aucune `QApplication`, aucune fenêtre. `Qt::Key_*` n'est qu'un
  * jeu de constantes d'énumération.

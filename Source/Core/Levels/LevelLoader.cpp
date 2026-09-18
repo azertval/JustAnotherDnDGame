@@ -24,7 +24,7 @@ namespace core {
 
 namespace {
 
-// Construit un résultat d'échec avec un message et un code categorise (LOT-15, EX-EDIT-012).
+// Construit un résultat d'échec avec un message et un code categorise (EX-EDIT-012).
 // Journalise systematiquement la raison ici (point unique) : chaque site d'appel n'a pas a le
 // refaire, et un echec de chargement reste tracable meme hors du contexte HMI (tests, outillage).
 [[nodiscard]] LevelLoadResult failure(std::string message, LevelValidationError code) {
@@ -238,7 +238,7 @@ struct TileParseState {
     }
 
     // Version du format (EX-LVL-005) : absente = version initiale (0), sans erreur ni
-    // avertissement (rétrocompatibilité des niveaux antérieurs à ce champ, LOT-44).
+    // avertissement (rétrocompatibilité des niveaux antérieurs à ce champ).
     const int version = root.value("version", 0);
     if (version > LEVEL_FORMAT_VERSION) {
         return failure("Version de format non geree : " + std::to_string(version) +

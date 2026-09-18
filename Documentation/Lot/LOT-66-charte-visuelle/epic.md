@@ -3,7 +3,7 @@
 > Statut : **fait** (vérification automatisée : build `/W4 /WX` sans avertissement, `ctest` à
 > 1009/1009, `clang-format`, les six lints, cahier de test et Doxygen verts).
 > Prérequis : **aucun**. Alimente [LOT-67](@ref lot-67), [LOT-68](@ref lot-68),
-> [LOT-69](@ref lot-69), [LOT-76](@ref lot-76).
+> `LOT-69` (absorbé par le [LOT-88](@ref lot-88)), [LOT-76](@ref lot-76).
 >
 > Exigences refondues : [`EX-ARCH-022`](@ref EX-ARCH-022) (racine),
 > [`EX-DEC-003`](@ref EX-DEC-003), [`EX-DEC-032`](@ref EX-DEC-032),
@@ -119,7 +119,7 @@ Le [LOT-01](@ref lot-01) a **délibérément conservé** l'atelier pixel art lor
 [LOT-11](@ref lot-11) en fait un acquis à ne pas régresser. Ce lot revient sur cette décision. Il ne
 la contourne pas : `EX-EDIT-045` porte désormais, écrite noir sur blanc, la raison pour laquelle
 l'atelier **reste** — c'est un outil de travail, pas une esthétique — et le fait que sa suppression
-éventuelle est le [LOT-69](@ref lot-69), pas celui-ci.
+éventuelle était le `LOT-69` — absorbé par le [LOT-88](@ref lot-88) —, pas celui-ci.
 
 ## Ce que le lot ne fait pas
 
