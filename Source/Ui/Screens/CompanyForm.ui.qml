@@ -212,10 +212,10 @@ Item {
                 Row {
                     spacing: 4 * Tokens.uiScale
 
-                    StatMedallion { kind: "derived"; label: qsTr("CARRIÈRE"); value: root.careerPoints }
-                    StatMedallion { kind: "derived"; label: qsTr("NIVEAU"); value: root.companyLevel }
-                    StatMedallion { kind: "derived"; label: qsTr("PRESTIGE"); value: root.prestige }
-                    StatMedallion { kind: "derived"; label: qsTr("RENOMMÉE"); value: root.fame }
+                    StatMedallion { kind: "derived"; label: qsTr("CARRIÈRE"); iconKey: "ui/icon/company-stat/career-points"; value: root.careerPoints }
+                    StatMedallion { kind: "derived"; label: qsTr("NIVEAU"); iconKey: "ui/icon/company-stat/team-level"; value: root.companyLevel }
+                    StatMedallion { kind: "derived"; label: qsTr("PRESTIGE"); iconKey: "ui/icon/company-stat/prestige"; value: root.prestige }
+                    StatMedallion { kind: "derived"; label: qsTr("RENOMMÉE"); iconKey: "ui/icon/company-stat/fame"; value: root.fame }
                 }
 
                 SectionBanner {

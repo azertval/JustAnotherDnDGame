@@ -42,11 +42,14 @@ Item {
     implicitHeight: root.size
 
     // Le fond du portrait : ce qui se voit sous un jeton aux angles transparents, ou sans portrait.
+    // Sa marge suit l'ouverture de chaque piece livree (mesuree : demi-cote 0,36 pour le carre,
+    // rayon 0,28 pour le rond, 0,25 pour le HUD), un peu en deca pour glisser sous l'anneau : une
+    // marge unique debordait de l'anneau du HUD et des membres de la compagnie.
     Rectangle {
         id: portraitMask
 
         anchors.fill: parent
-        anchors.margins: root.size * 0.1
+        anchors.margins: root.size * (root.square ? 0.12 : (root.shape === "hud" ? 0.22 : 0.19))
         radius: root.square ? 0 : width / 2
         color: root.square || root.shape === "hud" ? Tokens.panel : Tokens.background
         layer.enabled: true

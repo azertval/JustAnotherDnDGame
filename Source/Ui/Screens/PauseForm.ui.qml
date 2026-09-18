@@ -36,8 +36,11 @@ Item {
         height: 440 * Tokens.uiScale
 
         Column {
+            // Centree sous la plaque de titre, qui mord de moitie sur le haut du panneau (60 px a
+            // 1080p) : collee au bas, la derniere entree chevauchait le cadre peint.
             anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: 30 * Tokens.uiScale
             spacing: Tokens.gapMedium
 
             Row {

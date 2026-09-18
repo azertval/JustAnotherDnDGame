@@ -90,6 +90,7 @@ que l'index.
 | Graphismes | `Source/Elements/Assets/` | aucune ressource tierce : images propres au projet | [`Assets/CREDITS.md`](Source/Elements/Assets/CREDITS.md) |
 | Police *Cinzel* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Cinzel-LICENSE.txt` |
 | Police *IM Fell English* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `IMFellEnglish-LICENSE.txt` |
+| Police *Pinyon Script* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `PinyonScript-LICENSE.txt` |
 | Police *Inter* | `Source/Elements/Assets/Fonts/` | SIL Open Font License 1.1 | `Inter-LICENSE.txt` |
 
 La **SIL OFL** exige une attribution : les fichiers de licence doivent accompagner les polices

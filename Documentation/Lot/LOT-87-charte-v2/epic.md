@@ -412,6 +412,8 @@ refusées avec leur motif ; `check_ui_assets.py` reste vert après une installat
 
 Aucune pièce n'est encore produite : la production (le générateur d'images, hors de portée de
 Claude) n'a pas tourné. Le cahier et les deux scripts sont la matière prête à la recevoir.
+La production a tourné ensuite : les 213 pièces sont reçues le 18 septembre 2026 (voir
+[la réception des images produites](@ref lot-87-reception)).
 
 ### T2.7 — Les briques de la charte v2
 
@@ -975,6 +977,48 @@ rien ne restait à basculer sous `Source/Elements/Assets/UI/icons/`.
   l'éditeur. **`guide-ecrans.md`** ne citait aucun jeton ni contrôle de la charte (il documente la
   navigation `hmi::ScreenFlow` du châssis Qt Widgets, une portée distincte) : rien à y changer.
 
+## La réception des images produites (18 septembre 2026) {#lot-87-reception}
+
+Ce que le T2.6 attendait est arrivé : **213 PNG, les 213 images manquantes du cahier** (chaque état
+et chaque membre de série compte pour une image ; `ui/background/menu-scene`, déjà là, porte le total
+à 214). Produites hors du dépôt avec ImageGen, puis mises aux dimensions exactes, alpha conservé,
+régions étirables uniformisées et textures raccordées avec ImageMagick. Les maquettes et la fiche de
+Tanares ont servi de références de style ; aucun de leurs pixels n'est repris.
+
+- **Installation par `receive_ui_assets.py`**, sans exception : chaque fichier renommé par sa clé
+  (`ui__button__apply__hover.png`), 213 acceptés, 0 refusé (dimensions et canal alpha conformes au
+  cahier). `Artwork.qml` réécrit : les treize briques posent désormais l'image livrée à la place de
+  leur aplat de repli, sans qu'un formulaire change.
+- **Le prompt enregistré est celui réellement envoyé**, pas celui que `assembler()` recompose : la
+  livraison fournit une fiche de provenance par PNG, dont l'empreinte SHA-256 a été recoupée avec le
+  fichier reçu avant d'en reprendre le prompt, la date et le générateur (`generator`) dans
+  `illustrations.json`.
+- **La section `pending` du manifeste est vidée** : plus aucune clé du cahier n'est en attente, et
+  `check_ui_assets.py` vérifie désormais que chacune a son fichier.
+- **Documentation de la livraison** sous `Documentation/Lot/LOT-87-charte-v2/images-produites/` : les planches par
+  famille et par groupe d'icônes (`planches/`, étiquetées, ce ne sont pas des captures du jeu) et
+  l'inventaire (`inventory.json`, `inventory.csv` : chemins, dimensions, modes d'affichage, marges,
+  empreintes).
+
+Deux écarts vus à l'intégration, corrigés dans le même changement :
+
+- **La mini-carte du HUD** passait par `PortraitFrame`, dont l'état vide est maintenant une
+  silhouette de personnage peinte : `HudFrame` découpe la carte au rond sur un disque sombre, sous
+  l'anneau `ui/medallion/minimap-ring`, sans cadre de portrait.
+- **Le titre d'une `TitlePlate` à largeur imposée débordait** : les extrémités peintes de
+  `title-black` sont plus larges que l'aplat de repli, et « Inventaire & équipement » ne tenait plus
+  dans ses 510 px. Le texte tient désormais entre les ornements (70 % des marges du cahier) et sa
+  police se réduit plutôt que de déborder.
+
+**Vérifié** : les dix-neuf références d'écran de `QmlTests` régénérées et relues une à une (menu,
+options, crédits, fiche, inventaire, compagnie, sorts, pause, dialogue, marchand, journal, HUD
+d'exploration et de combat, cinq niveaux de carte) ; `scripts/build.ps1 -Preset ninja -Test` :
+767/767 ; `check_ui_assets.py`, `check_ui_layers.py`, `check_qml_designer_compat.py`,
+`lint_exigences.py`, `lint_lots.py`, `check_translations.py` verts.
+
+Reste à faire, hors de cette réception : les essais d'interaction dans le jeu (survol, appui,
+manette) sur les états livrés, que les captures statiques ne montrent pas.
+
 ## Exigences couvertes
 
 - [`EX-IHM-070`](@ref EX-IHM-070), [`EX-IHM-075`](@ref EX-IHM-075), [`EX-IHM-076`](@ref EX-IHM-076),
@@ -988,10 +1032,9 @@ rien ne restait à basculer sous `Source/Elements/Assets/UI/icons/`.
 **Livré.** Phases 0 à 5 faites. Les huit écrans transcrits (menu, options, crédits, fiche,
 inventaire, carte, compagnie, sorts), les quatre restylés sans redessin (pause, dialogue, marchand,
 journal) et le cadre du HUD tiennent tous sur la charte v2 ; plus aucun écran n'importe un contrôle
-ou un jeton de la charte v1. **Reste hors de ce lot**, faute de production d'images (T2.6, jamais
-lancée) : aucune pièce du cahier des 214 images n'est livrée — les briques dessinent toutes leur
-aplat de repli. Le jour où le générateur d'images tourne, `receive_ui_assets.py` les installe sans
-qu'une ligne de QML change. Restent aussi ouverts, notés au T5.2 : la portée identité du châssis
+ou un jeton de la charte v1. Les 214 images du cahier sont livrées depuis le 18 septembre 2026
+([la réception](@ref lot-87-reception)) : les briques posent les images produites, plus aucun aplat de
+repli ne s'affiche. Restent aussi ouverts, notés au T5.2 : la portée identité du châssis
 d'édition (police pixel, jetons entiers) n'a pas suivi la charte v2, et les branches distantes
 mortes de la phase 0 attendent une suppression manuelle.
 

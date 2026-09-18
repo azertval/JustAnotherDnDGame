@@ -144,6 +144,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("FOR")
+        iconKey: "ui/icon/ability/strength"
         value: root.strengthScore
         modifier: root.strengthModifier
     }
@@ -154,6 +155,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("DEX")
+        iconKey: "ui/icon/ability/dexterity"
         value: root.dexterityScore
         modifier: root.dexterityModifier
     }
@@ -164,6 +166,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("CON")
+        iconKey: "ui/icon/ability/constitution"
         value: root.constitutionScore
         modifier: root.constitutionModifier
     }
@@ -174,6 +177,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("INT")
+        iconKey: "ui/icon/ability/intelligence"
         value: root.intelligenceScore
         modifier: root.intelligenceModifier
     }
@@ -184,6 +188,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("SAG")
+        iconKey: "ui/icon/ability/wisdom"
         value: root.wisdomScore
         modifier: root.wisdomModifier
     }
@@ -194,6 +199,7 @@ Item {
         width: 140 * Tokens.uiScale
         height: 140 * Tokens.uiScale
         label: qsTr("CHA")
+        iconKey: "ui/icon/ability/charisma"
         value: root.charismaScore
         modifier: root.charismaModifier
     }
@@ -333,7 +339,8 @@ Item {
             key: "ui/ornament/crossed-crest"
         }
 
-        // Le paraphe est une piece sans lettres ; le nom s'y ecrit par le jeu, en italique.
+        // Le paraphe est une piece sans lettres ; le nom s'ecrit au-dessus par le jeu, a la plume
+        // (`signatureFamily`), et le paraphe le souligne : centre sur lui, sa boucle barrait le nom.
         Item {
             anchors.right: parent.right
             anchors.rightMargin: 40 * Tokens.uiScale
@@ -348,12 +355,12 @@ Item {
             }
 
             Text {
-                anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.verticalCenter
                 text: root.characterName
                 color: Tokens.text
-                font.family: Tokens.loreFamily
-                font.italic: true
-                font.pixelSize: Tokens.fontSectionTitle
+                font.family: Tokens.signatureFamily
+                font.pixelSize: Tokens.fontScreenTitle
             }
         }
     }

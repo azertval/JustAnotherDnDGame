@@ -1,5 +1,6 @@
 pragma ComponentBehavior: Bound
 import QtQuick
+import QtQuick.Effects
 import Jadg.Ui
 
 /*!
@@ -287,12 +288,35 @@ Item {
         width: 264 * Tokens.uiScale
         height: 264 * Tokens.uiScale
 
-        // La carte, decoupee au rond ; l'anneau livre se pose par-dessus, centre ajoure.
-        PortraitFrame {
-            anchors.centerIn: parent
-            shape: "round"
-            size: parent.width
+        // La carte, decoupee au rond sur un disque sombre ; l'anneau livre se pose par-dessus,
+        // centre ajoure. Pas de PortraitFrame : son etat vide peint une silhouette de personnage.
+        Rectangle {
+            id: minimapMask
+
+            anchors.fill: parent
+            anchors.margins: parent.width * 0.18 // ouverture de l'anneau livre : rayon 0,29
+            radius: width / 2
+            color: Tokens.panel
+            layer.enabled: true
+        }
+
+        Image {
+            id: minimapImage
+
+            anchors.fill: minimapMask
+            visible: false
             source: root.minimap
+            fillMode: Image.PreserveAspectCrop
+            smooth: true
+            mipmap: true
+        }
+
+        MultiEffect {
+            anchors.fill: minimapMask
+            visible: root.minimap.toString().length > 0
+            source: minimapImage
+            maskEnabled: true
+            maskSource: minimapMask
         }
 
         FixedArt {
