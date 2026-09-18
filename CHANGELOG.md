@@ -15,7 +15,10 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
   - **Pas de sort, pas de `cast`** : une créature qui n'en lance pas n'en livre pas, et
     `check_asset_keys.py` l'accepte ; il refuse une figurine hors catalogue, une bande mal
     dimensionnée ou un `cast` livré sans être déclaré.
-  - Le Colisée et la ville ne les montrent pas encore : c'est le `LOT-27`.
+  - **Les sentinelles Ironhand** des portes de Martpart et d'Arenarea portent la figurine du
+    soldat : une carte nomme une figurine de l'atelier des monstres par son dossier
+    (`"figure": "Monsters/ironhand-soldier"`), et le marqueur qui les dessinait s'efface.
+  - Le lion et les loups ne paraissent pas encore au Colisée : c'est le `LOT-27`.
 
 - **L'éditeur de cartes a sa feuille de route (`Documentation/Editeur/feuille-de-route.md`).**
   Quatorze lots `LOT-EDITOR`, une piste à part de celle du jeu : édition en iso avec les pièces du

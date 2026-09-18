@@ -8,17 +8,18 @@
  *
  * Tests de CONTENU, comme ceux du Colisee (`test_coliseum_map.cpp`) : une piece de planche absente,
  * un point d'arrivee dans un mur ou une ruelle inatteignable ne se voient dans aucun test de code.
- * Chaque quartier qui recoit sa carte entre dans la liste `QUARTIERS`, et passe les memes controles.
+ * Chaque quartier qui recoit sa carte entre dans la liste `QUARTIERS`, et passe les memes
+ * controles.
  */
 
 #include <algorithm>
 #include <deque>
 #include <filesystem>
 #include <fstream>
-#include <sstream>
 #include <optional>
 #include <ostream>
 #include <set>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -77,8 +78,8 @@ const Quartier QUARTIERS[] = {
 }
 
 [[nodiscard]] hmi::PlaceAppearance tableDu(const Quartier& quartier) {
-    hmi::PlaceAppearanceResult table = hmi::PlaceAppearance::loadFromFile(
-        ASSETS / "Scene" / quartier.lieu / "appearance.json");
+    hmi::PlaceAppearanceResult table =
+        hmi::PlaceAppearance::loadFromFile(ASSETS / "Scene" / quartier.lieu / "appearance.json");
     EXPECT_TRUE(table.ok()) << quartier.lieu << " : " << table.message;
     return std::move(table.appearance);
 }
@@ -192,7 +193,8 @@ TEST_P(CapitalMapTest, ChaquePieceNommeeExisteSurLaPlanche) {
  * un sol.</b><br/>
  * \tcat Unitaire · Quartiers de la Capitale<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Remplir la carte depuis la tuile d'entree, en ne passant que par le franchissable.<br/>
+ * \tetapes 1. Remplir la carte depuis la tuile d'entree, en ne passant que par le
+ * franchissable.<br/>
  * 2. Comparer aux cases franchissables de la carte.<br/>
  * \tattendu Aucune ruelle, aucune cour inatteignable ; aucune case franchissable sans piece de
  * sol : on ne marche pas dans le vide.
@@ -214,8 +216,8 @@ TEST_P(CapitalMapTest, ToutLeQuartierSeParcourtDepuisSonEntree) {
             EXPECT_TRUE(vues.contains({colonne, ligne}))
                 << quartier.carte << " : inatteignable (" << colonne << ", " << ligne << ")";
             EXPECT_FALSE(instantane.floorAt({colonne, ligne}).empty())
-                << quartier.carte << " : case franchissable sans sol (" << colonne << ", "
-                << ligne << ")";
+                << quartier.carte << " : case franchissable sans sol (" << colonne << ", " << ligne
+                << ")";
         }
     }
 }
@@ -282,9 +284,9 @@ TEST_P(CapitalMapTest, LesIlotsSontDansLaCarteEtNommes) {
         EXPECT_NE(anglais.find(cle), std::string::npos) << "en.lang : " << ilot.name;
     }
     const core::GridPosition entree = entreeDe(carte);
-    EXPECT_TRUE(std::ranges::any_of(ilots, [entree](const core::CityBlock& ilot) {
-        return ilot.contains(entree);
-    })) << quartier.carte << " : l'entree n'est dans aucun ilot";
+    EXPECT_TRUE(std::ranges::any_of(
+        ilots, [entree](const core::CityBlock& ilot) { return ilot.contains(entree); }))
+        << quartier.carte << " : l'entree n'est dans aucun ilot";
 }
 
 /**
@@ -360,12 +362,14 @@ TEST(CapitalGuardTest, ChaqueQuartierFermeASaSentinelle) {
             ++sentinelles;
             const std::string dialogue = texteDe(entite, core::NPC_DIALOGUE_PROPERTY);
             EXPECT_NE(dialogues.find(dialogue), nullptr) << quartier.id << " : " << dialogue;
-            EXPECT_FALSE(hmi::figureMarkerKey("Npc/" + texteDe(entite, core::NPC_FIGURE_PROPERTY) +
-                                              "/idle.png")
-                             .empty())
+            EXPECT_FALSE(
+                hmi::figureMarkerKey(
+                    hmi::figureStripPath(texteDe(entite, core::NPC_FIGURE_PROPERTY), "idle"))
+                    .empty())
                 << quartier.id << " : sentinelle sans figurine ni marqueur";
             const core::GridPosition position = entite.position;
-            EXPECT_TRUE(position.column == 0 || position.row == 0 || position.column == grille.width() - 1 ||
+            EXPECT_TRUE(position.column == 0 || position.row == 0 ||
+                        position.column == grille.width() - 1 ||
                         position.row == grille.height() - 1)
                 << quartier.id << " : la sentinelle n'est pas au bord de la carte";
             EXPECT_FALSE(grille.isSolid(position.column, position.row))

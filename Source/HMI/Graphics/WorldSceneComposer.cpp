@@ -4,6 +4,8 @@
 #include "HMI/Graphics/WorldSceneComposer.h"
 
 #include <algorithm>
+#include <array>
+#include <cctype>
 #include <cstddef>
 #include <set>
 #include <utility>
@@ -22,6 +24,9 @@ namespace {
 // Les planches de l'atelier, telles que le rendu les adresse : relatif au dossier des assets.
 constexpr std::string_view SCENE_ROOT = "Scene/";
 constexpr std::string_view FIGURE_ROOT = "Npc/";
+// Les dossiers de figurines qu'un marqueur peut remplacer : les PNJ (LOT-91), les monstres
+// (LOT-93).
+constexpr std::array<std::string_view, 2> FIGURE_DIRECTORIES = {"Npc/", "Monsters/"};
 
 [[nodiscard]] std::size_t indexOf(core::GridPosition cell, int columns) {
     return (static_cast<std::size_t>(cell.row) * static_cast<std::size_t>(columns)) +
@@ -37,15 +42,6 @@ constexpr std::string_view FIGURE_ROOT = "Npc/";
     path.append(place);
     path.push_back('/');
     path.append(piece);
-    path.append(".png");
-    return path;
-}
-
-[[nodiscard]] std::string figurePath(std::string_view figure, std::string_view clip) {
-    std::string path{FIGURE_ROOT};
-    path.append(figure);
-    path.push_back('/');
-    path.append(clip.empty() ? std::string_view{"idle"} : clip);
     path.append(".png");
     return path;
 }
@@ -126,7 +122,7 @@ void composeFigure(ComposedScene& scene, const core::IsoProjection& projection,
     if (figure.figure.empty()) {
         return;
     }
-    const SceneTexture& texture = textures.resolve(figurePath(figure.figure, figure.clip));
+    const SceneTexture& texture = textures.resolve(figureStripPath(figure.figure, figure.clip));
     if (texture.texture == nullptr) {
         return;
     }
@@ -236,18 +232,36 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppea
     return snapshot;
 }
 
+std::string figureStripPath(std::string_view figure, std::string_view clip) {
+    // Un nom sans barre est un PNJ de l'atelier ; avec, un dossier depuis la racine des assets.
+    std::string path =
+        figure.find('/') == std::string_view::npos ? std::string{FIGURE_ROOT} : std::string{};
+    path.append(figure);
+    path.push_back('/');
+    path.append(clip.empty() ? std::string_view{"idle"} : clip);
+    path.append(".png");
+    return path;
+}
+
 std::string figureMarkerKey(std::string_view path) {
-    if (!path.starts_with(FIGURE_ROOT)) {
-        return {};
+    for (const std::string_view dossier : FIGURE_DIRECTORIES) {
+        if (!path.starts_with(dossier)) {
+            continue;
+        }
+        const std::string_view reste = path.substr(dossier.size());
+        const std::size_t barre = reste.find('/');
+        if (barre == 0 || barre == std::string_view::npos) {
+            return {};
+        }
+        std::string cle;
+        for (const char lettre : dossier.substr(0, dossier.size() - 1)) {
+            cle.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(lettre))));
+        }
+        cle.push_back('/');
+        cle.append(reste.substr(0, barre));
+        return cle;
     }
-    const std::string_view reste = path.substr(FIGURE_ROOT.size());
-    const std::size_t barre = reste.find('/');
-    if (barre == 0 || barre == std::string_view::npos) {
-        return {};
-    }
-    std::string cle{"npc/"};
-    cle.append(reste.substr(0, barre));
-    return cle;
+    return {};
 }
 
 std::vector<std::string> worldTexturePaths(const WorldSceneSnapshot& snapshot) {
@@ -265,8 +279,8 @@ std::vector<std::string> worldTexturePaths(const WorldSceneSnapshot& snapshot) {
         }
         // Les deux bandes d'une figurine : elle marche et elle attend, et le rendu ne doit pas
         // charger une texture au milieu d'une image.
-        uniques.insert(figurePath(figure.figure, "idle"));
-        uniques.insert(figurePath(figure.figure, "walk"));
+        uniques.insert(figureStripPath(figure.figure, "idle"));
+        uniques.insert(figureStripPath(figure.figure, "walk"));
     }
     return {uniques.begin(), uniques.end()};
 }

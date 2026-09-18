@@ -270,14 +270,15 @@ TEST(WorldSceneRendererTest, LaCameraSuitLeHerosSansSortirDeLaCarte) {
 /**
  * @brief Martpart et Arenarea livres deviennent des pixels, sentinelle comprise.
  * \castest{<b>Les deux quartiers livres se dessinent sans une piece sur le damier, et la sentinelle
- * par son marqueur.</b><br/>
+ * sous les traits du soldat Ironhand.</b><br/>
  * \tcat Unitaire · Rendu QRhi d'un lieu<br/>
  * \tcrit Bloquant<br/>
- * \tetapes 1. Charger `capital/martpart.json` et `capital/arenarea.json`, et la table de Martpart.<br/>
+ * \tetapes 1. Charger `capital/martpart.json` et `capital/arenarea.json`, et la table de
+ * Martpart.<br/>
  *          2. Dessiner chacun hors ecran, cadre sur une porte gardee, le heros a cote.<br/>
- * \tattendu Aucun quad sur le damier ; la figurine de la sentinelle, qui n'a pas d'image, est
- *           chargee -- c'est son marqueur (LOT-39) ; une part notable de l'image est peinte
- *           (LOT-96).
+ * \tattendu Aucun quad sur le damier ; la figurine de la sentinelle est la bande du soldat
+ *           Ironhand (LOT-93), chargee et non remplacee par le damier ; une part notable de
+ *           l'image est peinte (LOT-96).
  * }
  */
 TEST(WorldSceneRendererTest, LesQuartiersLivresDeviennentDesPixels) {
@@ -302,12 +303,12 @@ TEST(WorldSceneRendererTest, LesQuartiersLivresDeviennentDesPixels) {
             if (objet.type != "npc" || figurine == objet.properties.end()) {
                 continue;
             }
-            figurines.push_back(hmi::WorldFigureSnapshot{
-                .figure = std::get<std::string>(figurine->second),
-                .clip = "idle",
-                .point = {static_cast<float>(objet.position.column) + 0.5F,
-                          static_cast<float>(objet.position.row) + 0.5F},
-                .frame = 0});
+            figurines.push_back(
+                hmi::WorldFigureSnapshot{.figure = std::get<std::string>(figurine->second),
+                                         .clip = "idle",
+                                         .point = {static_cast<float>(objet.position.column) + 0.5F,
+                                                   static_cast<float>(objet.position.row) + 0.5F},
+                                         .frame = 0});
         }
         ASSERT_FALSE(figurines.empty()) << quartier << " n'a aucune sentinelle";
         const core::Vector2 porte = figurines.front().point;
@@ -323,9 +324,12 @@ TEST(WorldSceneRendererTest, LesQuartiersLivresDeviennentDesPixels) {
             EXPECT_NE(quad.texture, renderer.textures().missing.texture)
                 << quartier << " : piece tombee sur le damier";
         }
-        const auto marqueur = renderer.textures().byPath.find("Npc/sentinelle-ironhand/idle.png");
-        ASSERT_NE(marqueur, renderer.textures().byPath.end()) << quartier;
-        EXPECT_NE(marqueur->second.texture, nullptr);
+        // La sentinelle porte la figurine du soldat Ironhand (LOT-93) : une vraie bande, et non
+        // plus un marqueur.
+        const auto soldat = renderer.textures().byPath.find("Monsters/ironhand-soldier/idle.png");
+        ASSERT_NE(soldat, renderer.textures().byPath.end()) << quartier;
+        EXPECT_NE(soldat->second.texture, nullptr);
+        EXPECT_NE(soldat->second.texture, renderer.textures().missing.texture) << quartier;
         EXPECT_GT(paintedPixels(image), static_cast<std::size_t>(TARGET_SIZE * TARGET_SIZE / 4))
             << quartier;
     }

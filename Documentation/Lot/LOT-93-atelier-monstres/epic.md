@@ -134,6 +134,16 @@ versée dans `atelier/ancres/planche_grand.png`.
 et une traînée d'épée orangée ; les figurines sont petites dans leur cellule (le loup fait 28 pixels
 d'art, le lion 44 dans une cellule de 96), comme la fiche le voulait.
 
+## Les sentinelles portent le soldat
+
+*Décision de l'auteur, 18 septembre 2026* : le soldat Ironhand **est** la « sentinelle » et la
+« patrouille Ironhand » des figurines de la Capitale ([LOT-96](@ref lot-96), `LOT-27`). Les dix
+sentinelles des portes de Martpart et d'Arenarea, jusque-là dessinées par leur marqueur, portent
+donc `"figure": "Monsters/ironhand-soldier"`. Une valeur de `figure` qui contient une barre est un
+dossier depuis `Assets/` (`hmi::figureStripPath`) ; sans barre, c'est un PNJ de `Npc/`, comme
+avant. Le marqueur d'une figurine de monstre absente a sa clé, `monsters/<slug>`. Le lion et les
+loups, eux, attendent le `LOT-27` pour paraître au Colisée.
+
 ## Ce qui a été livré à l'ouverture
 
 - L'outillage ci-dessus, éprouvé à blanc le 18 septembre 2026 : deux planches **synthétiques** (un

@@ -27,9 +27,9 @@
  *
  * | Pièce | Calque | Tri |
  * |---|---|---|
- * | sol (type de tuile de la couche « sol » → table du lieu) | `RenderLayer::Tile` | profondeur de case |
- * | relief (pièce nommée à la case, ou type de la couche « décor ») | `RenderLayer::Object` | pied de la case |
- * | figurine (héros, PNJ) | `RenderLayer::Player` | pied de sa case |
+ * | sol (type de tuile de la couche « sol » → table du lieu) | `RenderLayer::Tile` | profondeur de
+ * case | | relief (pièce nommée à la case, ou type de la couche « décor ») | `RenderLayer::Object`
+ * | pied de la case | | figurine (héros, PNJ) | `RenderLayer::Player` | pied de sa case |
  *
  * ## Par instantané, comme l'arène
  *
@@ -67,7 +67,9 @@ inline constexpr std::string_view SCENE_PLACE_PROPERTY = "scene";
 
 /// @brief Une figurine à dessiner sur la carte : sa planche, son image, où elle est.
 struct WorldFigureSnapshot {
-    /// Identifiant de la figurine de l'atelier (`anariel`, `jade`…), dossier `Assets/Npc/<slug>`.
+    /// Figurine : un slug de l'atelier des PNJ (`anariel`, `jade`…, dossier `Assets/Npc/<slug>`),
+    /// ou, s'il contient une barre, un dossier relatif à `Assets/` — une figurine de l'atelier des
+    /// monstres (`Monsters/ironhand-soldier`, `LOT-93`).
     std::string figure;
     /// Bande d'animation : `idle`, `walk`.
     std::string clip = "idle";
@@ -123,14 +125,25 @@ struct WorldSceneSnapshot {
 /**
  * @brief La clé du marqueur d'une figurine qui n'a pas d'image (`LOT-39`, `LOT-96`).
  *
- * Une figurine nommée par une carte avant que l'atelier du `LOT-91` ne l'ait produite — la
- * sentinelle Ironhand — se dessine par son **marqueur**, comme toute clé d'asset sans image
+ * Une figurine nommée par une carte avant que son atelier (`LOT-91`, `LOT-93`) ne l'ait
+ * produite se dessine par son **marqueur**, comme toute clé d'asset sans image
  * (`EX-CNT-041`) : on la voit, on lui parle, et on ne la prend pas pour une illustration.
  *
- * @param path Un chemin de bande de figurine, tel que la composition l'écrit (`Npc/<slug>/idle.png`).
- * @return `npc/<slug>`, ou une chaîne vide si @p path n'est pas celui d'une figurine.
+ * @param path Un chemin de bande de figurine, tel que la composition l'écrit
+ * (`Npc/<slug>/idle.png`, `Monsters/<slug>/idle.png`).
+ * @return `npc/<slug>` ou `monsters/<slug>`, ou une chaîne vide si @p path n'est pas celui d'une
+ *         figurine.
  */
 [[nodiscard]] std::string figureMarkerKey(std::string_view path);
+
+/**
+ * @brief Le chemin d'une bande de figurine, relatif au dossier des assets.
+ *
+ * @param figure Le nom que la carte donne (`WorldFigureSnapshot::figure`).
+ * @param clip   La bande (`idle`, `walk`) ; vide : `idle`.
+ * @return `Npc/<figure>/<clip>.png` pour un slug, `<figure>/<clip>.png` pour un dossier.
+ */
+[[nodiscard]] std::string figureStripPath(std::string_view figure, std::string_view clip);
 
 /// @return Tous les chemins de texture que @p snapshot demandera, sans doublon, triés.
 [[nodiscard]] std::vector<std::string> worldTexturePaths(const WorldSceneSnapshot& snapshot);
