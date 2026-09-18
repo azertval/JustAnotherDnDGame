@@ -13,5 +13,6 @@ var searchData=
   ['nodetooltip_10',['nodeToolTip',['../classhmi_1_1WorldGraphView.html#a9f90d85faf73f76eeffa42a7cb169c6a',1,'hmi::WorldGraphView']]],
   ['normalized_11',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]],
   ['note_12',['note',['../classcore_1_1ArenaSession.html#ad9d4850a9d42e1eb18cf9cb17c688f03',1,'core::ArenaSession']]],
-  ['notedistrictvisit_13',['noteDistrictVisit',['../classhmi_1_1WorldModel.html#adc66b2547875ba03914fe3186cd9e7c4',1,'hmi::WorldModel']]]
+  ['notedistrictvisit_13',['noteDistrictVisit',['../classhmi_1_1WorldModel.html#adc66b2547875ba03914fe3186cd9e7c4',1,'hmi::WorldModel']]],
+  ['npcfigures_14',['npcFigures',['../namespacehmi.html#a7a8f2888417ba2cd0c8440905f9e209a',1,'hmi']]]
 ];

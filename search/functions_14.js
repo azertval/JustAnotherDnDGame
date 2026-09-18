@@ -10,6 +10,5 @@ var searchData=
   ['unreachablefrom_7',['unreachableFrom',['../structcore_1_1Atlas.html#a439fbd9274d9ae36c809c3411204e1fa',1,'core::Atlas::unreachableFrom()'],['../structcore_1_1WorldGraph.html#a3191794baad2df0129ad2ac94deaaed6',1,'core::WorldGraph::unreachableFrom()']]],
   ['update_8',['update',['../classcore_1_1ISystem.html#af7fdaf0677189972cab73e27030306a4',1,'core::ISystem::update()'],['../classcore_1_1World.html#a8f9461b813faa6de969b2b6ed4b76251',1,'core::World::update()'],['../classcore_1_1ExplorationSession.html#af22834cdd0f0305a39eea299e837fcc3',1,'core::ExplorationSession::update()'],['../classhmi_1_1ButtonRepeat.html#a10b368f76e0ed47a7898ca02045b1494',1,'hmi::ButtonRepeat::update()']]],
   ['updatebuttons_9',['updateButtons',['../classhmi_1_1LayersPanel.html#a555ff5da7117c10cbdf0995a750704f2',1,'hmi::LayersPanel']]],
-  ['updatecache_10',['updateCache',['../classhmi_1_1AssetGalleryRenderer.html#a33a718a60f65a5d76283359eb5f49c61',1,'hmi::AssetGalleryRenderer']]],
-  ['updateeditcamera_11',['updateEditCamera',['../classhmi_1_1EditorViewport.html#a01bd699f2da8c47e6e447f92c91fc240',1,'hmi::EditorViewport']]]
+  ['updatecache_10',['updateCache',['../classhmi_1_1AssetGalleryRenderer.html#a33a718a60f65a5d76283359eb5f49c61',1,'hmi::AssetGalleryRenderer']]]
 ];

@@ -100,16 +100,47 @@ $(function(){initNavTree('structhmi_1_1LayerDisplay.html','','structhmi_1_1Layer
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a078355bc96773737419fd3e450655e80" id="r_a078355bc96773737419fd3e450655e80"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a078355bc96773737419fd3e450655e80">effectiveOpacity</a> () const noexcept</td></tr>
 <tr class="memitem:a953ad2deeea219ad1b8ec380ec4ce9fc" id="r_a953ad2deeea219ad1b8ec380ec4ce9fc"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a953ad2deeea219ad1b8ec380ec4ce9fc">operator==</a> (const <a class="el" href="structhmi_1_1LayerDisplay.html">LayerDisplay</a> &amp;) const =default</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:a8a9b2b56a414ed5020c74472bad68d10" id="r_a8a9b2b56a414ed5020c74472bad68d10"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8a9b2b56a414ed5020c74472bad68d10">visible</a> = true</td></tr>
 <tr class="memitem:a9e9aee09d588649fdfce3452cbe4f215" id="r_a9e9aee09d588649fdfce3452cbe4f215"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a9e9aee09d588649fdfce3452cbe4f215">opacity</a> = 1.0F</td></tr>
+<tr class="memitem:a1a7f8de76f9f4e1c384c1e360d18c053" id="r_a1a7f8de76f9f4e1c384c1e360d18c053"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1a7f8de76f9f4e1c384c1e360d18c053">dimmed</a> = false</td></tr>
+<tr class="memdesc:a1a7f8de76f9f4e1c384c1e360d18c053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montrée en retrait (<span class="tt"><a class="el" href="namespacehmi.html#a9d005a8117089b54f18763e2b17e08f6" title="Opacité d&#39;une couche grisée : assez pour s&#39;y repérer, assez peu pour ne pas la confondre avec celle q...">DIMMED_LAYER_OPACITY</a></span>), pour lire une autre couche par-dessus.  <br /></td></tr>
+<tr class="memitem:a65072e33b06a37dffc0ff6a0d8645664" id="r_a65072e33b06a37dffc0ff6a0d8645664"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a65072e33b06a37dffc0ff6a0d8645664">locked</a> = false</td></tr>
+<tr class="memdesc:a65072e33b06a37dffc0ff6a0d8645664"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verrouillée : visible, mais aucun geste ne la peint (<span class="tt">LOT-EDITOR-02</span>, phase 3).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Comment une couche est montrée dans l'éditeur. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a078355bc96773737419fd3e450655e80" name="a078355bc96773737419fd3e450655e80"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a078355bc96773737419fd3e450655e80">&#9670;&#160;</a></span>effectiveOpacity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float hmi::LayerDisplay::effectiveOpacity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'opacité effective : 0 si masquée, réduite si grisée. </dd></dl>
+
+</div>
+</div>
 <a id="a953ad2deeea219ad1b8ec380ec4ce9fc" name="a953ad2deeea219ad1b8ec380ec4ce9fc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a953ad2deeea219ad1b8ec380ec4ce9fc">&#9670;&#160;</a></span>operator==()</h2>
 
@@ -136,6 +167,38 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a1a7f8de76f9f4e1c384c1e360d18c053" name="a1a7f8de76f9f4e1c384c1e360d18c053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a7f8de76f9f4e1c384c1e360d18c053">&#9670;&#160;</a></span>dimmed</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LayerDisplay::dimmed = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Montrée en retrait (<span class="tt"><a class="el" href="namespacehmi.html#a9d005a8117089b54f18763e2b17e08f6" title="Opacité d&#39;une couche grisée : assez pour s&#39;y repérer, assez peu pour ne pas la confondre avec celle q...">DIMMED_LAYER_OPACITY</a></span>), pour lire une autre couche par-dessus. </p>
+
+</div>
+</div>
+<a id="a65072e33b06a37dffc0ff6a0d8645664" name="a65072e33b06a37dffc0ff6a0d8645664"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65072e33b06a37dffc0ff6a0d8645664">&#9670;&#160;</a></span>locked</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LayerDisplay::locked = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Verrouillée : visible, mais aucun geste ne la peint (<span class="tt">LOT-EDITOR-02</span>, phase 3). </p>
+
+</div>
+</div>
 <a id="a9e9aee09d588649fdfce3452cbe4f215" name="a9e9aee09d588649fdfce3452cbe4f215"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e9aee09d588649fdfce3452cbe4f215">&#9670;&#160;</a></span>opacity</h2>
 

@@ -93,19 +93,17 @@ $(function(){initNavTree('classhmi_1_1DraftRenderer.html','','classhmi_1_1DraftR
 </div><!--header-->
 <div class="contents">
 
-<p>Dessine un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> en cours d'édition, <b>à plat</b>.  
+<p>Compose un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> en cours d'édition, <b>à plat</b> : la vue qui lit les types et la collision (décision D1 de la feuille de route de l'éditeur).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="DraftRenderer_8h_source.html">DraftRenderer.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab7ac8e70c8f5d62819348a53803663a3" id="r_ab7ac8e70c8f5d62819348a53803663a3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab7ac8e70c8f5d62819348a53803663a3">DraftRenderer</a> (<a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a> &amp;batch, const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a> &amp;atlas, <a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;cache)</td></tr>
-<tr class="memitem:a3e1c388342540c1366691ff650aed00a" id="r_a3e1c388342540c1366691ff650aed00a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3e1c388342540c1366691ff650aed00a">render</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const <a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a> &amp;camera, bool showGrid, const std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt; &amp;highlight, const <a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a> &amp;entityOverlay={})</td></tr>
-<tr class="memdesc:a3e1c388342540c1366691ff650aed00a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rend le brouillon avec la caméra donnée.  <br /></td></tr>
+<tr class="memitem:a49dc04aebe5a58546f208be19a05add1" id="r_a49dc04aebe5a58546f208be19a05add1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a49dc04aebe5a58546f208be19a05add1">DraftRenderer</a> (<a class="el" href="structhmi_1_1DraftTextures.html">DraftTextures</a> textures)</td></tr>
+<tr class="memitem:a7554680f7bc39bcab06149aac6aaf1c2" id="r_a7554680f7bc39bcab06149aac6aaf1c2"><td class="memItemLeft">const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7554680f7bc39bcab06149aac6aaf1c2">compose</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const std::optional&lt; <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &gt; &amp;visible, bool showGrid, const std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt; &amp;highlight, const <a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a> &amp;entityOverlay={})</td></tr>
+<tr class="memdesc:a7554680f7bc39bcab06149aac6aaf1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le brouillon.  <br /></td></tr>
 <tr class="memitem:ae7ee41cd953b13d62b404542d4f5ecca" id="r_ae7ee41cd953b13d62b404542d4f5ecca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae7ee41cd953b13d62b404542d4f5ecca">setLayerView</a> (const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp;view)</td></tr>
-<tr class="memitem:a866ad56f7e8a029aaff1b8b72210c30a" id="r_a866ad56f7e8a029aaff1b8b72210c30a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a866ad56f7e8a029aaff1b8b72210c30a">invalidate</a> () noexcept</td></tr>
-<tr class="memdesc:a866ad56f7e8a029aaff1b8b72210c30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marque la scène comme périmée (après toute mutation du brouillon).  <br /></td></tr>
 <tr class="memitem:acbb89fb6d31cb5718dece21322b1630c" id="r_acbb89fb6d31cb5718dece21322b1630c"><td class="memItemLeft">const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acbb89fb6d31cb5718dece21322b1630c">lastScene</a> () const noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
@@ -130,38 +128,35 @@ Private Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a09e3140a5abe00f58707f0ca8653a946" id="r_a09e3140a5abe00f58707f0ca8653a946"><td class="memItemLeft"><a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a>&#160;</td><td class="memItemRight"><a class="el" href="#a09e3140a5abe00f58707f0ca8653a946">_layerView</a></td></tr>
-<tr class="memitem:a0b67904e6c3e241a281be17dafe27398" id="r_a0b67904e6c3e241a281be17dafe27398"><td class="memItemLeft"><a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0b67904e6c3e241a281be17dafe27398">_batch</a></td></tr>
-<tr class="memitem:a823f254cf3e79362168f4f5e3fa526a1" id="r_a823f254cf3e79362168f4f5e3fa526a1"><td class="memItemLeft">const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a823f254cf3e79362168f4f5e3fa526a1">_atlas</a></td></tr>
-<tr class="memitem:aee0b5e62d6615dc8fede40871395017f" id="r_aee0b5e62d6615dc8fede40871395017f"><td class="memItemLeft"><a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aee0b5e62d6615dc8fede40871395017f">_cache</a></td></tr>
+<tr class="memitem:a2e9a7dfc3e4cac0ea9d78ddc443b34db" id="r_a2e9a7dfc3e4cac0ea9d78ddc443b34db"><td class="memItemLeft"><a class="el" href="structhmi_1_1DraftTextures.html">DraftTextures</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2e9a7dfc3e4cac0ea9d78ddc443b34db">_textures</a></td></tr>
 <tr class="memitem:ab0e865117967424e741c7163552d57b5" id="r_ab0e865117967424e741c7163552d57b5"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab0e865117967424e741c7163552d57b5">_scene</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Dessine un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> en cours d'édition, <b>à plat</b>. </p>
-<p>Une couleur par type de tuile (<span class="tt"><a class="el" href="namespacehmi.html#a597b9471d79c0d524b3dedbf52c2fac6" title="Région d&#39;atlas (couleur procédurale) associée à un type de tuile.">hmi::regionForTile</a></span>, l'atlas procédural), les couches visuelles dans leur ordre, la collision en masque teinté par catégorie, puis les entités par leur marqueur de famille (<span class="tt">LOT-39</span>). Le canevas ne cherche pas à ressembler au jeu : il montre ce qu'on édite — le type de chaque case — et l'essai immédiat montre le jeu (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>).</p>
-<p>Toutes les primitives d'une image sont composées dans une seule <span class="tt"><a class="el" href="classhmi_1_1ComposedScene.html" title="Liste ordonnée des primitives d&#39;une image, indépendante de Direct3D.">hmi::ComposedScene</a></span> puis soumises en bloc : les aides d'édition portent le calque <span class="tt"><a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751" title="Aides d&#39;édition : grille de repère, aperçu de sélection.">RenderLayer::EditorOverlay</a></span>, qui les place au-dessus du reste par construction. La liste obtenue est inspectable sans GPU (<span class="tt">EX-NFR-004</span>). </p>
+<div class="textblock"><p>Compose un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> en cours d'édition, <b>à plat</b> : la vue qui lit les types et la collision (décision D1 de la feuille de route de l'éditeur). </p>
+<p>Une couleur par type de tuile (<span class="tt"><a class="el" href="namespacehmi.html#a597b9471d79c0d524b3dedbf52c2fac6" title="Région d&#39;atlas (couleur procédurale) associée à un type de tuile.">hmi::regionForTile</a></span>, l'atlas procédural), les couches visuelles dans leur ordre, la collision en masque teinté par catégorie, puis les entités par leur marqueur de famille (<span class="tt">LOT-39</span>). Cette vue ne cherche pas à ressembler au jeu : elle montre ce qu'on édite — le type de chaque case. La vue iso, par défaut, montre le lieu (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html" title="Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l&#39;essai.">hmi::EditorViewport</a></span>).</p>
+<p>Toutes les primitives sont composées dans une seule <span class="tt"><a class="el" href="classhmi_1_1ComposedScene.html" title="Liste ordonnée des primitives d&#39;une image, indépendante de Direct3D.">hmi::ComposedScene</a></span>, en unités de case : les aides d'édition portent le calque <span class="tt"><a class="el" href="namespacehmi.html#a9b5452f2d3a1019a3229b90a4f000919a94f3616c83f30ab5a328e602bbb7d751" title="Aides d&#39;édition : grille de repère, aperçu de sélection.">RenderLayer::EditorOverlay</a></span>, qui les place au-dessus du reste par construction. La liste est inspectable sans GPU (<span class="tt">EX-NFR-004</span>) ; le canevas la peint. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab7ac8e70c8f5d62819348a53803663a3" name="ab7ac8e70c8f5d62819348a53803663a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7ac8e70c8f5d62819348a53803663a3">&#9670;&#160;</a></span>DraftRenderer()</h2>
+<a id="a49dc04aebe5a58546f208be19a05add1" name="a49dc04aebe5a58546f208be19a05add1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49dc04aebe5a58546f208be19a05add1">&#9670;&#160;</a></span>DraftRenderer()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">hmi::DraftRenderer::DraftRenderer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>batch</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structhmi_1_1DraftTextures.html">DraftTextures</a></td>          <td class="paramname"><span class="paramname"><em>textures</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>atlas</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cache</em></span>&#160;)</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>
@@ -230,6 +225,55 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ajoute un quad uni teinté <code class="param"></code>(x, y, w, h) au calque d'édition, rang <code class="param">order</code>. </p>
+
+</div>
+</div>
+<a id="a7554680f7bc39bcab06149aac6aaf1c2" name="a7554680f7bc39bcab06149aac6aaf1c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7554680f7bc39bcab06149aac6aaf1c2">&#9670;&#160;</a></span>compose()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp; hmi::DraftRenderer::compose </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::optional&lt; <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>visible</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>showGrid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>highlight</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entityOverlay</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Compose le brouillon. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">draft</td><td>Brouillon de carte à dessiner. </td></tr>
+    <tr><td class="paramname">visible</td><td>Rectangle visible, en cases : ce qui est hors cadre n'est pas composé. </td></tr>
+    <tr><td class="paramname">showGrid</td><td>Superpose la grille des cases (<span class="tt">EX-EDIT-023</span>). </td></tr>
+    <tr><td class="paramname">highlight</td><td>Zone à voiler (bornes incluses) : l'aperçu des outils Rectangle/Sélection. </td></tr>
+    <tr><td class="paramname">entityOverlay</td><td>Entité sélectionnée et terrains de rencontre à superposer (rien par défaut). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>La scène composée, triée ; valide jusqu'au prochain appel. </dd></dl>
 
 </div>
 </div>
@@ -448,34 +492,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a866ad56f7e8a029aaff1b8b72210c30a" name="a866ad56f7e8a029aaff1b8b72210c30a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a866ad56f7e8a029aaff1b8b72210c30a">&#9670;&#160;</a></span>invalidate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::DraftRenderer::invalidate </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Marque la scène comme périmée (après toute mutation du brouillon). </p>
-<p>Gardée pour les appelants : la composition est refaite à chaque image, le coût d'une carte de quelques milliers de cases étant négligeable devant celui de la soumettre. </p>
-
-</div>
-</div>
 <a id="acbb89fb6d31cb5718dece21322b1630c" name="acbb89fb6d31cb5718dece21322b1630c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acbb89fb6d31cb5718dece21322b1630c">&#9670;&#160;</a></span>lastScene()</h2>
 
@@ -498,55 +514,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>La scène composée à la dernière image (primitives soumises et compteurs). </dd></dl>
-
-</div>
-</div>
-<a id="a3e1c388342540c1366691ff650aed00a" name="a3e1c388342540c1366691ff650aed00a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3e1c388342540c1366691ff650aed00a">&#9670;&#160;</a></span>render()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::DraftRenderer::render </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>camera</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>showGrid</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>highlight</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1DraftEntityOverlay.html">DraftEntityOverlay</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entityOverlay</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Rend le brouillon avec la caméra donnée. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">draft</td><td>Brouillon de carte à dessiner. </td></tr>
-    <tr><td class="paramname">camera</td><td>Caméra qui cadre le canevas. </td></tr>
-    <tr><td class="paramname">showGrid</td><td>Superpose la grille des cases (<span class="tt">EX-EDIT-023</span>). </td></tr>
-    <tr><td class="paramname">highlight</td><td>Zone à voiler (bornes incluses) : l'aperçu des outils Rectangle/Sélection. </td></tr>
-    <tr><td class="paramname">entityOverlay</td><td>Entité sélectionnée et terrains de rencontre à superposer (rien par défaut). </td></tr>
-  </table>
-  </dd>
-</dl>
+<dl class="section return"><dt>Returns</dt><dd>La scène composée au dernier appel de <span class="tt"><a class="el" href="#a7554680f7bc39bcab06149aac6aaf1c2" title="Compose le brouillon.">compose</a></span>. </dd></dl>
 
 </div>
 </div>
@@ -568,72 +536,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a823f254cf3e79362168f4f5e3fa526a1" name="a823f254cf3e79362168f4f5e3fa526a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a823f254cf3e79362168f4f5e3fa526a1">&#9670;&#160;</a></span>_atlas</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1TextureAtlas.html">TextureAtlas</a>&amp; hmi::DraftRenderer::_atlas</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0b67904e6c3e241a281be17dafe27398" name="a0b67904e6c3e241a281be17dafe27398"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0b67904e6c3e241a281be17dafe27398">&#9670;&#160;</a></span>_batch</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1SpriteBatch.html">SpriteBatch</a>&amp; hmi::DraftRenderer::_batch</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aee0b5e62d6615dc8fede40871395017f" name="aee0b5e62d6615dc8fede40871395017f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee0b5e62d6615dc8fede40871395017f">&#9670;&#160;</a></span>_cache</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1TextureCache.html">TextureCache</a>&amp; hmi::DraftRenderer::_cache</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a09e3140a5abe00f58707f0ca8653a946" name="a09e3140a5abe00f58707f0ca8653a946"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a09e3140a5abe00f58707f0ca8653a946">&#9670;&#160;</a></span>_layerView</h2>
 
@@ -667,6 +569,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::DraftRenderer::_scene</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2e9a7dfc3e4cac0ea9d78ddc443b34db" name="a2e9a7dfc3e4cac0ea9d78ddc443b34db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e9a7dfc3e4cac0ea9d78ddc443b34db">&#9670;&#160;</a></span>_textures</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1DraftTextures.html">DraftTextures</a> hmi::DraftRenderer::_textures</td>
         </tr>
       </table>
   </td>

@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ScenePieceManifest.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;filesystem&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+/**
+ * @file Core/Resources/ScenePieceManifest.h
+ * @brief Le **manifeste des piÃ¨ces** d'un lieu : ce que l'atelier des textures (`LOT-92`) dÃ©clare
+ *        de chaque piÃ¨ce de sa planche â classe, emprise, ancre, taille, miroir.
+ *
+ * L'atelier Ã©crit, Ã  cÃ´tÃ© des images d'un lieu, un `Assets/Scene/&lt;lieu&gt;/manifest.json`. Jusqu'au
+ * `LOT-EDITOR-02`, seule la galerie des assets le lisait, dans `HMI` (constat A9 de la feuille de
+ * route de l'Ã©diteur) : aucune rÃ¨gle de carte ne pouvait donc s'appuyer sur l'emprise d'une piÃ¨ce.
+ * La lecture descend ici, sans Qt ni GPU, pour que `Core` puisse un jour en dÃ©duire l'occupation et
+ * la collision (`LOT-EDITOR-12`) ; `HMI` n'en garde que les images.
+ *
+ * Le manifeste nomme une piÃ¨ce par une clÃ© d'atelier (`scene/martpart/wall-left`). Une carte, elle,
+ * ne connaÃ®t que le **nom court** (`wall-left`), celui que la table d'apparence et l'assignation de
+ * texture Ã©crivent : le lecteur rend les deux.
+ */
+
+namespace core {
+
+struct JsonDocument;
+
+/// @brief Classe d'une piÃ¨ce, telle que l'atelier la range.
+enum class ScenePieceClass : std::uint8_t {
+    /// Un losange de sol, posÃ© Ã  plat.
+    Floor,
+    /// Une piÃ¨ce debout d'une case : mur, porte, torche.
+    Tall,
+    /// Une piÃ¨ce debout de plusieurs cases : faÃ§ade, Ã©tal, gradin.
+    Wide,
+    /// Une classe que ce lecteur ne connaÃ®t pas : gardÃ©e par son nom, jamais refusÃ©e.
+    Other,
+};
+
+/// @brief Une piÃ¨ce de la planche d'un lieu.
+struct ScenePiece {
+    /// Nom court (`wall-left`) : celui que les cartes Ã©crivent.
+    std::string name;
+    /// ClÃ© de l'atelier (`scene/martpart/wall-left`).
+    std::string key;
+    /// Fichier image, relatif au dossier du lieu (`wall-left.png`).
+    std::string file;
+    ScenePieceClass pieceClass = ScenePieceClass::Other;
+    /// Classe telle qu'Ã©crite (`floor`, `tall`, `wide`â¦), pour une classe inconnue.
+    std::string className;
+    /// Emprise en cases : colonnes, puis lignes. Au moins 1 Ã 1.
+    int footprintColumns = 1;
+    int footprintRows = 1;
+    /// Taille de l'image, en pixels d'art ; 0 si le manifeste ne la donne pas.
+    int width = 0;
+    int height = 0;
+    /// Ancre (sommet haut du losange de l'emprise), en pixels d'art ; -1 si non donnÃ©e.
+    int anchorX = -1;
+    int anchorY = -1;
+    /// Nom court de la piÃ¨ce dont celle-ci est le miroir, vide sinon. L'image miroir est livrÃ©e
+    /// telle quelle par l'atelier : le rendu n'a rien Ã  retourner.
+    std::string mirrorOf;
+
+    [[nodiscard]] bool operator==(const ScenePiece&amp;) const = default;
+};
+
+/// @brief CatÃ©gorie d'Ã©chec de lecture.
+enum class ScenePieceManifestError : std::uint8_t {
+    None,
+    FileNotFound,
+    ParseError,
+    UnsupportedVersion,
+    MalformedStructure,
+};
+
+struct ScenePieceManifestResult;
+
+/**
+ * @brief Les piÃ¨ces d'un lieu, dans l'ordre du manifeste.
+ *
+ * Logique pure. Aucune lecture ne lÃ¨ve (`EX-NFR-040`) ; une entrÃ©e mal formÃ©e (sans `file`) est
+ * ignorÃ©e plutÃ´t que de faire perdre les autres, comme la galerie l'a toujours fait.
+ */
+class ScenePieceManifest {
+public:
+    static constexpr int FORMAT_VERSION = 1;
+
+    [[nodiscard]] static ScenePieceManifestResult loadFromString(std::string_view json);
+    [[nodiscard]] static ScenePieceManifestResult loadFromFile(const std::filesystem::path&amp; path);
+
+    /// @return Le lieu (`disposition` du manifeste : `martpart`), vide s'il n'est pas donnÃ©.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; place() const noexcept {
+        return _place;
+    }</span>
+
+    /// @return Les piÃ¨ces, dans l'ordre oÃ¹ le manifeste les Ã©crit.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;ScenePiece&gt;&amp; pieces() const noexcept {
+        return _pieces;
+    }</span>
+
+    /// @return La piÃ¨ce de nom court @p name, `nullptr` si le lieu ne la dÃ©clare pas.
+    [[nodiscard]] const ScenePiece* find(std::string_view name) const noexcept;
+
+private:
+    [[nodiscard]] static ScenePieceManifestResult fromDocument(const JsonDocument&amp; document);
+
+    std::string _place;
+    std::vector&lt;ScenePiece&gt; _pieces;
+};
+
+/// @brief RÃ©sultat d'une lecture : le manifeste, et ce qui a Ã©chouÃ©.
+struct ScenePieceManifestResult {
+    ScenePieceManifest manifest;
+    ScenePieceManifestError error = ScenePieceManifestError::None;
+    /// Message technique, vide en cas de succÃ¨s.
+    std::string message;
+
+<span style = "background-color:#dfd">    [[nodiscard]] bool ok() const noexcept {
+        return error == ScenePieceManifestError::None;
+    }</span>
+};
+
+/// @return La classe nommÃ©e @p name (`floor`, `tall`, `wide`), `Other` pour toute autre.
+[[nodiscard]] ScenePieceClass parseScenePieceClass(std::string_view name) noexcept;
+
+/// @return Le nom court d'une clÃ© d'atelier : ce qui suit la derniÃ¨re barre.
+[[nodiscard]] std::string_view scenePieceShortName(std::string_view key) noexcept;
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

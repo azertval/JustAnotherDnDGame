@@ -24,8 +24,10 @@
 
 #include "Core/Combat/IsoProjection.h"
 #include "Core/Levels/Level.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
+#include "Core/Rpg/Dialogue.h"
 #include "HMI/Graphics/PlaceAppearance.h"
 
 namespace hmi {
@@ -59,18 +61,18 @@ constexpr std::array&lt;std::string_view, 2&gt; FIGURE_DIRECTORIES = {"Npc/", "M
 
 // La couche dont le sol se lit : la premiere couche de sol, a defaut la grille racine (une carte
 // sans couche visuelle reste jouable -- `EX-NFR-040`).
-<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap&amp; groundOf(const core::Level&amp; level) {
-    for (const core::TileLayer&amp; couche : level.layers()) {
+<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap&amp; groundOf(const WorldSceneSource&amp; source) {
+    for (const core::TileLayer&amp; couche : source.layers) {
         if (couche.kind == core::LayerKind::Ground) {
             return couche.tiles;</span>
         }
 <span style = "background-color:#dfd">    }</span>
-<span style = "background-color:#fdd">    return level.tileMap();</span>
+<span style = "background-color:#fdd">    return source.root;</span>
 <span style = "background-color:#dfd">}</span>
 
 /// @return La couche de decor, ou `nullptr` si la carte n'en declare pas.
-<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap* decorOf(const core::Level&amp; level) {
-    for (const core::TileLayer&amp; couche : level.layers()) {
+<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap* decorOf(const WorldSceneSource&amp; source) {
+    for (const core::TileLayer&amp; couche : source.layers) {
         if (couche.kind == core::LayerKind::Decor) {
             return &amp;couche.tiles;</span>
         }
@@ -181,15 +183,42 @@ void composeFigure(ComposedScene&amp; scene, const core::IsoProjection&amp; proj
 }</span>
 
 <span style = "background-color:#dfd">std::string_view WorldSceneSnapshot::reliefAt(core::GridPosition cell) const {
-    if (!inGrid(cell, columns, rows)) {</span>
-<span style = "background-color:#fdd">        return {};</span>
+    if (!inGrid(cell, columns, rows)) {
+        return {};</span>
     }
 <span style = "background-color:#dfd">    const std::size_t index = indexOf(cell, columns);
     return index &lt; relief.size() ? std::string_view{relief[index]} : std::string_view{};
 }</span>
 
 <span style = "background-color:#dfd">std::string scenePlaceOf(const core::Level&amp; level) {
-    for (const core::TileLayer&amp; couche : level.layers()) {
+    return scenePlaceOf(level.layers());
+}</span>
+
+std::vector&lt;WorldFigureSnapshot&gt; npcFigures(const std::vector&lt;core::MapEntity&gt;&amp; entities,
+<span style = "background-color:#dfd">                                            int frame) {
+    std::vector&lt;WorldFigureSnapshot&gt; figures;
+    for (const core::MapEntity&amp; entity : entities) {
+        if (entity.type != core::NPC_ENTITY_TYPE) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const auto found = entity.properties.find(std::string{core::NPC_FIGURE_PROPERTY});
+        const std::string* figure =</span>
+            found != entity.properties.end() ? std::get_if&lt;std::string&gt;(&amp;found-&gt;second) : nullptr;
+<span style = "background-color:#dfd">        if (figure == nullptr || figure-&gt;empty()) {</span>
+<span style = "background-color:#fdd">            continue;  // Un PNJ sans figurine ne se dessine pas : il n'est pas encore dessinÃ©.</span>
+        }
+<span style = "background-color:#dfd">        figures.push_back(</span>
+            WorldFigureSnapshot{.figure = *figure,
+                                .clip = "idle",
+                                .point = {static_cast&lt;float&gt;(entity.position.column) + 0.5F,
+                                          static_cast&lt;float&gt;(entity.position.row) + 0.5F},
+                                .frame = frame});
+<span style = "background-color:#dfd">    }
+    return figures;
+}</span>
+
+<span style = "background-color:#dfd">std::string scenePlaceOf(const std::vector&lt;core::TileLayer&gt;&amp; layers) {
+    for (const core::TileLayer&amp; couche : layers) {
         const auto trouvee = couche.properties.find(std::string{SCENE_PLACE_PROPERTY});
         if (trouvee == couche.properties.end()) {
             continue;</span>
@@ -204,13 +233,19 @@ void composeFigure(ComposedScene&amp; scene, const core::IsoProjection&amp; proj
 
 WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceAppearance&amp; appearance,
 <span style = "background-color:#dfd">                                      std::vector&lt;WorldFigureSnapshot&gt; figures) {
-    const core::TileMap&amp; sol = groundOf(level);
-    const core::TileMap* decor = decorOf(level);</span>
+    return snapshotWorldScene(worldSceneSource(level), appearance, std::move(figures));
+}</span>
+
+WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource&amp; source,
+                                      const PlaceAppearance&amp; appearance,
+<span style = "background-color:#dfd">                                      std::vector&lt;WorldFigureSnapshot&gt; figures) {
+    const core::TileMap&amp; sol = groundOf(source);
+    const core::TileMap* decor = decorOf(source);</span>
 
 <span style = "background-color:#dfd">    WorldSceneSnapshot snapshot;
     snapshot.columns = std::max(0, sol.width());
     snapshot.rows = std::max(0, sol.height());
-    snapshot.place = scenePlaceOf(level);
+    snapshot.place = scenePlaceOf(source.layers);
     if (snapshot.place.empty()) {</span>
 <span style = "background-color:#fdd">        snapshot.place = appearance.place();</span>
     }
@@ -234,7 +269,7 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
 
     // L'assignation de texture a la case l'emporte sur la table du lieu : c'est la ou l'auteur a
     // decide (LOT-11, `EX-EDIT-043`). Elle nomme une piece de la planche, pas un fichier.
-<span style = "background-color:#dfd">    for (const core::TileTextureOverride&amp; assignee : level.textureOverrides()) {
+<span style = "background-color:#dfd">    for (const core::TileTextureOverride&amp; assignee : source.textureOverrides) {
         if (!inGrid(assignee.position, snapshot.columns, snapshot.rows)) {</span>
 <span style = "background-color:#fdd">            continue;</span>
         }

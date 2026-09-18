@@ -105,8 +105,8 @@ $(function(){initNavTree('WorldSceneRenderer_8h.html','',''); });
 <code>#include &quot;<a class="el" href="Vector2_8h_source.html">Core/Math/Vector2.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Camera2D_8h_source.html">HMI/Graphics/Camera2D.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ComposedScene_8h_source.html">HMI/Graphics/ComposedScene.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="SceneResources_8h_source.html">HMI/Graphics/SceneResources.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ScenePieces_8h_source.html">HMI/Graphics/ScenePieces.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SceneResources_8h_source.html">HMI/Graphics/SceneResources.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TextureLoader_8h_source.html">HMI/Graphics/TextureLoader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="WorldSceneComposer_8h_source.html">HMI/Graphics/WorldSceneComposer.h</a>&quot;</code><br />
 </div>
@@ -125,11 +125,6 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a8efa2a96919dd4bc6675ddc5e0f292ad" id="r_a8efa2a96919dd4bc6675ddc5e0f292ad"><td class="memItemLeft"><a class="el" href="classhmi_1_1Camera2D.html">Camera2D</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8efa2a96919dd4bc6675ddc5e0f292ad">hmi::worldCamera</a> (const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> focus, int pixelWidth, int pixelHeight)</td></tr>
 <tr class="memdesc:a8efa2a96919dd4bc6675ddc5e0f292ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage d'un lieu : la caméra <b>suit</b> le héros, et ne sort pas de la carte.  <br /></td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a010839751f5f86ba20ee3221f0c0c09e" id="r_a010839751f5f86ba20ee3221f0c0c09e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a010839751f5f86ba20ee3221f0c0c09e">hmi::WORLD_ART_HEIGHT_PIXELS</a> = 720</td></tr>
-<tr class="memdesc:a010839751f5f86ba20ee3221f0c0c09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le rendu QRhi d'un <b>lieu qu'on parcourt</b> : le jumeau d'<span class="tt"><a class="el" href="classhmi_1_1ArenaSceneRenderer.html" title="Ce qui dessine le Colisée : ressources GPU, textures de la planche, animation des figurines,...">hmi::ArenaSceneRenderer</a></span> (<span class="tt">LOT-09</span>). </p>

@@ -158,6 +158,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:abe2762f58f8dd3bcbe6ecfc081072e88" id="r_abe2762f58f8dd3bcbe6ecfc081072e88"><td class="memItemLeft"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#abe2762f58f8dd3bcbe6ecfc081072e88">_entities</a> = nullptr</td></tr>
 <tr class="memitem:a89f8014e22b86c24e18ea5af2239655f" id="r_a89f8014e22b86c24e18ea5af2239655f"><td class="memItemLeft">std::array&lt; QDockWidget *, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">PANEL_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a89f8014e22b86c24e18ea5af2239655f">_docks</a> {}</td></tr>
 <tr class="memdesc:a89f8014e22b86c24e18ea5af2239655f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dans l'ordre de <span class="tt"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726" title="Panneau dockable de l&#39;éditeur.">PanelId</a></span>.  <br /></td></tr>
+<tr class="memitem:a23e247e0ca80892f27be7348daacf566" id="r_a23e247e0ca80892f27be7348daacf566"><td class="memItemLeft"><a class="el" href="classhmi_1_1MiniMap.html">MiniMap</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a23e247e0ca80892f27be7348daacf566">_miniMap</a> = nullptr</td></tr>
+<tr class="memdesc:a23e247e0ca80892f27be7348daacf566"><td class="mdescLeft">&#160;</td><td class="mdescRight">La mini-carte (LOT-EDITOR-02) : un dock hors de la mise en avant par outil.  <br /></td></tr>
+<tr class="memitem:a0fd82b847d227e46f98f3f83d622f435" id="r_a0fd82b847d227e46f98f3f83d622f435"><td class="memItemLeft">QDockWidget *&#160;</td><td class="memItemRight"><a class="el" href="#a0fd82b847d227e46f98f3f83d622f435">_miniMapDock</a> = nullptr</td></tr>
 <tr class="memitem:a1740570708e810c8d14a9f85988296fb" id="r_a1740570708e810c8d14a9f85988296fb"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1740570708e810c8d14a9f85988296fb">_references</a></td></tr>
 <tr class="memitem:aa11ea4bf8bdc5815fc36bee49cd1c0ed" id="r_aa11ea4bf8bdc5815fc36bee49cd1c0ed"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed">_actions</a> = nullptr</td></tr>
 <tr class="memitem:ab33c6cdb6968b9fb8550383780597a57" id="r_ab33c6cdb6968b9fb8550383780597a57"><td class="memItemLeft">QToolBar *&#160;</td><td class="memItemRight"><a class="el" href="#ab33c6cdb6968b9fb8550383780597a57">_toolBar</a> = nullptr</td></tr>
@@ -184,7 +187,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Fenêtre principale de l'éditeur (Qt Widgets, style Fusion, textes anglais). </p>
-<p>Le canevas (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>) est le widget central ; la palette, le navigateur de cartes, les couches et les entités sont des docks détachables dont la disposition est persistée (<span class="tt">EX-IHM-011</span>). Tout est construit en code (<span class="tt">LOT-EDITOR-01</span>). La fenêtre ne possède aucune donnée d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique.</p>
+<p>Le canevas (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html" title="Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l&#39;essai.">hmi::EditorViewport</a></span>) est le widget central ; la palette, le navigateur de cartes, les couches et les entités sont des docks détachables dont la disposition est persistée (<span class="tt">EX-IHM-011</span>). Tout est construit en code (<span class="tt">LOT-EDITOR-01</span>). La fenêtre ne possède aucune donnée d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique.</p>
 <p>Elle garde aussi le travail de l'auteur (<span class="tt">LOT-EDITOR-01</span>) : un brouillon modifié est sauvegardé automatiquement hors du dépôt et proposé à la reprise après un plantage ; une carte changée sur disque pendant qu'elle est ouverte n'est jamais écrasée en silence ; fermer avec des modifications demande quoi en faire. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad5314276368d312f8f32bc9e3bed3db2" name="ad5314276368d312f8f32bc9e3bed3db2"></a>
@@ -1238,6 +1241,52 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a>* hmi::MainWindow::_levels = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a23e247e0ca80892f27be7348daacf566" name="a23e247e0ca80892f27be7348daacf566"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23e247e0ca80892f27be7348daacf566">&#9670;&#160;</a></span>_miniMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1MiniMap.html">MiniMap</a>* hmi::MainWindow::_miniMap = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La mini-carte (LOT-EDITOR-02) : un dock hors de la mise en avant par outil. </p>
+
+</div>
+</div>
+<a id="a0fd82b847d227e46f98f3f83d622f435" name="a0fd82b847d227e46f98f3f83d622f435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fd82b847d227e46f98f3f83d622f435">&#9670;&#160;</a></span>_miniMapDock</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDockWidget* hmi::MainWindow::_miniMapDock = nullptr</td>
         </tr>
       </table>
   </td>

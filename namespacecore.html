@@ -340,6 +340,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couleur RVBA, sans dépendance au rendu — <span class="tt">Core</span> ne connaît ni Qt ni GPU (<span class="tt">EX-ARCH-001</span>).  <a href="structcore_1_1MarkerColor.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MarkerImage" id="r_MarkerImage"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1MarkerImage.html">MarkerImage</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pixels d'un marqueur, en RVBA, ligne par ligne depuis le haut.  <a href="structcore_1_1MarkerImage.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ScenePiece" id="r_ScenePiece"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ScenePiece.html">ScenePiece</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une pièce de la planche d'un lieu.  <a href="structcore_1_1ScenePiece.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ScenePieceManifest" id="r_ScenePieceManifest"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pièces d'un lieu, dans l'ordre du manifeste.  <a href="classcore_1_1ScenePieceManifest.html#details">More...</a><br /></td></tr>
+<tr class="memitem:ScenePieceManifestResult" id="r_ScenePieceManifestResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1ScenePieceManifestResult.html">ScenePieceManifestResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture : le manifeste, et ce qui a échoué.  <a href="structcore_1_1ScenePieceManifestResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CreatureTrait" id="r_CreatureTrait"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CreatureTrait.html">CreatureTrait</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un trait de créature : un nom et sa description, tels que le livre les écrit.  <a href="structcore_1_1CreatureTrait.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CreatureAction" id="r_CreatureAction"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CreatureAction.html">CreatureAction</a></td></tr>
@@ -739,6 +745,22 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:ace99a1be913e6294e42e9ebb145eb875"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'une tuile de la grille d'une carte (<span class="tt">EX-LVL-002</span>).  <a href="#ace99a1be913e6294e42e9ebb145eb875">More...</a><br /></td></tr>
+<tr class="memitem:a4a3860a249c1a2e07497950f57f4d461" id="r_a4a3860a249c1a2e07497950f57f4d461"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a4a3860a249c1a2e07497950f57f4d461">ScenePieceClass</a> : std::uint8_t { <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461af3f6d0343d56ce88ce7958170ed05cb3">Floor</a>
+, <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461a31fdedff3e473efdbd079e3b59fcb4f9">Tall</a>
+, <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1">Wide</a>
+, <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387">Other</a>
+ }</td></tr>
+<tr class="memdesc:a4a3860a249c1a2e07497950f57f4d461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe d'une pièce, telle que l'atelier la range.  <a href="#a4a3860a249c1a2e07497950f57f4d461">More...</a><br /></td></tr>
+<tr class="memitem:a79edc6fa3ed0d05e7bad4f1756e2fbcc" id="r_a79edc6fa3ed0d05e7bad4f1756e2fbcc"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcc">ScenePieceManifestError</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
+, <a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbccae41199faa7290c167f70f314c5e6c165">ParseError</a>
+, <a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcca0f89bc98e9b12bdeda0604e57bdc0518">UnsupportedVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbccaa809debdbe0cae246d363461916d924d">MalformedStructure</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a79edc6fa3ed0d05e7bad4f1756e2fbcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de lecture.  <a href="#a79edc6fa3ed0d05e7bad4f1756e2fbcc">More...</a><br /></td></tr>
 <tr class="memitem:a97f31c7914a6cfc54cc026a77da58fd1" id="r_a97f31c7914a6cfc54cc026a77da58fd1"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> { <br />
 &#160;&#160;<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1a5a455a612047a34ede7a6c564fa67c0a">Strength</a>
 , <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1aa8747f5acdc2352d39f455bdd1689273">Dexterity</a>
@@ -1220,6 +1242,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a22e0e2c24dd3236fe3a81f89f795fee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le hachage stable dont <span class="tt"><a class="el" href="#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">assetMarker</a></span> tire sa teinte.  <br /></td></tr>
 <tr class="memitem:ac6ae670b019f78f94c6c8354d01794bc" id="r_ac6ae670b019f78f94c6c8354d01794bc"><td class="memItemLeft"><a class="el" href="structcore_1_1MarkerImage.html">MarkerImage</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac6ae670b019f78f94c6c8354d01794bc">assetMarker</a> (std::string_view key, int width, int height)</td></tr>
 <tr class="memdesc:ac6ae670b019f78f94c6c8354d01794bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint le marqueur d'une clé d'asset.  <br /></td></tr>
+<tr class="memitem:ab61b34d0d8ae2acaa9aa552c099b2255" id="r_ab61b34d0d8ae2acaa9aa552c099b2255"><td class="memItemLeft"><a class="el" href="#a4a3860a249c1a2e07497950f57f4d461">ScenePieceClass</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab61b34d0d8ae2acaa9aa552c099b2255">parseScenePieceClass</a> (std::string_view name) noexcept</td></tr>
+<tr class="memitem:a40b827238eccb98a51e5d1e4966f6aae" id="r_a40b827238eccb98a51e5d1e4966f6aae"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a40b827238eccb98a51e5d1e4966f6aae">scenePieceShortName</a> (std::string_view key) noexcept</td></tr>
 <tr class="memitem:ad539e41d55b3f90675658586d0d0b77e" id="r_ad539e41d55b3f90675658586d0d0b77e"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e">abilityName</a> (<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> ability) noexcept</td></tr>
 <tr class="memdesc:ad539e41d55b3f90675658586d0d0b77e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom textuel d'une caractéristique, tel que les données l'écrivent.  <br /></td></tr>
 <tr class="memitem:a6faed4224d505ed620516937e3a019dd" id="r_a6faed4224d505ed620516937e3a019dd"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6faed4224d505ed620516937e3a019dd">parseAbility</a> (std::string_view name) noexcept</td></tr>
@@ -2968,7 +2992,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md903"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md911"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -3252,6 +3276,71 @@ L'altitude est un attribut, jamais une géométrie</h2>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0" name="aff494cc4070ea4489c3d5ee57178f7c9a960b44c579bc2f6818d2daaf9e4c16f0"></a>Normal&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1" name="aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1"></a>Advantage&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004" name="aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004"></a>Disadvantage&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a4a3860a249c1a2e07497950f57f4d461" name="a4a3860a249c1a2e07497950f57f4d461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a3860a249c1a2e07497950f57f4d461">&#9670;&#160;</a></span>ScenePieceClass</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461">core::ScenePieceClass</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Classe d'une pièce, telle que l'atelier la range. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a4a3860a249c1a2e07497950f57f4d461af3f6d0343d56ce88ce7958170ed05cb3" name="a4a3860a249c1a2e07497950f57f4d461af3f6d0343d56ce88ce7958170ed05cb3"></a>Floor&#160;</td><td class="fielddoc"><p>Un losange de sol, posé à plat. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4a3860a249c1a2e07497950f57f4d461a31fdedff3e473efdbd079e3b59fcb4f9" name="a4a3860a249c1a2e07497950f57f4d461a31fdedff3e473efdbd079e3b59fcb4f9"></a>Tall&#160;</td><td class="fielddoc"><p>Une pièce debout d'une case : mur, porte, torche. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1" name="a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1"></a>Wide&#160;</td><td class="fielddoc"><p>Une pièce debout de plusieurs cases : façade, étal, gradin. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387" name="a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387"></a>Other&#160;</td><td class="fielddoc"><p>Une classe que ce lecteur ne connaît pas : gardée par son nom, jamais refusée. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a79edc6fa3ed0d05e7bad4f1756e2fbcc" name="a79edc6fa3ed0d05e7bad4f1756e2fbcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79edc6fa3ed0d05e7bad4f1756e2fbcc">&#9670;&#160;</a></span>ScenePieceManifestError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcc">core::ScenePieceManifestError</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Catégorie d'échec de lecture. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754" name="a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2" name="a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2"></a>FileNotFound&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79edc6fa3ed0d05e7bad4f1756e2fbccae41199faa7290c167f70f314c5e6c165" name="a79edc6fa3ed0d05e7bad4f1756e2fbccae41199faa7290c167f70f314c5e6c165"></a>ParseError&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79edc6fa3ed0d05e7bad4f1756e2fbcca0f89bc98e9b12bdeda0604e57bdc0518" name="a79edc6fa3ed0d05e7bad4f1756e2fbcca0f89bc98e9b12bdeda0604e57bdc0518"></a>UnsupportedVersion&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a79edc6fa3ed0d05e7bad4f1756e2fbccaa809debdbe0cae246d363461916d924d" name="a79edc6fa3ed0d05e7bad4f1756e2fbccaa809debdbe0cae246d363461916d924d"></a>MalformedStructure&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -3655,7 +3744,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md929"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md937"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -3955,10 +4044,10 @@ La règle de départage</h2>
 
 <p>Vérifie que chaque rencontre posée sur la carte tombe sur un terrain tactique valide. </p>
 <p>Le combat se joue <b>sur la carte d'exploration</b> : une rencontre posée dans un couloir d'une case, ou dont la formation entre dans un mur, ne se découvrirait sinon qu'en jeu. Cette fonction le dit à l'auteur au moment où il pose.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md927"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md935"></a>
 Une seule règle pour « se tenir ici »</h2>
 <p>Les combattants sont posés sur une <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html" title="La grille tactique d&#39;une rencontre.">core::BattleGrid</a></span> construite depuis <code class="param">collision</code>, par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#ae717e61951843569c4bed5e1b9adba67" title="Place combatant, d&#39;emprise side × side, avec anchor pour coin haut-gauche.">core::BattleGrid::place</a></span>, dans l'ordre de la formation — ce que fait le montage (<span class="tt"><a class="el" href="#a5921fce291ef1e0650a91c91bc158a3e" title="Monte la rencontre run sur combat : le groupe, puis les créatures, dans cet ordre.">core::mountEncounter</a></span>). Un avertissement de l'éditeur et un refus au montage ne peuvent donc pas diverger. La zone est une <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span> : diagonales, coins de mur et terrain difficile y suivent la règle du <span class="tt">LOT-19</span>, sans seconde implémentation.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md928"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md936"></a>
 Ce qu'elle ne vérifie pas</h2>
 <p>Une rencontre absente de <code class="param">encounters</code> est <b>ignorée</b> : un autre validateur la signale, et la signaler deux fois n'apprendrait rien. Une créature absente du bestiaire — ou un bestiaire absent — compte pour une emprise de taille M. Le groupe du joueur n'est pas posé : ses cases ne sont pas connues avant le jeu, et c'est la taille de la zone qui en répond.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4287,10 +4376,10 @@ Ce qu'elle ne vérifie pas</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md931"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md939"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md932"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md940"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -8744,6 +8833,32 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="ab61b34d0d8ae2acaa9aa552c099b2255" name="ab61b34d0d8ae2acaa9aa552c099b2255"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab61b34d0d8ae2acaa9aa552c099b2255">&#9670;&#160;</a></span>parseScenePieceClass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a4a3860a249c1a2e07497950f57f4d461">ScenePieceClass</a> core::parseScenePieceClass </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La classe nommée <code class="param">name</code> (<span class="tt">floor</span>, <span class="tt">tall</span>, <span class="tt">wide</span>), <span class="tt">Other</span> pour toute autre. </dd></dl>
+
+</div>
+</div>
 <a id="ad675f8ce2e7f29908cbe3e7701336ef8" name="ad675f8ce2e7f29908cbe3e7701336ef8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad675f8ce2e7f29908cbe3e7701336ef8">&#9670;&#160;</a></span>parseTileType()</h2>
 
@@ -9719,6 +9834,32 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Le modificateur d'un jet de sauvegarde : caractéristique, plus la maîtrise si elle s'applique. </p>
+
+</div>
+</div>
+<a id="a40b827238eccb98a51e5d1e4966f6aae" name="a40b827238eccb98a51e5d1e4966f6aae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40b827238eccb98a51e5d1e4966f6aae">&#9670;&#160;</a></span>scenePieceShortName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::scenePieceShortName </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le nom court d'une clé d'atelier : ce qui suit la dernière barre. </dd></dl>
 
 </div>
 </div>

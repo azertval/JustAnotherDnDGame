@@ -1,13 +1,13 @@
 var searchData=
 [
-  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md680',1,'']]],
+  ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md681',1,'']]],
   ['8_20communication_20inter_20systèmes_1',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md181',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md798',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md799',1,'']]],
   ['8_20directions_3',['LOT-06 — Déplacement top-down 8 directions',['../lot-06.html',1,'lots']]],
   ['8_20le_20socle_20du_20module_20lot_20editor_2001_4',['8. Le socle du module (&lt;span class=&quot;tt&quot;&gt;LOT-EDITOR-01&lt;/span&gt;)',['../spec-editeur.html#autotoc_md229',1,'']]],
-  ['8_20les_20tours_202_20et_203_20nouvelle_20génération_5',['8. Les tours 2 et 3 (nouvelle génération)',['../lot-91-poc.html#autotoc_md721',1,'']]],
+  ['8_20les_20tours_202_20et_203_20nouvelle_20génération_5',['8. Les tours 2 et 3 (nouvelle génération)',['../lot-91-poc.html#autotoc_md722',1,'']]],
   ['8_20risques_20et_20pistes_20écartées_6',['8. Risques et pistes écartées',['../roadmap-editeur.html#roadmap-editeur-risques',1,'']]],
-  ['8_20taille_20réactivité_20et_20réglages_20effectifs_7',['8. Taille, réactivité et réglages effectifs',['../spec-interface-ihm.html#autotoc_md252',1,'']]],
+  ['8_20taille_20réactivité_20et_20réglages_20effectifs_7',['8. Taille, réactivité et réglages effectifs',['../spec-interface-ihm.html#autotoc_md253',1,'']]],
   ['8_20tests_8',['8. Tests',['../spec-conventions.html#autotoc_md216',1,'']]],
   ['80_20—_20factions_20panthéon_20et_20organisations_9',['&lt;span class=&quot;tt&quot;&gt;LOT-80&lt;/span&gt; — Factions, panthéon et organisations',['../roadmap.html#lot-80',1,'']]],
   ['81_10',['Rpg (81)',['../cahiertest.html#autotoc_md14',1,'']]],

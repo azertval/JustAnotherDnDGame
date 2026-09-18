@@ -93,6 +93,9 @@ $(function(){initNavTree('classhmi_1_1EditorViewport.html','','classhmi_1_1Edito
 </div><!--header-->
 <div class="contents">
 
+<p>Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l'essai.  
+ <a href="#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="EditorViewport_8h_source.html">EditorViewport.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for hmi::EditorViewport:</div>
@@ -104,6 +107,11 @@ Inheritance diagram for hmi::EditorViewport:</div>
   </map>
 </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:CanvasItem" id="r_CanvasItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorViewport_1_1CanvasItem.html">CanvasItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'élément unique de la scène : il délègue sa peinture au canevas (décision D2).  <a href="classhmi_1_1EditorViewport_1_1CanvasItem.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a800e3996af85a07a3163b32f6215234f" id="r_a800e3996af85a07a3163b32f6215234f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a800e3996af85a07a3163b32f6215234f">activeLayerChanged</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot)</td></tr>
@@ -114,6 +122,9 @@ Signals</h2></td></tr>
 <tr class="memitem:a5a03318fcc260f0f9e9bd06fab4287ed" id="r_a5a03318fcc260f0f9e9bd06fab4287ed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5a03318fcc260f0f9e9bd06fab4287ed">toolChanged</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> tool)</td></tr>
 <tr class="memitem:afec959b9a2fdf31d666775b83af252bd" id="r_afec959b9a2fdf31d666775b83af252bd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afec959b9a2fdf31d666775b83af252bd">hoveredCellChanged</a> (std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; cell)</td></tr>
 <tr class="memitem:a3379743fc463db57477262b4f7f776be" id="r_a3379743fc463db57477262b4f7f776be"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3379743fc463db57477262b4f7f776be">zoomChanged</a> (float <a class="el" href="#a3e80285d85514265aabfa8a95e28147e">zoom</a>)</td></tr>
+<tr class="memitem:a0ecd8fdfe4df322d8cc2c51adb2822ee" id="r_a0ecd8fdfe4df322d8cc2c51adb2822ee"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0ecd8fdfe4df322d8cc2c51adb2822ee">framingChanged</a> ()</td></tr>
+<tr class="memdesc:a0ecd8fdfe4df322d8cc2c51adb2822ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage a bougé (défilement, agrandissement, vue) : la mini-carte suit.  <br /></td></tr>
+<tr class="memitem:a81bbca5dd660cdd3afd2133a89620c5d" id="r_a81bbca5dd660cdd3afd2133a89620c5d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a81bbca5dd660cdd3afd2133a89620c5d">canvasViewChanged</a> (<a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">hmi::CanvasView</a> view)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -152,7 +163,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a55ebbd168bcb95a73b01e001110975" id="r_a2a55ebbd168bcb95a73b01e001110975"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a2a55ebbd168bcb95a73b01e001110975">canCopy</a> () const override</td></tr>
 <tr class="memitem:ab2387d3e3317222e10c9e4efff60629f" id="r_ab2387d3e3317222e10c9e4efff60629f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab2387d3e3317222e10c9e4efff60629f">canPaste</a> () const override</td></tr>
 <tr class="memitem:a791e3976ceee78809bf740357eec6629" id="r_a791e3976ceee78809bf740357eec6629"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a791e3976ceee78809bf740357eec6629">toggleGrid</a> () noexcept</td></tr>
-<tr class="memitem:a74ca00f219b04907480959651f209ade" id="r_a74ca00f219b04907480959651f209ade"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a74ca00f219b04907480959651f209ade">resetCamera</a> () noexcept</td></tr>
+<tr class="memitem:a35b41810acc18a8e660a73f99f38c31c" id="r_a35b41810acc18a8e660a73f99f38c31c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a35b41810acc18a8e660a73f99f38c31c">resetCamera</a> ()</td></tr>
+<tr class="memdesc:a35b41810acc18a8e660a73f99f38c31c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recadre la vue sur toute la carte.  <br /></td></tr>
+<tr class="memitem:aa3f3641756fdcf0a8ba5dee900945f70" id="r_aa3f3641756fdcf0a8ba5dee900945f70"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa3f3641756fdcf0a8ba5dee900945f70">setCanvasView</a> (<a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a> view)</td></tr>
+<tr class="memdesc:aa3f3641756fdcf0a8ba5dee900945f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bascule entre la vue iso (le lieu) et la vue à plat (les types), cadrage recalculé.  <br /></td></tr>
+<tr class="memitem:a0dc55aa975ff4ad4694a195ed5640497" id="r_a0dc55aa975ff4ad4694a195ed5640497"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0dc55aa975ff4ad4694a195ed5640497">canvasView</a> () const noexcept</td></tr>
+<tr class="memitem:a5c389802e5ee41652f87a2c339599e14" id="r_a5c389802e5ee41652f87a2c339599e14"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5c389802e5ee41652f87a2c339599e14">setSeeThroughRelief</a> (bool enabled)</td></tr>
+<tr class="memdesc:a5c389802e5ee41652f87a2c339599e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reliefs en transparence : on voit ce qu'on pointe derrière un mur.  <br /></td></tr>
+<tr class="memitem:a28d486d458c7bd49b20422388dfb6f14" id="r_a28d486d458c7bd49b20422388dfb6f14"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a28d486d458c7bd49b20422388dfb6f14">seeThroughRelief</a> () const noexcept</td></tr>
+<tr class="memitem:aa0cdc975df4cc7578e07391d13dfe24c" id="r_aa0cdc975df4cc7578e07391d13dfe24c"><td class="memItemLeft">QColor&#160;</td><td class="memItemRight"><a class="el" href="#aa0cdc975df4cc7578e07391d13dfe24c">tileColor</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type) const</td></tr>
+<tr class="memitem:acea96d2cf94cd7780c655afb1ab5c9df" id="r_acea96d2cf94cd7780c655afb1ab5c9df"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#acea96d2cf94cd7780c655afb1ab5c9df">hoveredPieces</a> () const</td></tr>
+<tr class="memitem:a9c3b4a504fd1490457985123fad6215d" id="r_a9c3b4a504fd1490457985123fad6215d"><td class="memItemLeft">std::array&lt; <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>, 4 &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9c3b4a504fd1490457985123fad6215d">visibleGridCorners</a> () const</td></tr>
+<tr class="memdesc:a9c3b4a504fd1490457985123fad6215d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les quatre coins de la partie visible, en coordonnées de grille continues (colonne, ligne) : un rectangle à plat, un losange en iso.  <br /></td></tr>
+<tr class="memitem:add3e89ff02ae07c97ec97cce8be5fbe4" id="r_add3e89ff02ae07c97ec97cce8be5fbe4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#add3e89ff02ae07c97ec97cce8be5fbe4">centerOnGridPoint</a> (<a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> gridPoint)</td></tr>
+<tr class="memdesc:add3e89ff02ae07c97ec97cce8be5fbe4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Centre la vue sur un point de grille continu (colonne, ligne).  <br /></td></tr>
 <tr class="memitem:a4e8559f25d681fcdc6519d090064f424" id="r_a4e8559f25d681fcdc6519d090064f424"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4e8559f25d681fcdc6519d090064f424">resizeLevel</a> (int width, int height)</td></tr>
 <tr class="memitem:a4a40e4b1d4c457f3f96ce5907eefffbf" id="r_a4a40e4b1d4c457f3f96ce5907eefffbf"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a4a40e4b1d4c457f3f96ce5907eefffbf">wouldResizeDrop</a> (int width, int height) const</td></tr>
 <tr class="memitem:aebe8341755b466b762401450fefdcf73" id="r_aebe8341755b466b762401450fefdcf73"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aebe8341755b466b762401450fefdcf73">levelWidth</a> () const</td></tr>
@@ -166,6 +190,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2c100d298b6ad05226650a42b0121205" id="r_a2c100d298b6ad05226650a42b0121205"><td class="memItemLeft">const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a2c100d298b6ad05226650a42b0121205">layerView</a> () const noexcept</td></tr>
 <tr class="memitem:a8aa3553dbee5c49f62538be9307b324b" id="r_a8aa3553dbee5c49f62538be9307b324b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8aa3553dbee5c49f62538be9307b324b">setMapLayerVisible</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool visible)</td></tr>
 <tr class="memitem:a5503c981c3e849756ef8a8db584d9858" id="r_a5503c981c3e849756ef8a8db584d9858"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5503c981c3e849756ef8a8db584d9858">setMapLayerOpacity</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, float opacity)</td></tr>
+<tr class="memitem:aff2c5ce800456e6f5d9b3dc935c13aa6" id="r_aff2c5ce800456e6f5d9b3dc935c13aa6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aff2c5ce800456e6f5d9b3dc935c13aa6">setMapLayerDimmed</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool dimmed)</td></tr>
+<tr class="memitem:aabad1329f68e1b4d59bdeb9f595a7674" id="r_aabad1329f68e1b4d59bdeb9f595a7674"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aabad1329f68e1b4d59bdeb9f595a7674">setMapLayerLocked</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool locked)</td></tr>
 <tr class="memitem:a7095a05f0c09e1896bc9bf7bd46594e6" id="r_a7095a05f0c09e1896bc9bf7bd46594e6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7095a05f0c09e1896bc9bf7bd46594e6">addMapLayer</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a> kind, const std::string &amp;name)</td></tr>
 <tr class="memitem:a77bde09adcbc6b7327f62bde896433be" id="r_a77bde09adcbc6b7327f62bde896433be"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a77bde09adcbc6b7327f62bde896433be">removeMapLayer</a> (std::size_t index)</td></tr>
 <tr class="memitem:a72f789aaef13b3b524d4c94395d42966" id="r_a72f789aaef13b3b524d4c94395d42966"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a72f789aaef13b3b524d4c94395d42966">moveMapLayer</a> (std::size_t index, bool forward)</td></tr>
@@ -179,21 +205,23 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1abe4771976bfcb1d167607b6380e4b3" id="r_a1abe4771976bfcb1d167607b6380e4b3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1abe4771976bfcb1d167607b6380e4b3">removeEntity</a> (std::size_t index)</td></tr>
 <tr class="memitem:a755b8510cb7c3eb633666cdf947f54ae" id="r_a755b8510cb7c3eb633666cdf947f54ae"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a755b8510cb7c3eb633666cdf947f54ae">diagnostics</a> () const noexcept</td></tr>
 <tr class="memitem:ae7cc33f93d60895b194e984eee6b3ce2" id="r_ae7cc33f93d60895b194e984eee6b3ce2"><td class="memItemLeft">const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae7cc33f93d60895b194e984eee6b3ce2">entityReferenceContext</a> () const noexcept</td></tr>
+<tr class="memitem:ae3e7472df74297b2e90fa3b26978d49f" id="r_ae3e7472df74297b2e90fa3b26978d49f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae3e7472df74297b2e90fa3b26978d49f">paintCanvas</a> (QPainter &amp;painter, const QRectF &amp;exposed)</td></tr>
+<tr class="memdesc:ae3e7472df74297b2e90fa3b26978d49f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint le canevas : appelé par l'élément unique de la scène, <code class="param">exposed</code> en unités monde.  <br /></td></tr>
 <tr class="inherit_header pub_methods_classhmi_1_1EditContextTarget"><td colspan="2" onclick="javascript:dynsection.toggleInherit('pub_methods_classhmi_1_1EditContextTarget')"><span class="dynarrow"><span class="arrowhead closed"></span></span>Public Member Functions inherited from <a class="el" href="classhmi_1_1EditContextTarget.html">hmi::EditContextTarget</a></td></tr>
 <tr class="memitem:a82f63a0d5ba2f3fe2e78ae6bcf79eb99 inherit pub_methods_classhmi_1_1EditContextTarget" id="r_a82f63a0d5ba2f3fe2e78ae6bcf79eb99"><td class="memItemLeft">virtual&#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditContextTarget.html#a82f63a0d5ba2f3fe2e78ae6bcf79eb99">~EditContextTarget</a> ()=default</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a2fe8d503f67bba50e008dd6f16596c9f" id="r_a2fe8d503f67bba50e008dd6f16596c9f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2fe8d503f67bba50e008dd6f16596c9f">initialize</a> (QRhiCommandBuffer *commandBuffer) override</td></tr>
-<tr class="memitem:ab079bb2f98ea2444b97acfcab7665010" id="r_ab079bb2f98ea2444b97acfcab7665010"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab079bb2f98ea2444b97acfcab7665010">render</a> (QRhiCommandBuffer *commandBuffer) override</td></tr>
-<tr class="memitem:a2b14ab593c88dbd5bf9c44e20a370b85" id="r_a2b14ab593c88dbd5bf9c44e20a370b85"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2b14ab593c88dbd5bf9c44e20a370b85">releaseResources</a> () override</td></tr>
-<tr class="memitem:af3cf139ba0fb9b7ad7339457094b7a2e" id="r_af3cf139ba0fb9b7ad7339457094b7a2e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a> (QEvent *event) override</td></tr>
-<tr class="memitem:a3bc6aa80b04542a1193c142c9cc90858" id="r_a3bc6aa80b04542a1193c142c9cc90858"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3bc6aa80b04542a1193c142c9cc90858">keyPressEvent</a> (QKeyEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
-<tr class="memitem:a85791f3a3510bb5854dba82f144bb519" id="r_a85791f3a3510bb5854dba82f144bb519"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a85791f3a3510bb5854dba82f144bb519">keyReleaseEvent</a> (QKeyEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
-<tr class="memitem:a7856d26b4c59fcb350226b4ec2faf1b1" id="r_a7856d26b4c59fcb350226b4ec2faf1b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7856d26b4c59fcb350226b4ec2faf1b1">mousePressEvent</a> (QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
-<tr class="memitem:afa0c905b6796a6efadf6654190897161" id="r_afa0c905b6796a6efadf6654190897161"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afa0c905b6796a6efadf6654190897161">mouseReleaseEvent</a> (QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
-<tr class="memitem:aa4bcb6c8f6bc9edf3895248c339e399a" id="r_aa4bcb6c8f6bc9edf3895248c339e399a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa4bcb6c8f6bc9edf3895248c339e399a">mouseMoveEvent</a> (QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
-<tr class="memitem:a3984156af3bfe98ae2f1f2816f24e0af" id="r_a3984156af3bfe98ae2f1f2816f24e0af"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3984156af3bfe98ae2f1f2816f24e0af">wheelEvent</a> (QWheelEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) override</td></tr>
+<tr class="memitem:abe0c1f1f5d12bb9f1a2b7f8277247c12" id="r_abe0c1f1f5d12bb9f1a2b7f8277247c12"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abe0c1f1f5d12bb9f1a2b7f8277247c12">viewportEvent</a> (QEvent *event) override</td></tr>
+<tr class="memitem:ab9d86b35015e323a305b2f89e2e3e47c" id="r_ab9d86b35015e323a305b2f89e2e3e47c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab9d86b35015e323a305b2f89e2e3e47c">focusOutEvent</a> (QFocusEvent *event) override</td></tr>
+<tr class="memitem:a3bc6aa80b04542a1193c142c9cc90858" id="r_a3bc6aa80b04542a1193c142c9cc90858"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3bc6aa80b04542a1193c142c9cc90858">keyPressEvent</a> (QKeyEvent *event) override</td></tr>
+<tr class="memitem:a85791f3a3510bb5854dba82f144bb519" id="r_a85791f3a3510bb5854dba82f144bb519"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a85791f3a3510bb5854dba82f144bb519">keyReleaseEvent</a> (QKeyEvent *event) override</td></tr>
+<tr class="memitem:a7856d26b4c59fcb350226b4ec2faf1b1" id="r_a7856d26b4c59fcb350226b4ec2faf1b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7856d26b4c59fcb350226b4ec2faf1b1">mousePressEvent</a> (QMouseEvent *event) override</td></tr>
+<tr class="memitem:afa0c905b6796a6efadf6654190897161" id="r_afa0c905b6796a6efadf6654190897161"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afa0c905b6796a6efadf6654190897161">mouseReleaseEvent</a> (QMouseEvent *event) override</td></tr>
+<tr class="memitem:aa4bcb6c8f6bc9edf3895248c339e399a" id="r_aa4bcb6c8f6bc9edf3895248c339e399a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa4bcb6c8f6bc9edf3895248c339e399a">mouseMoveEvent</a> (QMouseEvent *event) override</td></tr>
+<tr class="memitem:a3984156af3bfe98ae2f1f2816f24e0af" id="r_a3984156af3bfe98ae2f1f2816f24e0af"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3984156af3bfe98ae2f1f2816f24e0af">wheelEvent</a> (QWheelEvent *event) override</td></tr>
+<tr class="memitem:a87c7bbee6ac893829006035630d0ac74" id="r_a87c7bbee6ac893829006035630d0ac74"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a87c7bbee6ac893829006035630d0ac74">resizeEvent</a> (QResizeEvent *event) override</td></tr>
+<tr class="memitem:a44b5cbfdae963156011ee8f2f990b78e" id="r_a44b5cbfdae963156011ee8f2f990b78e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a44b5cbfdae963156011ee8f2f990b78e">scrollContentsBy</a> (int dx, int dy) override</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-types" class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
@@ -201,23 +229,31 @@ Private Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a272a97417936e3f90eca0809325a5e7e" id="r_a272a97417936e3f90eca0809325a5e7e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a272a97417936e3f90eca0809325a5e7e">createResources</a> ()</td></tr>
-<tr class="memdesc:a272a97417936e3f90eca0809325a5e7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée le pipeline de dessin du brouillon, puis ouvre la carte de départ.  <br /></td></tr>
-<tr class="memitem:a31a650abe75989cbf5214d51fa24a3e7" id="r_a31a650abe75989cbf5214d51fa24a3e7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a31a650abe75989cbf5214d51fa24a3e7">renderDraft</a> (QRhiCommandBuffer *commandBuffer)</td></tr>
-<tr class="memdesc:a31a650abe75989cbf5214d51fa24a3e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dessine le brouillon et ses aides d'édition.  <br /></td></tr>
-<tr class="memitem:ac371ac919a3bfdb7a4dbca70338f7b25" id="r_ac371ac919a3bfdb7a4dbca70338f7b25"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac371ac919a3bfdb7a4dbca70338f7b25">renderPlaytest</a> (QRhiCommandBuffer *commandBuffer, float elapsedSeconds)</td></tr>
-<tr class="memdesc:ac371ac919a3bfdb7a4dbca70338f7b25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance l'essai des pas fixes dus, puis le dessine comme le jeu.  <br /></td></tr>
+<tr class="memitem:a8fe8c39e18ed07df8f21b6fa5210b932" id="r_a8fe8c39e18ed07df8f21b6fa5210b932"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8fe8c39e18ed07df8f21b6fa5210b932">stepPlaytest</a> ()</td></tr>
+<tr class="memdesc:a8fe8c39e18ed07df8f21b6fa5210b932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Avance l'essai des pas fixes dus, puis recompose sa scène.  <br /></td></tr>
 <tr class="memitem:a32cd2e6c17e71fba5b646ec1579fd311" id="r_a32cd2e6c17e71fba5b646ec1579fd311"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a32cd2e6c17e71fba5b646ec1579fd311">stopPlaytest</a> ()</td></tr>
 <tr class="memdesc:a32cd2e6c17e71fba5b646ec1579fd311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Termine l'essai et rend la main à l'édition (brouillon intact).  <br /></td></tr>
 <tr class="memitem:a54c6cc683fbc8afde05001b1ed6e77c2" id="r_a54c6cc683fbc8afde05001b1ed6e77c2"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a54c6cc683fbc8afde05001b1ed6e77c2">heldDirection</a> () const</td></tr>
 <tr class="memdesc:a54c6cc683fbc8afde05001b1ed6e77c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Direction que composent les touches enfoncées, normalisée — la règle de <span class="tt">GameView.qml</span>.  <br /></td></tr>
-<tr class="memitem:a01bd699f2da8c47e6e447f92c91fc240" id="r_a01bd699f2da8c47e6e447f92c91fc240"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a01bd699f2da8c47e6e447f92c91fc240">updateEditCamera</a> ()</td></tr>
-<tr class="memitem:aa43f7c15f2084d9257a5d81c3a2be2f2" id="r_aa43f7c15f2084d9257a5d81c3a2be2f2"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa43f7c15f2084d9257a5d81c3a2be2f2">screenPosition</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>) const</td></tr>
-<tr class="memitem:afe2308df82411ddd7c443766961aae91" id="r_afe2308df82411ddd7c443766961aae91"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#afe2308df82411ddd7c443766961aae91">minManualZoom</a> () const</td></tr>
-<tr class="memitem:a54bb37731f4e74547351d968aa3a0509" id="r_a54bb37731f4e74547351d968aa3a0509"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a54bb37731f4e74547351d968aa3a0509">maxManualZoom</a> () const</td></tr>
-<tr class="memitem:aed92cb207cc39acfae5a9ad5b1159f28" id="r_aed92cb207cc39acfae5a9ad5b1159f28"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aed92cb207cc39acfae5a9ad5b1159f28">cellAt</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
-<tr class="memitem:a6a427366123b959fb714d931f2af4ffa" id="r_a6a427366123b959fb714d931f2af4ffa"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6a427366123b959fb714d931f2af4ffa">clampedCell</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
-<tr class="memitem:a06acc90bc88bcb39a482fd6283f118c8" id="r_a06acc90bc88bcb39a482fd6283f118c8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a06acc90bc88bcb39a482fd6283f118c8">paintAt</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
+<tr class="memitem:a1b99b2693f20f85d99cc0601b9969247" id="r_a1b99b2693f20f85d99cc0601b9969247"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1b99b2693f20f85d99cc0601b9969247">ensureIsoScene</a> ()</td></tr>
+<tr class="memdesc:a1b99b2693f20f85d99cc0601b9969247"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recompose la scène iso du brouillon si elle est périmée.  <br /></td></tr>
+<tr class="memitem:a2570e2991d55bbcc7478f52f0caaab6b" id="r_a2570e2991d55bbcc7478f52f0caaab6b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2570e2991d55bbcc7478f52f0caaab6b">paintIso</a> (QPainter &amp;painter, const QRectF &amp;exposed)</td></tr>
+<tr class="memitem:a6499150d81362b98e1182105af2f217b" id="r_a6499150d81362b98e1182105af2f217b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6499150d81362b98e1182105af2f217b">paintFlat</a> (QPainter &amp;painter, const QRectF &amp;exposed)</td></tr>
+<tr class="memitem:a336dfc55a240f816a2870182ba2d9711" id="r_a336dfc55a240f816a2870182ba2d9711"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a336dfc55a240f816a2870182ba2d9711">paintPlaytest</a> (QPainter &amp;painter, const QRectF &amp;exposed)</td></tr>
+<tr class="memitem:a14de0ee41a9aa43351ed3c36fcc3a0f6" id="r_a14de0ee41a9aa43351ed3c36fcc3a0f6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a14de0ee41a9aa43351ed3c36fcc3a0f6">paintIsoTypeColors</a> (QPainter &amp;painter, const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;cells)</td></tr>
+<tr class="memdesc:a14de0ee41a9aa43351ed3c36fcc3a0f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les types en couleurs, en losanges : une carte sans lieu (aucune planche à peindre).  <br /></td></tr>
+<tr class="memitem:a8e6c450a47851464b7409e7245457ff7" id="r_a8e6c450a47851464b7409e7245457ff7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8e6c450a47851464b7409e7245457ff7">paintIsoOverlays</a> (QPainter &amp;painter, const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;cells, const <a class="el" href="structhmi_1_1IsoBandOpacity.html">IsoBandOpacity</a> &amp;bands)</td></tr>
+<tr class="memitem:a5daf16badf13822378d78e2d1ef88666" id="r_a5daf16badf13822378d78e2d1ef88666"><td class="memItemLeft">QRectF&#160;</td><td class="memItemRight"><a class="el" href="#a5daf16badf13822378d78e2d1ef88666">contentBounds</a> () const</td></tr>
+<tr class="memitem:a61bc22ea34a792a6c63125541ed5da78" id="r_a61bc22ea34a792a6c63125541ed5da78"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a61bc22ea34a792a6c63125541ed5da78">refreshBounds</a> ()</td></tr>
+<tr class="memdesc:a61bc22ea34a792a6c63125541ed5da78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recalcule l'étendue de la scène (vue, taille de carte, essai) et redemande une peinture.  <br /></td></tr>
+<tr class="memitem:aeefd7c699659903d17c8b02ab38ae187" id="r_aeefd7c699659903d17c8b02ab38ae187"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aeefd7c699659903d17c8b02ab38ae187">invalidateScene</a> ()</td></tr>
+<tr class="memdesc:aeefd7c699659903d17c8b02ab38ae187"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalide la scène iso et redemande une peinture.  <br /></td></tr>
+<tr class="memitem:a4ce1b7a7f43ae3abf8d10997efefe94e" id="r_a4ce1b7a7f43ae3abf8d10997efefe94e"><td class="memItemLeft"><a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4ce1b7a7f43ae3abf8d10997efefe94e">projection</a> () const</td></tr>
+<tr class="memitem:aa3d8264206ecd7ed54d63b5d7d070a21" id="r_aa3d8264206ecd7ed54d63b5d7d070a21"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa3d8264206ecd7ed54d63b5d7d070a21">worldPosition</a> (const QMouseEvent *event) const</td></tr>
+<tr class="memitem:a98a9b209eb9ca1dfa7a2648a282f27c0" id="r_a98a9b209eb9ca1dfa7a2648a282f27c0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a98a9b209eb9ca1dfa7a2648a282f27c0">emitZoomIfChanged</a> ()</td></tr>
+<tr class="memitem:a277629170d205ee4953a0c00f9813a43" id="r_a277629170d205ee4953a0c00f9813a43"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a277629170d205ee4953a0c00f9813a43">cellAt</a> (const QMouseEvent *event) const</td></tr>
+<tr class="memitem:a6d727766978f50a86e02921d03524d1c" id="r_a6d727766978f50a86e02921d03524d1c"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6d727766978f50a86e02921d03524d1c">clampedCell</a> (const QMouseEvent *event) const</td></tr>
+<tr class="memitem:a06acc90bc88bcb39a482fd6283f118c8" id="r_a06acc90bc88bcb39a482fd6283f118c8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a06acc90bc88bcb39a482fd6283f118c8">paintAt</a> (const QMouseEvent *event)</td></tr>
 <tr class="memitem:ab148685747fbd44def06165878ed0fa6" id="r_ab148685747fbd44def06165878ed0fa6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab148685747fbd44def06165878ed0fa6">applyRectangle</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> a, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> b)</td></tr>
 <tr class="memitem:a357ac41215eab75a5351c0a1fca47a5f" id="r_a357ac41215eab75a5351c0a1fca47a5f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a357ac41215eab75a5351c0a1fca47a5f">copySelection</a> ()</td></tr>
 <tr class="memitem:aa8fa8bbfaa2ac85ce578b2f8ae8dff21" id="r_aa8fa8bbfaa2ac85ce578b2f8ae8dff21"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa8fa8bbfaa2ac85ce578b2f8ae8dff21">pasteClipboard</a> ()</td></tr>
@@ -228,24 +264,28 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:abfc9035b1281d0f00a9a49a4626f1106" id="r_abfc9035b1281d0f00a9a49a4626f1106"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abfc9035b1281d0f00a9a49a4626f1106">refreshDiagnostics</a> ()</td></tr>
 <tr class="memitem:ada38b39ff158f5bbeccfb18391439113" id="r_ada38b39ff158f5bbeccfb18391439113"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ada38b39ff158f5bbeccfb18391439113">paintActiveRegion</a> (int originColumn, int originRow, const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; &amp;block)</td></tr>
 <tr class="memitem:a8c6cf5f13abcf485bf8ec4a0cef84685" id="r_a8c6cf5f13abcf485bf8ec4a0cef84685"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8c6cf5f13abcf485bf8ec4a0cef84685">activeLayerTiles</a> () const</td></tr>
-<tr class="memitem:ab8b7c62e54eb87b36e789c38fe292a47" id="r_ab8b7c62e54eb87b36e789c38fe292a47"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab8b7c62e54eb87b36e789c38fe292a47">handleEntityPress</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
-<tr class="memitem:afff364ef944445a953dbaf15b65dbfd5" id="r_afff364ef944445a953dbaf15b65dbfd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afff364ef944445a953dbaf15b65dbfd5">handleEntityRelease</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
-<tr class="memitem:aeb6673c3abf9a9f319fc9caf9219e76a" id="r_aeb6673c3abf9a9f319fc9caf9219e76a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aeb6673c3abf9a9f319fc9caf9219e76a">pixelWidth</a> () const</td></tr>
-<tr class="memitem:a30cea12e353f3114d561a1596965a87a" id="r_a30cea12e353f3114d561a1596965a87a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a30cea12e353f3114d561a1596965a87a">pixelHeight</a> () const</td></tr>
+<tr class="memitem:ab8b7c62e54eb87b36e789c38fe292a47" id="r_ab8b7c62e54eb87b36e789c38fe292a47"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab8b7c62e54eb87b36e789c38fe292a47">handleEntityPress</a> (const QMouseEvent *event)</td></tr>
+<tr class="memitem:afff364ef944445a953dbaf15b65dbfd5" id="r_afff364ef944445a953dbaf15b65dbfd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afff364ef944445a953dbaf15b65dbfd5">handleEntityRelease</a> (const QMouseEvent *event)</td></tr>
+<tr class="memitem:a44e7f1b24929d08333e8ced958c06f72" id="r_a44e7f1b24929d08333e8ced958c06f72"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a44e7f1b24929d08333e8ced958c06f72">hasVisualLayers</a> () const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:af5b7dfe8907ea19015b8187e4d7ee72a" id="r_af5b7dfe8907ea19015b8187e4d7ee72a"><td class="memItemLeft"><a class="el" href="classhmi_1_1SceneResources.html">hmi::SceneResources</a>&#160;</td><td class="memItemRight"><a class="el" href="#af5b7dfe8907ea19015b8187e4d7ee72a">_scene</a></td></tr>
-<tr class="memitem:a84541c5771f3065eed6eeca89f00c609" id="r_a84541c5771f3065eed6eeca89f00c609"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1DraftRenderer.html">hmi::DraftRenderer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a84541c5771f3065eed6eeca89f00c609">_draftRenderer</a></td></tr>
+<tr class="memitem:ac117e03d5d98f88401828a26f5126815" id="r_ac117e03d5d98f88401828a26f5126815"><td class="memItemLeft">QGraphicsScene *&#160;</td><td class="memItemRight"><a class="el" href="#ac117e03d5d98f88401828a26f5126815">_canvasScene</a></td></tr>
+<tr class="memitem:a9b36bd19d0e9ec038c68723d036c24e8" id="r_a9b36bd19d0e9ec038c68723d036c24e8"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorViewport_1_1CanvasItem.html">CanvasItem</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a9b36bd19d0e9ec038c68723d036c24e8">_item</a></td></tr>
+<tr class="memitem:a1d2774cc806ed3d0ca8db5221f8cf0aa" id="r_a1d2774cc806ed3d0ca8db5221f8cf0aa"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1SceneImages.html">SceneImages</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1d2774cc806ed3d0ca8db5221f8cf0aa">_images</a></td></tr>
+<tr class="memitem:a4874ecef5dbc9e9a61e691bc24943441" id="r_a4874ecef5dbc9e9a61e691bc24943441"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1DraftRenderer.html">DraftRenderer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4874ecef5dbc9e9a61e691bc24943441">_flat</a></td></tr>
 <tr class="memitem:aa5dd308a6e093e15e88f2f9a2094b566" id="r_aa5dd308a6e093e15e88f2f9a2094b566"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorKeyBindings.html">hmi::EditorKeyBindings</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa5dd308a6e093e15e88f2f9a2094b566">_editorBindings</a></td></tr>
-<tr class="memitem:a8f3fedd127538dda37aec67c867d2888" id="r_a8f3fedd127538dda37aec67c867d2888"><td class="memItemLeft">Clock::time_point&#160;</td><td class="memItemRight"><a class="el" href="#a8f3fedd127538dda37aec67c867d2888">_previousFrame</a></td></tr>
 <tr class="memitem:a4b7a7550dd2cfc2863e954b39600e26a" id="r_a4b7a7550dd2cfc2863e954b39600e26a"><td class="memItemLeft"><a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4b7a7550dd2cfc2863e954b39600e26a">_draft</a></td></tr>
-<tr class="memitem:aafeaa5fe5a629674b7ba7c5e369bb1bd" id="r_aafeaa5fe5a629674b7ba7c5e369bb1bd"><td class="memItemLeft"><a class="el" href="classhmi_1_1Camera2D.html">hmi::Camera2D</a>&#160;</td><td class="memItemRight"><a class="el" href="#aafeaa5fe5a629674b7ba7c5e369bb1bd">_camera</a></td></tr>
-<tr class="memitem:af93211668c78306028799d6f1d4cd7f2" id="r_af93211668c78306028799d6f1d4cd7f2"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af93211668c78306028799d6f1d4cd7f2">_manualCamera</a> = false</td></tr>
-<tr class="memitem:aa7acfb74f65e76cdcfaad46472c142ad" id="r_aa7acfb74f65e76cdcfaad46472c142ad"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#aa7acfb74f65e76cdcfaad46472c142ad">_manualZoom</a> = 1.0F</td></tr>
-<tr class="memitem:a90e079acc6539b9e5c67bcfc43f8b00f" id="r_a90e079acc6539b9e5c67bcfc43f8b00f"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a90e079acc6539b9e5c67bcfc43f8b00f">_manualCenter</a> {}</td></tr>
+<tr class="memitem:a338f196f98c909cbcb654c46fa3ff22e" id="r_a338f196f98c909cbcb654c46fa3ff22e"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a>&#160;</td><td class="memItemRight"><a class="el" href="#a338f196f98c909cbcb654c46fa3ff22e">_view</a> = <a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4a3a631438d6f2eba0ef81c8cc070fe15f">CanvasView::Iso</a></td></tr>
+<tr class="memitem:aabc376931a1a558bf5fcd2d409c40048" id="r_aabc376931a1a558bf5fcd2d409c40048"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aabc376931a1a558bf5fcd2d409c40048">_seeThroughRelief</a> = false</td></tr>
+<tr class="memitem:ae9816c87b04791bfeb600845c28c2d95" id="r_ae9816c87b04791bfeb600845c28c2d95"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ae9816c87b04791bfeb600845c28c2d95">_isoSceneDirty</a> = true</td></tr>
+<tr class="memdesc:ae9816c87b04791bfeb600845c28c2d95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scène iso du brouillon, recomposée seulement quand il change.  <br /></td></tr>
+<tr class="memitem:a449630811b63f61f294cf907fdd1bb3d" id="r_a449630811b63f61f294cf907fdd1bb3d"><td class="memItemLeft"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a>&#160;</td><td class="memItemRight"><a class="el" href="#a449630811b63f61f294cf907fdd1bb3d">_appearance</a></td></tr>
+<tr class="memitem:a90dde9cb8452cd58a66e57f41e243dee" id="r_a90dde9cb8452cd58a66e57f41e243dee"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a90dde9cb8452cd58a66e57f41e243dee">_appearancePlace</a></td></tr>
+<tr class="memitem:a06665bd62f61b914f22be6dc4208b6e6" id="r_a06665bd62f61b914f22be6dc4208b6e6"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06665bd62f61b914f22be6dc4208b6e6">_snapshot</a></td></tr>
+<tr class="memitem:a3a3886441a9b32e5819a30cae64a7201" id="r_a3a3886441a9b32e5819a30cae64a7201"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3a3886441a9b32e5819a30cae64a7201">_isoScene</a></td></tr>
 <tr class="memitem:a8501ccbf6069198b9632f58b189d3a76" id="r_a8501ccbf6069198b9632f58b189d3a76"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8501ccbf6069198b9632f58b189d3a76">_rightDragging</a> = false</td></tr>
-<tr class="memitem:a737dbd1c74d1df814daceaa2a72a4ba5" id="r_a737dbd1c74d1df814daceaa2a72a4ba5"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a737dbd1c74d1df814daceaa2a72a4ba5">_rightDragLastScreen</a> {}</td></tr>
+<tr class="memitem:a892cb197cb3589c6a5ddb1d05c380ce3" id="r_a892cb197cb3589c6a5ddb1d05c380ce3"><td class="memItemLeft">QPoint&#160;</td><td class="memItemRight"><a class="el" href="#a892cb197cb3589c6a5ddb1d05c380ce3">_rightDragLast</a></td></tr>
 <tr class="memitem:a204518e7c62aa2f5e8403696fde0a7b8" id="r_a204518e7c62aa2f5e8403696fde0a7b8"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a204518e7c62aa2f5e8403696fde0a7b8">_activeTile</a> = <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></td></tr>
 <tr class="memitem:a39acf3a579e4fc9386e065792dfdd795" id="r_a39acf3a579e4fc9386e065792dfdd795"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a>&#160;</td><td class="memItemRight"><a class="el" href="#a39acf3a579e4fc9386e065792dfdd795">_tool</a> = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></td></tr>
 <tr class="memitem:aa71f68af481a5d89bf76e8187ad4476b" id="r_aa71f68af481a5d89bf76e8187ad4476b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa71f68af481a5d89bf76e8187ad4476b">_painting</a> = false</td></tr>
@@ -263,9 +303,17 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a8374cc64c7038e075777f17f737151a4" id="r_a8374cc64c7038e075777f17f737151a4"><td class="memItemLeft"><a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8374cc64c7038e075777f17f737151a4">_diskFingerprint</a></td></tr>
 <tr class="memdesc:a8374cc64c7038e075777f17f737151a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empreinte du fichier de la carte à la dernière lecture ou écriture de l'éditeur.  <br /></td></tr>
 <tr class="memitem:a0230d7de251692d91770773bc5f76d21" id="r_a0230d7de251692d91770773bc5f76d21"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0230d7de251692d91770773bc5f76d21">_showGrid</a> = true</td></tr>
+<tr class="memitem:ab5a66117f642efc99164e8f4ae1e573a" id="r_ab5a66117f642efc99164e8f4ae1e573a"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab5a66117f642efc99164e8f4ae1e573a">_framed</a> = false</td></tr>
+<tr class="memdesc:ab5a66117f642efc99164e8f4ae1e573a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage a été fixé pour ce contenu : un redimensionnement ne le refait pas.  <br /></td></tr>
 <tr class="memitem:a3323625302198de44032f1e6ee36135c" id="r_a3323625302198de44032f1e6ee36135c"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1WorldPlay.html">WorldPlay</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3323625302198de44032f1e6ee36135c">_play</a></td></tr>
-<tr class="memitem:adee4dcc5193427ee382dac9ba78be22f" id="r_adee4dcc5193427ee382dac9ba78be22f"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1WorldSceneRenderer.html">WorldSceneRenderer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adee4dcc5193427ee382dac9ba78be22f">_world</a></td></tr>
+<tr class="memitem:a69e8e8563c25971d1c32c991e96f8ef6" id="r_a69e8e8563c25971d1c32c991e96f8ef6"><td class="memItemLeft">QTimer&#160;</td><td class="memItemRight"><a class="el" href="#a69e8e8563c25971d1c32c991e96f8ef6">_playTimer</a></td></tr>
+<tr class="memitem:a5d849cedfa2b5a5b0dabddbc58800176" id="r_a5d849cedfa2b5a5b0dabddbc58800176"><td class="memItemLeft">QTransform&#160;</td><td class="memItemRight"><a class="el" href="#a5d849cedfa2b5a5b0dabddbc58800176">_editTransform</a></td></tr>
+<tr class="memdesc:a5d849cedfa2b5a5b0dabddbc58800176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage d'édition, rendu à la fin de l'essai.  <br /></td></tr>
+<tr class="memitem:aade4152ca0b4264b069ba4cbbd17e250" id="r_aade4152ca0b4264b069ba4cbbd17e250"><td class="memItemLeft">QPointF&#160;</td><td class="memItemRight"><a class="el" href="#aade4152ca0b4264b069ba4cbbd17e250">_editCenter</a></td></tr>
+<tr class="memitem:a8f3fedd127538dda37aec67c867d2888" id="r_a8f3fedd127538dda37aec67c867d2888"><td class="memItemLeft">Clock::time_point&#160;</td><td class="memItemRight"><a class="el" href="#a8f3fedd127538dda37aec67c867d2888">_previousFrame</a></td></tr>
 <tr class="memitem:af99b26c86b6ab66c0230dfded2c7b254" id="r_af99b26c86b6ab66c0230dfded2c7b254"><td class="memItemLeft"><a class="el" href="classcore_1_1FixedTimestep.html">core::FixedTimestep</a>&#160;</td><td class="memItemRight"><a class="el" href="#af99b26c86b6ab66c0230dfded2c7b254">_timestep</a></td></tr>
+<tr class="memitem:a27c5e02deb9cc4633e64ff193b4a958f" id="r_a27c5e02deb9cc4633e64ff193b4a958f"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a27c5e02deb9cc4633e64ff193b4a958f">_playSnapshot</a></td></tr>
+<tr class="memitem:aa631928cf0d7230974023be5bbf58712" id="r_aa631928cf0d7230974023be5bbf58712"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#aa631928cf0d7230974023be5bbf58712">_playScene</a></td></tr>
 <tr class="memitem:a9bcfcdc1be7e262ea5976fc23e93d64d" id="r_a9bcfcdc1be7e262ea5976fc23e93d64d"><td class="memItemLeft">std::set&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9bcfcdc1be7e262ea5976fc23e93d64d">_heldKeys</a></td></tr>
 <tr class="memdesc:a9bcfcdc1be7e262ea5976fc23e93d64d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Touches de déplacement enfoncées (codes <span class="tt">Qt::Key</span>).  <br /></td></tr>
 <tr class="memitem:ad24b060742e57ed6ac8f94f585621062" id="r_ad24b060742e57ed6ac8f94f585621062"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ad24b060742e57ed6ac8f94f585621062">_interactRequested</a> = false</td></tr>
@@ -284,7 +332,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a6b0330c776cfd4ce714af2a9fdc502a9" id="r_a6b0330c776cfd4ce714af2a9fdc502a9"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6b0330c776cfd4ce714af2a9fdc502a9">_terrains</a></td></tr>
 <tr class="memitem:a86e3fac5b37c1a2cf7ad9724df3ad64a" id="r_a86e3fac5b37c1a2cf7ad9724df3ad64a"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a86e3fac5b37c1a2cf7ad9724df3ad64a">_diagnostics</a></td></tr>
 </table>
-<a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l'essai. </p>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
 <a id="aca512f97c20d7a115f878d04d75a5b43" name="aca512f97c20d7a115f878d04d75a5b43"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca512f97c20d7a115f878d04d75a5b43">&#9670;&#160;</a></span>Clock</h2>
 
@@ -351,7 +401,7 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel default">default</span></span>  </td>
+<span class="mlabels"><span class="mlabel override">override</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -661,8 +711,58 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aed92cb207cc39acfae5a9ad5b1159f28" name="aed92cb207cc39acfae5a9ad5b1159f28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed92cb207cc39acfae5a9ad5b1159f28">&#9670;&#160;</a></span>cellAt()</h2>
+<a id="a0dc55aa975ff4ad4694a195ed5640497" name="a0dc55aa975ff4ad4694a195ed5640497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dc55aa975ff4ad4694a195ed5640497">&#9670;&#160;</a></span>canvasView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a> hmi::EditorViewport::canvasView </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81bbca5dd660cdd3afd2133a89620c5d" name="a81bbca5dd660cdd3afd2133a89620c5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81bbca5dd660cdd3afd2133a89620c5d">&#9670;&#160;</a></span>canvasViewChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::canvasViewChanged </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">hmi::CanvasView</a></td>          <td class="paramname"><span class="paramname"><em>view</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a277629170d205ee4953a0c00f9813a43" name="a277629170d205ee4953a0c00f9813a43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a277629170d205ee4953a0c00f9813a43">&#9670;&#160;</a></span>cellAt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -674,7 +774,7 @@ Private Attributes</h2></td></tr>
           <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; hmi::EditorViewport::cellAt </td>
           <td>(</td>
           <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -686,8 +786,27 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6a427366123b959fb714d931f2af4ffa" name="a6a427366123b959fb714d931f2af4ffa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a427366123b959fb714d931f2af4ffa">&#9670;&#160;</a></span>clampedCell()</h2>
+<a id="add3e89ff02ae07c97ec97cce8be5fbe4" name="add3e89ff02ae07c97ec97cce8be5fbe4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add3e89ff02ae07c97ec97cce8be5fbe4">&#9670;&#160;</a></span>centerOnGridPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::centerOnGridPoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a></td>          <td class="paramname"><span class="paramname"><em>gridPoint</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Centre la vue sur un point de grille continu (colonne, ligne). </p>
+
+</div>
+</div>
+<a id="a6d727766978f50a86e02921d03524d1c" name="a6d727766978f50a86e02921d03524d1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d727766978f50a86e02921d03524d1c">&#9670;&#160;</a></span>clampedCell()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -699,7 +818,7 @@ Private Attributes</h2></td></tr>
           <td class="memname"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> hmi::EditorViewport::clampedCell </td>
           <td>(</td>
           <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -708,6 +827,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5daf16badf13822378d78e2d1ef88666" name="a5daf16badf13822378d78e2d1ef88666"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5daf16badf13822378d78e2d1ef88666">&#9670;&#160;</a></span>contentBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QRectF hmi::EditorViewport::contentBounds </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le rectangle du monde qu'occupe le contenu de la vue courante, marge comprise. </dd></dl>
 
 </div>
 </div>
@@ -760,33 +905,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a272a97417936e3f90eca0809325a5e7e" name="a272a97417936e3f90eca0809325a5e7e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a272a97417936e3f90eca0809325a5e7e">&#9670;&#160;</a></span>createResources()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::createResources </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Crée le pipeline de dessin du brouillon, puis ouvre la carte de départ. </p>
 
 </div>
 </div>
@@ -942,6 +1060,58 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a98a9b209eb9ca1dfa7a2648a282f27c0" name="a98a9b209eb9ca1dfa7a2648a282f27c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98a9b209eb9ca1dfa7a2648a282f27c0">&#9670;&#160;</a></span>emitZoomIfChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::emitZoomIfChanged </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1b99b2693f20f85d99cc0601b9969247" name="a1b99b2693f20f85d99cc0601b9969247"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b99b2693f20f85d99cc0601b9969247">&#9670;&#160;</a></span>ensureIsoScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::ensureIsoScene </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Recompose la scène iso du brouillon si elle est périmée. </p>
+
+</div>
+</div>
 <a id="ae7cc33f93d60895b194e984eee6b3ce2" name="ae7cc33f93d60895b194e984eee6b3ce2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae7cc33f93d60895b194e984eee6b3ce2">&#9670;&#160;</a></span>entityReferenceContext()</h2>
 
@@ -992,8 +1162,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af3cf139ba0fb9b7ad7339457094b7a2e" name="af3cf139ba0fb9b7ad7339457094b7a2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3cf139ba0fb9b7ad7339457094b7a2e">&#9670;&#160;</a></span>event()</h2>
+<a id="ab9d86b35015e323a305b2f89e2e3e47c" name="ab9d86b35015e323a305b2f89e2e3e47c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9d86b35015e323a305b2f89e2e3e47c">&#9670;&#160;</a></span>focusOutEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1002,9 +1172,9 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool hmi::EditorViewport::event </td>
+          <td class="memname">void hmi::EditorViewport::focusOutEvent </td>
           <td>(</td>
-          <td class="paramtype">QEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td class="paramtype">QFocusEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -1014,6 +1184,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0ecd8fdfe4df322d8cc2c51adb2822ee" name="a0ecd8fdfe4df322d8cc2c51adb2822ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ecd8fdfe4df322d8cc2c51adb2822ee">&#9670;&#160;</a></span>framingChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::framingChanged </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le cadrage a bougé (défilement, agrandissement, vue) : la mini-carte suit. </p>
 
 </div>
 </div>
@@ -1061,6 +1258,31 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a44e7f1b24929d08333e8ced958c06f72" name="a44e7f1b24929d08333e8ced958c06f72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e7f1b24929d08333e8ced958c06f72">&#9670;&#160;</a></span>hasVisualLayers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::hasVisualLayers </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1169,8 +1391,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2fe8d503f67bba50e008dd6f16596c9f" name="a2fe8d503f67bba50e008dd6f16596c9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fe8d503f67bba50e008dd6f16596c9f">&#9670;&#160;</a></span>initialize()</h2>
+<a id="acea96d2cf94cd7780c655afb1ab5c9df" name="acea96d2cf94cd7780c655afb1ab5c9df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acea96d2cf94cd7780c655afb1ab5c9df">&#9670;&#160;</a></span>hoveredPieces()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1179,18 +1401,46 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::EditorViewport::initialize </td>
+          <td class="memname">std::string hmi::EditorViewport::hoveredPieces </td>
           <td>(</td>
-          <td class="paramtype">QRhiCommandBuffer *</td>          <td class="paramname"><span class="paramname"><em>commandBuffer</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les pièces de la case survolée (<span class="tt">street · wall-left</span>), vide sinon. </dd></dl>
+
+</div>
+</div>
+<a id="aeefd7c699659903d17c8b02ab38ae187" name="aeefd7c699659903d17c8b02ab38ae187"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeefd7c699659903d17c8b02ab38ae187">&#9670;&#160;</a></span>invalidateScene()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::invalidateScene </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Invalide la scène iso et redemande une peinture. </p>
 
 </div>
 </div>
@@ -1451,56 +1701,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a54bb37731f4e74547351d968aa3a0509" name="a54bb37731f4e74547351d968aa3a0509"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54bb37731f4e74547351d968aa3a0509">&#9670;&#160;</a></span>maxManualZoom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::EditorViewport::maxManualZoom </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afe2308df82411ddd7c443766961aae91" name="afe2308df82411ddd7c443766961aae91"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe2308df82411ddd7c443766961aae91">&#9670;&#160;</a></span>minManualZoom()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::EditorViewport::minManualZoom </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="aa4bcb6c8f6bc9edf3895248c339e399a" name="aa4bcb6c8f6bc9edf3895248c339e399a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa4bcb6c8f6bc9edf3895248c339e399a">&#9670;&#160;</a></span>mouseMoveEvent()</h2>
 
@@ -1701,6 +1901,181 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae3e7472df74297b2e90fa3b26978d49f" name="ae3e7472df74297b2e90fa3b26978d49f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3e7472df74297b2e90fa3b26978d49f">&#9670;&#160;</a></span>paintCanvas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintCanvas </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QRectF &amp;</td>          <td class="paramname"><span class="paramname"><em>exposed</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Peint le canevas : appelé par l'élément unique de la scène, <code class="param">exposed</code> en unités monde. </p>
+
+</div>
+</div>
+<a id="a6499150d81362b98e1182105af2f217b" name="a6499150d81362b98e1182105af2f217b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6499150d81362b98e1182105af2f217b">&#9670;&#160;</a></span>paintFlat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintFlat </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QRectF &amp;</td>          <td class="paramname"><span class="paramname"><em>exposed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2570e2991d55bbcc7478f52f0caaab6b" name="a2570e2991d55bbcc7478f52f0caaab6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2570e2991d55bbcc7478f52f0caaab6b">&#9670;&#160;</a></span>paintIso()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintIso </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QRectF &amp;</td>          <td class="paramname"><span class="paramname"><em>exposed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e6c450a47851464b7409e7245457ff7" name="a8e6c450a47851464b7409e7245457ff7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e6c450a47851464b7409e7245457ff7">&#9670;&#160;</a></span>paintIsoOverlays()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintIsoOverlays </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1IsoBandOpacity.html">IsoBandOpacity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>bands</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a14de0ee41a9aa43351ed3c36fcc3a0f6" name="a14de0ee41a9aa43351ed3c36fcc3a0f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14de0ee41a9aa43351ed3c36fcc3a0f6">&#9670;&#160;</a></span>paintIsoTypeColors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintIsoTypeColors </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les types en couleurs, en losanges : une carte sans lieu (aucune planche à peindre). </p>
+
+</div>
+</div>
+<a id="a336dfc55a240f816a2870182ba2d9711" name="a336dfc55a240f816a2870182ba2d9711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a336dfc55a240f816a2870182ba2d9711">&#9670;&#160;</a></span>paintPlaytest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintPlaytest </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QRectF &amp;</td>          <td class="paramname"><span class="paramname"><em>exposed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a0915fcbdf6724cfe52b5d5fab170b623" name="a0915fcbdf6724cfe52b5d5fab170b623"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0915fcbdf6724cfe52b5d5fab170b623">&#9670;&#160;</a></span>paste()</h2>
 
@@ -1753,56 +2128,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a30cea12e353f3114d561a1596965a87a" name="a30cea12e353f3114d561a1596965a87a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30cea12e353f3114d561a1596965a87a">&#9670;&#160;</a></span>pixelHeight()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::EditorViewport::pixelHeight </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aeb6673c3abf9a9f319fc9caf9219e76a" name="aeb6673c3abf9a9f319fc9caf9219e76a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb6673c3abf9a9f319fc9caf9219e76a">&#9670;&#160;</a></span>pixelWidth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int hmi::EditorViewport::pixelWidth </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a5ef8175f20eead2a5e702ad74df8b858" name="a5ef8175f20eead2a5e702ad74df8b858"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5ef8175f20eead2a5e702ad74df8b858">&#9670;&#160;</a></span>playtesting()</h2>
 
@@ -1825,6 +2150,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ce1b7a7f43ae3abf8d10997efefe94e" name="a4ce1b7a7f43ae3abf8d10997efefe94e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ce1b7a7f43ae3abf8d10997efefe94e">&#9670;&#160;</a></span>projection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> hmi::EditorViewport::projection </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La projection iso du brouillon. </dd></dl>
 
 </div>
 </div>
@@ -1855,6 +2206,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a61bc22ea34a792a6c63125541ed5da78" name="a61bc22ea34a792a6c63125541ed5da78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61bc22ea34a792a6c63125541ed5da78">&#9670;&#160;</a></span>refreshBounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::refreshBounds </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Recalcule l'étendue de la scène (vue, taille de carte, essai) et redemande une peinture. </p>
+
+</div>
+</div>
 <a id="abfc9035b1281d0f00a9a49a4626f1106" name="abfc9035b1281d0f00a9a49a4626f1106"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abfc9035b1281d0f00a9a49a4626f1106">&#9670;&#160;</a></span>refreshDiagnostics()</h2>
 
@@ -1874,31 +2252,6 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2b14ab593c88dbd5bf9c44e20a370b85" name="a2b14ab593c88dbd5bf9c44e20a370b85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b14ab593c88dbd5bf9c44e20a370b85">&#9670;&#160;</a></span>releaseResources()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::releaseResources </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1977,97 +2330,11 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ab079bb2f98ea2444b97acfcab7665010" name="ab079bb2f98ea2444b97acfcab7665010"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab079bb2f98ea2444b97acfcab7665010">&#9670;&#160;</a></span>render()</h2>
+<a id="a35b41810acc18a8e660a73f99f38c31c" name="a35b41810acc18a8e660a73f99f38c31c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35b41810acc18a8e660a73f99f38c31c">&#9670;&#160;</a></span>resetCamera()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::render </td>
-          <td>(</td>
-          <td class="paramtype">QRhiCommandBuffer *</td>          <td class="paramname"><span class="paramname"><em>commandBuffer</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a31a650abe75989cbf5214d51fa24a3e7" name="a31a650abe75989cbf5214d51fa24a3e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31a650abe75989cbf5214d51fa24a3e7">&#9670;&#160;</a></span>renderDraft()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::renderDraft </td>
-          <td>(</td>
-          <td class="paramtype">QRhiCommandBuffer *</td>          <td class="paramname"><span class="paramname"><em>commandBuffer</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Dessine le brouillon et ses aides d'édition. </p>
-
-</div>
-</div>
-<a id="ac371ac919a3bfdb7a4dbca70338f7b25" name="ac371ac919a3bfdb7a4dbca70338f7b25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac371ac919a3bfdb7a4dbca70338f7b25">&#9670;&#160;</a></span>renderPlaytest()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::renderPlaytest </td>
-          <td>(</td>
-          <td class="paramtype">QRhiCommandBuffer *</td>          <td class="paramname"><span class="paramname"><em>commandBuffer</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float</td>          <td class="paramname"><span class="paramname"><em>elapsedSeconds</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Avance l'essai des pas fixes dus, puis le dessine comme le jeu. </p>
-
-</div>
-</div>
-<a id="a74ca00f219b04907480959651f209ade" name="a74ca00f219b04907480959651f209ade"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74ca00f219b04907480959651f209ade">&#9670;&#160;</a></span>resetCamera()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void hmi::EditorViewport::resetCamera </td>
@@ -2076,9 +2343,31 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Recadre la vue sur toute la carte. </p>
+
+</div>
+</div>
+<a id="a87c7bbee6ac893829006035630d0ac74" name="a87c7bbee6ac893829006035630d0ac74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87c7bbee6ac893829006035630d0ac74">&#9670;&#160;</a></span>resizeEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::resizeEvent </td>
+          <td>(</td>
+          <td class="paramtype">QResizeEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -2150,8 +2439,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa43f7c15f2084d9257a5d81c3a2be2f2" name="aa43f7c15f2084d9257a5d81c3a2be2f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa43f7c15f2084d9257a5d81c3a2be2f2">&#9670;&#160;</a></span>screenPosition()</h2>
+<a id="a44b5cbfdae963156011ee8f2f990b78e" name="a44b5cbfdae963156011ee8f2f990b78e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44b5cbfdae963156011ee8f2f990b78e">&#9670;&#160;</a></span>scrollContentsBy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2160,15 +2449,44 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::EditorViewport::screenPosition </td>
+          <td class="memname">void hmi::EditorViewport::scrollContentsBy </td>
           <td>(</td>
-          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>dx</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>dy</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28d486d458c7bd49b20422388dfb6f14" name="a28d486d458c7bd49b20422388dfb6f14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d486d458c7bd49b20422388dfb6f14">&#9670;&#160;</a></span>seeThroughRelief()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::seeThroughRelief </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -2261,6 +2579,25 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa3f3641756fdcf0a8ba5dee900945f70" name="aa3f3641756fdcf0a8ba5dee900945f70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3f3641756fdcf0a8ba5dee900945f70">&#9670;&#160;</a></span>setCanvasView()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setCanvasView </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a></td>          <td class="paramname"><span class="paramname"><em>view</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Bascule entre la vue iso (le lieu) et la vue à plat (les types), cadrage recalculé. </p>
+
+</div>
+</div>
 <a id="ac17aedbbe599cec960afb76d23659304" name="ac17aedbbe599cec960afb76d23659304"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac17aedbbe599cec960afb76d23659304">&#9670;&#160;</a></span>setEditorReferences()</h2>
 
@@ -2323,6 +2660,48 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aff2c5ce800456e6f5d9b3dc935c13aa6" name="aff2c5ce800456e6f5d9b3dc935c13aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff2c5ce800456e6f5d9b3dc935c13aa6">&#9670;&#160;</a></span>setMapLayerDimmed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setMapLayerDimmed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>dimmed</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aabad1329f68e1b4d59bdeb9f595a7674" name="aabad1329f68e1b4d59bdeb9f595a7674"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabad1329f68e1b4d59bdeb9f595a7674">&#9670;&#160;</a></span>setMapLayerLocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setMapLayerLocked </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>locked</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5503c981c3e849756ef8a8db584d9858" name="a5503c981c3e849756ef8a8db584d9858"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5503c981c3e849756ef8a8db584d9858">&#9670;&#160;</a></span>setMapLayerOpacity()</h2>
 
@@ -2362,6 +2741,25 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5c389802e5ee41652f87a2c339599e14" name="a5c389802e5ee41652f87a2c339599e14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c389802e5ee41652f87a2c339599e14">&#9670;&#160;</a></span>setSeeThroughRelief()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setSeeThroughRelief </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>enabled</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reliefs en transparence : on voit ce qu'on pointe derrière un mur. </p>
 
 </div>
 </div>
@@ -2426,6 +2824,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8fe8c39e18ed07df8f21b6fa5210b932" name="a8fe8c39e18ed07df8f21b6fa5210b932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fe8c39e18ed07df8f21b6fa5210b932">&#9670;&#160;</a></span>stepPlaytest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::stepPlaytest </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Avance l'essai des pas fixes dus, puis recompose sa scène. </p>
+
+</div>
+</div>
 <a id="a32cd2e6c17e71fba5b646ec1579fd311" name="a32cd2e6c17e71fba5b646ec1579fd311"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a32cd2e6c17e71fba5b646ec1579fd311">&#9670;&#160;</a></span>stopPlaytest()</h2>
 
@@ -2475,6 +2900,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa0cdc975df4cc7578e07391d13dfe24c" name="aa0cdc975df4cc7578e07391d13dfe24c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0cdc975df4cc7578e07391d13dfe24c">&#9670;&#160;</a></span>tileColor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QColor hmi::EditorViewport::tileColor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La couleur d'un type de tuile, celle de la vue à plat (pour la mini-carte). </dd></dl>
 
 </div>
 </div>
@@ -2555,8 +3006,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a01bd699f2da8c47e6e447f92c91fc240" name="a01bd699f2da8c47e6e447f92c91fc240"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01bd699f2da8c47e6e447f92c91fc240">&#9670;&#160;</a></span>updateEditCamera()</h2>
+<a id="abe0c1f1f5d12bb9f1a2b7f8277247c12" name="abe0c1f1f5d12bb9f1a2b7f8277247c12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe0c1f1f5d12bb9f1a2b7f8277247c12">&#9670;&#160;</a></span>viewportEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2565,18 +3016,46 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::EditorViewport::updateEditCamera </td>
+          <td class="memname">bool hmi::EditorViewport::viewportEvent </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">QEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c3b4a504fd1490457985123fad6215d" name="a9c3b4a504fd1490457985123fad6215d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c3b4a504fd1490457985123fad6215d">&#9670;&#160;</a></span>visibleGridCorners()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>, 4 &gt; hmi::EditorViewport::visibleGridCorners </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les quatre coins de la partie visible, en coordonnées de grille continues (colonne, ligne) : un rectangle à plat, un losange en iso. </p>
+<p>Pour la mini-carte. </p>
 
 </div>
 </div>
@@ -2599,6 +3078,31 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel override">override</span><span class="mlabel protected">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa3d8264206ecd7ed54d63b5d7d070a21" name="aa3d8264206ecd7ed54d63b5d7d070a21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3d8264206ecd7ed54d63b5d7d070a21">&#9670;&#160;</a></span>worldPosition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::EditorViewport::worldPosition </td>
+          <td>(</td>
+          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -2652,10 +3156,11 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le facteur d'agrandissement : 1 quand une unité monde fait 16 pixels. </dd></dl>
 
 </div>
 </div>
@@ -2729,8 +3234,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aafeaa5fe5a629674b7ba7c5e369bb1bd" name="aafeaa5fe5a629674b7ba7c5e369bb1bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafeaa5fe5a629674b7ba7c5e369bb1bd">&#9670;&#160;</a></span>_camera</h2>
+<a id="a449630811b63f61f294cf907fdd1bb3d" name="a449630811b63f61f294cf907fdd1bb3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a449630811b63f61f294cf907fdd1bb3d">&#9670;&#160;</a></span>_appearance</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2739,7 +3244,51 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1Camera2D.html">hmi::Camera2D</a> hmi::EditorViewport::_camera</td>
+          <td class="memname"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> hmi::EditorViewport::_appearance</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a90dde9cb8452cd58a66e57f41e243dee" name="a90dde9cb8452cd58a66e57f41e243dee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90dde9cb8452cd58a66e57f41e243dee">&#9670;&#160;</a></span>_appearancePlace</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EditorViewport::_appearancePlace</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac117e03d5d98f88401828a26f5126815" name="ac117e03d5d98f88401828a26f5126815"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac117e03d5d98f88401828a26f5126815">&#9670;&#160;</a></span>_canvasScene</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QGraphicsScene* hmi::EditorViewport::_canvasScene</td>
         </tr>
       </table>
   </td>
@@ -2841,28 +3390,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a84541c5771f3065eed6eeca89f00c609" name="a84541c5771f3065eed6eeca89f00c609"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84541c5771f3065eed6eeca89f00c609">&#9670;&#160;</a></span>_draftRenderer</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1DraftRenderer.html">hmi::DraftRenderer</a>&gt; hmi::EditorViewport::_draftRenderer</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a6df225a7eaba5236562d4c7d2406b2f6" name="a6df225a7eaba5236562d4c7d2406b2f6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6df225a7eaba5236562d4c7d2406b2f6">&#9670;&#160;</a></span>_dragCurrent</h2>
 
@@ -2929,6 +3456,28 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aade4152ca0b4264b069ba4cbbd17e250" name="aade4152ca0b4264b069ba4cbbd17e250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aade4152ca0b4264b069ba4cbbd17e250">&#9670;&#160;</a></span>_editCenter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPointF hmi::EditorViewport::_editCenter</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa5dd308a6e093e15e88f2f9a2094b566" name="aa5dd308a6e093e15e88f2f9a2094b566"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa5dd308a6e093e15e88f2f9a2094b566">&#9670;&#160;</a></span>_editorBindings</h2>
 
@@ -2948,6 +3497,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d849cedfa2b5a5b0dabddbc58800176" name="a5d849cedfa2b5a5b0dabddbc58800176"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d849cedfa2b5a5b0dabddbc58800176">&#9670;&#160;</a></span>_editTransform</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTransform hmi::EditorViewport::_editTransform</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le cadrage d'édition, rendu à la fin de l'essai. </p>
 
 </div>
 </div>
@@ -2992,6 +3565,52 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4874ecef5dbc9e9a61e691bc24943441" name="a4874ecef5dbc9e9a61e691bc24943441"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4874ecef5dbc9e9a61e691bc24943441">&#9670;&#160;</a></span>_flat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1DraftRenderer.html">DraftRenderer</a>&gt; hmi::EditorViewport::_flat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab5a66117f642efc99164e8f4ae1e573a" name="ab5a66117f642efc99164e8f4ae1e573a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5a66117f642efc99164e8f4ae1e573a">&#9670;&#160;</a></span>_framed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::_framed = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le cadrage a été fixé pour ce contenu : un redimensionnement ne le refait pas. </p>
 
 </div>
 </div>
@@ -3063,6 +3682,28 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d2774cc806ed3d0ca8db5221f8cf0aa" name="a1d2774cc806ed3d0ca8db5221f8cf0aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d2774cc806ed3d0ca8db5221f8cf0aa">&#9670;&#160;</a></span>_images</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1SceneImages.html">SceneImages</a>&gt; hmi::EditorViewport::_images</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad24b060742e57ed6ac8f94f585621062" name="ad24b060742e57ed6ac8f94f585621062"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad24b060742e57ed6ac8f94f585621062">&#9670;&#160;</a></span>_interactRequested</h2>
 
@@ -3084,6 +3725,74 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Interaction demandée depuis le dernier pas. </p>
+
+</div>
+</div>
+<a id="a3a3886441a9b32e5819a30cae64a7201" name="a3a3886441a9b32e5819a30cae64a7201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a3886441a9b32e5819a30cae64a7201">&#9670;&#160;</a></span>_isoScene</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::EditorViewport::_isoScene</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae9816c87b04791bfeb600845c28c2d95" name="ae9816c87b04791bfeb600845c28c2d95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9816c87b04791bfeb600845c28c2d95">&#9670;&#160;</a></span>_isoSceneDirty</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::_isoSceneDirty = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Scène iso du brouillon, recomposée seulement quand il change. </p>
+
+</div>
+</div>
+<a id="a9b36bd19d0e9ec038c68723d036c24e8" name="a9b36bd19d0e9ec038c68723d036c24e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b36bd19d0e9ec038c68723d036c24e8">&#9670;&#160;</a></span>_item</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1EditorViewport_1_1CanvasItem.html">CanvasItem</a>* hmi::EditorViewport::_item</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3120,72 +3829,6 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classhmi_1_1LayerViewState.html">hmi::LayerViewState</a> hmi::EditorViewport::_layerView</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af93211668c78306028799d6f1d4cd7f2" name="af93211668c78306028799d6f1d4cd7f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af93211668c78306028799d6f1d4cd7f2">&#9670;&#160;</a></span>_manualCamera</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::EditorViewport::_manualCamera = false</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a90e079acc6539b9e5c67bcfc43f8b00f" name="a90e079acc6539b9e5c67bcfc43f8b00f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90e079acc6539b9e5c67bcfc43f8b00f">&#9670;&#160;</a></span>_manualCenter</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::EditorViewport::_manualCenter {}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa7acfb74f65e76cdcfaad46472c142ad" name="aa7acfb74f65e76cdcfaad46472c142ad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7acfb74f65e76cdcfaad46472c142ad">&#9670;&#160;</a></span>_manualZoom</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float hmi::EditorViewport::_manualZoom = 1.0F</td>
         </tr>
       </table>
   </td>
@@ -3265,6 +3908,28 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa631928cf0d7230974023be5bbf58712" name="aa631928cf0d7230974023be5bbf58712"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa631928cf0d7230974023be5bbf58712">&#9670;&#160;</a></span>_playScene</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> hmi::EditorViewport::_playScene</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a50ddaebc26f11d9380355643f3fd4d8f" name="a50ddaebc26f11d9380355643f3fd4d8f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50ddaebc26f11d9380355643f3fd4d8f">&#9670;&#160;</a></span>_playSceneDirty</h2>
 
@@ -3286,6 +3951,50 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>La scène de l'essai doit être recomposée avant la prochaine image. </p>
+
+</div>
+</div>
+<a id="a27c5e02deb9cc4633e64ff193b4a958f" name="a27c5e02deb9cc4633e64ff193b4a958f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27c5e02deb9cc4633e64ff193b4a958f">&#9670;&#160;</a></span>_playSnapshot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> hmi::EditorViewport::_playSnapshot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a69e8e8563c25971d1c32c991e96f8ef6" name="a69e8e8563c25971d1c32c991e96f8ef6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69e8e8563c25971d1c32c991e96f8ef6">&#9670;&#160;</a></span>_playTimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTimer hmi::EditorViewport::_playTimer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -3399,8 +4108,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a737dbd1c74d1df814daceaa2a72a4ba5" name="a737dbd1c74d1df814daceaa2a72a4ba5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a737dbd1c74d1df814daceaa2a72a4ba5">&#9670;&#160;</a></span>_rightDragLastScreen</h2>
+<a id="a892cb197cb3589c6a5ddb1d05c380ce3" name="a892cb197cb3589c6a5ddb1d05c380ce3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a892cb197cb3589c6a5ddb1d05c380ce3">&#9670;&#160;</a></span>_rightDragLast</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3409,7 +4118,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> hmi::EditorViewport::_rightDragLastScreen {}</td>
+          <td class="memname">QPoint hmi::EditorViewport::_rightDragLast</td>
         </tr>
       </table>
   </td>
@@ -3445,8 +4154,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af5b7dfe8907ea19015b8187e4d7ee72a" name="af5b7dfe8907ea19015b8187e4d7ee72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af5b7dfe8907ea19015b8187e4d7ee72a">&#9670;&#160;</a></span>_scene</h2>
+<a id="aabc376931a1a558bf5fcd2d409c40048" name="aabc376931a1a558bf5fcd2d409c40048"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc376931a1a558bf5fcd2d409c40048">&#9670;&#160;</a></span>_seeThroughRelief</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3455,7 +4164,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1SceneResources.html">hmi::SceneResources</a> hmi::EditorViewport::_scene</td>
+          <td class="memname">bool hmi::EditorViewport::_seeThroughRelief = false</td>
         </tr>
       </table>
   </td>
@@ -3533,6 +4242,28 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a06665bd62f61b914f22be6dc4208b6e6" name="a06665bd62f61b914f22be6dc4208b6e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06665bd62f61b914f22be6dc4208b6e6">&#9670;&#160;</a></span>_snapshot</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> hmi::EditorViewport::_snapshot</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a6b0330c776cfd4ce714af2a9fdc502a9" name="a6b0330c776cfd4ce714af2a9fdc502a9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6b0330c776cfd4ce714af2a9fdc502a9">&#9670;&#160;</a></span>_terrains</h2>
 
@@ -3599,8 +4330,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adee4dcc5193427ee382dac9ba78be22f" name="adee4dcc5193427ee382dac9ba78be22f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adee4dcc5193427ee382dac9ba78be22f">&#9670;&#160;</a></span>_world</h2>
+<a id="a338f196f98c909cbcb654c46fa3ff22e" name="a338f196f98c909cbcb654c46fa3ff22e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a338f196f98c909cbcb654c46fa3ff22e">&#9670;&#160;</a></span>_view</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3609,7 +4340,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1WorldSceneRenderer.html">WorldSceneRenderer</a>&gt; hmi::EditorViewport::_world</td>
+          <td class="memname"><a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">CanvasView</a> hmi::EditorViewport::_view = <a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4a3a631438d6f2eba0ef81c8cc070fe15f">CanvasView::Iso</a></td>
         </tr>
       </table>
   </td>

@@ -14,7 +14,7 @@ var searchData=
   ['openpause_11',['OpenPause',['../namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90af0a5454dd6871865bf5bf5b7821b9f0b',1,'hmi']]],
   ['openrpgscreen_12',['OpenRpgScreen',['../namespacehmi.html#a964211f19cf43757eaaa80c3c29b0e90adb28cc1642bf3c7166e5556e54c9752b',1,'hmi']]],
   ['options_13',['Options',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7adae8ace18bdcbcc6ae5aece263e14fe8',1,'hmi::ScreenRouter::Options'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528dadae8ace18bdcbcc6ae5aece263e14fe8',1,'hmi::Options']]],
-  ['other_14',['Other',['../namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5a6311ae17c1ee52b36e68aaf4ad066387',1,'hmi']]],
+  ['other_14',['Other',['../namespacecore.html#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387',1,'core::Other'],['../namespacehmi.html#a874cdf4b3785a41ee4cfc4ae882c2df5a6311ae17c1ee52b36e68aaf4ad066387',1,'hmi::Other']]],
   ['outofbounds_15',['OutOfBounds',['../namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4a46dc1018ac1d8fca7c2752a61ce2fd0f',1,'core::OutOfBounds'],['../namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f',1,'core::OutOfBounds']]],
   ['outofreach_16',['OutOfReach',['../namespacecore.html#ac011cdb67f4c31ececbaaceeace4cbedab3e0302fd4814646ffa6de166cddc38a',1,'core::OutOfReach'],['../namespacecore.html#a1c2689aacd9707ef3d8c556e9f2bf840ab3e0302fd4814646ffa6de166cddc38a',1,'core::OutOfReach']]],
   ['overcapacity_17',['OverCapacity',['../namespacecore.html#ad77756d2c98fad50a0b353e7924843a5a4fcf3e94521b7db24bd0c3bd6e9201af',1,'core']]]

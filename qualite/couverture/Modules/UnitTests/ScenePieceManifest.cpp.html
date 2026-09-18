@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>ScenePieceManifest.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Core/Resources/ScenePieceManifest.h"
+
+#include &lt;algorithm&gt;
+#include &lt;tuple&gt;
+#include &lt;utility&gt;
+
+#include "Core/Data/JsonDocument.h"
+
+namespace core {
+
+namespace {
+
+<span style = "background-color:#dfd">[[nodiscard]] ScenePieceManifestError mapError(JsonReadError error) {
+    switch (error) {</span>
+        case JsonReadError::None:
+<span style = "background-color:#fdd">            return ScenePieceManifestError::None;</span>
+        case JsonReadError::FileNotFound:
+<span style = "background-color:#dfd">            return ScenePieceManifestError::FileNotFound;</span>
+        case JsonReadError::ParseError:
+<span style = "background-color:#fdd">            return ScenePieceManifestError::ParseError;</span>
+        case JsonReadError::UnsupportedVersion:
+<span style = "background-color:#fdd">            return ScenePieceManifestError::UnsupportedVersion;</span>
+        case JsonReadError::MalformedStructure:
+<span style = "background-color:#fdd">            return ScenePieceManifestError::MalformedStructure;</span>
+    }
+<span style = "background-color:#fdd">    return ScenePieceManifestError::MalformedStructure;</span>
+<span style = "background-color:#dfd">}</span>
+
+/// Une paire d'entiers `[a, b]` du manifeste, @p fallback si le champ manque ou est mal formÃ©.
+[[nodiscard]] std::pair&lt;int, int&gt; intPair(const nlohmann::json&amp; object, std::string_view field,
+<span style = "background-color:#dfd">                                          std::pair&lt;int, int&gt; fallback) {
+    const auto found = object.find(field);</span>
+    if (found == object.end() || !found-&gt;is_array() || found-&gt;size() != 2 ||
+<span style = "background-color:#dfd">        !(*found)[0].is_number_integer() || !(*found)[1].is_number_integer()) {
+        return fallback;</span>
+    }
+<span style = "background-color:#dfd">    return {(*found)[0].get&lt;int&gt;(), (*found)[1].get&lt;int&gt;()};
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] ScenePiece readPiece(const std::string&amp; key, const nlohmann::json&amp; value) {
+    ScenePiece piece;
+    piece.key = key;
+    piece.name = std::string{scenePieceShortName(key)};
+    piece.file = value["file"].get&lt;std::string&gt;();
+    if (const auto found = value.find("class"); found != value.end() &amp;&amp; found-&gt;is_string()) {
+        piece.className = found-&gt;get&lt;std::string&gt;();
+    }
+    piece.pieceClass = parseScenePieceClass(piece.className);
+    const auto [columns, rows] = intPair(value, "footprint", {1, 1});
+    piece.footprintColumns = std::max(1, columns);
+    piece.footprintRows = std::max(1, rows);
+    std::tie(piece.width, piece.height) = intPair(value, "size", {0, 0});
+    std::tie(piece.anchorX, piece.anchorY) = intPair(value, "anchor", {-1, -1});
+    if (const auto mirror = value.find("mirrorOf"); mirror != value.end() &amp;&amp; mirror-&gt;is_string()) {
+        piece.mirrorOf = std::string{scenePieceShortName(mirror-&gt;get&lt;std::string&gt;())};
+    }
+    return piece;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">ScenePieceClass parseScenePieceClass(std::string_view name) noexcept {
+    if (name == "floor") {
+        return ScenePieceClass::Floor;</span>
+    }
+<span style = "background-color:#dfd">    if (name == "tall") {
+        return ScenePieceClass::Tall;</span>
+    }
+<span style = "background-color:#dfd">    if (name == "wide") {
+        return ScenePieceClass::Wide;</span>
+    }
+<span style = "background-color:#dfd">    return ScenePieceClass::Other;
+}</span>
+
+<span style = "background-color:#dfd">std::string_view scenePieceShortName(std::string_view key) noexcept {
+    const std::size_t slash = key.rfind('/');
+    return slash == std::string_view::npos ? key : key.substr(slash + 1);
+}</span>
+
+<span style = "background-color:#dfd">ScenePieceManifestResult ScenePieceManifest::loadFromString(std::string_view json) {
+    return fromDocument(readJsonObject(json, FORMAT_VERSION, "manifest.json"));
+}</span>
+
+<span style = "background-color:#dfd">ScenePieceManifestResult ScenePieceManifest::loadFromFile(const std::filesystem::path&amp; path) {
+    return fromDocument(readJsonObjectFromFile(path, FORMAT_VERSION));
+}</span>
+
+<span style = "background-color:#dfd">const ScenePiece* ScenePieceManifest::find(std::string_view name) const noexcept {
+    const auto found = std::ranges::find(_pieces, name, &amp;ScenePiece::name);
+    return found == _pieces.end() ? nullptr : &amp;*found;
+}</span>
+
+<span style = "background-color:#dfd">ScenePieceManifestResult ScenePieceManifest::fromDocument(const JsonDocument&amp; document) {
+    ScenePieceManifestResult result;
+    if (!document.ok()) {
+        result.error = mapError(document.error);
+        result.message = document.message;
+        return result;</span>
+    }
+<span style = "background-color:#dfd">    const auto textures = document.root.find("textures");
+    if (textures == document.root.end() || !textures-&gt;is_object()) {
+        result.error = ScenePieceManifestError::MalformedStructure;
+        result.message = "textures manquant ou non objet";
+        return result;</span>
+    }
+<span style = "background-color:#dfd">    if (const auto disposition = document.root.find("disposition");
+        disposition != document.root.end() &amp;&amp; disposition-&gt;is_string()) {
+        result.manifest._place = disposition-&gt;get&lt;std::string&gt;();
+    }
+    for (const auto&amp; [key, value] : textures-&gt;items()) {</span>
+        // Une entrÃ©e sans image est ignorÃ©e, pas fatale : les autres piÃ¨ces restent utilisables.
+<span style = "background-color:#dfd">        if (!value.is_object() || !value.contains("file") || !value["file"].is_string()) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        result.manifest._pieces.push_back(readPiece(key, value));
+    }
+    return result;
+}</span>
+
+}  // namespace core</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

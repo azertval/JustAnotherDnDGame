@@ -1,0 +1,157 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>LayerView.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstddef&gt;
+#include &lt;optional&gt;
+#include &lt;string&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/TileLayer.h"
+
+/**
+ * @file Editor/Logic/LayerView.h
+ * @brief Couches d'une carte telles que l'Ã©diteur les montre : lignes du panneau Â« Couches Â»,
+ *        couche active, visibilitÃ© et opacitÃ© (`LOT-11`).
+ */
+
+namespace hmi {
+
+/**
+ * @brief DÃ©signation d'une couche dans l'Ã©diteur : un rang de `core::LevelDraft::layers()`, ou
+ *        `std::nullopt` pour la grille racine â la collision, ou la grille unique d'une carte sans
+ *        couche visuelle.
+ */
+using LayerSlot = std::optional&lt;std::size_t&gt;;
+
+/// @brief Une ligne du panneau Â« Couches Â».
+struct LayerRow {
+    LayerSlot slot;
+    core::LayerKind kind = core::LayerKind::Legacy;
+    std::string name;
+
+    [[nodiscard]] bool operator==(const LayerRow&amp;) const = default;
+};
+
+/**
+ * @brief Les lignes du panneau, dans l'**ordre de dessin** : la grille racine d'abord, puis les
+ *        couches visuelles dans l'ordre de `layers`.
+ *
+ * La grille racine n'a qu'une ligne, quel que soit le reflet qu'en porte `layers` : son rÃ´le est
+ * `Collision` dÃ¨s qu'une couche visuelle existe, `Legacy` sinon â c'est ce qui dit Ã  l'auteur si
+ * ce qu'il peint lÃ  se voit en jeu.
+ */
+[[nodiscard]] std::vector&lt;LayerRow&gt; layerRows(const std::vector&lt;core::TileLayer&gt;&amp; layers);
+
+/// @return @p active s'il dÃ©signe encore une couche visuelle de @p layers, la grille racine sinon â
+///         Ã  rÃ©appliquer aprÃ¨s toute mutation (annulation, retrait, ouverture d'une autre carte).
+[[nodiscard]] LayerSlot validActiveLayer(const std::vector&lt;core::TileLayer&gt;&amp; layers,
+                                         LayerSlot active);
+
+/// @brief OpacitÃ© par dÃ©faut de la collision **par-dessus** des couches visuelles : assez pour voir
+///        oÃ¹ l'on bute, assez peu pour voir le sol dessous. DÃ©cision d'ergonomie, sans effet en
+///        jeu.
+inline constexpr float DEFAULT_COLLISION_OVERLAY_OPACITY = 0.55F;
+
+/// @brief OpacitÃ© d'une couche **grisÃ©e** : assez pour s'y repÃ©rer, assez peu pour ne pas la
+///        confondre avec celle qu'on peint (`LOT-EDITOR-02`, phase 3). Aide d'Ã©dition.
+inline constexpr float DIMMED_LAYER_OPACITY = 0.3F;
+
+/// @brief Comment une couche est montrÃ©e dans l'Ã©diteur.
+struct LayerDisplay {
+    bool visible = true;
+    float opacity = 1.0F;
+    /// MontrÃ©e en retrait (`DIMMED_LAYER_OPACITY`), pour lire une autre couche par-dessus.
+    bool dimmed = false;
+    /// VerrouillÃ©e : visible, mais aucun geste ne la peint (`LOT-EDITOR-02`, phase 3).
+    bool locked = false;
+
+    /// @return L'opacitÃ© effective : 0 si masquÃ©e, rÃ©duite si grisÃ©e.
+<span style = "background-color:#dfd">    [[nodiscard]] float effectiveOpacity() const noexcept {
+        if (!visible) {
+            return 0.0F;</span>
+        }
+<span style = "background-color:#dfd">        return dimmed ? opacity * DIMMED_LAYER_OPACITY : opacity;
+    }</span>
+
+    [[nodiscard]] bool operator==(const LayerDisplay&amp;) const = default;
+};
+
+/**
+ * @brief VisibilitÃ© et opacitÃ© des couches **dans l'Ã©diteur** â une aide d'Ã©dition, jamais une
+ *        propriÃ©tÃ© de la carte : rien n'est annulable, rien n'est enregistrÃ© (mÃªme statut que
+ *        `hmi::PlaneVisibility`).
+ *
+ * Les rÃ©glages suivent le **rang** des couches, pas leur identitÃ© : une couche n'en a pas d'autre
+ * dans le format. `swap` accompagne un dÃ©placement fait depuis le panneau ; une annulation qui
+ * rÃ©ordonne les couches peut, elle, laisser un rÃ©glage sur la voisine â une gÃªne visuelle
+ * passagÃ¨re, qu'un clic rÃ©pare, plutÃ´t qu'un identifiant inventÃ© pour l'Ã©viter.
+ */
+class LayerViewState {
+public:
+    /// Oublie tous les rÃ©glages (ouverture d'une carte).
+    void reset() noexcept;
+
+    /// Ajuste le nombre de rÃ©glages Ã  @p layerCount, en gardant ceux qui existent.
+    void sync(std::size_t layerCount);
+
+    /**
+     * @brief Le rÃ©glage de @p slot.
+     * @param slot             La couche.
+     * @param hasVisualLayers  Vrai si la carte a une couche visuelle : la grille racine n'est alors
+     *                         plus l'image mais la collision, montrÃ©e par-dessus Ã 
+     *                         `DEFAULT_COLLISION_OVERLAY_OPACITY` tant que l'auteur n'a pas choisi.
+     */
+    [[nodiscard]] LayerDisplay display(LayerSlot slot, bool hasVisualLayers) const;
+
+    void setVisible(LayerSlot slot, bool visible);
+
+    /// L'opacitÃ© est bornÃ©e Ã  `[0, 1]` ; une valeur non finie est ignorÃ©e.
+    void setOpacity(LayerSlot slot, float opacity);
+
+    void setDimmed(LayerSlot slot, bool dimmed);
+    void setLocked(LayerSlot slot, bool locked);
+    /// Ãchange les rÃ©glages des rangs @p a et @p b (dÃ©placement d'une couche).
+    void swap(std::size_t a, std::size_t b);
+
+    [[nodiscard]] bool operator==(const LayerViewState&amp;) const = default;
+
+private:
+    [[nodiscard]] LayerDisplay&amp; at(std::size_t index);
+
+    std::vector&lt;LayerDisplay&gt; _layers;
+    bool _rootVisible = true;
+    bool _rootDimmed = false;
+    bool _rootLocked = false;
+    /// Absente tant que l'auteur n'a pas rÃ©glÃ© l'opacitÃ© de la grille racine.
+    std::optional&lt;float&gt; _rootOpacity;
+};
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

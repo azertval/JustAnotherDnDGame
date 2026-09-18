@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>SceneImages.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Editor/Ui/SceneImages.h"
+
+#include &lt;utility&gt;
+
+#include "Core/Ecs/Components/Sprite.h"  // core::AtlasRegion
+#include "Core/Resources/AssetMarker.h"
+#include "HMI/Graphics/AnimationCatalog.h"
+#include "HMI/Graphics/EntityMarkers.h"
+#include "HMI/Graphics/MissingTexture.h"
+#include "HMI/Graphics/ProceduralAtlas.h"
+#include "HMI/Graphics/TileVisuals.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
+#include "HMI/HmiLog.h"
+
+namespace hmi {
+
+namespace {
+
+/// Des pixels `R8G8B8A8` en image prÃªte Ã  peindre (prÃ©multipliÃ©e : le format rapide de QPainter).
+<span style = "background-color:#dfd">[[nodiscard]] QImage fromRgba8(int width, int height, const std::vector&lt;std::uint32_t&gt;&amp; pixels) {
+    if (width &lt;= 0 || height &lt;= 0 ||</span>
+        pixels.size() &lt; static_cast&lt;std::size_t&gt;(width) * static_cast&lt;std::size_t&gt;(height)) {
+<span style = "background-color:#fdd">        return {};</span>
+    }
+    // Les pixels sont lus en place puis copiÃ©s : l'image rendue ne dÃ©pend pas du vecteur.
+    // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+<span style = "background-color:#dfd">    const auto* const bytes = reinterpret_cast&lt;const uchar*&gt;(pixels.data());
+    return QImage(bytes, width, height, static_cast&lt;qsizetype&gt;(width) * 4, QImage::Format_RGBA8888)</span>
+        .convertToFormat(QImage::Format_ARGB32_Premultiplied);
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#fdd">[[nodiscard]] const QImage&amp; solidImage() {
+    static const QImage solid = [] {
+        QImage image(1, 1, QImage::Format_ARGB32_Premultiplied);
+        image.fill(Qt::white);
+        return image;
+    }();
+    return solid;
+}</span>
+
+/// Le chemin du `.anim.json` d'une bande : `idle.png` -&gt; `idle.anim.json`.
+<span style = "background-color:#dfd">[[nodiscard]] std::filesystem::path animationDescriptionOf(const std::filesystem::path&amp; band) {
+    std::filesystem::path description = band;
+    description.replace_extension();
+    description += ".anim.json";
+    return description;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] SceneTexture textureOf(const QImage&amp; image, int frameWidth) {
+    return SceneTexture{.texture = const_cast&lt;QImage*&gt;(&amp;image),  // identitÃ© opaque, jamais Ã©crite</span>
+                        .width = image.width(),
+                        .height = image.height(),
+                        .frameWidth = frameWidth};
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace
+
+SceneImages::SceneImages(std::filesystem::path assetsDirectory)
+<span style = "background-color:#dfd">    : _directory(std::move(assetsDirectory)) {
+    const ProceduralAtlasImage checker = buildMissingTextureImage();
+    _missing = fromRgba8(checker.width, checker.height, checker.pixels);
+    _textures.missing = textureOf(_missing, 0);
+    const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
+    _atlas = fromRgba8(atlas.width, atlas.height, atlas.pixels);
+}</span>
+
+<span style = "background-color:#fdd">TextureHandle SceneImages::solid() const noexcept {
+    return const_cast&lt;QImage*&gt;(&amp;solidImage());
+}</span>
+
+<span style = "background-color:#fdd">QColor SceneImages::tileColor(core::TileType type) const {
+    const core::AtlasRegion region = regionForTile(type);
+    const int x = region.x + (region.width / 2);
+    const int y = region.y + (region.height / 2);
+    return _atlas.valid(x, y) ? _atlas.pixelColor(x, y) : QColor(Qt::magenta);
+}</span>
+
+<span style = "background-color:#fdd">const QImage* SceneImages::marker(const std::string&amp; key) {
+    const auto found = _markers.find(key);
+    if (found != _markers.end()) {
+        return found-&gt;second.isNull() ? nullptr : &amp;found-&gt;second;</span>
+    }
+<span style = "background-color:#fdd">    const core::MarkerImage image =</span>
+        core::assetMarker(key, ENTITY_MARKER_SIZE_PIXELS, ENTITY_MARKER_SIZE_PIXELS);
+<span style = "background-color:#fdd">    QImage&amp; stored = _markers[key];
+    if (!image.isEmpty()) {
+        stored = fromRgba8(image.width, image.height, markerPixelsRgba8(image));</span>
+    }
+<span style = "background-color:#fdd">    return stored.isNull() ? nullptr : &amp;stored;
+}</span>
+
+<span style = "background-color:#fdd">const QImage* SceneImages::image(const std::string&amp; path) {
+    ensure({path});
+    const auto found = _images.find(path);
+    return found == _images.end() ? nullptr : &amp;found-&gt;second;
+}</span>
+
+<span style = "background-color:#dfd">int SceneImages::bandFrameWidth(const std::string&amp; path) const {</span>
+    // Seules les figurines ont un `.anim.json` ; une piÃ¨ce de dÃ©cor n'en a pas.
+<span style = "background-color:#dfd">    const AnimationDescriptionResult read =</span>
+        AnimationCatalog::loadFromFile(animationDescriptionOf(_directory / path));
+<span style = "background-color:#dfd">    return read.ok() ? read.description-&gt;frameWidth : 0;
+}</span>
+
+<span style = "background-color:#dfd">void SceneImages::ensure(const std::vector&lt;std::string&gt;&amp; paths) {
+    for (const std::string&amp; path : paths) {
+        if (!_requested.insert(path).second) {</span>
+<span style = "background-color:#fdd">            continue;</span>
+        }
+<span style = "background-color:#dfd">        QImage loaded(QString::fromStdWString((_directory / path).wstring()));
+        if (!loaded.isNull()) {
+            QImage&amp; stored = _images[path] =</span>
+                loaded.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+<span style = "background-color:#dfd">            _textures.byPath[path] = textureOf(stored, bandFrameWidth(path));
+            continue;</span>
+        }
+        // Une figurine sans image se dessine par son marqueur, comme en jeu (LOT-39, LOT-96).
+<span style = "background-color:#fdd">        const std::string key = figureMarkerKey(path);
+        if (!key.empty()) {
+            const core::MarkerImage marker =</span>
+                core::assetMarker(key, FIGURE_FRAME_WIDTH_PIXELS, FIGURE_FRAME_HEIGHT_PIXELS);
+<span style = "background-color:#fdd">            if (!marker.isEmpty()) {
+                QImage&amp; stored = _images[path] =</span>
+                    fromRgba8(marker.width, marker.height, markerPixelsRgba8(marker));
+<span style = "background-color:#fdd">                _textures.byPath[path] = textureOf(stored, stored.width());
+                continue;</span>
+            }
+<span style = "background-color:#fdd">        }</span>
+        // La composition retombe sur le damier : une piÃ¨ce manquante se voit, sans planter.
+<span style = "background-color:#fdd">        HMI_LOG_WARNING("Editeur : image introuvable, damier a la place : " + path);
+    }</span>
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>742 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>758 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Tests unitaires (739)</h1>
+Tests unitaires (755)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2914,7 +2914,7 @@ Vérifie que <span class="tt">normalized</span> vaut <span class="tt"><a class="
 Vérifie que <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(0.0f, 0.0f)</span> diffère de <span class="tt"><a class="el" href="structcore_1_1Vector2.html" title="Vecteur bidimensionnel en coordonnées monde (composantes float).">core::Vector2</a>(1.0f, 0.0f)</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
-Resources (9)</h3>
+Resources (12)</h3>
 <p><b><span class="tt"><a class="el" href="test__asset__keys_8cpp.html" title="Tests des clés d&#39;assets d&#39;entité et de leurs marqueurs (LOT-39, EX-CNT-040, EX-CNT-041).">test_asset_keys.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2998,6 +2998,54 @@ Vérifie que <span class="tt">famille</span> diffère de <span class="tt">nullpt
 Vérifie que <span class="tt">marqueur.isEmpty()</span> est faux.<br  />
 Vérifie que <span class="tt">marqueur.width</span> vaut <span class="tt">famille-&gt;width</span>.<br  />
 Vérifie que <span class="tt">peints</span> vaut <span class="tt">static_cast&lt;int&gt;(attendues.size())</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__scene__piece__manifest_8cpp.html" title="Le manifeste des pièces d&#39;un lieu, lu dans Core (LOT-EDITOR-02, constat A9).">test_scene_piece_manifest.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ScenePieceManifestTest.LeManifesteDeMartpartSeLit</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__scene__piece__manifest_8cpp.html" title="Le manifeste des pièces d&#39;un lieu, lu dans Core (LOT-EDITOR-02, constat A9).">Source/Test/Unit/Core/Resources/test_scene_piece_manifest.cpp</a>:29</span></sub>  </td><td class="markdownTableBodyNone">Le manifeste des pieces de Martpart se lit dans Core.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Assets/Scene/martpart/manifest.json</span>.<br  />
+ 2. Chercher une piece de sol, une piece large et son miroir.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">read.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">manifest.place()</span> vaut <span class="tt">"martpart"</span>.<br  />
+Vérifie que <span class="tt">manifest.pieces().empty()</span> est faux.<br  />
+Vérifie que <span class="tt">street</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">street-&gt;key</span> vaut <span class="tt">"scene/martpart/street"</span>.<br  />
+Vérifie que <span class="tt">street-&gt;file</span> vaut <span class="tt">"street.png"</span>.<br  />
+Vérifie que <span class="tt">street-&gt;pieceClass</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461af3f6d0343d56ce88ce7958170ed05cb3" title="Un losange de sol, posé à plat.">core::ScenePieceClass::Floor</a></span>.<br  />
+Vérifie que <span class="tt">street-&gt;footprintColumns</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">street-&gt;footprintRows</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">street-&gt;width</span> vaut <span class="tt">68</span>.<br  />
+Vérifie que <span class="tt">street-&gt;height</span> vaut <span class="tt">42</span>.<br  />
+Vérifie que <span class="tt">street-&gt;anchorX</span> vaut <span class="tt">34</span>.<br  />
+Vérifie que <span class="tt">street-&gt;anchorY</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">street-&gt;mirrorOf.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">front</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">front-&gt;pieceClass</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1" title="Une pièce debout de plusieurs cases : façade, étal, gradin.">core::ScenePieceClass::Wide</a></span>.<br  />
+Vérifie que <span class="tt">front-&gt;footprintColumns</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">front-&gt;footprintRows</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">front-&gt;mirrorOf</span> vaut <span class="tt">"front-left"</span>.<br  />
+Vérifie que <span class="tt">manifest.find(front-&gt;mirrorOf)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">manifest.find("piece-inconnue")</span> vaut <span class="tt">nullptr</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ScenePieceManifestTest.ChaquePieceLivreeASonImage</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__scene__piece__manifest_8cpp.html" title="Le manifeste des pièces d&#39;un lieu, lu dans Core (LOT-EDITOR-02, constat A9).">Source/Test/Unit/Core/Resources/test_scene_piece_manifest.cpp</a>:73</span></sub>  </td><td class="markdownTableBodyNone">Toute piece declaree par un lieu livre a son image.  </td><td class="markdownTableBodyNone">1. Lire les manifestes du Colisee et de Martpart.<br  />
+ 2. Chercher le fichier de chaque piece dans le dossier du lieu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">read.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">std::filesystem::is_regular_file(sceneDirectory(place) / piece.file)</span> est vrai.<br  />
+Vérifie que <span class="tt">piece.footprintColumns</span> est supérieur ou égal à <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">piece.footprintRows</span> est supérieur ou égal à <span class="tt">1</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ScenePieceManifestTest.UneEntreeFautiveNeFaitPasPerdreLesAutres</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__scene__piece__manifest_8cpp.html" title="Le manifeste des pièces d&#39;un lieu, lu dans Core (LOT-EDITOR-02, constat A9).">Source/Test/Unit/Core/Resources/test_scene_piece_manifest.cpp</a>:98</span></sub>  </td><td class="markdownTableBodyNone">Le manifeste des pieces tolere une entree fautive sans perdre les autres.  </td><td class="markdownTableBodyNone">1. Lire un manifeste dont une entree n'a pas d'image et une autre une classe inconnue.<br  />
+ 2. Lire un manifeste sans <span class="tt">textures</span>, puis un fichier absent.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">read.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">read.manifest.pieces().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">piece.name</span> vaut <span class="tt">"estrade"</span>.<br  />
+Vérifie que <span class="tt">piece.pieceClass</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387" title="Une classe que ce lecteur ne connaît pas : gardée par son nom, jamais refusée.">core::ScenePieceClass::Other</a></span>.<br  />
+Vérifie que <span class="tt">piece.className</span> vaut <span class="tt">"podium"</span>.<br  />
+Vérifie que <span class="tt">piece.footprintColumns</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">piece.footprintRows</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ScenePieceManifest.html#a7517f6483f0ee8b55fe5c44cafb8efb0">core::ScenePieceManifest::loadFromString</a>(R"({"version": 1})").error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbccaa809debdbe0cae246d363461916d924d">core::ScenePieceManifestError::MalformedStructure</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="classcore_1_1ScenePieceManifest.html#a6979cb457d32c2be9d8a6587068d7f22">core::ScenePieceManifest::loadFromFile</a>(sceneDirectory("absent") / "manifest.json").error</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2">core::ScenePieceManifestError::FileNotFound</a></span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Rpg (81)</h3>
@@ -4372,6 +4420,98 @@ Vérifie que <span class="tt">kept-&gt;parent_path().filename().string()</span> 
 Vérifie que <span class="tt">content</span> vaut <span class="tt">"contenu disque"</span>.<br  />
 Vérifie que <span class="tt">store.pending().empty()</span> est vrai.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">test_canvas_picking.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasPickingTest.LePointageEstJusteAuxQuatreCoins</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">Source/Test/Unit/Editor/test_canvas_picking.cpp</a>:62</span></sub>  </td><td class="markdownTableBodyNone">Le pointage iso est juste aux quatre coins de la carte.  </td><td class="markdownTableBodyNone">1. Projeter Martpart (48 x 40 cases).<br  />
+ 2. Pointer le centre des quatre cases de coin, puis un point pres de chacun de leurs sommets, a l'interieur du losange.<br  />
+ 3. Pointer juste au-dela du sommet exterieur de chaque coin.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">projection.columns()</span> vaut <span class="tt">48</span>.<br  />
+Vérifie que <span class="tt">projection.rows()</span> vaut <span class="tt">40</span>.<br  />
+Vérifie que <span class="tt">hmi::pickIsoCell(projection, center)</span> vaut <span class="tt">corner.cell</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af4abfdae89c4710f442558a1eebf9e99" title="La case dont le losange contient world, en vue iso.">hmi::pickIsoCell</a>(projection, toward(vertex, center, 0.05F))</span> vaut <span class="tt">corner.cell</span>.<br  />
+Vérifie que <span class="tt">hmi::pickIsoCell(projection, outside).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">hmi::clampedIsoCell(projection, outside)</span> vaut <span class="tt">corner.cell</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CanvasPickingTest.SousUnMurHautOnPointeLaCaseDerriere</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">Source/Test/Unit/Editor/test_canvas_picking.cpp</a>:105</span></sub>  </td><td class="markdownTableBodyNone">Sous un mur haut, le pointage designe la case par son pied.  </td><td class="markdownTableBodyNone">1. Composer Martpart livree avec la taille des pieces de son manifeste.<br  />
+ 2. Prendre une piece de relief plus haute que deux losanges, et la case juste derriere elle (colonne - 1, ligne - 1).<br  />
+ 3. Pointer le centre du losange de cette case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">appearance.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">manifest.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">contains(bounds, point)</span> est vrai.<br  />
+Vérifie que <span class="tt">hmi::pickIsoCell(projection, point)</span> vaut <span class="tt">behind</span>.<br  />
+Vérifie que <span class="tt">checked</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasPickingTest.LaHauteurSePrendEnParametre</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">Source/Test/Unit/Editor/test_canvas_picking.cpp</a>:172</span></sub>  </td><td class="markdownTableBodyNone">Le pointage prend la hauteur en parametre.  </td><td class="markdownTableBodyNone">1. Elever d'un niveau le losange d'une case.<br  />
+ 2. Pointer son centre avec la hauteur 1, puis avec la hauteur 0.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::pickIsoCell(projection, center, 1)</span> vaut <span class="tt">cell</span>.<br  />
+Vérifie que <span class="tt">hmi::pickIsoCell(projection, center, 0)</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 4, .row = 4})</span>.<br  />
+Vérifie que <span class="tt">hmi::isoCellDiamond(projection, cell, 0)[0]</span> vaut <span class="tt">projection.gridToWorld({5.0F, 5.0F})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CanvasPickingTest.OnNeParcourtQueLesCasesVisibles</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">Source/Test/Unit/Editor/test_canvas_picking.cpp</a>:193</span></sub>  </td><td class="markdownTableBodyNone">Le canevas ne parcourt que les cases visibles.  </td><td class="markdownTableBodyNone">1. Demander les cases couvertes par la scene entiere de Martpart.<br  />
+ 2. Demander celles d'un petit rectangle autour du centre d'une case.<br  />
+ 3. Faire de meme en vue a plat.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">all</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1CellRange.html" title="Un rectangle de cases, bornes incluses ; vide si lastColumn &lt; firstColumn.">hmi::CellRange</a>{.firstColumn = 0, .firstRow = 0, .lastColumn = 47, .lastRow = 39})</span>.<br  />
+Vérifie que <span class="tt">detail.contains(cell)</span> est vrai.<br  />
+Vérifie que <span class="tt">detail.lastColumn - detail.firstColumn</span> est inférieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">detail.lastRow - detail.firstRow</span> est inférieur ou égal à <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2eb7bedaec311c381db30e1e55ebdf63">hmi::flatCellsCovering</a>(<a class="el" href="structcore_1_1Rect.html" title="Rectangle aligné sur les axes (AABB) en unités monde.">core::Rect</a>{{2.5F, 3.2F}, {2.0F, 1.0F}}, 48, 40)</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1CellRange.html" title="Un rectangle de cases, bornes incluses ; vide si lastColumn &lt; firstColumn.">hmi::CellRange</a>{.firstColumn = 2, .firstRow = 3, .lastColumn = 4, .lastRow = 4})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2eb7bedaec311c381db30e1e55ebdf63">hmi::flatCellsCovering</a>(<a class="el" href="structcore_1_1Rect.html" title="Rectangle aligné sur les axes (AABB) en unités monde.">core::Rect</a>{{60.0F, 3.0F}, {2.0F, 1.0F}}, 48, 40).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasPickingTest.EnVueAPlatUneCaseParUnite</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">Source/Test/Unit/Editor/test_canvas_picking.cpp</a>:226</span></sub>  </td><td class="markdownTableBodyNone">Le pointage a plat designe la case sous le point.  </td><td class="markdownTableBodyNone">1. Pointer dans la grille, puis juste a gauche de la colonne 0.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4e103c9a48503e014210289a05de2ec7">hmi::pickFlatCell</a>({3.7F, 1.2F}, 10, 5)</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 3, .row = 1})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4e103c9a48503e014210289a05de2ec7">hmi::pickFlatCell</a>({-0.2F, 1.0F}, 10, 5).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac3e722c9b6c1d4ff6c7c32525f7f34c8">hmi::clampedFlatCell</a>({-0.2F, 1.0F}, 10, 5)</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 0, .row = 1})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac3e722c9b6c1d4ff6c7c32525f7f34c8">hmi::clampedFlatCell</a>({42.0F, 9.0F}, 10, 5)</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{.column = 9, .row = 4})</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">test_canvas_scene.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasSceneTest.MartpartSeComposeCommeDansLeJeu</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">Source/Test/Unit/Editor/test_canvas_scene.cpp</a>:88</span></sub>  </td><td class="markdownTableBodyNone">Le canevas iso compose Martpart comme le jeu.  </td><td class="markdownTableBodyNone">1. Ouvrir Martpart livree comme brouillon d'editeur et prendre l'instantane du canevas.<br  />
+ 2. Entrer dans Martpart avec le moteur du jeu (<span class="tt"><a class="el" href="classhmi_1_1WorldPlay.html">hmi::WorldPlay</a></span>) et prendre son instantane.<br  />
+ 3. Composer les deux avec les memes textures.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">play.enter("capital/martpart", {})</span> est vrai.<br  />
+Vérifie que <span class="tt">game.figures.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">editor.place</span> vaut <span class="tt">"martpart"</span>.<br  />
+Vérifie que <span class="tt">editor</span> vaut <span class="tt">game</span>.<br  />
+Vérifie que <span class="tt">editor.figures.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">fromGame.size()</span> vaut <span class="tt">fromEditor.size() + 1</span>.<br  />
+Vérifie que <span class="tt">matched</span> vaut <span class="tt">fromEditor.size()</span>.<br  />
+Vérifie que <span class="tt">fromEditor.size()</span> est strictement supérieur à <span class="tt">1000U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CanvasSceneTest.LesReglagesDeCoucheAgissentSurLeurBande</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">Source/Test/Unit/Editor/test_canvas_scene.cpp</a>:139</span></sub>  </td><td class="markdownTableBodyNone">Masquer, griser, voir a travers : chaque reglage agit sur sa bande.  </td><td class="markdownTableBodyNone">1. Une carte a couche de sol et couche de decor, reglages par defaut.<br  />
+ 2. Masquer le decor, griser le sol, activer les reliefs en transparence.<br  />
+ 3. Rendre la collision active.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">defaults</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1IsoBandOpacity.html" title="L&#39;opacité de chaque bande de la scène iso ; 0 : la bande n&#39;est pas peinte.">hmi::IsoBandOpacity</a>{ .floors = 1.0F, .relief = 1.0F, .figures = 1.0F, .collision = 0.0F})</span>.<br  />
+Vérifie que <span class="tt">changed.relief</span> vaut <span class="tt">0.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">changed.floors</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9d005a8117089b54f18763e2b17e08f6" title="Opacité d&#39;une couche grisée : assez pour s&#39;y repérer, assez peu pour ne pas la confondre avec celle q...">hmi::DIMMED_LAYER_OPACITY</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">hmi::bandOpacity(changed, hmi::RenderLayer::Object)</span> vaut <span class="tt">0.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">hmi::bandOpacity(changed, hmi::RenderLayer::Tile)</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9d005a8117089b54f18763e2b17e08f6" title="Opacité d&#39;une couche grisée : assez pour s&#39;y repérer, assez peu pour ne pas la confondre avec celle q...">hmi::DIMMED_LAYER_OPACITY</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">hmi::isoBandOpacity(layers, view, 0U, true).relief</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#ad13c35694489a3dca1d74146d3acad66" title="Opacité des reliefs en transparence : on voit à travers un mur ce qu&#39;on pointe.">hmi::SEE_THROUGH_RELIEF_OPACITY</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">collision.collision</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a444bc34d9bb51def7585ca8f530bf2b2" title="Opacité par défaut de la collision par-dessus des couches visuelles : assez pour voir où l&#39;on bute,...">hmi::DEFAULT_COLLISION_OVERLAY_OPACITY</a> * <a class="el" href="namespacehmi.html#a7db4df00da7f255b63a60212bdddea07" title="Opacité du masque de collision en iso, relative à celle de la couche : la moitié de la vue à plat,...">hmi::COLLISION_MASK_OPACITY</a></span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasSceneTest.UneGrilleUniqueEstLImage</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">Source/Test/Unit/Editor/test_canvas_scene.cpp</a>:179</span></sub>  </td><td class="markdownTableBodyNone">Une grille unique est l'image du canevas iso.  </td><td class="markdownTableBodyNone">1. Une carte sans couche visuelle ; masquer puis montrer sa grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a22b690a46d0fbaf833709811650ec91c" title="Les opacités des bandes iso, d&#39;après les réglages des couches.">hmi::isoBandOpacity</a>({}, view, std::nullopt, false).floors</span> vaut <span class="tt">1.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a22b690a46d0fbaf833709811650ec91c" title="Les opacités des bandes iso, d&#39;après les réglages des couches.">hmi::isoBandOpacity</a>({}, view, std::nullopt, false).collision</span> vaut <span class="tt">0.0F</span> (comparaison flottante).<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a22b690a46d0fbaf833709811650ec91c" title="Les opacités des bandes iso, d&#39;après les réglages des couches.">hmi::isoBandOpacity</a>({}, view, std::nullopt, false).floors</span> vaut <span class="tt">0.0F</span> (comparaison flottante).  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CanvasSceneTest.GriserEtVerrouillerSontDesReglagesDEditeur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">Source/Test/Unit/Editor/test_canvas_scene.cpp</a>:196</span></sub>  </td><td class="markdownTableBodyNone">Griser et verrouiller une couche, puis tout oublier.  </td><td class="markdownTableBodyNone">1. Verrouiller la collision, griser une couche visuelle.<br  />
+ 2. Remettre les reglages a zero.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">view.display(std::nullopt, true).locked</span> est vrai.<br  />
+Vérifie que <span class="tt">view.display(0U, true).dimmed</span> est vrai.<br  />
+Vérifie que <span class="tt">view.display(0U, true).effectiveOpacity()</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a9d005a8117089b54f18763e2b17e08f6" title="Opacité d&#39;une couche grisée : assez pour s&#39;y repérer, assez peu pour ne pas la confondre avec celle q...">hmi::DIMMED_LAYER_OPACITY</a></span> (comparaison flottante).<br  />
+Vérifie que <span class="tt">view.display(std::nullopt, true).locked</span> est faux.<br  />
+Vérifie que <span class="tt">view.display(0U, true).dimmed</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CanvasSceneTest.LesPiecesDUneCaseSeLisent</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__canvas__scene_8cpp.html" title="Ce que le canevas iso montre (LOT-EDITOR-02) : la même liste de primitives que le jeu sur Martpart,...">Source/Test/Unit/Editor/test_canvas_scene.cpp</a>:222</span></sub>  </td><td class="markdownTableBodyNone">Les pieces d'une case se lisent dans la barre d'etat.  </td><td class="markdownTableBodyNone">1. Un instantane dont une case a un sol et un relief, une autre un sol seul.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a271254d23a253fefeed273ecba888f0c" title="Les pièces d&#39;une case, pour la barre d&#39;état : street · wall-left, street, ou rien.">hmi::cellPieces</a>(snapshot, {.column = 0, .row = 0})</span> vaut <span class="tt">"street · wall-left"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a271254d23a253fefeed273ecba888f0c" title="Les pièces d&#39;une case, pour la barre d&#39;état : street · wall-left, street, ou rien.">hmi::cellPieces</a>(snapshot, {.column = 1, .row = 0})</span> vaut <span class="tt">"square"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a271254d23a253fefeed273ecba888f0c" title="Les pièces d&#39;une case, pour la barre d&#39;état : street · wall-left, street, ou rien.">hmi::cellPieces</a>(snapshot, {.column = 5, .row = 0})</span> vaut <span class="tt">""</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__disk__guard_8cpp.html">test_disk_guard.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4475,6 +4615,11 @@ Vérifie que <span class="tt">hmi::editorStatusLines(entityContext).help.rfind("
 <sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">Source/Test/Unit/Editor/test_editor_status.cpp</a>:115</span></sub>  </td><td class="markdownTableBodyNone">La decision est deterministe : meme contexte, meme resultat.  </td><td class="markdownTableBodyNone">1. Calculer deux fois les lignes pour le meme contexte.<br  />
 2. Comparer.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">first.help</span> vaut <span class="tt">second.help</span>.<br  />
 Vérifie que <span class="tt">first.permanent</span> vaut <span class="tt">second.permanent</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditorStatusTest.LesPiecesEtLaVueSeLisent</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">Source/Test/Unit/Editor/test_editor_status.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">La barre d'etat nomme les pieces survolees et la vue du canevas. cat Unitaire · Barre d'etat de l'editeur crit Mineur etapes 1. Survoler une case qui porte un sol et un relief, en vue iso. 2. Passer en vue a plat. attendu Les coordonnees sont suivies des pieces ; la zone du zoom finit par « Iso », puis par « Flat » (LOT-EDITOR-02).  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lines.permanent[3]</span> vaut <span class="tt">"(12, 7) street · wall-left"</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[4]</span> vaut <span class="tt">"Zoom: 100% · Iso"</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[4]</span> vaut <span class="tt">"Zoom: 100% · Flat"</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">test_entity_editing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4639,6 +4784,20 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#acb440eec2a1
 <td class="markdownTableBodyNone"><b>PanelFocusTest.AucunDoublonDOutilDansLaTable</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__panel__focus_8cpp.html" title="Tests unitaires de la correspondance outil → panneau.">Source/Test/Unit/Editor/test_panel_focus.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">La table ne contient aucun doublon d'outil.  </td><td class="markdownTableBodyNone">1. Parcourir toutes les paires d'entrees de la table.<br  />
 2. Comparer leurs outils.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalog[i].tool</span> diffère de <span class="tt">catalog[j].tool</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__scene__painter_8cpp.html" title="Le canevas de l&#39;éditeur peint le lieu comme le jeu le dessine (LOT-EDITOR-02).">test_scene_painter.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>ScenePainterTest.MartpartPeinteEgaleLeRenduDuJeu</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__scene__painter_8cpp.html" title="Le canevas de l&#39;éditeur peint le lieu comme le jeu le dessine (LOT-EDITOR-02).">Source/Test/Unit/Editor/test_scene_painter.cpp</a>:195</span></sub>  </td><td class="markdownTableBodyNone">Le canevas de l'editeur peint Martpart comme le jeu la dessine.  </td><td class="markdownTableBodyNone">1. Composer Martpart livree, ses PNJ compris.<br  />
+ 2. La rendre hors ecran par le rendu QRhi du jeu, cadree sur trois points (place du marche, coin nord, porte est).<br  />
+ 3. La peindre par le peintre QPainter de l'editeur avec la meme camera.  </td><td class="markdownTableBodyNone">Pour chaque cadrage, moins de 0,5 % des pixels different de plus de 48 sur un canal ; l'image est peinte sur plus de la moitie de sa surface.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>ScenePainterTest.LeColiseePeintEgaleLeRenduDuJeu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__scene__painter_8cpp.html" title="Le canevas de l&#39;éditeur peint le lieu comme le jeu le dessine (LOT-EDITOR-02).">Source/Test/Unit/Editor/test_scene_painter.cpp</a>:219</span></sub>  </td><td class="markdownTableBodyNone">Le canevas de l'editeur peint le Colisee comme le jeu le dessine.  </td><td class="markdownTableBodyNone">1. Composer le Colisee livre.<br  />
+ 2. Le rendre par le jeu et par l'editeur, cadre sur la porte.  </td><td class="markdownTableBodyNone">Moins de 0,5 % des pixels different au-dela de la tolerance.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__thumbnail__geometry_8cpp.html" title="Tests unitaires du dimensionnement des vignettes à l&#39;échelle d&#39;affichage (EX-IHM-053).">test_thumbnail_geometry.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5829,7 +5988,7 @@ Vérifie que <span class="tt">instantane.floorAt({0, 0})</span> vaut <span class
 Vérifie que <span class="tt">instantane.floorAt({1, 0})</span> vaut <span class="tt">"sand-2"</span>.<br  />
 Vérifie que <span class="tt">instantane.floorAt({2, 0})</span> vaut <span class="tt">"sand-3"</span>.<br  />
 Vérifie que <span class="tt">instantane.floorAt({3, 0})</span> vaut <span class="tt">"stone-slab"</span>.<br  />
-Vérifie que <span class="tt">instantane.floorAt({0, 0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a8e3a1dcd14a5132e99f15be875c38936" title="Tire de level l&#39;instantané que la composition dessine.">hmi::snapshotWorldScene</a>(carte(), table(), {}).floorAt({0, 0})</span>.<br  />
+Vérifie que <span class="tt">instantane.floorAt({0, 0})</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a8e3a1dcd14a5132e99f15be875c38936" title="Comme ci-dessus, pour une carte validée.">hmi::snapshotWorldScene</a>(carte(), table(), {}).floorAt({0, 0})</span>.<br  />
 Vérifie que <span class="tt">instantane.reliefAt({0, 0})</span> vaut <span class="tt">"wall-left"</span>.<br  />
 Vérifie que <span class="tt">instantane.reliefAt({2, 2})</span> vaut <span class="tt">"torch-left"</span>.<br  />
 Vérifie que <span class="tt">instantane.reliefAt({1, 1}).empty()</span> est vrai.<br  />

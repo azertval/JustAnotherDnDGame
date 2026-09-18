@@ -116,6 +116,9 @@ Signals</h2></td></tr>
 <tr class="memitem:ae8aac9373ec88198d8b90f659371377e" id="r_ae8aac9373ec88198d8b90f659371377e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae8aac9373ec88198d8b90f659371377e">activeLayerRequested</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot)</td></tr>
 <tr class="memitem:ae3b5648168f33c5fdf7e7772db0cc91b" id="r_ae3b5648168f33c5fdf7e7772db0cc91b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae3b5648168f33c5fdf7e7772db0cc91b">visibilityRequested</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot, bool visible)</td></tr>
 <tr class="memitem:a203829f5f59784191d8a5e1b4f440b55" id="r_a203829f5f59784191d8a5e1b4f440b55"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a203829f5f59784191d8a5e1b4f440b55">opacityRequested</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot, float opacity)</td></tr>
+<tr class="memitem:a305e8ee967b815fd31e3f6ae6c1e8dba" id="r_a305e8ee967b815fd31e3f6ae6c1e8dba"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a305e8ee967b815fd31e3f6ae6c1e8dba">dimRequested</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot, bool dimmed)</td></tr>
+<tr class="memdesc:a305e8ee967b815fd31e3f6ae6c1e8dba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Griser ou verrouiller une couche (LOT-EDITOR-02, phase 3) : aides d'édition.  <br /></td></tr>
+<tr class="memitem:a19f65588e2a76e603936ee8682f88da8" id="r_a19f65588e2a76e603936ee8682f88da8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a19f65588e2a76e603936ee8682f88da8">lockRequested</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a> slot, bool locked)</td></tr>
 <tr class="memitem:a1c67762a3963bd8a5aa70360c9d7b7f1" id="r_a1c67762a3963bd8a5aa70360c9d7b7f1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1c67762a3963bd8a5aa70360c9d7b7f1">addRequested</a> (<a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a> kind)</td></tr>
 <tr class="memitem:abe47e05fe6bc7a3a29b17bbdcc6af44a" id="r_abe47e05fe6bc7a3a29b17bbdcc6af44a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abe47e05fe6bc7a3a29b17bbdcc6af44a">removeRequested</a> (std::size_t index)</td></tr>
 <tr class="memitem:aed925815678bbf9a981f628006ad0c58" id="r_aed925815678bbf9a981f628006ad0c58"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aed925815678bbf9a981f628006ad0c58">moveRequested</a> (std::size_t index, bool forward)</td></tr>
@@ -240,6 +243,66 @@ Private Attributes</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">core::LayerKind</a></td>          <td class="paramname"><span class="paramname"><em>kind</em></span></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a305e8ee967b815fd31e3f6ae6c1e8dba" name="a305e8ee967b815fd31e3f6ae6c1e8dba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a305e8ee967b815fd31e3f6ae6c1e8dba">&#9670;&#160;</a></span>dimRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::LayersPanel::dimRequested </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>dimmed</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Griser ou verrouiller une couche (LOT-EDITOR-02, phase 3) : aides d'édition. </p>
+
+</div>
+</div>
+<a id="a19f65588e2a76e603936ee8682f88da8" name="a19f65588e2a76e603936ee8682f88da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19f65588e2a76e603936ee8682f88da8">&#9670;&#160;</a></span>lockRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::LayersPanel::lockRequested </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">hmi::LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>locked</em></span>&#160;)</td>
         </tr>
       </table>
   </td>

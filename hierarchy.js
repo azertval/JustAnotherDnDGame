@@ -72,6 +72,7 @@ var hierarchy =
     [ "hmi::Camera2D", "classhmi_1_1Camera2D.html", null ],
     [ "hmi::ArenaModel::Catalogs", "structhmi_1_1ArenaModel_1_1Catalogs.html", null ],
     [ "core::CellPoint", "structcore_1_1CellPoint.html", null ],
+    [ "hmi::CellRange", "structhmi_1_1CellRange.html", null ],
     [ "core::CharacterCreationRules", "structcore_1_1CharacterCreationRules.html", null ],
     [ "core::CharacterOptions", "structcore_1_1CharacterOptions.html", null ],
     [ "core::CharacterSheet", "structcore_1_1CharacterSheet.html", null ],
@@ -137,6 +138,7 @@ var hierarchy =
     [ "core::DifficultyTier", "structcore_1_1DifficultyTier.html", null ],
     [ "hmi::DraftEntityOverlay", "structhmi_1_1DraftEntityOverlay.html", null ],
     [ "hmi::DraftRenderer", "classhmi_1_1DraftRenderer.html", null ],
+    [ "hmi::DraftTextures", "structhmi_1_1DraftTextures.html", null ],
     [ "hmi::EditContextTarget", "classhmi_1_1EditContextTarget.html", [
       [ "hmi::EditorViewport", "classhmi_1_1EditorViewport.html", null ]
     ] ],
@@ -210,6 +212,7 @@ var hierarchy =
     [ "hmi::InventoryContext", "structhmi_1_1InventoryContext.html", null ],
     [ "core::InventoryEntry", "structcore_1_1InventoryEntry.html", null ],
     [ "core::InventoryStack", "structcore_1_1InventoryStack.html", null ],
+    [ "hmi::IsoBandOpacity", "structhmi_1_1IsoBandOpacity.html", null ],
     [ "core::IsoProjection", "classcore_1_1IsoProjection.html", null ],
     [ "core::ISystem", "classcore_1_1ISystem.html", null ],
     [ "core::Item", "structcore_1_1Item.html", null ],
@@ -268,6 +271,12 @@ var hierarchy =
     [ "QAbstractListModel", null, [
       [ "hmi::SheetRowModel", "classhmi_1_1SheetRowModel.html", null ]
     ] ],
+    [ "QGraphicsItem", null, [
+      [ "hmi::EditorViewport::CanvasItem", "classhmi_1_1EditorViewport_1_1CanvasItem.html", null ]
+    ] ],
+    [ "QGraphicsView", null, [
+      [ "hmi::EditorViewport", "classhmi_1_1EditorViewport.html", null ]
+    ] ],
     [ "QMainWindow", null, [
       [ "hmi::MainWindow", "classhmi_1_1MainWindow.html", null ]
     ] ],
@@ -295,14 +304,12 @@ var hierarchy =
       [ "hmi::GameViewportItem", "classhmi_1_1GameViewportItem.html", null ],
       [ "hmi::WorldViewportItem", "classhmi_1_1WorldViewportItem.html", null ]
     ] ],
-    [ "QRhiWidget", null, [
-      [ "hmi::EditorViewport", "classhmi_1_1EditorViewport.html", null ]
-    ] ],
     [ "hmi::QuadRecorder", "classhmi_1_1QuadRecorder.html", null ],
     [ "QWidget", null, [
       [ "hmi::EntityPanel", "classhmi_1_1EntityPanel.html", null ],
       [ "hmi::LayersPanel", "classhmi_1_1LayersPanel.html", null ],
       [ "hmi::LevelBrowserPanel", "classhmi_1_1LevelBrowserPanel.html", null ],
+      [ "hmi::MiniMap", "classhmi_1_1MiniMap.html", null ],
       [ "hmi::PalettePanel", "classhmi_1_1PalettePanel.html", null ],
       [ "hmi::WorldGraphView", "classhmi_1_1WorldGraphView.html", null ]
     ] ],
@@ -322,6 +329,10 @@ var hierarchy =
     [ "hmi::RpgScreenDescriptor", "structhmi_1_1RpgScreenDescriptor.html", null ],
     [ "hmi::RpgScreenLayout", "structhmi_1_1RpgScreenLayout.html", null ],
     [ "hmi::AudioEngine::Sample", "structhmi_1_1AudioEngine_1_1Sample.html", null ],
+    [ "hmi::SceneImages", "classhmi_1_1SceneImages.html", null ],
+    [ "core::ScenePiece", "structcore_1_1ScenePiece.html", null ],
+    [ "core::ScenePieceManifest", "classcore_1_1ScenePieceManifest.html", null ],
+    [ "core::ScenePieceManifestResult", "structcore_1_1ScenePieceManifestResult.html", null ],
     [ "hmi::ScenePieceTextures", "structhmi_1_1ScenePieceTextures.html", null ],
     [ "hmi::SceneResources", "classhmi_1_1SceneResources.html", null ],
     [ "hmi::SceneStatistics", "structhmi_1_1SceneStatistics.html", null ],
@@ -379,6 +390,7 @@ var hierarchy =
     [ "core::WorldPortalLink", "structcore_1_1WorldPortalLink.html", null ],
     [ "hmi::WorldSceneRenderer", "classhmi_1_1WorldSceneRenderer.html", null ],
     [ "hmi::WorldSceneSnapshot", "structhmi_1_1WorldSceneSnapshot.html", null ],
+    [ "hmi::WorldSceneSource", "structhmi_1_1WorldSceneSource.html", null ],
     [ "core::WorldTravel", "classcore_1_1WorldTravel.html", null ],
     [ "core::BattleGrid::Zone", "structcore_1_1BattleGrid_1_1Zone.html", null ]
 ];

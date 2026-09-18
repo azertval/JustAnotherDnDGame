@@ -14,9 +14,10 @@ var searchData=
   ['markercolor_11',['MarkerColor',['../structcore_1_1MarkerColor.html',1,'core']]],
   ['markerimage_12',['MarkerImage',['../structcore_1_1MarkerImage.html',1,'core']]],
   ['memorylogsink_13',['MemoryLogSink',['../classcore_1_1MemoryLogSink.html',1,'core']]],
-  ['modifier_14',['Modifier',['../structcore_1_1Modifier.html',1,'core']]],
-  ['mountrefusal_15',['MountRefusal',['../structcore_1_1MountRefusal.html',1,'core']]],
-  ['moveoutcome_16',['MoveOutcome',['../structcore_1_1MoveOutcome.html',1,'core']]],
-  ['movepreview_17',['MovePreview',['../structcore_1_1MovePreview.html',1,'core']]],
-  ['mover_18',['Mover',['../structcore_1_1Mover.html',1,'core']]]
+  ['minimap_14',['MiniMap',['../classhmi_1_1MiniMap.html',1,'hmi']]],
+  ['modifier_15',['Modifier',['../structcore_1_1Modifier.html',1,'core']]],
+  ['mountrefusal_16',['MountRefusal',['../structcore_1_1MountRefusal.html',1,'core']]],
+  ['moveoutcome_17',['MoveOutcome',['../structcore_1_1MoveOutcome.html',1,'core']]],
+  ['movepreview_18',['MovePreview',['../structcore_1_1MovePreview.html',1,'core']]],
+  ['mover_19',['Mover',['../structcore_1_1Mover.html',1,'core']]]
 ];

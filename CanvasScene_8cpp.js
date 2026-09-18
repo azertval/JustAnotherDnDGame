@@ -1,0 +1,7 @@
+var CanvasScene_8cpp =
+[
+    [ "hmi::bandOpacity", "namespacehmi.html#a5c3feb328546df191be2e5083903d357", null ],
+    [ "hmi::canvasSnapshot", "namespacehmi.html#a01862c75838661af7e844574901cfa47", null ],
+    [ "hmi::cellPieces", "namespacehmi.html#a271254d23a253fefeed273ecba888f0c", null ],
+    [ "hmi::isoBandOpacity", "namespacehmi.html#a22b690a46d0fbaf833709811650ec91c", null ]
+];

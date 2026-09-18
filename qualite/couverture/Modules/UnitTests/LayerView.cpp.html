@@ -47,6 +47,8 @@ namespace hmi {
 <span style = "background-color:#dfd">void LayerViewState::reset() noexcept {
     _layers.clear();
     _rootVisible = true;
+    _rootDimmed = false;
+    _rootLocked = false;
     _rootOpacity.reset();
 }</span>
 
@@ -57,14 +59,17 @@ namespace hmi {
 <span style = "background-color:#dfd">LayerDisplay LayerViewState::display(LayerSlot slot, bool hasVisualLayers) const {
     if (!slot) {
         const float fallback = hasVisualLayers ? DEFAULT_COLLISION_OVERLAY_OPACITY : 1.0F;
-        return LayerDisplay{.visible = _rootVisible, .opacity = _rootOpacity.value_or(fallback)};</span>
+        return LayerDisplay{.visible = _rootVisible,</span>
+                            .opacity = _rootOpacity.value_or(fallback),
+                            .dimmed = _rootDimmed,
+                            .locked = _rootLocked};
     }
 <span style = "background-color:#dfd">    return *slot &lt; _layers.size() ? _layers[*slot] : LayerDisplay{};
 }</span>
 
 <span style = "background-color:#dfd">void LayerViewState::setVisible(LayerSlot slot, bool visible) {
-    if (!slot) {</span>
-<span style = "background-color:#fdd">        _rootVisible = visible;
+    if (!slot) {
+        _rootVisible = visible;
         return;</span>
     }
 <span style = "background-color:#dfd">    at(*slot).visible = visible;
@@ -81,6 +86,22 @@ namespace hmi {
     }
 <span style = "background-color:#dfd">    at(*slot).opacity = bounded;
 }</span>
+
+<span style = "background-color:#dfd">void LayerViewState::setDimmed(LayerSlot slot, bool dimmed) {
+    if (!slot) {</span>
+<span style = "background-color:#fdd">        _rootDimmed = dimmed;
+        return;</span>
+    }
+<span style = "background-color:#dfd">    at(*slot).dimmed = dimmed;
+}</span>
+
+<span style = "background-color:#dfd">void LayerViewState::setLocked(LayerSlot slot, bool locked) {
+    if (!slot) {
+        _rootLocked = locked;
+        return;</span>
+    }
+<span style = "background-color:#fdd">    at(*slot).locked = locked;</span>
+<span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">void LayerViewState::swap(std::size_t a, std::size_t b) {
     std::swap(at(a), at(b));

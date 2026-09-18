@@ -27,6 +27,7 @@
 #include &lt;nlohmann/json.hpp&gt;
 
 #include "Core/Data/JsonDocument.h"
+#include "Core/Resources/ScenePieceManifest.h"
 #include "HMI/Graphics/AnimationCatalog.h"
 
 namespace hmi {
@@ -261,39 +262,34 @@ void readFigures(const std::filesystem::path&amp; root, const std::string&amp; d
         }
     }
     std::ranges::sort(dispositions);
-    for (const std::filesystem::path&amp; directory : dispositions) {
-        const core::JsonDocument document =</span>
-            readManifest(directory / "manifest.json", catalog.errors);
-<span style = "background-color:#dfd">        if (!document.ok()) {</span>
-<span style = "background-color:#fdd">            continue;</span>
-        }
-<span style = "background-color:#dfd">        const auto textures = document.root.find("textures");
-        if (textures == document.root.end() || !textures-&gt;is_object()) {</span>
+    for (const std::filesystem::path&amp; directory : dispositions) {</span>
+        // Le manifeste des piÃ¨ces se lit dans Core depuis le LOT-EDITOR-02 (constat A9) : la
+        // galerie, l'Ã©diteur et demain la collision dÃ©duite lisent la mÃªme emprise.
+<span style = "background-color:#dfd">        const core::ScenePieceManifestResult read =</span>
+            core::ScenePieceManifest::loadFromFile(directory / "manifest.json");
+<span style = "background-color:#dfd">        if (!read.ok()) {</span>
+<span style = "background-color:#fdd">            if (read.error != core::ScenePieceManifestError::FileNotFound) {
+                catalog.errors.push_back((directory / "manifest.json").generic_string() + " : " +</span>
+                                         read.message);
+            }
 <span style = "background-color:#fdd">            continue;</span>
         }
 <span style = "background-color:#dfd">        const std::string name = directory.filename().string();</span>
         AssetGalleryFamily family{
 <span style = "background-color:#dfd">            .title = "ScÃ¨ne Â· " + name, .directory = "Scene/" + name, .entries = {}};
-        for (const auto&amp; [key, value] : textures-&gt;items()) {
-            if (!value.is_object() || !value.contains("file") || !value["file"].is_string()) {</span>
-<span style = "background-color:#fdd">                continue;</span>
-            }
-<span style = "background-color:#dfd">            const auto [width, height] = intPair(value, "size", 0, 0);
-            const auto [columns, rows] = intPair(value, "footprint", 1, 1);
-            const auto [anchorX, anchorY] = intPair(value, "anchor", -1, -1);
-            const std::size_t slash = key.rfind('/');
-            family.entries.push_back(</span>
-                AssetGalleryEntry{.family = family.title,
-                                  .model = value.value("class", std::string("autre")),
-                                  .form = slash == std::string::npos ? key : key.substr(slash + 1),
-                                  .path = family.directory + "/" + value["file"].get&lt;std::string&gt;(),
-                                  .frameWidth = width,
-                                  .frameHeight = height,
-                                  .frames = {},
-                                  .footprintColumns = std::max(1, columns),
-                                  .footprintRows = std::max(1, rows),
-                                  .anchorX = anchorX,
-                                  .anchorY = anchorY});
+        for (const core::ScenePiece&amp; piece : read.manifest.pieces()) {
+            family.entries.push_back(AssetGalleryEntry{</span>
+                .family = family.title,
+                .model = piece.className.empty() ? std::string("autre") : piece.className,
+                .form = piece.name,
+                .path = family.directory + "/" + piece.file,
+                .frameWidth = piece.width,
+                .frameHeight = piece.height,
+                .frames = {},
+                .footprintColumns = piece.footprintColumns,
+                .footprintRows = piece.footprintRows,
+                .anchorX = piece.anchorX,
+                .anchorY = piece.anchorY});
 <span style = "background-color:#dfd">        }
         std::ranges::stable_sort(family.entries,
                                  [](const AssetGalleryEntry&amp; left, const AssetGalleryEntry&amp; right) {

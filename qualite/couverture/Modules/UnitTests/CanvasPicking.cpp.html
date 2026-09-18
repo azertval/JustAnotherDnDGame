@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CanvasPicking.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Editor/Logic/CanvasPicking.h"
+
+#include &lt;algorithm&gt;
+#include &lt;cmath&gt;
+#include &lt;limits&gt;
+
+#include "Core/Combat/IsoProjection.h"
+
+namespace hmi {
+
+namespace {
+
+/// DÃ©calage vertical d'un niveau d'Ã©lÃ©vation, en unitÃ©s monde.
+<span style = "background-color:#dfd">[[nodiscard]] float elevationLift(const core::IsoProjection&amp; projection, int elevation) noexcept {
+    return static_cast&lt;float&gt;(elevation) * ELEVATION_STEP_DIAMONDS * projection.tileHeight();
+}</span>
+
+/// Un indice de case, par dÃ©faut (vers ââ) : le point (â0,2 ; 1) est dans la case (â1, 1), pas 0.
+<span style = "background-color:#dfd">[[nodiscard]] int cellIndex(float coordinate) noexcept {</span>
+    // Au-delÃ  de ce que tient un `int`, la case est de toute faÃ§on hors de la grille.
+<span style = "background-color:#dfd">    constexpr auto LIMIT = static_cast&lt;float&gt;(std::numeric_limits&lt;int&gt;::max()) / 2.0F;
+    return static_cast&lt;int&gt;(std::floor(std::clamp(coordinate, -LIMIT, LIMIT)));
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] core::GridPosition clampToGrid(int column, int row, int columns, int rows) noexcept {
+    return core::GridPosition{.column = std::clamp(column, 0, std::max(0, columns - 1)),</span>
+                              .row = std::clamp(row, 0, std::max(0, rows - 1))};
+<span style = "background-color:#dfd">}</span>
+
+[[nodiscard]] CellRange clampRange(float minColumn, float minRow, float maxColumn, float maxRow,
+<span style = "background-color:#dfd">                                   int columns, int rows) noexcept {
+    CellRange range;
+    range.firstColumn = std::max(0, cellIndex(minColumn));
+    range.firstRow = std::max(0, cellIndex(minRow));
+    range.lastColumn = std::min(columns - 1, cellIndex(maxColumn));
+    range.lastRow = std::min(rows - 1, cellIndex(maxRow));
+    return range;
+}</span>
+
+}  // namespace
+
+core::Vector2 isoGridPoint(const core::IsoProjection&amp; projection, core::Vector2 world,
+<span style = "background-color:#dfd">                           int elevation) noexcept {</span>
+    // Une case Ã©levÃ©e est dessinÃ©e plus haut : on redescend le point d'autant avant d'inverser.
+<span style = "background-color:#dfd">    return projection.worldToGrid({world.x, world.y + elevationLift(projection, elevation)});
+}</span>
+
+std::optional&lt;core::GridPosition&gt; pickIsoCell(const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                                              core::Vector2 world, int elevation) noexcept {
+    const core::Vector2 grid = isoGridPoint(projection, world, elevation);
+    const core::GridPosition cell{.column = cellIndex(grid.x), .row = cellIndex(grid.y)};
+    if (!projection.contains(cell)) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return cell;
+}</span>
+
+core::GridPosition clampedIsoCell(const core::IsoProjection&amp; projection, core::Vector2 world,
+<span style = "background-color:#dfd">                                  int elevation) noexcept {
+    const core::Vector2 grid = isoGridPoint(projection, world, elevation);
+    return clampToGrid(cellIndex(grid.x), cellIndex(grid.y), projection.columns(),</span>
+                       projection.rows());
+<span style = "background-color:#dfd">}</span>
+
+std::optional&lt;core::GridPosition&gt; pickFlatCell(core::Vector2 world, int columns,
+<span style = "background-color:#dfd">                                               int rows) noexcept {
+    const core::GridPosition cell{.column = cellIndex(world.x), .row = cellIndex(world.y)};
+    if (cell.column &lt; 0 || cell.row &lt; 0 || cell.column &gt;= columns || cell.row &gt;= rows) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return cell;
+}</span>
+
+<span style = "background-color:#dfd">core::GridPosition clampedFlatCell(core::Vector2 world, int columns, int rows) noexcept {
+    return clampToGrid(cellIndex(world.x), cellIndex(world.y), columns, rows);
+}</span>
+
+std::array&lt;core::Vector2, 4&gt; isoCellDiamond(const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                                            core::GridPosition cell, int elevation) noexcept {
+    const auto column = static_cast&lt;float&gt;(cell.column);
+    const auto row = static_cast&lt;float&gt;(cell.row);
+    const float lift = elevationLift(projection, elevation);
+    const auto at = [&amp;](float gridColumn, float gridRow) {
+        const core::Vector2 point = projection.gridToWorld({gridColumn, gridRow});
+        return core::Vector2{point.x, point.y - lift};
+    };</span>
+    // Le coin (c, r) est le sommet haut, (c+1, r) le droit, (c+1, r+1) le bas, (c, r+1) le gauche.
+<span style = "background-color:#dfd">    return {at(column, row), at(column + 1.0F, row), at(column + 1.0F, row + 1.0F),</span>
+            at(column, row + 1.0F)};
+<span style = "background-color:#dfd">}</span>
+
+CellRange isoCellsCovering(const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                           const core::Rect&amp; world) noexcept {</span>
+    // L'image d'un rectangle dans la grille est un parallÃ©logramme : sa boÃ®te englobante contient
+    // toute case dont le losange coupe le rectangle.
+    const core::Vector2 corners[] = {
+<span style = "background-color:#dfd">        projection.worldToGrid(world.position),
+        projection.worldToGrid({world.position.x + world.size.x, world.position.y}),
+        projection.worldToGrid({world.position.x, world.position.y + world.size.y}),
+        projection.worldToGrid({world.position.x + world.size.x, world.position.y + world.size.y}),</span>
+    };
+<span style = "background-color:#dfd">    float minColumn = corners[0].x;
+    float maxColumn = corners[0].x;
+    float minRow = corners[0].y;
+    float maxRow = corners[0].y;
+    for (const core::Vector2&amp; corner : corners) {
+        minColumn = std::min(minColumn, corner.x);
+        maxColumn = std::max(maxColumn, corner.x);
+        minRow = std::min(minRow, corner.y);
+        maxRow = std::max(maxRow, corner.y);
+    }
+    return clampRange(minColumn, minRow, maxColumn, maxRow, projection.columns(),</span>
+                      projection.rows());
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">CellRange flatCellsCovering(const core::Rect&amp; world, int columns, int rows) noexcept {
+    return clampRange(world.position.x, world.position.y, world.position.x + world.size.x,</span>
+                      world.position.y + world.size.y, columns, rows);
+<span style = "background-color:#dfd">}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

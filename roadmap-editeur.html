@@ -283,7 +283,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-01</span>  </td><td class="markdownTableBodyNone">Le socle du module — <b>livré</b>  </td><td class="markdownTableBodyNone">—  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-02</span>  </td><td class="markdownTableBodyNone">Le canevas montre le lieu  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">L  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-02</span>  </td><td class="markdownTableBodyNone">Le canevas montre le lieu — <b>livré</b>  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">L  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-12</span>  </td><td class="markdownTableBodyNone">Le format v4 et sa garde en CI  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowEven">
@@ -310,12 +310,12 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-11</span>  </td><td class="markdownTableBodyNone">Génération assistée  </td><td class="markdownTableBodyNone">07 et <a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">M  </td></tr>
 </table>
 <p>Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.</p>
-<p>Ordre conseillé jusqu'au jalon : 01 (livré), 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
+<p>Ordre conseillé jusqu'au jalon : 01 et 02 (livrés), 12, 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
 <div class="fragment"><div class="line">digraph editeur {</div>
 <div class="line">  rankdir=LR;</div>
 <div class="line">  node [shape=box, style=rounded, fontsize=10];</div>
 <div class="line">  E01 [label=&quot;01\nsocle\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
-<div class="line">  E02 [label=&quot;02\ncanevas iso&quot;];</div>
+<div class="line">  E02 [label=&quot;02\ncanevas iso\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E12 [label=&quot;12\nformat v4\n+ check en CI&quot;];</div>
 <div class="line">  E03 [label=&quot;03\npièces&quot;];</div>
 <div class="line">  E04 [label=&quot;04\noutils&quot;];</div>
@@ -338,24 +338,18 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <div class="line">  E05 -&gt; E09; E13 -&gt; E09;</div>
 <div class="line">  E07 -&gt; E11; L40 -&gt; E11;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md867"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md868"></a>
 LOT-EDITOR-01 — Le socle du module</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-01.html" title="LOT-EDITOR-01 — Le socle du module">LOT-EDITOR-01 — Le socle du module</a>. </p>
 </blockquote>
 <p>L'éditeur vit dans <span class="tt">Source/Editor/{Logic,Ui}</span> (bibliothèque <span class="tt">EditorLogic</span>, exécutable <span class="tt">LevelEditor</span>) ; il prend le style Fusion, écrit ses textes en anglais et construit ses widgets en code. Un brouillon modifié est sauvegardé automatiquement et proposé à la reprise après un plantage (<span class="tt">EX-EDIT-056</span>), une carte changée sur disque n'est jamais écrasée en silence (<span class="tt">EX-EDIT-057</span>), et l'historique d'annulation est plafonné, « modifié » suivant le contenu (<span class="tt">EX-EDIT-058</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="lot-editor-02"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md869"></a>
 LOT-EDITOR-02 — Le canevas montre le lieu</h2>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : 01. </p>
+<p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-02.html" title="LOT-EDITOR-02 — Le canevas montre le lieu">LOT-EDITOR-02 — Le canevas montre le lieu</a>. </p>
 </blockquote>
-<p>On édite sur le lieu rendu en iso comme dans le jeu, avec une bascule vers la vue à plat (D1, D2).</p>
-<ul>
-<li><b>Phase 1</b> — sortir <span class="tt">ComposedScene</span>, <span class="tt">WorldSceneComposer</span> et <span class="tt">ScenePieces</span> de <span class="tt">HmiLib</span> dans une cible sans GPU, et descendre la lecture du manifeste dans <span class="tt">Core</span> (A8, A9). Le jeu ne change pas.</li>
-<li><b>Phase 2</b> — l'élément peint unique, qui parcourt la scène composée et ne dessine que la partie visible ; le pointage inverse (hauteur en paramètre, D11), le quadrillage en losanges, la case survolée, les coordonnées dans la barre d'état.</li>
-<li><b>Phase 3</b> — calques visibles, grisés ou verrouillés ; reliefs en transparence ; mini-carte.</li>
-</ul>
-<p><em>Acceptation</em> — Martpart ouverte dans l'éditeur produit la même liste de primitives que dans le jeu ; son <b>rendu hors écran égale, à une tolérance près, la référence PNG du jeu</b> (comparer les listes ne prouve pas que <span class="tt">QPainter</span> pose les ancres, l'échelle 0,25 et les <span class="tt">mirrorOf</span> comme le GPU) ; le pointage est juste aux quatre coins de la carte et sous un mur haut ; les gestes et l'essai du <a class="el" href="lot-11.html" title="LOT-11 — Éditeur multi-couches et placement d&#39;entités">LOT-11</a> marchent en iso.</p>
+<p>Le canevas est une <span class="tt">QGraphicsView</span> dont l'élément unique peint, par <span class="tt">QPainter</span>, la liste de primitives que compose le jeu ; son image égale celle du GPU à 0,06 % des pixels près (<span class="tt">EX-EDIT-059</span>). Vue iso par défaut, vue à plat en bascule ; le pointage désigne la case par son losange, hauteur en paramètre (<span class="tt">EX-EDIT-060</span>) ; calques grisés ou verrouillés, reliefs en transparence, mini-carte (<span class="tt">EX-EDIT-061</span>). La composition vit dans la cible <span class="tt">SceneComposition</span>, le manifeste des pièces dans <span class="tt">Core</span> ; l'éditeur ne parle plus au GPU.</p>
 <h2 class="doxsection"><a class="anchor" id="lot-editor-12"></a>
 LOT-EDITOR-12 — Le format v4 et sa garde en CI</h2>
 <blockquote class="doxtable">

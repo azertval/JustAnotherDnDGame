@@ -94,18 +94,23 @@ $(function(){initNavTree('EditorViewport_8cpp.html','',''); });
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">Editor/Ui/EditorViewport.h</a>&quot;</code><br />
 <code>#include &lt;QEvent&gt;</code><br />
+<code>#include &lt;QGraphicsItem&gt;</code><br />
+<code>#include &lt;QGraphicsScene&gt;</code><br />
 <code>#include &lt;QKeyEvent&gt;</code><br />
 <code>#include &lt;QMouseEvent&gt;</code><br />
+<code>#include &lt;QPainter&gt;</code><br />
+<code>#include &lt;QPen&gt;</code><br />
+<code>#include &lt;QPolygonF&gt;</code><br />
+<code>#include &lt;QScrollBar&gt;</code><br />
+<code>#include &lt;QStyleOptionGraphicsItem&gt;</code><br />
 <code>#include &lt;QWheelEvent&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;rhi/qrhi.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="Level_8h_source.html">Core/Levels/Level.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelLoader_8h_source.html">Core/Levels/LevelLoader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelWriter_8h_source.html">Core/Levels/LevelWriter.h</a>&quot;</code><br />
@@ -118,12 +123,19 @@ $(function(){initNavTree('EditorViewport_8cpp.html','',''); });
 <code>#include &quot;<a class="el" href="LevelFileOperations_8h_source.html">Editor/Logic/LevelFileOperations.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelNameValidation_8h_source.html">Editor/Logic/LevelNameValidation.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="DraftRenderer_8h_source.html">Editor/Ui/DraftRenderer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="SceneImages_8h_source.html">Editor/Ui/SceneImages.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ScenePainter_8h_source.html">Editor/Ui/ScenePainter.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="WorldPlay_8h_source.html">HMI/Game/WorldPlay.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="SpriteBatch_8h_source.html">HMI/Graphics/SpriteBatch.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="WorldSceneRenderer_8h_source.html">HMI/Graphics/WorldSceneRenderer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Camera2D_8h_source.html">HMI/Graphics/Camera2D.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityMarkers_8h_source.html">HMI/Graphics/EntityMarkers.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ExecutableDirectory_8h_source.html">HMI/Platform/ExecutableDirectory.h</a>&quot;</code><br />
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:hmi_3A_3AEditorViewport_3A_3ACanvasItem" id="r_hmi_3A_3AEditorViewport_3A_3ACanvasItem"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorViewport_1_1CanvasItem.html">hmi::EditorViewport::CanvasItem</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'élément unique de la scène : il délègue sa peinture au canevas (décision D2).  <a href="classhmi_1_1EditorViewport_1_1CanvasItem.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>

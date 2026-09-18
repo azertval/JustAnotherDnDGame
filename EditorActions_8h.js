@@ -12,6 +12,8 @@ var EditorActions_8h =
       [ "hmi::EditorCommand::Redo", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a5afeaba074ef570dc720caaa855d49f6", null ],
       [ "hmi::EditorCommand::ToggleGrid", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a77bfa926518159e75c2c4b508a81f19e", null ],
       [ "hmi::EditorCommand::ResetCamera", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a34e806c94d1cf43980bb179a0376e173", null ],
+      [ "hmi::EditorCommand::IsoView", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ae8de0394e2f02256b2ef89c94a67f84f", null ],
+      [ "hmi::EditorCommand::SeeThroughRelief", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a8799d4aba313f9fd9ec6f21f7f908b36", null ],
       [ "hmi::EditorCommand::Copy", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a5fb63579fc981698f97d55bfecb213ea", null ],
       [ "hmi::EditorCommand::Paste", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a36bb6559696dc9124986ae120515984f", null ],
       [ "hmi::EditorCommand::Rename", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a904a8304056d77e4547744781b7ceb50", null ],

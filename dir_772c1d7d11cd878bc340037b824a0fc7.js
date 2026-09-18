@@ -2,6 +2,10 @@ var dir_772c1d7d11cd878bc340037b824a0fc7 =
 [
     [ "Autosave.cpp", "Autosave_8cpp.html", "Autosave_8cpp" ],
     [ "Autosave.h", "Autosave_8h.html", "Autosave_8h" ],
+    [ "CanvasPicking.cpp", "CanvasPicking_8cpp.html", "CanvasPicking_8cpp" ],
+    [ "CanvasPicking.h", "CanvasPicking_8h.html", "CanvasPicking_8h" ],
+    [ "CanvasScene.cpp", "CanvasScene_8cpp.html", "CanvasScene_8cpp" ],
+    [ "CanvasScene.h", "CanvasScene_8h.html", "CanvasScene_8h" ],
     [ "DiskGuard.cpp", "DiskGuard_8cpp.html", "DiskGuard_8cpp" ],
     [ "DiskGuard.h", "DiskGuard_8h.html", "DiskGuard_8h" ],
     [ "EditContextTarget.h", "EditContextTarget_8h.html", "EditContextTarget_8h" ],

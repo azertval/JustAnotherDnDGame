@@ -67,8 +67,8 @@ var searchData=
   ['loadencumbrancerules_64',['loadEncumbranceRules',['../namespacecore.html#a6784f5e1367401de1a0d7d087d7c16a4',1,'core']]],
   ['loadequipment_65',['loadEquipment',['../namespacecore.html#a06839f5ee0eea764bdcd5f6b865f194c',1,'core']]],
   ['loadexperiencetable_66',['loadExperienceTable',['../namespacecore.html#a00be15bd9376cf46d81dedf0bc0f7d54',1,'core']]],
-  ['loadfromfile_67',['loadFromFile',['../classcore_1_1LevelLoader.html#a49dba279ed545b7230ceeb8752e63543',1,'core::LevelLoader::loadFromFile()'],['../classhmi_1_1AnimationCatalog.html#a66c97eb76d512128122986f77856aef8',1,'hmi::AnimationCatalog::loadFromFile()'],['../classhmi_1_1ArenaAppearanceCatalog.html#aaafbef0722f6a29943192e6fd242a7a4',1,'hmi::ArenaAppearanceCatalog::loadFromFile()'],['../classhmi_1_1PlaceAppearance.html#a0ea6b2906d74f13add881e1857ae8047',1,'hmi::PlaceAppearance::loadFromFile()']]],
-  ['loadfromstring_68',['loadFromString',['../classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89',1,'core::LevelLoader::loadFromString()'],['../classhmi_1_1AnimationCatalog.html#a3cb93e30c79689adec33ea27693dfc5d',1,'hmi::AnimationCatalog::loadFromString()'],['../classhmi_1_1ArenaAppearanceCatalog.html#aa7e034719a6931f68257f340876874af',1,'hmi::ArenaAppearanceCatalog::loadFromString()'],['../classhmi_1_1PlaceAppearance.html#a64f242c50874e2bfffee39c50d567b2e',1,'hmi::PlaceAppearance::loadFromString()']]],
+  ['loadfromfile_67',['loadFromFile',['../classcore_1_1LevelLoader.html#a49dba279ed545b7230ceeb8752e63543',1,'core::LevelLoader::loadFromFile()'],['../classcore_1_1ScenePieceManifest.html#a6979cb457d32c2be9d8a6587068d7f22',1,'core::ScenePieceManifest::loadFromFile()'],['../classhmi_1_1AnimationCatalog.html#a66c97eb76d512128122986f77856aef8',1,'hmi::AnimationCatalog::loadFromFile()'],['../classhmi_1_1ArenaAppearanceCatalog.html#aaafbef0722f6a29943192e6fd242a7a4',1,'hmi::ArenaAppearanceCatalog::loadFromFile()'],['../classhmi_1_1PlaceAppearance.html#a0ea6b2906d74f13add881e1857ae8047',1,'hmi::PlaceAppearance::loadFromFile()']]],
+  ['loadfromstring_68',['loadFromString',['../classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89',1,'core::LevelLoader::loadFromString()'],['../classcore_1_1ScenePieceManifest.html#a7517f6483f0ee8b55fe5c44cafb8efb0',1,'core::ScenePieceManifest::loadFromString()'],['../classhmi_1_1AnimationCatalog.html#a3cb93e30c79689adec33ea27693dfc5d',1,'hmi::AnimationCatalog::loadFromString()'],['../classhmi_1_1ArenaAppearanceCatalog.html#aa7e034719a6931f68257f340876874af',1,'hmi::ArenaAppearanceCatalog::loadFromString()'],['../classhmi_1_1PlaceAppearance.html#a64f242c50874e2bfffee39c50d567b2e',1,'hmi::PlaceAppearance::loadFromString()']]],
   ['loadheroicmarks_69',['loadHeroicMarks',['../namespacecore.html#a2c4f8564739de90f7f02936084207e1d',1,'core']]],
   ['loading_70',['loading',['../classhmi_1_1AssetGalleryRenderer.html#a0c52adee03770db5098d5136bcaf4ee5',1,'hmi::AssetGalleryRenderer']]],
   ['loaditems_71',['loadItems',['../namespacecore.html#a00edce76b901663b3187437ecea2da10',1,'core']]],
@@ -81,8 +81,9 @@ var searchData=
   ['loadtextures_78',['loadTextures',['../classhmi_1_1ArenaSceneRenderer.html#a3bfbdd2a46aa772f05af8202cad69c2a',1,'hmi::ArenaSceneRenderer']]],
   ['loadworldgraph_79',['loadWorldGraph',['../namespacecore.html#a3a51a927bbd51ec10f45120e41fcab27',1,'core']]],
   ['localization_80',['Localization',['../classhmi_1_1Localization.html#aa549c7438b65314c5e0b8bd90996e310',1,'hmi::Localization']]],
-  ['log_81',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
-  ['logger_82',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
-  ['logsavailable_83',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
-  ['lookup_84',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
+  ['lockrequested_81',['lockRequested',['../classhmi_1_1LayersPanel.html#a19f65588e2a76e603936ee8682f88da8',1,'hmi::LayersPanel']]],
+  ['log_82',['log',['../classcore_1_1Logger.html#a1aeae4c7813133be7e1dc64490839bf2',1,'core::Logger']]],
+  ['logger_83',['Logger',['../classcore_1_1Logger.html#a9fcf9b06e1d98a1be5e3a8d423ad0327',1,'core::Logger::Logger()=default'],['../classcore_1_1Logger.html#ae2ef4918898cb336d755cd0b657ba40e',1,'core::Logger::Logger(const Logger &amp;)=delete']]],
+  ['logsavailable_84',['logsAvailable',['../classhmi_1_1OptionsModel.html#a11cf5c63f2f53adc2dcc833087916a60',1,'hmi::OptionsModel']]],
+  ['lookup_85',['lookup',['../structhmi_1_1DemonstrationState.html#abcf71e6be641b767f2de7d9e0bbbbbde',1,'hmi::DemonstrationState']]]
 ];

@@ -108,8 +108,12 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:a34fa72e0a84dd03ff663f512a161111d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outil d'édition actif.  <br /></td></tr>
 <tr class="memitem:ae31b27e74cbacf3e320a2e9f5467c414" id="r_ae31b27e74cbacf3e320a2e9f5467c414"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae31b27e74cbacf3e320a2e9f5467c414">hoveredCell</a></td></tr>
 <tr class="memdesc:ae31b27e74cbacf3e320a2e9f5467c414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case survolée, si le curseur est dessus.  <br /></td></tr>
+<tr class="memitem:a2effd6644d86469c43423355353cded6" id="r_a2effd6644d86469c43423355353cded6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a2effd6644d86469c43423355353cded6">hoveredPieces</a></td></tr>
+<tr class="memdesc:a2effd6644d86469c43423355353cded6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pièces de la case survolée (<span class="tt">street · wall-left</span>), vide sans lieu (LOT-EDITOR-02).  <br /></td></tr>
 <tr class="memitem:a952a592f66671fc3a835b8fd1158ea5b" id="r_a952a592f66671fc3a835b8fd1158ea5b"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a952a592f66671fc3a835b8fd1158ea5b">zoom</a> = 1.0F</td></tr>
 <tr class="memdesc:a952a592f66671fc3a835b8fd1158ea5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de zoom courant.  <br /></td></tr>
+<tr class="memitem:a1a37c393c46c84bc6d6e0f7db90d60b6" id="r_a1a37c393c46c84bc6d6e0f7db90d60b6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1a37c393c46c84bc6d6e0f7db90d60b6">isoView</a> = true</td></tr>
+<tr class="memdesc:a1a37c393c46c84bc6d6e0f7db90d60b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>État affiché pour une carte en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>). </p>
@@ -143,6 +147,38 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Case survolée, si le curseur est dessus. </p>
+
+</div>
+</div>
+<a id="a2effd6644d86469c43423355353cded6" name="a2effd6644d86469c43423355353cded6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2effd6644d86469c43423355353cded6">&#9670;&#160;</a></span>hoveredPieces</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::LevelStatusInfo::hoveredPieces</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pièces de la case survolée (<span class="tt">street · wall-left</span>), vide sans lieu (LOT-EDITOR-02). </p>
+
+</div>
+</div>
+<a id="a1a37c393c46c84bc6d6e0f7db90d60b6" name="a1a37c393c46c84bc6d6e0f7db90d60b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a37c393c46c84bc6d6e0f7db90d60b6">&#9670;&#160;</a></span>isoView</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LevelStatusInfo::isoView = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02. </p>
 
 </div>
 </div>

@@ -109,6 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a327e6f070d2dbda602a18954c07dcc3f" id="r_a327e6f070d2dbda602a18954c07dcc3f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a327e6f070d2dbda602a18954c07dcc3f">setVisible</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool visible)</td></tr>
 <tr class="memitem:a235ea32518b3235c1b2aa5d28e273139" id="r_a235ea32518b3235c1b2aa5d28e273139"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a235ea32518b3235c1b2aa5d28e273139">setOpacity</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, float opacity)</td></tr>
 <tr class="memdesc:a235ea32518b3235c1b2aa5d28e273139"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'opacité est bornée à <span class="tt">[0, 1]</span> ; une valeur non finie est ignorée.  <br /></td></tr>
+<tr class="memitem:ac027bba97cb70d021bb725f8ecceea8c" id="r_ac027bba97cb70d021bb725f8ecceea8c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac027bba97cb70d021bb725f8ecceea8c">setDimmed</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool dimmed)</td></tr>
+<tr class="memitem:a465bb6be45ff878e719eac0e6a4c2f95" id="r_a465bb6be45ff878e719eac0e6a4c2f95"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a465bb6be45ff878e719eac0e6a4c2f95">setLocked</a> (<a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> slot, bool locked)</td></tr>
 <tr class="memitem:a1aa6f03c9eb115a9c72f43221823f769" id="r_a1aa6f03c9eb115a9c72f43221823f769"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1aa6f03c9eb115a9c72f43221823f769">swap</a> (std::size_t a, std::size_t b)</td></tr>
 <tr class="memdesc:a1aa6f03c9eb115a9c72f43221823f769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Échange les réglages des rangs <code class="param">a</code> et <code class="param">b</code> (déplacement d'une couche).  <br /></td></tr>
 <tr class="memitem:a03b43fc049d4b5a4d7fc0d7abf5f533e" id="r_a03b43fc049d4b5a4d7fc0d7abf5f533e"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a03b43fc049d4b5a4d7fc0d7abf5f533e">operator==</a> (const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp;) const =default</td></tr>
@@ -121,6 +123,8 @@ Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:acf3b65cc1a37778a7e47630e33b927ec" id="r_acf3b65cc1a37778a7e47630e33b927ec"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1LayerDisplay.html">LayerDisplay</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acf3b65cc1a37778a7e47630e33b927ec">_layers</a></td></tr>
 <tr class="memitem:a9e881f2d7ddd52fb04e6877e3d7637f1" id="r_a9e881f2d7ddd52fb04e6877e3d7637f1"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9e881f2d7ddd52fb04e6877e3d7637f1">_rootVisible</a> = true</td></tr>
+<tr class="memitem:ada72c0603978ee5010699759f3087eb6" id="r_ada72c0603978ee5010699759f3087eb6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ada72c0603978ee5010699759f3087eb6">_rootDimmed</a> = false</td></tr>
+<tr class="memitem:addc8032d5ac9514c50770378086cc9b6" id="r_addc8032d5ac9514c50770378086cc9b6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#addc8032d5ac9514c50770378086cc9b6">_rootLocked</a> = false</td></tr>
 <tr class="memitem:a3e226d6c47fda4cdc6e749fb3f89a356" id="r_a3e226d6c47fda4cdc6e749fb3f89a356"><td class="memItemLeft">std::optional&lt; float &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3e226d6c47fda4cdc6e749fb3f89a356">_rootOpacity</a></td></tr>
 <tr class="memdesc:a3e226d6c47fda4cdc6e749fb3f89a356"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absente tant que l'auteur n'a pas réglé l'opacité de la grille racine.  <br /></td></tr>
 </table>
@@ -243,6 +247,48 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ac027bba97cb70d021bb725f8ecceea8c" name="ac027bba97cb70d021bb725f8ecceea8c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac027bba97cb70d021bb725f8ecceea8c">&#9670;&#160;</a></span>setDimmed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::LayerViewState::setDimmed </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>dimmed</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a465bb6be45ff878e719eac0e6a4c2f95" name="a465bb6be45ff878e719eac0e6a4c2f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a465bb6be45ff878e719eac0e6a4c2f95">&#9670;&#160;</a></span>setLocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::LayerViewState::setLocked </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a></td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>locked</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a235ea32518b3235c1b2aa5d28e273139" name="a235ea32518b3235c1b2aa5d28e273139"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a235ea32518b3235c1b2aa5d28e273139">&#9670;&#160;</a></span>setOpacity()</h2>
 
@@ -341,6 +387,50 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::vector&lt;<a class="el" href="structhmi_1_1LayerDisplay.html">LayerDisplay</a>&gt; hmi::LayerViewState::_layers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada72c0603978ee5010699759f3087eb6" name="ada72c0603978ee5010699759f3087eb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada72c0603978ee5010699759f3087eb6">&#9670;&#160;</a></span>_rootDimmed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LayerViewState::_rootDimmed = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="addc8032d5ac9514c50770378086cc9b6" name="addc8032d5ac9514c50770378086cc9b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addc8032d5ac9514c50770378086cc9b6">&#9670;&#160;</a></span>_rootLocked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LayerViewState::_rootLocked = false</td>
         </tr>
       </table>
   </td>

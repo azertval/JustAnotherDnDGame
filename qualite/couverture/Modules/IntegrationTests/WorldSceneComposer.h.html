@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>WorldSceneComposer.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;cstdint&gt;
+#include &lt;string&gt;
+#include &lt;string_view&gt;
+#include &lt;vector&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Math/Vector2.h"
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/ScenePieces.h"
+
+/**
+ * @file HMI/Graphics/WorldSceneComposer.h
+ * @brief Un **lieu qu'on parcourt** composÃ© en primitives, sans GPU : le jumeau
+ *        d'`hmi::ArenaSceneComposer` pour la carte du jeu (`LOT-09`).
+ *
+ * Le lieu et l'arÃ¨ne se dessinent par le **mÃªme** code : mÃªme projection isomÃ©trique
+ * (`core::IsoProjection`), mÃªmes planches de l'atelier des textures (`LOT-92`, `ScenePieces.h`),
+ * mÃªme tri par profondeur. Ce qui change est la **source** : l'arÃ¨ne lit une grille de combat, le
+ * lieu lit une carte (`core::Level`) â ses couches, ses assignations de texture, ses entitÃ©s.
+ *
+ * ## Ce qui va oÃ¹
+ *
+ * | PiÃ¨ce | Calque | Tri |
+ * |---|---|---|
+ * | sol (type de tuile de la couche Â« sol Â» â table du lieu) | `RenderLayer::Tile` | profondeur de
+ * case | | relief (piÃ¨ce nommÃ©e Ã  la case, ou type de la couche Â« dÃ©cor Â») | `RenderLayer::Object`
+ * | pied de la case | | figurine (hÃ©ros, PNJ) | `RenderLayer::Player` | pied de sa case |
+ *
+ * ## Par instantanÃ©, comme l'arÃ¨ne
+ *
+ * La composition ne lit qu'un `hmi::WorldSceneSnapshot` â des **valeurs**, aucun pointeur vers la
+ * carte ni vers la session. C'est ce qui lui permet de tourner sur le fil de rendu de Qt Quick,
+ * l'instantanÃ© Ã©tant pris dans `synchronize()` pendant que le fil graphique est bloquÃ©.
+ */
+
+namespace core {
+class IsoProjection;
+class Level;
+class TileMap;
+struct MapEntity;
+struct TileLayer;
+struct TileTextureOverride;
+}  // namespace core
+
+namespace hmi {
+
+class PlaceAppearance;
+
+/// @brief Rang d'une piÃ¨ce dans une mÃªme profondeur : le relief, puis la figurine posÃ©e dessus.
+enum class WorldDepthSlot : std::int32_t {
+    Relief = 0,
+    Figure,
+};
+
+/// Nombre de rangs par profondeur.
+inline constexpr std::int32_t WORLD_DEPTH_SLOTS = 2;
+
+/// Hauteur d'Ã©cran pour laquelle l'art est dessinÃ© : l'agrandissement est 1 jusque-lÃ , 2 au double
+/// (`hmi::worldCamera`). Ici plutÃ´t qu'avec le rendu GPU : l'essai de l'Ã©diteur cadre comme le jeu.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
+
+/// Marge basse d'une figurine, en hauteurs de losange â la mÃªme que dans l'arÃ¨ne.
+inline constexpr float WORLD_FIGURE_BOTTOM_MARGIN = 0.42F;
+
+/// @brief PropriÃ©tÃ© de couche qui nomme le **lieu** dont la carte porte les planches.
+inline constexpr std::string_view SCENE_PLACE_PROPERTY = "scene";
+
+/// @brief Ordre de tri d'une piÃ¨ce du lieu.
+[[nodiscard]] std::int32_t worldDepthSortOrder(float footWorldY, WorldDepthSlot slot) noexcept;
+
+/// @brief Une figurine Ã  dessiner sur la carte : sa planche, son image, oÃ¹ elle est.
+struct WorldFigureSnapshot {
+    /// Figurine : un slug de l'atelier des PNJ (`anariel`, `jade`â¦, dossier `Assets/Npc/&lt;slug&gt;`),
+    /// ou, s'il contient une barre, un dossier relatif Ã  `Assets/` â une figurine de l'atelier des
+    /// monstres (`Monsters/ironhand-soldier`, `LOT-93`).
+    std::string figure;
+    /// Bande d'animation : `idle`, `walk`.
+    std::string clip = "idle";
+    /// Position **continue**, en cases : `{1.5, 2.5}` est le centre de la case (1, 2).
+    core::Vector2 point{};
+    /// Image de la bande, ramenÃ©e dans la bande par la composition.
+    int frame = 0;
+
+    [[nodiscard]] bool operator==(const WorldFigureSnapshot&amp;) const = default;
+};
+
+/**
+ * @brief Le lieu **en valeurs** : ce que la composition lit, et rien d'autre.
+ *
+ * `floors` et `relief` portent une entrÃ©e par case, ligne par ligne : le **nom** de la piÃ¨ce de la
+ * planche du lieu, vide si la case ne dessine rien.
+ */
+struct WorldSceneSnapshot {
+    int columns = 0;
+    int rows = 0;
+    /// Le lieu, qui nomme le dossier de planches : `Assets/Scene/&lt;place&gt;/`.
+    std::string place;
+    std::vector&lt;std::string&gt; floors;
+    std::vector&lt;std::string&gt; relief;
+    std::vector&lt;WorldFigureSnapshot&gt; figures;
+
+    /// @return Le nom de la piÃ¨ce de sol de @p cell, vide hors grille ou sans piÃ¨ce.
+    [[nodiscard]] std::string_view floorAt(core::GridPosition cell) const;
+    /// @return Le nom de la piÃ¨ce de relief de @p cell, vide hors grille ou sans relief.
+    [[nodiscard]] std::string_view reliefAt(core::GridPosition cell) const;
+
+    [[nodiscard]] bool operator==(const WorldSceneSnapshot&amp;) const = default;
+};
+
+/**
+ * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de
+ *        texture et ses entitÃ©s.
+ *
+ * Le jeu compose une `core::Level` validÃ©e ; l'Ã©diteur compose son brouillon (`core::LevelDraft`),
+ * qui n'est pas toujours valide â une carte en cours de tracÃ© l'est rarement. Les deux exposent les
+ * mÃªmes accesseurs : `worldSceneSource` les prend chez l'un comme chez l'autre, et la composition
+ * n'a qu'un chemin (`LOT-EDITOR-02`, acceptation : Â« la mÃªme liste de primitives que dans le jeu
+ * Â»). Des rÃ©fÃ©rences seulement : la source ne vit pas plus longtemps que la carte.
+ */
+struct WorldSceneSource {
+    /// La grille racine : la collision, et le sol d'une carte sans couche visuelle.
+    const core::TileMap&amp; root;
+    /// Les couches : la premiÃ¨re de sol donne le sol, la premiÃ¨re de dÃ©cor le relief.
+    const std::vector&lt;core::TileLayer&gt;&amp; layers;
+    /// Les piÃ¨ces nommÃ©es Ã  la case, qui l'emportent sur la table du lieu pour le relief.
+    const std::vector&lt;core::TileTextureOverride&gt;&amp; textureOverrides;
+    /// Les entitÃ©s : leurs figurines, pour qui en compose (`npcFigures`).
+    const std::vector&lt;core::MapEntity&gt;&amp; entities;
+};
+
+/// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
+template &lt;class Map&gt;
+<span style = "background-color:#dfd">[[nodiscard]] WorldSceneSource worldSceneSource(const Map&amp; map) {
+    return WorldSceneSource{.root = map.tileMap(),</span>
+                            .layers = map.layers(),
+                            .textureOverrides = map.textureOverrides(),
+                            .entities = map.entities()};
+<span style = "background-color:#dfd">}</span>
+
+/// @return Le lieu que dÃ©clarent @p layers (propriÃ©tÃ© de couche `scene`), vide sinon.
+[[nodiscard]] std::string scenePlaceOf(const std::vector&lt;core::TileLayer&gt;&amp; layers);
+
+/// @return Le lieu que dÃ©clare @p level (propriÃ©tÃ© de couche `scene`), vide s'il n'en dÃ©clare pas.
+[[nodiscard]] std::string scenePlaceOf(const core::Level&amp; level);
+
+/**
+ * @brief Les figurines des PNJ d'une carte, dans l'ordre des entitÃ©s.
+ *
+ * Un PNJ sans propriÃ©tÃ© `figure` ne se dessine pas : il n'est pas encore dessinÃ©. Le jeu y ajoute
+ * le hÃ©ros (`hmi::WorldPlay::figures`) ; l'Ã©diteur les montre telles quelles.
+ * @param entities Les entitÃ©s de la carte.
+ * @param frame    L'image des bandes (0 pour une image fixe).
+ */
+[[nodiscard]] std::vector&lt;WorldFigureSnapshot&gt; npcFigures(
+    const std::vector&lt;core::MapEntity&gt;&amp; entities, int frame);
+
+/**
+ * @brief Tire de @p level l'instantanÃ© que la composition dessine.
+ *
+ * Le sol vient de la couche **visuelle de sol** (`core::LayerKind::Ground`, Ã  dÃ©faut la grille
+ * racine), traduit par @p appearance ; le relief de la couche **dÃ©cor**, oÃ¹ une assignation de
+ * texture Ã  la case (`core::TileTextureOverride`) l'emporte sur la table du lieu.
+ *
+ * @param source     La carte, lue seulement.
+ * @param appearance La table du lieu.
+ * @param figures    Les figurines Ã  poser, dans l'ordre oÃ¹ l'appelant les veut.
+ */
+[[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource&amp; source,
+                                                    const PlaceAppearance&amp; appearance,
+                                                    std::vector&lt;WorldFigureSnapshot&gt; figures);
+
+/// @brief Comme ci-dessus, pour une carte validÃ©e.
+[[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level,
+                                                    const PlaceAppearance&amp; appearance,
+                                                    std::vector&lt;WorldFigureSnapshot&gt; figures);
+
+/**
+ * @brief La clÃ© du marqueur d'une figurine qui n'a pas d'image (`LOT-39`, `LOT-96`).
+ *
+ * Une figurine nommÃ©e par une carte avant que son atelier (`LOT-91`, `LOT-93`) ne l'ait
+ * produite se dessine par son **marqueur**, comme toute clÃ© d'asset sans image
+ * (`EX-CNT-041`) : on la voit, on lui parle, et on ne la prend pas pour une illustration.
+ *
+ * @param path Un chemin de bande de figurine, tel que la composition l'Ã©crit
+ * (`Npc/&lt;slug&gt;/idle.png`, `Monsters/&lt;slug&gt;/idle.png`).
+ * @return `npc/&lt;slug&gt;` ou `monsters/&lt;slug&gt;`, ou une chaÃ®ne vide si @p path n'est pas celui d'une
+ *         figurine.
+ */
+[[nodiscard]] std::string figureMarkerKey(std::string_view path);
+
+/**
+ * @brief Le chemin d'une bande de figurine, relatif au dossier des assets.
+ *
+ * @param figure Le nom que la carte donne (`WorldFigureSnapshot::figure`).
+ * @param clip   La bande (`idle`, `walk`) ; vide : `idle`.
+ * @return `Npc/&lt;figure&gt;/&lt;clip&gt;.png` pour un slug, `&lt;figure&gt;/&lt;clip&gt;.png` pour un dossier.
+ */
+[[nodiscard]] std::string figureStripPath(std::string_view figure, std::string_view clip);
+
+/// @return Tous les chemins de texture que @p snapshot demandera, sans doublon, triÃ©s.
+[[nodiscard]] std::vector&lt;std::string&gt; worldTexturePaths(const WorldSceneSnapshot&amp; snapshot);
+
+/**
+ * @brief Compose le lieu dans un tampon rÃ©utilisÃ©.
+ *
+ * Le tampon n'est **ni vidÃ© ni triÃ©** : mÃªme contrat qu'`hmi::composeArenaScene`, l'appelant
+ * enchaÃ®ne `clear()`, les compositions, puis `sort()`.
+ */
+void composeWorldScene(ComposedScene&amp; scene, const WorldSceneSnapshot&amp; snapshot,
+                       const core::IsoProjection&amp; projection, const ScenePieceTextures&amp; textures);
+
+/// @brief Compose le lieu dans une scÃ¨ne neuve, **triÃ©e** â commoditÃ© des tests et des captures.
+[[nodiscard]] ComposedScene composeWorldScene(const WorldSceneSnapshot&amp; snapshot,
+                                              const core::IsoProjection&amp; projection,
+                                              const ScenePieceTextures&amp; textures);
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

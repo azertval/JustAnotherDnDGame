@@ -93,10 +93,13 @@ $(function(){initNavTree('EditorViewport_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Le canevas de l'éditeur : le brouillon qu'on peint, et l'essai immédiat.  
+<p>Le canevas de l'éditeur : le lieu qu'on édite, rendu comme dans le jeu, et l'essai immédiat (<span class="tt">LOT-EDITOR-02</span>, <span class="tt">EX-EDIT-059</span>).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;QRhiWidget&gt;</code><br />
+<div class="textblock"><code>#include &lt;QColor&gt;</code><br />
+<code>#include &lt;QGraphicsView&gt;</code><br />
 <code>#include &lt;QString&gt;</code><br />
+<code>#include &lt;QTimer&gt;</code><br />
+<code>#include &lt;array&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
@@ -106,6 +109,7 @@ $(function(){initNavTree('EditorViewport_8h.html','',''); });
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="IsoProjection_8h_source.html">Core/Combat/IsoProjection.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TacticalTerrain_8h_source.html">Core/Combat/TacticalTerrain.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="GridPosition_8h_source.html">Core/Levels/GridPosition.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelDraft_8h_source.html">Core/Levels/LevelDraft.h</a>&quot;</code><br />
@@ -114,28 +118,34 @@ $(function(){initNavTree('EditorViewport_8h.html','',''); });
 <code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="FixedTimestep_8h_source.html">Core/Time/FixedTimestep.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityKinds_8h_source.html">Core/World/EntityKinds.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CanvasPicking_8h_source.html">Editor/Logic/CanvasPicking.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CanvasScene_8h_source.html">Editor/Logic/CanvasScene.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="DiskGuard_8h_source.html">Editor/Logic/DiskGuard.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditContextTarget_8h_source.html">Editor/Logic/EditContextTarget.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditorDiagnostics_8h_source.html">Editor/Logic/EditorDiagnostics.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditorKeyBindings_8h_source.html">Editor/Logic/EditorKeyBindings.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EditorTool_8h_source.html">Editor/Logic/EditorTool.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LayerView_8h_source.html">Editor/Logic/LayerView.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Camera2D_8h_source.html">HMI/Graphics/Camera2D.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="SceneResources_8h_source.html">HMI/Graphics/SceneResources.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ComposedScene_8h_source.html">HMI/Graphics/ComposedScene.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PlaceAppearance_8h_source.html">HMI/Graphics/PlaceAppearance.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="WorldSceneComposer_8h_source.html">HMI/Graphics/WorldSceneComposer.h</a>&quot;</code><br />
 </div>
 <p><a href="EditorViewport_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:hmi_3A_3AEditorViewport" id="r_hmi_3A_3AEditorViewport"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l'essai.  <a href="classhmi_1_1EditorViewport.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Le canevas de l'éditeur : le brouillon qu'on peint, et l'essai immédiat. </p>
-<p>Deux états, jamais mêlés. En <b>édition</b>, le brouillon est dessiné à plat — une couleur par type de tuile, les entités par leur marqueur — sous les aides d'édition. En <b>essai</b>, la carte est jouée par <span class="tt"><a class="el" href="classhmi_1_1WorldPlay.html">hmi::WorldPlay</a></span> et dessinée par <span class="tt"><a class="el" href="classhmi_1_1WorldSceneRenderer.html" title="Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la scène compo...">hmi::WorldSceneRenderer</a></span> : la mise en scène du jeu, à l'identique (<span class="tt">EX-EDIT-055</span>). Un essai qui montrerait autre chose que le jeu ne vérifierait rien. </p>
+<div class="textblock"><p>Le canevas de l'éditeur : le lieu qu'on édite, rendu comme dans le jeu, et l'essai immédiat (<span class="tt">LOT-EDITOR-02</span>, <span class="tt">EX-EDIT-059</span>). </p>
+<p>Une <span class="tt">QGraphicsView</span> et <b>un seul élément peint</b> (décision D2) : il parcourt la <span class="tt">ComposedScene</span> que la composition du jeu produit — mêmes primitives, même ordre — et la peint par <span class="tt">QPainter</span> (<span class="tt"><a class="el" href="namespacehmi.html#a13d39d2941050cdcde712bd03062a037" title="Peint scene dans painter, dont la transformation porte déjà le cadrage (unités monde vers pixels).">hmi::paintComposedScene</a></span>), en ne touchant que la partie visible. Par-dessus, les aides d'édition : quadrillage en losanges, case survolée, masque de collision, aperçu des outils, marqueurs d'entité.</p>
+<p>Deux vues, en bascule (décision D1) : <b>iso</b> par défaut, le lieu tel qu'on le jouera ; <b>à plat</b>, une case par unité et les types en couleurs (<span class="tt"><a class="el" href="classhmi_1_1DraftRenderer.html" title="Compose un core::LevelDraft en cours d&#39;édition, à plat : la vue qui lit les types et la collision (dé...">hmi::DraftRenderer</a></span>), pour lire types et collision. Tout geste passe par le pointage (<span class="tt"><a class="el" href="CanvasPicking_8h.html" title="Le pointage du canevas : d&#39;un point du monde à la case qu&#39;il désigne, dans la vue isométrique comme d...">Editor/Logic/CanvasPicking.h</a></span>) et parle en cases : les outils ne savent pas quelle vue est affichée.</p>
+<p>Deux états, jamais mêlés. En <b>édition</b>, le brouillon est la seule source. En <b>essai</b>, la carte est jouée par <span class="tt"><a class="el" href="classhmi_1_1WorldPlay.html">hmi::WorldPlay</a></span> et composée comme dans le jeu (<span class="tt">EX-EDIT-055</span>) ; le même peintre la dessine, cadrée sur le héros. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>CanvasPicking.h</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#pragma once
+
+#include &lt;array&gt;
+#include &lt;optional&gt;
+
+#include "Core/Levels/GridPosition.h"
+#include "Core/Math/Rect.h"
+#include "Core/Math/Vector2.h"
+
+/**
+ * @file Editor/Logic/CanvasPicking.h
+ * @brief Le pointage du canevas : d'un point du monde Ã  la case qu'il dÃ©signe, dans la vue
+ *        isomÃ©trique comme dans la vue Ã  plat (`LOT-EDITOR-02`, dÃ©cision D1, `EX-EDIT-060`).
+ *
+ * ## Deux vues, un repÃ¨re de cases
+ *
+ * La vue **iso** dessine le lieu comme le jeu : `core::IsoProjection`, losanges de rapport 0,62,
+ * piÃ¨ces debout qui montent au-dessus de leur case. La vue **Ã  plat** dessine une case par unitÃ©
+ * monde, `(colonne, ligne)` = `(x, y)`. Le canevas ne connaÃ®t qu'une chose de la vue : ces
+ * fonctions ; tout le reste â gestes, outils, brouillon â parle en cases.
+ *
+ * ## Un relief haut se dÃ©signe par son pied
+ *
+ * On pointe le **losange** d'une case, jamais l'image qui la couvre : un clic sur le haut d'un mur
+ * dÃ©signe la case derriÃ¨re le mur, celle dont le losange est sous le pointeur. C'est la rÃ¨gle qui
+ * rend le pointage prÃ©visible sous un relief haut ; la transparence des reliefs (phase 3) permet de
+ * voir ce qu'on pointe.
+ *
+ * ## La hauteur, rÃ©servÃ©e (D11)
+ *
+ * Le format v4 rÃ©servera une `elevation` par case. Le pointage la prend donc en paramÃ¨tre dÃ¨s
+ * maintenant : une case Ã©levÃ©e de `e` niveaux est dessinÃ©e `e Ã ELEVATION_STEP_DIAMONDS` hauteurs
+ * de losange plus haut, et se pointe lÃ . Ni le jeu ni l'Ã©diteur ne s'en servent : ils passent 0.
+ *
+ * Logique pure, sans Qt : testÃ©e par `UnitTests` (`Unit/Editor/test_canvas_picking.cpp`).
+ */
+
+namespace core {
+class IsoProjection;
+}
+
+namespace hmi {
+
+/// @brief Les deux vues du canevas.
+enum class CanvasView {
+    /// Le lieu tel que le jeu le montre (dÃ©faut).
+    Iso,
+    /// Une case par unitÃ©, les types en couleurs : pour lire types et collision.
+    Flat,
+};
+
+/// @brief Hauteur d'un niveau d'Ã©lÃ©vation, en hauteurs de losange (rÃ©serve D11, jamais jouÃ©e).
+inline constexpr float ELEVATION_STEP_DIAMONDS = 1.0F;
+
+/// @brief Un rectangle de cases, bornes **incluses** ; vide si `lastColumn &lt; firstColumn`.
+struct CellRange {
+    /// PremiÃ¨re colonne couverte.
+    int firstColumn = 0;
+    /// PremiÃ¨re ligne couverte.
+    int firstRow = 0;
+    /// DerniÃ¨re colonne couverte, incluse.
+    int lastColumn = -1;
+    /// DerniÃ¨re ligne couverte, incluse.
+    int lastRow = -1;
+
+    /// @return Vrai si le rectangle ne couvre aucune case.
+<span style = "background-color:#dfd">    [[nodiscard]] bool empty() const noexcept {
+        return lastColumn &lt; firstColumn || lastRow &lt; firstRow;
+    }</span>
+    /// @return Vrai si @p cell est dans le rectangle.
+<span style = "background-color:#dfd">    [[nodiscard]] bool contains(core::GridPosition cell) const noexcept {
+        return cell.column &gt;= firstColumn &amp;&amp; cell.column &lt;= lastColumn &amp;&amp; cell.row &gt;= firstRow &amp;&amp;</span>
+               cell.row &lt;= lastRow;
+<span style = "background-color:#dfd">    }</span>
+    [[nodiscard]] bool operator==(const CellRange&amp;) const = default;
+};
+
+/**
+ * @brief Le point de grille **continu** sous un point du monde, en vue iso.
+ * @param projection Projection iso du lieu.
+ * @param world Point du monde.
+ * @param elevation Niveau de la case pointÃ©e (0 : le sol).
+ */
+[[nodiscard]] core::Vector2 isoGridPoint(const core::IsoProjection&amp; projection, core::Vector2 world,
+                                         int elevation = 0) noexcept;
+
+/**
+ * @brief La case dont le losange contient @p world, en vue iso.
+ * @return La case, ou rien hors de la grille.
+ */
+[[nodiscard]] std::optional&lt;core::GridPosition&gt; pickIsoCell(const core::IsoProjection&amp; projection,
+                                                            core::Vector2 world,
+                                                            int elevation = 0) noexcept;
+
+/// @brief Comme `pickIsoCell`, ramenÃ©e dans la grille : la case la plus proche le long de chaque
+///        axe de la grille (glisser un rectangle hors de la carte le borne au bord).
+[[nodiscard]] core::GridPosition clampedIsoCell(const core::IsoProjection&amp; projection,
+                                                core::Vector2 world, int elevation = 0) noexcept;
+
+/// @return La case sous @p world en vue Ã  plat, ou rien hors d'une grille de @p columns Ã @p rows.
+[[nodiscard]] std::optional&lt;core::GridPosition&gt; pickFlatCell(core::Vector2 world, int columns,
+                                                             int rows) noexcept;
+
+/// @return La case sous @p world en vue Ã  plat, ramenÃ©e dans la grille.
+[[nodiscard]] core::GridPosition clampedFlatCell(core::Vector2 world, int columns,
+                                                 int rows) noexcept;
+
+/**
+ * @brief Les quatre sommets du losange d'une case, en unitÃ©s monde : haut, droit, bas, gauche.
+ * @param projection Projection iso du lieu.
+ * @param cell Case dont on veut le losange.
+ * @param elevation Niveau de la case (0 : le sol) ; le losange monte d'autant.
+ */
+[[nodiscard]] std::array&lt;core::Vector2, 4&gt; isoCellDiamond(const core::IsoProjection&amp; projection,
+                                                          core::GridPosition cell,
+                                                          int elevation = 0) noexcept;
+
+/**
+ * @brief Les cases dont le losange peut couper @p world â celles qu'il faut dessiner pour une vue
+ *        cadrÃ©e sur ce rectangle. Conservateur : ne manque aucune case visible, peut en compter
+ *        quelques-unes de trop dans les coins.
+ */
+[[nodiscard]] CellRange isoCellsCovering(const core::IsoProjection&amp; projection,
+                                         const core::Rect&amp; world) noexcept;
+
+/// @return Les cases qu'un rectangle du monde couvre en vue Ã  plat, bornÃ©es Ã  la grille.
+[[nodiscard]] CellRange flatCellsCovering(const core::Rect&amp; world, int columns, int rows) noexcept;
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

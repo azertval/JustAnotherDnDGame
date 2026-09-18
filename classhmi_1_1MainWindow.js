@@ -42,6 +42,8 @@ var classhmi_1_1MainWindow =
     [ "_entities", "classhmi_1_1MainWindow.html#abe2762f58f8dd3bcbe6ecfc081072e88", null ],
     [ "_layers", "classhmi_1_1MainWindow.html#a2ca20212f1ccc0c2df74dde270e8a6ff", null ],
     [ "_levels", "classhmi_1_1MainWindow.html#aa3a6277e15086fc09f3ba9b42dfc86e2", null ],
+    [ "_miniMap", "classhmi_1_1MainWindow.html#a23e247e0ca80892f27be7348daacf566", null ],
+    [ "_miniMapDock", "classhmi_1_1MainWindow.html#a0fd82b847d227e46f98f3f83d622f435", null ],
     [ "_palette", "classhmi_1_1MainWindow.html#af1127880bfad8cb9a4e49eb5c072ca08", null ],
     [ "_references", "classhmi_1_1MainWindow.html#a1740570708e810c8d14a9f85988296fb", null ],
     [ "_resetLayoutAction", "classhmi_1_1MainWindow.html#a10ab1a96c0a996f8688f9b590a2f029b", null ],

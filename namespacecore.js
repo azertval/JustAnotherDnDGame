@@ -121,6 +121,9 @@ var namespacecore =
     [ "ExpectedAssetKey", "structcore_1_1ExpectedAssetKey.html", "structcore_1_1ExpectedAssetKey" ],
     [ "MarkerColor", "structcore_1_1MarkerColor.html", "structcore_1_1MarkerColor" ],
     [ "MarkerImage", "structcore_1_1MarkerImage.html", "structcore_1_1MarkerImage" ],
+    [ "ScenePiece", "structcore_1_1ScenePiece.html", "structcore_1_1ScenePiece" ],
+    [ "ScenePieceManifest", "classcore_1_1ScenePieceManifest.html", "classcore_1_1ScenePieceManifest" ],
+    [ "ScenePieceManifestResult", "structcore_1_1ScenePieceManifestResult.html", "structcore_1_1ScenePieceManifestResult" ],
     [ "CreatureTrait", "structcore_1_1CreatureTrait.html", "structcore_1_1CreatureTrait" ],
     [ "CreatureAction", "structcore_1_1CreatureAction.html", "structcore_1_1CreatureAction" ],
     [ "CreatureSpeed", "structcore_1_1CreatureSpeed.html", "structcore_1_1CreatureSpeed" ],
@@ -538,6 +541,19 @@ var namespacecore =
       [ "Advantage", "namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9a1b2430d20c750dada9aaaed48b4eb8f1", null ],
       [ "Disadvantage", "namespacecore.html#aff494cc4070ea4489c3d5ee57178f7c9ae755d083f9085a585ef791919be5a004", null ]
     ] ],
+    [ "ScenePieceClass", "namespacecore.html#a4a3860a249c1a2e07497950f57f4d461", [
+      [ "Floor", "namespacecore.html#a4a3860a249c1a2e07497950f57f4d461af3f6d0343d56ce88ce7958170ed05cb3", null ],
+      [ "Tall", "namespacecore.html#a4a3860a249c1a2e07497950f57f4d461a31fdedff3e473efdbd079e3b59fcb4f9", null ],
+      [ "Wide", "namespacecore.html#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1", null ],
+      [ "Other", "namespacecore.html#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387", null ]
+    ] ],
+    [ "ScenePieceManifestError", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcc", [
+      [ "None", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754", null ],
+      [ "FileNotFound", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2", null ],
+      [ "ParseError", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbccae41199faa7290c167f70f314c5e6c165", null ],
+      [ "UnsupportedVersion", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca0f89bc98e9b12bdeda0604e57bdc0518", null ],
+      [ "MalformedStructure", "namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbccaa809debdbe0cae246d363461916d924d", null ]
+    ] ],
     [ "TacticalIssueCode", "namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910", [
       [ "CombatantOutOfBounds", "namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910ad885d5cf20dfaace9079e6e7400ac431", null ],
       [ "CombatantObstructed", "namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910a8511b55997b213b48f83e8a525ead187", null ],
@@ -754,6 +770,7 @@ var namespacecore =
     [ "parseEquipmentSlot", "namespacecore.html#a3c6126ca45164ee5761518aa0ae58ccd", null ],
     [ "parseLogLevel", "namespacecore.html#ae8ce294afb9bbebacf6676020a0e223a", null ],
     [ "parseMagicSchool", "namespacecore.html#a41deb28480aa298e63a75479bde92d2d", null ],
+    [ "parseScenePieceClass", "namespacecore.html#ab61b34d0d8ae2acaa9aa552c099b2255", null ],
     [ "parseTileType", "namespacecore.html#ad675f8ce2e7f29908cbe3e7701336ef8", null ],
     [ "placeCombatants", "namespacecore.html#a63e47d6c989b07bf0c2c7e0a568d1e02", null ],
     [ "planTurn", "namespacecore.html#ac40f7658883a2ff354dd23d9e75731c5", null ],
@@ -782,6 +799,7 @@ var namespacecore =
     [ "rollStance", "namespacecore.html#ac2a445eb023b8dc4823076b19427e5c9", null ],
     [ "rollStanceName", "namespacecore.html#aa60bb21d8cc45167ae840ea21c3b844c", null ],
     [ "savingThrowModifier", "namespacecore.html#a5f742da51af4901d06af8def76937d57", null ],
+    [ "scenePieceShortName", "namespacecore.html#a40b827238eccb98a51e5d1e4966f6aae", null ],
     [ "setAssertionHandler", "namespacecore.html#a0b2fde01c38742c460acb176220332ff", null ],
     [ "shouldTakeOpportunity", "namespacecore.html#ac58007f3f78da7cfddceb7509d3f5bbc", null ],
     [ "skillModifier", "namespacecore.html#a29026a1c7235970e3f432ac5d08229ad", null ],

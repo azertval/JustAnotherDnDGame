@@ -173,6 +173,14 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-057"></a><b>EX-EDIT-057</b> — Une carte ouverte <b>changée sur disque</b> (par un script, un autre outil, un changement de branche) ne doit jamais être <b>écrasée en silence</b>. Brouillon intact : la carte est relue. Brouillon modifié : l'auteur choisit de relire le disque ou de garder son brouillon, et la version écartée est mise de côté avant tout. La comparaison porte sur le <b>contenu</b> du fichier, pas sur sa date.</li>
 <li><a class="anchor" id="EX-EDIT-058"></a><b>EX-EDIT-058</b> — L'historique d'annulation est <b>plafonné</b> (le pas le plus ancien est oublié au-delà), et l'état « modifié » suit le <b>contenu</b> : défaire jusqu'à l'état enregistré rend une carte non modifiée, et un geste sans effet (repeindre une case du même type) ne la modifie pas.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md230"></a>
+9. Le canevas qui montre le lieu (<span class="tt">LOT-EDITOR-02</span>)</h1>
+<p>On édite sur le lieu tel qu'on le jouera. Ces trois exigences viennent du canevas du module (<a class="el" href="lot-editor-02.html" title="LOT-EDITOR-02 — Le canevas montre le lieu">LOT-EDITOR-02</a>).</p>
+<ul>
+<li><a class="anchor" id="EX-EDIT-059"></a><b>EX-EDIT-059</b> — Le canevas doit montrer la carte <b>en isométrie, comme le jeu</b> : la liste de primitives est celle que compose le jeu (<span class="tt"><a class="el" href="namespacehmi.html#a634bad2a915ba6f49caae2a158329bb3" title="Compose le lieu dans un tampon réutilisé.">hmi::composeWorldScene</a></span>), dans le même ordre, et son image rendue hors écran égale celle du jeu à une tolérance près. Une bascule montre la carte <b>à plat</b>, une case par unité et les types en couleurs, pour lire types et collision. Le canevas ne peint que la partie visible.</li>
+<li><a class="anchor" id="EX-EDIT-060"></a><b>EX-EDIT-060</b> — Le <b>pointage</b> désigne la case dont le <b>losange</b> est sous le pointeur, jamais l'image qui la couvre : sous un relief haut, on pointe la case de derrière. Il prend la hauteur en paramètre (réserve de la décision D11), et reste juste aux quatre coins de la carte. La case survolée, ses coordonnées et ses pièces se lisent à l'écran.</li>
+<li><a class="anchor" id="EX-EDIT-061"></a><b>EX-EDIT-061</b> — Une couche peut être <b>masquée</b>, <b>grisée</b> ou <b>verrouillée</b> (visible, mais aucun geste ne la peint) ; les reliefs peuvent passer <b>en transparence</b> ; une <b>mini-carte</b> montre toute la carte et le cadre de la vue, et ramène la vue d'un clic. Ce sont des aides d'édition : rien n'est enregistré dans la carte.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="edit-retirees"></a>
 Exigences retirées</h1>
 <blockquote class="doxtable">
@@ -198,7 +206,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-EDIT-046"></a><b>EX-EDIT-046</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — mode création des plans.</li>
 <li><a class="anchor" id="EX-EDIT-047"></a><b>EX-EDIT-047</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — panneau des plans.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md230"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
 Traçabilité</h1>
 <p>Le code vit dans <span class="tt">Source/Editor</span> : <span class="tt">Logic/</span> (bibliothèque <span class="tt">EditorLogic</span>, testée sous <span class="tt">Source/Test/Unit/Editor</span>) et <span class="tt">Ui/</span> (l'exécutable <span class="tt">LevelEditor</span>). L'éditeur s'appuie sur <span class="tt">Core</span> (modèle et validation de carte, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) et sur le rendu de <span class="tt">HMI</span> (<span class="tt"><a class="el" href="rendu-technique_8md.html">rendu-technique.md</a></span>) ; ce qui reste de sa présentation est dans <a class="el" href="spec-interface-ihm.html#md_Specification_2interface-ihm" title="Specification/interface-ihm.md"><span class="tt">interface-ihm.md</span></a>. </p>
 </div></div><!-- contents -->
