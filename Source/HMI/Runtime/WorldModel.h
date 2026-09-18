@@ -5,11 +5,13 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 #include <QTimer>
 #include <QtQmlIntegration>
 #include <memory>
 
 #include "Core/Math/Vector2.h"
+#include "Core/World/CityPlan.h"
 #include "Core/World/ExplorationSession.h"
 #include "HMI/Graphics/PlaceAppearance.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
@@ -64,17 +66,28 @@ class WorldModel : public QObject {
     Q_PROPERTY(QString heroFigure READ heroFigure WRITE setHeroFigure NOTIFY changed)
     /// Vrai quand la carte est gelée : un dialogue ou un combat est à l'écran.
     Q_PROPERTY(bool frozen READ frozen WRITE setFrozen NOTIFY changed)
+    /// La fiche d'atlas de la ville qu'on parcourt, qui est aussi la clé de son plan
+    /// (`world-maps.json`) ; vide si la ville n'a pas pu être lue (`LOT-96`).
+    Q_PROPERTY(QString cityLocation READ cityLocation CONSTANT)
+    /// Le quartier où se tient le héros (sa fiche d'atlas), vide hors d'un quartier.
+    Q_PROPERTY(QString districtId READ districtId NOTIFY changed)
+    /// Les quartiers déjà parcourus depuis « Nouvelle partie », dans l'ordre de la première visite.
+    /// Persistés au `LOT-17`.
+    Q_PROPERTY(QStringList visitedDistricts READ visitedDistricts NOTIFY changed)
 
 public:
-    /// La carte où « Nouvelle partie » ouvre le jeu : le Colisée (`LOT-09`).
-    static constexpr const char* START_MAP = "coliseum";
+    /// La ville où « Nouvelle partie » ouvre le jeu, sous `World/cities/` : la Capitale (`LOT-96`).
+    static constexpr const char* START_CITY = "capital";
     /// Pas fixe de la simulation, en millisecondes.
     static constexpr int STEP_MILLISECONDS = 16;
 
     explicit WorldModel(QObject* parent = nullptr);
     ~WorldModel() override;
 
-    /// @brief Ouvre le jeu sur la carte de départ, à son entrée. @return Vrai si elle s'est ouverte.
+    /**
+     * @brief Ouvre le jeu à la porte de départ de la ville (`World/cities/capital.json`), et
+     *        oublie les quartiers visités. @return Vrai si la carte s'est ouverte.
+     */
     Q_INVOKABLE bool startNewGame();
 
     /// @brief Entre sur @p mapId au point d'arrivée @p arrival (vide : l'entrée de la carte).
@@ -113,6 +126,14 @@ public:
     [[nodiscard]] bool frozen() const;
     void setFrozen(bool frozen);
 
+    [[nodiscard]] QString cityLocation() const {
+        return QString::fromStdString(_city.location);
+    }
+    [[nodiscard]] QString districtId() const;
+    [[nodiscard]] QStringList visitedDistricts() const {
+        return _visitedDistricts;
+    }
+
     /// @return L'instantané que la surface de rendu dessine : des **valeurs**, sans pointeur.
     [[nodiscard]] WorldSceneSnapshot snapshot() const;
 
@@ -142,6 +163,8 @@ private:
     void step();
     /// Relit la table d'apparence du lieu de la carte courante.
     void reloadAppearance();
+    /// Retient le quartier de la carte courante parmi les quartiers visités.
+    void noteDistrictVisit();
     /// Les figurines à dessiner : le héros, puis les PNJ de la carte.
     [[nodiscard]] std::vector<WorldFigureSnapshot> figures() const;
 
@@ -150,6 +173,9 @@ private:
     QTimer _clock;
     QString _status;
     QString _heroFigure{QStringLiteral("jade")};
+    /// Le graphe de la ville qu'on parcourt, lu une fois (`LOT-96`).
+    core::CityPlan _city;
+    QStringList _visitedDistricts;
     /// La carte et l'arrivée imposées par `--map=`, vides sinon.
     QString _startMapOverride;
     QString _startArrivalOverride;

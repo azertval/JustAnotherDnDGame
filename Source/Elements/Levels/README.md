@@ -14,7 +14,8 @@ Cartes du jeu, un fichier **JSON** par carte (`EX-LVL-001`, `EX-LVL-003`).
 
 > **`capital/`, au `LOT-96`** : les quartiers de la Capitale qui ont leur carte — `martpart.json`
 > (le quartier du marché, 48 × 40) et `arenarea.json` (le quartier des arènes, 48 × 40, sur la
-> planche de Martpart faute de planche propre), reliés par l'avenue. Même méthode que le Colisée : un script d'atelier les pose
+> planche de Martpart faute de planche propre), reliés par l'avenue ; « Nouvelle partie » ouvre
+> le jeu à la porte de l'Est de Martpart, que nomme `World/cities/capital.json`. Même méthode que le Colisée : un script d'atelier les pose
 > (`Documentation/Lot/LOT-96-quartiers-capitale/atelier/carte_quartiers.py`, `--check` pour savoir
 > si une carte a été retouchée), l'éditeur les retouche. Une carte d'un sous-dossier a pour
 > identifiant son **chemin relatif** : un portail vise `capital/martpart`, et le graphe du monde

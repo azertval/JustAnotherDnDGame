@@ -142,4 +142,18 @@ nomme ensuite, pour que chaque commit reste vert.
   - *Le `requiresFlag` de la porte d'Arenarea n'est pas posé.* Le poser la fermerait jusqu'au
     [LOT-16](@ref lot-16) ; la feuille de route la veut ouverte d'ici là. Le [LOT-16](@ref lot-16)
     l'ajoutera sur le portail de Martpart, avec le drapeau qu'il crée.
+- **18 septembre 2026, phase 3 — Le graphe de la Capitale.** `Source/Elements/World/cities/capital.json`
+  nomme les douze quartiers du plan, chacun par sa fiche d'atlas, avec **soit** sa carte (Martpart,
+  Arenarea), **soit** la carte voisine où se tient sa porte gardée (les dix autres), et la porte
+  de départ : la porte de l'Est de Martpart. `core::loadCityPlan` le lit ; « Nouvelle partie »
+  (`hmi::WorldModel::startNewGame`) y ouvre le jeu, et le modèle expose le quartier courant et
+  les quartiers visités, pour le plan de la phase 5. `check_rpg_data.py` lie chaque quartier à sa
+  fiche d'atlas, à son point du plan et à sa carte, refuse un quartier du plan oublié, une porte
+  gardée posée sur une carte étrangère à la ville et une porte de départ absente de sa carte.
+  - *Le fichier est dans `World/cities/`, pas à la racine de `World/`* comme l'écrivait la
+    feuille de route : `check_rpg_data.py` déduit la famille d'un fichier de son **dossier**, et
+    une ville est une famille (`city.schema.json`), avec ses fixtures valide et invalide.
+  - *Chaque quartier fermé a sa porte sur la carte du quartier livré le plus proche sur le plan* :
+    Dweomer, Neckoffoods et Scholarnest à Martpart ; Oldtown, Downtown, Artisansquare, Bloomburgs,
+    Uptown, Sloghood et Palacedomain à Arenarea. Une règle plutôt qu'un choix au cas par cas.
 
