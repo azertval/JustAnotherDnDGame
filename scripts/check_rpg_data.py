@@ -94,6 +94,9 @@ FAMILLES = {
     # Dialogues (LOT-15), sous World/ : une conversation est un contenu de lieu. Le schema dit la
     # forme ; les cibles, les cycles et les impasses se refusent au chargement (core::readDialogue).
     'dialogues': 'dialogue',
+    # Villes jouables (LOT-96), sous World/ : le graphe des quartiers d'une ville, et la porte ou
+    # << Nouvelle partie >> pose le heros.
+    'cities': 'city',
 }
 
 # `rules/` porte des REGLES, pas une collection d'entrees semblables : chaque fichier y a son
@@ -321,6 +324,100 @@ def controler_atlas(racine: Path) -> list[str]:
     return violations
 
 
+def points_d_arrivee(carte: Path) -> set[str]:
+    """Les noms des points d'arrivee d'une carte de niveau, vide si elle est illisible."""
+    try:
+        niveau = json.loads(carte.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        return set()
+    return {e.get('name', '') for e in niveau.get('entities', []) if e.get('type') == 'spawnPoint'}
+
+
+def pnj_de(carte: Path) -> list[dict]:
+    """Les entites `npc` d'une carte de niveau, vide si elle est illisible."""
+    try:
+        niveau = json.loads(carte.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        return []
+    return [e for e in niveau.get('entities', []) if e.get('type') == 'npc']
+
+
+def controler_villes(racine: Path, niveaux: Path, plans: Path) -> list[str]:
+    """Chaque quartier d'une ville jouable mene quelque part, et existe sur le plan (`LOT-96`).
+
+    Le schema dit la forme ; il ne peut pas dire qu'une carte **existe**, qu'une fiche d'atlas est
+    celle d'un quartier de CETTE ville, ni qu'un point du plan n'a ete oublie. Un quartier qui ne
+    mene nulle part est un point du plan qu'aucun chemin n'atteint ; un quartier du plan absent de
+    la ville, un point qu'on ne pourra jamais visiter.
+    """
+    dossier = racine / 'cities'
+    if not dossier.is_dir():
+        return []
+    lieux = {c.stem for c in (racine / 'locations').glob('*.json')}
+    plan_villes = json.loads(plans.read_text(encoding='utf-8')).get('cities', {})
+    violations = []
+    for chemin in sorted(dossier.glob('*.json')):
+        nom = chemin.relative_to(RACINE).as_posix()
+        ville = json.loads(chemin.read_text(encoding='utf-8'))
+        lieu = ville.get('location', '')
+        if lieu not in lieux:
+            violations.append("%s : la ville « %s » n'a pas de fiche d'atlas." % (nom, lieu))
+        places = set(plan_villes.get(lieu, {}).get('places', {}))
+        if not places:
+            violations.append('%s : aucun plan « %s » dans world-maps.json.' % (nom, lieu))
+
+        cartes = {}
+        for quartier in ville.get('districts', []):
+            ident = quartier.get('id', '')
+            if ident not in lieux:
+                violations.append("%s : le quartier « %s » n'a pas de fiche d'atlas."
+                                  % (nom, ident))
+            if places and ident not in places:
+                violations.append("%s : le quartier « %s » n'est pas place sur le plan de la "
+                                  'ville.' % (nom, ident))
+            if 'map' in quartier:
+                cartes[ident] = quartier['map']
+                if not (niveaux / (quartier['map'] + '.json')).is_file():
+                    violations.append("%s : la carte « %s » du quartier « %s » n'existe pas."
+                                      % (nom, quartier['map'], ident))
+        dialogues = {c.stem for c in (racine / 'dialogues').glob('*.json')}
+        for quartier in ville.get('districts', []):
+            garde = quartier.get('guard')
+            if garde and garde['map'] in cartes.values():
+                # La porte gardee est une sentinelle posee sur la carte voisine : un PNJ qui
+                # nomme le quartier qu'il ferme, et qui a un dialogue a tenir.
+                sentinelles = [e for e in pnj_de(niveaux / (garde['map'] + '.json'))
+                               if e.get('guards') == quartier.get('id')]
+                if len(sentinelles) != 1:
+                    violations.append(
+                        "%s : la porte gardee de « %s » doit avoir une sentinelle sur « %s », "
+                        "elle en a %d." % (nom, quartier.get('id', ''), garde['map'],
+                                           len(sentinelles)))
+                for sentinelle in sentinelles:
+                    if sentinelle.get('dialogue') not in dialogues:
+                        violations.append(
+                            "%s : la sentinelle de « %s » ouvre le dialogue « %s », qui n'existe "
+                            "pas." % (nom, quartier.get('id', ''), sentinelle.get('dialogue')))
+            if garde and garde['map'] not in cartes.values():
+                violations.append(
+                    "%s : la porte gardee de « %s » se tient sur « %s », qui n'est la carte "
+                    "d'aucun quartier de la ville." % (nom, quartier.get('id', ''), garde['map']))
+        oublies = sorted(places - {q.get('id', '') for q in ville.get('districts', [])})
+        if oublies:
+            violations.append('%s : quartier(s) du plan absent(s) de la ville : %s.'
+                              % (nom, ', '.join(oublies)))
+
+        depart = ville.get('start', {})
+        carte_depart = cartes.get(depart.get('district', ''))
+        if carte_depart is None:
+            violations.append("%s : le quartier de depart « %s » n'a pas de carte."
+                              % (nom, depart.get('district', '')))
+        elif depart.get('arrival') not in points_d_arrivee(niveaux / (carte_depart + '.json')):
+            violations.append("%s : la carte « %s » n'a pas de point d'arrivee « %s »."
+                              % (nom, carte_depart, depart.get('arrival')))
+    return violations
+
+
 def controler_enumerations(schemas: dict) -> list[str]:
     """Les énumérations fermées des schémas coïncident avec les catégories du lexique (LOT-30)."""
     if not LEXIQUE.is_file():
@@ -411,6 +508,8 @@ def main() -> int:
     monde, provisoires_monde, lus_monde = valider_dossier(schemas, MONDE)
     violations += monde
     violations += controler_atlas(MONDE)
+    violations += controler_villes(MONDE, RACINE / 'Source' / 'Elements' / 'Levels',
+                                   RACINE / 'Source' / 'Elements' / 'Maps' / 'world-maps.json')
     provisoires += provisoires_monde
     lus += lus_monde
 

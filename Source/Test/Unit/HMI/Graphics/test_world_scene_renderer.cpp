@@ -19,6 +19,7 @@
 #include <memory>
 #include <string>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -264,4 +265,68 @@ TEST(WorldSceneRendererTest, LaCameraSuitLeHerosSansSortirDeLaCarte) {
     EXPECT_FLOAT_EQ(petiteVue.zoom(), 2.0F);
     EXPECT_NEAR(petiteVue.center().x, petite.sceneSize().x / 2.0F, 0.001F);
     EXPECT_NEAR(petiteVue.center().y, petite.sceneSize().y / 2.0F, 0.001F);
+}
+
+/**
+ * @brief Martpart et Arenarea livres deviennent des pixels, sentinelle comprise.
+ * \castest{<b>Les deux quartiers livres se dessinent sans une piece sur le damier, et la sentinelle
+ * par son marqueur.</b><br/>
+ * \tcat Unitaire · Rendu QRhi d'un lieu<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Charger `capital/martpart.json` et `capital/arenarea.json`, et la table de Martpart.<br/>
+ *          2. Dessiner chacun hors ecran, cadre sur une porte gardee, le heros a cote.<br/>
+ * \tattendu Aucun quad sur le damier ; la figurine de la sentinelle, qui n'a pas d'image, est
+ *           chargee -- c'est son marqueur (LOT-39) ; une part notable de l'image est peinte
+ *           (LOT-96).
+ * }
+ */
+TEST(WorldSceneRendererTest, LesQuartiersLivresDeviennentDesPixels) {
+    const std::unique_ptr<QRhi> rhi = createOffscreenRhi();
+    if (!rhi) {
+        GTEST_SKIP() << "Aucune interface QRhi disponible sur cette machine.";
+    }
+    hmi::PlaceAppearanceResult table =
+        hmi::PlaceAppearance::loadFromFile(assets() / "Scene" / "martpart" / "appearance.json");
+    ASSERT_TRUE(table.ok()) << table.message;
+
+    for (const char* const quartier : {"martpart", "arenarea"}) {
+        core::LevelLoadResult carte = core::LevelLoader::loadFromFile(
+            std::filesystem::path(JADG_LEVELS_DIR) / "capital" / (std::string{quartier} + ".json"));
+        ASSERT_TRUE(carte.ok()) << quartier << " : " << carte.error;
+
+        // Les figurines de la carte, comme le jeu les pose : les sentinelles, puis le heros a cote
+        // de la premiere.
+        std::vector<hmi::WorldFigureSnapshot> figurines;
+        for (const core::MapEntity& objet : carte.level->entities()) {
+            const auto figurine = objet.properties.find("figure");
+            if (objet.type != "npc" || figurine == objet.properties.end()) {
+                continue;
+            }
+            figurines.push_back(hmi::WorldFigureSnapshot{
+                .figure = std::get<std::string>(figurine->second),
+                .clip = "idle",
+                .point = {static_cast<float>(objet.position.column) + 0.5F,
+                          static_cast<float>(objet.position.row) + 0.5F},
+                .frame = 0});
+        }
+        ASSERT_FALSE(figurines.empty()) << quartier << " n'a aucune sentinelle";
+        const core::Vector2 porte = figurines.front().point;
+
+        OffscreenTarget target(*rhi);
+        hmi::WorldSceneRenderer renderer(assets());
+        ASSERT_TRUE(renderer.ensureResources(rhi.get()));
+        renderer.setSnapshot(hmi::snapshotWorldScene(*carte.level, table.appearance, figurines));
+        renderer.setFocus(porte);
+        const QImage image = renderFrame(*rhi, renderer, target);
+
+        for (const hmi::ComposedQuad& quad : renderer.composed().quads()) {
+            EXPECT_NE(quad.texture, renderer.textures().missing.texture)
+                << quartier << " : piece tombee sur le damier";
+        }
+        const auto marqueur = renderer.textures().byPath.find("Npc/sentinelle-ironhand/idle.png");
+        ASSERT_NE(marqueur, renderer.textures().byPath.end()) << quartier;
+        EXPECT_NE(marqueur->second.texture, nullptr);
+        EXPECT_GT(paintedPixels(image), static_cast<std::size_t>(TARGET_SIZE * TARGET_SIZE / 4))
+            << quartier;
+    }
 }

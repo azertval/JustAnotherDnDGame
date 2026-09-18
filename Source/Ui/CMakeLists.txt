@@ -70,6 +70,9 @@ set(JADG_UI_QML_FILES
     Screens/WorldMapForm.ui.qml
     Screens/RegionMapForm.ui.qml
     Screens/CityMapForm.ui.qml
+    # Sous la ville (LOT-96) : le quartier et ses ilots, puis l'ilot.
+    Screens/DistrictMapForm.ui.qml
+    Screens/BlockMapForm.ui.qml
     Screens/DialogueForm.ui.qml
     Screens/MerchantForm.ui.qml
     Screens/CombatHudForm.ui.qml

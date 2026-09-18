@@ -3,6 +3,8 @@
 
 #include "HMI/Runtime/WorldModel.h"
 
+#include <filesystem>
+#include <string>
 #include <utility>
 #include <variant>
 
@@ -37,12 +39,37 @@ WorldModel::WorldModel(QObject* parent) : QObject(parent) {
     _clock.setInterval(STEP_MILLISECONDS);
     _clock.setTimerType(Qt::PreciseTimer);
     connect(&_clock, &QTimer::timeout, this, &WorldModel::step);
+
+    const std::filesystem::path ville = executableDirectory() / "World" / "cities" /
+                                        (std::string{START_CITY} + ".json");
+    core::CityPlanResult lue = core::loadCityPlan(ville);
+    if (lue.ok()) {
+        _city = std::move(lue.plan);
+    } else {
+        // `EX-NFR-040` : l'ecran de jeu dira qu'il n'a rien a ouvrir, sans planter.
+        HMI_LOG_WARNING("Monde : la ville de depart est illisible, " + lue.error);
+    }
 }
 
 WorldModel::~WorldModel() = default;
 
 bool WorldModel::startNewGame() {
-    return enterMap(QString::fromLatin1(START_MAP), QString{});
+    _visitedDistricts.clear();
+    if (!_startMapOverride.isEmpty()) {
+        return enterMap(_startMapOverride, _startArrivalOverride);
+    }
+    const std::string depart = _city.startMap();
+    if (depart.empty()) {
+        _status = tr("La ville de départ ne s'ouvre pas.");
+        emit changed();
+        return false;
+    }
+    return enterMap(QString::fromStdString(depart), QString::fromStdString(_city.startArrival));
+}
+
+void WorldModel::setStartOverride(const QString& mapId, const QString& arrival) {
+    _startMapOverride = mapId;
+    _startArrivalOverride = arrival;
 }
 
 bool WorldModel::enterMap(const QString& mapId, const QString& arrival) {
@@ -61,6 +88,7 @@ bool WorldModel::enterMap(const QString& mapId, const QString& arrival) {
     _move = {};
     _interact = false;
     reloadAppearance();
+    noteDistrictVisit();
     ++_sceneRevision;
     _clock.start();
     emit changed();
@@ -130,6 +158,7 @@ void WorldModel::step() {
         switch (evenement.kind) {
             case core::ExplorationEventKind::MapEntered:
                 reloadAppearance();
+                noteDistrictVisit();
                 ++_sceneRevision;
                 emit changed();
                 emit heroMoved();
@@ -152,6 +181,27 @@ void WorldModel::step() {
                 break;
         }
     }
+}
+
+void WorldModel::noteDistrictVisit() {
+    const core::CityDistrict* const quartier = _city.districtOfMap(_session->mapId());
+    if (quartier == nullptr) {
+        return;
+    }
+    const QString identifiant = QString::fromStdString(quartier->id);
+    if (!_visitedDistricts.contains(identifiant)) {
+        _visitedDistricts.append(identifiant);
+    }
+}
+
+QString WorldModel::mapOfDistrict(const QString& districtId) const {
+    const core::CityDistrict* const quartier = _city.find(districtId.toStdString());
+    return quartier != nullptr ? QString::fromStdString(quartier->map) : QString{};
+}
+
+QString WorldModel::districtId() const {
+    const core::CityDistrict* const quartier = _city.districtOfMap(_session->mapId());
+    return quartier != nullptr ? QString::fromStdString(quartier->id) : QString{};
 }
 
 QString WorldModel::mapId() const {

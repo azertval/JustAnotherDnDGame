@@ -62,6 +62,8 @@ qt_add_qml_module(JustAnotherRpgGame
         Game/Qml/Screens/WorldMap.qml
         Game/Qml/Screens/RegionMap.qml
         Game/Qml/Screens/CityMap.qml
+        Game/Qml/Screens/DistrictMap.qml
+        Game/Qml/Screens/BlockMap.qml
         Game/Qml/Screens/Dialogue.qml
         Game/Qml/Screens/Merchant.qml
         Game/Qml/Screens/CombatHud.qml

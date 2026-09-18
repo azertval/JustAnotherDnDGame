@@ -62,6 +62,9 @@ RUNTIME_QUICK_ALLOWED = (
     # La galerie des assets, outil de debug : une troisieme surface de rendu.
     "AssetGalleryItem.h",
     "AssetGalleryItem.cpp",
+    # L'image d'un ilot du plan (LOT-96) : un fournisseur d'images Qt Quick, qui dessine hors ecran.
+    "CityBlockImageProvider.h",
+    "CityBlockImageProvider.cpp",
 )
 CORE = ROOT / "Source" / "Core"
 UI = ROOT / "Source" / "Ui"

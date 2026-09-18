@@ -10,6 +10,7 @@
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/LevelWriter.h"
+#include "Core/World/WorldGraph.h"
 #include "HMI/Editor/LevelNameValidation.h"
 
 namespace hmi {
@@ -52,8 +53,10 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
     if (!std::filesystem::is_directory(_dir, error)) {
         return levels;  // dossier absent : liste vide (robustesse).
     }
-    for (const std::filesystem::directory_entry& entry :
-         std::filesystem::directory_iterator(_dir, error)) {
+    // Récursif : les quartiers de la Capitale vivent dans `capital/` (`LOT-96`).
+    for (auto it = std::filesystem::recursive_directory_iterator(_dir, error);
+         !error && it != std::filesystem::recursive_directory_iterator(); it.increment(error)) {
+        const std::filesystem::directory_entry& entry = *it;
         // "sequence-" est un préfixe réservé aux fichiers de séquence de contenu (LOT-59
         // TACHE-04, sequence-demo.json, EX-LVL-013), qui vivent volontairement à côté des niveaux
         // (le chargeur y vérifie que chaque niveau référencé existe dans le même dossier) sans en
@@ -64,8 +67,8 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
             levels.push_back(entry.path());
         }
     }
-    std::ranges::sort(levels, [](const auto& lhs, const auto& rhs) {
-        return lhs.filename().string() < rhs.filename().string();
+    std::ranges::sort(levels, [this](const auto& lhs, const auto& rhs) {
+        return core::mapIdOf(_dir, lhs) < core::mapIdOf(_dir, rhs);
     });
     return levels;
 }

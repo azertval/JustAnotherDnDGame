@@ -40,6 +40,8 @@ Item {
 
     /// Le point choisi (indice dans `points`), ou -1.
     property int selectedPoint: 1
+    /// Le quartier ou se tient le heros, en fractions du plan ; `x < 0` hors de la ville (LOT-96).
+    property point here: Qt.point(0.702, 0.505)
     property string pointDescription: "As the Capital's market district, it boasts diverse products and crowds of patrons."
 
     property alias canvas: mapCanvas
@@ -57,6 +59,7 @@ Item {
         markers: root.points
         labels: root.labels
         activeIndex: root.selectedPoint
+        here: root.here
         leftInset: sidePanel.x + sidePanel.width
     }
 

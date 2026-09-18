@@ -124,8 +124,15 @@ struct WorldGraph {
 [[nodiscard]] WorldGraph buildWorldGraph(std::vector<WorldMapInput> maps);
 
 /**
- * @brief Lit chaque `*.json` de @p levelsDir (identifiant = nom sans extension) ; une carte
- *        illisible reste un nœud, avec son erreur.
+ * @brief L'identifiant de carte d'un fichier de niveau : son chemin relatif à @p levelsDir, sans
+ *        extension, en barres obliques (`capital/martpart`, `LOT-96`).
+ */
+[[nodiscard]] std::string mapIdOf(const std::filesystem::path& levelsDir,
+                                  const std::filesystem::path& file);
+
+/**
+ * @brief Lit chaque `*.json` de @p levelsDir **et de ses sous-dossiers** (identifiant :
+ *        `core::mapIdOf`) ; une carte illisible reste un nœud, avec son erreur.
  *
  * Les fichiers `sequence-*.json` sont écartés, comme le fait le navigateur de cartes : ce ne sont
  * pas des cartes. Un dossier absent donne un graphe vide, sans lever (`EX-NFR-040`).

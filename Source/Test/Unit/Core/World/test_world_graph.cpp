@@ -317,6 +317,40 @@ TEST_F(WorldGraphFileTest, UnDossierDeNiveauxSeLitEnGraphe) {
 }
 
 /**
+ * @brief Une carte d'un sous-dossier a pour identifiant son chemin relatif.
+ * \castest{<b>Les cartes d'un sous-dossier entrent au graphe sous leur chemin relatif.</b><br/>
+ * \tcat Unitaire · Graphe du monde<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Ecrire `capital/martpart.json` et `capital/arenarea.json`, reliees par portails, et
+ * `coliseum.json` a la racine.<br/>
+ * 2. Charger le graphe du dossier.<br/>
+ * \tattendu Trois cartes, `capital/arenarea`, `capital/martpart` et `coliseum` ; les portails
+ * entre quartiers se resolvent (LOT-96).
+ * }
+ */
+TEST_F(WorldGraphFileTest, UneCarteDUnSousDossierAPourIdentifiantSonCheminRelatif) {
+    std::filesystem::create_directories(dir / "capital");
+    ecrire("capital/martpart.json",
+           carteJson("Martpart", R"({ "type": "spawnPoint", "x": 1, "y": 1, "name": "arenarea" },
+               { "type": "portal", "x": 0, "y": 1, "targetMap": "capital/arenarea", "arrival": "martpart" })"));
+    ecrire("capital/arenarea.json",
+           carteJson("Arenarea", R"({ "type": "spawnPoint", "x": 2, "y": 1, "name": "martpart" },
+               { "type": "portal", "x": 3, "y": 1, "targetMap": "capital/martpart", "arrival": "arenarea" })"));
+    ecrire("coliseum.json", carteJson("Colisee", R"({ "type": "spawnPoint", "x": 1, "y": 1, "name": "porte" })"));
+
+    const core::WorldGraph graphe = core::loadWorldGraph(dir);
+
+    ASSERT_EQ(graphe.maps.size(), 3U);
+    EXPECT_EQ(graphe.maps[0].mapId, "capital/arenarea");
+    EXPECT_EQ(graphe.maps[1].mapId, "capital/martpart");
+    EXPECT_EQ(graphe.maps[2].mapId, "coliseum");
+    ASSERT_EQ(graphe.portals.size(), 2U);
+    EXPECT_EQ(graphe.portals[0].status, PortalLinkStatus::Resolved);
+    EXPECT_EQ(graphe.portals[1].status, PortalLinkStatus::Resolved);
+    EXPECT_EQ(core::mapIdOf(dir, dir / "capital" / "martpart.json"), "capital/martpart");
+}
+
+/**
  * @brief Un dossier absent donne un graphe vide, sans lever.
  * \castest{<b>Un dossier absent donne un graphe vide.</b><br/>
  * \tcat Unitaire · Graphe du monde<br/>

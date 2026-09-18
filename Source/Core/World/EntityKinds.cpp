@@ -10,6 +10,7 @@
 #include <variant>
 
 #include "Core/Combat/Arena.h"
+#include "Core/World/CityBlock.h"
 #include "Core/World/CombatZone.h"
 #include "Core/Combat/CombatTransition.h"
 #include "Core/Rpg/Dialogue.h"
@@ -82,6 +83,14 @@ const std::vector<EntityKind>& knownEntityKinds() {
                                                      .source = EntityChoiceSource::Fixed,
                                                      .fixedChoices = {},
                                                      .required = false,
+                                                     .defaultValue = std::string{}},
+                                  // La sentinelle d'une porte gardee (LOT-96) : le quartier
+                                  // qu'elle ferme, par sa fiche d'atlas.
+                                  EntityPropertySpec{.key = NPC_GUARDED_DISTRICT_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = false,
                                                      .defaultValue = std::string{}}}},
         // Rencontre (LOT-18) : sans rencontre nommee, le declencheur n'en est pas un.
         EntityKind{.type = ENCOUNTER_ENTITY_TYPE,
@@ -130,6 +139,26 @@ const std::vector<EntityKind>& knownEntityKinds() {
                                                      .required = true,
                                                      .defaultValue = std::int64_t{1}},
                                   EntityPropertySpec{.key = COMBAT_ZONE_HEIGHT_PROPERTY,
+                                                     .kind = EntityPropertyKind::Integer,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::int64_t{1}}}},
+        // Ilot d'un quartier (LOT-96) : le rectangle nomme que le plan de la ville montre.
+        EntityKind{.type = CITY_BLOCK_ENTITY_TYPE,
+                   .properties = {EntityPropertySpec{.key = CITY_BLOCK_NAME_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::string{}},
+                                  EntityPropertySpec{.key = CITY_BLOCK_WIDTH_PROPERTY,
+                                                     .kind = EntityPropertyKind::Integer,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = true,
+                                                     .defaultValue = std::int64_t{1}},
+                                  EntityPropertySpec{.key = CITY_BLOCK_HEIGHT_PROPERTY,
                                                      .kind = EntityPropertyKind::Integer,
                                                      .source = EntityChoiceSource::Fixed,
                                                      .fixedChoices = {},

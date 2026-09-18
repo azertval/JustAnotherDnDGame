@@ -236,6 +236,20 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppea
     return snapshot;
 }
 
+std::string figureMarkerKey(std::string_view path) {
+    if (!path.starts_with(FIGURE_ROOT)) {
+        return {};
+    }
+    const std::string_view reste = path.substr(FIGURE_ROOT.size());
+    const std::size_t barre = reste.find('/');
+    if (barre == 0 || barre == std::string_view::npos) {
+        return {};
+    }
+    std::string cle{"npc/"};
+    cle.append(reste.substr(0, barre));
+    return cle;
+}
+
 std::vector<std::string> worldTexturePaths(const WorldSceneSnapshot& snapshot) {
     std::set<std::string> uniques;
     for (const std::vector<std::string>* couche : {&snapshot.floors, &snapshot.relief}) {

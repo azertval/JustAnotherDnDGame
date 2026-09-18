@@ -79,7 +79,8 @@ void LevelBrowserPanel::refresh() {
     _model->clear();
     const LevelFileOperations ops(_dir);
     for (const std::filesystem::path& path : ops.list()) {
-        auto* const item = new QStandardItem(QString::fromStdString(path.stem().string()));
+        // L'identifiant de carte, sous-dossier compris : `capital/martpart` (`LOT-96`).
+        auto* const item = new QStandardItem(QString::fromStdString(core::mapIdOf(_dir, path)));
         item->setEditable(false);
         item->setData(QString::fromStdString(path.string()), PATH_ROLE);
         _model->appendRow(item);

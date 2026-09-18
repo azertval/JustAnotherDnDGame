@@ -165,6 +165,26 @@ public:
     return region;
 }
 
+[[nodiscard]] std::map<std::string, MapDistrict> readDistricts(const nlohmann::json& object,
+                                                               const std::string& where) {
+    std::map<std::string, MapDistrict> districts;
+    const auto found = object.find("districts");
+    if (found == object.end()) {
+        return districts;
+    }
+    if (!found->is_object()) {
+        throw failure(where, "le champ « districts » n'est pas un objet.");
+    }
+    for (const auto& [id, entry] : found->items()) {
+        if (!entry.is_object() || !entry.contains("frame")) {
+            throw failure(where + " / districts / " + id, "il faut un cadre (« frame »).");
+        }
+        districts.emplace(id, MapDistrict{.frame = readFrame(entry["frame"], where + " / " + id),
+                                          .image = readText(entry, "image", where, false)});
+    }
+    return districts;
+}
+
 [[nodiscard]] CityMap readCity(const nlohmann::json& object, const std::string& where) {
     if (!object.is_object()) {
         throw failure(where, "le plan n'est pas un objet.");
@@ -174,6 +194,12 @@ public:
     city.places = readPlaces(object, where);
     city.sites = readSites(object, where);
     city.labels = readLabels(object, where);
+    city.districts = readDistricts(object, where);
+    for (const auto& [id, district] : city.districts) {
+        if (!city.places.contains(id)) {
+            throw failure(where + " / districts / " + id, "ce quartier n'est pas placé sur le plan.");
+        }
+    }
     return city;
 }
 
@@ -261,11 +287,15 @@ void readInto(WorldMaps& maps, const nlohmann::json& root) {
         if (position == map.places.end() || candidate == nullptr) {
             continue;
         }
-        view.points.push_back(MapCityPointView{.id = candidate->id,
-                                               .number = ++number,
-                                               .name = candidate->name,
-                                               .description = candidate->description,
-                                               .at = position->second});
+        const auto district = map.districts.find(candidateId);
+        view.points.push_back(MapCityPointView{
+            .id = candidate->id,
+            .number = ++number,
+            .name = candidate->name,
+            .description = candidate->description,
+            .at = position->second,
+            .district = district != map.districts.end() ? std::optional{district->second}
+                                                        : std::nullopt});
     }
     for (const auto& [id, position] : map.places) {
         if (atlas.findLocation(id) == nullptr) {
@@ -279,7 +309,8 @@ void readInto(WorldMaps& maps, const nlohmann::json& root) {
                              .number = site.number,
                              .name = site.name,
                              .description = site.note,
-                             .at = site.at});
+                             .at = site.at,
+                             .district = std::nullopt});
     }
     return view;
 }

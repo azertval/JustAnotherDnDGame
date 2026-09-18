@@ -19,6 +19,10 @@ import Jadg.Ui
 
     - `markers` : `{ name, x, y, kind, number, gateway }` ; `activeIndex` designe le repere choisi.
     - `labels` : `{ name, kind, x, y }`, des noms de geographie sans repere ni fiche.
+    - `frame` : la part de l'image qu'on montre, en fractions (tout, par defaut). Le niveau
+      « quartier » du plan (LOT-96) agrandit ainsi le plan de la ville sur un quartier, faute de
+      carte peinte du quartier ; les reperes sont alors des fractions de CE cadre.
+    - `here` : le point ou se tient le heros, en fractions de la vue ; `x < 0` : il n'y est pas.
     - `markerHovered(index, inside)`, `markerActivated(index)`, `backRequested()` (clic droit) et
       `positionMarked(x, y)` (Ctrl+clic, la fraction sous le pointeur) remontent le pointeur ; le
       jumeau decide.
@@ -38,6 +42,13 @@ Item {
     ]
     property var labels: []
     property int activeIndex: -1
+
+    /// La part de l'image montree, en fractions de l'image : `Qt.rect(0, 0, 1, 1)` la montre toute.
+    property rect frame: Qt.rect(0, 0, 1, 1)
+
+    /// Le heros, en fractions de la vue ; hors vue (`x < 0`), rien ne se pose.
+    property point here: Qt.point(-1, -1)
+    property string hereLabel: qsTr("Vous êtes ici")
 
     /// Agrandissement : 1 couvre la zone, `maximumZoom` est la butee.
     property real zoom: 1
@@ -78,15 +89,23 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
         clip: true
 
-        Image {
+        Item {
             id: mapImage
 
             width: root.mapWidth
             height: root.mapHeight
-            source: root.image !== "" ? "../../Elements/Assets/Maps/" + root.image : ""
-            fillMode: Image.Stretch
-            smooth: true
-            mipmap: true
+            clip: true
+
+            Image {
+                width: root.mapWidth / root.frame.width
+                height: root.mapHeight / root.frame.height
+                x: -root.frame.x * width
+                y: -root.frame.y * height
+                source: root.image !== "" ? "../../Elements/Assets/Maps/" + root.image : ""
+                fillMode: Image.Stretch
+                smooth: true
+                mipmap: true
+            }
         }
 
         MouseArea {
@@ -102,7 +121,8 @@ Item {
             acceptedButtons: Qt.LeftButton
             onClicked: (mouse) => {
                 if (mouse.modifiers & Qt.ControlModifier)
-                    root.positionMarked(mouse.x / root.mapWidth, mouse.y / root.mapHeight)
+                    root.positionMarked(root.frame.x + mouse.x / root.mapWidth * root.frame.width,
+                                        root.frame.y + mouse.y / root.mapHeight * root.frame.height)
             }
         }
 
@@ -144,10 +164,46 @@ Item {
                 kind: marker.modelData.kind
                 number: marker.modelData.number
                 gateway: marker.modelData.gateway
+                visited: marker.modelData.visited === true
                 active: root.activeIndex === marker.index
                 labelAlways: root.namesAlways
                 onHoveredChanged: root.markerHovered(marker.index, marker.hovered)
                 onActivated: root.markerActivated(marker.index)
+            }
+        }
+
+        // « Vous etes ici » (LOT-96) : un anneau d'or, plus large qu'un repere -- il entoure le
+        // quartier ou se tient le heros sans cacher son numero --, et son nom en permanence.
+        Item {
+            id: herePin
+
+            visible: root.here.x >= 0 && root.here.y >= 0
+            x: root.here.x * root.mapWidth - width / 2
+            y: root.here.y * root.mapHeight - height / 2
+            z: 2
+            width: 60 * Tokens.uiScale
+            height: 60 * Tokens.uiScale
+
+            Rectangle {
+                anchors.fill: parent
+                radius: width / 2
+                color: "transparent"
+                border.color: Tokens.goldLight
+                border.width: 2 * Tokens.strokeWidth
+                antialiasing: true
+            }
+
+            Text {
+                anchors.top: parent.bottom
+                anchors.topMargin: Tokens.gapSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: root.hereLabel
+                color: Tokens.goldLight
+                style: Text.Outline
+                styleColor: Tokens.panel
+                font.family: Tokens.titleFamily
+                font.pixelSize: Tokens.fontCaption
+                font.weight: Font.DemiBold
             }
         }
     }

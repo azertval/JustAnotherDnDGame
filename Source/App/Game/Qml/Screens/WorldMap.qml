@@ -4,18 +4,24 @@ import Jadg.Ui
 import Jadg.Runtime
 
 /*!
-    Carte -- CABLAGE, cote developpeur (LOT-94, LOT-95).
+    Carte -- CABLAGE, cote developpeur (LOT-94, LOT-95, LOT-96).
 
-    Trois niveaux, trois formulaires empiles : le monde (`WorldMapForm`, cable ici), une region
-    (`RegionMap.qml`), le plan d'une ville (`CityMap.qml`). Ce jumeau tient le niveau courant et la
-    selection de chacun, et la passe aux deux autres ; les cartes et leurs reperes viennent de `WorldMapModel` (atlas du `LOT-37`
-    joint a `world-maps.json`), l'encart du personnage de la fiche de demonstration.
+    Cinq niveaux, cinq formulaires empiles : le monde (`WorldMapForm`, cable ici), une region
+    (`RegionMap.qml`), le plan d'une ville (`CityMap.qml`), un quartier et ses ilots
+    (`DistrictMap.qml`), un ilot (`BlockMap.qml`). Ce jumeau tient le niveau courant et la selection
+    de chacun, et la passe aux autres ; les cartes et leurs reperes viennent de `WorldMapModel`
+    (atlas du `LOT-37` joint a `world-maps.json`), les quartiers de `CityDistrictModel` (leur carte
+    de niveau), la place du heros de `WorldModel`, l'encart du personnage de la fiche de
+    demonstration.
+
+    L'ecran s'ouvre la ou l'on est : sur le plan de la ville, le quartier du heros choisi, quand il
+    parcourt un quartier (LOT-96) ; sur l'Empire central sinon.
 
     On ne se DEPLACE pas sur ces cartes : elles servent a s'orienter (feuille de route, §8). Restent
-    en attente, jusqu'aux quetes (`LOT-16`) et au voyage (`LOT-42`) : le jour et l'heure, et le lieu
-    ou se trouve le groupe (`PendingData`, cles `world_map.*`).
+    en attente, jusqu'aux quetes (`LOT-16`) et au voyage (`LOT-42`) : le jour et l'heure
+    (`PendingData`, cles `world_map.*`).
 
-    Commandes -- les memes aux trois niveaux :
+    Commandes -- les memes a tous les niveaux :
     - fleches / croix : repere voisin dans cette direction ; Tab, PagePrec/PageSuiv, LB/RB : lieu
       suivant de la liste (y compris ceux que la carte ne situe pas) ;
     - Entree, clic, A : ouvrir le niveau suivant ; Retour arriere, Echap, clic droit, B : remonter
@@ -31,13 +37,17 @@ Item {
 
     readonly property WorldMapModel atlas: WorldMapModel {}
     readonly property CharacterSheetModel sheet: CharacterSheetModel {}
+    readonly property CityDistrictModel districts: CityDistrictModel {}
 
-    /// 0 : le monde ; 1 : une region ; 2 : le plan d'une ville.
+    /// 0 : le monde ; 1 : une region ; 2 : le plan d'une ville ; 3 : un quartier ; 4 : un ilot.
     property int level: 0
     property int regionIndex: 0
     property int placeIndex: 0
     property int pointIndex: 0
+    property int blockIndex: 0
     property var city: ({})
+    /// Le quartier ouvert : une table de `CityDistrictModel.district(mapId)`.
+    property var district: ({})
 
     readonly property var regions: atlas.regions
     readonly property var region: root.regionIndex >= 0 && root.regionIndex < root.regions.length
@@ -46,9 +56,19 @@ Item {
     readonly property var place: root.placeIndex >= 0 && root.placeIndex < root.places.length
                                  ? root.places[root.placeIndex] : null
     readonly property var points: root.city.points !== undefined ? root.city.points : []
+    readonly property var point: root.pointIndex >= 0 && root.pointIndex < root.points.length
+                                 ? root.points[root.pointIndex] : null
+    readonly property var blocks: root.district.blocks !== undefined ? root.district.blocks : []
+    readonly property var block: root.blockIndex >= 0 && root.blockIndex < root.blocks.length
+                                 ? root.blocks[root.blockIndex] : null
+    /// Vrai si le heros parcourt le quartier ouvert.
+    readonly property bool heroInDistrict: WorldModel.loaded && root.district.mapId !== undefined
+                                           && root.district.mapId === WorldModel.mapId
 
-    readonly property var forms: [worldForm, regionForm, cityForm]
-    readonly property var canvas: root.forms[root.level].canvas
+    readonly property var forms: [worldForm, regionForm, cityForm, districtForm, blockForm]
+    /// La carte qu'on deplace et qu'on agrandit ; l'ilot n'en a pas (c'est une image).
+    readonly property var canvas: root.forms[root.level].canvas !== undefined
+                                  ? root.forms[root.level].canvas : null
 
     WorldMapForm {
         id: worldForm
@@ -91,12 +111,59 @@ Item {
         opacity: root.level === 2 ? 1 : 0
         visible: opacity > 0
         enabled: root.level === 2
-        scale: root.level === 2 ? 1 : 0.8
+        scale: root.level === 2 ? 1 : (root.level < 2 ? 0.8 : 1.35)
 
         city: root.city
         region: root.region
         place: root.place
         pointIndex: root.pointIndex
+
+        Behavior on opacity { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
+        Behavior on scale { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
+    }
+
+    DistrictMap {
+        id: districtForm
+
+        anchors.fill: parent
+        opacity: root.level === 3 ? 1 : 0
+        visible: opacity > 0
+        enabled: root.level === 3
+        scale: root.level === 3 ? 1 : (root.level < 3 ? 0.8 : 1.35)
+
+        point: root.point
+        district: root.district
+        city: root.city
+        region: root.region
+        blockIndex: root.blockIndex
+        heroAt: root.heroInDistrict && root.district.columns > 0
+                ? Qt.point(WorldModel.heroColumn / root.district.columns,
+                           WorldModel.heroRow / root.district.rows)
+                : Qt.point(-1, -1)
+
+        Behavior on opacity { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
+        Behavior on scale { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
+    }
+
+    BlockMap {
+        id: blockForm
+
+        anchors.fill: parent
+        opacity: root.level === 4 ? 1 : 0
+        visible: opacity > 0
+        enabled: root.level === 4
+        scale: root.level === 4 ? 1 : 0.8
+
+        point: root.point
+        block: root.block
+        city: root.city
+        region: root.region
+        heroInBlock: root.heroInDistrict && root.block !== null
+                     && root.districts.blockAt(root.district.mapId, Math.floor(WorldModel.heroColumn),
+                                               Math.floor(WorldModel.heroRow)) === root.block.blockId
+        // L'image ne se demande qu'a l'ouverture de l'ilot (`openBlock`) : elle se dessine hors
+        // ecran, et la redemander a chaque pas du heros serait un rendu par image.
+        imageSource: ""
 
         Behavior on opacity { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
         Behavior on scale { NumberAnimation { duration: 260; easing.type: Easing.InOutQuad } }
@@ -123,12 +190,49 @@ Item {
         root.level = 2
     }
 
-    /// Le geste « ouvrir » : la region choisie, puis la ville choisie si elle a un plan.
+    /// Un quartier qui a sa carte s'ouvre sur sa vue (LOT-96) ; les autres restent des reperes.
+    function openDistrict(index) {
+        if (index < 0 || index >= root.points.length)
+            return
+        const chosen = root.points[index]
+        const mapId = WorldModel.mapOfDistrict(chosen.pointId)
+        if (chosen.hasDistrictView !== true || mapId === "")
+            return
+        root.pointIndex = index
+        root.district = root.districts.district(mapId)
+        // Le heros dans ce quartier : on ouvre sur son ilot.
+        const here = mapId === WorldModel.mapId
+                     ? root.districts.blockAt(mapId, Math.floor(WorldModel.heroColumn),
+                                              Math.floor(WorldModel.heroRow)) : ""
+        const heroBlock = root.blocks.findIndex((block) => block.blockId === here)
+        root.blockIndex = heroBlock >= 0 ? heroBlock : (root.blocks.length > 0 ? 0 : -1)
+        root.resetView(districtForm.canvas)
+        root.level = 3
+    }
+
+    /// L'ilot choisi : la carte du quartier telle que le jeu la dessine, cadree sur lui.
+    function openBlock(index) {
+        if (index < 0 || index >= root.blocks.length)
+            return
+        root.blockIndex = index
+        blockForm.imageSource = root.districts.blockImage(
+            root.district.mapId, root.blocks[index].blockId,
+            root.heroInDistrict ? WorldModel.heroFigure : "",
+            WorldModel.heroColumn, WorldModel.heroRow)
+        root.level = 4
+    }
+
+    /// Le geste « ouvrir » : la region choisie, la ville si elle a un plan, le quartier s'il a sa
+    /// carte, puis l'ilot.
     function confirm() {
         if (root.level === 0)
             root.openRegion(root.regionIndex)
         else if (root.level === 1)
             root.openCity(root.placeIndex)
+        else if (root.level === 2)
+            root.openDistrict(root.pointIndex)
+        else if (root.level === 3)
+            root.openBlock(root.blockIndex)
     }
 
     /// Le geste « remonter » : d'un niveau, et hors de l'ecran depuis le monde.
@@ -140,22 +244,55 @@ Item {
     }
 
     /// Ouverture directe d'un niveau, pour verifier une vue sans la parcourir :
-    /// `--map-region=<region>` et, avec elle, `--map-city=<lieu>`.
+    /// `--map-region=<region>` et, avec elle, `--map-city=<lieu>`, puis `--map-district=<quartier>`
+    /// et `--map-block=<ilot>` (LOT-96). @return Vrai si un niveau a ete demande.
     function openFromArguments() {
         let regionId = ""
         let cityId = ""
+        let districtId = ""
+        let blockId = ""
         for (const argument of Qt.application.arguments) {
             if (argument.startsWith("--map-region="))
                 regionId = argument.substring(13)
             else if (argument.startsWith("--map-city="))
                 cityId = argument.substring(11)
+            else if (argument.startsWith("--map-district="))
+                districtId = argument.substring(15)
+            else if (argument.startsWith("--map-block="))
+                blockId = argument.substring(12)
         }
         if (regionId === "" || atlas.regionIndex(regionId) < 0)
-            return
+            return false
         root.openRegion(atlas.regionIndex(regionId))
         const index = root.places.findIndex((place) => place.placeId === cityId)
-        if (index >= 0)
-            root.openCity(index)
+        if (index < 0)
+            return true
+        root.openCity(index)
+        const chosen = root.points.findIndex((point) => point.pointId === districtId)
+        if (chosen < 0)
+            return true
+        root.select(chosen)
+        root.openDistrict(chosen)
+        const block = root.blocks.findIndex((block) => block.blockId === blockId)
+        if (block >= 0)
+            root.openBlock(block)
+        return true
+    }
+
+    /// L'ecran s'ouvre la ou l'on est : sur le plan de la ville, le quartier du heros choisi.
+    function openWhereTheHeroIs() {
+        const cityId = WorldModel.cityLocation
+        if (WorldModel.districtId === "" || cityId === "")
+            return
+        const regionIndex = root.regions.findIndex(
+            (region) => region.places.some((place) => place.placeId === cityId))
+        if (regionIndex < 0)
+            return
+        root.openRegion(regionIndex)
+        root.openCity(root.places.findIndex((place) => place.placeId === cityId))
+        const chosen = root.points.findIndex((point) => point.pointId === WorldModel.districtId)
+        if (chosen >= 0)
+            root.select(chosen)
     }
 
     // --- Selection ----------------------------------------------------------------------------------
@@ -163,12 +300,16 @@ Item {
     function markersOf(level) {
         if (level === 0)
             return root.regions
-        return level === 1 ? root.places.filter((place) => place.placed) : root.points
+        if (level === 1)
+            return root.places.filter((place) => place.placed)
+        if (level === 2)
+            return root.points
+        return level === 3 ? root.blocks : []
     }
 
     function selection() {
         return root.level === 0 ? root.regionIndex : root.level === 1 ? root.placeIndex
-                                                                      : root.pointIndex
+             : root.level === 2 ? root.pointIndex : root.level === 3 ? root.blockIndex : -1
     }
 
     function select(index) {
@@ -176,8 +317,10 @@ Item {
             root.regionIndex = index
         else if (root.level === 1)
             root.placeIndex = index
-        else
+        else if (root.level === 2)
             root.pointIndex = index
+        else if (root.level === 3)
+            root.blockIndex = index
         root.reveal(index)
     }
 
@@ -213,8 +356,7 @@ Item {
 
     /// Le lieu suivant ou precedent de la LISTE : le seul chemin vers un lieu sans repere.
     function cycle(delta) {
-        const count = root.level === 0 ? root.regions.length
-                    : root.level === 1 ? root.places.length : root.points.length
+        const count = root.level === 1 ? root.places.length : root.markersOf(root.level).length
         if (count > 0)
             root.select((root.selection() + delta + count) % count)
     }
@@ -222,6 +364,8 @@ Item {
     // --- Vue ----------------------------------------------------------------------------------------
 
     function clampView(canvas) {
+        if (!canvas)
+            return
         const flick = canvas.flick
         flick.contentX = Math.max(-flick.leftMargin,
                                   Math.min(flick.contentWidth - flick.width, flick.contentX))
@@ -230,6 +374,8 @@ Item {
     }
 
     function resetView(canvas) {
+        if (!canvas)
+            return
         canvas.zoom = 1
         canvas.flick.contentX = -canvas.flick.leftMargin
         canvas.flick.contentY = -canvas.flick.topMargin
@@ -238,6 +384,8 @@ Item {
     /// Agrandit d'un pas, en gardant au meme endroit de la carte le point (px, py) de l'ecran.
     function zoomBy(factor, px, py) {
         const canvas = root.canvas
+        if (!canvas)
+            return
         const flick = canvas.flick
         const next = Math.max(1, Math.min(canvas.maximumZoom, canvas.zoom * factor))
         const fx = (flick.contentX + px) / canvas.mapWidth
@@ -254,6 +402,8 @@ Item {
         if (index < 0 || index >= markers.length)
             return
         const canvas = root.canvas
+        if (!canvas)
+            return
         const flick = canvas.flick
         const x = markers[index].x * canvas.mapWidth - flick.contentX
         const y = markers[index].y * canvas.mapHeight - flick.contentY
@@ -266,36 +416,10 @@ Item {
         }
     }
 
-    // --- Cablage des trois formulaires -------------------------------------------------------------------
+    // --- Cablage des formulaires ---------------------------------------------------------------------
 
     function wire(form, level) {
-        const hud = form.hud
-        hud.characterName = Qt.binding(() => root.sheet.name)
-        hud.levelText = Qt.binding(() => qsTr("Niv. %1").arg(root.sheet.level))
-        hud.hitPointsText = Qt.binding(() => root.sheet.hitPoints)
-        hud.hitPointsRatio = Qt.binding(() => {
-            const current = parseInt(root.sheet.hitPoints, 10)
-            const maximum = parseInt(root.sheet.hitPointsMax, 10)
-            return maximum > 0 && !isNaN(current) ? Math.max(0, Math.min(1, current / maximum)) : 0
-        })
-        hud.experienceText = Qt.binding(
-            () => root.sheet.experience + " / " + PendingData.value("world_map.experience.next_level"))
-        hud.experienceRatio = 0
-        hud.portrait = PendingData.image("world_map.character.portrait")
-        hud.clock = PendingData.value("world_map.clock")
-        hud.partyLocation = PendingData.value("world_map.party.location")
-        hud.hint = Qt.binding(() => level === 2
-            ? qsTr("Flèches : choisir  ·  Retour : remonter  ·  + / − : agrandir")
-            : qsTr("Flèches : choisir  ·  Entrée : ouvrir  ·  Retour : remonter  ·  + / − : agrandir"))
-
-        hud.zoomInRequested.connect(() => root.zoomBy(1.25, root.width / 2, root.height / 2))
-        hud.zoomOutRequested.connect(() => root.zoomBy(1 / 1.25, root.width / 2, root.height / 2))
-        hud.backRequested.connect(root.back)
-        hud.questsRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.QuestJournal))
-        hud.inventoryRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.Inventory))
-        hud.companyRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.Company))
-        hud.optionsRequested.connect(() => ScreenRouter.openOptions())
-
+        root.wireHud(form, level)
         form.canvas.backRequested.connect(root.back)
         form.canvas.positionMarked.connect((x, y) => {
             if (root.level === level)
@@ -314,15 +438,51 @@ Item {
         })
     }
 
+    function wireHud(form, level) {
+        const hud = form.hud
+        hud.characterName = Qt.binding(() => root.sheet.name)
+        hud.levelText = Qt.binding(() => qsTr("Niv. %1").arg(root.sheet.level))
+        hud.hitPointsText = Qt.binding(() => root.sheet.hitPoints)
+        hud.hitPointsRatio = Qt.binding(() => {
+            const current = parseInt(root.sheet.hitPoints, 10)
+            const maximum = parseInt(root.sheet.hitPointsMax, 10)
+            return maximum > 0 && !isNaN(current) ? Math.max(0, Math.min(1, current / maximum)) : 0
+        })
+        hud.experienceText = Qt.binding(
+            () => root.sheet.experience + " / " + PendingData.value("world_map.experience.next_level"))
+        hud.experienceRatio = 0
+        hud.portrait = PendingData.image("world_map.character.portrait")
+        hud.clock = PendingData.value("world_map.clock")
+        // Ou se tient le groupe (LOT-96) : la carte que parcourt le heros.
+        hud.partyLocation = Qt.binding(() => WorldModel.loaded
+                                       ? WorldModel.mapName
+                                       : PendingData.value("world_map.party.location"))
+        hud.hint = Qt.binding(() => level === 4
+            ? qsTr("Retour : remonter")
+            : qsTr("Flèches : choisir  ·  Entrée : ouvrir  ·  Retour : remonter  ·  + / − : agrandir"))
+
+        hud.zoomInRequested.connect(() => root.zoomBy(1.25, root.width / 2, root.height / 2))
+        hud.zoomOutRequested.connect(() => root.zoomBy(1 / 1.25, root.width / 2, root.height / 2))
+        hud.backRequested.connect(root.back)
+        hud.questsRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.QuestJournal))
+        hud.inventoryRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.Inventory))
+        hud.companyRequested.connect(() => ScreenRouter.openRpgScreen(ScreenRouter.Company))
+        hud.optionsRequested.connect(() => ScreenRouter.openOptions())
+    }
+
     Component.onCompleted: {
         atlas.load()
         sheet.loadDemonstrationCharacter()
         root.wire(worldForm, 0)
         root.wire(regionForm, 1)
         root.wire(cityForm, 2)
-        // La carte s'ouvre sur l'Empire central, coeur de l'atlas et du premier jalon.
+        root.wire(districtForm, 3)
+        root.wireHud(blockForm, 4)
+        // La carte s'ouvre sur l'Empire central, coeur de l'atlas et du premier jalon -- ou la ou
+        // se tient le heros, s'il parcourt un quartier.
         root.regionIndex = Math.max(0, atlas.regionIndex("central-empire"))
-        root.openFromArguments()
+        if (!root.openFromArguments())
+            root.openWhereTheHeroIs()
     }
 
     Connections {
@@ -333,6 +493,12 @@ Item {
     Connections {
         target: cityForm.panel
         function onEntryChosen(index) { root.select(index); root.forceActiveFocus() }
+        function onEntryActivated(index) { root.select(index); root.confirm(); root.forceActiveFocus() }
+    }
+    Connections {
+        target: districtForm.panel
+        function onEntryChosen(index) { root.select(index); root.forceActiveFocus() }
+        function onEntryActivated(index) { root.select(index); root.confirm(); root.forceActiveFocus() }
     }
 
     WheelHandler {

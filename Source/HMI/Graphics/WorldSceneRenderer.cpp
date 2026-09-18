@@ -9,7 +9,9 @@
 
 #include <rhi/qrhi.h>
 
+#include "Core/Resources/AssetMarker.h"
 #include "HMI/Graphics/AnimationCatalog.h"
+#include "HMI/Graphics/EntityMarkers.h"
 #include "HMI/Graphics/GraphicsLog.h"
 #include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/SpriteBatch.h"
@@ -102,6 +104,21 @@ int WorldSceneRenderer::bandFrameWidth(const std::string& path) {
     return largeur;
 }
 
+std::optional<LoadedTexture> WorldSceneRenderer::figureMarker(const std::string& path) {
+    const std::string cle = figureMarkerKey(path);
+    if (cle.empty()) {
+        return std::nullopt;
+    }
+    const core::MarkerImage image =
+        core::assetMarker(cle, FIGURE_FRAME_WIDTH_PIXELS, FIGURE_FRAME_HEIGHT_PIXELS);
+    if (image.isEmpty()) {
+        return std::nullopt;
+    }
+    GRAPHICS_LOG_INFO("Lieu : la figurine " + cle + " n'a pas d'image, son marqueur la remplace.");
+    return createTexture(_resources.context(), image.width, image.height,
+                         markerPixelsRgba8(image));
+}
+
 void WorldSceneRenderer::ensureTextures(const std::vector<std::string>& paths) {
     for (const std::string& path : paths) {
         // Deja tente : une piece absente ne doit pas etre redemandee a chaque image.
@@ -111,6 +128,16 @@ void WorldSceneRenderer::ensureTextures(const std::vector<std::string>& paths) {
         std::optional<LoadedTexture> texture =
             loadTextureFromFile(_resources.context(), _directory / path);
         if (!texture.has_value()) {
+            // Une figurine sans image se dessine par son marqueur (LOT-39, LOT-96) : la
+            // sentinelle se voit avant que l'atelier ne l'ait dessinee.
+            if (std::optional<LoadedTexture> marqueur = figureMarker(path)) {
+                _textures.byPath[path] = SceneTexture{.texture = marqueur->handle(),
+                                                      .width = marqueur->width,
+                                                      .height = marqueur->height,
+                                                      .frameWidth = marqueur->width};
+                _loaded.push_back(std::move(*marqueur));
+                continue;
+            }
             // La composition retombe sur le damier : une piece manquante se voit, sans planter.
             GRAPHICS_LOG_WARNING(missingTextureWarning(path));
             continue;
