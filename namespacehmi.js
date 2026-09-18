@@ -449,6 +449,7 @@ var namespacehmi =
     [ "executableDirectory", "namespacehmi.html#a18648161d8a6c752202b6034613a947b", null ],
     [ "familyOf", "namespacehmi.html#a89796b899c720539ddf54502a57788b0", null ],
     [ "figureMarkerKey", "namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6", null ],
+    [ "figureStripPath", "namespacehmi.html#ab7381540071701283f2f87b282a68eb5", null ],
     [ "formatSceneStatistics", "namespacehmi.html#aabc578b802bb386e63d830e168140fe7", null ],
     [ "gamepadProbeDue", "namespacehmi.html#aa68d5419b15fd65eb0cbe477f135f642", null ],
     [ "hmiKeyToQtKey", "namespacehmi.html#a807ca4b0d189a41995531913a247a3c9", null ],

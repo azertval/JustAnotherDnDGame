@@ -2,7 +2,7 @@ var searchData=
 [
   ['8_20—_20les_20compétences_20et_20sorts_20maquette_2010_0',['T3.8 — Les compétences et sorts (maquette 10)',['../lot-87.html#autotoc_md686',1,'']]],
   ['8_20communication_20inter_20systèmes_1',['8. Communication inter-systèmes',['../spec-architecture.html#autotoc_md188',1,'']]],
-  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md790',1,'']]],
+  ['8_20décisions_20prises_20et_20questions_20restantes_2',['8. Décisions prises et questions restantes',['../roadmap.html#autotoc_md804',1,'']]],
   ['8_20directions_3',['LOT-06 — Déplacement top-down 8 directions',['../lot-06.html',1,'lots']]],
   ['8_20les_20tours_202_20et_203_20nouvelle_20génération_4',['8. Les tours 2 et 3 (nouvelle génération)',['../lot-91-poc.html#autotoc_md727',1,'']]],
   ['8_20risques_20et_20pistes_20écartées_5',['8. Risques et pistes écartées',['../roadmap-editeur.html#roadmap-editeur-risques',1,'']]],

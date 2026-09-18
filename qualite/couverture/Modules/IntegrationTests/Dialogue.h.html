@@ -489,7 +489,9 @@ inline constexpr std::string_view NPC_ENTITY_TYPE = "npc";
 /// @brief PropriÃ©tÃ© d'un PNJ qui nomme son dialogue.
 inline constexpr std::string_view NPC_DIALOGUE_PROPERTY = "dialogue";
 /// @brief PropriÃ©tÃ© d'un PNJ qui nomme sa **figurine** (`Assets/Npc/&lt;slug&gt;`, atelier du `LOT-91`,
-///        lue au `LOT-09`). Vide : le PNJ n'est pas encore dessinÃ©, et ne se dessine pas.
+///        lue au `LOT-09`) â ou, avec une barre, un dossier depuis `Assets/` : les sentinelles
+///        Ironhand portent `Monsters/ironhand-soldier` (`LOT-93`). Vide : le PNJ n'est pas encore
+///        dessinÃ©, et ne se dessine pas.
 inline constexpr std::string_view NPC_FIGURE_PROPERTY = "figure";
 /// @brief PropriÃ©tÃ© d'un PNJ **sentinelle** : la fiche d'atlas du quartier dont il garde la porte
 ///        (`LOT-96`). Vide pour un PNJ qui ne garde rien.

@@ -834,6 +834,8 @@ Functions</h2></td></tr>
 <tr class="memitem:abbf2a2d38ba582981388654fde028bae" id="r_abbf2a2d38ba582981388654fde028bae"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abbf2a2d38ba582981388654fde028bae">scenePlaceOf</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level)</td></tr>
 <tr class="memitem:a8e3a1dcd14a5132e99f15be875c38936" id="r_a8e3a1dcd14a5132e99f15be875c38936"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8e3a1dcd14a5132e99f15be875c38936">snapshotWorldScene</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level, const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> &amp;appearance, std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt; figures)</td></tr>
 <tr class="memdesc:a8e3a1dcd14a5132e99f15be875c38936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire de <code class="param">level</code> l'instantané que la composition dessine.  <br /></td></tr>
+<tr class="memitem:ab7381540071701283f2f87b282a68eb5" id="r_ab7381540071701283f2f87b282a68eb5"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ab7381540071701283f2f87b282a68eb5">figureStripPath</a> (std::string_view figure, std::string_view clip)</td></tr>
+<tr class="memdesc:ab7381540071701283f2f87b282a68eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le chemin d'une bande de figurine, relatif au dossier des assets.  <br /></td></tr>
 <tr class="memitem:a1c839cebf18adf167ae9ac5452d179b6" id="r_a1c839cebf18adf167ae9ac5452d179b6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1c839cebf18adf167ae9ac5452d179b6">figureMarkerKey</a> (std::string_view path)</td></tr>
 <tr class="memdesc:a1c839cebf18adf167ae9ac5452d179b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">La clé du marqueur d'une figurine qui n'a pas d'image (<span class="tt">LOT-39</span>, <span class="tt">LOT-96</span>).  <br /></td></tr>
 <tr class="memitem:a07929611bf03ab59a2de588feb90ad7d" id="r_a07929611bf03ab59a2de588feb90ad7d"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a07929611bf03ab59a2de588feb90ad7d">worldTexturePaths</a> (const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot)</td></tr>
@@ -3875,14 +3877,53 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>La clé du marqueur d'une figurine qui n'a pas d'image (<span class="tt">LOT-39</span>, <span class="tt">LOT-96</span>). </p>
-<p>Une figurine nommée par une carte avant que l'atelier du <span class="tt">LOT-91</span> ne l'ait produite — la sentinelle Ironhand — se dessine par son <b>marqueur</b>, comme toute clé d'asset sans image (<span class="tt">EX-CNT-041</span>) : on la voit, on lui parle, et on ne la prend pas pour une illustration.</p>
+<p>Une figurine nommée par une carte avant que son atelier (<span class="tt">LOT-91</span>, <span class="tt">LOT-93</span>) ne l'ait produite se dessine par son <b>marqueur</b>, comme toute clé d'asset sans image (<span class="tt">EX-CNT-041</span>) : on la voit, on lui parle, et on ne la prend pas pour une illustration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>Un chemin de bande de figurine, tel que la composition l'écrit (<span class="tt">Npc/&lt;slug&gt;/idle.png</span>). </td></tr>
+    <tr><td class="paramname">path</td><td>Un chemin de bande de figurine, tel que la composition l'écrit (<span class="tt">Npc/&lt;slug&gt;/idle.png</span>, <span class="tt">Monsters/&lt;slug&gt;/idle.png</span>). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><span class="tt">npc/&lt;slug&gt;</span>, ou une chaîne vide si <code class="param">path</code> n'est pas celui d'une figurine. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">npc/&lt;slug&gt;</span> ou <span class="tt">monsters/&lt;slug&gt;</span>, ou une chaîne vide si <code class="param">path</code> n'est pas celui d'une figurine. </dd></dl>
+
+</div>
+</div>
+<a id="ab7381540071701283f2f87b282a68eb5" name="ab7381540071701283f2f87b282a68eb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7381540071701283f2f87b282a68eb5">&#9670;&#160;</a></span>figureStripPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::figureStripPath </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>figure</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>clip</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le chemin d'une bande de figurine, relatif au dossier des assets. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">figure</td><td>Le nom que la carte donne (<span class="tt"><a class="el" href="structhmi_1_1WorldFigureSnapshot.html#aeff19cbc04fa665fcb6838cb0964f9d1" title="Figurine : un slug de l&#39;atelier des PNJ (anariel, jade…, dossier Assets/Npc/&lt;slug&gt;),...">WorldFigureSnapshot::figure</a></span>). </td></tr>
+    <tr><td class="paramname">clip</td><td>La bande (<span class="tt">idle</span>, <span class="tt">walk</span>) ; vide : <span class="tt">idle</span>. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">Npc/&lt;figure&gt;/&lt;clip&gt;.png</span> pour un slug, <span class="tt">&lt;figure&gt;/&lt;clip&gt;.png</span> pour un dossier. </dd></dl>
 
 </div>
 </div>
@@ -5660,7 +5701,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md964"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md978"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>

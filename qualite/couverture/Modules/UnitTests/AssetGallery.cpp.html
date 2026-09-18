@@ -74,8 +74,8 @@ using json = nlohmann::json;
     // Les octets bruts de l'en-tÃªte : istream::read ne lit que des char.
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     if (!file.read(reinterpret_cast&lt;char*&gt;(header.data()), header.size()) || header[1] != 'P' ||
-<span style = "background-color:#dfd">        header[2] != 'N' || header[3] != 'G') {</span>
-<span style = "background-color:#fdd">        return {0, 0};</span>
+<span style = "background-color:#dfd">        header[2] != 'N' || header[3] != 'G') {
+        return {0, 0};</span>
     }
 <span style = "background-color:#dfd">    const auto bigEndian = [&amp;](std::size_t offset) {
         return static_cast&lt;int&gt;((static_cast&lt;unsigned&gt;(header[offset]) &lt;&lt; 24U) |</span>
@@ -124,43 +124,53 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
 <span style = "background-color:#dfd">    return document;
 }</span>
 
-<span style = "background-color:#dfd">void readNpcs(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog) {
+/**
+ * @brief Les figurines d'un atelier : un dossier par modÃ¨le, ses bandes animÃ©es et son portrait.
+ *
+ * Sert aux PNJ (`Npc/`, LOT-91) et aux monstres (`Monsters/`, LOT-93), qui partagent la forme :
+ * un `manifest.json` qui nomme les `animations`, puis `&lt;modÃ¨le&gt;/&lt;animation&gt;.png` et son
+ * `.anim.json`. Une animation absente d'un modÃ¨le â le `cast` d'une bÃªte sans sort â ne fait pas
+ * d'entrÃ©e, et ce n'est pas une erreur. La taille de la cellule est celle de chaque `.anim.json` :
+ * une figurine Grande (96 Ã 96) s'affiche comme une Moyenne (48 Ã 64), sans cas particulier.
+ */
+void readFigures(const std::filesystem::path&amp; root, const std::string&amp; directory,
+<span style = "background-color:#dfd">                 const std::string&amp; title, AssetGalleryCatalog&amp; catalog) {
     const core::JsonDocument document =</span>
-        readManifest(root / "Npc" / "manifest.json", catalog.errors);
-<span style = "background-color:#dfd">    if (!document.ok()) {</span>
-<span style = "background-color:#fdd">        return;</span>
+        readManifest(root / directory / "manifest.json", catalog.errors);
+<span style = "background-color:#dfd">    if (!document.ok()) {
+        return;</span>
     }
-<span style = "background-color:#dfd">    AssetGalleryFamily family{.title = "PNJ", .directory = "Npc", .entries = {}};</span>
-    // Tous les dossiers de PNJ, pas seulement la liste `npcs` : celle-ci ne nomme que les PNJ
-    // retenus pour le jeu, et la galerie sert justement Ã  voir les autres.
-<span style = "background-color:#dfd">    std::vector&lt;std::string&gt; npcs;
+<span style = "background-color:#dfd">    AssetGalleryFamily family{.title = title, .directory = directory, .entries = {}};</span>
+    // Tous les dossiers, pas seulement ceux que le manifeste retient pour le jeu : la galerie sert
+    // justement Ã  voir les autres.
+<span style = "background-color:#dfd">    std::vector&lt;std::string&gt; models;
     std::error_code error;
-    for (const auto&amp; item : std::filesystem::directory_iterator(root / "Npc", error)) {
+    for (const auto&amp; item : std::filesystem::directory_iterator(root / directory, error)) {
         if (item.is_directory()) {
-            npcs.push_back(item.path().filename().string());
+            models.push_back(item.path().filename().string());
         }
     }
-    std::ranges::sort(npcs);
+    std::ranges::sort(models);
     const std::vector&lt;std::string&gt; animations = stringList(document.root, "animations");
-    for (const std::string&amp; npc : npcs) {
-        for (const std::string&amp; animation : animations) {</span>
-            AssetGalleryEntry entry{
-<span style = "background-color:#dfd">                .family = family.title,
-                .model = npc,
-                .form = animation,
-                .path = std::string("Npc/").append(npc).append("/").append(animation + ".png"),
-                .frames = {}};
-            if (readAnimatedEntry(entry, root / "Npc" / npc / (animation + ".anim.json"),</span>
+    for (const std::string&amp; model : models) {
+        const std::string folder = directory + "/" + model + "/";
+        for (const std::string&amp; animation : animations) {
+            AssetGalleryEntry entry{.family = family.title,
+                                    .model = model,
+                                    .form = animation,
+                                    .path = folder + animation + ".png",
+                                    .frames = {}};
+            if (readAnimatedEntry(entry, root / directory / model / (animation + ".anim.json"),</span>
                                   catalog.errors)) {
 <span style = "background-color:#dfd">                family.entries.push_back(std::move(entry));</span>
             }
 <span style = "background-color:#dfd">        }
-        const auto [width, height] = pngSize(root / "Npc" / npc / "portrait.png");
+        const auto [width, height] = pngSize(root / directory / model / "portrait.png");
         if (width &gt; 0) {
             family.entries.push_back(AssetGalleryEntry{.family = family.title,</span>
-                                                       .model = npc,
+                                                       .model = model,
                                                        .form = "portrait",
-                                                       .path = "Npc/" + npc + "/portrait.png",
+                                                       .path = folder + "portrait.png",
                                                        .frameWidth = width,
                                                        .frameHeight = height,
                                                        .frames = {}});
@@ -174,8 +184,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
 <span style = "background-color:#dfd">void readColiseum(const std::filesystem::path&amp; root, AssetGalleryCatalog&amp; catalog) {
     const core::JsonDocument document =</span>
         readManifest(root / "Coliseum" / "manifest.json", catalog.errors);
-<span style = "background-color:#dfd">    if (!document.ok()) {</span>
-<span style = "background-color:#fdd">        return;</span>
+<span style = "background-color:#dfd">    if (!document.ok()) {
+        return;</span>
     }
 <span style = "background-color:#dfd">    const auto figures = [&amp;](const char* title, const char* key, const char* directory,
                              const std::vector&lt;std::string&gt;&amp; animations) {
@@ -303,7 +313,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
 
 <span style = "background-color:#dfd">AssetGalleryCatalog AssetGalleryCatalog::load(const std::filesystem::path&amp; assetsRoot) {
     AssetGalleryCatalog catalog;
-    readNpcs(assetsRoot, catalog);
+    readFigures(assetsRoot, "Npc", "PNJ", catalog);
+    readFigures(assetsRoot, "Monsters", "Monstres", catalog);
     readColiseum(assetsRoot, catalog);
     readScenes(assetsRoot, catalog);
     return catalog;
@@ -313,8 +324,8 @@ bool readAnimatedEntry(AssetGalleryEntry&amp; entry, const std::filesystem::path
     const std::size_t slash = path.rfind('/');
     const std::string_view fileName =</span>
         slash == std::string_view::npos ? path : path.substr(slash + 1);
-<span style = "background-color:#dfd">    return path == "Coliseum/production_source_atlas.png" ||</span>
-           path.starts_with("UI/") || path.starts_with("Maps/") || path.starts_with("Fonts/") ||
+<span style = "background-color:#dfd">    return path == "Coliseum/production_source_atlas.png" || path.starts_with("UI/") ||</span>
+           path.starts_with("Maps/") || path.starts_with("Fonts/") ||
            (path.starts_with("Scene/") &amp;&amp; fileName.starts_with("planche-"));
 <span style = "background-color:#dfd">}</span>
 

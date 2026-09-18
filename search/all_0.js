@@ -1,8 +1,8 @@
 var searchData=
 [
   ['0_0',['Critères d&apos;acceptation de la phase 0',['../lot-87.html#autotoc_md696',1,'']]],
-  ['0_200_201_1',['LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.0.1&lt;/span&gt;',['../roadmap.html#lot-28',1,'']]],
-  ['0_201_2',['LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.0.1&lt;/span&gt;',['../roadmap.html#lot-28',1,'']]],
+  ['0_200_201_1',['0 0 1',['../lot-93.html#autotoc_md750',1,'Les trois de la version 0.0.1'],['../roadmap.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.0.1&lt;/span&gt;']]],
+  ['0_201_2',['0 1',['../lot-93.html#autotoc_md750',1,'Les trois de la version 0.0.1'],['../roadmap.html#lot-28',1,'LOT-28 — Audio, effets et version &lt;span class=&quot;tt&quot;&gt;0.0.1&lt;/span&gt;']]],
   ['0_2062_20en_20pixel_20art_3',['Risque : l&apos;angle 0,62 en pixel art',['../lot-92.html#autotoc_md736',1,'']]],
   ['0_20le_20poste_4',['0. Le poste',['../lot-91-poc.html#autotoc_md719',1,'']]],
   ['002_5',['La manette : une seconde source, fusionnée en lecture (EX-CTRL-002)',['../guide-entrees.html#autotoc_md110',1,'']]],
@@ -31,7 +31,7 @@ var searchData=
   ['08_20—_20tampons_20et_20préfabriqués_28',['LOT-EDITOR-08 — Tampons et préfabriqués',['../roadmap-editeur.html#lot-editor-08',1,'']]],
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_29',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['09_30',['T3.7 — L&apos;équipe de mercenaires (maquette 09)',['../lot-87.html#autotoc_md685',1,'']]],
-  ['09_20à_20lot_2029_31',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap.html#autotoc_md805',1,'']]],
+  ['09_20à_20lot_2029_31',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap.html#autotoc_md819',1,'']]],
   ['09_20—_20le_20colisée_20se_20parcourt_20_3a_20exploration_20dans_20le_20jeu_20et_20première_20carte_32',['LOT-09 — Le Colisée se parcourt : exploration dans le jeu et première carte',['../lot-09.html',1,'lots']]],
   ['09_20—_20le_20monde_20_3a_20onglets_20portails_20ville_33',['LOT-EDITOR-09 — Le monde : onglets, portails, ville',['../roadmap-editeur.html#lot-editor-09',1,'']]]
 ];

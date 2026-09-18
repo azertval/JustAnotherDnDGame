@@ -1,5 +1,6 @@
 var NAVTREEINDEX20 =
 {
+"lot-13.html#autotoc_md398":[6,20,4],
 "lot-13.html#autotoc_md399":[6,20,5],
 "lot-13.html#autotoc_md400":[6,20,6],
 "lot-13.html#autotoc_md401":[6,20,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX20 =
 "lot-76.html#autotoc_md621":[6,25,5],
 "lot-76.html#autotoc_md622":[6,25,6],
 "lot-76.html#autotoc_md623":[6,25,7],
-"lot-77.html":[6,11],
-"lot-77.html#autotoc_md624":[6,11,0]
+"lot-77.html":[6,11]
 };

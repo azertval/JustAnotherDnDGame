@@ -44,6 +44,7 @@ var dir_7c7356e692772728ab91d19f773c60c4 =
     [ "LOT-88-retrait-heritage", "dir_27f00eb0e211baa4ccb283458a2813ce.html", null ],
     [ "LOT-91-atelier-pnj", "dir_0dce02adf24e4614fa697990fdb0a34a.html", null ],
     [ "LOT-92-atelier-textures", "dir_d26232778cdeac2e74e6324a36a92ce4.html", null ],
+    [ "LOT-93-atelier-monstres", "dir_2d9bef8fcc5d89d56d40cc4dcc0362d5.html", null ],
     [ "LOT-94-cartes-de-l-auteur", "dir_ab0570fd82d07f9f6df8addd4b020b20.html", null ],
     [ "LOT-96-quartiers-capitale", "dir_b4078a91e0bd422adf2a074feed7881f.html", null ]
 ];

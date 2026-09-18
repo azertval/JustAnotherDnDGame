@@ -97,6 +97,7 @@ $(function(){initNavTree('test__asset__gallery_8cpp.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="AssetGallery_8h_source.html">HMI/Graphics/AssetGallery.h</a>&quot;</code><br />
@@ -115,12 +116,14 @@ Functions</h2></td></tr>
 <tr class="memdesc:a517b443fa38345890a075375b6b6f600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les assets livrés se lisent sans erreur, et chaque forme désigne un fichier existant.  <br /></td></tr>
 <tr class="memitem:a217d5f0ac54cef93b5435b73f9a6d394" id="r_a217d5f0ac54cef93b5435b73f9a6d394"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a217d5f0ac54cef93b5435b73f9a6d394">TEST</a> (AssetGalleryTest, ToutAssetLivreEstDansLaGalerie)</td></tr>
 <tr class="memdesc:a217d5f0ac54cef93b5435b73f9a6d394"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toute image livrée paraît dans la galerie, ou relève d'une exclusion nommée (<span class="tt">EX-CNT-042</span>).  <br /></td></tr>
+<tr class="memitem:a2be843154aabf3dd5680a730677072da" id="r_a2be843154aabf3dd5680a730677072da"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2be843154aabf3dd5680a730677072da">TEST</a> (AssetGalleryTest, FigurinesDeMonstres)</td></tr>
+<tr class="memdesc:a2be843154aabf3dd5680a730677072da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les figurines de monstres forment leur famille, au gabarit que dit chaque <span class="tt">.anim.json</span>, et une bête sans sort n'a pas d'entrée <span class="tt">cast</span> (LOT-93).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires de la galerie des assets (outil de débug) : forme des blocs, disposition, visibilité, image jouée, et lecture des assets livrés. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a517b443fa38345890a075375b6b6f600" name="a517b443fa38345890a075375b6b6f600"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a517b443fa38345890a075375b6b6f600">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a517b443fa38345890a075375b6b6f600">&#9670;&#160;</a></span>TEST() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +152,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="af44dcfa3dce199f84ce4f3c6fe93338f" name="af44dcfa3dce199f84ce4f3c6fe93338f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af44dcfa3dce199f84ce4f3c6fe93338f">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af44dcfa3dce199f84ce4f3c6fe93338f">&#9670;&#160;</a></span>TEST() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,8 +180,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a2be843154aabf3dd5680a730677072da" name="a2be843154aabf3dd5680a730677072da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2be843154aabf3dd5680a730677072da">&#9670;&#160;</a></span>TEST() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">AssetGalleryTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">FigurinesDeMonstres</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les figurines de monstres forment leur famille, au gabarit que dit chaque <span class="tt">.anim.json</span>, et une bête sans sort n'a pas d'entrée <span class="tt">cast</span> (LOT-93). </p>
+<p><b>Cas de test :</b> <b>Une figurine Grande sans sort paraît dans la galerie.</b><br  />
+ <b>Categorie :</b> Unitaire · Galerie des assets<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Écrire un dossier Monsters/ : un manifeste qui nomme idle et cast, un lion qui n'a que idle, en cellules de 96 × 96. 2. Lire le catalogue.<br  />
+ <b>Resultat attendu :</b> Une famille « Monstres » ; le idle du lion en 96 × 96 et 6 images ; aucune entrée cast, aucune erreur. </p>
+
+</div>
+</div>
 <a id="a11647301f5295d431dd8ed3a1ce19cea" name="a11647301f5295d431dd8ed3a1ce19cea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11647301f5295d431dd8ed3a1ce19cea">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a11647301f5295d431dd8ed3a1ce19cea">&#9670;&#160;</a></span>TEST() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -207,7 +239,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3f9a0e7894d28c3283380f6fb5e4be6f" name="a3f9a0e7894d28c3283380f6fb5e4be6f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f9a0e7894d28c3283380f6fb5e4be6f">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f9a0e7894d28c3283380f6fb5e4be6f">&#9670;&#160;</a></span>TEST() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -236,7 +268,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a217d5f0ac54cef93b5435b73f9a6d394" name="a217d5f0ac54cef93b5435b73f9a6d394"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a217d5f0ac54cef93b5435b73f9a6d394">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a217d5f0ac54cef93b5435b73f9a6d394">&#9670;&#160;</a></span>TEST() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +297,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a498bd9d6928467a94424f63f3d18574f" name="a498bd9d6928467a94424f63f3d18574f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a498bd9d6928467a94424f63f3d18574f">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a498bd9d6928467a94424f63f3d18574f">&#9670;&#160;</a></span>TEST() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

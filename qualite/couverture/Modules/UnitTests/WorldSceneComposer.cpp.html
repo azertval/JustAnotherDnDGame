@@ -15,6 +15,8 @@
 #include "HMI/Graphics/WorldSceneComposer.h"
 
 #include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;cctype&gt;
 #include &lt;cstddef&gt;
 #include &lt;set&gt;
 #include &lt;utility&gt;
@@ -33,6 +35,9 @@ namespace {
 // Les planches de l'atelier, telles que le rendu les adresse : relatif au dossier des assets.
 constexpr std::string_view SCENE_ROOT = "Scene/";
 constexpr std::string_view FIGURE_ROOT = "Npc/";
+// Les dossiers de figurines qu'un marqueur peut remplacer : les PNJ (LOT-91), les monstres
+// (LOT-93).
+constexpr std::array&lt;std::string_view, 2&gt; FIGURE_DIRECTORIES = {"Npc/", "Monsters/"};
 
 <span style = "background-color:#dfd">[[nodiscard]] std::size_t indexOf(core::GridPosition cell, int columns) {
     return (static_cast&lt;std::size_t&gt;(cell.row) * static_cast&lt;std::size_t&gt;(columns)) +</span>
@@ -48,15 +53,6 @@ constexpr std::string_view FIGURE_ROOT = "Npc/";
     path.append(place);
     path.push_back('/');
     path.append(piece);
-    path.append(".png");
-    return path;
-}</span>
-
-<span style = "background-color:#dfd">[[nodiscard]] std::string figurePath(std::string_view figure, std::string_view clip) {
-    std::string path{FIGURE_ROOT};
-    path.append(figure);
-    path.push_back('/');
-    path.append(clip.empty() ? std::string_view{"idle"} : clip);
     path.append(".png");
     return path;
 }</span>
@@ -137,7 +133,7 @@ void composeFigure(ComposedScene&amp; scene, const core::IsoProjection&amp; proj
     if (figure.figure.empty()) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
-<span style = "background-color:#dfd">    const SceneTexture&amp; texture = textures.resolve(figurePath(figure.figure, figure.clip));
+<span style = "background-color:#dfd">    const SceneTexture&amp; texture = textures.resolve(figureStripPath(figure.figure, figure.clip));
     if (texture.texture == nullptr) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
@@ -247,18 +243,36 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
     return snapshot;
 }</span>
 
+<span style = "background-color:#dfd">std::string figureStripPath(std::string_view figure, std::string_view clip) {</span>
+    // Un nom sans barre est un PNJ de l'atelier ; avec, un dossier depuis la racine des assets.
+<span style = "background-color:#dfd">    std::string path =</span>
+        figure.find('/') == std::string_view::npos ? std::string{FIGURE_ROOT} : std::string{};
+<span style = "background-color:#dfd">    path.append(figure);
+    path.push_back('/');
+    path.append(clip.empty() ? std::string_view{"idle"} : clip);
+    path.append(".png");
+    return path;
+}</span>
+
 <span style = "background-color:#dfd">std::string figureMarkerKey(std::string_view path) {
-    if (!path.starts_with(FIGURE_ROOT)) {
-        return {};</span>
-    }
-<span style = "background-color:#dfd">    const std::string_view reste = path.substr(FIGURE_ROOT.size());
-    const std::size_t barre = reste.find('/');
-    if (barre == 0 || barre == std::string_view::npos) {
-        return {};</span>
-    }
-<span style = "background-color:#dfd">    std::string cle{"npc/"};
-    cle.append(reste.substr(0, barre));
-    return cle;
+    for (const std::string_view dossier : FIGURE_DIRECTORIES) {
+        if (!path.starts_with(dossier)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        const std::string_view reste = path.substr(dossier.size());
+        const std::size_t barre = reste.find('/');
+        if (barre == 0 || barre == std::string_view::npos) {
+            return {};</span>
+        }
+<span style = "background-color:#dfd">        std::string cle;
+        for (const char lettre : dossier.substr(0, dossier.size() - 1)) {
+            cle.push_back(static_cast&lt;char&gt;(std::tolower(static_cast&lt;unsigned char&gt;(lettre))));
+        }
+        cle.push_back('/');
+        cle.append(reste.substr(0, barre));
+        return cle;</span>
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    return {};
 }</span>
 
 <span style = "background-color:#dfd">std::vector&lt;std::string&gt; worldTexturePaths(const WorldSceneSnapshot&amp; snapshot) {
@@ -276,8 +290,8 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
         }
         // Les deux bandes d'une figurine : elle marche et elle attend, et le rendu ne doit pas
         // charger une texture au milieu d'une image.
-<span style = "background-color:#dfd">        uniques.insert(figurePath(figure.figure, "idle"));
-        uniques.insert(figurePath(figure.figure, "walk"));
+<span style = "background-color:#dfd">        uniques.insert(figureStripPath(figure.figure, "idle"));
+        uniques.insert(figureStripPath(figure.figure, "walk"));
     }
     return {uniques.begin(), uniques.end()};
 }</span>
