@@ -1,9 +1,10 @@
-# LOT-93 — Atelier des monstres : les figurines du bestiaire, depuis le texte seul {#lot-93-atelier}
+# LOT-93 — Atelier des monstres : les figurines du bestiaire, depuis le texte seul {#lot-93}
 
-> Statut : **ouvert le 18 septembre 2026.** L'outillage est écrit et éprouvé à blanc sur des planches
-> synthétiques ; les trois premières figurines attendent leurs images, produites à la main (étapes P
-> et S ci-dessous). Le lot quitte la [feuille de route](@ref roadmap) quand elles sont intégrées ; ce
-> dossier reprendra alors l'ancre `lot-93` que la feuille de route porte encore.
+> Statut : **livré le 18 septembre 2026** (ouvert le même jour). Le lion, le loup et le soldat
+> Ironhand sont dans `Source/Elements/Assets/Monsters/`, au manifeste, et dans la galerie des assets ;
+> `check_asset_keys.py` et les 768 tests sont verts. Reste la **relecture à l'écran** dans la galerie
+> (`--screen=AssetGallery`, famille « Monstres »), animation par animation : la capture automatique
+> part avant le chargement des images. Le détail de la production est plus bas.
 > Prérequis : [LOT-91](@ref lot-91) (la méthode, le style gelé, les scripts de normalisation),
 > [LOT-33](@ref lot-33) (les 94 bêtes du SRD), [LOT-92](@ref lot-92) (le style de scène).
 > Alimente : [LOT-27](@ref lot-27) (le lion et les loups du Colisée, le soldat Ironhand de la ville),
@@ -112,7 +113,28 @@ refait seule ; au plus trois tours par étape.
 7. Rien dans les rangées 7-8 d'une créature sans sort ; les effets restent dans leur cellule.
 8. Aucun texte, cadre, ombre au sol, décor.
 
-## Ce qui est livré à l'ouverture
+## La production du 18 septembre 2026
+
+**Un seul tour par étape, par décision de l'auteur** : les portraits et les planches du tour 1 sont
+retenus tels quels, sans passe M ni X. Ce que la planche avait de faux se règle **à la lecture**,
+jamais en retouchant une image ; `normalise.py` y a gagné trois recours, chacun nommé dans le
+rapport de la planche :
+
+| Créature | Ce que la planche avait | Ce que la lecture en fait |
+|---|---|---|
+| Lion | Le générateur l'a dessiné bien plus grand que demandé : des figures de marche et les deux corps couchés de la mort se touchent ; le second couché dérive hors de sa cellule. | Deux figures collées se coupent à la colonne la moins remplie de leur tiers central (`scinder`) ; un corps couché qui sortirait de la bande garde le centre du précédent. |
+| Loup | Rien d'illisible ; la marche bouge peu (rapport marche/repos 1,0, sous le seuil de 4 du LOT-91). | Gardée telle quelle. |
+| Soldat Ironhand | La rangée `hit` n'a que trois figures ; la lecture brute en fabriquait une quatrième en détachant le bouclier du corps. | `--garde-finale hit` : les trois images dessinées, puis l'image 1 d'`idle` — la « garde » que la disposition demande pour la quatrième. |
+
+Le dernier recours de lecture, `par_la_grille` (couper près des bornes de cellule quand les figures
+se touchent sur la grille), est écrit et n'a pas servi : `scinder` a suffi. La planche du lion est
+versée dans `atelier/ancres/planche_grand.png`.
+
+Écarts relevés à la revue, gardés : le soldat porte des filets dorés que sa fiche ne demandait pas,
+et une traînée d'épée orangée ; les figurines sont petites dans leur cellule (le loup fait 28 pixels
+d'art, le lion 44 dans une cellule de 96), comme la fiche le voulait.
+
+## Ce qui a été livré à l'ouverture
 
 - L'outillage ci-dessus, éprouvé à blanc le 18 septembre 2026 : deux planches **synthétiques** (un
   lion Grand, un loup Moyen, sans `cast`) sont passées de `chatgpt.py` à `integre.py`, bandes aux
@@ -125,7 +147,7 @@ refait seule ; au plus trois tours par étape.
   ou un dossier hors manifeste sont refusés.
 - La galerie des assets lit `Monsters/` comme `Npc/` (`readFigures`), testée par
   `AssetGalleryTest.FigurinesDeMonstres`.
-- Les fiches B des trois créatures, prêtes pour l'étape P.
+- Les fiches B des trois créatures, puis leurs portraits et leurs figurines (ci-dessus).
 
 ## Les blocs
 
@@ -136,9 +158,9 @@ complètera cette liste. Les trois premières sont en tête.
 
 ### Les trois de la version 0.0.1
 
-- [ ] Lion — Grande — `lion`
-- [ ] Loup — Moyenne — `wolf`
-- [ ] Soldat Ironhand — Moyenne — Sourcebook p. 164 — `ironhand-soldier`
+- [x] Lion — Grande — `lion`
+- [x] Loup — Moyenne — `wolf`
+- [x] Soldat Ironhand — Moyenne — Sourcebook p. 164 — `ironhand-soldier`
 
 ### Le bestiaire du SRD (`LOT-33`)
 

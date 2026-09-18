@@ -135,34 +135,33 @@ tableau n'en porte volontairement aucun.
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
 | 1 | `LOT-16` | Les affaires de la Capitale : quêtes et drapeaux de monde | 12 | **prochain** |
-| 2 | `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | 11 | prêt |
-| 3 | `LOT-17` | Reprendre sa partie dans la Capitale : sauvegarde riche | 10 | en attente |
-| 4 | `LOT-27` | La Capitale : contenu du *vertical slice* | 9 | en attente |
-| 5 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 6 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 7 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 8 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 9 | `LOT-46` | Créatures de Tanares | 7 | en attente |
-| 10 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 11 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 12 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 13 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 14 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 15 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 16 | `LOT-35` | Sorts et états | 2 | prêt |
-| 17 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 18 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 19 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 20 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 21 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 22 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 23 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 24 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 25 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 26 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 27 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 28 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 29 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 2 | `LOT-17` | Reprendre sa partie dans la Capitale : sauvegarde riche | 10 | en attente |
+| 3 | `LOT-27` | La Capitale : contenu du *vertical slice* | 9 | en attente |
+| 4 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 5 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 6 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 7 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 8 | `LOT-46` | Créatures de Tanares | 7 | prêt |
+| 9 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 10 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 11 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 12 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 13 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 14 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 15 | `LOT-35` | Sorts et états | 2 | prêt |
+| 16 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 17 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 18 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 19 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 20 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 21 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 22 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 23 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 24 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 25 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 26 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 27 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 28 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -492,19 +491,19 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 JSON**. C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière — les
 deux premiers sont livrés depuis, sur les catalogues qu'elle a produits.
 
-Trente-huit lots, `LOT-35` à `LOT-96`, restent à livrer dans cette filière — la plage court
+Trente-cinq lots, `LOT-35` à `LOT-96`, restent à livrer dans cette filière — la plage court
 jusqu'au [LOT-96](@ref lot-96), la ville scindée du `LOT-09`, livré le 18 septembre 2026 — dont
 deux ajoutés par la relecture des livres (§4bis) : `LOT-89`, `LOT-90` — le troisième,
-[LOT-88](@ref lot-88), est livré —, et l'un des cinq
-nés de la relecture du plan d'intégration de la Capitale, le 16 septembre 2026 (§8) : `LOT-93`,
-l'atelier des monstres — le [LOT-92](@ref lot-92), le [LOT-94](@ref lot-94) et le
+[LOT-88](@ref lot-88), est livré. Des cinq nés de la relecture du plan d'intégration de la
+Capitale, le 16 septembre 2026 (§8), aucun ne reste : le [LOT-92](@ref lot-92), le
+[LOT-93](@ref lot-93) (l'atelier des monstres), le [LOT-94](@ref lot-94) et le
 [LOT-96](@ref lot-96) sont livrés, et le `LOT-95` a été absorbé par le [LOT-94](@ref lot-94). Sept numéros ont été
 **retirés** (`LOT-31`, `LOT-48`, `LOT-69`, `LOT-71`, `LOT-73`, `LOT-95` par fusion, `LOT-85` par abandon : voir
 l'encart en fin de section),
-et vingt lots de la même plage sont **livrés** — les trois préconditions [LOT-77](@ref lot-77),
+et vingt et un lots de la même plage sont **livrés** — les trois préconditions [LOT-77](@ref lot-77),
 [LOT-78](@ref lot-78) et [LOT-79](@ref lot-79), puis `LOT-30`, `LOT-32` à `LOT-34`, `LOT-36` à
 `LOT-39`, `LOT-43`, `LOT-66` à `LOT-68`, `LOT-76`, [LOT-88](@ref lot-88), [LOT-92](@ref lot-92),
-[LOT-94](@ref lot-94) et [LOT-96](@ref lot-96) — qui ont donc quitté cette page pour leur
+[LOT-93](@ref lot-93), [LOT-94](@ref lot-94) et [LOT-96](@ref lot-96) — qui ont donc quitté cette page pour leur
 dossier, comme tout lot livré. Les numéros sont, comme toujours, des identifiants stables : ils
 viennent après [LOT-29](@ref lot-29) dans la numérotation, mais plusieurs s'exécutent **avant**
 les lots qui les consomment (voir §6). La famille d'exigences `EX-CNT-*` les couvre, dans
@@ -794,7 +793,7 @@ affiche ce que le `LOT-82` a composé, sans qu'aucun contrat ne soit écrit à l
 
 ### `LOT-46` — Créatures de Tanares {#lot-46}
 
-*Prérequis : `LOT-33`, `LOT-30`, `LOT-93` (l'atelier des monstres, qui dessine ces blocs depuis leur
+*Prérequis : `LOT-33`, `LOT-30`, [LOT-93](@ref lot-93) (l'atelier des monstres, qui dessine ces blocs depuis leur
 texte seul).*
 
 Les **82 blocs de Tanares** (ch. 9, 17 familles : akhu, emoguns, gloomfolk, ironhands, kemets,
@@ -1277,47 +1276,6 @@ la règle locale — un lieu de massacre ouvre une faille.
 un repos long y échoue hors zone de stabilité ; une créature pénombrale ramenée sur le plan
 matériel brûle au soleil ; les sept couches sont jouables, chacune avec sa table.
 
-### `LOT-93` — Atelier des monstres : les figurines du bestiaire, depuis le texte seul {#lot-93}
-
-*Prérequis : [LOT-91](@ref lot-91) (la méthode), [LOT-33](@ref lot-33) (les 94 bêtes du SRD,
-premières fiches à dessiner), [LOT-92](@ref lot-92) (le style de scène, pour que la bête et le sol s'accordent).
-Alimente [LOT-27](@ref lot-27), `LOT-46`.*
-
-*Ajouté le 16 septembre 2026.* L'atelier des PNJ part d'une **image** : le portrait peint du
-*Character Compendium*, que la chaîne normalise avant de l'imiter. Le bestiaire n'en a pas — le
-`LOT-33` a extrait des blocs de statistiques, et le `LOT-46` en extraira 82 autres, tous sans
-illustration exploitable. Ce lot dérive l'atelier pour le cas **sans référence visuelle** : le bloc
-B se rédige depuis le **texte** seul — le type, la taille, la description du bloc, ce que le
-lecteur du corpus en dit —, et le style est celui des PNJ (bloc A du `LOT-91`), pour que le monstre
-et la figurine qui l'affronte soient du même monde.
-
-Ce qui change, concrètement : pas d'étape « références » ni de portrait à normaliser ; le bloc B
-gagne une rubrique **SILHOUETTE** — la lisibilité d'une bête en 45 px se joue à la silhouette, pas
-au détail — et une rubrique **SIZE** qui suit la **taille** du bloc : une créature Moyenne tient la
-cellule de 48 × 64, une Grande occupe une emprise de 2 × 2 cases ([LOT-19](@ref lot-19)) et une
-planche à cellules de 96 × 96 — la disposition C a donc **deux gabarits**, et `compose.py` les
-connaît. Le jeu d'animations est celui des PNJ (`idle` 6, `walk` 8, `hit` 4, `death` 6, `attack` 8,
-`cast` 8) ; une bête sans sort n'a pas de `cast`, et le manifeste le dit. Sortie :
-`Source/Elements/Assets/Monsters/<slug>/` et son `manifest.json`, sur le modèle de `Npc/`.
-
-Les premières fiches sont celles que la version `0.0.1` affronte, et elles sont **trois** : deux
-bêtes du `LOT-33`, celles que le Colisée oppose au joueur ([LOT-09](@ref lot-09),
-`colisee-fauves.json`) — le **lion** (Grand, gabarit 96 × 96) et le **loup** (Moyen, gabarit
-48 × 64) —, et un humanoïde, le **soldat Ironhand**, l'armée qui tient la Capitale, dont le bloc
-est l'une des familles de Tanares du `LOT-46` et se dessine ici depuis la prose, sans attendre
-son extraction. Le soldat est la preuve que l'atelier ne se limite pas aux bêtes : un humanoïde
-sans portrait passe par la même chaîne. Les **champions loués** du noble des Blood Bound
-([LOT-27](@ref lot-27)) et le reste des 176 se produisent ensuite **au fil de l'eau**, comme les
-160 fiches du `LOT-91`, et le marqueur du [LOT-39](@ref lot-39) tient la place de chaque bloc
-non dessiné.
-
-*Acceptation* — le lion, le loup et le soldat Ironhand produits de bout en bout et vérifiés dans
-la **galerie des assets** (`--screen=AssetGallery`), qui est l'outil fait pour cela : chaque
-animation s'y joue, et c'est le seul contrôle visuel du lot — l'affichage au Colisée vient avec le
-contenu du [LOT-27](@ref lot-27) ; les deux gabarits (Moyen, Grand) découpés par le même script ; le manifeste déclare l'absence de
-`cast` quand la créature n'a pas de sort, et `check_asset_keys.py` l'accepte ; la fiche de
-méthode de l'atelier liste les 176 blocs à cocher.
-
 ---
 
 > **Six numéros retirés.** Les `LOT-48`, `LOT-69`, `LOT-71`, `LOT-73` et `LOT-95` ont été absorbés par fusion, le
@@ -1423,7 +1381,7 @@ valeurs codées en dur, exactement ce que [`EX-VIS-007`](@ref EX-VIS-007) interd
 | Quand | Lots | Pourquoi là |
 |---|---|---|
 | **Livré le 17 septembre 2026** | [LOT-09](@ref lot-09) | La première carte, le Colisée en version finale, dans le style que le [LOT-92](@ref lot-92) (livré) a fixé : l'exploration dans le jeu et le sable comme zone de combat déclarée — tout le chemin critique restant passe par lui ; les images du corpus sont parties et l'écran « Carte » est revenu sur les cartes de l'auteur ([LOT-94](@ref lot-94), livré) — l'éditeur du [LOT-11](@ref lot-11) est livré et trace déjà la première carte |
-| Après [LOT-92](@ref lot-92) (livré) | `LOT-93` | L'atelier des monstres hérite du style |
+| Après [LOT-92](@ref lot-92) (livré) | [LOT-93](@ref lot-93) (livré) | L'atelier des monstres hérite du style |
 | Après [LOT-09](@ref lot-09) et [LOT-94](@ref lot-94) (livré) | `LOT-96` | Les quartiers se tracent depuis le plan de la Capitale peint par l'auteur, sur un moteur éprouvé au Colisée ; `capital.json` et les niveaux quartier et îlot du plan y naissent, le `LOT-95` ayant été absorbé |
 | Après `LOT-96` | [LOT-16](@ref lot-16) | La quête se vérifie en parlant à Myr sur la carte de Martpart, pas dans un test seul — c'est ce qui la rend vérifiable |
 | Avec [LOT-09](@ref lot-09) | `LOT-80` | L'atlas du `LOT-37` est livré : le graphe de cartes a ses nœuds, il lui manque les entités transverses |
@@ -1538,7 +1496,7 @@ réécrits doivent tenir ; le détail de chacun est en section 11.
 | [LOT-92](@ref lot-92) (livré) | L'arène du Colisée dessinée avec les textures de l'atelier ; une **maquette de style** approuvée, les planches du Colisée et de Martpart découpées, un atelier qui se commande depuis une fiche d'atlas | la maquette signée par l'auteur ; `check_assets_brief.py` ; `extract_texture_sheet.py --check` ; Martpart commandé sans toucher au style |
 | [LOT-94](@ref lot-94) (livré) | Le menu principal sur un **fond produit** ; plus une image du corpus dans le dépôt ; l'écran « **Carte** » à trois niveaux — monde, région, ville — sur les seize cartes peintes par l'auteur | lints de provenance et des cartes en CI (`check_ui_assets.py`, `check_map_assets.py`) ; une capture de référence par niveau, et celles du menu et des crédits |
 | [LOT-09](@ref lot-09) | « Nouvelle partie » ouvre le **Colisée** à sa porte ; on parcourt hall, couloirs, vestiaires et tribunes ; le héraut lance le combat sur le sable et l'on revient sur la carte ; plus aucun contenu provisoire | parcours headless sur cinq fixtures ; capture de référence ; le geste au clavier et à la manette ; `Source/Elements/` sans fichier de test |
-| `LOT-93` | Le lion, le loup et le soldat Ironhand dessinés et animés dans la galerie des assets | deux gabarits (Moyen, Grand) produits de bout en bout ; un humanoïde par la même chaîne ; manifeste et clés |
+| [LOT-93](@ref lot-93) (livré) | Le lion, le loup et le soldat Ironhand dessinés et animés dans la galerie des assets | deux gabarits (Moyen, Grand) produits de bout en bout ; un humanoïde par la même chaîne ; manifeste et clés |
 | [LOT-96](@ref lot-96) (livré) | « Nouvelle partie » ouvre **Martpart** ; on passe à **Arenarea** et on revient au bon point ; dix portes gardées ; le plan montre où l'on est, et descend au quartier puis à l'îlot | aller-retour headless ; captures de Martpart et d'Arenarea ; le geste au clavier et à la manette |
 | [LOT-16](@ref lot-16) | **Myr** confie « Les enfants de Martpart » ; le journal la suit ; la porte d'Arenarea s'ouvre au laissez-passer | la quête jouée par drapeaux en headless ; à l'écran, du marché au journal |
 | [LOT-17](@ref lot-17) | « Continuer » et « Charger » reprennent la partie où on l'a laissée — quartier, case, journal | aller-retour à l'identique à chaque étape de la quête ; quitter et reprendre |
@@ -1608,12 +1566,12 @@ digraph filiere {
   }
   L15 [label="LOT-15\nDialogues\n(livré)", style="rounded,filled", fillcolor=grey90]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
   L09 [label="LOT-09\nLe Colisée\npremière carte\n(livré)", style="rounded,filled", fillcolor=grey90]; L11 [label="LOT-11\nÉditeur\n(livré)", style="rounded,filled", fillcolor=grey90];
-  L92 [label="LOT-92\nAtelier textures\n(livré)", style="rounded,filled", fillcolor=grey90]; L93 [label="LOT-93\nAtelier monstres"];
+  L92 [label="LOT-92\nAtelier textures\n(livré)", style="rounded,filled", fillcolor=grey90]; L93 [label="LOT-93\nAtelier monstres\n(livré)", style="rounded,filled", fillcolor=grey90];
   L94 [label="LOT-94\nCartes de l'auteur\n(livré)", style="rounded,filled", fillcolor=grey90];
   L96 [label="LOT-96\nMartpart, Arenarea\n(livré)", style="rounded,filled", fillcolor=grey90]; L28 [label="LOT-28\nv0.0.1"];
   L15 -> L16 -> L17 -> L27; L09 -> L17; L11 -> L27;
   L96 -> L16; L96 -> L17; L96 -> L27;
-  L92 -> L93 -> L27; L94 -> L28; L27 -> L28; L94 -> L42;
+  L93 -> L27; L94 -> L28; L27 -> L28; L94 -> L42;
 }
 ```
 
@@ -1648,7 +1606,6 @@ eux-mêmes.
 | `LOT-84` | Les 31 tables de progression de classe | `LOT-32` | `LOT-47` |
 | `LOT-89` | Dons, objets magiques et consommables de Tanares | `LOT-34`, `LOT-43` | `LOT-26` |
 | `LOT-90` | Le plan pénombral | `LOT-41`, `LOT-42`, `LOT-46` | — |
-| `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | `LOT-33`, `LOT-91`, `LOT-92` | `LOT-27`, `LOT-46` |
 
 
 ---

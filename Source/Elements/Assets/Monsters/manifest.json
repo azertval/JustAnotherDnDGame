@@ -32,5 +32,43 @@
       "deathWide": false
     }
   },
-  "monsters": []
+  "monsters": [
+    {
+      "slug": "ironhand-soldier",
+      "template": "medium",
+      "creature": null,
+      "awaiting": "LOT-46",
+      "animations": [
+        "idle",
+        "walk",
+        "hit",
+        "death",
+        "attack"
+      ]
+    },
+    {
+      "slug": "lion",
+      "template": "large",
+      "creature": "lion",
+      "animations": [
+        "idle",
+        "walk",
+        "hit",
+        "death",
+        "attack"
+      ]
+    },
+    {
+      "slug": "wolf",
+      "template": "medium",
+      "creature": "wolf",
+      "animations": [
+        "idle",
+        "walk",
+        "hit",
+        "death",
+        "attack"
+      ]
+    }
+  ]
 }
