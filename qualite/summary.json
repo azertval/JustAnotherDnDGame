@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-17 22:00 UTC",
+  "generated": "2026-09-18 05:28 UTC",
   "commit": "e32d883e1",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35278658900",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35310863934",
   "coverage": {
     "percent": 90.78,
     "covered": 20876,
@@ -150,45 +150,45 @@
   },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
-    "runs": 3,
-    "date": "2026-09-17 16:30 UTC",
-    "commit": "7821d11b5",
+    "runs": 4,
+    "date": "2026-09-18 02:39 UTC",
+    "commit": "e32d883e1",
     "benches": [
       {
         "name": "ReachableAreaDashing",
-        "value": 167720.66298341966,
+        "value": 157095.9040178518,
         "unit": "ns/iter",
-        "change_percent": 28.2
+        "change_percent": -6.3
       },
       {
         "name": "FindPathAcrossGrid",
-        "value": 227812.90808637897,
+        "value": 211820.87499999724,
         "unit": "ns/iter",
-        "change_percent": 28.3
+        "change_percent": -7.0
       },
       {
         "name": "LineOfSightAcrossGrid",
-        "value": 65373.469387753314,
+        "value": 57509.62296959313,
         "unit": "ns/iter",
-        "change_percent": 28.9
+        "change_percent": -12.0
       },
       {
         "name": "CoverFromWithInterposed",
-        "value": 189187.81304405027,
+        "value": 166593.49294045253,
         "unit": "ns/iter",
-        "change_percent": 28.7
+        "change_percent": -11.9
       },
       {
         "name": "PlanTurnFourVersusFour",
-        "value": 1185325.9821428708,
+        "value": 1135662.187499964,
         "unit": "ns/iter",
-        "change_percent": 30.3
+        "change_percent": -4.2
       },
       {
         "name": "LoadShippedLevel",
-        "value": 771829.0625000179,
+        "value": 1688721.1042944589,
         "unit": "ns/iter",
-        "change_percent": 24.6
+        "change_percent": 118.8
       }
     ]
   },
