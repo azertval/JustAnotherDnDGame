@@ -463,10 +463,14 @@ def main() -> int:
 
     # ---- 7 : numéros retirés ----
     presents = set(int(l[4:]) for l in filiere)
-    manquants = set(range(min(presents), max(presents) + 1)) - presents
+    numeros_livres = set(int(l[4:]) for l in livres)
+    # La plage court jusqu'au plus haut numéro de la filière, sur la page ou dans son dossier :
+    # un lot qui quitte la page par le haut ne rogne pas la plage, sans quoi les numéros retirés
+    # sous lui en sortiraient aussi.
+    borne_haute = max(presents | set(n for n in numeros_livres if n > min(presents)))
+    manquants = set(range(min(presents), borne_haute + 1)) - presents
     # Un numéro manquant est légitime de deux façons : il est retiré par fusion, ou il est livré
     # et a donc quitté cette page pour son dossier.
-    numeros_livres = set(int(l[4:]) for l in livres)
     retires_reels = manquants - numeros_livres
     bloc_retires = texte.split('numéros retirés.**')[1].split('---')[0]
     retires_declares = set(int(n) for n in LOT_RE.findall(bloc_retires))
@@ -483,7 +487,7 @@ def main() -> int:
     # ---- 8 : comptes annoncés ----
     mot = NOMBRES_FR.get(len(filiere))
     if mot:
-        attendu = '%s lots, `LOT-%d` à `LOT-%d`' % (mot.capitalize(), min(presents), max(presents))
+        attendu = '%s lots, `LOT-%d` à `LOT-%d`' % (mot.capitalize(), min(presents), borne_haute)
         if attendu not in texte:
             r.erreur('le compte annoncé en §5 ne correspond pas : attendu « %s »' % attendu)
     mot_retires = NOMBRES_FR.get(len(retires_reels))
@@ -560,7 +564,7 @@ def main() -> int:
                              % (chemin.name, numero_ligne, lot, n))
 
     print('lots de la filière : %d (LOT-%d à LOT-%d ; %d retiré(s), %d livré(s) hors page)'
-          % (len(filiere), min(presents), max(presents), len(retires_reels),
+          % (len(filiere), min(presents), borne_haute, len(retires_reels),
              len(numeros_livres & manquants)))
     return r.bilan()
 

@@ -126,38 +126,37 @@ tableau n'en porte volontairement aucun.
 
 | # | Lot | Objet | Débloque | Statut |
 |---|---|---|---|---|
-| 1 | `LOT-96` | Martpart et Arenarea se parcourent : le graphe des quartiers | 13 | **prochain** |
-| 2 | `LOT-16` | Les affaires de la Capitale : quêtes et drapeaux de monde | 12 | en attente |
-| 3 | `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | 11 | prêt |
-| 4 | `LOT-17` | Reprendre sa partie dans la Capitale : sauvegarde riche | 10 | en attente |
-| 5 | `LOT-27` | La Capitale : contenu du *vertical slice* | 9 | en attente |
-| 6 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
-| 7 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
-| 8 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
-| 9 | `LOT-40` | Générateur de terrain | 7 | en attente |
-| 10 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
-| 11 | `LOT-46` | Créatures de Tanares | 7 | en attente |
-| 12 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
-| 13 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
-| 14 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
-| 15 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
-| 16 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
-| 17 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
-| 18 | `LOT-35` | Sorts et états | 2 | prêt |
-| 19 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
-| 20 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
-| 21 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
-| 22 | `LOT-74` | Expérience et progression | 1 | en attente |
-| 23 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
-| 24 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
-| 25 | `LOT-69` | Retrait de l'atelier pixel art | 0 | prêt |
-| 26 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
-| 27 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
-| 28 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
-| 29 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
-| 30 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
-| 31 | `LOT-90` | Le plan pénombral | 0 | en attente |
-| 32 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
+| 1 | `LOT-16` | Les affaires de la Capitale : quêtes et drapeaux de monde | 12 | **prochain** |
+| 2 | `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | 11 | prêt |
+| 3 | `LOT-17` | Reprendre sa partie dans la Capitale : sauvegarde riche | 10 | en attente |
+| 4 | `LOT-27` | La Capitale : contenu du *vertical slice* | 9 | en attente |
+| 5 | `LOT-28` | Audio, effets et version `0.0.1` | 0 | en attente |
+| 6 | `LOT-88` | Spécifications : retrait de l'héritage plateforme | 0 | prêt |
+| 7 | `LOT-81` | Descripteurs de terrain et règles de zone des treize régions | 8 | prêt |
+| 8 | `LOT-40` | Générateur de terrain | 7 | en attente |
+| 9 | `LOT-44` | Noms, tables aléatoires et contenu d'ambiance | 7 | prêt |
+| 10 | `LOT-46` | Créatures de Tanares | 7 | en attente |
+| 11 | `LOT-89` | Dons, objets magiques et consommables de Tanares | 7 | prêt |
+| 12 | `LOT-26` | Butin, marchands, économie | 6 | en attente |
+| 13 | `LOT-41` | Peuplement : rencontres et créatures | 6 | en attente |
+| 14 | `LOT-80` | Factions, panthéon et organisations | 6 | prêt |
+| 15 | `LOT-70` | Horloge, calendrier et lune | 5 | prêt |
+| 16 | `LOT-82` | Peuplement civil : PNJ, marchands et quêtes | 5 | en attente |
+| 17 | `LOT-35` | Sorts et états | 2 | prêt |
+| 18 | `LOT-42` | Voyage et carte du monde | 2 | en attente |
+| 19 | `LOT-29` | Groupe de quatre personnages | 1 | en attente |
+| 20 | `LOT-45` | Guilde des Aventuriers : rangs et contrats | 1 | en attente |
+| 21 | `LOT-74` | Expérience et progression | 1 | en attente |
+| 22 | `LOT-25` | Sorts et capacités de classe | 0 | en attente |
+| 23 | `LOT-49` | Contrôle de cohérence du contenu | 0 | prêt |
+| 24 | `LOT-69` | Retrait de l'atelier pixel art | 0 | prêt |
+| 25 | `LOT-72` | Conditions, agonie et mort | 0 | en attente |
+| 26 | `LOT-75` | Campement et repos dans le monde | 0 | en attente |
+| 27 | `LOT-84` | Les 31 tables de progression de classe | 2 | prêt |
+| 28 | `LOT-47` | Socle de classe, et le guerrier comme preuve | 1 | en attente |
+| 29 | `LOT-83` | Compagnie : rangs de Guilde, niveau d'équipe et quartier général | 0 | en attente |
+| 30 | `LOT-90` | Le plan pénombral | 0 | en attente |
+| 31 | `LOT-51` → `LOT-65` | une classe par lot | 0 | en attente |
 
 **Débloque** — combien de lots restants dépendent de celui-ci, directement ou en cascade. C'est le
 critère de priorité, et il se relit sur la ligne.
@@ -487,10 +486,11 @@ Les lots [LOT-13](@ref lot-13) (fiche de personnage), [LOT-14](@ref lot-14) (inv
 JSON**. C'est exactement le trou que ce corpus comble, et c'est le périmètre de cette filière — les
 deux premiers sont livrés depuis, sur les catalogues qu'elle a produits.
 
-Trente-neuf lots, `LOT-35` à `LOT-96`, restent à livrer dans cette filière — dont trois ajoutés
-par la relecture des livres (§4bis) : `LOT-88`, `LOT-89`, `LOT-90`, et deux des cinq nés de la
-relecture du plan d'intégration de la Capitale, le 16 septembre 2026 (§8) : `LOT-93`, l'atelier des
-monstres, et `LOT-96`, la ville scindée du `LOT-09` — le [LOT-92](@ref lot-92) et le
+Trente-huit lots, `LOT-35` à `LOT-96`, restent à livrer dans cette filière, sans compter le
+[LOT-96](@ref lot-96), la ville scindée du `LOT-09`, ouvert le 18 septembre 2026 et parti pour son
+dossier — dont trois ajoutés par la relecture des livres (§4bis) : `LOT-88`, `LOT-89`, `LOT-90`, et
+l'un des cinq nés de la relecture du plan d'intégration de la Capitale, le 16 septembre 2026 (§8) :
+`LOT-93`, l'atelier des monstres — le [LOT-92](@ref lot-92) et le
 [LOT-94](@ref lot-94) sont livrés, et le `LOT-95` a été absorbé par ce dernier. Six numéros ont été
 **retirés** (`LOT-31`, `LOT-48`, `LOT-71`, `LOT-73`, `LOT-95` par fusion, `LOT-85` par abandon : voir
 l'encart en fin de section),
@@ -1403,61 +1403,6 @@ produites de bout en bout, intégrées et affichées au Colisée ; la dispositio
 découpée par le même script ; le manifeste déclare l'absence de `cast` et `check_asset_keys.py`
 l'accepte ; la fiche de méthode de l'atelier liste les 176 blocs à cocher.
 
-### `LOT-96` — Martpart et Arenarea se parcourent : le graphe des quartiers {#lot-96}
-
-*Prérequis : [LOT-09](@ref lot-09) (l'exploration dans le jeu, le graphe de cartes et les
-portails, prouvés au Colisée), [LOT-94](@ref lot-94) (le plan de la Capitale peint par l'auteur,
-source du tracé, ses douze quartiers placés, et l'écran « Carte » qui le montre),
-[LOT-11](@ref lot-11) (l'éditeur, où les quartiers se tracent), [LOT-15](@ref lot-15) (le dialogue
-de la sentinelle). Alimente [LOT-16](@ref lot-16), [LOT-17](@ref lot-17), [LOT-27](@ref lot-27).*
-
-*Ajouté le 16 septembre 2026 — c'est la moitié « ville » de l'ancien `LOT-09`.* Le `LOT-09`
-réécrit le 16 au matin portait à la fois le moteur d'exploration et deux quartiers dégrossis aux
-tuiles de test ; le même jour, l'auteur a voulu que la **première carte** soit le Colisée, en
-version finale, et que le style des textures soit posé avant la ville. La ville vient donc en
-second, dans son lot, sur un moteur et un style déjà éprouvés.
-
-*Amendé le 17 septembre 2026.* Le `LOT-95` (le plan de la Capitale) a été absorbé par le
-[LOT-94](@ref lot-94), qui a livré le plan de la ville — peint par l'auteur —, l'écran de zoom et
-les douze quartiers placés dessus (`Source/Elements/Maps/world-maps.json`) ; la Capitale était
-déjà dans l'atlas. Ce que le `LOT-95` prévoyait de plus **naît ici** :
-
-- `Source/Elements/World/capital.json` — les douze quartiers, la porte de départ, la carte de
-  niveau que chaque quartier désigne ;
-- les niveaux **quartier** et **îlot** du plan, sous le niveau ville de l'écran « Carte », pour les
-  quartiers qui ont une carte — sur des images produites ou peintes pour le jeu, jamais une image
-  du corpus (`EX-IHM-076`) ;
-- la **position du héros** et les **quartiers visités** sur le plan, persistés au
-  [LOT-17](@ref lot-17).
-
-« Nouvelle partie » ne pose plus le personnage à la porte du Colisée mais à une porte de
-**Martpart**, le quartier du marché ; on y marche ; on passe à **Arenarea** par l'avenue et on
-revient sur ses pas, au point d'arrivée nommé ; on parle à une sentinelle Ironhand. Les douze
-quartiers de `capital.json` sont les nœuds du graphe ; deux reçoivent leur carte,
-`Source/Elements/Levels/capital/martpart.json` et `arenarea.json`, **tracées dans l'éditeur depuis
-le plan du [LOT-94](@ref lot-94)** — rues, îlots, emplacements des bâtiments nommés, portails aux bons
-endroits — avec les planches de l'atelier du [LOT-92](@ref lot-92) là où elles existent et le marqueur du
-[LOT-39](@ref lot-39) partout ailleurs. Le marqueur est le **seul** substitut toléré : les tuiles
-de test sont parties avec le [LOT-09](@ref lot-09). Les dix autres quartiers ont une **porte
-gardée** : une entité `npc` sentinelle Ironhand, avec un dialogue de refus
-(`sentinelle-ironhand.json`), pas un portail vers une carte absente — l'entrée est contrôlée, dit
-la fiction ; le jour où un quartier reçoit sa carte, la sentinelle devient un portail. La porte
-d'Arenarea porte le `requiresFlag` que le [LOT-16](@ref lot-16) posera ; jusque-là, elle s'ouvre.
-Le plan de la ville, à l'écran « Carte », montre le quartier courant et ceux qu'on a visités.
-
-Le Colisée du `LOT-09` reste accessible depuis le menu ; le brancher depuis Arenarea, en Arène du
-Destin, est au [LOT-27](@ref lot-27). L'habillage complet des deux quartiers aussi : ce lot livre
-une ville qu'on parcourt, pas une ville qu'on regarde.
-
-*Acceptation* — à l'écran, « Nouvelle partie » ouvre Martpart à sa porte ; on passe à Arenarea et
-on revient **au point d'arrivée nommé** ; on parle à la sentinelle d'une porte fermée et l'écran de
-dialogue s'ouvre sur son dialogue ; le plan montre le héros dans le bon quartier ; captures de
-référence QML de Martpart et d'Arenarea ; en headless, Martpart → Arenarea → Martpart ramène à la
-bonne case et l'état de la carte quittée est conservé dans la session ; `check_rpg_data.py` lie
-chaque quartier de `capital.json` à sa carte ou à sa sentinelle, et à son quartier de
-`world-maps.json` ; l'écran « Carte » descend de la ville à un quartier puis à un îlot, avec une
-capture de référence QML par niveau ajouté.
-
 ---
 
 > **Cinq numéros retirés.** Les `LOT-48`, `LOT-71`, `LOT-73` et `LOT-95` ont été absorbés par fusion, le
@@ -1750,13 +1695,13 @@ digraph filiere {
     L24 -> L27;
   }
   L15 [label="LOT-15\nDialogues\n(livré)", style="rounded,filled", fillcolor=grey90]; L16 [label="LOT-16\nQuêtes"]; L17 [label="LOT-17\nSauvegarde"];
-  L09 [label="LOT-09\nLe Colisée\npremière carte"]; L11 [label="LOT-11\nÉditeur\n(livré)", style="rounded,filled", fillcolor=grey90];
+  L09 [label="LOT-09\nLe Colisée\npremière carte\n(livré)", style="rounded,filled", fillcolor=grey90]; L11 [label="LOT-11\nÉditeur\n(livré)", style="rounded,filled", fillcolor=grey90];
   L92 [label="LOT-92\nAtelier textures\n(livré)", style="rounded,filled", fillcolor=grey90]; L93 [label="LOT-93\nAtelier monstres"];
   L94 [label="LOT-94\nCartes de l'auteur\n(livré)", style="rounded,filled", fillcolor=grey90];
-  L96 [label="LOT-96\nMartpart, Arenarea"]; L28 [label="LOT-28\nv0.0.1"];
+  L96 [label="LOT-96\nMartpart, Arenarea\n(en cours)"]; L28 [label="LOT-28\nv0.0.1"];
   L15 -> L16 -> L17 -> L27; L09 -> L17; L11 -> L27; L11 -> L69;
-  L09 -> L96 -> L16; L96 -> L17; L96 -> L27; L11 -> L96;
-  L94 -> L96; L92 -> L93 -> L27; L94 -> L28; L27 -> L28; L94 -> L42;
+  L96 -> L16; L96 -> L17; L96 -> L27;
+  L92 -> L93 -> L27; L94 -> L28; L27 -> L28; L94 -> L42;
 }
 ```
 
@@ -1794,7 +1739,6 @@ eux-mêmes.
 | `LOT-89` | Dons, objets magiques et consommables de Tanares | `LOT-34`, `LOT-43` | `LOT-26` |
 | `LOT-90` | Le plan pénombral | `LOT-41`, `LOT-42`, `LOT-46` | — |
 | `LOT-93` | Atelier des monstres : les figurines du bestiaire, depuis le texte seul | `LOT-33`, `LOT-91`, `LOT-92` | `LOT-27`, `LOT-46` |
-| `LOT-96` | Martpart et Arenarea se parcourent : le graphe des quartiers | `LOT-09`, `LOT-11`, `LOT-15`, `LOT-94` | `LOT-16`, `LOT-17`, `LOT-27` |
 
 
 ---

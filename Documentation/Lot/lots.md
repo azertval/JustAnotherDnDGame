@@ -65,6 +65,7 @@ c'est un identifiant stable, jamais réordonné.
 - @subpage lot-22
 - @subpage lot-94
 - @subpage lot-09
+- @subpage lot-96 — en cours
 - @subpage lot-91 — hors feuille de route : chantier long, alimenté au fil de l'eau
 
 ## Feuille de route
