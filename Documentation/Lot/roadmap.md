@@ -1300,16 +1300,23 @@ connaît. Le jeu d'animations est celui des PNJ (`idle` 6, `walk` 8, `hit` 4, `d
 `cast` 8) ; une bête sans sort n'a pas de `cast`, et le manifeste le dit. Sortie :
 `Source/Elements/Assets/Monsters/<slug>/` et son `manifest.json`, sur le modèle de `Npc/`.
 
-Les premières fiches sont celles que le slice affronte : les bêtes que le Colisée oppose au joueur
-([LOT-09](@ref lot-09)) et les **champions loués** du noble des Blood Bound
-([LOT-27](@ref lot-27)) — des blocs du `LOT-33`. Le reste des 176 se produit **au fil de l'eau**,
-comme les 160 fiches du `LOT-91`, et le marqueur du [LOT-39](@ref lot-39) tient la place de chaque
-bloc non dessiné.
+Les premières fiches sont celles que la version `0.0.1` affronte, et elles sont **trois** : deux
+bêtes du `LOT-33`, celles que le Colisée oppose au joueur ([LOT-09](@ref lot-09),
+`colisee-fauves.json`) — le **lion** (Grand, gabarit 96 × 96) et le **loup** (Moyen, gabarit
+48 × 64) —, et un humanoïde, le **soldat Ironhand**, l'armée qui tient la Capitale, dont le bloc
+est l'une des familles de Tanares du `LOT-46` et se dessine ici depuis la prose, sans attendre
+son extraction. Le soldat est la preuve que l'atelier ne se limite pas aux bêtes : un humanoïde
+sans portrait passe par la même chaîne. Les **champions loués** du noble des Blood Bound
+([LOT-27](@ref lot-27)) et le reste des 176 se produisent ensuite **au fil de l'eau**, comme les
+160 fiches du `LOT-91`, et le marqueur du [LOT-39](@ref lot-39) tient la place de chaque bloc
+non dessiné.
 
-*Acceptation* — trois créatures du `LOT-33` de tailles différentes (Petite ou Moyenne, Grande)
-produites de bout en bout, intégrées et affichées au Colisée ; la disposition à deux gabarits est
-découpée par le même script ; le manifeste déclare l'absence de `cast` et `check_asset_keys.py`
-l'accepte ; la fiche de méthode de l'atelier liste les 176 blocs à cocher.
+*Acceptation* — le lion, le loup et le soldat Ironhand produits de bout en bout et vérifiés dans
+la **galerie des assets** (`--screen=AssetGallery`), qui est l'outil fait pour cela : chaque
+animation s'y joue, et c'est le seul contrôle visuel du lot — l'affichage au Colisée vient avec le
+contenu du [LOT-27](@ref lot-27) ; les deux gabarits (Moyen, Grand) découpés par le même script ; le manifeste déclare l'absence de
+`cast` quand la créature n'a pas de sort, et `check_asset_keys.py` l'accepte ; la fiche de
+méthode de l'atelier liste les 176 blocs à cocher.
 
 ---
 
@@ -1531,7 +1538,7 @@ réécrits doivent tenir ; le détail de chacun est en section 11.
 | [LOT-92](@ref lot-92) (livré) | L'arène du Colisée dessinée avec les textures de l'atelier ; une **maquette de style** approuvée, les planches du Colisée et de Martpart découpées, un atelier qui se commande depuis une fiche d'atlas | la maquette signée par l'auteur ; `check_assets_brief.py` ; `extract_texture_sheet.py --check` ; Martpart commandé sans toucher au style |
 | [LOT-94](@ref lot-94) (livré) | Le menu principal sur un **fond produit** ; plus une image du corpus dans le dépôt ; l'écran « **Carte** » à trois niveaux — monde, région, ville — sur les seize cartes peintes par l'auteur | lints de provenance et des cartes en CI (`check_ui_assets.py`, `check_map_assets.py`) ; une capture de référence par niveau, et celles du menu et des crédits |
 | [LOT-09](@ref lot-09) | « Nouvelle partie » ouvre le **Colisée** à sa porte ; on parcourt hall, couloirs, vestiaires et tribunes ; le héraut lance le combat sur le sable et l'on revient sur la carte ; plus aucun contenu provisoire | parcours headless sur cinq fixtures ; capture de référence ; le geste au clavier et à la manette ; `Source/Elements/` sans fichier de test |
-| `LOT-93` | Trois bêtes du bestiaire dessinées, affrontées au Colisée | trois tailles produites de bout en bout ; manifeste et clés |
+| `LOT-93` | Le lion, le loup et le soldat Ironhand dessinés et animés dans la galerie des assets | deux gabarits (Moyen, Grand) produits de bout en bout ; un humanoïde par la même chaîne ; manifeste et clés |
 | [LOT-96](@ref lot-96) (livré) | « Nouvelle partie » ouvre **Martpart** ; on passe à **Arenarea** et on revient au bon point ; dix portes gardées ; le plan montre où l'on est, et descend au quartier puis à l'îlot | aller-retour headless ; captures de Martpart et d'Arenarea ; le geste au clavier et à la manette |
 | [LOT-16](@ref lot-16) | **Myr** confie « Les enfants de Martpart » ; le journal la suit ; la porte d'Arenarea s'ouvre au laissez-passer | la quête jouée par drapeaux en headless ; à l'écran, du marché au journal |
 | [LOT-17](@ref lot-17) | « Continuer » et « Charger » reprennent la partie où on l'a laissée — quartier, case, journal | aller-retour à l'identique à chaque étape de la quête ; quitter et reprendre |
