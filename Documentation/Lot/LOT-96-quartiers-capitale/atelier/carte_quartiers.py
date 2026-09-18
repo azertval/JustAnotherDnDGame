@@ -42,6 +42,13 @@ from pathlib import Path
 RACINE = Path(__file__).resolve().parents[4]
 NIVEAUX = RACINE / "Source" / "Elements" / "Levels" / "capital"
 PLAN = RACINE / "Source" / "Elements" / "Maps" / "world-maps.json"
+VILLE_JOUABLE = RACINE / "Source" / "Elements" / "World" / "cities" / "capital.json"
+
+# La sentinelle d'une porte gardée (phase 4) : son dialogue, et sa figurine — qui n'existe pas
+# encore : le rendu la dessine par le marqueur du LOT-39 jusqu'à ce que l'atelier du LOT-91 la
+# produise.
+SENTINELLE_DIALOGUE = "sentinelle-ironhand"
+SENTINELLE_FIGURINE = "sentinelle-ironhand"
 
 # La console Windows est en cp1252 : les messages portent des accents.
 if hasattr(sys.stdout, "reconfigure"):
@@ -79,6 +86,8 @@ class Porte:
     # La carte du voisin, s'il en a une : la porte est alors un portail, qui arrive au point
     # nommé d'après ce quartier-ci. Sans carte, la porte est gardée (phase 4).
     carte: str | None = None
+    # Vrai si la porte est gardée : une sentinelle Ironhand se tient sur la case du bord.
+    gardee: bool = False
     x: int = 0
     y: int = 0
     bord: str = ""  # "N", "S", "O", "E"
@@ -309,6 +318,9 @@ def habiller(q: Quartier) -> None:
     for (x, y), matiere in sorted(q.sol.items()):
         if matiere != "dirt" or (x, y) in q.obstacles or (x * 3 + y) % 7:
             continue
+        # Jamais au bord : c'est là que se tiennent les portes, et leurs sentinelles.
+        if x in (0, q.largeur - 1) or y in (0, q.hauteur - 1):
+            continue
         if sum(1 for v in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)) if v in q.sol) == 3:
             q.relief[(x, y)] = "light"
             q.obstacles.add((x, y))
@@ -326,6 +338,13 @@ def tracer(q: Quartier, points: dict[str, tuple[float, float]]) -> dict:
     sortie = depart.interieur(2)
     entites: list[dict] = []
     for porte in q.portes:
+        if porte.gardee:
+            # La sentinelle se tient au bout de la rue, sur la case du bord : on lui parle, on ne
+            # passe pas. Pas de point d'arrivée : on n'arrive de nulle part par une porte fermée.
+            entites.append({"type": "npc", "x": porte.x, "y": porte.y,
+                            "dialogue": SENTINELLE_DIALOGUE, "figure": SENTINELLE_FIGURINE,
+                            "guards": porte.vers})
+            continue
         entites.append({"type": "spawnPoint", "x": porte.interieur(2)[0], "y": porte.interieur(2)[1],
                         "name": porte.nom})
         if porte.carte:
@@ -443,6 +462,14 @@ def quartiers() -> list[Quartier]:
     ]
 
 
+def portes_gardees(q: Quartier) -> list[Porte]:
+    """Les portes gardées que la ville jouable pose sur la carte de ce quartier (`capital.json`)."""
+    ville = json.loads(VILLE_JOUABLE.read_text(encoding="utf-8"))
+    return [Porte(vers=d["id"], nom=d["id"][len(VILLE) + 1:], gardee=True)
+            for d in ville["districts"]
+            if d.get("guard", {}).get("map") == "capital/%s" % q.ident]
+
+
 def main() -> int:
     analyseur = argparse.ArgumentParser(description="Trace les cartes des quartiers (LOT-96).")
     analyseur.add_argument("--check", action="store_true",
@@ -452,6 +479,7 @@ def main() -> int:
     points = points_du_plan()
     code = 0
     for q in quartiers():
+        q.portes += portes_gardees(q)
         texte = json.dumps(tracer(q, points), ensure_ascii=False, indent=2) + "\n"
         chemin = NIVEAUX / ("%s.json" % q.ident)
         if arguments.check:

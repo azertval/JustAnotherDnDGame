@@ -5,6 +5,7 @@
 
 #include <filesystem>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -135,6 +136,8 @@ private:
     void ensureTextures(const std::vector<std::string>& paths);
     /// La largeur d'image d'une bande d'animation, lue de son `.anim.json` s'il y en a un.
     [[nodiscard]] int bandFrameWidth(const std::string& path);
+    /// Le marqueur d'une figurine sans image (`hmi::figureMarkerKey`), rien pour une autre piece.
+    [[nodiscard]] std::optional<LoadedTexture> figureMarker(const std::string& path);
 
     std::filesystem::path _directory;
     WorldSceneSnapshot _snapshot;

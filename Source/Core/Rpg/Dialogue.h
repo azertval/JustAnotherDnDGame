@@ -480,6 +480,9 @@ inline constexpr std::string_view NPC_DIALOGUE_PROPERTY = "dialogue";
 /// @brief Propriété d'un PNJ qui nomme sa **figurine** (`Assets/Npc/<slug>`, atelier du `LOT-91`,
 ///        lue au `LOT-09`). Vide : le PNJ n'est pas encore dessiné, et ne se dessine pas.
 inline constexpr std::string_view NPC_FIGURE_PROPERTY = "figure";
+/// @brief Propriété d'un PNJ **sentinelle** : la fiche d'atlas du quartier dont il garde la porte
+///        (`LOT-96`). Vide pour un PNJ qui ne garde rien.
+inline constexpr std::string_view NPC_GUARDED_DISTRICT_PROPERTY = "guards";
 
 /// @brief Un PNJ relevé sur la carte, et le dialogue qu'il ouvre.
 struct DialogueTrigger {

@@ -19,6 +19,7 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <variant>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -29,6 +30,8 @@
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
+#include "Core/Rpg/Dialogue.h"
+#include "Core/World/CityPlan.h"
 #include "Core/World/EntityKinds.h"
 #include "Core/World/WorldTravel.h"
 #include "HMI/Graphics/PlaceAppearance.h"
@@ -38,6 +41,7 @@ namespace {
 
 const std::filesystem::path NIVEAUX{JADG_LEVELS_DIR};
 const std::filesystem::path ASSETS{JADG_ASSETS_DIR};
+const std::filesystem::path MONDE{JADG_WORLD_DIR};
 
 /// @brief Un quartier livre : son identifiant de carte, son lieu, sa taille.
 struct Quartier {
@@ -73,6 +77,16 @@ const Quartier QUARTIERS[] = {
         ASSETS / "Scene" / quartier.lieu / "appearance.json");
     EXPECT_TRUE(table.ok()) << quartier.lieu << " : " << table.message;
     return std::move(table.appearance);
+}
+
+/// @return La valeur texte de la propriete @p cle de @p entite, vide sinon.
+[[nodiscard]] std::string texteDe(const core::MapEntity& entite, std::string_view cle) {
+    const auto trouvee = entite.properties.find(std::string{cle});
+    if (trouvee == entite.properties.end()) {
+        return {};
+    }
+    const std::string* texte = std::get_if<std::string>(&trouvee->second);
+    return texte != nullptr ? *texte : std::string{};
 }
 
 /// @return La case du premier portail de @p carte vers @p cible, `{-1, -1}` s'il n'y en a pas.
@@ -265,6 +279,62 @@ TEST(CapitalTravelTest, MartpartArenareaMartpartRameneALaBonneCase) {
     EXPECT_EQ(voyage.position(), core::arrivalPointAt(*martpart, "arenarea"));
     EXPECT_EQ(voyage.currentMap(), martpart) << "Martpart a ete rechargee au retour";
     EXPECT_EQ(voyage.loadedMapCount(), 2U);
+}
+
+/**
+ * @brief Chaque quartier ferme a sa sentinelle, sur la carte que la ville lui donne.
+ * \castest{<b>Les dix portes gardees ont chacune leur sentinelle Ironhand, qui ouvre un dialogue
+ * du catalogue.</b><br/>
+ * 	cat Unitaire · Quartiers de la Capitale<br/>
+ * 	crit Critique<br/>
+ * 	etapes 1. Lire la Capitale livree et le catalogue des dialogues.<br/>
+ * 2. Pour chaque quartier ferme, relever les PNJ de sa carte de garde qui le gardent.<br/>
+ * 	attendu Exactement une sentinelle par quartier ferme, au bord de la carte, sur une case ou
+ * l'on peut aller lui parler, avec un dialogue accepte et une figurine qui a au moins son
+ * marqueur ; aucune sentinelle ne garde un quartier qui a sa carte (LOT-96).
+ * }
+ */
+TEST(CapitalGuardTest, ChaqueQuartierFermeASaSentinelle) {
+    const core::CityPlanResult ville = core::loadCityPlan(MONDE / "cities" / "capital.json");
+    ASSERT_TRUE(ville.ok()) << ville.error;
+    const core::DialogueCatalog dialogues = core::loadDialogues(MONDE / "dialogues");
+
+    int fermes = 0;
+    for (const core::CityDistrict& quartier : ville.plan.districts) {
+        const core::LevelLoadResult lu = core::LevelLoader::loadFromFile(
+            NIVEAUX / ((quartier.hasMap() ? quartier.map : quartier.guardMap) + ".json"));
+        ASSERT_TRUE(lu.ok()) << quartier.id << " : " << lu.error;
+        const core::Level& carte = *lu.level;
+        const core::TileMap& grille = carte.tileMap();
+
+        int sentinelles = 0;
+        for (const core::MapEntity& entite : carte.entities()) {
+            if (entite.type != core::NPC_ENTITY_TYPE ||
+                texteDe(entite, core::NPC_GUARDED_DISTRICT_PROPERTY) != quartier.id) {
+                continue;
+            }
+            ++sentinelles;
+            const std::string dialogue = texteDe(entite, core::NPC_DIALOGUE_PROPERTY);
+            EXPECT_NE(dialogues.find(dialogue), nullptr) << quartier.id << " : " << dialogue;
+            EXPECT_FALSE(hmi::figureMarkerKey("Npc/" + texteDe(entite, core::NPC_FIGURE_PROPERTY) +
+                                              "/idle.png")
+                             .empty())
+                << quartier.id << " : sentinelle sans figurine ni marqueur";
+            const core::GridPosition position = entite.position;
+            EXPECT_TRUE(position.column == 0 || position.row == 0 || position.column == grille.width() - 1 ||
+                        position.row == grille.height() - 1)
+                << quartier.id << " : la sentinelle n'est pas au bord de la carte";
+            EXPECT_FALSE(grille.isSolid(position.column, position.row))
+                << quartier.id << " : la sentinelle est dans un mur";
+        }
+        if (quartier.hasMap()) {
+            EXPECT_EQ(sentinelles, 0) << quartier.id << " a sa carte, et une sentinelle";
+        } else {
+            ++fermes;
+            EXPECT_EQ(sentinelles, 1) << quartier.id;
+        }
+    }
+    EXPECT_EQ(fermes, 10);
 }
 
 INSTANTIATE_TEST_SUITE_P(Quartiers, CapitalMapTest, ::testing::ValuesIn(QUARTIERS),

@@ -196,3 +196,25 @@ TEST(WorldSceneComposerTest, LaCompositionPoseChaquePieceSurSonCalque) {
         }
     }
 }
+
+/**
+ * @brief Une figurine sans image a une cle de marqueur, une piece de planche n'en a pas.
+ * \castest{<b>La cle du marqueur d'une figurine se tire de son chemin de bande.</b><br/>
+ * \tcat Unitaire · Rendu du lieu<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Demander la cle de marqueur de chemins de figurine, de piece et de chemins
+ * malformes.<br/>
+ * \tattendu `npc/<figurine>` pour une bande de figurine, quelle que soit la bande ; rien pour
+ * une piece de planche ni pour un chemin sans figurine (LOT-96).
+ * }
+ */
+TEST(WorldSceneComposerTest, UneFigurineSansImageAUneCleDeMarqueur) {
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/idle.png"),
+              "npc/sentinelle-ironhand");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/walk.png"),
+              "npc/sentinelle-ironhand");
+    EXPECT_EQ(hmi::figureMarkerKey("Scene/martpart/street.png"), "");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/"), "");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc//idle.png"), "");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/jade"), "");
+}

@@ -745,6 +745,11 @@ dialogue.vieux-gladiateur.accueil.arene = Any advice, then?
 dialogue.vieux-gladiateur.accueil.partir = I will remember that.
 dialogue.vieux-gladiateur.metier = Forty-one times. I won twenty-nine, and the other twelve taught me more. The Mark raised me twelve times; the knee never came back.
 dialogue.vieux-gladiateur.arene = Two. Do not run for the middle: that is where the crowd wants you, and that is where two of them will take you. And watch the gates — they open.
+dialogue.sentinelle-ironhand.speaker = The Ironhand sentinel
+dialogue.sentinelle-ironhand.halte = Halt. No one passes: the district is closed, by order of the Ironhand Army.
+dialogue.sentinelle-ironhand.halte.pourquoi = Closed? For what reason?
+dialogue.sentinelle-ironhand.halte.partir = Fine. I'll turn back.
+dialogue.sentinelle-ironhand.pourquoi = The Army owes you no reason, and neither do I. Come back with a pass from the watch, or do not come back.
 
 # Editor: layers and entities (LOT-11).
 dock.layers = Layers
@@ -796,6 +801,7 @@ entities.property.targetMap = Target map
 entities.property.arrival = Arrival point
 entities.property.requiresFlag = Required flag
 entities.property.figure = Figure
+entities.property.guards = Guarded district
 entities.property.name = Name
 entities.property.side = Side
 entities.property.rank = Rank

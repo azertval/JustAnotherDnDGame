@@ -82,6 +82,14 @@ const std::vector<EntityKind>& knownEntityKinds() {
                                                      .source = EntityChoiceSource::Fixed,
                                                      .fixedChoices = {},
                                                      .required = false,
+                                                     .defaultValue = std::string{}},
+                                  // La sentinelle d'une porte gardee (LOT-96) : le quartier
+                                  // qu'elle ferme, par sa fiche d'atlas.
+                                  EntityPropertySpec{.key = NPC_GUARDED_DISTRICT_PROPERTY,
+                                                     .kind = EntityPropertyKind::Text,
+                                                     .source = EntityChoiceSource::Fixed,
+                                                     .fixedChoices = {},
+                                                     .required = false,
                                                      .defaultValue = std::string{}}}},
         // Rencontre (LOT-18) : sans rencontre nommee, le declencheur n'en est pas un.
         EntityKind{.type = ENCOUNTER_ENTITY_TYPE,

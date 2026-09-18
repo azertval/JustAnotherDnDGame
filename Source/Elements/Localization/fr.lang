@@ -748,6 +748,11 @@ dialogue.vieux-gladiateur.accueil.arene = Un conseil, alors ?
 dialogue.vieux-gladiateur.accueil.partir = Je m'en souviendrai.
 dialogue.vieux-gladiateur.metier = Quarante-et-une fois. J'en ai gagné vingt-neuf, et les douze autres m'ont appris davantage. La Marque m'a relevé douze fois ; le genou, lui, n'est jamais revenu.
 dialogue.vieux-gladiateur.arene = Deux. Ne courez pas vers le centre : c'est là que la foule veut vous voir, et c'est là que vous serez pris à deux. Et regardez les grilles — elles s'ouvrent.
+dialogue.sentinelle-ironhand.speaker = La sentinelle Ironhand
+dialogue.sentinelle-ironhand.halte = Halte. On ne passe pas : le quartier est fermé, sur ordre de l'Armée Ironhand.
+dialogue.sentinelle-ironhand.halte.pourquoi = Fermé ? Et pour quelle raison ?
+dialogue.sentinelle-ironhand.halte.partir = Bien. Je fais demi-tour.
+dialogue.sentinelle-ironhand.pourquoi = L'Armée n'a pas à vous le dire, et moi non plus. Revenez avec un laissez-passer du guet, ou ne revenez pas.
 
 # Éditeur : couches et entités (LOT-11).
 dock.layers = Couches
@@ -799,6 +804,7 @@ entities.property.targetMap = Carte cible
 entities.property.arrival = Point d'arrivée
 entities.property.requiresFlag = Drapeau exigé
 entities.property.figure = Figurine
+entities.property.guards = Quartier gardé
 entities.property.name = Nom
 entities.property.side = Camp
 entities.property.rank = Rang

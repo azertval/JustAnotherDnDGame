@@ -333,6 +333,15 @@ def points_d_arrivee(carte: Path) -> set[str]:
     return {e.get('name', '') for e in niveau.get('entities', []) if e.get('type') == 'spawnPoint'}
 
 
+def pnj_de(carte: Path) -> list[dict]:
+    """Les entites `npc` d'une carte de niveau, vide si elle est illisible."""
+    try:
+        niveau = json.loads(carte.read_text(encoding='utf-8'))
+    except (OSError, json.JSONDecodeError):
+        return []
+    return [e for e in niveau.get('entities', []) if e.get('type') == 'npc']
+
+
 def controler_villes(racine: Path, niveaux: Path, plans: Path) -> list[str]:
     """Chaque quartier d'une ville jouable mene quelque part, et existe sur le plan (`LOT-96`).
 
@@ -371,8 +380,24 @@ def controler_villes(racine: Path, niveaux: Path, plans: Path) -> list[str]:
                 if not (niveaux / (quartier['map'] + '.json')).is_file():
                     violations.append("%s : la carte « %s » du quartier « %s » n'existe pas."
                                       % (nom, quartier['map'], ident))
+        dialogues = {c.stem for c in (racine / 'dialogues').glob('*.json')}
         for quartier in ville.get('districts', []):
             garde = quartier.get('guard')
+            if garde and garde['map'] in cartes.values():
+                # La porte gardee est une sentinelle posee sur la carte voisine : un PNJ qui
+                # nomme le quartier qu'il ferme, et qui a un dialogue a tenir.
+                sentinelles = [e for e in pnj_de(niveaux / (garde['map'] + '.json'))
+                               if e.get('guards') == quartier.get('id')]
+                if len(sentinelles) != 1:
+                    violations.append(
+                        "%s : la porte gardee de « %s » doit avoir une sentinelle sur « %s », "
+                        "elle en a %d." % (nom, quartier.get('id', ''), garde['map'],
+                                           len(sentinelles)))
+                for sentinelle in sentinelles:
+                    if sentinelle.get('dialogue') not in dialogues:
+                        violations.append(
+                            "%s : la sentinelle de « %s » ouvre le dialogue « %s », qui n'existe "
+                            "pas." % (nom, quartier.get('id', ''), sentinelle.get('dialogue')))
             if garde and garde['map'] not in cartes.values():
                 violations.append(
                     "%s : la porte gardee de « %s » se tient sur « %s », qui n'est la carte "

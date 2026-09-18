@@ -83,9 +83,11 @@ nomme ensuite, pour que chaque commit reste vert.
   l'auteur commande une planche Arenarea à l'atelier du [LOT-92](@ref lot-92) (envois manuels),
   la carte change de lieu d'une ligne (`"scene"` de sa couche de sol) ; sinon, l'emprunt tient
   jusqu'au [LOT-27](@ref lot-27).
-- **La figurine de la sentinelle.** Même règle : marqueur du [LOT-39](@ref lot-39) jusqu'à ce que
-  l'atelier du [LOT-91](@ref lot-91) produise un garde Ironhand. Reprendre une des cinq figurines
-  livrées ferait d'un personnage nommé un garde anonyme — écarté.
+- **La figurine de la sentinelle.** Marqueur du [LOT-39](@ref lot-39) (phase 4) jusqu'à ce que
+  l'atelier du [LOT-91](@ref lot-91) produise un garde Ironhand, sous le slug
+  `sentinelle-ironhand` que les dix PNJ nomment déjà : la figurine livrée remplacera le marqueur
+  sans qu'une carte change. Reprendre une des cinq figurines livrées ferait d'un personnage nommé
+  un garde anonyme — écarté.
 - **Le Colisée du menu principal** reste tel que le [LOT-09](@ref lot-09) l'a livré ; le
   brancher depuis Arenarea est au [LOT-27](@ref lot-27).
 
@@ -156,4 +158,19 @@ nomme ensuite, pour que chaque commit reste vert.
   - *Chaque quartier fermé a sa porte sur la carte du quartier livré le plus proche sur le plan* :
     Dweomer, Neckoffoods et Scholarnest à Martpart ; Oldtown, Downtown, Artisansquare, Bloomburgs,
     Uptown, Sloghood et Palacedomain à Arenarea. Une règle plutôt qu'un choix au cas par cas.
+- **18 septembre 2026, phase 4 — Les dix portes gardées.** Le script de tracé lit les portes
+  gardées dans `capital.json` et pose chacune au bout d'une rue, sur le bord que coupe la
+  direction du quartier fermé : une entité `npc` qui nomme ce quartier (`guards`, propriété
+  déclarée à l'éditeur), son dialogue `sentinelle-ironhand` — un refus, au nom de l'Armée
+  Ironhand, en français et en anglais — et sa figurine `sentinelle-ironhand`. Une porte gardée
+  n'a pas de point d'arrivée : on n'arrive de nulle part par une porte fermée.
+  - *Une figurine sans image se dessine par son marqueur.* `hmi::WorldSceneRenderer` retombait
+    sur le damier ; il demande désormais le marqueur du [LOT-39](@ref lot-39) de la clé
+    `npc/<figurine>` (`hmi::figureMarkerKey`), à la taille d'une figurine. C'est la règle
+    `EX-CNT-041` appliquée au lieu qu'on parcourt.
+  - *Les lanternes ne se posent plus au bord de la carte* : deux d'entre elles tombaient sur la
+    case d'une porte, et murait sa sentinelle — le test de contenu l'a vu.
+  - `CapitalGuardTest` et `check_rpg_data.py` vérifient la même chose des deux côtés : une
+    sentinelle et une seule par quartier fermé, sur la carte que la ville lui donne, au bord, sur
+    une case franchissable, avec un dialogue du catalogue ; aucune pour un quartier qui a sa carte.
 
