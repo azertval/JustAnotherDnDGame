@@ -21,7 +21,7 @@ namespace {
 /// Un indice de case, par défaut (vers −∞) : le point (−0,2 ; 1) est dans la case (−1, 1), pas 0.
 [[nodiscard]] int cellIndex(float coordinate) noexcept {
     // Au-delà de ce que tient un `int`, la case est de toute façon hors de la grille.
-    constexpr auto LIMIT = static_cast<float>(std::numeric_limits<int>::max() / 2);
+    constexpr auto LIMIT = static_cast<float>(std::numeric_limits<int>::max()) / 2.0F;
     return static_cast<int>(std::floor(std::clamp(coordinate, -LIMIT, LIMIT)));
 }
 

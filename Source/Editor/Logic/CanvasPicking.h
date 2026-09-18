@@ -80,6 +80,8 @@ struct CellRange {
 
 /**
  * @brief Le point de grille **continu** sous un point du monde, en vue iso.
+ * @param projection Projection iso du lieu.
+ * @param world Point du monde.
  * @param elevation Niveau de la case pointée (0 : le sol).
  */
 [[nodiscard]] core::Vector2 isoGridPoint(const core::IsoProjection& projection, core::Vector2 world,
@@ -108,6 +110,8 @@ struct CellRange {
 
 /**
  * @brief Les quatre sommets du losange d'une case, en unités monde : haut, droit, bas, gauche.
+ * @param projection Projection iso du lieu.
+ * @param cell Case dont on veut le losange.
  * @param elevation Niveau de la case (0 : le sol) ; le losange monte d'autant.
  */
 [[nodiscard]] std::array<core::Vector2, 4> isoCellDiamond(const core::IsoProjection& projection,

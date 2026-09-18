@@ -28,7 +28,7 @@ namespace {
     // Les pixels sont lus en place puis copiés : l'image rendue ne dépend pas du vecteur.
     // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
     const auto* const bytes = reinterpret_cast<const uchar*>(pixels.data());
-    return QImage(bytes, width, height, width * 4, QImage::Format_RGBA8888)
+    return QImage(bytes, width, height, static_cast<qsizetype>(width) * 4, QImage::Format_RGBA8888)
         .convertToFormat(QImage::Format_ARGB32_Premultiplied);
 }
 

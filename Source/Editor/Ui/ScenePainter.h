@@ -43,6 +43,8 @@ using QuadOpacity = std::function<float(const ComposedQuad&)>;
 /**
  * @brief Peint @p scene dans @p painter, dont la transformation porte déjà le cadrage (unités
  *        monde vers pixels).
+ * @param painter Surface de peinture, déjà cadrée.
+ * @param scene Scène composée à peindre.
  * @param visible Le rectangle du monde à peindre ; une primitive qui ne le coupe pas est sautée.
  *                Absent : tout.
  * @param opacity Opacité supplémentaire par primitive ; vide : 1.
