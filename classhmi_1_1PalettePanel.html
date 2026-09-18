@@ -134,7 +134,8 @@ Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a18b4b270d705ba582e3ba334852a8f4a" id="r_a18b4b270d705ba582e3ba334852a8f4a"><td class="memItemLeft">std::unique_ptr&lt; Ui::PalettePanel &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a18b4b270d705ba582e3ba334852a8f4a">_ui</a></td></tr>
 <tr class="memdesc:a18b4b270d705ba582e3ba334852a8f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mise en page issue de <span class="tt">PalettePanel.ui</span> : le C++ ne branche plus que le fonctionnel, conformément à la convention du projet.  <br /></td></tr>
-<tr class="memitem:a7da613b972d98e7a045925d712ed7aad" id="r_a7da613b972d98e7a045925d712ed7aad"><td class="memItemLeft">QTreeView *&#160;</td><td class="memItemRight"><a class="el" href="#a7da613b972d98e7a045925d712ed7aad">_tree</a></td></tr>
+<tr class="memitem:a7da613b972d98e7a045925d712ed7aad" id="r_a7da613b972d98e7a045925d712ed7aad"><td class="memItemLeft">QTreeView *&#160;</td><td class="memItemRight"><a class="el" href="#a7da613b972d98e7a045925d712ed7aad">_tree</a> = nullptr</td></tr>
+<tr class="memdesc:a7da613b972d98e7a045925d712ed7aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Posé après setupUi (vit dans la mise en page).  <br /></td></tr>
 <tr class="memitem:a388bd72162c541b85e8d14341fbacfe8" id="r_a388bd72162c541b85e8d14341fbacfe8"><td class="memItemLeft">QStandardItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#a388bd72162c541b85e8d14341fbacfe8">_model</a></td></tr>
 <tr class="memitem:aafd9ee36f3a303d8d38e7d8030a2c81e" id="r_aafd9ee36f3a303d8d38e7d8030a2c81e"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#aafd9ee36f3a303d8d38e7d8030a2c81e">_selected</a> = <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></td></tr>
 <tr class="memitem:ae25c7e1c3b823c77db760cf35259c67c" id="r_ae25c7e1c3b823c77db760cf35259c67c"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ae25c7e1c3b823c77db760cf35259c67c">_loc</a> = nullptr</td></tr>
@@ -452,7 +453,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QTreeView* hmi::PalettePanel::_tree</td>
+          <td class="memname">QTreeView* hmi::PalettePanel::_tree = nullptr</td>
         </tr>
       </table>
   </td>
@@ -461,6 +462,8 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Posé après setupUi (vit dans la mise en page). </p>
 
 </div>
 </div>

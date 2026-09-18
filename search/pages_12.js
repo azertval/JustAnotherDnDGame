@@ -2,13 +2,13 @@ var searchData=
 [
   ['hérités_0',['LOT-78 — Désambiguïsation des numéros de lots hérités',['../lot-78.html',1,'lots']]],
   ['héritage_20_3a_20code_20assets_20et_20spécifications_1',['LOT-88 — Retrait de l&apos;héritage : code, assets et spécifications',['../lot-88.html',1,'lots']]],
-  ['héros_20unique_2',['héros unique',['../lot-20.html#autotoc_md455',1,'Sans héros unique'],['../classcore_1_1CombatState.html#autotoc_md889',1,'Sans héros unique']]],
+  ['héros_20unique_2',['héros unique',['../lot-20.html#autotoc_md455',1,'Sans héros unique'],['../classcore_1_1CombatState.html#autotoc_md897',1,'Sans héros unique']]],
   ['habillée_3',['De jetons purs à une application habillée',['../guide-design-ihm.html#autotoc_md62',1,'']]],
   ['habillage_4',['5. Système de design et habillage',['../spec-interface-ihm.html#autotoc_md255',1,'']]],
   ['habillage_20d_20interface_20extrait_20des_20livres_5',['LOT-76 — Habillage d&apos;interface extrait des livres',['../lot-76.html',1,'lots']]],
   ['habillage_20de_20l_20arène_2014_20septembre_202026_20après_20livraison_6',['Habillage de l&apos;arène (14 septembre 2026, après livraison)',['../lot-50.html#autotoc_md586',1,'']]],
   ['habitants_20—_20les_20figurines_20de_20l_20atelier_7',['Les habitants — les figurines de l&apos;atelier',['../roadmap.html#autotoc_md831',1,'']]],
-  ['hasard_8',['Le départage est une règle, pas un hasard',['../classcore_1_1ReachableArea.html#autotoc_md903',1,'']]],
+  ['hasard_8',['Le départage est une règle, pas un hasard',['../classcore_1_1ReachableArea.html#autotoc_md911',1,'']]],
   ['header_20commentaires_20simples_20dans_20le_20cpp_9',['Doxygen dans le header, commentaires simples // dans le .cpp',['../spec-conventions.html#autotoc_md220',1,'']]],
   ['historique_10',['2. Espèce et historique',['../spec-rpg.html#autotoc_md287',1,'']]],
   ['historiques_20et_20classes_20provisoires_11',['LOT-36 — Espèces, historiques et classes provisoires',['../lot-36.html',1,'lots']]],
@@ -35,13 +35,13 @@ var searchData=
   ['honorer_20progressivement_32',['Importer tout, honorer progressivement',['../roadmap.html#autotoc_md775',1,'']]],
   ['horloge_20calendrier_20et_20lune_33',['&lt;span class=&quot;tt&quot;&gt;LOT-70&lt;/span&gt; — Horloge, calendrier et lune',['../roadmap.html#lot-70',1,'']]],
   ['hors_20code_34',['IHM Qt : le moins de code possible, la mise en page hors code',['../spec-conventions.html#autotoc_md216',1,'']]],
-  ['hors_20de_20ce_20fichier_35',['Hors de ce fichier',['../AreaOfEffect_8h.html#autotoc_md874',1,'']]],
-  ['hors_20de_20ce_20fichier_20nommément_36',['Hors de ce fichier, nommément',['../Attack_8h.html#autotoc_md879',1,'']]],
+  ['hors_20de_20ce_20fichier_35',['Hors de ce fichier',['../AreaOfEffect_8h.html#autotoc_md882',1,'']]],
+  ['hors_20de_20ce_20fichier_20nommément_36',['Hors de ce fichier, nommément',['../Attack_8h.html#autotoc_md887',1,'']]],
   ['hors_20du_20lot_20nommément_37',['Hors du lot, nommément',['../lot-91.html#autotoc_md717',1,'']]],
   ['hors_20du_20lot_20nommément_38',['hors du lot nommément',['../lot-11.html#autotoc_md383',1,'Ce qui reste hors du lot, nommément'],['../lot-15.html#autotoc_md420',1,'Ce qui reste hors du lot, nommément'],['../lot-19.html#autotoc_md443',1,'Ce qui reste hors du lot, nommément'],['../lot-20.html#autotoc_md457',1,'Ce qui reste hors du lot, nommément'],['../lot-21.html#autotoc_md466',1,'Ce qui reste hors du lot, nommément'],['../lot-22.html#autotoc_md476',1,'Ce qui reste hors du lot, nommément'],['../lot-23.html#autotoc_md485',1,'Ce qui reste hors du lot, nommément'],['../lot-24.html#autotoc_md492',1,'Ce qui reste hors du lot, nommément'],['../lot-50.html#autotoc_md587',1,'Ce qui reste hors du lot, nommément'],['../lot-92.html#autotoc_md734',1,'Ce qui reste hors du lot, nommément'],['../lot-94.html#autotoc_md744',1,'Ce qui reste hors du lot, nommément']]],
   ['hors_20périmètre_20vertical_20slice_39',['Hors périmètre (&lt;em&gt;vertical slice&lt;/em&gt;)',['../spec-vision.html#autotoc_md299',1,'']]],
   ['hud_40',['Phase 4 — le cadre du HUD',['../lot-87.html#autotoc_md689',1,'']]],
   ['hud_20de_20jeu_20maquette_2001_20sans_20la_20scène_41',['T4.1 — Le HUD de jeu (maquette 01), sans la scène',['../lot-87.html#autotoc_md690',1,'']]],
   ['hui_42',['Ce que l&apos;écran est donc aujourd&apos;hui',['../lot-38.html#autotoc_md555',1,'']]],
-  ['huit_20écrans_20écrits_20à_20la_20main_43',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md934',1,'']]]
+  ['huit_20écrans_20écrits_20à_20la_20main_43',['Une table, et non huit écrans écrits à la main',['../RpgScreens_8h.html#autotoc_md942',1,'']]]
 ];
