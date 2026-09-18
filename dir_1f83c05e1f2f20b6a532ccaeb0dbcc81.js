@@ -23,8 +23,6 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "CityBlockRender.h", "CityBlockRender_8h.html", "CityBlockRender_8h" ],
     [ "ComposedScene.cpp", "ComposedScene_8cpp.html", "ComposedScene_8cpp" ],
     [ "ComposedScene.h", "ComposedScene_8h.html", "ComposedScene_8h" ],
-    [ "DraftRenderer.cpp", "DraftRenderer_8cpp.html", null ],
-    [ "DraftRenderer.h", "DraftRenderer_8h.html", "DraftRenderer_8h" ],
     [ "EntityMarkers.cpp", "EntityMarkers_8cpp.html", "EntityMarkers_8cpp" ],
     [ "EntityMarkers.h", "EntityMarkers_8h.html", "EntityMarkers_8h" ],
     [ "GraphicsLog.h", "GraphicsLog_8h.html", "GraphicsLog_8h" ],

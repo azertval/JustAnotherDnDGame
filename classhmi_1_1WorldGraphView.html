@@ -114,8 +114,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab419ca0b48a7a9aed1eaf8451d140d4a" id="r_ab419ca0b48a7a9aed1eaf8451d140d4a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab419ca0b48a7a9aed1eaf8451d140d4a">WorldGraphView</a> (QWidget *parent=nullptr)</td></tr>
 <tr class="memitem:a071f2c78c595498c2d697d89354557c9" id="r_a071f2c78c595498c2d697d89354557c9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a071f2c78c595498c2d697d89354557c9">setGraph</a> (<a class="el" href="structcore_1_1WorldGraph.html">core::WorldGraph</a> graph, std::filesystem::path levelsDir)</td></tr>
 <tr class="memdesc:a071f2c78c595498c2d697d89354557c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace le graphe affiché ; <code class="param">levelsDir</code> sert à rebâtir le chemin d'une carte à ouvrir.  <br /></td></tr>
-<tr class="memitem:acf0e53d9cf338331d5cd8ff89935744c" id="r_acf0e53d9cf338331d5cd8ff89935744c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acf0e53d9cf338331d5cd8ff89935744c">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
-<tr class="memdesc:acf0e53d9cf338331d5cd8ff89935744c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active (légende, infobulles, libellés des fantômes).  <br /></td></tr>
 <tr class="memitem:af52c4b259a16a7a6988ecfb7e8db6b87" id="r_af52c4b259a16a7a6988ecfb7e8db6b87"><td class="memItemLeft">const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af52c4b259a16a7a6988ecfb7e8db6b87">graphLayout</a> () const noexcept</td></tr>
 <tr class="memitem:aaf512f6d92a857b93fe6d876f0b70eee" id="r_aaf512f6d92a857b93fe6d876f0b70eee"><td class="memItemLeft">QSize&#160;</td><td class="memItemRight"><a class="el" href="#aaf512f6d92a857b93fe6d876f0b70eee">sizeHint</a> () const override</td></tr>
 </table><table class="memberdecls">
@@ -129,7 +127,6 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:ad2f332c820645e993c8a3bd570c43804" id="r_ad2f332c820645e993c8a3bd570c43804"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ad2f332c820645e993c8a3bd570c43804">localized</a> (const char *key) const</td></tr>
 <tr class="memitem:a99aef4a014f2c34637143869a6e542d6" id="r_a99aef4a014f2c34637143869a6e542d6"><td class="memItemLeft"><a class="el" href="structcore_1_1Vector2.html">core::Vector2</a>&#160;</td><td class="memItemRight"><a class="el" href="#a99aef4a014f2c34637143869a6e542d6">toLayout</a> (QPointF widgetPoint) const</td></tr>
 <tr class="memitem:a99e0337e4acb33a23f91876278c6dec2" id="r_a99e0337e4acb33a23f91876278c6dec2"><td class="memItemLeft">qreal&#160;</td><td class="memItemRight"><a class="el" href="#a99e0337e4acb33a23f91876278c6dec2">scale</a> () const</td></tr>
 <tr class="memitem:ae9dde0b588fc25d7c59a5bf65dd338fb" id="r_ae9dde0b588fc25d7c59a5bf65dd338fb"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ae9dde0b588fc25d7c59a5bf65dd338fb">nodeLabel</a> (std::size_t node) const</td></tr>
@@ -147,14 +144,13 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ab52350abc952eabccd47d5b4eeb882d2" id="r_ab52350abc952eabccd47d5b4eeb882d2"><td class="memItemLeft"><a class="el" href="structcore_1_1WorldGraph.html">core::WorldGraph</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab52350abc952eabccd47d5b4eeb882d2">_graph</a></td></tr>
 <tr class="memitem:a90c3e97b1b88ac595b6b42d4218049ed" id="r_a90c3e97b1b88ac595b6b42d4218049ed"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a>&#160;</td><td class="memItemRight"><a class="el" href="#a90c3e97b1b88ac595b6b42d4218049ed">_layout</a></td></tr>
 <tr class="memitem:ae1d1f82efb2ca7456b830e9edd4983f8" id="r_ae1d1f82efb2ca7456b830e9edd4983f8"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#ae1d1f82efb2ca7456b830e9edd4983f8">_dir</a></td></tr>
-<tr class="memitem:a04a5fc9d264662b6fccaffdb519bc90b" id="r_a04a5fc9d264662b6fccaffdb519bc90b"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a04a5fc9d264662b6fccaffdb519bc90b">_loc</a> = nullptr</td></tr>
 <tr class="memitem:a15721eb44283d54fe4e88b56a9afc2b0" id="r_a15721eb44283d54fe4e88b56a9afc2b0"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a15721eb44283d54fe4e88b56a9afc2b0">_hoveredNode</a></td></tr>
 <tr class="memitem:adced865a8a4d54b8e0c6c80dd85e8b69" id="r_adced865a8a4d54b8e0c6c80dd85e8b69"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adced865a8a4d54b8e0c6c80dd85e8b69">_hoveredEdge</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Peint un <span class="tt"><a class="el" href="structcore_1_1WorldGraph.html" title="Les cartes et leurs portails.">core::WorldGraph</a></span> disposé par <span class="tt"><a class="el" href="namespacehmi.html#a05055b81b0f1c8241eeef2c9e9d3a588" title="Dispose graph : nœuds sur un cercle, fantômes et flèches regroupées.">hmi::layoutWorldGraph</a></span>. </p>
 <p>Une carte est un disque (nom et identifiant dessous) ; une carte illisible a un contour pointillé de la couleur d'erreur ; une carte absente (fantôme) n'est qu'un contour tireté atténué. Une flèche par paire ordonnée de cartes, tiretée en couleur d'erreur si un de ses portails est cassé, avec une pastille de compte quand elle en regroupe plusieurs. Survoler une carte ou une flèche en donne le détail en infobulle ; double-cliquer une carte lisible émet <span class="tt"><a class="el" href="#ac13b54b5a3c70cb00c8f168141aca8e8" title="Émis au double-clic sur une carte lisible (chemin absolu du fichier).">levelOpenRequested</a></span>, le même signal que la liste du navigateur.</p>
-<p>Les couleurs sont les jetons du châssis d'édition (<span class="tt"><a class="el" href="namespacehmi.html#a26a0827c46d5301e7690c51a9e6fc159">hmi::currentEditorTokens</a></span>), relus à chaque peinture : la vue suit une bascule de thème à chaud. </p>
+<p>Les couleurs sont celles de la palette du widget (style Fusion), relues à chaque peinture : la vue suit une bascule de thème à chaud. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ab419ca0b48a7a9aed1eaf8451d140d4a" name="ab419ca0b48a7a9aed1eaf8451d140d4a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab419ca0b48a7a9aed1eaf8451d140d4a">&#9670;&#160;</a></span>WorldGraphView()</h2>
@@ -307,32 +303,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Émis au double-clic sur une carte lisible (chemin absolu du fichier). </p>
-
-</div>
-</div>
-<a id="ad2f332c820645e993c8a3bd570c43804" name="ad2f332c820645e993c8a3bd570c43804"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2f332c820645e993c8a3bd570c43804">&#9670;&#160;</a></span>localized()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::WorldGraphView::localized </td>
-          <td>(</td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Texte localisé de <code class="param">key</code> (la clé elle-même sans catalogue). </dd></dl>
 
 </div>
 </div>
@@ -568,25 +538,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="acf0e53d9cf338331d5cd8ff89935744c" name="acf0e53d9cf338331d5cd8ff89935744c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf0e53d9cf338331d5cd8ff89935744c">&#9670;&#160;</a></span>retranslateUi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::WorldGraphView::retranslateUi </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applique la langue active (légende, infobulles, libellés des fantômes). </p>
 
 </div>
 </div>
@@ -826,31 +777,9 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a04a5fc9d264662b6fccaffdb519bc90b" name="a04a5fc9d264662b6fccaffdb519bc90b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04a5fc9d264662b6fccaffdb519bc90b">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1Localization.html">Localization</a>* hmi::WorldGraphView::_loc = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="WorldGraphView_8h_source.html">WorldGraphView.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="WorldGraphView_8cpp.html">WorldGraphView.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="WorldGraphView_8h_source.html">WorldGraphView.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="WorldGraphView_8cpp.html">WorldGraphView.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/EditorTool.h Source File</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Logic/EditorTool.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -104,23 +104,23 @@ $(function(){initNavTree('EditorTool_8h_source.html','',''); });
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">   26</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> { <a class="code hl_enumvalue" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">Paint</a>, <a class="code hl_enumvalue" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e">Rectangle</a>, <a class="code hl_enumvalue" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de">Selection</a>, <a class="code hl_enumvalue" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f">Entity</a> };</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">   32</a></span><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">EDITOR_TOOL_COUNT</a> = 4;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}  <span class="comment">// namespace hmi</span></div>
-<div class="ttc" id="anamespacehmi_html"><div class="ttname"><a href="namespacehmi.html">hmi</a></div><div class="ttdef"><b>Definition</b> AudioEngine.cpp:15</div></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">   29</a></span><span class="keyword">inline</span> <span class="keyword">constexpr</span> std::size_t <a class="code hl_variable" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">EDITOR_TOOL_COUNT</a> = 4;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}  <span class="comment">// namespace hmi</span></div>
+<div class="ttc" id="anamespacehmi_html"><div class="ttname"><a href="namespacehmi.html">hmi</a></div><div class="ttdef"><b>Definition</b> Autosave.cpp:14</div></div>
 <div class="ttc" id="anamespacehmi_html_a02048ad8ad69a87a10e8307ac2bd68dd"><div class="ttname"><a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a></div><div class="ttdeci">EditorTool</div><div class="ttdoc">Outil actif dans la grille de l&#39;éditeur, changé via Tab ou la barre d&#39;outils (hmi::EditorActions).</div><div class="ttdef"><b>Definition</b> EditorTool.h:26</div></div>
 <div class="ttc" id="anamespacehmi_html_a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f"><div class="ttname"><a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f">hmi::EditorTool::Entity</a></div><div class="ttdeci">@ Entity</div><div class="ttdef"><b>Definition</b> EditorTool.h:26</div></div>
 <div class="ttc" id="anamespacehmi_html_a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e"><div class="ttname"><a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></div><div class="ttdeci">@ Paint</div><div class="ttdef"><b>Definition</b> EditorTool.h:26</div></div>
 <div class="ttc" id="anamespacehmi_html_a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de"><div class="ttname"><a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de">hmi::EditorTool::Selection</a></div><div class="ttdeci">@ Selection</div><div class="ttdef"><b>Definition</b> EditorTool.h:26</div></div>
 <div class="ttc" id="anamespacehmi_html_a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e"><div class="ttname"><a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e">hmi::EditorTool::Rectangle</a></div><div class="ttdeci">@ Rectangle</div><div class="ttdef"><b>Definition</b> EditorTool.h:26</div></div>
-<div class="ttc" id="anamespacehmi_html_a96d20a1938609691a1560c6dae34527f"><div class="ttname"><a href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">hmi::EDITOR_TOOL_COUNT</a></div><div class="ttdeci">constexpr std::size_t EDITOR_TOOL_COUNT</div><div class="ttdoc">Nombre d&#39;outils d&#39;édition, déclaré au plus près de l&#39;énumération qu&#39;il compte.</div><div class="ttdef"><b>Definition</b> EditorTool.h:32</div></div>
+<div class="ttc" id="anamespacehmi_html_a96d20a1938609691a1560c6dae34527f"><div class="ttname"><a href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">hmi::EDITOR_TOOL_COUNT</a></div><div class="ttdeci">constexpr std::size_t EDITOR_TOOL_COUNT</div><div class="ttdoc">Nombre d&#39;outils d&#39;édition, déclaré au plus près de l&#39;énumération qu&#39;il compte.</div><div class="ttdef"><b>Definition</b> EditorTool.h:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_176b5c6fb722225b64367f2880eb44f3.html">HMI</a></li><li class="navelem"><a href="dir_8582677ef72a95e6c2b44a30d95c0011.html">Editor</a></li><li class="navelem"><a href="EditorTool_8h.html">EditorTool.h</a></li>
+    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_b26507eead720464ba2ac6bbc6dcec5f.html">Editor</a></li><li class="navelem"><a href="dir_772c1d7d11cd878bc340037b824a0fc7.html">Logic</a></li><li class="navelem"><a href="EditorTool_8h.html">EditorTool.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

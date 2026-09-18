@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/EditorActions.h File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/EditorActions.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -97,18 +97,49 @@ $(function(){initNavTree('EditorActions_8h.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;QObject&gt;</code><br />
 <code>#include &lt;array&gt;</code><br />
-<code>#include &quot;<a class="el" href="ActionCatalog_8h_source.html">HMI/Interface/ActionCatalog.h</a>&quot;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &quot;<a class="el" href="EditorTool_8h_source.html">Editor/Logic/EditorTool.h</a>&quot;</code><br />
 </div>
 <p><a href="EditorActions_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:hmi_3A_3AEditorActions" id="r_hmi_3A_3AEditorActions"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1EditorActions.html">hmi::EditorActions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit et possède les <span class="tt">QAction</span> du catalogue (<span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (EX-IHM-055).">HMI/Interface/ActionCatalog.h</a></span>) : chaque outil et chaque commande principale n'existe qu'une fois, placée simultanément dans la barre d'outils, un menu et un menu contextuel sans duplication.  <a href="classhmi_1_1EditorActions.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit et possède les <span class="tt">QAction</span> de l'éditeur : chaque outil et chaque commande n'existe qu'une fois, placée dans la barre d'outils, un menu et son raccourci.  <a href="classhmi_1_1EditorActions.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:hmi" id="r_hmi"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html">hmi</a></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a576cb29b1af75dc6bda8abb048330f18" id="r_a576cb29b1af75dc6bda8abb048330f18"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">hmi::EditorCommand</a> { <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a6977408af40dc96deb1c4c86a6d4f32e">hmi::ToolPaint</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18aee324dd1644d8a93504aaa30147cd2bc">hmi::ToolRectangle</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a7252d7debae0bab6f7e97a0f9537ae7e">hmi::ToolSelection</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ac7b3c7d7478c431d2eb3d79c9b834d87">hmi::ToolEntity</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ac9cc8cce247e49bae79f15173ce97354">hmi::Save</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ab13fc91e5d02ea9e1f1a538504213bea">hmi::Playtest</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a1cdc076b28f70afac5fcedadf99fa119">hmi::Undo</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a5afeaba074ef570dc720caaa855d49f6">hmi::Redo</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a77bfa926518159e75c2c4b508a81f19e">hmi::ToggleGrid</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a34e806c94d1cf43980bb179a0376e173">hmi::ResetCamera</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a5fb63579fc981698f97d55bfecb213ea">hmi::Copy</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a36bb6559696dc9124986ae120515984f">hmi::Paste</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a904a8304056d77e4547744781b7ceb50">hmi::Rename</a>
+, <a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a2583b92d245a881127917f19531ccf3b">hmi::ShortcutsOverview</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a576cb29b1af75dc6bda8abb048330f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une commande de l'éditeur : quatre outils, puis les commandes.  <a href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a8419e0bc52afdaf288a539da747b1577" id="r_a8419e0bc52afdaf288a539da747b1577"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8419e0bc52afdaf288a539da747b1577">hmi::EDITOR_COMMAND_COUNT</a> = 14</td></tr>
+<tr class="memdesc:a8419e0bc52afdaf288a539da747b1577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de commandes, déclaré au plus près de l'énumération qu'il compte.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Actions Qt de l'éditeur : outils et commandes principales. </p>
@@ -125,7 +156,7 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_176b5c6fb722225b64367f2880eb44f3.html">HMI</a></li><li class="navelem"><a href="dir_c537f82b8f955c3b1ce6a355f8c4c1be.html">Interface</a></li><li class="navelem"><a href="EditorActions_8h.html">EditorActions.h</a></li>
+    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_b26507eead720464ba2ac6bbc6dcec5f.html">Editor</a></li><li class="navelem"><a href="dir_81129cf20409270d9237df2d6b07b076.html">Ui</a></li><li class="navelem"><a href="EditorActions_8h.html">EditorActions.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

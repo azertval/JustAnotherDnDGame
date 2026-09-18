@@ -1,4 +1,18 @@
 var searchData=
 [
-  ['quadrecorder_0',['QuadRecorder',['../classhmi_1_1QuadRecorder.html',1,'hmi']]]
+  ['reachablearea_0',['ReachableArea',['../classcore_1_1ReachableArea.html',1,'core']]],
+  ['rect_1',['Rect',['../structcore_1_1Rect.html',1,'core']]],
+  ['region_2',['Region',['../structcore_1_1Region.html',1,'core']]],
+  ['regionappraisal_3',['RegionAppraisal',['../structcore_1_1RegionAppraisal.html',1,'core']]],
+  ['regionmap_4',['RegionMap',['../structhmi_1_1RegionMap.html',1,'hmi']]],
+  ['regionpopulation_5',['RegionPopulation',['../structcore_1_1RegionPopulation.html',1,'core']]],
+  ['regionspeciesshare_6',['RegionSpeciesShare',['../structcore_1_1RegionSpeciesShare.html',1,'core']]],
+  ['regionstatistic_7',['RegionStatistic',['../structcore_1_1RegionStatistic.html',1,'core']]],
+  ['rhicontext_8',['RhiContext',['../structhmi_1_1RhiContext.html',1,'hmi']]],
+  ['rolleddamage_9',['RolledDamage',['../structcore_1_1RolledDamage.html',1,'core']]],
+  ['rpgactor_10',['RpgActor',['../structcore_1_1RpgActor.html',1,'core']]],
+  ['rpgcontentblock_11',['RpgContentBlock',['../structhmi_1_1RpgContentBlock.html',1,'hmi']]],
+  ['rpgfield_12',['RpgField',['../structhmi_1_1RpgField.html',1,'hmi']]],
+  ['rpgscreendescriptor_13',['RpgScreenDescriptor',['../structhmi_1_1RpgScreenDescriptor.html',1,'hmi']]],
+  ['rpgscreenlayout_14',['RpgScreenLayout',['../structhmi_1_1RpgScreenLayout.html',1,'hmi']]]
 ];

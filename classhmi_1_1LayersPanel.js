@@ -1,6 +1,7 @@
 var classhmi_1_1LayersPanel =
 [
     [ "Snapshot", "structhmi_1_1LayersPanel_1_1Snapshot.html", "structhmi_1_1LayersPanel_1_1Snapshot" ],
+    [ "Widgets", "structhmi_1_1LayersPanel_1_1Widgets.html", "structhmi_1_1LayersPanel_1_1Widgets" ],
     [ "LayersPanel", "classhmi_1_1LayersPanel.html#a1c2c07b68c7f8db09d182fab27eecfde", null ],
     [ "~LayersPanel", "classhmi_1_1LayersPanel.html#aef50ad35e6c04a4c32a45a7679fa5bd5", null ],
     [ "activeLayerRequested", "classhmi_1_1LayersPanel.html#ae8aac9373ec88198d8b90f659371377e", null ],
@@ -11,15 +12,12 @@ var classhmi_1_1LayersPanel =
     [ "refresh", "classhmi_1_1LayersPanel.html#a47b9fda4c0d99851b88713cd0bcef244", null ],
     [ "removeRequested", "classhmi_1_1LayersPanel.html#abe47e05fe6bc7a3a29b17bbdcc6af44a", null ],
     [ "renameRequested", "classhmi_1_1LayersPanel.html#a3106f92bc8a2ba0d96a2d13147d28edb", null ],
-    [ "retranslateUi", "classhmi_1_1LayersPanel.html#ac9e719cae36f1c937fbd4a13e4b47987", null ],
     [ "rowLabel", "classhmi_1_1LayersPanel.html#add474b51356dfa7d9826204eb4e33d61", null ],
     [ "slotOf", "classhmi_1_1LayersPanel.html#acbc45ab547145118a5dcc187a237983c", null ],
-    [ "text", "classhmi_1_1LayersPanel.html#a57f6fe631534469a33b6425270e5d2d6", null ],
     [ "updateButtons", "classhmi_1_1LayersPanel.html#a555ff5da7117c10cbdf0995a750704f2", null ],
     [ "visibilityRequested", "classhmi_1_1LayersPanel.html#ae3b5648168f33c5fdf7e7772db0cc91b", null ],
     [ "_hasVisualLayers", "classhmi_1_1LayersPanel.html#a0aa921faf0a0f6c2cb6128f66aee867c", null ],
-    [ "_loc", "classhmi_1_1LayersPanel.html#a70079906b468daf7682f09a9c3be8d35", null ],
     [ "_rebuilding", "classhmi_1_1LayersPanel.html#a8538b54ffc5d58fcae6e1ca4e5cd81cb", null ],
     [ "_snapshot", "classhmi_1_1LayersPanel.html#a51507c85bef4d6e4c33efafe8ade9070", null ],
-    [ "_ui", "classhmi_1_1LayersPanel.html#a090e222b5d5c1bad539b4dd0d259d56c", null ]
+    [ "_ui", "classhmi_1_1LayersPanel.html#a7aa8112ef51b4fd16fa873086870b310", null ]
 ];

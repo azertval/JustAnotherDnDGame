@@ -1,12 +1,12 @@
 {
-  "generated": "2026-09-18 18:18 UTC",
-  "commit": "7d51b4940",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35378158545",
+  "generated": "2026-09-18 20:01 UTC",
+  "commit": "b87a4827f",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35388005015",
   "coverage": {
-    "percent": 91.66,
-    "covered": 19018,
-    "valid": 20748,
-    "files": 209,
+    "percent": 91.69,
+    "covered": 18936,
+    "valid": 20652,
+    "files": 203,
     "areas": [
       {
         "name": "Core",
@@ -46,9 +46,9 @@
       },
       {
         "name": "Core/Levels",
-        "covered": 693,
-        "valid": 715,
-        "percent": 96.92
+        "covered": 724,
+        "valid": 746,
+        "percent": 97.05
       },
       {
         "name": "Core/Math",
@@ -81,16 +81,16 @@
         "percent": 90.29
       },
       {
+        "name": "Editor/Logic",
+        "covered": 631,
+        "valid": 709,
+        "percent": 89.0
+      },
+      {
         "name": "HMI/Audio",
         "covered": 22,
         "valid": 50,
         "percent": 44.0
-      },
-      {
-        "name": "HMI/Editor",
-        "covered": 440,
-        "valid": 493,
-        "percent": 89.25
       },
       {
         "name": "HMI/Game",
@@ -106,15 +106,9 @@
       },
       {
         "name": "HMI/Input",
-        "covered": 281,
-        "valid": 298,
-        "percent": 94.3
-      },
-      {
-        "name": "HMI/Interface",
-        "covered": 253,
-        "valid": 277,
-        "percent": 91.34
+        "covered": 199,
+        "valid": 201,
+        "percent": 99.0
       },
       {
         "name": "HMI/Localization",

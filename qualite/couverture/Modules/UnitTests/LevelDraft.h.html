@@ -15,6 +15,7 @@
 #pragma once
 
 #include &lt;cstddef&gt;
+#include &lt;cstdint&gt;
 #include &lt;optional&gt;
 #include &lt;string&gt;
 #include &lt;vector&gt;
@@ -52,6 +53,15 @@ namespace core {
  */
 class LevelDraft {
 public:
+    /**
+     * @brief Nombre maximal de pas d'annulation gardÃ©s (`EX-EDIT-058`).
+     *
+     * Chaque pas est un instantanÃ© complet du brouillon : sans plafond, une longue sÃ©ance sur
+     * Martpart (48 Ã 40, trois couches) accumulait des centaines d'instantanÃ©s jamais rendus.
+     * Au-delÃ , le pas le plus ancien est oubliÃ©.
+     */
+    static constexpr std::size_t UNDO_HISTORY_LIMIT = 200;
+
     /**
      * @brief CrÃ©e un brouillon vierge (grille entiÃ¨rement `Empty`), sans entrÃ©e.
      * @param name   Nom du niveau.
@@ -232,6 +242,24 @@ public:
      */
     bool redo();
 
+    /// @return Le nombre de pas que `undo()` peut dÃ©faire (au plus `UNDO_HISTORY_LIMIT`).
+<span style = "background-color:#dfd">    [[nodiscard]] std::size_t undoDepth() const noexcept {
+        return _undoHistory.size();
+    }</span>
+
+    /**
+     * @brief Identifie l'Ã©tat du contenu : change Ã  chaque mutation, et revient Ã  sa valeur
+     *        d'avant quand `undo()` dÃ©fait la mutation (et inversement pour `redo()`,
+     * `EX-EDIT-058`).
+     *
+     * L'Ã©diteur compare cette rÃ©vision Ã  celle de la derniÃ¨re ouverture ou du dernier
+     * enregistrement pour dire si le brouillon porte des modifications : dÃ©faire jusqu'Ã  l'Ã©tat
+     * enregistrÃ© rend un brouillon propre, et rien ne le marque modifiÃ© sans mutation rÃ©elle.
+     */
+<span style = "background-color:#dfd">    [[nodiscard]] std::uint64_t revision() const noexcept {
+        return _revision;
+    }</span>
+
     /// @return `true` si `undo()` aurait un effet.
 <span style = "background-color:#dfd">    [[nodiscard]] bool canUndo() const noexcept {
         return !_undoHistory.empty();
@@ -290,6 +318,14 @@ public:
      */
     [[nodiscard]] LevelLoadResult toLevel() const;
 
+    /**
+     * @brief Le brouillon en JSON, **sans validation** : ce que `toLevel()` relit.
+     *
+     * Sert Ã  la sauvegarde automatique (`LOT-EDITOR-01`), qui doit garder un brouillon mÃªme
+     * incomplet (sans entrÃ©e, par exemple).
+     */
+    [[nodiscard]] std::string toJson() const;
+
 private:
     LevelDraft(std::string name, TileMap tileMap);
 
@@ -319,6 +355,7 @@ private:
         std::vector&lt;TileLayer&gt; layers;
         std::vector&lt;MapEntity&gt; entities;
         std::vector&lt;TileTextureOverride&gt; textureOverrides;
+        std::uint64_t revision = 0;
     };
 
     /// Capture l'Ã©tat courant (pour empiler dans l'historique undo/redo).
@@ -328,8 +365,12 @@ private:
     void restore(State state);
 
     /// Empile l'Ã©tat courant sur la pile d'annulation ; Ã  appeler avant toute mutation
-    /// undoable. Une nouvelle mutation invalide toujours la branche de refaire.
+    /// undoable. Une nouvelle mutation invalide toujours la branche de refaire, oublie le pas le
+    /// plus ancien au-delÃ  de `UNDO_HISTORY_LIMIT` et donne au contenu une rÃ©vision neuve.
     void pushUndo();
+
+    /// Vrai si peindre @p type en (@p column, @p row) changerait la carte.
+    [[nodiscard]] bool paintChanges(int column, int row, TileType type) const;
 
     std::string _name;
     TileMap _tileMap;
@@ -339,6 +380,9 @@ private:
     std::vector&lt;TileTextureOverride&gt; _textureOverrides;
     std::vector&lt;State&gt; _undoHistory;
     std::vector&lt;State&gt; _redoHistory;
+<span style = "background-color:#dfd">    std::uint64_t _revision = 0;</span>
+    /// DerniÃ¨re rÃ©vision donnÃ©e : jamais rÃ©employÃ©e, mÃªme aprÃ¨s un `undo()`.
+<span style = "background-color:#dfd">    std::uint64_t _lastRevision = 0;</span>
 };
 
 }  // namespace core</pre>

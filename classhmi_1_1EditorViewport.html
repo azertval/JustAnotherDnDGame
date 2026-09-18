@@ -124,14 +124,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aed90ef32aa2988387e401b9613edae3e" id="r_aed90ef32aa2988387e401b9613edae3e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aed90ef32aa2988387e401b9613edae3e">setActiveTile</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type) noexcept</td></tr>
 <tr class="memdesc:aed90ef32aa2988387e401b9613edae3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de tuile peint au clic (choisi dans la palette).  <br /></td></tr>
 <tr class="memitem:a01f8f3ad0730421bcde6b0bf5736db59" id="r_a01f8f3ad0730421bcde6b0bf5736db59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a01f8f3ad0730421bcde6b0bf5736db59">setTool</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> tool)</td></tr>
-<tr class="memitem:ae18fedf16a05796326f0dcefbd54ffee" id="r_ae18fedf16a05796326f0dcefbd54ffee"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ae18fedf16a05796326f0dcefbd54ffee">setLocalization</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *loc) noexcept</td></tr>
 <tr class="memitem:a29ff52fd39a14e9ccfb888bb5e61461b" id="r_a29ff52fd39a14e9ccfb888bb5e61461b"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorKeyBindings.html">hmi::EditorKeyBindings</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a29ff52fd39a14e9ccfb888bb5e61461b">editorBindings</a> () noexcept</td></tr>
-<tr class="memitem:adfb1bc6246d875a88e511e6e5b9114ae" id="r_adfb1bc6246d875a88e511e6e5b9114ae"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#adfb1bc6246d875a88e511e6e5b9114ae">save</a> ()</td></tr>
-<tr class="memdesc:adfb1bc6246d875a88e511e6e5b9114ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre le brouillon sous <span class="tt">Levels/&lt;nom&gt;.json</span>, après validation (<span class="tt">EX-EDIT-007</span>).  <br /></td></tr>
-<tr class="memitem:ad1b70a5f67fa9e71b5a18a918efa070b" id="r_ad1b70a5f67fa9e71b5a18a918efa070b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad1b70a5f67fa9e71b5a18a918efa070b">openLevel</a> (const std::filesystem::path &amp;path)</td></tr>
-<tr class="memdesc:ad1b70a5f67fa9e71b5a18a918efa070b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre <code class="param">path</code> comme brouillon ; sort d'un éventuel essai.  <br /></td></tr>
+<tr class="memitem:a0a85b5ab2b243cf4286cec616db25fba" id="r_a0a85b5ab2b243cf4286cec616db25fba"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0a85b5ab2b243cf4286cec616db25fba">save</a> ()</td></tr>
+<tr class="memdesc:a0a85b5ab2b243cf4286cec616db25fba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enregistre le brouillon sous <span class="tt">Levels/&lt;nom&gt;.json</span>, après validation (<span class="tt">EX-EDIT-007</span>).  <br /></td></tr>
+<tr class="memitem:a0073d59a00c4168cb00a153431166224" id="r_a0073d59a00c4168cb00a153431166224"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0073d59a00c4168cb00a153431166224">openLevel</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a0073d59a00c4168cb00a153431166224"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre <code class="param">path</code> comme brouillon ; sort d'un éventuel essai.  <br /></td></tr>
 <tr class="memitem:ac74e119e93cc45dc4bf95ffc87f20873" id="r_ac74e119e93cc45dc4bf95ffc87f20873"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac74e119e93cc45dc4bf95ffc87f20873">isDirty</a> () const noexcept</td></tr>
+<tr class="memdesc:ac74e119e93cc45dc4bf95ffc87f20873"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le brouillon porte des modifications : sa révision n'est plus celle de la dernière ouverture ou du dernier enregistrement (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#ae1dc7f0a73b888edbcc04e114116fefe" title="Identifie l&#39;état du contenu : change à chaque mutation, et revient à sa valeur d&#39;avant quand undo() d...">core::LevelDraft::revision</a></span>).  <br /></td></tr>
 <tr class="memitem:a1d50d436d753be4c03781d0454c21c7f" id="r_a1d50d436d753be4c03781d0454c21c7f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1d50d436d753be4c03781d0454c21c7f">renameOpenLevel</a> (const std::string &amp;newName)</td></tr>
+<tr class="memitem:aeb239786658a9aa66cfa6770f061361a" id="r_aeb239786658a9aa66cfa6770f061361a"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#aeb239786658a9aa66cfa6770f061361a">mapId</a> () const noexcept</td></tr>
+<tr class="memitem:afcb850859f73d7a4f2a70ad8a7ff5830" id="r_afcb850859f73d7a4f2a70ad8a7ff5830"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#afcb850859f73d7a4f2a70ad8a7ff5830">levelPath</a> () const</td></tr>
+<tr class="memitem:a4decd31ed28cf70d9fe3ea73826780a2" id="r_a4decd31ed28cf70d9fe3ea73826780a2"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a4decd31ed28cf70d9fe3ea73826780a2">draftJson</a> () const</td></tr>
+<tr class="memitem:ae410ba59c589dae702cb88f9b3087a3b" id="r_ae410ba59c589dae702cb88f9b3087a3b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ae410ba59c589dae702cb88f9b3087a3b">restoreDraft</a> (const std::string &amp;<a class="el" href="#aeb239786658a9aa66cfa6770f061361a">mapId</a>, const std::string &amp;<a class="el" href="#a4decd31ed28cf70d9fe3ea73826780a2">draftJson</a>)</td></tr>
+<tr class="memdesc:ae410ba59c589dae702cb88f9b3087a3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reprend un brouillon sauvegardé automatiquement : il remplace le brouillon courant et reste marqué modifié, jusqu'à ce qu'on l'enregistre.  <br /></td></tr>
+<tr class="memitem:a697617cceb5275c38ada41a44ba10595" id="r_a697617cceb5275c38ada41a44ba10595"><td class="memItemLeft"><a class="el" href="namespacehmi.html#ad3d9a6a21747a6c69be71dfc46024733">DiskChange</a>&#160;</td><td class="memItemRight"><a class="el" href="#a697617cceb5275c38ada41a44ba10595">diskChange</a> () const</td></tr>
+<tr class="memitem:acde2f77a3436465195e4f80a9ee5a09e" id="r_acde2f77a3436465195e4f80a9ee5a09e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acde2f77a3436465195e4f80a9ee5a09e">acceptDiskVersion</a> ()</td></tr>
+<tr class="memdesc:acde2f77a3436465195e4f80a9ee5a09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prend l'état actuel du fichier pour référence : l'auteur a choisi de garder son brouillon, le prochain enregistrement écrasera la version du disque (mise de côté par l'appelant).  <br /></td></tr>
 <tr class="memitem:af25fb7956d59f4176c0ec248b9e623e2" id="r_af25fb7956d59f4176c0ec248b9e623e2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af25fb7956d59f4176c0ec248b9e623e2">startPlaytest</a> ()</td></tr>
 <tr class="memdesc:af25fb7956d59f4176c0ec248b9e623e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le brouillon avec le moteur du jeu (<span class="tt">EX-EDIT-008</span>, <span class="tt">EX-EDIT-055</span>).  <br /></td></tr>
 <tr class="memitem:a5ef8175f20eead2a5e702ad74df8b858" id="r_a5ef8175f20eead2a5e702ad74df8b858"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5ef8175f20eead2a5e702ad74df8b858">playtesting</a> () const noexcept</td></tr>
@@ -224,7 +232,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:afff364ef944445a953dbaf15b65dbfd5" id="r_afff364ef944445a953dbaf15b65dbfd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afff364ef944445a953dbaf15b65dbfd5">handleEntityRelease</a> (const QMouseEvent *<a class="el" href="#af3cf139ba0fb9b7ad7339457094b7a2e">event</a>)</td></tr>
 <tr class="memitem:aeb6673c3abf9a9f319fc9caf9219e76a" id="r_aeb6673c3abf9a9f319fc9caf9219e76a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aeb6673c3abf9a9f319fc9caf9219e76a">pixelWidth</a> () const</td></tr>
 <tr class="memitem:a30cea12e353f3114d561a1596965a87a" id="r_a30cea12e353f3114d561a1596965a87a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a30cea12e353f3114d561a1596965a87a">pixelHeight</a> () const</td></tr>
-<tr class="memitem:ad7a9baa6915c280e4db4fff9d519492f" id="r_ad7a9baa6915c280e4db4fff9d519492f"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#ad7a9baa6915c280e4db4fff9d519492f">statusText</a> (const char *key) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -247,12 +254,14 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a6df225a7eaba5236562d4c7d2406b2f6" id="r_a6df225a7eaba5236562d4c7d2406b2f6"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6df225a7eaba5236562d4c7d2406b2f6">_dragCurrent</a> {}</td></tr>
 <tr class="memitem:abea15c3a5ee4ed4eef39c9ffc75f7846" id="r_abea15c3a5ee4ed4eef39c9ffc75f7846"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abea15c3a5ee4ed4eef39c9ffc75f7846">_hoverCell</a></td></tr>
 <tr class="memitem:acc37bbc95209ab6c94cbca516c15afea" id="r_acc37bbc95209ab6c94cbca516c15afea"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#acc37bbc95209ab6c94cbca516c15afea">_lastEmittedZoom</a> = 0.0F</td></tr>
-<tr class="memitem:aa7b8da415241e56f05e63d4989e04eaf" id="r_aa7b8da415241e56f05e63d4989e04eaf"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa7b8da415241e56f05e63d4989e04eaf">_loc</a> = nullptr</td></tr>
 <tr class="memitem:a9b83a7e57f64afc19e8473970e0d886d" id="r_a9b83a7e57f64afc19e8473970e0d886d"><td class="memItemLeft">std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9b83a7e57f64afc19e8473970e0d886d">_selection</a></td></tr>
 <tr class="memitem:acfeab99e642c5139f06a24ef07c4c1f2" id="r_acfeab99e642c5139f06a24ef07c4c1f2"><td class="memItemLeft">std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acfeab99e642c5139f06a24ef07c4c1f2">_clipboard</a></td></tr>
 <tr class="memitem:a0dd1ad3bdcfd5f40010d1b96a516b900" id="r_a0dd1ad3bdcfd5f40010d1b96a516b900"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0dd1ad3bdcfd5f40010d1b96a516b900">_mapId</a></td></tr>
 <tr class="memdesc:a0dd1ad3bdcfd5f40010d1b96a516b900"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant de carte du brouillon (<span class="tt">capital/martpart</span>) : son chemin sous <span class="tt">Levels/</span>, sans extension ; son nom tant qu'il n'a jamais été ouvert ni enregistré.  <br /></td></tr>
-<tr class="memitem:a9d8b46f4ba2bdeab86ed327d2c2509cb" id="r_a9d8b46f4ba2bdeab86ed327d2c2509cb"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9d8b46f4ba2bdeab86ed327d2c2509cb">_dirty</a> = false</td></tr>
+<tr class="memitem:ae21d3ddad2e9c89cf92130cd7a71ecb1" id="r_ae21d3ddad2e9c89cf92130cd7a71ecb1"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#ae21d3ddad2e9c89cf92130cd7a71ecb1">_savedRevision</a> = 0</td></tr>
+<tr class="memdesc:ae21d3ddad2e9c89cf92130cd7a71ecb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Révision du brouillon à la dernière ouverture ou au dernier enregistrement.  <br /></td></tr>
+<tr class="memitem:a8374cc64c7038e075777f17f737151a4" id="r_a8374cc64c7038e075777f17f737151a4"><td class="memItemLeft"><a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8374cc64c7038e075777f17f737151a4">_diskFingerprint</a></td></tr>
+<tr class="memdesc:a8374cc64c7038e075777f17f737151a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empreinte du fichier de la carte à la dernière lecture ou écriture de l'éditeur.  <br /></td></tr>
 <tr class="memitem:a0230d7de251692d91770773bc5f76d21" id="r_a0230d7de251692d91770773bc5f76d21"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0230d7de251692d91770773bc5f76d21">_showGrid</a> = true</td></tr>
 <tr class="memitem:a3323625302198de44032f1e6ee36135c" id="r_a3323625302198de44032f1e6ee36135c"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1WorldPlay.html">WorldPlay</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3323625302198de44032f1e6ee36135c">_play</a></td></tr>
 <tr class="memitem:adee4dcc5193427ee382dac9ba78be22f" id="r_adee4dcc5193427ee382dac9ba78be22f"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1WorldSceneRenderer.html">WorldSceneRenderer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adee4dcc5193427ee382dac9ba78be22f">_world</a></td></tr>
@@ -375,6 +384,25 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="acde2f77a3436465195e4f80a9ee5a09e" name="acde2f77a3436465195e4f80a9ee5a09e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acde2f77a3436465195e4f80a9ee5a09e">&#9670;&#160;</a></span>acceptDiskVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::acceptDiskVersion </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Prend l'état actuel du fichier pour référence : l'auteur a choisi de garder son brouillon, le prochain enregistrement écrasera la version du disque (mise de côté par l'appelant). </p>
+
+</div>
+</div>
 <a id="ad28e0dc9d154327511f46875b45f6b73" name="ad28e0dc9d154327511f46875b45f6b73"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad28e0dc9d154327511f46875b45f6b73">&#9670;&#160;</a></span>activeLayer()</h2>
 
@@ -787,6 +815,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a697617cceb5275c38ada41a44ba10595" name="a697617cceb5275c38ada41a44ba10595"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a697617cceb5275c38ada41a44ba10595">&#9670;&#160;</a></span>diskChange()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehmi.html#ad3d9a6a21747a6c69be71dfc46024733">DiskChange</a> hmi::EditorViewport::diskChange </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Ce qui a changé sur disque depuis la dernière lecture ou écriture de la carte. </dd></dl>
+
+</div>
+</div>
 <a id="a72b6941b98633a12ab5d440ee1e7b454" name="a72b6941b98633a12ab5d440ee1e7b454"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a72b6941b98633a12ab5d440ee1e7b454">&#9670;&#160;</a></span>draft()</h2>
 
@@ -834,6 +888,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4decd31ed28cf70d9fe3ea73826780a2" name="a4decd31ed28cf70d9fe3ea73826780a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4decd31ed28cf70d9fe3ea73826780a2">&#9670;&#160;</a></span>draftJson()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EditorViewport::draftJson </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le brouillon en JSON non validé, pour la sauvegarde automatique. </dd></dl>
 
 </div>
 </div>
@@ -1137,6 +1217,9 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Le brouillon porte des modifications : sa révision n'est plus celle de la dernière ouverture ou du dernier enregistrement (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#ae1dc7f0a73b888edbcc04e114116fefe" title="Identifie l&#39;état du contenu : change à chaque mutation, et revient à sa valeur d&#39;avant quand undo() d...">core::LevelDraft::revision</a></span>). </p>
+<p>Défaire jusqu'à l'état enregistré rend un brouillon propre. </p>
+
 </div>
 </div>
 <a id="a3bc6aa80b04542a1193c142c9cc90858" name="a3bc6aa80b04542a1193c142c9cc90858"></a>
@@ -1264,6 +1347,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="afcb850859f73d7a4f2a70ad8a7ff5830" name="afcb850859f73d7a4f2a70ad8a7ff5830"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcb850859f73d7a4f2a70ad8a7ff5830">&#9670;&#160;</a></span>levelPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::filesystem::path hmi::EditorViewport::levelPath </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le fichier de la carte ouverte, qu'il existe ou non. </dd></dl>
+
+</div>
+</div>
 <a id="aebe8341755b466b762401450fefdcf73" name="aebe8341755b466b762401450fefdcf73"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aebe8341755b466b762401450fefdcf73">&#9670;&#160;</a></span>levelWidth()</h2>
 
@@ -1286,6 +1395,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb239786658a9aa66cfa6770f061361a" name="aeb239786658a9aa66cfa6770f061361a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb239786658a9aa66cfa6770f061361a">&#9670;&#160;</a></span>mapId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; hmi::EditorViewport::mapId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'identifiant de la carte ouverte (<span class="tt">capital/martpart</span>). </dd></dl>
 
 </div>
 </div>
@@ -1462,14 +1597,14 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad1b70a5f67fa9e71b5a18a918efa070b" name="ad1b70a5f67fa9e71b5a18a918efa070b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad1b70a5f67fa9e71b5a18a918efa070b">&#9670;&#160;</a></span>openLevel()</h2>
+<a id="a0073d59a00c4168cb00a153431166224" name="a0073d59a00c4168cb00a153431166224"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0073d59a00c4168cb00a153431166224">&#9670;&#160;</a></span>openLevel()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::EditorViewport::openLevel </td>
+          <td class="memname">bool hmi::EditorViewport::openLevel </td>
           <td>(</td>
           <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
           <td></td>
@@ -1478,6 +1613,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Ouvre <code class="param">path</code> comme brouillon ; sort d'un éventuel essai. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si la carte s'est ouverte ; en cas d'échec, le brouillon reste intact. </dd></dl>
 
 </div>
 </div>
@@ -1970,14 +2106,38 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="adfb1bc6246d875a88e511e6e5b9114ae" name="adfb1bc6246d875a88e511e6e5b9114ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adfb1bc6246d875a88e511e6e5b9114ae">&#9670;&#160;</a></span>save()</h2>
+<a id="ae410ba59c589dae702cb88f9b3087a3b" name="ae410ba59c589dae702cb88f9b3087a3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae410ba59c589dae702cb88f9b3087a3b">&#9670;&#160;</a></span>restoreDraft()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::EditorViewport::save </td>
+          <td class="memname">bool hmi::EditorViewport::restoreDraft </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>mapId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>draftJson</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reprend un brouillon sauvegardé automatiquement : il remplace le brouillon courant et reste marqué modifié, jusqu'à ce qu'on l'enregistre. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si le brouillon ne se relit pas (incomplet, format inconnu) : rien n'a changé, et le fichier de reprise reste en place. </dd></dl>
+
+</div>
+</div>
+<a id="a0a85b5ab2b243cf4286cec616db25fba" name="a0a85b5ab2b243cf4286cec616db25fba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a85b5ab2b243cf4286cec616db25fba">&#9670;&#160;</a></span>save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::save </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -1986,6 +2146,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Enregistre le brouillon sous <span class="tt">Levels/&lt;nom&gt;.json</span>, après validation (<span class="tt">EX-EDIT-007</span>). </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si le fichier a été écrit. </dd></dl>
 
 </div>
 </div>
@@ -2162,31 +2323,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ae18fedf16a05796326f0dcefbd54ffee" name="ae18fedf16a05796326f0dcefbd54ffee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae18fedf16a05796326f0dcefbd54ffee">&#9670;&#160;</a></span>setLocalization()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::setLocalization </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a5503c981c3e849756ef8a8db584d9858" name="a5503c981c3e849756ef8a8db584d9858"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5503c981c3e849756ef8a8db584d9858">&#9670;&#160;</a></span>setMapLayerOpacity()</h2>
 
@@ -2284,31 +2420,6 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad7a9baa6915c280e4db4fff9d519492f" name="ad7a9baa6915c280e4db4fff9d519492f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad7a9baa6915c280e4db4fff9d519492f">&#9670;&#160;</a></span>statusText()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::EditorViewport::statusText </td>
-          <td>(</td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -2684,8 +2795,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a9d8b46f4ba2bdeab86ed327d2c2509cb" name="a9d8b46f4ba2bdeab86ed327d2c2509cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d8b46f4ba2bdeab86ed327d2c2509cb">&#9670;&#160;</a></span>_dirty</h2>
+<a id="a8374cc64c7038e075777f17f737151a4" name="a8374cc64c7038e075777f17f737151a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8374cc64c7038e075777f17f737151a4">&#9670;&#160;</a></span>_diskFingerprint</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2694,7 +2805,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool hmi::EditorViewport::_dirty = false</td>
+          <td class="memname"><a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a> hmi::EditorViewport::_diskFingerprint</td>
         </tr>
       </table>
   </td>
@@ -2703,6 +2814,8 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Empreinte du fichier de la carte à la dernière lecture ou écriture de l'éditeur. </p>
 
 </div>
 </div>
@@ -3018,28 +3131,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa7b8da415241e56f05e63d4989e04eaf" name="aa7b8da415241e56f05e63d4989e04eaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7b8da415241e56f05e63d4989e04eaf">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1Localization.html">Localization</a>* hmi::EditorViewport::_loc = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="af93211668c78306028799d6f1d4cd7f2" name="af93211668c78306028799d6f1d4cd7f2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af93211668c78306028799d6f1d4cd7f2">&#9670;&#160;</a></span>_manualCamera</h2>
 
@@ -3330,6 +3421,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ae21d3ddad2e9c89cf92130cd7a71ecb1" name="ae21d3ddad2e9c89cf92130cd7a71ecb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae21d3ddad2e9c89cf92130cd7a71ecb1">&#9670;&#160;</a></span>_savedRevision</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t hmi::EditorViewport::_savedRevision = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Révision du brouillon à la dernière ouverture ou au dernier enregistrement. </p>
+
+</div>
+</div>
 <a id="af5b7dfe8907ea19015b8187e4d7ee72a" name="af5b7dfe8907ea19015b8187e4d7ee72a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af5b7dfe8907ea19015b8187e4d7ee72a">&#9670;&#160;</a></span>_scene</h2>
 
@@ -3507,8 +3622,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="EditorViewport_8h_source.html">EditorViewport.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="EditorViewport_8cpp.html">EditorViewport.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="EditorViewport_8h_source.html">EditorViewport.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="EditorViewport_8cpp.html">EditorViewport.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

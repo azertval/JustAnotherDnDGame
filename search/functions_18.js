@@ -18,10 +18,9 @@ var searchData=
   ['_7elevelbrowserpanel_15',['~LevelBrowserPanel',['../classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba',1,'hmi::LevelBrowserPanel']]],
   ['_7emainwindow_16',['~MainWindow',['../classhmi_1_1MainWindow.html#a9217cc93491089761355a98056939638',1,'hmi::MainWindow']]],
   ['_7eoperation_17',['~Operation',['../classcore_1_1CombatState_1_1Operation.html#a3878ba3fa9ac55009ff98dd8144d0ceb',1,'core::CombatState::Operation']]],
-  ['_7epalettepanel_18',['~PalettePanel',['../classhmi_1_1PalettePanel.html#abad00b2f436c14ab35d4cf5f55840698',1,'hmi::PalettePanel']]],
-  ['_7esceneresources_19',['~SceneResources',['../classhmi_1_1SceneResources.html#ad2fb3cc3d380a87edc4daf992545d24b',1,'hmi::SceneResources']]],
-  ['_7escopedloglevel_20',['~ScopedLogLevel',['../classcore_1_1ScopedLogLevel.html#a5eef4059dd4d37f99de622b55d6e854c',1,'core::ScopedLogLevel']]],
-  ['_7espritebatch_21',['~SpriteBatch',['../classhmi_1_1SpriteBatch.html#a8beb3b957f3cccf4960939d0b203c5fb',1,'hmi::SpriteBatch']]],
-  ['_7eworldmodel_22',['~WorldModel',['../classhmi_1_1WorldModel.html#a57bf1374060f4024ab4990f52249d636',1,'hmi::WorldModel']]],
-  ['_7eworldscenerenderer_23',['~WorldSceneRenderer',['../classhmi_1_1WorldSceneRenderer.html#a08d587730ca8f5097ca017f69ea2e388',1,'hmi::WorldSceneRenderer']]]
+  ['_7esceneresources_18',['~SceneResources',['../classhmi_1_1SceneResources.html#ad2fb3cc3d380a87edc4daf992545d24b',1,'hmi::SceneResources']]],
+  ['_7escopedloglevel_19',['~ScopedLogLevel',['../classcore_1_1ScopedLogLevel.html#a5eef4059dd4d37f99de622b55d6e854c',1,'core::ScopedLogLevel']]],
+  ['_7espritebatch_20',['~SpriteBatch',['../classhmi_1_1SpriteBatch.html#a8beb3b957f3cccf4960939d0b203c5fb',1,'hmi::SpriteBatch']]],
+  ['_7eworldmodel_21',['~WorldModel',['../classhmi_1_1WorldModel.html#a57bf1374060f4024ab4990f52249d636',1,'hmi::WorldModel']]],
+  ['_7eworldscenerenderer_22',['~WorldSceneRenderer',['../classhmi_1_1WorldSceneRenderer.html#a08d587730ca8f5097ca017f69ea2e388',1,'hmi::WorldSceneRenderer']]]
 ];

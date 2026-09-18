@@ -1,24 +1,21 @@
 var classhmi_1_1EntityPanel =
 [
+    [ "Widgets", "structhmi_1_1EntityPanel_1_1Widgets.html", "structhmi_1_1EntityPanel_1_1Widgets" ],
     [ "EntityPanel", "classhmi_1_1EntityPanel.html#a7b25f952e66212262dc69ff3256310d4", null ],
     [ "~EntityPanel", "classhmi_1_1EntityPanel.html#a057a81d88961c14170d824eb0a3ec1bf", null ],
     [ "addChoiceRow", "classhmi_1_1EntityPanel.html#a81eb6d52c526cf35a34ebb481fce24e5", null ],
     [ "addPropertyRow", "classhmi_1_1EntityPanel.html#a7b8d2a589c3b105e6e31f28b2bc35c8d", null ],
     [ "clearForm", "classhmi_1_1EntityPanel.html#a14ca619b562a89bed393e3f422136b25", null ],
     [ "entitySelected", "classhmi_1_1EntityPanel.html#a11f1a1d750f7eb7f27bb9a6eec42bc33", null ],
-    [ "kindLabel", "classhmi_1_1EntityPanel.html#ae7e57f9e758980a58916952792ebeb17", null ],
     [ "kindToPlace", "classhmi_1_1EntityPanel.html#a3e09c0091086b69baf02c9d9c2e92c3a", null ],
     [ "kindToPlaceChanged", "classhmi_1_1EntityPanel.html#a7e69f5cb14a7e3e569ea913dfdebb6b1", null ],
     [ "propertyChanged", "classhmi_1_1EntityPanel.html#a7b2f10554ef53c27b369a7ad8f773b58", null ],
-    [ "propertyLabel", "classhmi_1_1EntityPanel.html#a550e1989f1db05b44f7d14cca79bd105", null ],
     [ "rebuildForm", "classhmi_1_1EntityPanel.html#a05e206f7af68e68bc586a0b3c98391ab", null ],
     [ "rebuildKinds", "classhmi_1_1EntityPanel.html#a5f5a6bf5b8d0d1a220dc1080a46f5b0e", null ],
     [ "rebuildTable", "classhmi_1_1EntityPanel.html#a85c60b874a072b7f4f0fa38653d6306c", null ],
     [ "rebuildWarnings", "classhmi_1_1EntityPanel.html#af08df6945e608ada373cb52b27dbdab1", null ],
     [ "refresh", "classhmi_1_1EntityPanel.html#a7ea1e1f0b244fdf96169857b53412153", null ],
     [ "removeRequested", "classhmi_1_1EntityPanel.html#a04a2c43393a88cfa9592155d384f172a", null ],
-    [ "retranslateUi", "classhmi_1_1EntityPanel.html#a69c8ff1f39901cdb21e93147d7300524", null ],
-    [ "text", "classhmi_1_1EntityPanel.html#ae3fedf00752ab2a0b00340339d81b27c", null ],
     [ "_context", "classhmi_1_1EntityPanel.html#abab0deec54d8351cb2fe1b6399da53c2", null ],
     [ "_diagnostics", "classhmi_1_1EntityPanel.html#a75ecce479d57d39f3da4fc453b8e7d9d", null ],
     [ "_entities", "classhmi_1_1EntityPanel.html#a9d20b20fca121f41d8e1d39134adda7b", null ],
@@ -26,8 +23,7 @@ var classhmi_1_1EntityPanel =
     [ "_formChoices", "classhmi_1_1EntityPanel.html#a5e25dfe2f1419d537ffe17888ab99c55", null ],
     [ "_formEntity", "classhmi_1_1EntityPanel.html#a1f92726d8df90c588ce22947a96d588e", null ],
     [ "_formIndex", "classhmi_1_1EntityPanel.html#a7868d01e55b978fc44506ec2c5c0dd81", null ],
-    [ "_loc", "classhmi_1_1EntityPanel.html#ad9dad7c2171cdc3501267973a7484bd3", null ],
     [ "_rebuilding", "classhmi_1_1EntityPanel.html#a441ed552a056c27d02ecf4a17642f8c5", null ],
     [ "_selected", "classhmi_1_1EntityPanel.html#a70005c4cc5712e70f2105ad54182d46e", null ],
-    [ "_ui", "classhmi_1_1EntityPanel.html#ad275ea91baa768c21cec03b3d38b1746", null ]
+    [ "_ui", "classhmi_1_1EntityPanel.html#a7571239669a8f6c55b3ec568fa21a403", null ]
 ];

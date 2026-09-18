@@ -61,14 +61,40 @@ LevelDraft::LevelDraft(std::string name, TileMap tileMap)
     return draft;
 }</span>
 
-<span style = "background-color:#dfd">void LevelDraft::paintTile(int column, int row, TileType type) {
-    pushUndo();
+<span style = "background-color:#dfd">bool LevelDraft::paintChanges(int column, int row, TileType type) const {
+    if (!_tileMap.inBounds(column, row)) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    if (type == TileType::Entry) {
+        return _entry != GridPosition{.column = column, .row = row};</span>
+    }
+<span style = "background-color:#dfd">    return _tileMap.tile(column, row) != type;
+}</span>
+
+<span style = "background-color:#dfd">void LevelDraft::paintTile(int column, int row, TileType type) {</span>
+    // Repasser le pinceau sur une case dÃ©jÃ  du bon type ne fait rien : ni pas d'historique, ni
+    // rÃ©vision neuve -- la carte n'en est pas Â« modifiÃ©e Â».
+<span style = "background-color:#dfd">    if (!paintChanges(column, row, type)) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
     paintTileInternal(column, row, type);
 }</span>
 
 void LevelDraft::paintRegion(int originColumn, int originRow,
 <span style = "background-color:#dfd">                             const std::vector&lt;std::vector&lt;TileType&gt;&gt;&amp; block) {
-    if (block.empty()) {
+    bool changes = false;
+    for (std::size_t rowOffset = 0; rowOffset &lt; block.size() &amp;&amp; !changes; ++rowOffset) {
+        for (std::size_t columnOffset = 0; columnOffset &lt; block[rowOffset].size(); ++columnOffset) {
+            if (paintChanges(originColumn + static_cast&lt;int&gt;(columnOffset),</span>
+                             originRow + static_cast&lt;int&gt;(rowOffset),
+                             block[rowOffset][columnOffset])) {
+<span style = "background-color:#dfd">                changes = true;
+                break;</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+    if (!changes) {
         return;</span>
     }
 <span style = "background-color:#dfd">    pushUndo();
@@ -399,7 +425,8 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
                  .entry = _entry,
                  .layers = _layers,
                  .entities = _entities,
-                 .textureOverrides = _textureOverrides};
+                 .textureOverrides = _textureOverrides,
+                 .revision = _revision};
 <span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">void LevelDraft::restore(State state) {
@@ -409,14 +436,19 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
     _layers = std::move(state.layers);
     _entities = std::move(state.entities);
     _textureOverrides = std::move(state.textureOverrides);
+    _revision = state.revision;
 }</span>
 
 <span style = "background-color:#dfd">void LevelDraft::pushUndo() {
     _undoHistory.push_back(snapshot());
-    _redoHistory.clear();  // une nouvelle mutation invalide la branche de refaire
+    if (_undoHistory.size() &gt; UNDO_HISTORY_LIMIT) {
+        _undoHistory.erase(_undoHistory.begin());</span>
+    }
+<span style = "background-color:#dfd">    _redoHistory.clear();  // une nouvelle mutation invalide la branche de refaire
+    _revision = ++_lastRevision;
 }</span>
 
-<span style = "background-color:#dfd">LevelLoadResult LevelDraft::toLevel() const {</span>
+<span style = "background-color:#dfd">std::string LevelDraft::toJson() const {</span>
     // La grille editee EST la couche de collision de la carte (LOT-04) : le brouillon n'en peint
     // qu'une, et laisser la couche de collision figee sur l'etat du fichier d'origine produirait
     // une carte ou l'on traverse un mur qu'on voit. Les couches visuelles -- sol, decor -- sont
@@ -427,12 +459,15 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
             layer.tiles = _tileMap;</span>
         }
 <span style = "background-color:#dfd">    }
-    const std::string json = LevelWriter::buildJson(LevelData{.name = _name,</span>
-                                                              .tileMap = _tileMap,
-                                                              .layers = std::move(layers),
-                                                              .entities = _entities,
-                                                              .textureOverrides = _textureOverrides});
-<span style = "background-color:#dfd">    return LevelLoader::loadFromString(json);
+    return LevelWriter::buildJson(LevelData{.name = _name,</span>
+                                            .tileMap = _tileMap,
+                                            .layers = std::move(layers),
+                                            .entities = _entities,
+                                            .textureOverrides = _textureOverrides});
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">LevelLoadResult LevelDraft::toLevel() const {
+    return LevelLoader::loadFromString(toJson());
 }</span>
 
 <span style = "background-color:#dfd">void LevelDraft::removeTextureOverrideAt(GridPosition position) {

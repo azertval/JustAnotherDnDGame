@@ -146,12 +146,20 @@ Functions</h2></td></tr>
 <tr class="memdesc:a25deab2adfe588e86153eaeb88d36597"><td class="mdescLeft">&#160;</td><td class="mdescRight">wouldResizeDropContent est faux sur un brouillon vierge, quelle que soit la taille visee.  <br /></td></tr>
 <tr class="memitem:a9f228928cffec8436de6147ba32f31d1" id="r_a9f228928cffec8436de6147ba32f31d1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9f228928cffec8436de6147ba32f31d1">TEST</a> (LevelDraftTest, UndoApresRedimensionnementRestitueLesDimensions)</td></tr>
 <tr class="memdesc:a9f228928cffec8436de6147ba32f31d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'annulation d'un redimensionnement restitue les dimensions et le contenu précédents.  <br /></td></tr>
+<tr class="memitem:aa13640c6a05c6ef21f049cca2cfed960" id="r_aa13640c6a05c6ef21f049cca2cfed960"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa13640c6a05c6ef21f049cca2cfed960">TEST</a> (LevelDraftTest, LaRevisionSuitLHistorique)</td></tr>
+<tr class="memdesc:aa13640c6a05c6ef21f049cca2cfed960"><td class="mdescLeft">&#160;</td><td class="mdescRight">La révision change à chaque mutation et revient à sa valeur quand <span class="tt">undo()</span> la défait : c'est elle qui dit à l'éditeur si la carte porte des modifications (<span class="tt">LOT-EDITOR-01</span>).  <br /></td></tr>
+<tr class="memitem:aa93701a0b7d35aeea2fa009b4367b1f6" id="r_aa93701a0b7d35aeea2fa009b4367b1f6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa93701a0b7d35aeea2fa009b4367b1f6">TEST</a> (LevelDraftTest, RepeindreLeMemeTypeNeModifieRien)</td></tr>
+<tr class="memdesc:aa93701a0b7d35aeea2fa009b4367b1f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repeindre une case du même type ne fait rien : ni pas d'historique, ni révision neuve.  <br /></td></tr>
+<tr class="memitem:a9c146053418eda9be5305fe2d177bbf2" id="r_a9c146053418eda9be5305fe2d177bbf2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9c146053418eda9be5305fe2d177bbf2">TEST</a> (LevelDraftTest, LHistoriqueEstPlafonne)</td></tr>
+<tr class="memdesc:a9c146053418eda9be5305fe2d177bbf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'historique d'annulation est plafonné : au-delà, le pas le plus ancien est oublié et le plus récent reste défaisable.  <br /></td></tr>
+<tr class="memitem:ae2cde4f18296e771e3e425687ab99e87" id="r_ae2cde4f18296e771e3e425687ab99e87"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae2cde4f18296e771e3e425687ab99e87">TEST</a> (LevelDraftTest, ToJsonRendUnBrouillonIncomplet)</td></tr>
+<tr class="memdesc:ae2cde4f18296e771e3e425687ab99e87"><td class="mdescLeft">&#160;</td><td class="mdescRight"><span class="tt">toJson</span> rend le brouillon même incomplet, et relu par le chargeur il redonne la carte.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires du modèle d'édition mutable (EX-EDIT-002 à EX-EDIT-007). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a54e70d614b36f54aa66430067534ccf1" name="a54e70d614b36f54aa66430067534ccf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54e70d614b36f54aa66430067534ccf1">&#9670;&#160;</a></span>TEST() <span class="overload">[1/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a54e70d614b36f54aa66430067534ccf1">&#9670;&#160;</a></span>TEST() <span class="overload">[1/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +189,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a313c248daf70b629ede75e2f1923bee3" name="a313c248daf70b629ede75e2f1923bee3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a313c248daf70b629ede75e2f1923bee3">&#9670;&#160;</a></span>TEST() <span class="overload">[2/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a313c248daf70b629ede75e2f1923bee3">&#9670;&#160;</a></span>TEST() <span class="overload">[2/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,7 +219,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a30701a8e572ac6c31f95ba2a210b6bd8" name="a30701a8e572ac6c31f95ba2a210b6bd8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a30701a8e572ac6c31f95ba2a210b6bd8">&#9670;&#160;</a></span>TEST() <span class="overload">[3/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a30701a8e572ac6c31f95ba2a210b6bd8">&#9670;&#160;</a></span>TEST() <span class="overload">[3/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,8 +248,68 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa13640c6a05c6ef21f049cca2cfed960" name="aa13640c6a05c6ef21f049cca2cfed960"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa13640c6a05c6ef21f049cca2cfed960">&#9670;&#160;</a></span>TEST() <span class="overload">[4/25]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">LevelDraftTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LaRevisionSuitLHistorique</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La révision change à chaque mutation et revient à sa valeur quand <span class="tt">undo()</span> la défait : c'est elle qui dit à l'éditeur si la carte porte des modifications (<span class="tt">LOT-EDITOR-01</span>). </p>
+<p><b>Cas de test :</b> <b>La révision du brouillon suit l'historique d'annulation.</b><br  />
+ <b>Categorie :</b> Unitaire · Level Draft<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Relever la révision d'un brouillon neuf.<br  />
+2. Peindre, défaire, refaire.<br  />
+ <b>Resultat attendu :</b> Peindre change la révision ; défaire rend la révision de départ ; refaire rend celle d'après la peinture ; une nouvelle mutation après un défaire donne une révision jamais vue. </p>
+
+</div>
+</div>
+<a id="a9c146053418eda9be5305fe2d177bbf2" name="a9c146053418eda9be5305fe2d177bbf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c146053418eda9be5305fe2d177bbf2">&#9670;&#160;</a></span>TEST() <span class="overload">[5/25]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">LevelDraftTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LHistoriqueEstPlafonne</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>L'historique d'annulation est plafonné : au-delà, le pas le plus ancien est oublié et le plus récent reste défaisable. </p>
+<p><b>Cas de test :</b> <b>L'historique d'annulation est plafonné.</b><br  />
+ <b>Categorie :</b> Unitaire · Level Draft<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Enchaîner plus de mutations que le plafond.<br  />
+2. Défaire autant que possible.<br  />
+ <b>Resultat attendu :</b> La profondeur s'arrête au plafond ; tout défaire rend l'état d'après les mutations oubliées, pas le brouillon vierge. </p>
+
+</div>
+</div>
 <a id="a50e24e0a572521ce23cb4ec000cae245" name="a50e24e0a572521ce23cb4ec000cae245"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50e24e0a572521ce23cb4ec000cae245">&#9670;&#160;</a></span>TEST() <span class="overload">[4/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a50e24e0a572521ce23cb4ec000cae245">&#9670;&#160;</a></span>TEST() <span class="overload">[6/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -271,7 +339,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a399d3c283c1ace5b25f7a14299ba2fd9" name="a399d3c283c1ace5b25f7a14299ba2fd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a399d3c283c1ace5b25f7a14299ba2fd9">&#9670;&#160;</a></span>TEST() <span class="overload">[5/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a399d3c283c1ace5b25f7a14299ba2fd9">&#9670;&#160;</a></span>TEST() <span class="overload">[7/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -301,7 +369,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aa01c2cb93e9df1d3c40010095019b6b7" name="aa01c2cb93e9df1d3c40010095019b6b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa01c2cb93e9df1d3c40010095019b6b7">&#9670;&#160;</a></span>TEST() <span class="overload">[6/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa01c2cb93e9df1d3c40010095019b6b7">&#9670;&#160;</a></span>TEST() <span class="overload">[8/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -331,7 +399,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a3583bd16d98aea5270f7a4dd01fb8e3f" name="a3583bd16d98aea5270f7a4dd01fb8e3f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3583bd16d98aea5270f7a4dd01fb8e3f">&#9670;&#160;</a></span>TEST() <span class="overload">[7/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3583bd16d98aea5270f7a4dd01fb8e3f">&#9670;&#160;</a></span>TEST() <span class="overload">[9/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -361,7 +429,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a75a9a9db2778cf3747176fae57f67ed9" name="a75a9a9db2778cf3747176fae57f67ed9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a75a9a9db2778cf3747176fae57f67ed9">&#9670;&#160;</a></span>TEST() <span class="overload">[8/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a75a9a9db2778cf3747176fae57f67ed9">&#9670;&#160;</a></span>TEST() <span class="overload">[10/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -391,7 +459,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9d81a7d3f99760c4a086e572921659bb" name="a9d81a7d3f99760c4a086e572921659bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d81a7d3f99760c4a086e572921659bb">&#9670;&#160;</a></span>TEST() <span class="overload">[9/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d81a7d3f99760c4a086e572921659bb">&#9670;&#160;</a></span>TEST() <span class="overload">[11/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -421,7 +489,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a44e4d50198bc46a552734e954b712be4" name="a44e4d50198bc46a552734e954b712be4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44e4d50198bc46a552734e954b712be4">&#9670;&#160;</a></span>TEST() <span class="overload">[10/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e4d50198bc46a552734e954b712be4">&#9670;&#160;</a></span>TEST() <span class="overload">[12/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -451,7 +519,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a0f751e0f64c9544fe37368732d3593f5" name="a0f751e0f64c9544fe37368732d3593f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0f751e0f64c9544fe37368732d3593f5">&#9670;&#160;</a></span>TEST() <span class="overload">[11/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f751e0f64c9544fe37368732d3593f5">&#9670;&#160;</a></span>TEST() <span class="overload">[13/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -481,7 +549,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a097e3b7b1afa2d486dc96af73bc9c3d7" name="a097e3b7b1afa2d486dc96af73bc9c3d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a097e3b7b1afa2d486dc96af73bc9c3d7">&#9670;&#160;</a></span>TEST() <span class="overload">[12/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a097e3b7b1afa2d486dc96af73bc9c3d7">&#9670;&#160;</a></span>TEST() <span class="overload">[14/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -511,7 +579,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ab10835d41921d7dce7a0b07cacd76e23" name="ab10835d41921d7dce7a0b07cacd76e23"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab10835d41921d7dce7a0b07cacd76e23">&#9670;&#160;</a></span>TEST() <span class="overload">[13/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab10835d41921d7dce7a0b07cacd76e23">&#9670;&#160;</a></span>TEST() <span class="overload">[15/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -540,8 +608,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aa93701a0b7d35aeea2fa009b4367b1f6" name="aa93701a0b7d35aeea2fa009b4367b1f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa93701a0b7d35aeea2fa009b4367b1f6">&#9670;&#160;</a></span>TEST() <span class="overload">[16/25]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">LevelDraftTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RepeindreLeMemeTypeNeModifieRien</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Repeindre une case du même type ne fait rien : ni pas d'historique, ni révision neuve. </p>
+<p><b>Cas de test :</b> <b>Repasser le pinceau sur une case déjà du bon type ne modifie pas la carte.</b><br  />
+ <b>Categorie :</b> Unitaire · Level Draft<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Peindre une case, relever la révision.<br  />
+2. Repeindre la même case du même type, et un bloc qui ne change rien.<br  />
+ <b>Resultat attendu :</b> Révision et profondeur d'historique inchangées. </p>
+
+</div>
+</div>
 <a id="a6897e537a38977efc975e688aa750dbd" name="a6897e537a38977efc975e688aa750dbd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6897e537a38977efc975e688aa750dbd">&#9670;&#160;</a></span>TEST() <span class="overload">[14/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6897e537a38977efc975e688aa750dbd">&#9670;&#160;</a></span>TEST() <span class="overload">[17/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -571,7 +669,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a36c74a61dd26e0730e1dafb641311649" name="a36c74a61dd26e0730e1dafb641311649"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36c74a61dd26e0730e1dafb641311649">&#9670;&#160;</a></span>TEST() <span class="overload">[15/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a36c74a61dd26e0730e1dafb641311649">&#9670;&#160;</a></span>TEST() <span class="overload">[18/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -600,8 +698,38 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ae2cde4f18296e771e3e425687ab99e87" name="ae2cde4f18296e771e3e425687ab99e87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2cde4f18296e771e3e425687ab99e87">&#9670;&#160;</a></span>TEST() <span class="overload">[19/25]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">LevelDraftTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ToJsonRendUnBrouillonIncomplet</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><span class="tt">toJson</span> rend le brouillon même incomplet, et relu par le chargeur il redonne la carte. </p>
+<p><b>Cas de test :</b> <b>Le brouillon se sérialise sans validation, pour la sauvegarde automatique.</b><br  />
+ <b>Categorie :</b> Unitaire · Level Draft<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Sérialiser un brouillon sans entrée.<br  />
+2. Poser une entrée, sérialiser, recharger.<br  />
+ <b>Resultat attendu :</b> Le premier JSON n'est pas vide (le chargeur le refuse) ; le second se recharge à l'identique de ce que <span class="tt">toLevel</span> rend. </p>
+
+</div>
+</div>
 <a id="ab2f7c6f7125a96fd3465adca751b3c3a" name="ab2f7c6f7125a96fd3465adca751b3c3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2f7c6f7125a96fd3465adca751b3c3a">&#9670;&#160;</a></span>TEST() <span class="overload">[16/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2f7c6f7125a96fd3465adca751b3c3a">&#9670;&#160;</a></span>TEST() <span class="overload">[20/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -631,7 +759,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8f21af2cfdc63cb63dde02cbe523f30b" name="a8f21af2cfdc63cb63dde02cbe523f30b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f21af2cfdc63cb63dde02cbe523f30b">&#9670;&#160;</a></span>TEST() <span class="overload">[17/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f21af2cfdc63cb63dde02cbe523f30b">&#9670;&#160;</a></span>TEST() <span class="overload">[21/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -661,7 +789,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9f228928cffec8436de6147ba32f31d1" name="a9f228928cffec8436de6147ba32f31d1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f228928cffec8436de6147ba32f31d1">&#9670;&#160;</a></span>TEST() <span class="overload">[18/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f228928cffec8436de6147ba32f31d1">&#9670;&#160;</a></span>TEST() <span class="overload">[22/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -691,7 +819,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a6959e8a44a7aaa31ba66ac6bd5290e75" name="a6959e8a44a7aaa31ba66ac6bd5290e75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6959e8a44a7aaa31ba66ac6bd5290e75">&#9670;&#160;</a></span>TEST() <span class="overload">[19/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6959e8a44a7aaa31ba66ac6bd5290e75">&#9670;&#160;</a></span>TEST() <span class="overload">[23/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -721,7 +849,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a933f43465e21fcadf8a20f18c836b071" name="a933f43465e21fcadf8a20f18c836b071"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a933f43465e21fcadf8a20f18c836b071">&#9670;&#160;</a></span>TEST() <span class="overload">[20/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a933f43465e21fcadf8a20f18c836b071">&#9670;&#160;</a></span>TEST() <span class="overload">[24/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -751,7 +879,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a25deab2adfe588e86153eaeb88d36597" name="a25deab2adfe588e86153eaeb88d36597"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25deab2adfe588e86153eaeb88d36597">&#9670;&#160;</a></span>TEST() <span class="overload">[21/21]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a25deab2adfe588e86153eaeb88d36597">&#9670;&#160;</a></span>TEST() <span class="overload">[25/25]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

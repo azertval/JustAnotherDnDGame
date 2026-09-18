@@ -108,6 +108,8 @@ Inheritance diagram for hmi::LayersPanel:</div>
 Classes</h2></td></tr>
 <tr class="memitem:Snapshot" id="r_Snapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayersPanel_1_1Snapshot.html">Snapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la liste affiche, pour ne la reconstruire que s'il a changé.  <a href="structhmi_1_1LayersPanel_1_1Snapshot.html#details">More...</a><br /></td></tr>
+<tr class="memitem:Widgets" id="r_Widgets"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayersPanel_1_1Widgets.html">Widgets</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les widgets du panneau.  <a href="structhmi_1_1LayersPanel_1_1Widgets.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
@@ -125,14 +127,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aef50ad35e6c04a4c32a45a7679fa5bd5" id="r_aef50ad35e6c04a4c32a45a7679fa5bd5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aef50ad35e6c04a4c32a45a7679fa5bd5">~LayersPanel</a> () override</td></tr>
 <tr class="memitem:a47b9fda4c0d99851b88713cd0bcef244" id="r_a47b9fda4c0d99851b88713cd0bcef244"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a47b9fda4c0d99851b88713cd0bcef244">refresh</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="namespacehmi.html#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> active, const <a class="el" href="classhmi_1_1LayerViewState.html">LayerViewState</a> &amp;view)</td></tr>
 <tr class="memdesc:a47b9fda4c0d99851b88713cd0bcef244"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reconstruit la liste.  <br /></td></tr>
-<tr class="memitem:ac9e719cae36f1c937fbd4a13e4b47987" id="r_ac9e719cae36f1c937fbd4a13e4b47987"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac9e719cae36f1c937fbd4a13e4b47987">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a3b06e1d69c0f8e3ba31c6f33e49ad42a" id="r_a3b06e1d69c0f8e3ba31c6f33e49ad42a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3b06e1d69c0f8e3ba31c6f33e49ad42a">rebuild</a> ()</td></tr>
 <tr class="memitem:a555ff5da7117c10cbdf0995a750704f2" id="r_a555ff5da7117c10cbdf0995a750704f2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a555ff5da7117c10cbdf0995a750704f2">updateButtons</a> ()</td></tr>
 <tr class="memitem:add474b51356dfa7d9826204eb4e33d61" id="r_add474b51356dfa7d9826204eb4e33d61"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#add474b51356dfa7d9826204eb4e33d61">rowLabel</a> (const <a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a> &amp;row) const</td></tr>
-<tr class="memitem:a57f6fe631534469a33b6425270e5d2d6" id="r_a57f6fe631534469a33b6425270e5d2d6"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a57f6fe631534469a33b6425270e5d2d6">text</a> (const char *key, const QString &amp;fallback) const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
@@ -140,12 +140,11 @@ Static Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a090e222b5d5c1bad539b4dd0d259d56c" id="r_a090e222b5d5c1bad539b4dd0d259d56c"><td class="memItemLeft">std::unique_ptr&lt; Ui::LayersPanel &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a090e222b5d5c1bad539b4dd0d259d56c">_ui</a></td></tr>
+<tr class="memitem:a7aa8112ef51b4fd16fa873086870b310" id="r_a7aa8112ef51b4fd16fa873086870b310"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1LayersPanel_1_1Widgets.html">Widgets</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7aa8112ef51b4fd16fa873086870b310">_ui</a></td></tr>
 <tr class="memitem:a51507c85bef4d6e4c33efafe8ade9070" id="r_a51507c85bef4d6e4c33efafe8ade9070"><td class="memItemLeft"><a class="el" href="structhmi_1_1LayersPanel_1_1Snapshot.html">Snapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a51507c85bef4d6e4c33efafe8ade9070">_snapshot</a></td></tr>
 <tr class="memitem:a0aa921faf0a0f6c2cb6128f66aee867c" id="r_a0aa921faf0a0f6c2cb6128f66aee867c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0aa921faf0a0f6c2cb6128f66aee867c">_hasVisualLayers</a> = false</td></tr>
 <tr class="memitem:a8538b54ffc5d58fcae6e1ca4e5cd81cb" id="r_a8538b54ffc5d58fcae6e1ca4e5cd81cb"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8538b54ffc5d58fcae6e1ca4e5cd81cb">_rebuilding</a> = false</td></tr>
 <tr class="memdesc:a8538b54ffc5d58fcae6e1ca4e5cd81cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai pendant une reconstruction : les signaux des widgets n'y sont pas des gestes.  <br /></td></tr>
-<tr class="memitem:a70079906b468daf7682f09a9c3be8d35" id="r_a70079906b468daf7682f09a9c3be8d35"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a70079906b468daf7682f09a9c3be8d35">_loc</a> = nullptr</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Vue des couches du brouillon courant. </p>
@@ -418,23 +417,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ac9e719cae36f1c937fbd4a13e4b47987" name="ac9e719cae36f1c937fbd4a13e4b47987"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac9e719cae36f1c937fbd4a13e4b47987">&#9670;&#160;</a></span>retranslateUi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::LayersPanel::retranslateUi </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="add474b51356dfa7d9826204eb4e33d61" name="add474b51356dfa7d9826204eb4e33d61"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add474b51356dfa7d9826204eb4e33d61">&#9670;&#160;</a></span>rowLabel()</h2>
 
@@ -479,35 +461,6 @@ Private Attributes</h2></td></tr>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a57f6fe631534469a33b6425270e5d2d6" name="a57f6fe631534469a33b6425270e5d2d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57f6fe631534469a33b6425270e5d2d6">&#9670;&#160;</a></span>text()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString hmi::LayersPanel::text </td>
-          <td>(</td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>fallback</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -591,28 +544,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a70079906b468daf7682f09a9c3be8d35" name="a70079906b468daf7682f09a9c3be8d35"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a70079906b468daf7682f09a9c3be8d35">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1Localization.html">Localization</a>* hmi::LayersPanel::_loc = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a8538b54ffc5d58fcae6e1ca4e5cd81cb" name="a8538b54ffc5d58fcae6e1ca4e5cd81cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8538b54ffc5d58fcae6e1ca4e5cd81cb">&#9670;&#160;</a></span>_rebuilding</h2>
 
@@ -659,8 +590,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a090e222b5d5c1bad539b4dd0d259d56c" name="a090e222b5d5c1bad539b4dd0d259d56c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a090e222b5d5c1bad539b4dd0d259d56c">&#9670;&#160;</a></span>_ui</h2>
+<a id="a7aa8112ef51b4fd16fa873086870b310" name="a7aa8112ef51b4fd16fa873086870b310"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7aa8112ef51b4fd16fa873086870b310">&#9670;&#160;</a></span>_ui</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -669,7 +600,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;Ui::LayersPanel&gt; hmi::LayersPanel::_ui</td>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="structhmi_1_1LayersPanel_1_1Widgets.html">Widgets</a>&gt; hmi::LayersPanel::_ui</td>
         </tr>
       </table>
   </td>
@@ -682,8 +613,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="LayersPanel_8h_source.html">LayersPanel.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="LayersPanel_8cpp.html">LayersPanel.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="LayersPanel_8h_source.html">LayersPanel.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="LayersPanel_8cpp.html">LayersPanel.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

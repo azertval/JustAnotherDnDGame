@@ -12,46 +12,62 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
-#include "HMI/Editor/EditorDiagnostics.h"
+#include "Editor/Logic/EditorDiagnostics.h"
 
 namespace hmi {
 
-<span style = "background-color:#dfd">const char* entityIssueKey(core::EntityIssueCode code) noexcept {
+namespace {
+
+// Remplace `%1`, `%2`, `%3` de @p pattern par les arguments, dans l'ordre.
+<span style = "background-color:#dfd">[[nodiscard]] std::string format(std::string pattern, const std::vector&lt;std::string&gt;&amp; args) {
+    for (std::size_t index = 0; index &lt; args.size(); ++index) {
+        const std::string marker = "%" + std::to_string(index + 1);
+        for (std::size_t at = pattern.find(marker); at != std::string::npos;
+             at = pattern.find(marker, at + args[index].size())) {
+            pattern.replace(at, marker.size(), args[index]);
+        }
+    }
+    return pattern;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">const char* entityIssueTemplate(core::EntityIssueCode code) noexcept {
     switch (code) {</span>
         case core::EntityIssueCode::UnknownType:
-<span style = "background-color:#dfd">            return "diagnostic.unknown_type";</span>
+<span style = "background-color:#fdd">            return "Entity kind \"%1\" is unknown to the editor.";</span>
         case core::EntityIssueCode::MissingProperty:
-<span style = "background-color:#dfd">            return "diagnostic.missing_property";</span>
+<span style = "background-color:#fdd">            return "%1: property \"%2\" must be filled in.";</span>
         case core::EntityIssueCode::WrongValueType:
-<span style = "background-color:#dfd">            return "diagnostic.wrong_value_type";</span>
+<span style = "background-color:#fdd">            return "%1: property \"%2\" has the wrong value type.";</span>
         case core::EntityIssueCode::InvalidChoice:
-<span style = "background-color:#dfd">            return "diagnostic.invalid_choice";</span>
+<span style = "background-color:#fdd">            return "%1: \"%3\" is not an allowed value for \"%2\".";</span>
         case core::EntityIssueCode::UnknownDialogue:
-<span style = "background-color:#dfd">            return "diagnostic.unknown_dialogue";</span>
+<span style = "background-color:#dfd">            return "%1: dialogue \"%3\" does not exist, or was rejected when loading.";</span>
         case core::EntityIssueCode::UnknownEncounter:
-<span style = "background-color:#dfd">            return "diagnostic.unknown_encounter";</span>
+<span style = "background-color:#fdd">            return "%1: encounter \"%3\" does not exist.";</span>
         case core::EntityIssueCode::UnknownTargetMap:
-<span style = "background-color:#dfd">            return "diagnostic.unknown_target_map";</span>
+<span style = "background-color:#fdd">            return "%1: map \"%3\" does not exist.";</span>
         case core::EntityIssueCode::UnknownArrivalPoint:
-<span style = "background-color:#dfd">            return "diagnostic.unknown_arrival_point";</span>
+<span style = "background-color:#fdd">            return "%1: the target map has no arrival point \"%3\".";</span>
         case core::EntityIssueCode::DuplicateArrivalPoint:
-<span style = "background-color:#dfd">            return "diagnostic.duplicate_arrival_point";</span>
+<span style = "background-color:#fdd">            return "Two arrival points are named \"%3\".";</span>
     }
-<span style = "background-color:#fdd">    return "diagnostic.unknown_type";</span>
+<span style = "background-color:#fdd">    return "Entity kind \"%1\" is unknown to the editor.";</span>
 <span style = "background-color:#dfd">}</span>
 
-<span style = "background-color:#dfd">const char* tacticalIssueKey(core::TacticalIssueCode code) noexcept {
+<span style = "background-color:#dfd">const char* tacticalIssueTemplate(core::TacticalIssueCode code) noexcept {
     switch (code) {</span>
         case core::TacticalIssueCode::CombatantOutOfBounds:
-<span style = "background-color:#dfd">            return "diagnostic.terrain_out_of_bounds";</span>
+<span style = "background-color:#fdd">            return "Encounter \"%1\": \"%2\" would stand off the map.";</span>
         case core::TacticalIssueCode::CombatantObstructed:
-<span style = "background-color:#dfd">            return "diagnostic.terrain_obstructed";</span>
+<span style = "background-color:#dfd">            return "Encounter \"%1\": \"%2\" would stand on an obstacle.";</span>
         case core::TacticalIssueCode::CombatantsOverlap:
-<span style = "background-color:#dfd">            return "diagnostic.terrain_overlap";</span>
+<span style = "background-color:#fdd">            return "Encounter \"%1\": \"%2\" would overlap another combatant.";</span>
         case core::TacticalIssueCode::AreaTooNarrow:
-<span style = "background-color:#dfd">            return "diagnostic.terrain_too_narrow";</span>
+<span style = "background-color:#dfd">            return "Encounter \"%1\": area too narrow to fight in (%2 free cells, %3 required).";</span>
     }
-<span style = "background-color:#fdd">    return "diagnostic.terrain_too_narrow";</span>
+<span style = "background-color:#fdd">    return "Encounter \"%1\": area too narrow to fight in (%2 free cells, %3 required).";</span>
 <span style = "background-color:#dfd">}</span>
 
 std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(
@@ -66,22 +82,23 @@ std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(
         lines.push_back(EditorDiagnostic{.kind = EditorDiagnosticKind::Reference,</span>
                                          .entityIndex = issue.entityIndex,
                                          .cell = entity.position,
-                                         .key = entityIssueKey(issue.code),
-                                         .args = {entity.type, issue.key, issue.value}});
+                                         .message = format(entityIssueTemplate(issue.code),
+                                                           {entity.type, issue.key, issue.value})});
 <span style = "background-color:#dfd">    }
     for (const core::EncounterTerrain&amp; terrain : terrains) {
         for (const core::TacticalIssue&amp; issue : terrain.issues) {
-            EditorDiagnostic line{.kind = EditorDiagnosticKind::Terrain,
-                                  .entityIndex = terrain.entityIndex,
-                                  .cell = issue.cell,
-                                  .key = tacticalIssueKey(issue.code),
-                                  .args = {terrain.encounterId, issue.creatureId}};
-            if (issue.code == core::TacticalIssueCode::AreaTooNarrow) {
-                line.args = {terrain.encounterId, std::to_string(terrain.area.size()),</span>
-                             std::to_string(terrain.requiredCells)};
-            }
-<span style = "background-color:#dfd">            lines.push_back(std::move(line));
-        }
+            const std::vector&lt;std::string&gt; args =</span>
+                issue.code == core::TacticalIssueCode::AreaTooNarrow
+                    ? std::vector&lt;std::string&gt;{terrain.encounterId,
+                                               std::to_string(terrain.area.size()),
+                                               std::to_string(terrain.requiredCells)}
+                    : std::vector&lt;std::string&gt;{terrain.encounterId, issue.creatureId};
+<span style = "background-color:#dfd">            lines.push_back(</span>
+                EditorDiagnostic{.kind = EditorDiagnosticKind::Terrain,
+                                 .entityIndex = terrain.entityIndex,
+                                 .cell = issue.cell,
+                                 .message = format(tacticalIssueTemplate(issue.code), args)});
+<span style = "background-color:#dfd">        }
     }
     return lines;
 }</span>

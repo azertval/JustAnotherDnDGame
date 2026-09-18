@@ -93,14 +93,52 @@ $(function(){initNavTree('namespaceapp.html','',''); });
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a08a9b726272557de4abbb1580ae92a68" id="r_a08a9b726272557de4abbb1580ae92a68"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a08a9b726272557de4abbb1580ae92a68">CrashTest</a> { <a class="el" href="#a08a9b726272557de4abbb1580ae92a68a00e02845f59592c5a5fd8534854b8d17">AtStartup</a>
+, <a class="el" href="#a08a9b726272557de4abbb1580ae92a68a4ed71db54748b36eeb398876b0c747ac">Deferred</a>
+ }</td></tr>
+<tr class="memdesc:a08a9b726272557de4abbb1580ae92a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moment du plantage volontaire que demande <span class="tt">--crash-test</span>.  <a href="#a08a9b726272557de4abbb1580ae92a68">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a99e2262fe01e3479aadd450aab2579dc" id="r_a99e2262fe01e3479aadd450aab2579dc"><td class="memItemLeft">std::optional&lt; std::string_view &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a99e2262fe01e3479aadd450aab2579dc">commandLineOption</a> (int argc, char **argv, std::string_view name)</td></tr>
-<tr class="memitem:a96bd993236840537bb7357f87a3aab7a" id="r_a96bd993236840537bb7357f87a3aab7a"><td class="memItemLeft"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a96bd993236840537bb7357f87a3aab7a">installLogging</a> (int argc, char **argv, std::string_view applicationName)</td></tr>
-<tr class="memdesc:a96bd993236840537bb7357f87a3aab7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un minidump sous <span class="tt">Crashes/</span> en cas de plantage.  <br /></td></tr>
+<tr class="memitem:aae3af5c8cef37b2ee752c212971fcdb0" id="r_aae3af5c8cef37b2ee752c212971fcdb0"><td class="memItemLeft"><a class="el" href="classcore_1_1MemoryLogSink.html">core::MemoryLogSink</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aae3af5c8cef37b2ee752c212971fcdb0">installLogging</a> (int argc, char **argv, std::string_view applicationName, <a class="el" href="#a08a9b726272557de4abbb1580ae92a68">CrashTest</a> crashTest=<a class="el" href="#a08a9b726272557de4abbb1580ae92a68a00e02845f59592c5a5fd8534854b8d17">CrashTest::AtStartup</a>)</td></tr>
+<tr class="memdesc:aae3af5c8cef37b2ee752c212971fcdb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe les puits de journalisation, résout le niveau minimum, puis l'écriture d'un minidump sous <span class="tt">Crashes/</span> en cas de plantage.  <br /></td></tr>
 <tr class="memitem:a96fb419a6918480c58eb69bfa2fdc7cd" id="r_a96fb419a6918480c58eb69bfa2fdc7cd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a96fb419a6918480c58eb69bfa2fdc7cd">installQtTranslations</a> (std::string_view language)</td></tr>
 <tr class="memdesc:a96fb419a6918480c58eb69bfa2fdc7cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Installe le catalogue de traduction de <b>Qt lui-même</b> pour la langue de l'IHM.  <br /></td></tr>
 </table>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="a08a9b726272557de4abbb1580ae92a68" name="a08a9b726272557de4abbb1580ae92a68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08a9b726272557de4abbb1580ae92a68">&#9670;&#160;</a></span>CrashTest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a08a9b726272557de4abbb1580ae92a68">app::CrashTest</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Moment du plantage volontaire que demande <span class="tt">--crash-test</span>. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a08a9b726272557de4abbb1580ae92a68a00e02845f59592c5a5fd8534854b8d17" name="a08a9b726272557de4abbb1580ae92a68a00e02845f59592c5a5fd8534854b8d17"></a>AtStartup&#160;</td><td class="fielddoc"><p>Dès l'amorçage : le test de fumée de la release. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a08a9b726272557de4abbb1580ae92a68a4ed71db54748b36eeb398876b0c747ac" name="a08a9b726272557de4abbb1580ae92a68a4ed71db54748b36eeb398876b0c747ac"></a>Deferred&#160;</td><td class="fielddoc"><p>Jamais pendant l'amorçage : l'application choisit le moment. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a99e2262fe01e3479aadd450aab2579dc" name="a99e2262fe01e3479aadd450aab2579dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a99e2262fe01e3479aadd450aab2579dc">&#9670;&#160;</a></span>commandLineOption()</h2>
@@ -137,8 +175,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a96bd993236840537bb7357f87a3aab7a" name="a96bd993236840537bb7357f87a3aab7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96bd993236840537bb7357f87a3aab7a">&#9670;&#160;</a></span>installLogging()</h2>
+<a id="aae3af5c8cef37b2ee752c212971fcdb0" name="aae3af5c8cef37b2ee752c212971fcdb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae3af5c8cef37b2ee752c212971fcdb0">&#9670;&#160;</a></span>installLogging()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,7 +194,12 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>applicationName</em></span>&#160;)</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>applicationName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="#a08a9b726272557de4abbb1580ae92a68">CrashTest</a></td>          <td class="paramname"><span class="paramname"><em>crashTest</em></span><span class="paramdefsep"> = </span><span class="paramdefval"><a class="el" href="#a08a9b726272557de4abbb1580ae92a68a00e02845f59592c5a5fd8534854b8d17">CrashTest::AtStartup</a></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -165,12 +208,13 @@ Functions</h2></td></tr>
 <p>En développement : console et capture mémoire (exportable depuis les Options). Dans les deux configurations : fichier horodaté sous <span class="tt">Logs/</span>, vidé à chaque message — c'est ce qui reste lisible après un arrêt brutal, y compris en release où il n'y a ni console ni bouton d'export à atteindre après coup.</p>
 <p>Le niveau vient de <span class="tt">JADG_LOG_LEVEL</span> puis, prioritairement, de <span class="tt">--log-level=&lt;trace|info|warning|
 error&gt;</span>. Une valeur non reconnue est ignorée et signalée dans le journal, jamais fatale (<span class="tt">EX-NFR-040</span>).</p>
-<p><span class="tt">--crash-test</span> provoque ensuite un plantage volontaire : c'est ce que lance le test de fumée de la release pour prouver que l'archive livrée écrit son minidump (<span class="tt"><a class="el" href="namespacehmi.html#aabf51fbbdb0a8cdb119dc1c28fa88980" title="Installe l&#39;écriture d&#39;un minidump sur toute fin anormale du processus.">hmi::installCrashDumpWriter</a></span>).</p>
+<p><span class="tt">--crash-test</span> provoque ensuite un plantage volontaire : c'est ce que lance le test de fumée de la release pour prouver que l'archive livrée écrit son minidump (<span class="tt"><a class="el" href="namespacehmi.html#aabf51fbbdb0a8cdb119dc1c28fa88980" title="Installe l&#39;écriture d&#39;un minidump sur toute fin anormale du processus.">hmi::installCrashDumpWriter</a></span>). Avec <span class="tt"><a class="el" href="#a08a9b726272557de4abbb1580ae92a68a4ed71db54748b36eeb398876b0c747ac" title="Jamais pendant l&#39;amorçage : l&#39;application choisit le moment.">CrashTest::Deferred</a></span>, l'application choisit elle-même le moment : l'éditeur plante après sa première sauvegarde automatique, pour éprouver la reprise (<span class="tt">LOT-EDITOR-01</span>).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">argc</td><td>Nombre d'arguments de la ligne de commande. </td></tr>
     <tr><td class="paramname">argv</td><td>Arguments de la ligne de commande. </td></tr>
     <tr><td class="paramname">applicationName</td><td>Nom porté par la bannière de démarrage (« JustAnotherRpgGame », « LevelEditor »). </td></tr>
+    <tr><td class="paramname">crashTest</td><td>Moment du plantage demandé par <span class="tt">--crash-test</span>. </td></tr>
   </table>
   </dd>
 </dl>

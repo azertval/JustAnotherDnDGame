@@ -24,16 +24,13 @@ var searchData=
   ['bottom_21',['bottom',['../structcore_1_1Rect.html#a6a76a493f43a69284836f6d078aca2f4',1,'core::Rect']]],
   ['bout_22',['bout',['../classcore_1_1ArenaSession.html#a7b9cbd6f1bfc3c5276543737f2ac6db2',1,'core::ArenaSession']]],
   ['budget_23',['budget',['../classcore_1_1ReachableArea.html#aee4ac21460c6c5e968e3cd1b31f2c544',1,'core::ReachableArea']]],
-  ['buildapplicationpalette_24',['buildApplicationPalette',['../namespacehmi.html#a73cb9cef74be4c0f0577ef8fe0416522',1,'hmi']]],
-  ['buildcharactersheet_25',['buildCharacterSheet',['../namespacecore.html#ae5471fabe4f247c99a3c50293f59f91e',1,'core']]],
-  ['buildjson_26',['buildJson',['../classcore_1_1LevelWriter.html#af8378a93386f208796483bc21092c3e0',1,'core::LevelWriter']]],
+  ['buildcharactersheet_24',['buildCharacterSheet',['../namespacecore.html#ae5471fabe4f247c99a3c50293f59f91e',1,'core']]],
+  ['buildjson_25',['buildJson',['../classcore_1_1LevelWriter.html#af8378a93386f208796483bc21092c3e0',1,'core::LevelWriter']]],
+  ['buildmenus_26',['buildMenus',['../classhmi_1_1MainWindow.html#a883821ec347ce1cbbfaab426f2f1cd4d',1,'hmi::MainWindow']]],
   ['buildmissingtextureimage_27',['buildMissingTextureImage',['../namespacehmi.html#aa0d169ee450492a9aa3795d23e95e4ba',1,'hmi']]],
   ['buildmodel_28',['buildModel',['../classhmi_1_1PalettePanel.html#af1898fdecf86e9004f65845f4f96f364',1,'hmi::PalettePanel']]],
   ['buildproceduralatlasimage_29',['buildProceduralAtlasImage',['../namespacehmi.html#a0fa1fc503abd25e16f2e3d52f6c8d540',1,'hmi']]],
   ['buildstatusbar_30',['buildStatusBar',['../classhmi_1_1MainWindow.html#a871837448750fb40e380fe52af2f666f',1,'hmi::MainWindow']]],
-  ['buildstylesheetvalues_31',['buildStyleSheetValues',['../namespacehmi.html#a014e8fac21fdb33837a37724048e9ee3',1,'hmi']]],
-  ['buildthememenu_32',['buildThemeMenu',['../classhmi_1_1MainWindow.html#a6c9c1ff579895f58b8e5e41020d30b02',1,'hmi::MainWindow']]],
-  ['buildui_33',['buildUi',['../classhmi_1_1MainWindow.html#a2be2a6b71ee9770ab402e16bf8d61666',1,'hmi::MainWindow']]],
-  ['buildviewmenu_34',['buildViewMenu',['../classhmi_1_1MainWindow.html#a3a54e02e87fd3a48160e2776f73b68d3',1,'hmi::MainWindow']]],
-  ['buildworldgraph_35',['buildWorldGraph',['../namespacecore.html#a613ed3cc48dbcdf1ed1533b2bb6c9f9c',1,'core']]]
+  ['buildui_31',['buildUi',['../classhmi_1_1MainWindow.html#a2be2a6b71ee9770ab402e16bf8d61666',1,'hmi::MainWindow']]],
+  ['buildworldgraph_32',['buildWorldGraph',['../namespacecore.html#a613ed3cc48dbcdf1ed1533b2bb6c9f9c',1,'core']]]
 ];

@@ -119,6 +119,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:adec82624786f4ad3a83502eccc8712af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Annule la dernière mutation (<span class="tt">EX-EDIT-005</span>).  <br /></td></tr>
 <tr class="memitem:a4c48b964ac9310a3b90a3d364aae97aa" id="r_a4c48b964ac9310a3b90a3d364aae97aa"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a4c48b964ac9310a3b90a3d364aae97aa">redo</a> ()</td></tr>
 <tr class="memdesc:a4c48b964ac9310a3b90a3d364aae97aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Refait la dernière mutation annulée.  <br /></td></tr>
+<tr class="memitem:ae67cf1a4d339e5bc8cf7e5adee11a3e7" id="r_ae67cf1a4d339e5bc8cf7e5adee11a3e7"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ae67cf1a4d339e5bc8cf7e5adee11a3e7">undoDepth</a> () const noexcept</td></tr>
+<tr class="memitem:ae1dc7f0a73b888edbcc04e114116fefe" id="r_ae1dc7f0a73b888edbcc04e114116fefe"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#ae1dc7f0a73b888edbcc04e114116fefe">revision</a> () const noexcept</td></tr>
+<tr class="memdesc:ae1dc7f0a73b888edbcc04e114116fefe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifie l'état du contenu : change à chaque mutation, et revient à sa valeur d'avant quand <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span> défait la mutation (et inversement pour <span class="tt"><a class="el" href="#a4c48b964ac9310a3b90a3d364aae97aa" title="Refait la dernière mutation annulée.">redo()</a></span>, <span class="tt">EX-EDIT-058</span>).  <br /></td></tr>
 <tr class="memitem:ade4c8fce925ab627dc202c9dcb5fc030" id="r_ade4c8fce925ab627dc202c9dcb5fc030"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ade4c8fce925ab627dc202c9dcb5fc030">canUndo</a> () const noexcept</td></tr>
 <tr class="memitem:a78972ab0e9f816d4d2b036ca25dafe12" id="r_a78972ab0e9f816d4d2b036ca25dafe12"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a78972ab0e9f816d4d2b036ca25dafe12">canRedo</a> () const noexcept</td></tr>
 <tr class="memitem:af06a5338ba049934b8b217c6e0345546" id="r_af06a5338ba049934b8b217c6e0345546"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af06a5338ba049934b8b217c6e0345546">setName</a> (std::string <a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a>)</td></tr>
@@ -131,6 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a74e03f07db273bcdd42544044ac78e8f" id="r_a74e03f07db273bcdd42544044ac78e8f"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a74e03f07db273bcdd42544044ac78e8f">entities</a> () const noexcept</td></tr>
 <tr class="memitem:a0017cadc8caea0b43ba08b120ce76bb0" id="r_a0017cadc8caea0b43ba08b120ce76bb0"><td class="memItemLeft"><a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0">toLevel</a> () const</td></tr>
 <tr class="memdesc:a0017cadc8caea0b43ba08b120ce76bb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convertit le brouillon en <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> <b>validé</b> (<span class="tt">EX-EDIT-007</span>), en repassant par la même validation que <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html" title="Charge un niveau au format JSON (objet {name, width, height, tiles} où tiles est une liste d&#39;objets {...">LevelLoader</a></span> (sérialise puis recharge : aucune règle dupliquée, <span class="tt">EX-EDIT-010</span>).  <br /></td></tr>
+<tr class="memitem:ab2bd2f3afe24ce71a6ab0773913309fe" id="r_ab2bd2f3afe24ce71a6ab0773913309fe"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ab2bd2f3afe24ce71a6ab0773913309fe">toJson</a> () const</td></tr>
+<tr class="memdesc:ab2bd2f3afe24ce71a6ab0773913309fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le brouillon en JSON, <b>sans validation</b> : ce que <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> relit.  <br /></td></tr>
 <tr id="pub-methods-0" class="groupHeader"><td colspan="2"><div class="groupHeader">Couches de tuiles (&lt;tt&gt;LOT-04&lt;/tt&gt;, &lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Un rang désigne une entrée de <span class="tt"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers()</a></span>.</p>
 <p>Seules les couches <b>visuelles</b> — sol et décor (<span class="tt"><a class="el" href="namespacecore.html#aaf5abd7971c954a0b6b1f917658f4d38" title="Vrai si une couche de rôle kind porte une image — le sol ou le décor —, et non le masque de collision...">core::isVisualLayerKind</a></span>) — se créent, se retirent, se renomment, se déplacent et se peignent ici : la grille de collision est <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>, que peignent <span class="tt"><a class="el" href="#ab10397c5b66b6997de6adff24cca19d2" title="Peint le type de tuile type en (column, row).">paintTile</a></span> et <span class="tt"><a class="el" href="#a7fb667e044067f5e9bf16f747d3f5f8e" title="Applique un bloc rectangulaire de types de tuiles à partir de (originColumn, originRow).">paintRegion</a></span>, et l'entrée <span class="tt">Collision</span> ou <span class="tt">Legacy</span> de <span class="tt"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers()</a></span> n'en est que le reflet.</p>
@@ -173,6 +178,11 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a481be057c3f8c05cfe5e19a89d93231c" id="r_a481be057c3f8c05cfe5e19a89d93231c"><td class="memItemLeft">static <a class="el" href="#acda8ea200910fc5679cd968d36de87e4">LevelDraft</a>&#160;</td><td class="memItemRight"><a class="el" href="#a481be057c3f8c05cfe5e19a89d93231c">fromLevel</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memdesc:a481be057c3f8c05cfe5e19a89d93231c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crée un brouillon à partir d'un niveau déjà chargé (édition d'un fichier existant).  <br /></td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a93a9a27cd2d1724f3ea1dc3b16c7bc6a" id="r_a93a9a27cd2d1724f3ea1dc3b16c7bc6a"><td class="memItemLeft">static constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a93a9a27cd2d1724f3ea1dc3b16c7bc6a">UNDO_HISTORY_LIMIT</a> = 200</td></tr>
+<tr class="memdesc:a93a9a27cd2d1724f3ea1dc3b16c7bc6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre maximal de pas d'annulation gardés (<span class="tt">EX-EDIT-058</span>).  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:acda8ea200910fc5679cd968d36de87e4" id="r_acda8ea200910fc5679cd968d36de87e4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#acda8ea200910fc5679cd968d36de87e4">LevelDraft</a> (std::string <a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a>, <a class="el" href="classcore_1_1TileMap.html">TileMap</a> <a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap</a>)</td></tr>
@@ -192,6 +202,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a320a399e76d85ed27d70875d6b410f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restitue un état capturé précédemment.  <br /></td></tr>
 <tr class="memitem:a949cfb0148244f0ba05257d4f523f51d" id="r_a949cfb0148244f0ba05257d4f523f51d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d">pushUndo</a> ()</td></tr>
 <tr class="memdesc:a949cfb0148244f0ba05257d4f523f51d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empile l'état courant sur la pile d'annulation ; à appeler avant toute mutation undoable.  <br /></td></tr>
+<tr class="memitem:ab6de0df2dda62ef7a4912d23063a6a54" id="r_ab6de0df2dda62ef7a4912d23063a6a54"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab6de0df2dda62ef7a4912d23063a6a54">paintChanges</a> (int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) const</td></tr>
+<tr class="memdesc:ab6de0df2dda62ef7a4912d23063a6a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si peindre <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) changerait la carte.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -203,6 +215,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a1549c812b59d506266ccdefb5356b752" id="r_a1549c812b59d506266ccdefb5356b752"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1549c812b59d506266ccdefb5356b752">_textureOverrides</a></td></tr>
 <tr class="memitem:a86779d05f96a388738e19979489d7a63" id="r_a86779d05f96a388738e19979489d7a63"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a86779d05f96a388738e19979489d7a63">_undoHistory</a></td></tr>
 <tr class="memitem:a886d07163934d6b0f0f5b8f9da13c410" id="r_a886d07163934d6b0f0f5b8f9da13c410"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a886d07163934d6b0f0f5b8f9da13c410">_redoHistory</a></td></tr>
+<tr class="memitem:a162095858b19aa7f372f4416371f5594" id="r_a162095858b19aa7f372f4416371f5594"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a162095858b19aa7f372f4416371f5594">_revision</a> = 0</td></tr>
+<tr class="memitem:a5700e680da1882f49b61e75e50cb3fc1" id="r_a5700e680da1882f49b61e75e50cb3fc1"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a5700e680da1882f49b61e75e50cb3fc1">_lastRevision</a> = 0</td></tr>
+<tr class="memdesc:a5700e680da1882f49b61e75e50cb3fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dernière révision donnée : jamais réemployée, même après un <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span>.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
@@ -633,6 +648,42 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab6de0df2dda62ef7a4912d23063a6a54" name="ab6de0df2dda62ef7a4912d23063a6a54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6de0df2dda62ef7a4912d23063a6a54">&#9670;&#160;</a></span>paintChanges()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::paintChanges </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>column</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si peindre <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) changerait la carte. </p>
+
+</div>
+</div>
 <a id="a51ed31285d58e24d71d53ea70b357db7" name="a51ed31285d58e24d71d53ea70b357db7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a51ed31285d58e24d71d53ea70b357db7">&#9670;&#160;</a></span>paintLayerRegion()</h2>
 
@@ -853,7 +904,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Empile l'état courant sur la pile d'annulation ; à appeler avant toute mutation undoable. </p>
-<p>Une nouvelle mutation invalide toujours la branche de refaire. </p>
+<p>Une nouvelle mutation invalide toujours la branche de refaire, oublie le pas le plus ancien au-delà de <span class="tt"><a class="el" href="#a93a9a27cd2d1724f3ea1dc3b16c7bc6a" title="Nombre maximal de pas d&#39;annulation gardés (EX-EDIT-058).">UNDO_HISTORY_LIMIT</a></span> et donne au contenu une révision neuve. </p>
 
 </div>
 </div>
@@ -1043,6 +1094,34 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Restitue un état capturé précédemment. </p>
+
+</div>
+</div>
+<a id="ae1dc7f0a73b888edbcc04e114116fefe" name="ae1dc7f0a73b888edbcc04e114116fefe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1dc7f0a73b888edbcc04e114116fefe">&#9670;&#160;</a></span>revision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t core::LevelDraft::revision </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Identifie l'état du contenu : change à chaque mutation, et revient à sa valeur d'avant quand <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span> défait la mutation (et inversement pour <span class="tt"><a class="el" href="#a4c48b964ac9310a3b90a3d364aae97aa" title="Refait la dernière mutation annulée.">redo()</a></span>, <span class="tt">EX-EDIT-058</span>). </p>
+<p>L'éditeur compare cette révision à celle de la dernière ouverture ou du dernier enregistrement pour dire si le brouillon porte des modifications : défaire jusqu'à l'état enregistré rend un brouillon propre, et rien ne le marque modifié sans mutation réelle. </p>
 
 </div>
 </div>
@@ -1257,6 +1336,34 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab2bd2f3afe24ce71a6ab0773913309fe" name="ab2bd2f3afe24ce71a6ab0773913309fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2bd2f3afe24ce71a6ab0773913309fe">&#9670;&#160;</a></span>toJson()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::LevelDraft::toJson </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le brouillon en JSON, <b>sans validation</b> : ce que <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> relit. </p>
+<p>Sert à la sauvegarde automatique (<span class="tt">LOT-EDITOR-01</span>), qui doit garder un brouillon même incomplet (sans entrée, par exemple). </p>
+
+</div>
+</div>
 <a id="a0017cadc8caea0b43ba08b120ce76bb0" name="a0017cadc8caea0b43ba08b120ce76bb0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0017cadc8caea0b43ba08b120ce76bb0">&#9670;&#160;</a></span>toLevel()</h2>
 
@@ -1302,6 +1409,32 @@ Private Attributes</h2></td></tr>
 
 <p>Annule la dernière mutation (<span class="tt">EX-EDIT-005</span>). </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si une mutation a été annulée, <span class="tt">false</span> si l'historique était vide. </dd></dl>
+
+</div>
+</div>
+<a id="ae67cf1a4d339e5bc8cf7e5adee11a3e7" name="ae67cf1a4d339e5bc8cf7e5adee11a3e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae67cf1a4d339e5bc8cf7e5adee11a3e7">&#9670;&#160;</a></span>undoDepth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t core::LevelDraft::undoDepth </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le nombre de pas que <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span> peut défaire (au plus <span class="tt"><a class="el" href="#a93a9a27cd2d1724f3ea1dc3b16c7bc6a" title="Nombre maximal de pas d&#39;annulation gardés (EX-EDIT-058).">UNDO_HISTORY_LIMIT</a></span>). </dd></dl>
 
 </div>
 </div>
@@ -1389,6 +1522,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a5700e680da1882f49b61e75e50cb3fc1" name="a5700e680da1882f49b61e75e50cb3fc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5700e680da1882f49b61e75e50cb3fc1">&#9670;&#160;</a></span>_lastRevision</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t core::LevelDraft::_lastRevision = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dernière révision donnée : jamais réemployée, même après un <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span>. </p>
+
+</div>
+</div>
 <a id="a2783d6ae5f766d52acae67fbb9f68c1b" name="a2783d6ae5f766d52acae67fbb9f68c1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2783d6ae5f766d52acae67fbb9f68c1b">&#9670;&#160;</a></span>_layers</h2>
 
@@ -1444,6 +1601,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a>&gt; core::LevelDraft::_redoHistory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a162095858b19aa7f372f4416371f5594" name="a162095858b19aa7f372f4416371f5594"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a162095858b19aa7f372f4416371f5594">&#9670;&#160;</a></span>_revision</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t core::LevelDraft::_revision = 0</td>
         </tr>
       </table>
   </td>
@@ -1518,6 +1697,31 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a93a9a27cd2d1724f3ea1dc3b16c7bc6a" name="a93a9a27cd2d1724f3ea1dc3b16c7bc6a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93a9a27cd2d1724f3ea1dc3b16c7bc6a">&#9670;&#160;</a></span>UNDO_HISTORY_LIMIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t core::LevelDraft::UNDO_HISTORY_LIMIT = 200</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nombre maximal de pas d'annulation gardés (<span class="tt">EX-EDIT-058</span>). </p>
+<p>Chaque pas est un instantané complet du brouillon : sans plafond, une longue séance sur Martpart (48 × 40, trois couches) accumulait des centaines d'instantanés jamais rendus. Au-delà, le pas le plus ancien est oublié. </p>
 
 </div>
 </div>

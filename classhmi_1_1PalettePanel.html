@@ -112,11 +112,7 @@ Signals</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aca2b8a823be65548be1dc034db9c3de4" id="r_aca2b8a823be65548be1dc034db9c3de4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aca2b8a823be65548be1dc034db9c3de4">PalettePanel</a> (QWidget *parent=nullptr)</td></tr>
-<tr class="memitem:abad00b2f436c14ab35d4cf5f55840698" id="r_abad00b2f436c14ab35d4cf5f55840698"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#abad00b2f436c14ab35d4cf5f55840698">~PalettePanel</a> () override</td></tr>
-<tr class="memdesc:abad00b2f436c14ab35d4cf5f55840698"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hors-ligne : <span class="tt">std::unique_ptr&lt;Ui::PalettePanel&gt;</span> porte un type incomplet.  <br /></td></tr>
 <tr class="memitem:a1a573b3201ad6ce9d9d5c86cad1c8154" id="r_a1a573b3201ad6ce9d9d5c86cad1c8154"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1a573b3201ad6ce9d9d5c86cad1c8154">selectedTile</a> () const noexcept</td></tr>
-<tr class="memitem:a55f489cad83581ca9ad21114a02e7d7a" id="r_a55f489cad83581ca9ad21114a02e7d7a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a55f489cad83581ca9ad21114a02e7d7a">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
-<tr class="memdesc:a55f489cad83581ca9ad21114a02e7d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active (reconstruit l'arbre avec les libellés traduits).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -132,18 +128,13 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a18b4b270d705ba582e3ba334852a8f4a" id="r_a18b4b270d705ba582e3ba334852a8f4a"><td class="memItemLeft">std::unique_ptr&lt; Ui::PalettePanel &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a18b4b270d705ba582e3ba334852a8f4a">_ui</a></td></tr>
-<tr class="memdesc:a18b4b270d705ba582e3ba334852a8f4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mise en page issue de <span class="tt">PalettePanel.ui</span> : le C++ ne branche plus que le fonctionnel, conformément à la convention du projet.  <br /></td></tr>
-<tr class="memitem:a7da613b972d98e7a045925d712ed7aad" id="r_a7da613b972d98e7a045925d712ed7aad"><td class="memItemLeft">QTreeView *&#160;</td><td class="memItemRight"><a class="el" href="#a7da613b972d98e7a045925d712ed7aad">_tree</a> = nullptr</td></tr>
-<tr class="memdesc:a7da613b972d98e7a045925d712ed7aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Posé après setupUi (vit dans la mise en page).  <br /></td></tr>
+<tr class="memitem:a7da613b972d98e7a045925d712ed7aad" id="r_a7da613b972d98e7a045925d712ed7aad"><td class="memItemLeft">QTreeView *&#160;</td><td class="memItemRight"><a class="el" href="#a7da613b972d98e7a045925d712ed7aad">_tree</a></td></tr>
 <tr class="memitem:a388bd72162c541b85e8d14341fbacfe8" id="r_a388bd72162c541b85e8d14341fbacfe8"><td class="memItemLeft">QStandardItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#a388bd72162c541b85e8d14341fbacfe8">_model</a></td></tr>
 <tr class="memitem:aafd9ee36f3a303d8d38e7d8030a2c81e" id="r_aafd9ee36f3a303d8d38e7d8030a2c81e"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#aafd9ee36f3a303d8d38e7d8030a2c81e">_selected</a> = <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></td></tr>
-<tr class="memitem:ae25c7e1c3b823c77db760cf35259c67c" id="r_ae25c7e1c3b823c77db760cf35259c67c"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ae25c7e1c3b823c77db760cf35259c67c">_loc</a> = nullptr</td></tr>
-<tr class="memdesc:ae25c7e1c3b823c77db760cf35259c67c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue courant (nul avant première retraduction).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Palette de tuiles en <b>arbre</b> (<span class="tt">QTreeView</span>) : catégories → sous-groupes → tuiles. </p>
-<p>Alimentée par la taxonomie pure (<span class="tt"><a class="el" href="namespacehmi.html#a324d7671eeb331de4b3459d66be9d0ca" title="Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.">hmi::tileTaxonomy</a></span>), elle remplace l'accordéon « maison » (retiré) par un contrôle Qt natif (<span class="tt">EX-EDIT-018</span>, <span class="tt">EX-IHM-010</span>). Sélectionner une <b>feuille</b> met à jour le type de tuile actif (<span class="tt"><a class="el" href="#a1a573b3201ad6ce9d9d5c86cad1c8154">selectedTile</a></span>) et émet <span class="tt"><a class="el" href="#a41293567f5813d2d68819193c823e846" title="Émis quand l&#39;utilisateur sélectionne une tuile (feuille) dans l&#39;arbre.">tileSelected</a></span> — consommé par l'outil de peinture. Les en-têtes (catégories, sous-groupes) ne sont pas sélectionnables comme tuile. </p>
+<p>Alimentée par la taxonomie pure (<span class="tt"><a class="el" href="namespacehmi.html#a324d7671eeb331de4b3459d66be9d0ca" title="Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.">hmi::tileTaxonomy</a></span>), elle remplace l'accordéon « maison » (retiré) par un contrôle Qt natif (<span class="tt">EX-EDIT-018</span>). Sélectionner une <b>feuille</b> met à jour le type de tuile actif (<span class="tt"><a class="el" href="#a1a573b3201ad6ce9d9d5c86cad1c8154">selectedTile</a></span>) et émet <span class="tt"><a class="el" href="#a41293567f5813d2d68819193c823e846" title="Émis quand l&#39;utilisateur sélectionne une tuile (feuille) dans l&#39;arbre.">tileSelected</a></span> — consommé par l'outil de peinture. Les en-têtes (catégories, sous-groupes) ne sont pas sélectionnables comme tuile. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aca2b8a823be65548be1dc034db9c3de4" name="aca2b8a823be65548be1dc034db9c3de4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca2b8a823be65548be1dc034db9c3de4">&#9670;&#160;</a></span>PalettePanel()</h2>
@@ -167,33 +158,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="abad00b2f436c14ab35d4cf5f55840698" name="abad00b2f436c14ab35d4cf5f55840698"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abad00b2f436c14ab35d4cf5f55840698">&#9670;&#160;</a></span>~PalettePanel()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">hmi::PalettePanel::~PalettePanel </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel override">override</span><span class="mlabel default">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Hors-ligne : <span class="tt">std::unique_ptr&lt;Ui::PalettePanel&gt;</span> porte un type incomplet. </p>
 
 </div>
 </div>
@@ -272,25 +236,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a55f489cad83581ca9ad21114a02e7d7a" name="a55f489cad83581ca9ad21114a02e7d7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55f489cad83581ca9ad21114a02e7d7a">&#9670;&#160;</a></span>retranslateUi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::PalettePanel::retranslateUi </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applique la langue active (reconstruit l'arbre avec les libellés traduits). </p>
 
 </div>
 </div>
@@ -375,30 +320,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="ae25c7e1c3b823c77db760cf35259c67c" name="ae25c7e1c3b823c77db760cf35259c67c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae25c7e1c3b823c77db760cf35259c67c">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1Localization.html">Localization</a>* hmi::PalettePanel::_loc = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogue courant (nul avant première retraduction). </p>
-
-</div>
-</div>
 <a id="a388bd72162c541b85e8d14341fbacfe8" name="a388bd72162c541b85e8d14341fbacfe8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a388bd72162c541b85e8d14341fbacfe8">&#9670;&#160;</a></span>_model</h2>
 
@@ -453,7 +374,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QTreeView* hmi::PalettePanel::_tree = nullptr</td>
+          <td class="memname">QTreeView* hmi::PalettePanel::_tree</td>
         </tr>
       </table>
   </td>
@@ -462,38 +383,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Posé après setupUi (vit dans la mise en page). </p>
-
-</div>
-</div>
-<a id="a18b4b270d705ba582e3ba334852a8f4a" name="a18b4b270d705ba582e3ba334852a8f4a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18b4b270d705ba582e3ba334852a8f4a">&#9670;&#160;</a></span>_ui</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;Ui::PalettePanel&gt; hmi::PalettePanel::_ui</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Mise en page issue de <span class="tt">PalettePanel.ui</span> : le C++ ne branche plus que le fonctionnel, conformément à la convention du projet. </p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="PalettePanel_8h_source.html">PalettePanel.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="PalettePanel_8cpp.html">PalettePanel.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="PalettePanel_8h_source.html">PalettePanel.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="PalettePanel_8cpp.html">PalettePanel.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

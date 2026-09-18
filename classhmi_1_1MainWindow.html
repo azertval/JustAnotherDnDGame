@@ -93,7 +93,7 @@ $(function(){initNavTree('classhmi_1_1MainWindow.html','','classhmi_1_1MainWindo
 </div><!--header-->
 <div class="contents">
 
-<p>Fenêtre principale de l'éditeur (Qt Widgets).  
+<p>Fenêtre principale de l'éditeur (Qt Widgets, style Fusion, textes anglais).  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="MainWindow_8h_source.html">MainWindow.h</a>&gt;</code></p>
@@ -106,10 +106,10 @@ Inheritance diagram for hmi::MainWindow:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa343d39ed242a21ab96e2423c4b134b3" id="r_aa343d39ed242a21ab96e2423c4b134b3"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> ()</td></tr>
+<tr class="memitem:ad5314276368d312f8f32bc9e3bed3db2" id="r_ad5314276368d312f8f32bc9e3bed3db2"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad5314276368d312f8f32bc9e3bed3db2">MainWindow</a> (bool crashAfterAutosave=false)</td></tr>
 <tr class="memitem:a9217cc93491089761355a98056939638" id="r_a9217cc93491089761355a98056939638"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9217cc93491089761355a98056939638">~MainWindow</a> () override</td></tr>
 <tr class="memitem:ab4c8e259baea81d2f887f07b47582e19" id="r_ab4c8e259baea81d2f887f07b47582e19"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab4c8e259baea81d2f887f07b47582e19">MainWindow</a> (const MainWindow &amp;)=delete</td></tr>
-<tr class="memitem:ab6940837dc62d495d934ae0d0e4e4284" id="r_ab6940837dc62d495d934ae0d0e4e4284"><td class="memItemLeft"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab6940837dc62d495d934ae0d0e4e4284">operator=</a> (const <a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;)=delete</td></tr>
+<tr class="memitem:ab6940837dc62d495d934ae0d0e4e4284" id="r_ab6940837dc62d495d934ae0d0e4e4284"><td class="memItemLeft"><a class="el" href="#ad5314276368d312f8f32bc9e3bed3db2">MainWindow</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ab6940837dc62d495d934ae0d0e4e4284">operator=</a> (const <a class="el" href="#ad5314276368d312f8f32bc9e3bed3db2">MainWindow</a> &amp;)=delete</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -118,26 +118,37 @@ Protected Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a2be2a6b71ee9770ab402e16bf8d61666" id="r_a2be2a6b71ee9770ab402e16bf8d61666"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2be2a6b71ee9770ab402e16bf8d61666">buildUi</a> ()</td></tr>
+<tr class="memitem:aaf41d39eebe208a17270f29165afda4f" id="r_aaf41d39eebe208a17270f29165afda4f"><td class="memItemLeft">QDockWidget *&#160;</td><td class="memItemRight"><a class="el" href="#aaf41d39eebe208a17270f29165afda4f">addPanel</a> (const QString &amp;objectName, const QString &amp;title, QWidget *content, Qt::DockWidgetArea area)</td></tr>
+<tr class="memitem:a883821ec347ce1cbbfaab426f2f1cd4d" id="r_a883821ec347ce1cbbfaab426f2f1cd4d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a883821ec347ce1cbbfaab426f2f1cd4d">buildMenus</a> ()</td></tr>
 <tr class="memitem:aeee6162d90a0c35a8a805ddab8ac92e0" id="r_aeee6162d90a0c35a8a805ddab8ac92e0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aeee6162d90a0c35a8a805ddab8ac92e0">connectMapPanels</a> ()</td></tr>
 <tr class="memitem:afc4b819c2eae833e1e44a701397724f7" id="r_afc4b819c2eae833e1e44a701397724f7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afc4b819c2eae833e1e44a701397724f7">connectToolActions</a> ()</td></tr>
 <tr class="memitem:a37e95ca3d6986d05acf01204beec6c7e" id="r_a37e95ca3d6986d05acf01204beec6c7e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a37e95ca3d6986d05acf01204beec6c7e">connectEditorCommands</a> ()</td></tr>
-<tr class="memitem:a6c9c1ff579895f58b8e5e41020d30b02" id="r_a6c9c1ff579895f58b8e5e41020d30b02"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6c9c1ff579895f58b8e5e41020d30b02">buildThemeMenu</a> ()</td></tr>
-<tr class="memitem:a3a54e02e87fd3a48160e2776f73b68d3" id="r_a3a54e02e87fd3a48160e2776f73b68d3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3a54e02e87fd3a48160e2776f73b68d3">buildViewMenu</a> ()</td></tr>
 <tr class="memitem:a871837448750fb40e380fe52af2f666f" id="r_a871837448750fb40e380fe52af2f666f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a871837448750fb40e380fe52af2f666f">buildStatusBar</a> ()</td></tr>
 <tr class="memitem:a952381c794fe3fd8003e5177ae7b42c4" id="r_a952381c794fe3fd8003e5177ae7b42c4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a952381c794fe3fd8003e5177ae7b42c4">reloadEditorReferences</a> ()</td></tr>
 <tr class="memitem:aef77702f265c861ebec3ef8c62c9cbf9" id="r_aef77702f265c861ebec3ef8c62c9cbf9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aef77702f265c861ebec3ef8c62c9cbf9">restoreLayout</a> ()</td></tr>
 <tr class="memitem:a3b35aad4874b9a25e9c680e44945fec4" id="r_a3b35aad4874b9a25e9c680e44945fec4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3b35aad4874b9a25e9c680e44945fec4">saveLayout</a> ()</td></tr>
 <tr class="memitem:abb2b5a4ae54723c485af101667fc2f23" id="r_abb2b5a4ae54723c485af101667fc2f23"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abb2b5a4ae54723c485af101667fc2f23">openResizeDialog</a> ()</td></tr>
 <tr class="memitem:a0c0f25275caa45e3ab0fdab1575520f0" id="r_a0c0f25275caa45e3ab0fdab1575520f0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0c0f25275caa45e3ab0fdab1575520f0">openShortcutsDialog</a> ()</td></tr>
-<tr class="memitem:a1ed419815e2ff1739411e9b7597f6734" id="r_a1ed419815e2ff1739411e9b7597f6734"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1ed419815e2ff1739411e9b7597f6734">retranslateUi</a> ()</td></tr>
 <tr class="memitem:ace1ef846c7704477a23af655b4f78e74" id="r_ace1ef846c7704477a23af655b4f78e74"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ace1ef846c7704477a23af655b4f78e74">refreshStatusHelp</a> ()</td></tr>
 <tr class="memitem:a77025d20fbce06f8f0fd55455cc6eca8" id="r_a77025d20fbce06f8f0fd55455cc6eca8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a77025d20fbce06f8f0fd55455cc6eca8">showTransientStatusMessage</a> (const QString &amp;message, int timeoutMs)</td></tr>
 <tr class="memitem:a79a0a32f6374cffe570e60650baadca4" id="r_a79a0a32f6374cffe570e60650baadca4"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a79a0a32f6374cffe570e60650baadca4">applyPanelFocus</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> tool)</td></tr>
-<tr class="memitem:a23d7033f2e1cfe842e9d3c9f6f6f6db8" id="r_a23d7033f2e1cfe842e9d3c9f6f6f6db8"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a23d7033f2e1cfe842e9d3c9f6f6f6db8">text</a> (const char *key) const</td></tr>
+<tr class="memitem:ab07d84d5a7c24ef8bef666a1cdaa0bb0" id="r_ab07d84d5a7c24ef8bef666a1cdaa0bb0"><td class="memItemLeft">QDockWidget *&#160;</td><td class="memItemRight"><a class="el" href="#ab07d84d5a7c24ef8bef666a1cdaa0bb0">dockFor</a> (<a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> panel) const</td></tr>
+<tr class="memitem:aabc40d107e8dd41fdb72302e572ee8fd" id="r_aabc40d107e8dd41fdb72302e572ee8fd"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aabc40d107e8dd41fdb72302e572ee8fd">setUpSafetyNet</a> ()</td></tr>
+<tr class="memitem:a97a8207d2eb4159bbee889424348eed9" id="r_a97a8207d2eb4159bbee889424348eed9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a97a8207d2eb4159bbee889424348eed9">scheduleAutosave</a> ()</td></tr>
+<tr class="memdesc:a97a8207d2eb4159bbee889424348eed9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relance le délai de sauvegarde automatique : une rafale de gestes n'écrit qu'une fois.  <br /></td></tr>
+<tr class="memitem:af7619309516080cce3bbd5faa4d5020a" id="r_af7619309516080cce3bbd5faa4d5020a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af7619309516080cce3bbd5faa4d5020a">writeAutosave</a> ()</td></tr>
+<tr class="memdesc:af7619309516080cce3bbd5faa4d5020a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit le brouillon modifié, ou retire le fichier de reprise d'un brouillon redevenu propre.  <br /></td></tr>
+<tr class="memitem:aa28e8e28e6d9ee14ea3bd4c76700090a" id="r_aa28e8e28e6d9ee14ea3bd4c76700090a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa28e8e28e6d9ee14ea3bd4c76700090a">offerRecovery</a> ()</td></tr>
+<tr class="memdesc:aa28e8e28e6d9ee14ea3bd4c76700090a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Au démarrage : propose de reprendre les brouillons laissés par une session interrompue.  <br /></td></tr>
+<tr class="memitem:ac0d739fb55c5d22f269ca98284ef5a00" id="r_ac0d739fb55c5d22f269ca98284ef5a00"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ac0d739fb55c5d22f269ca98284ef5a00">watchLevelFile</a> ()</td></tr>
+<tr class="memdesc:ac0d739fb55c5d22f269ca98284ef5a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Surveille le fichier de la carte ouverte (à refaire après un remplacement du fichier).  <br /></td></tr>
+<tr class="memitem:a21acdde1725808677884e5337e5cb790" id="r_a21acdde1725808677884e5337e5cb790"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a21acdde1725808677884e5337e5cb790">checkDiskChange</a> ()</td></tr>
+<tr class="memdesc:a21acdde1725808677884e5337e5cb790"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare la carte sur disque à celle que l'éditeur a lue ou écrite, et réagit.  <br /></td></tr>
+<tr class="memitem:a5e2887cd1592ff97d25ae5f65861b7a0" id="r_a5e2887cd1592ff97d25ae5f65861b7a0"><td class="memItemLeft">QString&#160;</td><td class="memItemRight"><a class="el" href="#a5e2887cd1592ff97d25ae5f65861b7a0">keepAside</a> (const char *label, const std::string &amp;content)</td></tr>
+<tr class="memdesc:a5e2887cd1592ff97d25ae5f65861b7a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Met <code class="param">content</code> de côté pour la carte ouverte ;.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:abbf193c38db62a49872c5a57b1b61cce" id="r_abbf193c38db62a49872c5a57b1b61cce"><td class="memItemLeft">std::unique_ptr&lt; Ui::EditorMainWindow &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abbf193c38db62a49872c5a57b1b61cce">_ui</a></td></tr>
 <tr class="memitem:ad74bf30c7bc994b07bfd93e4c39b5a93" id="r_ad74bf30c7bc994b07bfd93e4c39b5a93"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorViewport.html">EditorViewport</a> *&#160;</td><td class="memItemRight"><a class="el" href="#ad74bf30c7bc994b07bfd93e4c39b5a93">_viewport</a></td></tr>
 <tr class="memdesc:ad74bf30c7bc994b07bfd93e4c39b5a93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Canevas (possédé par la fenêtre, widget central).  <br /></td></tr>
 <tr class="memitem:acdb82ee8e5a56236705ceec1908982ff" id="r_acdb82ee8e5a56236705ceec1908982ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditContextTarget.html">EditContextTarget</a> *&#160;</td><td class="memItemRight"><a class="el" href="#acdb82ee8e5a56236705ceec1908982ff">_editContext</a> = nullptr</td></tr>
@@ -145,39 +156,65 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:aa3a6277e15086fc09f3ba9b42dfc86e2" id="r_aa3a6277e15086fc09f3ba9b42dfc86e2"><td class="memItemLeft"><a class="el" href="classhmi_1_1LevelBrowserPanel.html">LevelBrowserPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa3a6277e15086fc09f3ba9b42dfc86e2">_levels</a> = nullptr</td></tr>
 <tr class="memitem:a2ca20212f1ccc0c2df74dde270e8a6ff" id="r_a2ca20212f1ccc0c2df74dde270e8a6ff"><td class="memItemLeft"><a class="el" href="classhmi_1_1LayersPanel.html">LayersPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a2ca20212f1ccc0c2df74dde270e8a6ff">_layers</a> = nullptr</td></tr>
 <tr class="memitem:abe2762f58f8dd3bcbe6ecfc081072e88" id="r_abe2762f58f8dd3bcbe6ecfc081072e88"><td class="memItemLeft"><a class="el" href="classhmi_1_1EntityPanel.html">EntityPanel</a> *&#160;</td><td class="memItemRight"><a class="el" href="#abe2762f58f8dd3bcbe6ecfc081072e88">_entities</a> = nullptr</td></tr>
+<tr class="memitem:a89f8014e22b86c24e18ea5af2239655f" id="r_a89f8014e22b86c24e18ea5af2239655f"><td class="memItemLeft">std::array&lt; QDockWidget *, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">PANEL_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a89f8014e22b86c24e18ea5af2239655f">_docks</a> {}</td></tr>
+<tr class="memdesc:a89f8014e22b86c24e18ea5af2239655f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dans l'ordre de <span class="tt"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726" title="Panneau dockable de l&#39;éditeur.">PanelId</a></span>.  <br /></td></tr>
 <tr class="memitem:a1740570708e810c8d14a9f85988296fb" id="r_a1740570708e810c8d14a9f85988296fb"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1740570708e810c8d14a9f85988296fb">_references</a></td></tr>
 <tr class="memitem:aa11ea4bf8bdc5815fc36bee49cd1c0ed" id="r_aa11ea4bf8bdc5815fc36bee49cd1c0ed"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aa11ea4bf8bdc5815fc36bee49cd1c0ed">_actions</a> = nullptr</td></tr>
 <tr class="memitem:ab33c6cdb6968b9fb8550383780597a57" id="r_ab33c6cdb6968b9fb8550383780597a57"><td class="memItemLeft">QToolBar *&#160;</td><td class="memItemRight"><a class="el" href="#ab33c6cdb6968b9fb8550383780597a57">_toolBar</a> = nullptr</td></tr>
+<tr class="memitem:a4574a5a3f8e0d48448a4dcbbca2fc889" id="r_a4574a5a3f8e0d48448a4dcbbca2fc889"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a4574a5a3f8e0d48448a4dcbbca2fc889">_resizeAction</a> = nullptr</td></tr>
+<tr class="memitem:a10ab1a96c0a996f8688f9b590a2f029b" id="r_a10ab1a96c0a996f8688f9b590a2f029b"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a10ab1a96c0a996f8688f9b590a2f029b">_resetLayoutAction</a> = nullptr</td></tr>
 <tr class="memitem:aa0f18b423a6be1bda623de58166a835f" id="r_aa0f18b423a6be1bda623de58166a835f"><td class="memItemLeft">QByteArray&#160;</td><td class="memItemRight"><a class="el" href="#aa0f18b423a6be1bda623de58166a835f">_defaultState</a></td></tr>
-<tr class="memdesc:aa0f18b423a6be1bda623de58166a835f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposition par défaut (pour « Réinitialiser la disposition »).  <br /></td></tr>
+<tr class="memdesc:aa0f18b423a6be1bda623de58166a835f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disposition par défaut (pour « Reset layout »).  <br /></td></tr>
 <tr class="memitem:a5ef79dfc7f245f466e3b459838b93d23" id="r_a5ef79dfc7f245f466e3b459838b93d23"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a5ef79dfc7f245f466e3b459838b93d23">_actFollowActiveTool</a> = nullptr</td></tr>
-<tr class="memdesc:a5ef79dfc7f245f466e3b459838b93d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglage persisté (menu Affichage).  <br /></td></tr>
+<tr class="memdesc:a5ef79dfc7f245f466e3b459838b93d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Réglage persisté (menu View).  <br /></td></tr>
 <tr class="memitem:a324f91fcd0352eb34be747deb6beb0d3" id="r_a324f91fcd0352eb34be747deb6beb0d3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a324f91fcd0352eb34be747deb6beb0d3">_userPickedTab</a> = false</td></tr>
 <tr class="memdesc:a324f91fcd0352eb34be747deb6beb0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'utilisateur a choisi un onglet lui-même : la mise en avant automatique s'efface.  <br /></td></tr>
 <tr class="memitem:af383ac40d93b51725b361d72e2342292" id="r_af383ac40d93b51725b361d72e2342292"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af383ac40d93b51725b361d72e2342292">_suppressPanelFocusTracking</a> = false</td></tr>
 <tr class="memitem:a61eca251db0d158933e6eb7dbd5e1200" id="r_a61eca251db0d158933e6eb7dbd5e1200"><td class="memItemLeft">std::array&lt; QLabel *, 5 &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a61eca251db0d158933e6eb7dbd5e1200">_statusZones</a> {}</td></tr>
 <tr class="memitem:a2d4fd479e6168cd919c7f22208347a5e" id="r_a2d4fd479e6168cd919c7f22208347a5e"><td class="memItemLeft">QTimer *&#160;</td><td class="memItemRight"><a class="el" href="#a2d4fd479e6168cd919c7f22208347a5e">_statusMessageTimer</a> = nullptr</td></tr>
-<tr class="memitem:a5caf9b64fbcd7d83d4b9473221e6af09" id="r_a5caf9b64fbcd7d83d4b9473221e6af09"><td class="memItemLeft"><a class="el" href="classhmi_1_1Localization.html">Localization</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5caf9b64fbcd7d83d4b9473221e6af09">_loc</a></td></tr>
-<tr class="memdesc:a5caf9b64fbcd7d83d4b9473221e6af09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue de traduction (i18n), source de tous les textes.  <br /></td></tr>
+<tr class="memitem:a9070cc10b7ea209e15e5c2ff9e623f50" id="r_a9070cc10b7ea209e15e5c2ff9e623f50"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="classhmi_1_1AutosaveStore.html">AutosaveStore</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9070cc10b7ea209e15e5c2ff9e623f50">_autosave</a></td></tr>
+<tr class="memitem:a053f67d2426ca6b7644aa68c43bbc285" id="r_a053f67d2426ca6b7644aa68c43bbc285"><td class="memItemLeft">QTimer *&#160;</td><td class="memItemRight"><a class="el" href="#a053f67d2426ca6b7644aa68c43bbc285">_autosaveTimer</a> = nullptr</td></tr>
+<tr class="memitem:a4f7623d30d858e783ebd7646baa3a5a3" id="r_a4f7623d30d858e783ebd7646baa3a5a3"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a4f7623d30d858e783ebd7646baa3a5a3">_autosavedMapId</a></td></tr>
+<tr class="memdesc:a4f7623d30d858e783ebd7646baa3a5a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Carte dont un fichier de reprise existe, écrit par cette session.  <br /></td></tr>
+<tr class="memitem:a9e89ff49e801603f1e390c30071d2f4a" id="r_a9e89ff49e801603f1e390c30071d2f4a"><td class="memItemLeft">QFileSystemWatcher *&#160;</td><td class="memItemRight"><a class="el" href="#a9e89ff49e801603f1e390c30071d2f4a">_watcher</a> = nullptr</td></tr>
+<tr class="memitem:acc7e6a98234c88f4bdddf8260de14ecd" id="r_acc7e6a98234c88f4bdddf8260de14ecd"><td class="memItemLeft">QTimer *&#160;</td><td class="memItemRight"><a class="el" href="#acc7e6a98234c88f4bdddf8260de14ecd">_diskCheckTimer</a> = nullptr</td></tr>
+<tr class="memitem:acbc4e79845e870642b054bc0c2bcfb13" id="r_acbc4e79845e870642b054bc0c2bcfb13"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#acbc4e79845e870642b054bc0c2bcfb13">_checkingDisk</a> = false</td></tr>
+<tr class="memdesc:acbc4e79845e870642b054bc0c2bcfb13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une question sur le disque est déjà posée : ne pas en ouvrir une seconde.  <br /></td></tr>
+<tr class="memitem:a3a569c84aecff7a99e51e87f71a9b8ac" id="r_a3a569c84aecff7a99e51e87f71a9b8ac"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3a569c84aecff7a99e51e87f71a9b8ac">_crashAfterAutosave</a> = false</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Fenêtre principale de l'éditeur (Qt Widgets). </p>
-<p>Le canevas (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>) est le widget central ; la palette, le navigateur de cartes, les couches et les entités sont des docks détachables dont la disposition est persistée (<span class="tt">EX-IHM-010</span>/<span class="tt">011</span>). La fenêtre ne possède aucune donnée d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique. </p>
+<div class="textblock"><p>Fenêtre principale de l'éditeur (Qt Widgets, style Fusion, textes anglais). </p>
+<p>Le canevas (<span class="tt"><a class="el" href="classhmi_1_1EditorViewport.html">hmi::EditorViewport</a></span>) est le widget central ; la palette, le navigateur de cartes, les couches et les entités sont des docks détachables dont la disposition est persistée (<span class="tt">EX-IHM-011</span>). Tout est construit en code (<span class="tt">LOT-EDITOR-01</span>). La fenêtre ne possède aucune donnée d'édition : le canevas est le seul propriétaire du brouillon, les panneaux demandent et il applique.</p>
+<p>Elle garde aussi le travail de l'auteur (<span class="tt">LOT-EDITOR-01</span>) : un brouillon modifié est sauvegardé automatiquement hors du dépôt et proposé à la reprise après un plantage ; une carte changée sur disque pendant qu'elle est ouverte n'est jamais écrasée en silence ; fermer avec des modifications demande quoi en faire. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa343d39ed242a21ab96e2423c4b134b3" name="aa343d39ed242a21ab96e2423c4b134b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa343d39ed242a21ab96e2423c4b134b3">&#9670;&#160;</a></span>MainWindow() <span class="overload">[1/2]</span></h2>
+<a id="ad5314276368d312f8f32bc9e3bed3db2" name="ad5314276368d312f8f32bc9e3bed3db2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5314276368d312f8f32bc9e3bed3db2">&#9670;&#160;</a></span>MainWindow() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">hmi::MainWindow::MainWindow </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>crashAfterAutosave</em></span><span class="paramdefsep"> = </span><span class="paramdefval">false</span></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel explicit">explicit</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">crashAfterAutosave</td><td><span class="tt">--crash-test</span> : planter juste après la première sauvegarde automatique, pour éprouver la reprise. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -232,6 +269,45 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="aaf41d39eebe208a17270f29165afda4f" name="aaf41d39eebe208a17270f29165afda4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf41d39eebe208a17270f29165afda4f">&#9670;&#160;</a></span>addPanel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDockWidget * hmi::MainWindow::addPanel </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>objectName</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>title</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QWidget *</td>          <td class="paramname"><span class="paramname"><em>content</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Qt::DockWidgetArea</td>          <td class="paramname"><span class="paramname"><em>area</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a79a0a32f6374cffe570e60650baadca4" name="a79a0a32f6374cffe570e60650baadca4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79a0a32f6374cffe570e60650baadca4">&#9670;&#160;</a></span>applyPanelFocus()</h2>
 
@@ -257,8 +333,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a871837448750fb40e380fe52af2f666f" name="a871837448750fb40e380fe52af2f666f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a871837448750fb40e380fe52af2f666f">&#9670;&#160;</a></span>buildStatusBar()</h2>
+<a id="a883821ec347ce1cbbfaab426f2f1cd4d" name="a883821ec347ce1cbbfaab426f2f1cd4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a883821ec347ce1cbbfaab426f2f1cd4d">&#9670;&#160;</a></span>buildMenus()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +343,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::MainWindow::buildStatusBar </td>
+          <td class="memname">void hmi::MainWindow::buildMenus </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -282,8 +358,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a6c9c1ff579895f58b8e5e41020d30b02" name="a6c9c1ff579895f58b8e5e41020d30b02"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c9c1ff579895f58b8e5e41020d30b02">&#9670;&#160;</a></span>buildThemeMenu()</h2>
+<a id="a871837448750fb40e380fe52af2f666f" name="a871837448750fb40e380fe52af2f666f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a871837448750fb40e380fe52af2f666f">&#9670;&#160;</a></span>buildStatusBar()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,7 +368,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::MainWindow::buildThemeMenu </td>
+          <td class="memname">void hmi::MainWindow::buildStatusBar </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -332,8 +408,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3a54e02e87fd3a48160e2776f73b68d3" name="a3a54e02e87fd3a48160e2776f73b68d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a54e02e87fd3a48160e2776f73b68d3">&#9670;&#160;</a></span>buildViewMenu()</h2>
+<a id="a21acdde1725808677884e5337e5cb790" name="a21acdde1725808677884e5337e5cb790"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21acdde1725808677884e5337e5cb790">&#9670;&#160;</a></span>checkDiskChange()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -342,7 +418,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::MainWindow::buildViewMenu </td>
+          <td class="memname">bool hmi::MainWindow::checkDiskChange </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -354,6 +430,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Compare la carte sur disque à celle que l'éditeur a lue ou écrite, et réagit. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si le brouillon a été remplacé par la version du disque (un enregistrement en cours doit alors s'arrêter). </dd></dl>
 
 </div>
 </div>
@@ -457,6 +536,90 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="ab07d84d5a7c24ef8bef666a1cdaa0bb0" name="ab07d84d5a7c24ef8bef666a1cdaa0bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab07d84d5a7c24ef8bef666a1cdaa0bb0">&#9670;&#160;</a></span>dockFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDockWidget * hmi::MainWindow::dockFor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a></td>          <td class="paramname"><span class="paramname"><em>panel</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5e2887cd1592ff97d25ae5f65861b7a0" name="a5e2887cd1592ff97d25ae5f65861b7a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e2887cd1592ff97d25ae5f65861b7a0">&#9670;&#160;</a></span>keepAside()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString hmi::MainWindow::keepAside </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>label</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>content</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Met <code class="param">content</code> de côté pour la carte ouverte ;. </p>
+<dl class="section return"><dt>Returns</dt><dd>le chemin écrit, vide en cas d'échec. </dd></dl>
+
+</div>
+</div>
+<a id="aa28e8e28e6d9ee14ea3bd4c76700090a" name="aa28e8e28e6d9ee14ea3bd4c76700090a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa28e8e28e6d9ee14ea3bd4c76700090a">&#9670;&#160;</a></span>offerRecovery()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::offerRecovery </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Au démarrage : propose de reprendre les brouillons laissés par une session interrompue. </p>
+
+</div>
+</div>
 <a id="abb2b5a4ae54723c485af101667fc2f23" name="abb2b5a4ae54723c485af101667fc2f23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abb2b5a4ae54723c485af101667fc2f23">&#9670;&#160;</a></span>openResizeDialog()</h2>
 
@@ -517,9 +680,9 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp; hmi::MainWindow::operator= </td>
+          <td class="memname"><a class="el" href="#ad5314276368d312f8f32bc9e3bed3db2">MainWindow</a> &amp; hmi::MainWindow::operator= </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="#aa343d39ed242a21ab96e2423c4b134b3">MainWindow</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">const <a class="el" href="#ad5314276368d312f8f32bc9e3bed3db2">MainWindow</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -607,8 +770,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1ed419815e2ff1739411e9b7597f6734" name="a1ed419815e2ff1739411e9b7597f6734"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ed419815e2ff1739411e9b7597f6734">&#9670;&#160;</a></span>retranslateUi()</h2>
+<a id="a3b35aad4874b9a25e9c680e44945fec4" name="a3b35aad4874b9a25e9c680e44945fec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b35aad4874b9a25e9c680e44945fec4">&#9670;&#160;</a></span>saveLayout()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -617,7 +780,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::MainWindow::retranslateUi </td>
+          <td class="memname">void hmi::MainWindow::saveLayout </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -632,8 +795,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a3b35aad4874b9a25e9c680e44945fec4" name="a3b35aad4874b9a25e9c680e44945fec4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3b35aad4874b9a25e9c680e44945fec4">&#9670;&#160;</a></span>saveLayout()</h2>
+<a id="a97a8207d2eb4159bbee889424348eed9" name="a97a8207d2eb4159bbee889424348eed9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a8207d2eb4159bbee889424348eed9">&#9670;&#160;</a></span>scheduleAutosave()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -642,7 +805,34 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::MainWindow::saveLayout </td>
+          <td class="memname">void hmi::MainWindow::scheduleAutosave </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Relance le délai de sauvegarde automatique : une rafale de gestes n'écrit qu'une fois. </p>
+
+</div>
+</div>
+<a id="aabc40d107e8dd41fdb72302e572ee8fd" name="aabc40d107e8dd41fdb72302e572ee8fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc40d107e8dd41fdb72302e572ee8fd">&#9670;&#160;</a></span>setUpSafetyNet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::setUpSafetyNet </td>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
@@ -686,8 +876,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a23d7033f2e1cfe842e9d3c9f6f6f6db8" name="a23d7033f2e1cfe842e9d3c9f6f6f6db8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a23d7033f2e1cfe842e9d3c9f6f6f6db8">&#9670;&#160;</a></span>text()</h2>
+<a id="ac0d739fb55c5d22f269ca98284ef5a00" name="ac0d739fb55c5d22f269ca98284ef5a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0d739fb55c5d22f269ca98284ef5a00">&#9670;&#160;</a></span>watchLevelFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -696,18 +886,47 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QString hmi::MainWindow::text </td>
+          <td class="memname">void hmi::MainWindow::watchLevelFile </td>
           <td>(</td>
-          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Surveille le fichier de la carte ouverte (à refaire après un remplacement du fichier). </p>
+
+</div>
+</div>
+<a id="af7619309516080cce3bbd5faa4d5020a" name="af7619309516080cce3bbd5faa4d5020a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7619309516080cce3bbd5faa4d5020a">&#9670;&#160;</a></span>writeAutosave()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::MainWindow::writeAutosave </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Écrit le brouillon modifié, ou retire le fichier de reprise d'un brouillon redevenu propre. </p>
 
 </div>
 </div>
@@ -732,7 +951,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Réglage persisté (menu Affichage). </p>
+<p>Réglage persisté (menu View). </p>
 
 </div>
 </div>
@@ -747,6 +966,120 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classhmi_1_1EditorActions.html">EditorActions</a>* hmi::MainWindow::_actions = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9070cc10b7ea209e15e5c2ff9e623f50" name="a9070cc10b7ea209e15e5c2ff9e623f50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9070cc10b7ea209e15e5c2ff9e623f50">&#9670;&#160;</a></span>_autosave</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="classhmi_1_1AutosaveStore.html">AutosaveStore</a>&gt; hmi::MainWindow::_autosave</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4f7623d30d858e783ebd7646baa3a5a3" name="a4f7623d30d858e783ebd7646baa3a5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f7623d30d858e783ebd7646baa3a5a3">&#9670;&#160;</a></span>_autosavedMapId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::MainWindow::_autosavedMapId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Carte dont un fichier de reprise existe, écrit par cette session. </p>
+
+</div>
+</div>
+<a id="a053f67d2426ca6b7644aa68c43bbc285" name="a053f67d2426ca6b7644aa68c43bbc285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a053f67d2426ca6b7644aa68c43bbc285">&#9670;&#160;</a></span>_autosaveTimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTimer* hmi::MainWindow::_autosaveTimer = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acbc4e79845e870642b054bc0c2bcfb13" name="acbc4e79845e870642b054bc0c2bcfb13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbc4e79845e870642b054bc0c2bcfb13">&#9670;&#160;</a></span>_checkingDisk</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::MainWindow::_checkingDisk = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Une question sur le disque est déjà posée : ne pas en ouvrir une seconde. </p>
+
+</div>
+</div>
+<a id="a3a569c84aecff7a99e51e87f71a9b8ac" name="a3a569c84aecff7a99e51e87f71a9b8ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a569c84aecff7a99e51e87f71a9b8ac">&#9670;&#160;</a></span>_crashAfterAutosave</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::MainWindow::_crashAfterAutosave = false</td>
         </tr>
       </table>
   </td>
@@ -778,7 +1111,53 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Disposition par défaut (pour « Réinitialiser la disposition »). </p>
+<p>Disposition par défaut (pour « Reset layout »). </p>
+
+</div>
+</div>
+<a id="acc7e6a98234c88f4bdddf8260de14ecd" name="acc7e6a98234c88f4bdddf8260de14ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc7e6a98234c88f4bdddf8260de14ecd">&#9670;&#160;</a></span>_diskCheckTimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTimer* hmi::MainWindow::_diskCheckTimer = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89f8014e22b86c24e18ea5af2239655f" name="a89f8014e22b86c24e18ea5af2239655f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89f8014e22b86c24e18ea5af2239655f">&#9670;&#160;</a></span>_docks</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt;QDockWidget*, <a class="el" href="namespacehmi.html#af04ce56b73b71704b41ee6d8cfe4e2e2">PANEL_COUNT</a>&gt; hmi::MainWindow::_docks {}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dans l'ordre de <span class="tt"><a class="el" href="namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726" title="Panneau dockable de l&#39;éditeur.">PanelId</a></span>. </p>
 
 </div>
 </div>
@@ -870,30 +1249,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a5caf9b64fbcd7d83d4b9473221e6af09" name="a5caf9b64fbcd7d83d4b9473221e6af09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5caf9b64fbcd7d83d4b9473221e6af09">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classhmi_1_1Localization.html">Localization</a> hmi::MainWindow::_loc</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogue de traduction (i18n), source de tous les textes. </p>
-
-</div>
-</div>
 <a id="af1127880bfad8cb9a4e49eb5c072ca08" name="af1127880bfad8cb9a4e49eb5c072ca08"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af1127880bfad8cb9a4e49eb5c072ca08">&#9670;&#160;</a></span>_palette</h2>
 
@@ -927,6 +1282,50 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::unique_ptr&lt;<a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>&gt; hmi::MainWindow::_references</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a10ab1a96c0a996f8688f9b590a2f029b" name="a10ab1a96c0a996f8688f9b590a2f029b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10ab1a96c0a996f8688f9b590a2f029b">&#9670;&#160;</a></span>_resetLayoutAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAction* hmi::MainWindow::_resetLayoutAction = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4574a5a3f8e0d48448a4dcbbca2fc889" name="a4574a5a3f8e0d48448a4dcbbca2fc889"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4574a5a3f8e0d48448a4dcbbca2fc889">&#9670;&#160;</a></span>_resizeAction</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAction* hmi::MainWindow::_resizeAction = nullptr</td>
         </tr>
       </table>
   </td>
@@ -1026,28 +1425,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="abbf193c38db62a49872c5a57b1b61cce" name="abbf193c38db62a49872c5a57b1b61cce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbf193c38db62a49872c5a57b1b61cce">&#9670;&#160;</a></span>_ui</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::unique_ptr&lt;Ui::EditorMainWindow&gt; hmi::MainWindow::_ui</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a324f91fcd0352eb34be747deb6beb0d3" name="a324f91fcd0352eb34be747deb6beb0d3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a324f91fcd0352eb34be747deb6beb0d3">&#9670;&#160;</a></span>_userPickedTab</h2>
 
@@ -1096,9 +1473,31 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a9e89ff49e801603f1e390c30071d2f4a" name="a9e89ff49e801603f1e390c30071d2f4a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e89ff49e801603f1e390c30071d2f4a">&#9670;&#160;</a></span>_watcher</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QFileSystemWatcher* hmi::MainWindow::_watcher = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/<a class="el" href="MainWindow_8h_source.html">MainWindow.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/<a class="el" href="MainWindow_8cpp.html">MainWindow.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="MainWindow_8h_source.html">MainWindow.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="MainWindow_8cpp.html">MainWindow.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

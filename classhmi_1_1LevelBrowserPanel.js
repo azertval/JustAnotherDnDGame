@@ -1,5 +1,6 @@
 var classhmi_1_1LevelBrowserPanel =
 [
+    [ "Widgets", "structhmi_1_1LevelBrowserPanel_1_1Widgets.html", "structhmi_1_1LevelBrowserPanel_1_1Widgets" ],
     [ "LevelBrowserPanel", "classhmi_1_1LevelBrowserPanel.html#a1d943d1cd819db0b8fb913666e3f914a", null ],
     [ "~LevelBrowserPanel", "classhmi_1_1LevelBrowserPanel.html#adde81f1cab1c37e2a715cdb8641fd8ba", null ],
     [ "levelOpenRequested", "classhmi_1_1LevelBrowserPanel.html#a69eb067948088996f047d0ad7582edab", null ],
@@ -10,11 +11,9 @@ var classhmi_1_1LevelBrowserPanel =
     [ "onRename", "classhmi_1_1LevelBrowserPanel.html#af6be2772b308c62a472a234e35f00c2e", null ],
     [ "refresh", "classhmi_1_1LevelBrowserPanel.html#a49e0ac7e7ba510df508285d010500429", null ],
     [ "refreshWorldGraph", "classhmi_1_1LevelBrowserPanel.html#ab25b9ab3865c52753e08937b9b4488be", null ],
-    [ "retranslateUi", "classhmi_1_1LevelBrowserPanel.html#a67a52a66f33fbc3a4164f154ccad4733", null ],
     [ "selectedPath", "classhmi_1_1LevelBrowserPanel.html#a5b1fc770c5e8e6dd08a5e857c8c07157", null ],
     [ "_dir", "classhmi_1_1LevelBrowserPanel.html#a3185bc4090e8ab36b6c79f479cb42267", null ],
-    [ "_loc", "classhmi_1_1LevelBrowserPanel.html#a54a1a5599165345f9f99365040d32dfa", null ],
     [ "_model", "classhmi_1_1LevelBrowserPanel.html#a82f1f4da93c2c41ee4faae7b49047ff0", null ],
     [ "_proxy", "classhmi_1_1LevelBrowserPanel.html#ad8ee64b6f05251adf8b27e7fae98297b", null ],
-    [ "_ui", "classhmi_1_1LevelBrowserPanel.html#a58de8dfe0962f33f5d5d89a3fb3353eb", null ]
+    [ "_ui", "classhmi_1_1LevelBrowserPanel.html#a212b9f460b67fded6cff36df0e2e3537", null ]
 ];

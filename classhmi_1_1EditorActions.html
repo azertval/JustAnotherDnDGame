@@ -93,7 +93,7 @@ $(function(){initNavTree('classhmi_1_1EditorActions.html','','classhmi_1_1Editor
 </div><!--header-->
 <div class="contents">
 
-<p>Construit et possède les <span class="tt">QAction</span> du catalogue (<span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (EX-IHM-055).">HMI/Interface/ActionCatalog.h</a></span>) : chaque outil et chaque commande principale n'existe qu'une fois, placée simultanément dans la barre d'outils, un menu et un menu contextuel sans duplication.  
+<p>Construit et possède les <span class="tt">QAction</span> de l'éditeur : chaque outil et chaque commande n'existe qu'une fois, placée dans la barre d'outils, un menu et son raccourci.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EditorActions_8h_source.html">EditorActions.h</a>&gt;</code></p>
@@ -106,34 +106,36 @@ Inheritance diagram for hmi::EditorActions:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab90c9b8945bb5398c11af251c97dbadb" id="r_ab90c9b8945bb5398c11af251c97dbadb"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab90c9b8945bb5398c11af251c97dbadb">EditorActions</a> (const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;tokens, QObject *parent=nullptr)</td></tr>
-<tr class="memitem:a0cf45b53c8671c5d791a9408cba20a11" id="r_a0cf45b53c8671c5d791a9408cba20a11"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#a0cf45b53c8671c5d791a9408cba20a11">action</a> (<a class="el" href="namespacehmi.html#ab269aabb94611e449a8e7427969874f5">IconId</a> id) const</td></tr>
+<tr class="memitem:af9747bf926ce8a159c465f59c508a932" id="r_af9747bf926ce8a159c465f59c508a932"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af9747bf926ce8a159c465f59c508a932">EditorActions</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memitem:ab2b03ac239be7fe949689bff9d3f8b03" id="r_ab2b03ac239be7fe949689bff9d3f8b03"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#ab2b03ac239be7fe949689bff9d3f8b03">action</a> (<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">EditorCommand</a> command) const</td></tr>
 <tr class="memitem:aa2ddc2ecd3bd72cd46ef20db1ddb623e" id="r_aa2ddc2ecd3bd72cd46ef20db1ddb623e"><td class="memItemLeft">QAction *&#160;</td><td class="memItemRight"><a class="el" href="#aa2ddc2ecd3bd72cd46ef20db1ddb623e">toolAction</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> tool) const</td></tr>
-<tr class="memitem:a2df67ecdab8e8d45df22070c8393f291" id="r_a2df67ecdab8e8d45df22070c8393f291"><td class="memItemLeft">QActionGroup *&#160;</td><td class="memItemRight"><a class="el" href="#a2df67ecdab8e8d45df22070c8393f291">toolGroup</a> () const noexcept</td></tr>
+<tr class="memitem:ac4d2e8656ebb396804cd5cc62ccc706a" id="r_ac4d2e8656ebb396804cd5cc62ccc706a"><td class="memItemLeft">const std::array&lt; QAction *, <a class="el" href="namespacehmi.html#a8419e0bc52afdaf288a539da747b1577">EDITOR_COMMAND_COUNT</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac4d2e8656ebb396804cd5cc62ccc706a">all</a> () const noexcept</td></tr>
 <tr class="memitem:a1a89ee1d8b8c0c9a21412ac07199625c" id="r_a1a89ee1d8b8c0c9a21412ac07199625c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1a89ee1d8b8c0c9a21412ac07199625c">populateToolBar</a> (QToolBar &amp;toolBar) const</td></tr>
-<tr class="memdesc:a1a89ee1d8b8c0c9a21412ac07199625c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute les actions d'outils de niveau et les commandes principales à <code class="param">toolBar</code>, dans l'ordre du catalogue, avec un séparateur entre les deux.  <br /></td></tr>
-<tr class="memitem:a72f7ac29c4a9353d7db2e9dedb9a0a59" id="r_a72f7ac29c4a9353d7db2e9dedb9a0a59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a72f7ac29c4a9353d7db2e9dedb9a0a59">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
-<tr class="memdesc:a72f7ac29c4a9353d7db2e9dedb9a0a59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active : libellé de chaque action, et infobulle incluant son raccourci (jamais saisi séparément).  <br /></td></tr>
+<tr class="memdesc:a1a89ee1d8b8c0c9a21412ac07199625c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ajoute à <code class="param">toolBar</code> les outils, un séparateur, puis les commandes d'usage continu.  <br /></td></tr>
 <tr class="memitem:af84d72bf51035c33133a93d8ba91e41f" id="r_af84d72bf51035c33133a93d8ba91e41f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af84d72bf51035c33133a93d8ba91e41f">setActiveTool</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> tool) const</td></tr>
 <tr class="memdesc:af84d72bf51035c33133a93d8ba91e41f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coche l'action de l'outil actif <b>sans</b> émettre <span class="tt">triggered</span> : resynchronisation quand le canevas change d'outil de lui-même (choisir une famille d'entité arme l'outil Entité).  <br /></td></tr>
-<tr class="memitem:a4afc7fc551a714ca36cf6b4c151fd20d" id="r_a4afc7fc551a714ca36cf6b4c151fd20d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a4afc7fc551a714ca36cf6b4c151fd20d">setEditingCommandsEnabled</a> (bool enabled) const</td></tr>
-<tr class="memdesc:a4afc7fc551a714ca36cf6b4c151fd20d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Active/désactive les six commandes qui n'ont de sens qu'en édition (Enregistrer, Essayer, Annuler, Refaire, Grille, Recadrer).  <br /></td></tr>
-<tr class="memitem:a92148052c84a36d97dc127936ae28530" id="r_a92148052c84a36d97dc127936ae28530"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a92148052c84a36d97dc127936ae28530">refreshIcons</a> (const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;tokens)</td></tr>
-<tr class="memdesc:a92148052c84a36d97dc127936ae28530"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème) : sans quoi elles resteraient aux anciennes couleurs après le changement.  <br /></td></tr>
-<tr class="memitem:a15651f937c395ecf4bc082bc5c79f455" id="r_a15651f937c395ecf4bc082bc5c79f455"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a15651f937c395ecf4bc082bc5c79f455">applyShortcuts</a> (const <a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a> &amp;bindings, const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
-<tr class="memdesc:a15651f937c395ecf4bc082bc5c79f455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait refléter <code class="param">bindings</code> sur le raccourci effectif de chaque commande concernée (<span class="tt"><a class="el" href="namespacehmi.html#ab2f97afc82a6834dea728c2748464369">hmi::keyBindingIconCatalog</a></span>).  <br /></td></tr>
+<tr class="memitem:aecec8147666b37e0712ca31c459cb10b" id="r_aecec8147666b37e0712ca31c459cb10b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aecec8147666b37e0712ca31c459cb10b">applyShortcuts</a> (const <a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a> &amp;bindings)</td></tr>
+<tr class="memdesc:aecec8147666b37e0712ca31c459cb10b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fait refléter <code class="param">bindings</code> sur le raccourci effectif de chaque commande remappable, puis refait les infobulles (« libellé (raccourci) »).  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac0e24696997d1ab785abb0b7a9af2e50" id="r_ac0e24696997d1ab785abb0b7a9af2e50"><td class="memItemLeft">static std::optional&lt; <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac0e24696997d1ab785abb0b7a9af2e50">toolOf</a> (<a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">EditorCommand</a> command)</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:af2d300041fc10b35275809d315c0bf95" id="r_af2d300041fc10b35275809d315c0bf95"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af2d300041fc10b35275809d315c0bf95">refreshToolTips</a> () const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9bd5c5e2bfb6c4bfbd6dd9e511ba4168" id="r_a9bd5c5e2bfb6c4bfbd6dd9e511ba4168"><td class="memItemLeft">std::array&lt; QAction *, <a class="el" href="namespacehmi.html#a79f2b5a2f6530436d6f2b090de10d6ac">EDITOR_ACTION_CATALOG_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9bd5c5e2bfb6c4bfbd6dd9e511ba4168">_actions</a> {}</td></tr>
+<tr class="memitem:ab64c2a06274ac657be9a7da5b20ee05b" id="r_ab64c2a06274ac657be9a7da5b20ee05b"><td class="memItemLeft">std::array&lt; QAction *, <a class="el" href="namespacehmi.html#a8419e0bc52afdaf288a539da747b1577">EDITOR_COMMAND_COUNT</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab64c2a06274ac657be9a7da5b20ee05b">_actions</a> {}</td></tr>
 <tr class="memitem:aa2b00d3aad061e32941ab1dc01f06897" id="r_aa2b00d3aad061e32941ab1dc01f06897"><td class="memItemLeft">QActionGroup *&#160;</td><td class="memItemRight"><a class="el" href="#aa2b00d3aad061e32941ab1dc01f06897">_toolGroup</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Construit et possède les <span class="tt">QAction</span> du catalogue (<span class="tt"><a class="el" href="ActionCatalog_8h.html" title="Catalogue des actions de l&#39;éditeur : outils et commandes principales (EX-IHM-055).">HMI/Interface/ActionCatalog.h</a></span>) : chaque outil et chaque commande principale n'existe qu'une fois, placée simultanément dans la barre d'outils, un menu et un menu contextuel sans duplication. </p>
-<p>Les icônes sont dessinées par code (<span class="tt"><a class="el" href="namespacehmi.html#a3126473350fe705bf2fac20bc6194c62" title="Peint une icône à la taille demandée, recolorée depuis les jetons.">hmi::themeIcon</a></span>) et recolorées depuis les jetons ; <span class="tt"><a class="el" href="#a92148052c84a36d97dc127936ae28530" title="Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème) : sans quoi elles resteraie...">refreshIcons</a></span> les régénère lors d'un changement de thème. </p>
+<div class="textblock"><p>Construit et possède les <span class="tt">QAction</span> de l'éditeur : chaque outil et chaque commande n'existe qu'une fois, placée dans la barre d'outils, un menu et son raccourci. </p>
+<p>Outil interne (<span class="tt">LOT-EDITOR-01</span>) : libellés anglais écrits ici, icônes standard du style Qt quand il en a une, texte sinon. La barre d'outils porte les outils et les commandes d'usage continu ; le reste vit au menu. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab90c9b8945bb5398c11af251c97dbadb" name="ab90c9b8945bb5398c11af251c97dbadb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab90c9b8945bb5398c11af251c97dbadb">&#9670;&#160;</a></span>EditorActions()</h2>
+<a id="af9747bf926ce8a159c465f59c508a932" name="af9747bf926ce8a159c465f59c508a932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9747bf926ce8a159c465f59c508a932">&#9670;&#160;</a></span>EditorActions()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,12 +146,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">hmi::EditorActions::EditorActions </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>parent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span></td><td>)</td>
           <td></td>
-          <td class="paramtype">QObject *</td>          <td class="paramname"><span class="paramname"><em>parent</em></span><span class="paramdefsep"> = </span><span class="paramdefval">nullptr</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -158,19 +156,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">tokens</td><td>Jetons du châssis d'édition, pour la première génération des icônes. </td></tr>
-    <tr><td class="paramname">parent</td><td>Parent Qt (propriétaire des <span class="tt">QAction</span> construits), optionnel. </td></tr>
-  </table>
-  </dd>
-</dl>
 
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a0cf45b53c8671c5d791a9408cba20a11" name="a0cf45b53c8671c5d791a9408cba20a11"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0cf45b53c8671c5d791a9408cba20a11">&#9670;&#160;</a></span>action()</h2>
+<a id="ab2b03ac239be7fe949689bff9d3f8b03" name="ab2b03ac239be7fe949689bff9d3f8b03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b03ac239be7fe949689bff9d3f8b03">&#9670;&#160;</a></span>action()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -181,7 +172,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">QAction * hmi::EditorActions::action </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespacehmi.html#ab269aabb94611e449a8e7427969874f5">IconId</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">EditorCommand</a></td>          <td class="paramname"><span class="paramname"><em>command</em></span></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -191,12 +182,38 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>L'action portant <code class="param">id</code>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>L'action de <code class="param">command</code>. </dd></dl>
 
 </div>
 </div>
-<a id="a15651f937c395ecf4bc082bc5c79f455" name="a15651f937c395ecf4bc082bc5c79f455"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15651f937c395ecf4bc082bc5c79f455">&#9670;&#160;</a></span>applyShortcuts()</h2>
+<a id="ac4d2e8656ebb396804cd5cc62ccc706a" name="ac4d2e8656ebb396804cd5cc62ccc706a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4d2e8656ebb396804cd5cc62ccc706a">&#9670;&#160;</a></span>all()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::array&lt; QAction *, <a class="el" href="namespacehmi.html#a8419e0bc52afdaf288a539da747b1577">EDITOR_COMMAND_COUNT</a> &gt; &amp; hmi::EditorActions::all </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Toutes les actions, dans l'ordre de l'énumération. </dd></dl>
+
+</div>
+</div>
+<a id="aecec8147666b37e0712ca31c459cb10b" name="aecec8147666b37e0712ca31c459cb10b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecec8147666b37e0712ca31c459cb10b">&#9670;&#160;</a></span>applyShortcuts()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,24 +221,13 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void hmi::EditorActions::applyShortcuts </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>bindings</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1EditorKeyBindings.html">EditorKeyBindings</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>bindings</em></span></td><td>)</td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Fait refléter <code class="param">bindings</code> sur le raccourci effectif de chaque commande concernée (<span class="tt"><a class="el" href="namespacehmi.html#ab2f97afc82a6834dea728c2748464369">hmi::keyBindingIconCatalog</a></span>). </p>
-<p><span class="tt">ActionCatalog</span> reste sans dépendance Qt (valeurs par défaut littérales) ; c'est ici, côté Qt, que le raccourci <b>réellement actif</b> d'un <span class="tt">QAction</span> est synchronisé avec les touches remappables — sans quoi un remappage dans les Options ne changerait rien à l'action. Refait aussi les infobulles (<span class="tt"><a class="el" href="#a72f7ac29c4a9353d7db2e9dedb9a0a59" title="Applique la langue active : libellé de chaque action, et infobulle incluant son raccourci (jamais sai...">retranslateUi</a></span>), pour que « libellé + raccourci » reste vrai. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">bindings</td><td>Touches d'éditeur courantes. </td></tr>
-    <tr><td class="paramname">loc</td><td>Catalogue de traduction courant, pour les infobulles. </td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Fait refléter <code class="param">bindings</code> sur le raccourci effectif de chaque commande remappable, puis refait les infobulles (« libellé (raccourci) »). </p>
 
 </div>
 </div>
@@ -240,45 +246,32 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Ajoute les actions d'outils de niveau et les commandes principales à <code class="param">toolBar</code>, dans l'ordre du catalogue, avec un séparateur entre les deux. </p>
+<p>Ajoute à <code class="param">toolBar</code> les outils, un séparateur, puis les commandes d'usage continu. </p>
 
 </div>
 </div>
-<a id="a92148052c84a36d97dc127936ae28530" name="a92148052c84a36d97dc127936ae28530"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92148052c84a36d97dc127936ae28530">&#9670;&#160;</a></span>refreshIcons()</h2>
+<a id="af2d300041fc10b35275809d315c0bf95" name="af2d300041fc10b35275809d315c0bf95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2d300041fc10b35275809d315c0bf95">&#9670;&#160;</a></span>refreshToolTips()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hmi::EditorActions::refreshIcons </td>
+          <td class="memname">void hmi::EditorActions::refreshToolTips </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structhmi_1_1DesignTokens.html">DesignTokens</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tokens</em></span></td><td>)</td>
-          <td></td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-
-<p>Reconstruit les icônes depuis un nouveau jeu de jetons (bascule de thème) : sans quoi elles resteraient aux anciennes couleurs après le changement. </p>
-
-</div>
-</div>
-<a id="a72f7ac29c4a9353d7db2e9dedb9a0a59" name="a72f7ac29c4a9353d7db2e9dedb9a0a59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72f7ac29c4a9353d7db2e9dedb9a0a59">&#9670;&#160;</a></span>retranslateUi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorActions::retranslateUi </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applique la langue active : libellé de chaque action, et infobulle incluant son raccourci (jamais saisi séparément). </p>
 
 </div>
 </div>
@@ -298,25 +291,6 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Coche l'action de l'outil actif <b>sans</b> émettre <span class="tt">triggered</span> : resynchronisation quand le canevas change d'outil de lui-même (choisir une famille d'entité arme l'outil Entité). </p>
-
-</div>
-</div>
-<a id="a4afc7fc551a714ca36cf6b4c151fd20d" name="a4afc7fc551a714ca36cf6b4c151fd20d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4afc7fc551a714ca36cf6b4c151fd20d">&#9670;&#160;</a></span>setEditingCommandsEnabled()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorActions::setEditingCommandsEnabled </td>
-          <td>(</td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>enabled</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Active/désactive les six commandes qui n'ont de sens qu'en édition (Enregistrer, Essayer, Annuler, Refaire, Grille, Recadrer). </p>
 
 </div>
 </div>
@@ -342,12 +316,12 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>L'action de l'outil <code class="param">tool</code> (raccourci vers <span class="tt">action(editorActionForTool(tool))</span>). </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>L'action de l'outil <code class="param">tool</code>. </dd></dl>
 
 </div>
 </div>
-<a id="a2df67ecdab8e8d45df22070c8393f291" name="a2df67ecdab8e8d45df22070c8393f291"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2df67ecdab8e8d45df22070c8393f291">&#9670;&#160;</a></span>toolGroup()</h2>
+<a id="ac0e24696997d1ab785abb0b7a9af2e50" name="ac0e24696997d1ab785abb0b7a9af2e50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0e24696997d1ab785abb0b7a9af2e50">&#9670;&#160;</a></span>toolOf()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -356,25 +330,25 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QActionGroup * hmi::EditorActions::toolGroup </td>
+          <td class="memname">std::optional&lt; <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> &gt; hmi::EditorActions::toolOf </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
+          <td class="paramtype"><a class="el" href="namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18">EditorCommand</a></td>          <td class="paramname"><span class="paramname"><em>command</em></span></td><td>)</td>
+          <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Le groupe exclusif des six actions d'outil de niveau. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>L'outil porté par <code class="param">command</code>, si c'est un outil. </dd></dl>
 
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a9bd5c5e2bfb6c4bfbd6dd9e511ba4168" name="a9bd5c5e2bfb6c4bfbd6dd9e511ba4168"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bd5c5e2bfb6c4bfbd6dd9e511ba4168">&#9670;&#160;</a></span>_actions</h2>
+<a id="ab64c2a06274ac657be9a7da5b20ee05b" name="ab64c2a06274ac657be9a7da5b20ee05b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab64c2a06274ac657be9a7da5b20ee05b">&#9670;&#160;</a></span>_actions</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +357,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::array&lt;QAction*, <a class="el" href="namespacehmi.html#a79f2b5a2f6530436d6f2b090de10d6ac">EDITOR_ACTION_CATALOG_COUNT</a>&gt; hmi::EditorActions::_actions {}</td>
+          <td class="memname">std::array&lt;QAction*, <a class="el" href="namespacehmi.html#a8419e0bc52afdaf288a539da747b1577">EDITOR_COMMAND_COUNT</a>&gt; hmi::EditorActions::_actions {}</td>
         </tr>
       </table>
   </td>
@@ -418,8 +392,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/<a class="el" href="EditorActions_8h_source.html">EditorActions.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/<a class="el" href="EditorActions_8cpp.html">EditorActions.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="EditorActions_8h_source.html">EditorActions.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="EditorActions_8cpp.html">EditorActions.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -93,17 +93,16 @@ $(function(){initNavTree('Editor_2Main_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Point d'entrée de l'<b>éditeur de niveaux</b> (<span class="tt">LevelEditor</span>) — Qt Widgets.  
+<p>Point d'entrée de l'<b>éditeur de cartes</b> (<span class="tt">LevelEditor</span>) — Qt Widgets.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;QApplication&gt;</code><br />
 <code>#include &lt;QCoreApplication&gt;</code><br />
-<code>#include &lt;QSettings&gt;</code><br />
 <code>#include &lt;QString&gt;</code><br />
+<code>#include &lt;QStyleFactory&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="el" href="Bootstrap_8h_source.html">App/Common/Bootstrap.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MainWindow_8h_source.html">Editor/Ui/MainWindow.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ApplicationTheme_8h_source.html">HMI/Interface/ApplicationTheme.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="MainWindow_8h_source.html">HMI/Interface/MainWindow.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -111,9 +110,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Point d'entrée du programme.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Point d'entrée de l'<b>éditeur de niveaux</b> (<span class="tt">LevelEditor</span>) — Qt Widgets. </p>
-<p>Binaire distinct du jeu depuis le <span class="tt">LOT-86</span>. L'éditeur est un outil d'auteur : docks détachables, arbres, disposition persistée (<span class="tt">EX-IHM-010</span>/<span class="tt">011</span>). Qt Widgets y est le bon outil, et le jeu, qui est une image agrandie d'un facteur entier, n'a rien à faire dans le même châssis — c'est de leur cohabitation que venaient les 2 472 lignes de <span class="tt"><a class="el" href="MainWindow_8cpp.html">MainWindow.cpp</a></span>.</p>
-<p>Ce que ce fichier fait et que le jeu ne fait pas : choisir le style Fusion, poser le thème du châssis, ouvrir la fenêtre à docks. </p>
+<div class="textblock"><p>Point d'entrée de l'<b>éditeur de cartes</b> (<span class="tt">LevelEditor</span>) — Qt Widgets. </p>
+<p>Binaire distinct du jeu depuis le <span class="tt">LOT-86</span>. L'éditeur est un outil interne, fait pour l'auteur seul (<span class="tt">LOT-EDITOR-01</span>) : style Fusion de Qt, sans charte ni thème, textes anglais écrits dans le code, sans catalogue de traduction.</p>
+<p><span class="tt">--crash-test</span> ne plante pas au démarrage, comme le jeu, mais juste après la première sauvegarde automatique : c'est ce qui éprouve la reprise d'un brouillon après un plantage. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a3c04138a5bfe5d72780bb7e82a18e627" name="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3c04138a5bfe5d72780bb7e82a18e627">&#9670;&#160;</a></span>main()</h2>

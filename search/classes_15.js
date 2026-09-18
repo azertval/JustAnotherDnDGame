@@ -1,27 +1,4 @@
 var searchData=
 [
-  ['weapon_0',['Weapon',['../structcore_1_1Weapon.html',1,'core']]],
-  ['world_1',['World',['../classcore_1_1World.html',1,'core']]],
-  ['worldfiguresnapshot_2',['WorldFigureSnapshot',['../structhmi_1_1WorldFigureSnapshot.html',1,'hmi']]],
-  ['worldflags_3',['WorldFlags',['../classcore_1_1WorldFlags.html',1,'core']]],
-  ['worldgraph_4',['WorldGraph',['../structcore_1_1WorldGraph.html',1,'core']]],
-  ['worldgraphedgegeometry_5',['WorldGraphEdgeGeometry',['../structhmi_1_1WorldGraphEdgeGeometry.html',1,'hmi']]],
-  ['worldgraphlayout_6',['WorldGraphLayout',['../structhmi_1_1WorldGraphLayout.html',1,'hmi']]],
-  ['worldgraphlayoutedge_7',['WorldGraphLayoutEdge',['../structhmi_1_1WorldGraphLayoutEdge.html',1,'hmi']]],
-  ['worldgraphlayoutnode_8',['WorldGraphLayoutNode',['../structhmi_1_1WorldGraphLayoutNode.html',1,'hmi']]],
-  ['worldgraphview_9',['WorldGraphView',['../classhmi_1_1WorldGraphView.html',1,'hmi']]],
-  ['worldissue_10',['WorldIssue',['../structcore_1_1WorldIssue.html',1,'core']]],
-  ['worldmapinput_11',['WorldMapInput',['../structcore_1_1WorldMapInput.html',1,'core']]],
-  ['worldmapmodel_12',['WorldMapModel',['../classhmi_1_1WorldMapModel.html',1,'hmi']]],
-  ['worldmapnode_13',['WorldMapNode',['../structcore_1_1WorldMapNode.html',1,'core']]],
-  ['worldmaps_14',['WorldMaps',['../structhmi_1_1WorldMaps.html',1,'hmi']]],
-  ['worldmapviews_15',['WorldMapViews',['../structhmi_1_1WorldMapViews.html',1,'hmi']]],
-  ['worldmodel_16',['WorldModel',['../classhmi_1_1WorldModel.html',1,'hmi']]],
-  ['worldplay_17',['WorldPlay',['../classhmi_1_1WorldPlay.html',1,'hmi']]],
-  ['worldplaystep_18',['WorldPlayStep',['../structhmi_1_1WorldPlayStep.html',1,'hmi']]],
-  ['worldportallink_19',['WorldPortalLink',['../structcore_1_1WorldPortalLink.html',1,'core']]],
-  ['worldscenerenderer_20',['WorldSceneRenderer',['../classhmi_1_1WorldSceneRenderer.html',1,'hmi']]],
-  ['worldscenesnapshot_21',['WorldSceneSnapshot',['../structhmi_1_1WorldSceneSnapshot.html',1,'hmi']]],
-  ['worldtravel_22',['WorldTravel',['../classcore_1_1WorldTravel.html',1,'core']]],
-  ['worldviewportitem_23',['WorldViewportItem',['../classhmi_1_1WorldViewportItem.html',1,'hmi']]]
+  ['zone_0',['Zone',['../structcore_1_1BattleGrid_1_1Zone.html',1,'core::BattleGrid']]]
 ];

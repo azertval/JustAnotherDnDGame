@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Interface/MainWindow.cpp File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/MainWindow.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,15 +92,17 @@ $(function(){initNavTree('MainWindow_8cpp.html','',''); });
   <div class="headertitle"><div class="title">MainWindow.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="MainWindow_8h_source.html">HMI/Interface/MainWindow.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="MainWindow_8h_source.html">Editor/Ui/MainWindow.h</a>&quot;</code><br />
 <code>#include &lt;QAction&gt;</code><br />
-<code>#include &lt;QActionGroup&gt;</code><br />
-<code>#include &lt;QApplication&gt;</code><br />
 <code>#include &lt;QCloseEvent&gt;</code><br />
+<code>#include &lt;QDateTime&gt;</code><br />
 <code>#include &lt;QDialog&gt;</code><br />
 <code>#include &lt;QDialogButtonBox&gt;</code><br />
 <code>#include &lt;QDockWidget&gt;</code><br />
+<code>#include &lt;QFileInfo&gt;</code><br />
+<code>#include &lt;QFileSystemWatcher&gt;</code><br />
 <code>#include &lt;QFontMetrics&gt;</code><br />
+<code>#include &lt;QFormLayout&gt;</code><br />
 <code>#include &lt;QGuiApplication&gt;</code><br />
 <code>#include &lt;QHeaderView&gt;</code><br />
 <code>#include &lt;QInputDialog&gt;</code><br />
@@ -109,33 +111,36 @@ $(function(){initNavTree('MainWindow_8cpp.html','',''); });
 <code>#include &lt;QMenu&gt;</code><br />
 <code>#include &lt;QMenuBar&gt;</code><br />
 <code>#include &lt;QMessageBox&gt;</code><br />
+<code>#include &lt;QPushButton&gt;</code><br />
 <code>#include &lt;QRect&gt;</code><br />
 <code>#include &lt;QScreen&gt;</code><br />
 <code>#include &lt;QSettings&gt;</code><br />
 <code>#include &lt;QSpinBox&gt;</code><br />
+<code>#include &lt;QStandardPaths&gt;</code><br />
 <code>#include &lt;QStatusBar&gt;</code><br />
 <code>#include &lt;QString&gt;</code><br />
-<code>#include &lt;QStyleHints&gt;</code><br />
 <code>#include &lt;QTableWidget&gt;</code><br />
 <code>#include &lt;QTimer&gt;</code><br />
 <code>#include &lt;QToolBar&gt;</code><br />
+<code>#include &lt;QVBoxLayout&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
-<code>#include &quot;<a class="el" href="EditorStatus_8h_source.html">HMI/Editor/EditorStatus.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">HMI/Editor/EditorViewport.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EntityPanel_8h_source.html">HMI/Editor/EntityPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EntityReferences_8h_source.html">HMI/Editor/EntityReferences.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LayersPanel_8h_source.html">HMI/Editor/LayersPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LevelBrowserPanel_8h_source.html">HMI/Editor/LevelBrowserPanel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="PalettePanel_8h_source.html">HMI/Editor/PalettePanel.h</a>&quot;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &quot;<a class="el" href="Autosave_8h_source.html">Editor/Logic/Autosave.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="DiskGuard_8h_source.html">Editor/Logic/DiskGuard.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EditorStatus_8h_source.html">Editor/Logic/EditorStatus.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityReferences_8h_source.html">Editor/Logic/EntityReferences.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EditorActions_8h_source.html">Editor/Ui/EditorActions.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">Editor/Ui/EditorViewport.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityPanel_8h_source.html">Editor/Ui/EntityPanel.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LayersPanel_8h_source.html">Editor/Ui/LayersPanel.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LevelBrowserPanel_8h_source.html">Editor/Ui/LevelBrowserPanel.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="PalettePanel_8h_source.html">Editor/Ui/PalettePanel.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ApplicationTheme_8h_source.html">HMI/Interface/ApplicationTheme.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="DesignTokens_8h_source.html">HMI/Interface/DesignTokens.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EditorActions_8h_source.html">HMI/Interface/EditorActions.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CrashDump_8h_source.html">HMI/Platform/CrashDump.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ExecutableDirectory_8h_source.html">HMI/Platform/ExecutableDirectory.h</a>&quot;</code><br />
-<code>#include &quot;ui_MainWindow.h&quot;</code><br />
-<code>#include &quot;ui_ResizeDialog.h&quot;</code><br />
-<code>#include &quot;ui_ShortcutsDialog.h&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -154,7 +159,7 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_176b5c6fb722225b64367f2880eb44f3.html">HMI</a></li><li class="navelem"><a href="dir_c537f82b8f955c3b1ce6a355f8c4c1be.html">Interface</a></li><li class="navelem"><a href="MainWindow_8cpp.html">MainWindow.cpp</a></li>
+    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_b26507eead720464ba2ac6bbc6dcec5f.html">Editor</a></li><li class="navelem"><a href="dir_81129cf20409270d9237df2d6b07b076.html">Ui</a></li><li class="navelem"><a href="MainWindow_8cpp.html">MainWindow.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

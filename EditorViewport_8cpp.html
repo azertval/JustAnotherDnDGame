@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/EditorViewport.cpp File Reference</title>
+<title>JustAnotherRpgGame: /home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/EditorViewport.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,7 @@ $(function(){initNavTree('EditorViewport_8cpp.html','',''); });
   <div class="headertitle"><div class="title">EditorViewport.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">HMI/Editor/EditorViewport.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="EditorViewport_8h_source.html">Editor/Ui/EditorViewport.h</a>&quot;</code><br />
 <code>#include &lt;QEvent&gt;</code><br />
 <code>#include &lt;QKeyEvent&gt;</code><br />
 <code>#include &lt;QMouseEvent&gt;</code><br />
@@ -101,6 +101,7 @@ $(function(){initNavTree('EditorViewport_8cpp.html','',''); });
 <code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
@@ -112,18 +113,15 @@ $(function(){initNavTree('EditorViewport_8cpp.html','',''); });
 <code>#include &quot;<a class="el" href="TileTypeName_8h_source.html">Core/Levels/TileTypeName.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Vector2_8h_source.html">Core/Math/Vector2.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="WorldTravel_8h_source.html">Core/World/WorldTravel.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EntityGesture_8h_source.html">HMI/Editor/EntityGesture.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="EntityReferences_8h_source.html">HMI/Editor/EntityReferences.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LevelFileOperations_8h_source.html">HMI/Editor/LevelFileOperations.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="LevelNameValidation_8h_source.html">HMI/Editor/LevelNameValidation.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityGesture_8h_source.html">Editor/Logic/EntityGesture.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityReferences_8h_source.html">Editor/Logic/EntityReferences.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LevelFileOperations_8h_source.html">Editor/Logic/LevelFileOperations.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LevelNameValidation_8h_source.html">Editor/Logic/LevelNameValidation.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="DraftRenderer_8h_source.html">Editor/Ui/DraftRenderer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="WorldPlay_8h_source.html">HMI/Game/WorldPlay.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="DraftRenderer_8h_source.html">HMI/Graphics/DraftRenderer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="SpriteBatch_8h_source.html">HMI/Graphics/SpriteBatch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="WorldSceneRenderer_8h_source.html">HMI/Graphics/WorldSceneRenderer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="HmiLog_8h_source.html">HMI/HmiLog.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ApplicationTheme_8h_source.html">HMI/Interface/ApplicationTheme.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="DesignTokens_8h_source.html">HMI/Interface/DesignTokens.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Localization_8h_source.html">HMI/Localization/Localization.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ExecutableDirectory_8h_source.html">HMI/Platform/ExecutableDirectory.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -143,7 +141,7 @@ Namespaces</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_176b5c6fb722225b64367f2880eb44f3.html">HMI</a></li><li class="navelem"><a href="dir_8582677ef72a95e6c2b44a30d95c0011.html">Editor</a></li><li class="navelem"><a href="EditorViewport_8cpp.html">EditorViewport.cpp</a></li>
+    <li class="navelem"><a href="dir_74389ed8173ad57b461b9d623a1f3867.html">Source</a></li><li class="navelem"><a href="dir_b26507eead720464ba2ac6bbc6dcec5f.html">Editor</a></li><li class="navelem"><a href="dir_81129cf20409270d9237df2d6b07b076.html">Ui</a></li><li class="navelem"><a href="EditorViewport_8cpp.html">EditorViewport.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

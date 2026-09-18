@@ -104,6 +104,11 @@ Inheritance diagram for hmi::LevelBrowserPanel:</div>
   <img src="classhmi_1_1LevelBrowserPanel.png" alt=""/>
  </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:Widgets" id="r_Widgets"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LevelBrowserPanel_1_1Widgets.html">Widgets</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les widgets du panneau : un onglet « List » (recherche, liste, boutons de gestion) et un onglet « Graph » (le graphe du monde).  <a href="structhmi_1_1LevelBrowserPanel_1_1Widgets.html#details">More...</a><br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-signals" class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a69eb067948088996f047d0ad7582edab" id="r_a69eb067948088996f047d0ad7582edab"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a69eb067948088996f047d0ad7582edab">levelOpenRequested</a> (const QString &amp;path)</td></tr>
@@ -117,8 +122,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a49e0ac7e7ba510df508285d010500429"><td class="mdescLeft">&#160;</td><td class="mdescRight">Recharge la liste depuis le dossier (après une opération ou un changement externe), puis le graphe du monde.  <br /></td></tr>
 <tr class="memitem:ab25b9ab3865c52753e08937b9b4488be" id="r_ab25b9ab3865c52753e08937b9b4488be"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab25b9ab3865c52753e08937b9b4488be">refreshWorldGraph</a> ()</td></tr>
 <tr class="memdesc:ab25b9ab3865c52753e08937b9b4488be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit le graphe du monde depuis le dossier, sans toucher à la liste (après un enregistrement, qui peut changer les portails d'une carte sans changer les fichiers).  <br /></td></tr>
-<tr class="memitem:a67a52a66f33fbc3a4164f154ccad4733" id="r_a67a52a66f33fbc3a4164f154ccad4733"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a67a52a66f33fbc3a4164f154ccad4733">retranslateUi</a> (const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;loc)</td></tr>
-<tr class="memdesc:a67a52a66f33fbc3a4164f154ccad4733"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique la langue active (onglets, boutons, champ de recherche, graphe).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -132,19 +135,16 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a58de8dfe0962f33f5d5d89a3fb3353eb" id="r_a58de8dfe0962f33f5d5d89a3fb3353eb"><td class="memItemLeft">std::unique_ptr&lt; Ui::LevelBrowserPanel &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a58de8dfe0962f33f5d5d89a3fb3353eb">_ui</a></td></tr>
-<tr class="memdesc:a58de8dfe0962f33f5d5d89a3fb3353eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mise en page (LevelBrowserPanel.ui).  <br /></td></tr>
+<tr class="memitem:a212b9f460b67fded6cff36df0e2e3537" id="r_a212b9f460b67fded6cff36df0e2e3537"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1LevelBrowserPanel_1_1Widgets.html">Widgets</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a212b9f460b67fded6cff36df0e2e3537">_ui</a></td></tr>
 <tr class="memitem:a3185bc4090e8ab36b6c79f479cb42267" id="r_a3185bc4090e8ab36b6c79f479cb42267"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a3185bc4090e8ab36b6c79f479cb42267">_dir</a></td></tr>
 <tr class="memitem:a82f1f4da93c2c41ee4faae7b49047ff0" id="r_a82f1f4da93c2c41ee4faae7b49047ff0"><td class="memItemLeft">QStandardItemModel *&#160;</td><td class="memItemRight"><a class="el" href="#a82f1f4da93c2c41ee4faae7b49047ff0">_model</a></td></tr>
 <tr class="memdesc:a82f1f4da93c2c41ee4faae7b49047ff0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Modèle source (données), rempli par <a class="el" href="#a49e0ac7e7ba510df508285d010500429" title="Recharge la liste depuis le dossier (après une opération ou un changement externe),...">refresh()</a>.  <br /></td></tr>
 <tr class="memitem:ad8ee64b6f05251adf8b27e7fae98297b" id="r_ad8ee64b6f05251adf8b27e7fae98297b"><td class="memItemLeft">QSortFilterProxyModel *&#160;</td><td class="memItemRight"><a class="el" href="#ad8ee64b6f05251adf8b27e7fae98297b">_proxy</a></td></tr>
 <tr class="memdesc:ad8ee64b6f05251adf8b27e7fae98297b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Filtre de recherche au-dessus du modèle.  <br /></td></tr>
-<tr class="memitem:a54a1a5599165345f9f99365040d32dfa" id="r_a54a1a5599165345f9f99365040d32dfa"><td class="memItemLeft">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a54a1a5599165345f9f99365040d32dfa">_loc</a> = nullptr</td></tr>
-<tr class="memdesc:a54a1a5599165345f9f99365040d32dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catalogue courant (pour les dialogues localisés).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Panneau de gestion des niveaux : liste filtrable + créer/renommer/dupliquer/supprimer. </p>
-<p>Liste les fichiers <span class="tt">.json</span> d'un dossier (<span class="tt">EX-IHM-020</span>), avec <b>recherche</b> incrémentale (<span class="tt">QSortFilterProxyModel</span>) pour rester lisible quel que soit leur nombre. Les opérations (<span class="tt">EX-IHM-021</span>) délèguent à <span class="tt"><a class="el" href="classhmi_1_1LevelFileOperations.html" title="Opérations sur les fichiers de niveaux d&#39;un dossier, sans dépendance Qt/GPU.">hmi::LevelFileOperations</a></span> (couche pure, validée/testée) ; les erreurs sont signalées à l'utilisateur, jamais silencieuses. Un double-clic (ou « Ouvrir ») émet <span class="tt"><a class="el" href="#a69eb067948088996f047d0ad7582edab" title="Émis quand l&#39;utilisateur demande l&#39;ouverture d&#39;un niveau (chemin absolu du fichier).">levelOpenRequested</a></span> — le garde-fou des modifications non enregistrées est appliqué par l'appelant (<span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;éditeur (Qt Widgets).">MainWindow</a></span>).</p>
+<p>Liste les fichiers <span class="tt">.json</span> d'un dossier, avec <b>recherche</b> incrémentale (<span class="tt">QSortFilterProxyModel</span>) pour rester lisible quel que soit leur nombre. Les opérations (<span class="tt">EX-IHM-021</span>) délèguent à <span class="tt"><a class="el" href="classhmi_1_1LevelFileOperations.html" title="Opérations sur les fichiers de niveaux d&#39;un dossier, sans dépendance Qt/GPU.">hmi::LevelFileOperations</a></span> (couche pure, validée/testée) ; les erreurs sont signalées à l'utilisateur, jamais silencieuses. Un double-clic (ou « Ouvrir ») émet <span class="tt"><a class="el" href="#a69eb067948088996f047d0ad7582edab" title="Émis quand l&#39;utilisateur demande l&#39;ouverture d&#39;un niveau (chemin absolu du fichier).">levelOpenRequested</a></span> — le garde-fou des modifications non enregistrées est appliqué par l'appelant (<span class="tt"><a class="el" href="classhmi_1_1MainWindow.html" title="Fenêtre principale de l&#39;éditeur (Qt Widgets, style Fusion, textes anglais).">MainWindow</a></span>).</p>
 <p>Un second onglet montre le <b>graphe du monde</b> (<span class="tt">LOT-11</span>, <span class="tt"><a class="el" href="classhmi_1_1WorldGraphView.html" title="Peint un core::WorldGraph disposé par hmi::layoutWorldGraph.">hmi::WorldGraphView</a></span>) : les cartes du même dossier et leurs portails. Il est relu à chaque <span class="tt"><a class="el" href="#a49e0ac7e7ba510df508285d010500429" title="Recharge la liste depuis le dossier (après une opération ou un changement externe),...">refresh()</a></span> ; un double-clic sur une carte émet le même <span class="tt"><a class="el" href="#a69eb067948088996f047d0ad7582edab" title="Émis quand l&#39;utilisateur demande l&#39;ouverture d&#39;un niveau (chemin absolu du fichier).">levelOpenRequested</a></span> que la liste. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a1d943d1cd819db0b8fb913666e3f914a" name="a1d943d1cd819db0b8fb913666e3f914a"></a>
@@ -392,25 +392,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a67a52a66f33fbc3a4164f154ccad4733" name="a67a52a66f33fbc3a4164f154ccad4733"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a67a52a66f33fbc3a4164f154ccad4733">&#9670;&#160;</a></span>retranslateUi()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::LevelBrowserPanel::retranslateUi </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="classhmi_1_1Localization.html">Localization</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>loc</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applique la langue active (onglets, boutons, champ de recherche, graphe). </p>
-
-</div>
-</div>
 <a id="a5b1fc770c5e8e6dd08a5e857c8c07157" name="a5b1fc770c5e8e6dd08a5e857c8c07157"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5b1fc770c5e8e6dd08a5e857c8c07157">&#9670;&#160;</a></span>selectedPath()</h2>
 
@@ -458,30 +439,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a54a1a5599165345f9f99365040d32dfa" name="a54a1a5599165345f9f99365040d32dfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a54a1a5599165345f9f99365040d32dfa">&#9670;&#160;</a></span>_loc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classhmi_1_1Localization.html">Localization</a>* hmi::LevelBrowserPanel::_loc = nullptr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Catalogue courant (pour les dialogues localisés). </p>
 
 </div>
 </div>
@@ -533,8 +490,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a58de8dfe0962f33f5d5d89a3fb3353eb" name="a58de8dfe0962f33f5d5d89a3fb3353eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58de8dfe0962f33f5d5d89a3fb3353eb">&#9670;&#160;</a></span>_ui</h2>
+<a id="a212b9f460b67fded6cff36df0e2e3537" name="a212b9f460b67fded6cff36df0e2e3537"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a212b9f460b67fded6cff36df0e2e3537">&#9670;&#160;</a></span>_ui</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -543,7 +500,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;Ui::LevelBrowserPanel&gt; hmi::LevelBrowserPanel::_ui</td>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="structhmi_1_1LevelBrowserPanel_1_1Widgets.html">Widgets</a>&gt; hmi::LevelBrowserPanel::_ui</td>
         </tr>
       </table>
   </td>
@@ -553,13 +510,11 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Mise en page (LevelBrowserPanel.ui). </p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="LevelBrowserPanel_8h_source.html">LevelBrowserPanel.h</a></li>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="LevelBrowserPanel_8cpp.html">LevelBrowserPanel.cpp</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="LevelBrowserPanel_8h_source.html">LevelBrowserPanel.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Ui/<a class="el" href="LevelBrowserPanel_8cpp.html">LevelBrowserPanel.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

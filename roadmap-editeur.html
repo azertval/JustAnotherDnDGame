@@ -176,7 +176,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">D4  </td><td class="markdownTableBodyNone">Qui fait foi, le script ou l'éditeur ?  </td><td class="markdownTableBodyNone">L'éditeur ; les scripts des cartes faites à la main sont retirés au <span class="tt">LOT-EDITOR-06</span>  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">D5  </td><td class="markdownTableBodyNone">Où vit le code ?  </td><td class="markdownTableBodyNone"><span class="tt">Source/Editor/{Logic,<a class="el" href="namespaceUi.html">Ui</a>}</span>, cible et tests à lui ; il dépend de <span class="tt">Core</span> et de la composition, et rien ne dépend de lui  </td></tr>
+<td class="markdownTableBodyNone">D5  </td><td class="markdownTableBodyNone">Où vit le code ?  </td><td class="markdownTableBodyNone"><span class="tt">Source/Editor/{Logic,Ui}</span>, cible et tests à lui ; il dépend de <span class="tt">Core</span> et de la composition, et rien ne dépend de lui  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">D6  </td><td class="markdownTableBodyNone">Le jeu attend-il l'éditeur ?  </td><td class="markdownTableBodyNone">Aucune dépendance déclarée, <b>mais un ordre</b> : les lots 01 à 06 passent avant les cartes du <a class="el" href="roadmap.html#lot-27" title="LOT-27 — La Capitale : contenu du &lt;em&gt;vertical slice&lt;/em&gt;">LOT-27</a>. Les <a class="el" href="roadmap.html#lot-16" title="LOT-16 — Les affaires de la Capitale : quêtes et drapeaux de monde">LOT-16</a> et <a class="el" href="roadmap.html#lot-17" title="LOT-17 — Reprendre sa partie dans la Capitale : sauvegarde riche">LOT-17</a> avancent en parallèle. Pas de troisième script pour le repaire  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -232,7 +232,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Reprise  </td><td class="markdownTableBodyNone">poste  </td><td class="markdownTableBodyNone">sauvegarde automatique dans <span class="tt">LOCALAPPDATA%</span>, proposée au redémarrage après un plantage  </td></tr>
 </table>
-<p>Ce qui disparaît de l'éditeur : son usage de <span class="tt">DesignTokens</span>, <span class="tt">ThemeIcons</span>, <span class="tt">IconGeometry</span>, <span class="tt">theme-editor.qss</span> et <span class="tt">ActionCatalog</span>, ses formulaires <span class="tt">.ui</span>, le rendu <span class="tt">QRhiWidget</span>, et les panneaux actuels, reconstruits plus simples.</p>
+<p>Ce qui disparaît de l'éditeur : son usage de <span class="tt">DesignTokens</span>, <span class="tt">ThemeIcons</span>, <span class="tt">IconGeometry</span>, <span class="tt">theme-editor.qss</span> et <span class="tt">ActionCatalog</span>, ses formulaires <span class="tt">.ui</span> (tous retirés au <span class="tt">LOT-EDITOR-01</span>), le rendu <span class="tt">QRhiWidget</span> (au <span class="tt">LOT-EDITOR-02</span>), et les panneaux actuels, reconstruits plus simples.</p>
 <hr  />
 <h1 class="doxsection"><a class="anchor" id="roadmap-editeur-perennite"></a>
 5. Cinq règles pour durer</h1>
@@ -281,7 +281,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Lot  </th><th class="markdownTableHeadNone">Titre  </th><th class="markdownTableHeadNone">Prérequis  </th><th class="markdownTableHeadNone">Taille  </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-01</span>  </td><td class="markdownTableBodyNone">Le socle du module  </td><td class="markdownTableBodyNone">—  </td><td class="markdownTableBodyNone">M  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-01</span>  </td><td class="markdownTableBodyNone">Le socle du module — <b>livré</b>  </td><td class="markdownTableBodyNone">—  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-02</span>  </td><td class="markdownTableBodyNone">Le canevas montre le lieu  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">L  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -310,11 +310,11 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-11</span>  </td><td class="markdownTableBodyNone">Génération assistée  </td><td class="markdownTableBodyNone">07 et <a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">M  </td></tr>
 </table>
 <p>Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.</p>
-<p>Ordre conseillé jusqu'au jalon : 01, 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
+<p>Ordre conseillé jusqu'au jalon : 01 (livré), 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
 <div class="fragment"><div class="line">digraph editeur {</div>
 <div class="line">  rankdir=LR;</div>
 <div class="line">  node [shape=box, style=rounded, fontsize=10];</div>
-<div class="line">  E01 [label=&quot;01\nsocle&quot;];</div>
+<div class="line">  E01 [label=&quot;01\nsocle\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E02 [label=&quot;02\ncanevas iso&quot;];</div>
 <div class="line">  E12 [label=&quot;12\nformat v4\n+ check en CI&quot;];</div>
 <div class="line">  E03 [label=&quot;03\npièces&quot;];</div>
@@ -338,20 +338,12 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <div class="line">  E05 -&gt; E09; E13 -&gt; E09;</div>
 <div class="line">  E07 -&gt; E11; L40 -&gt; E11;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="lot-editor-01"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md867"></a>
 LOT-EDITOR-01 — Le socle du module</h2>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : aucun. </p>
+<p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-01.html" title="LOT-EDITOR-01 — Le socle du module">LOT-EDITOR-01 — Le socle du module</a>. </p>
 </blockquote>
-<p>L'éditeur sort dans son propre module, débarrassé de la charte, et gagne de quoi travailler longtemps sans risque.</p>
-<ul>
-<li><b>Déménagement à l'identique d'abord</b> : un commit de <span class="tt">git mv</span> vers <span class="tt">Source/Editor/{Logic,<a class="el" href="namespaceUi.html">Ui</a>}</span>, cible <span class="tt">LevelEditor</span>, tests <span class="tt">Source/Test/Unit/Editor</span>, comportement inchangé. Le reste vient ensuite. Ne rien polir dans <span class="tt">EditorViewport</span> (965 lignes de rendu QRhi) : il est réécrit au 02.</li>
-<li>Style Fusion, icônes standard, <b>anglais en dur</b>, widgets construits en code à la place des formulaires <span class="tt">.ui</span> ; retrait de l'éditeur des contrôles de traduction et de charte ; registre des <span class="tt">EX-IHM</span> retirées pour l'éditeur (D7).</li>
-<li>Sauvegarde automatique et reprise après plantage ; correction du « Modifié » affiché à l'ouverture (bogue relevé au <a class="el" href="lot-11.html" title="LOT-11 — Éditeur multi-couches et placement d&#39;entités">LOT-11</a>).</li>
-<li><b>Garde de fichier modifié sur disque</b> : une carte changée par un script ou par Claude pendant qu'elle est ouverte n'est jamais écrasée en silence.</li>
-<li>Historique d'annulation plafonné (A10).</li>
-</ul>
-<p><em>Acceptation</em> — les fonctions actuelles marchent à l'identique ; <span class="tt">ctest</span> vert ; un plantage provoqué (<span class="tt">--crash-test</span>) est suivi d'une proposition de reprise qui rend le brouillon ; modifier le JSON d'une carte ouverte et modifiée fait proposer « recharger » ou « garder », sans rien perdre de l'un ni de l'autre.</p>
+<p>L'éditeur vit dans <span class="tt">Source/Editor/{Logic,Ui}</span> (bibliothèque <span class="tt">EditorLogic</span>, exécutable <span class="tt">LevelEditor</span>) ; il prend le style Fusion, écrit ses textes en anglais et construit ses widgets en code. Un brouillon modifié est sauvegardé automatiquement et proposé à la reprise après un plantage (<span class="tt">EX-EDIT-056</span>), une carte changée sur disque n'est jamais écrasée en silence (<span class="tt">EX-EDIT-057</span>), et l'historique d'annulation est plafonné, « modifié » suivant le contenu (<span class="tt">EX-EDIT-058</span>).</p>
 <h2 class="doxsection"><a class="anchor" id="lot-editor-02"></a>
 LOT-EDITOR-02 — Le canevas montre le lieu</h2>
 <blockquote class="doxtable">

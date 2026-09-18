@@ -6,7 +6,6 @@ var classhmi_1_1WorldGraphView =
     [ "graphLayout", "classhmi_1_1WorldGraphView.html#af52c4b259a16a7a6988ecfb7e8db6b87", null ],
     [ "leaveEvent", "classhmi_1_1WorldGraphView.html#af619ffc04825f844525711d406f8e3c7", null ],
     [ "levelOpenRequested", "classhmi_1_1WorldGraphView.html#ac13b54b5a3c70cb00c8f168141aca8e8", null ],
-    [ "localized", "classhmi_1_1WorldGraphView.html#ad2f332c820645e993c8a3bd570c43804", null ],
     [ "mouseDoubleClickEvent", "classhmi_1_1WorldGraphView.html#a6caae3cd45d950cdc09614c1b2571e74", null ],
     [ "mouseMoveEvent", "classhmi_1_1WorldGraphView.html#ac4fc383fbc9ca4d6cb9a5f6cd5afe47e", null ],
     [ "nodeDetail", "classhmi_1_1WorldGraphView.html#afc54f8156b306b508eabc5b84a1e93df", null ],
@@ -16,7 +15,6 @@ var classhmi_1_1WorldGraphView =
     [ "paintEvent", "classhmi_1_1WorldGraphView.html#a14bf3f0d12b65db7f8f628d41a95a600", null ],
     [ "paintLegend", "classhmi_1_1WorldGraphView.html#a30f216375bc206190eec999704a771c6", null ],
     [ "paintNodes", "classhmi_1_1WorldGraphView.html#aa34a5dc4e17280de01b27e06ac5f5e21", null ],
-    [ "retranslateUi", "classhmi_1_1WorldGraphView.html#acf0e53d9cf338331d5cd8ff89935744c", null ],
     [ "scale", "classhmi_1_1WorldGraphView.html#a99e0337e4acb33a23f91876278c6dec2", null ],
     [ "setGraph", "classhmi_1_1WorldGraphView.html#a071f2c78c595498c2d697d89354557c9", null ],
     [ "sizeHint", "classhmi_1_1WorldGraphView.html#aaf512f6d92a857b93fe6d876f0b70eee", null ],
@@ -26,6 +24,5 @@ var classhmi_1_1WorldGraphView =
     [ "_graph", "classhmi_1_1WorldGraphView.html#ab52350abc952eabccd47d5b4eeb882d2", null ],
     [ "_hoveredEdge", "classhmi_1_1WorldGraphView.html#adced865a8a4d54b8e0c6c80dd85e8b69", null ],
     [ "_hoveredNode", "classhmi_1_1WorldGraphView.html#a15721eb44283d54fe4e88b56a9afc2b0", null ],
-    [ "_layout", "classhmi_1_1WorldGraphView.html#a90c3e97b1b88ac595b6b42d4218049ed", null ],
-    [ "_loc", "classhmi_1_1WorldGraphView.html#a04a5fc9d264662b6fccaffdb519bc90b", null ]
+    [ "_layout", "classhmi_1_1WorldGraphView.html#a90c3e97b1b88ac595b6b42d4218049ed", null ]
 ];

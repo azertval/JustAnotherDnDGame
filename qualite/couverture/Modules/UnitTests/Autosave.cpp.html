@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>Autosave.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Editor/Logic/Autosave.h"
+
+#include &lt;algorithm&gt;
+#include &lt;fstream&gt;
+#include &lt;iterator&gt;
+#include &lt;system_error&gt;
+#include &lt;utility&gt;
+
+#include &lt;nlohmann/json.hpp&gt;
+
+namespace hmi {
+
+namespace {
+
+constexpr std::string_view SUFFIX = ".autosave.json";
+constexpr std::string_view CONFLICTS = "conflicts";
+
+// Ãcrit @p content dans @p path en passant par un fichier voisin : le renommage remplace d'un coup,
+// et un plantage pendant l'Ã©criture ne laisse que le temporaire.
+<span style = "background-color:#dfd">[[nodiscard]] bool writeReplacing(const std::filesystem::path&amp; path, std::string_view content) {
+    std::error_code error;
+    std::filesystem::create_directories(path.parent_path(), error);
+    std::filesystem::path temporary = path;
+    temporary += ".tmp";</span>
+    {
+<span style = "background-color:#dfd">        std::ofstream file(temporary, std::ios::binary | std::ios::trunc);
+        if (!file) {</span>
+<span style = "background-color:#fdd">            return false;</span>
+        }
+<span style = "background-color:#dfd">        file.write(content.data(), static_cast&lt;std::streamsize&gt;(content.size()));
+        if (!file.good()) {</span>
+<span style = "background-color:#fdd">            return false;</span>
+        }
+<span style = "background-color:#dfd">    }
+    std::filesystem::rename(temporary, path, error);
+    if (error) {</span>
+<span style = "background-color:#fdd">        std::filesystem::remove(temporary, error);
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    return true;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;std::string&gt; readAll(const std::filesystem::path&amp; path) {
+    std::ifstream file(path, std::ios::binary);
+    if (!file) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return std::string(std::istreambuf_iterator&lt;char&gt;(file), std::istreambuf_iterator&lt;char&gt;());
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string autosaveFileName(std::string_view mapId) {
+    std::string name = mapId.empty() ? std::string{"untitled"} : std::string{mapId};</span>
+    // Un identifiant porte le sous-dossier de la carte (`capital/martpart`) : le dossier de
+    // reprise, lui, est plat. `~` n'est pas un caractÃ¨re de nom de carte (`isValidLevelName`).
+<span style = "background-color:#dfd">    std::ranges::replace(name, '/', '~');
+    std::ranges::replace(name, '\\', '~');
+    name += SUFFIX;
+    return name;
+}</span>
+
+<span style = "background-color:#dfd">std::string serializeAutosave(const AutosaveRecord&amp; record) {</span>
+    // Le chemin en UTF-8, en `std::string` : un `std::u8string` passerait dans le JSON comme un
+    // tableau d'entiers, et le fichier ne se relirait plus.
+<span style = "background-color:#dfd">    const std::u8string path = record.levelPath.generic_u8string();
+    const nlohmann::json root = {</span>
+        {"format", AUTOSAVE_FORMAT},
+        {"mapId", record.mapId},
+        {"levelPath", std::string(path.begin(), path.end())},
+        {"draft", record.draftJson},
+    };
+<span style = "background-color:#dfd">    return root.dump(2) + "\n";
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;AutosaveRecord&gt; parseAutosave(std::string_view text) {
+    const nlohmann::json root = nlohmann::json::parse(text, nullptr, /*allow_exceptions=*/false);
+    if (!root.is_object() || root.value("format", 0) != AUTOSAVE_FORMAT) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const auto field = [&amp;root](const char* name) -&gt; const nlohmann::json* {
+        const auto found = root.find(name);
+        return found != root.end() &amp;&amp; found-&gt;is_string() ? &amp;*found : nullptr;
+    };
+    const nlohmann::json* const mapId = field("mapId");
+    const nlohmann::json* const levelPath = field("levelPath");
+    const nlohmann::json* const draft = field("draft");
+    if (mapId == nullptr || levelPath == nullptr || draft == nullptr) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const std::string path = levelPath-&gt;get&lt;std::string&gt;();
+    return AutosaveRecord{</span>
+        .mapId = mapId-&gt;get&lt;std::string&gt;(),
+        .levelPath = std::filesystem::path(std::u8string(path.begin(), path.end())),
+        .draftJson = draft-&gt;get&lt;std::string&gt;(),
+    };
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">AutosaveStore::AutosaveStore(std::filesystem::path directory) : _directory(std::move(directory)) {}</span>
+
+<span style = "background-color:#dfd">std::filesystem::path AutosaveStore::pathFor(std::string_view mapId) const {
+    return _directory / autosaveFileName(mapId);
+}</span>
+
+<span style = "background-color:#dfd">bool AutosaveStore::write(const AutosaveRecord&amp; record) const {
+    return writeReplacing(pathFor(record.mapId), serializeAutosave(record));
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;AutosaveRecord&gt; AutosaveStore::pending() const {
+    std::vector&lt;AutosaveRecord&gt; records;
+    std::error_code error;
+    for (const auto&amp; entry : std::filesystem::directory_iterator(_directory, error)) {
+        const std::string name = entry.path().filename().string();
+        if (!entry.is_regular_file(error) || !name.ends_with(SUFFIX)) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        if (const std::optional&lt;std::string&gt; text = readAll(entry.path())) {
+            if (std::optional&lt;AutosaveRecord&gt; record = parseAutosave(*text)) {
+                records.push_back(std::move(*record));
+            }
+        }
+    }
+    std::ranges::sort(records, {}, &amp;AutosaveRecord::mapId);
+    return records;
+}</span>
+
+<span style = "background-color:#dfd">void AutosaveStore::discard(std::string_view mapId) const {
+    std::error_code error;
+    std::filesystem::remove(pathFor(mapId), error);
+}</span>
+
+std::optional&lt;std::filesystem::path&gt; AutosaveStore::keepAside(std::string_view mapId,
+                                                              std::string_view label,
+                                                              std::string_view stamp,
+<span style = "background-color:#dfd">                                                              std::string_view content) const {
+    std::string name = autosaveFileName(mapId);
+    name.resize(name.size() - SUFFIX.size());
+    name += '.';
+    name += label;
+    name += '.';
+    name += stamp;
+    name += ".json";
+    const std::filesystem::path path = _directory / CONFLICTS / name;
+    if (!writeReplacing(path, content)) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    return path;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

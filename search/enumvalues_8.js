@@ -2,7 +2,7 @@ var searchData=
 [
   ['idle_0',['Idle',['../namespacehmi.html#ad5ace887c9d040dd9cd8b5649a5ab9b3ae599161956d626eda4cb0a5ffb85271c',1,'hmi']]],
   ['idrole_1',['IdRole',['../classhmi_1_1SheetRowModel.html#ac254339b8a3fccbc693eeefbbb8928faafb1be8282417276d2a29725a4bdc37ff',1,'hmi::SheetRowModel']]],
-  ['ignore_2',['Ignore',['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi']]],
+  ['ignore_2',['Ignore',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore'],['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore']]],
   ['ignoresreserves_3',['IgnoresReserves',['../namespacecore.html#aa275f4ee3dcd04b2c433620118cf54c4ad37f77dacfbf160a4967b83e099d1a37',1,'core']]],
   ['ignoresresistance_4',['IgnoresResistance',['../namespacecore.html#aa275f4ee3dcd04b2c433620118cf54c4a16a1449394d124d5f792d1b5b5c097b5',1,'core']]],
   ['illusion_5',['Illusion',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2ab89d6bd44fd0021f05a1f829a425f0c9',1,'core']]],

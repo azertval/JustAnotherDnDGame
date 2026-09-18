@@ -93,7 +93,7 @@ $(function(){initNavTree('structhmi_1_1EditorDiagnostic.html','','structhmi_1_1E
 </div><!--header-->
 <div class="contents">
 
-<p>Un avertissement prêt à traduire : une clé de <span class="tt"><a class="el" href="classhmi_1_1Localization.html" title="Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...">hmi::Localization</a></span> et ses arguments, dans l'ordre des <span class="tt">%1</span>, <span class="tt">%2</span>… du texte.  
+<p>Un avertissement prêt à afficher, en anglais.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EditorDiagnostics_8h_source.html">EditorDiagnostics.h</a>&gt;</code></p>
@@ -108,12 +108,11 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0676d852b4f99bfb8863c6caec84d35f" id="r_a0676d852b4f99bfb8863c6caec84d35f"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a0676d852b4f99bfb8863c6caec84d35f">entityIndex</a> = 0</td></tr>
 <tr class="memitem:acd366442be15b9ad1a9cd2eba9739baa" id="r_acd366442be15b9ad1a9cd2eba9739baa"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#acd366442be15b9ad1a9cd2eba9739baa">cell</a></td></tr>
 <tr class="memdesc:acd366442be15b9ad1a9cd2eba9739baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case de l'entité, ou case en cause (combattant hors de la zone jouable).  <br /></td></tr>
-<tr class="memitem:a0bd64b4c910df794ff2c4072e4a50a3e" id="r_a0bd64b4c910df794ff2c4072e4a50a3e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0bd64b4c910df794ff2c4072e4a50a3e">key</a></td></tr>
-<tr class="memitem:af6e5eeb1d81e5b176f3daca5a0548916" id="r_af6e5eeb1d81e5b176f3daca5a0548916"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af6e5eeb1d81e5b176f3daca5a0548916">args</a></td></tr>
+<tr class="memitem:a165df533fed18da4e30a813a8524bc02" id="r_a165df533fed18da4e30a813a8524bc02"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a165df533fed18da4e30a813a8524bc02">message</a></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Un avertissement prêt à traduire : une clé de <span class="tt"><a class="el" href="classhmi_1_1Localization.html" title="Catalogue de traduction (i18n) : associe des clés stables à des chaînes selon la langue active,...">hmi::Localization</a></span> et ses arguments, dans l'ordre des <span class="tt">%1</span>, <span class="tt">%2</span>… du texte. </p>
-<p>Le <span class="tt">Core</span> rend des codes (<span class="tt">EX-NFR-011</span>) ; cette table les nomme, une fois, pour que le panneau et les tests lisent la même chose. </p>
+<div class="textblock"><p>Un avertissement prêt à afficher, en anglais. </p>
+<p>Le <span class="tt">Core</span> rend des codes (<span class="tt">EX-NFR-011</span>) ; ce module les dit, une fois, pour que le panneau et les tests lisent la même chose. L'éditeur n'a pas de traduction (<span class="tt">LOT-EDITOR-01</span>) : une famille d'entité et une propriété s'y nomment par leur identifiant du format (<span class="tt">npc</span>, <span class="tt">dialogue</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a41e7539adb5f9a3fe6b573493748dbde" name="a41e7539adb5f9a3fe6b573493748dbde"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a41e7539adb5f9a3fe6b573493748dbde">&#9670;&#160;</a></span>operator==()</h2>
@@ -141,20 +140,6 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="af6e5eeb1d81e5b176f3daca5a0548916" name="af6e5eeb1d81e5b176f3daca5a0548916"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6e5eeb1d81e5b176f3daca5a0548916">&#9670;&#160;</a></span>args</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::string&gt; hmi::EditorDiagnostic::args</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="acd366442be15b9ad1a9cd2eba9739baa" name="acd366442be15b9ad1a9cd2eba9739baa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acd366442be15b9ad1a9cd2eba9739baa">&#9670;&#160;</a></span>cell</h2>
 
@@ -185,20 +170,6 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0bd64b4c910df794ff2c4072e4a50a3e" name="a0bd64b4c910df794ff2c4072e4a50a3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bd64b4c910df794ff2c4072e4a50a3e">&#9670;&#160;</a></span>key</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string hmi::EditorDiagnostic::key</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a2c618776e01c1377e31de703602c702b" name="a2c618776e01c1377e31de703602c702b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c618776e01c1377e31de703602c702b">&#9670;&#160;</a></span>kind</h2>
 
@@ -213,8 +184,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a165df533fed18da4e30a813a8524bc02" name="a165df533fed18da4e30a813a8524bc02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165df533fed18da4e30a813a8524bc02">&#9670;&#160;</a></span>message</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EditorDiagnostic::message</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/HMI/Editor/<a class="el" href="EditorDiagnostics_8h_source.html">EditorDiagnostics.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Editor/Logic/<a class="el" href="EditorDiagnostics_8h_source.html">EditorDiagnostics.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

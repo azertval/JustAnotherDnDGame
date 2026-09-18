@@ -9,5 +9,6 @@ var searchData=
   ['valueids_6',['valueIds',['../structhmi_1_1RpgContentBlock.html#a0c78fa83a0e8267273061a53ee0919a1',1,'hmi::RpgContentBlock']]],
   ['values_7',['values',['../structhmi_1_1DialogueModel_1_1Session.html#aaa0029eddd9430a658bb08a0f5fa5e09',1,'hmi::DialogueModel::Session']]],
   ['version_8',['version',['../structcore_1_1JsonDocument.html#a82433ff86ddc54ef83fa27e989da6399',1,'core::JsonDocument']]],
-  ['visible_9',['visible',['../structhmi_1_1LayerDisplay.html#a8a9b2b56a414ed5020c74472bad68d10',1,'hmi::LayerDisplay']]]
+  ['viewtabs_9',['viewTabs',['../structhmi_1_1LevelBrowserPanel_1_1Widgets.html#aaf6af167086a860ae413e638887ffe4a',1,'hmi::LevelBrowserPanel::Widgets']]],
+  ['visible_10',['visible',['../structhmi_1_1LayerDisplay.html#a8a9b2b56a414ed5020c74472bad68d10',1,'hmi::LayerDisplay']]]
 ];
