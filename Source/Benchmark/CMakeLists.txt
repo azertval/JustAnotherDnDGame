@@ -17,8 +17,12 @@
 add_executable(Benchmarks
     bench_combat.cpp
     bench_levels.cpp
+    # La composition d'un lieu, que le canevas de l'éditeur refait à chaque geste (LOT-EDITOR-02).
+    bench_canvas.cpp
 )
-target_link_libraries(Benchmarks PRIVATE Core benchmark::benchmark_main project_warnings)
+target_link_libraries(Benchmarks PRIVATE
+    Core SceneComposition benchmark::benchmark_main project_warnings)
 target_compile_definitions(Benchmarks PRIVATE
     JADG_RPG_RULES_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/rules"
+    JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
     JADG_LEVELS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Levels")

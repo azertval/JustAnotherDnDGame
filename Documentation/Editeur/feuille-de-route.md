@@ -187,7 +187,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 | Lot | Titre | Prérequis | Taille |
 |---|---|---|---|
 | `LOT-EDITOR-01` | Le socle du module — **livré** | — | M |
-| `LOT-EDITOR-02` | Le canevas montre le lieu | 01 | L |
+| `LOT-EDITOR-02` | Le canevas montre le lieu — **livré** | 01 | L |
 | `LOT-EDITOR-12` | Le format v4 et sa garde en CI | 01 | M |
 | `LOT-EDITOR-03` | Peindre avec les pièces du lieu | 02, 12 | M |
 | `LOT-EDITOR-04` | Les outils du peintre | 03 | M |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01 (livré), 12, 02, 03, 04, 05, 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01 et 02 (livrés), 12, 03, 04, 05, 13, 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -211,7 +211,7 @@ digraph editeur {
   rankdir=LR;
   node [shape=box, style=rounded, fontsize=10];
   E01 [label="01\nsocle\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E02 [label="02\ncanevas iso"];
+  E02 [label="02\ncanevas iso\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E12 [label="12\nformat v4\n+ check en CI"];
   E03 [label="03\npièces"];
   E04 [label="04\noutils"];
@@ -247,24 +247,17 @@ code. Un brouillon modifié est sauvegardé automatiquement et proposé à la re
 (`EX-EDIT-056`), une carte changée sur disque n'est jamais écrasée en silence (`EX-EDIT-057`), et
 l'historique d'annulation est plafonné, « modifié » suivant le contenu (`EX-EDIT-058`).
 
-### LOT-EDITOR-02 — Le canevas montre le lieu {#lot-editor-02}
+### LOT-EDITOR-02 — Le canevas montre le lieu
 
-> Statut : **à faire**. Prérequis : 01.
+> Statut : **livré le 18 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-02.
 
-On édite sur le lieu rendu en iso comme dans le jeu, avec une bascule vers la vue à plat (D1, D2).
-
-- **Phase 1** — sortir `ComposedScene`, `WorldSceneComposer` et `ScenePieces` de `HmiLib` dans une
-  cible sans GPU, et descendre la lecture du manifeste dans `Core` (A8, A9). Le jeu ne change pas.
-- **Phase 2** — l'élément peint unique, qui parcourt la scène composée et ne dessine que la partie
-  visible ; le pointage inverse (hauteur en paramètre, D11), le quadrillage en losanges, la case
-  survolée, les coordonnées dans la barre d'état.
-- **Phase 3** — calques visibles, grisés ou verrouillés ; reliefs en transparence ; mini-carte.
-
-*Acceptation* — Martpart ouverte dans l'éditeur produit la même liste de primitives que dans le
-jeu ; son **rendu hors écran égale, à une tolérance près, la référence PNG du jeu** (comparer les
-listes ne prouve pas que `QPainter` pose les ancres, l'échelle 0,25 et les `mirrorOf` comme le
-GPU) ; le pointage est juste aux quatre coins de la carte et sous un mur haut ; les gestes et
-l'essai du [LOT-11](@ref lot-11) marchent en iso.
+Le canevas est une `QGraphicsView` dont l'élément unique peint, par `QPainter`, la liste de
+primitives que compose le jeu ; son image égale celle du GPU à 0,06 % des pixels près
+(`EX-EDIT-059`). Vue iso par défaut, vue à plat en bascule ; le pointage désigne la case par son
+losange, hauteur en paramètre (`EX-EDIT-060`) ; calques grisés ou verrouillés, reliefs en
+transparence, mini-carte (`EX-EDIT-061`). La composition vit dans la cible `SceneComposition`, le
+manifeste des pièces dans `Core` ; l'éditeur ne parle plus au GPU.
 
 ### LOT-EDITOR-12 — Le format v4 et sa garde en CI {#lot-editor-12}
 

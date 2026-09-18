@@ -24,7 +24,11 @@ struct LevelStatusInfo {
     bool dirty = false;                             ///< Modifications non enregistrées.
     EditorTool tool = EditorTool::Paint;            ///< Outil d'édition actif.
     std::optional<core::GridPosition> hoveredCell;  ///< Case survolée, si le curseur est dessus.
-    float zoom = 1.0F;                              ///< Facteur de zoom courant.
+    /// Pièces de la case survolée (`street · wall-left`), vide sans lieu (LOT-EDITOR-02).
+    std::string hoveredPieces;
+    float zoom = 1.0F;  ///< Facteur de zoom courant.
+    /// Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02.
+    bool isoView = true;
 };
 
 /// Contexte d'édition dont la barre d'état décide l'affichage ; absent hors édition.
@@ -35,8 +39,8 @@ struct EditorStatusContext {
 /// Lignes à afficher pour la barre d'état de l'éditeur, à un instant donné.
 struct EditorStatusLines {
     /// Zones permanentes, dans l'ordre d'affichage : carte, modifications non enregistrées, outil
-    /// actif, case survolée, zoom. Une zone vide (chaîne vide) quand l'information n'a pas de sens
-    /// — jamais de libellé de remplacement.
+    /// actif, case survolée et ses pièces, zoom et vue. Une zone vide (chaîne vide) quand
+    /// l'information n'a pas de sens — jamais de libellé de remplacement.
     std::vector<std::string> permanent;
     /// Aide contextuelle à l'outil actif ; vide hors édition.
     std::string help;

@@ -41,6 +41,10 @@
 namespace core {
 class IsoProjection;
 class Level;
+class TileMap;
+struct MapEntity;
+struct TileLayer;
+struct TileTextureOverride;
 }  // namespace core
 
 namespace hmi {
@@ -55,6 +59,10 @@ enum class WorldDepthSlot : std::int32_t {
 
 /// Nombre de rangs par profondeur.
 inline constexpr std::int32_t WORLD_DEPTH_SLOTS = 2;
+
+/// Hauteur d'écran pour laquelle l'art est dessiné : l'agrandissement est 1 jusque-là, 2 au double
+/// (`hmi::worldCamera`). Ici plutôt qu'avec le rendu GPU : l'essai de l'éditeur cadre comme le jeu.
+inline constexpr int WORLD_ART_HEIGHT_PIXELS = 720;
 
 /// Marge basse d'une figurine, en hauteurs de losange — la même que dans l'arène.
 inline constexpr float WORLD_FIGURE_BOTTOM_MARGIN = 0.42F;
@@ -104,8 +112,52 @@ struct WorldSceneSnapshot {
     [[nodiscard]] bool operator==(const WorldSceneSnapshot&) const = default;
 };
 
+/**
+ * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de
+ *        texture et ses entités.
+ *
+ * Le jeu compose une `core::Level` validée ; l'éditeur compose son brouillon (`core::LevelDraft`),
+ * qui n'est pas toujours valide — une carte en cours de tracé l'est rarement. Les deux exposent les
+ * mêmes accesseurs : `worldSceneSource` les prend chez l'un comme chez l'autre, et la composition
+ * n'a qu'un chemin (`LOT-EDITOR-02`, acceptation : « la même liste de primitives que dans le jeu
+ * »). Des références seulement : la source ne vit pas plus longtemps que la carte.
+ */
+struct WorldSceneSource {
+    /// La grille racine : la collision, et le sol d'une carte sans couche visuelle.
+    const core::TileMap& root;
+    /// Les couches : la première de sol donne le sol, la première de décor le relief.
+    const std::vector<core::TileLayer>& layers;
+    /// Les pièces nommées à la case, qui l'emportent sur la table du lieu pour le relief.
+    const std::vector<core::TileTextureOverride>& textureOverrides;
+    /// Les entités : leurs figurines, pour qui en compose (`npcFigures`).
+    const std::vector<core::MapEntity>& entities;
+};
+
+/// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
+template <class Map>
+[[nodiscard]] WorldSceneSource worldSceneSource(const Map& map) {
+    return WorldSceneSource{.root = map.tileMap(),
+                            .layers = map.layers(),
+                            .textureOverrides = map.textureOverrides(),
+                            .entities = map.entities()};
+}
+
+/// @return Le lieu que déclarent @p layers (propriété de couche `scene`), vide sinon.
+[[nodiscard]] std::string scenePlaceOf(const std::vector<core::TileLayer>& layers);
+
 /// @return Le lieu que déclare @p level (propriété de couche `scene`), vide s'il n'en déclare pas.
 [[nodiscard]] std::string scenePlaceOf(const core::Level& level);
+
+/**
+ * @brief Les figurines des PNJ d'une carte, dans l'ordre des entités.
+ *
+ * Un PNJ sans propriété `figure` ne se dessine pas : il n'est pas encore dessiné. Le jeu y ajoute
+ * le héros (`hmi::WorldPlay::figures`) ; l'éditeur les montre telles quelles.
+ * @param entities Les entités de la carte.
+ * @param frame    L'image des bandes (0 pour une image fixe).
+ */
+[[nodiscard]] std::vector<WorldFigureSnapshot> npcFigures(
+    const std::vector<core::MapEntity>& entities, int frame);
 
 /**
  * @brief Tire de @p level l'instantané que la composition dessine.
@@ -114,10 +166,15 @@ struct WorldSceneSnapshot {
  * racine), traduit par @p appearance ; le relief de la couche **décor**, où une assignation de
  * texture à la case (`core::TileTextureOverride`) l'emporte sur la table du lieu.
  *
- * @param level      La carte, lue seulement.
+ * @param source     La carte, lue seulement.
  * @param appearance La table du lieu.
  * @param figures    Les figurines à poser, dans l'ordre où l'appelant les veut.
  */
+[[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
+                                                    const PlaceAppearance& appearance,
+                                                    std::vector<WorldFigureSnapshot> figures);
+
+/// @brief Comme ci-dessus, pour une carte validée.
 [[nodiscard]] WorldSceneSnapshot snapshotWorldScene(const core::Level& level,
                                                     const PlaceAppearance& appearance,
                                                     std::vector<WorldFigureSnapshot> figures);

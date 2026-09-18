@@ -54,10 +54,26 @@ struct LayerRow {
 ///        jeu.
 inline constexpr float DEFAULT_COLLISION_OVERLAY_OPACITY = 0.55F;
 
+/// @brief Opacité d'une couche **grisée** : assez pour s'y repérer, assez peu pour ne pas la
+///        confondre avec celle qu'on peint (`LOT-EDITOR-02`, phase 3). Aide d'édition.
+inline constexpr float DIMMED_LAYER_OPACITY = 0.3F;
+
 /// @brief Comment une couche est montrée dans l'éditeur.
 struct LayerDisplay {
     bool visible = true;
     float opacity = 1.0F;
+    /// Montrée en retrait (`DIMMED_LAYER_OPACITY`), pour lire une autre couche par-dessus.
+    bool dimmed = false;
+    /// Verrouillée : visible, mais aucun geste ne la peint (`LOT-EDITOR-02`, phase 3).
+    bool locked = false;
+
+    /// @return L'opacité effective : 0 si masquée, réduite si grisée.
+    [[nodiscard]] float effectiveOpacity() const noexcept {
+        if (!visible) {
+            return 0.0F;
+        }
+        return dimmed ? opacity * DIMMED_LAYER_OPACITY : opacity;
+    }
 
     [[nodiscard]] bool operator==(const LayerDisplay&) const = default;
 };
@@ -94,6 +110,8 @@ public:
     /// L'opacité est bornée à `[0, 1]` ; une valeur non finie est ignorée.
     void setOpacity(LayerSlot slot, float opacity);
 
+    void setDimmed(LayerSlot slot, bool dimmed);
+    void setLocked(LayerSlot slot, bool locked);
     /// Échange les réglages des rangs @p a et @p b (déplacement d'une couche).
     void swap(std::size_t a, std::size_t b);
 
@@ -104,6 +122,8 @@ private:
 
     std::vector<LayerDisplay> _layers;
     bool _rootVisible = true;
+    bool _rootDimmed = false;
+    bool _rootLocked = false;
     /// Absente tant que l'auteur n'a pas réglé l'opacité de la grille racine.
     std::optional<float> _rootOpacity;
 };

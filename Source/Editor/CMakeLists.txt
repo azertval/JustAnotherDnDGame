@@ -32,9 +32,14 @@ add_library(EditorLogic STATIC
     # Sauvegarde automatique, reprise et garde du fichier modifié sur disque.
     Logic/Autosave.cpp
     Logic/DiskGuard.cpp
+    # Le canevas qui montre le lieu (LOT-EDITOR-02) : pointage iso et à plat, logique pure.
+    Logic/CanvasPicking.cpp
+    Logic/CanvasScene.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic
+    # La composition d'un lieu, sans GPU (LOT-EDITOR-02) : ce que le canevas peint.
+    PUBLIC SceneComposition
     PUBLIC HmiLib
     PRIVATE project_warnings project_options)
 if(ENABLE_PCH)
@@ -60,16 +65,12 @@ add_executable(LevelEditor
     ${APP_DIR}/Common/Bootstrap.cpp
     # Pont Qt -> Key : les raccourcis remappables de l'éditeur.
     ${HMI_DIR}/Input/QtKeyMap.cpp
-    # Rendu 2D sur QRhi -- cible Direct3D 11 sous Windows (EX-REN-002).
-    ${HMI_DIR}/Graphics/SpriteBatch.cpp
-    ${HMI_DIR}/Graphics/SceneResources.cpp
-    ${HMI_DIR}/Graphics/TextureLoader.cpp
-    ${HMI_DIR}/Graphics/TextureAtlas.cpp
-    ${HMI_DIR}/Graphics/TextureCache.cpp
-    ${HMI_DIR}/Graphics/SpriteRenderer.cpp
-    # Le lieu joué par l'essai immédiat : le même rendu que le jeu (hmi::WorldSceneRenderer).
-    ${HMI_DIR}/Graphics/WorldSceneRenderer.cpp
+    # Le canevas (LOT-EDITOR-02) : la composition du jeu, peinte par QPainter -- plus de QRhi ni de
+    # GPU dans l'éditeur (décision D2). La vue à plat, les images des planches, la mini-carte.
     Ui/DraftRenderer.cpp
+    Ui/SceneImages.cpp
+    Ui/ScenePainter.cpp
+    Ui/MiniMap.cpp
     # La fenêtre et ses actions.
     Ui/EditorActions.cpp
     Ui/MainWindow.cpp
@@ -87,9 +88,6 @@ target_link_libraries(LevelEditor PRIVATE
     HmiLib
     Qt6::Widgets
     Qt6::Gui
-    # QRhi vit dans les en-têtes privés de QtGui : API privée, stable en pratique mais non couverte
-    # par la garantie de compatibilité binaire -- assumé, QRhiWidget n'existe pas sans.
-    Qt6::GuiPrivate
     project_warnings
     project_options
 )
@@ -99,16 +97,6 @@ target_compile_definitions(LevelEditor PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNIC
 if(ENABLE_PCH)
     target_precompile_headers(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()
-
-# Shaders du pipeline 2D, compilés en .qsb et embarqués comme ressource Qt : le canevas et l'essai
-# dessinent par hmi::SpriteBatch, qui les charge depuis `:/shaders/`.
-qt6_add_shaders(LevelEditor "jadg_shaders"
-    PREFIX "/shaders"
-    BASE "${HMI_DIR}/Graphics/Shaders"
-    FILES
-        ${HMI_DIR}/Graphics/Shaders/sprite.vert
-        ${HMI_DIR}/Graphics/Shaders/sprite.frag
-)
 
 # Données de jeu à côté de l'exécutable : la cible CopyGameData est déclarée dans Source/HMI.
 add_dependencies(LevelEditor CopyGameData)

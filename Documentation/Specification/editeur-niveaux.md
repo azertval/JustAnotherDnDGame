@@ -166,6 +166,24 @@ du module ([LOT-EDITOR-01](@ref lot-editor-01)).
   enregistré rend une carte non modifiée, et un geste sans effet (repeindre une case du même type)
   ne la modifie pas.
 
+## 9. Le canevas qui montre le lieu (`LOT-EDITOR-02`)
+On édite sur le lieu tel qu'on le jouera. Ces trois exigences viennent du canevas du module
+([LOT-EDITOR-02](@ref lot-editor-02)).
+
+- \anchor EX-EDIT-059 **EX-EDIT-059** — Le canevas doit montrer la carte **en isométrie, comme le
+  jeu** : la liste de primitives est celle que compose le jeu (`hmi::composeWorldScene`), dans le
+  même ordre, et son image rendue hors écran égale celle du jeu à une tolérance près. Une bascule
+  montre la carte **à plat**, une case par unité et les types en couleurs, pour lire types et
+  collision. Le canevas ne peint que la partie visible.
+- \anchor EX-EDIT-060 **EX-EDIT-060** — Le **pointage** désigne la case dont le **losange** est sous
+  le pointeur, jamais l'image qui la couvre : sous un relief haut, on pointe la case de derrière. Il
+  prend la hauteur en paramètre (réserve de la décision D11), et reste juste aux quatre coins de la
+  carte. La case survolée, ses coordonnées et ses pièces se lisent à l'écran.
+- \anchor EX-EDIT-061 **EX-EDIT-061** — Une couche peut être **masquée**, **grisée** ou
+  **verrouillée** (visible, mais aucun geste ne la peint) ; les reliefs peuvent passer **en
+  transparence** ; une **mini-carte** montre toute la carte et le cadre de la vue, et ramène la vue
+  d'un clic. Ce sont des aides d'édition : rien n'est enregistré dans la carte.
+
 ## Exigences retirées {#edit-retirees}
 
 > Ancres conservées, jamais renumérotées : les lots livrés s'y réfèrent. Chacune servait un

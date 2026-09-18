@@ -25,6 +25,7 @@
 #include <QRect>
 #include <QScreen>
 #include <QSettings>
+#include <QSignalBlocker>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QStatusBar>
@@ -48,6 +49,7 @@
 #include "Editor/Ui/EntityPanel.h"
 #include "Editor/Ui/LayersPanel.h"
 #include "Editor/Ui/LevelBrowserPanel.h"
+#include "Editor/Ui/MiniMap.h"
 #include "Editor/Ui/PalettePanel.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/CrashDump.h"
@@ -157,6 +159,9 @@ MainWindow::MainWindow(bool crashAfterAutosave)
     restoreLayout();
 
     setUpSafetyNet();
+    // Le canevas prend le clavier au lancement : les raccourcis à une touche (P, F8, F9) marchent
+    // tout de suite, au lieu d'aller à la recherche au clavier de la palette.
+    _viewport->setFocus();
 }
 
 MainWindow::~MainWindow() = default;
@@ -196,6 +201,11 @@ void MainWindow::buildUi() {
         addPanel(QStringLiteral("EntitiesPanel"), QStringLiteral("Entities"), _entities,
                  Qt::RightDockWidgetArea),
     };
+
+    // La mini-carte : toute la carte, et le cadre de la vue (LOT-EDITOR-02, phase 3).
+    _miniMap = new MiniMap([this](core::TileType type) { return _viewport->tileColor(type); });
+    _miniMapDock = addPanel(QStringLiteral("MiniMapPanel"), QStringLiteral("Overview"), _miniMap,
+                            Qt::LeftDockWidgetArea);
 
     // Cartes et Entités partagent une pile d'onglets par défaut ; chacun reste déplaçable,
     // détachable et refermable. Doit précéder la capture de _defaultState.
@@ -240,6 +250,8 @@ void MainWindow::buildMenus() {
     mapMenu->addAction(_actions->action(EditorCommand::Playtest));
 
     QMenu* const viewMenu = menuBar()->addMenu(QStringLiteral("&View"));
+    viewMenu->addAction(_actions->action(EditorCommand::IsoView));
+    viewMenu->addAction(_actions->action(EditorCommand::SeeThroughRelief));
     viewMenu->addAction(_actions->action(EditorCommand::ResetCamera));
     viewMenu->addAction(_actions->action(EditorCommand::ToggleGrid));
     viewMenu->addSeparator();
@@ -247,6 +259,7 @@ void MainWindow::buildMenus() {
     for (QDockWidget* const dock : _docks) {
         panelsMenu->addAction(dock->toggleViewAction());
     }
+    panelsMenu->addAction(_miniMapDock->toggleViewAction());
     panelsMenu->addSeparator();
     // Mise en avant automatique du panneau de l'outil actif : persistée, active par défaut.
     _actFollowActiveTool = panelsMenu->addAction(QStringLiteral("Follow active tool"));
@@ -288,6 +301,20 @@ void MainWindow::connectMapPanels() {
             &EditorViewport::setMapLayerVisible);
     connect(_layers, &LayersPanel::opacityRequested, _viewport,
             &EditorViewport::setMapLayerOpacity);
+    connect(_layers, &LayersPanel::dimRequested, _viewport, &EditorViewport::setMapLayerDimmed);
+    connect(_layers, &LayersPanel::lockRequested, _viewport, &EditorViewport::setMapLayerLocked);
+
+    // Mini-carte : l'image suit le brouillon, le cadre suit la vue, un clic ramène la vue.
+    const auto refreshMiniMapFrame = [this] {
+        _miniMap->setVisibleCorners(_viewport->visibleGridCorners());
+    };
+    connect(_viewport, &EditorViewport::draftChanged, this, [this, refreshMiniMapFrame] {
+        _miniMap->setDraft(_viewport->draft());
+        refreshMiniMapFrame();
+    });
+    connect(_viewport, &EditorViewport::framingChanged, this, refreshMiniMapFrame);
+    connect(_miniMap, &MiniMap::centerRequested, _viewport, &EditorViewport::centerOnGridPoint);
+    _miniMap->setDraft(_viewport->draft());
     connect(_layers, &LayersPanel::addRequested, this, [this](core::LayerKind kind) {
         _viewport->addMapLayer(kind, kind == core::LayerKind::Decor ? "decor" : "ground");
     });
@@ -379,6 +406,18 @@ void MainWindow::connectEditorCommands() {
             [this] { _viewport->toggleGrid(); });
     connect(_actions->action(EditorCommand::ResetCamera), &QAction::triggered, _viewport,
             [this] { _viewport->resetCamera(); });
+    // Vue iso ou à plat (décision D1) ; l'action suit la vue si elle change autrement.
+    connect(
+        _actions->action(EditorCommand::IsoView), &QAction::toggled, _viewport,
+        [this](bool iso) { _viewport->setCanvasView(iso ? CanvasView::Iso : CanvasView::Flat); });
+    connect(_viewport, &EditorViewport::canvasViewChanged, this, [this](CanvasView view) {
+        QAction* const action = _actions->action(EditorCommand::IsoView);
+        const QSignalBlocker blocker(action);
+        action->setChecked(view == CanvasView::Iso);
+        refreshStatusHelp();
+    });
+    connect(_actions->action(EditorCommand::SeeThroughRelief), &QAction::toggled, _viewport,
+            [this](bool enabled) { _viewport->setSeeThroughRelief(enabled); });
     // Renommer la carte ouverte : même dialogue que LevelBrowserPanel::onRename.
     connect(_actions->action(EditorCommand::Rename), &QAction::triggered, this, [this] {
         bool accepted = false;
@@ -411,8 +450,10 @@ void MainWindow::buildStatusBar() {
         zone = new QLabel(this);
         statusBar()->addPermanentWidget(zone);
     }
-    _statusZones[3]->setMinimumWidth(fontMetrics().horizontalAdvance(QStringLiteral("(999, 999)")));
-    _statusZones[4]->setMinimumWidth(fontMetrics().horizontalAdvance(QStringLiteral("Zoom: 999%")));
+    _statusZones[3]->setMinimumWidth(
+        fontMetrics().horizontalAdvance(QStringLiteral("(999, 999) square · front-right")));
+    _statusZones[4]->setMinimumWidth(
+        fontMetrics().horizontalAdvance(QStringLiteral("Zoom: 999% · Flat")));
     _statusMessageTimer = new QTimer(this);
     _statusMessageTimer->setSingleShot(true);
     connect(_statusMessageTimer, &QTimer::timeout, this, &MainWindow::refreshStatusHelp);
@@ -782,7 +823,9 @@ void MainWindow::refreshStatusHelp() {
         level.dirty = _viewport->isDirty();
         level.tool = _viewport->activeTool();
         level.hoveredCell = _viewport->hoveredCell();
+        level.hoveredPieces = _viewport->hoveredPieces();
         level.zoom = _viewport->zoom();
+        level.isoView = _viewport->canvasView() == CanvasView::Iso;
         context.level = level;
     }
     const EditorStatusLines lines = editorStatusLines(context);

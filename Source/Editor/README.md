@@ -5,8 +5,10 @@ sert à fabriquer les cartes du jeu. Son programme est la
 [feuille de route de l'éditeur](../../Documentation/Editeur/feuille-de-route.md) ; sa spécification,
 [`editeur-niveaux.md`](../../Documentation/Specification/editeur-niveaux.md).
 
-Le module dépend de `Core` (modèle et validation de carte) et de `HMI` (composition, rendu, carte
-jouée par l'essai). **Rien ne dépend de lui** : ni le jeu, ni `HmiLib`.
+Le module dépend de `Core` (modèle et validation de carte, manifeste des pièces), de
+`SceneComposition` (la composition d'un lieu, sans GPU, partagée avec le jeu) et de `HmiLib` (carte
+jouée par l'essai). **Rien ne dépend de lui** : ni le jeu, ni `HmiLib`. Depuis le `LOT-EDITOR-02`,
+l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 
 | Dossier | Contenu | Cible |
 |---|---|---|
@@ -23,6 +25,8 @@ jouée par l'essai). **Rien ne dépend de lui** : ni le jeu, ni `HmiLib`.
 - **Aucun travail perdu.** Sauvegarde automatique et reprise (`EX-EDIT-056`), garde du fichier
   modifié sur disque (`EX-EDIT-057`), historique plafonné et « modifié » qui suit le contenu
   (`EX-EDIT-058`).
+- **On édite ce qu'on jouera.** Le canevas peint la liste de primitives que compose le jeu, et son
+  image égale celle du GPU à une tolérance près (`EX-EDIT-059`).
 
 ## Logique pure (`Logic/`)
 
@@ -32,7 +36,12 @@ jouée par l'essai). **Rien ne dépend de lui** : ni le jeu, ni `HmiLib`.
 - `EntityGesture` — le geste de l'outil « Entité » : sélectionner, poser, déplacer.
 - `EntityReferences`, `EditorDiagnostics` — les catalogues que les entités citent, et les
   avertissements rendus en anglais.
-- `LayerView` — les couches telles que l'éditeur les montre.
+- `LayerView` — les couches telles que l'éditeur les montre : visibles, opacité, grisées,
+  verrouillées (`EX-EDIT-061`).
+- `CanvasPicking` — le pointage du canevas, iso et à plat : la case sous un point, par son losange,
+  hauteur en paramètre ; les cases visibles d'un cadrage (`EX-EDIT-060`).
+- `CanvasScene` — l'instantané que le canevas compose (celui du jeu, PNJ compris, sans héros) et
+  l'opacité de chaque bande de la scène selon les couches (`EX-EDIT-059`, `EX-EDIT-061`).
 - `EditorStatus`, `EditContextTarget` — la barre d'état, la cible des commandes d'édition.
 - `WorldGraphLayout` — la disposition du graphe du monde.
 - `ThumbnailGeometry` — les vignettes à l'échelle d'affichage réelle.

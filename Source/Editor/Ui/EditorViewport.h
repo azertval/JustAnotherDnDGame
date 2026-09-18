@@ -3,8 +3,11 @@
 
 #pragma once
 
-#include <QRhiWidget>
+#include <QColor>
+#include <QGraphicsView>
 #include <QString>
+#include <QTimer>
+#include <array>
 #include <chrono>
 #include <cstdint>
 #include <filesystem>
@@ -15,6 +18,7 @@
 #include <utility>
 #include <vector>
 
+#include "Core/Combat/IsoProjection.h"
 #include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/LevelDraft.h"
@@ -23,36 +27,53 @@
 #include "Core/Levels/TileType.h"
 #include "Core/Time/FixedTimestep.h"
 #include "Core/World/EntityKinds.h"
+#include "Editor/Logic/CanvasPicking.h"
+#include "Editor/Logic/CanvasScene.h"
 #include "Editor/Logic/DiskGuard.h"
 #include "Editor/Logic/EditContextTarget.h"
 #include "Editor/Logic/EditorDiagnostics.h"
 #include "Editor/Logic/EditorKeyBindings.h"
 #include "Editor/Logic/EditorTool.h"
 #include "Editor/Logic/LayerView.h"
-#include "HMI/Graphics/Camera2D.h"
-#include "HMI/Graphics/SceneResources.h"
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/PlaceAppearance.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
+
+class QGraphicsScene;
+class QPainter;
 
 /**
  * @file Editor/Ui/EditorViewport.h
- * @brief Le canevas de l'éditeur : le brouillon qu'on peint, et l'essai immédiat.
+ * @brief Le canevas de l'éditeur : le lieu qu'on édite, rendu comme dans le jeu, et l'essai
+ *        immédiat (`LOT-EDITOR-02`, `EX-EDIT-059`).
  *
- * Deux états, jamais mêlés. En **édition**, le brouillon est dessiné à plat — une couleur par type
- * de tuile, les entités par leur marqueur — sous les aides d'édition. En **essai**, la carte est
- * jouée par `hmi::WorldPlay` et dessinée par `hmi::WorldSceneRenderer` : la mise en scène du jeu,
- * à l'identique (`EX-EDIT-055`). Un essai qui montrerait autre chose que le jeu ne vérifierait
- * rien.
+ * Une `QGraphicsView` et **un seul élément peint** (décision D2) : il parcourt la `ComposedScene`
+ * que la composition du jeu produit — mêmes primitives, même ordre — et la peint par `QPainter`
+ * (`hmi::paintComposedScene`), en ne touchant que la partie visible. Par-dessus, les aides
+ * d'édition : quadrillage en losanges, case survolée, masque de collision, aperçu des outils,
+ * marqueurs d'entité.
+ *
+ * Deux vues, en bascule (décision D1) : **iso** par défaut, le lieu tel qu'on le jouera ; **à
+ * plat**, une case par unité et les types en couleurs (`hmi::DraftRenderer`), pour lire types et
+ * collision. Tout geste passe par le pointage (`Editor/Logic/CanvasPicking.h`) et parle en cases :
+ * les outils ne savent pas quelle vue est affichée.
+ *
+ * Deux états, jamais mêlés. En **édition**, le brouillon est la seule source. En **essai**, la
+ * carte est jouée par `hmi::WorldPlay` et composée comme dans le jeu (`EX-EDIT-055`) ; le même
+ * peintre la dessine, cadrée sur le héros.
  */
 
 namespace hmi {
 class DraftRenderer;
+class SceneImages;
 class WorldPlay;
-class WorldSceneRenderer;
 struct EditorReferences;
 }  // namespace hmi
 
 namespace hmi {
 
-class EditorViewport : public QRhiWidget, public EditContextTarget {
+/// @brief Le canevas : le brouillon peint en iso ou à plat, les gestes des outils, l'essai.
+class EditorViewport : public QGraphicsView, public EditContextTarget {
     Q_OBJECT
 
 public:
@@ -136,7 +157,31 @@ public:
     }
 
     void toggleGrid() noexcept;
-    void resetCamera() noexcept;
+    /// Recadre la vue sur toute la carte.
+    void resetCamera();
+
+    // --- Vues du canevas (LOT-EDITOR-02) ---
+    /// Bascule entre la vue iso (le lieu) et la vue à plat (les types), cadrage recalculé.
+    void setCanvasView(CanvasView view);
+    [[nodiscard]] CanvasView canvasView() const noexcept {
+        return _view;
+    }
+    /// Reliefs en transparence : on voit ce qu'on pointe derrière un mur.
+    void setSeeThroughRelief(bool enabled);
+    [[nodiscard]] bool seeThroughRelief() const noexcept {
+        return _seeThroughRelief;
+    }
+    /// @return La couleur d'un type de tuile, celle de la vue à plat (pour la mini-carte).
+    [[nodiscard]] QColor tileColor(core::TileType type) const;
+    /// @return Les pièces de la case survolée (`street · wall-left`), vide sinon.
+    [[nodiscard]] std::string hoveredPieces() const;
+    /**
+     * @brief Les quatre coins de la partie visible, en coordonnées de grille continues (colonne,
+     *        ligne) : un rectangle à plat, un losange en iso. Pour la mini-carte.
+     */
+    [[nodiscard]] std::array<core::Vector2, 4> visibleGridCorners() const;
+    /// Centre la vue sur un point de grille continu (colonne, ligne).
+    void centerOnGridPoint(core::Vector2 gridPoint);
 
     void resizeLevel(int width, int height);
     [[nodiscard]] bool wouldResizeDrop(int width, int height) const;
@@ -149,9 +194,8 @@ public:
     [[nodiscard]] std::optional<core::GridPosition> hoveredCell() const noexcept {
         return _hoverCell;
     }
-    [[nodiscard]] float zoom() const noexcept {
-        return _camera.zoom();
-    }
+    /// @return Le facteur d'agrandissement : 1 quand une unité monde fait 16 pixels.
+    [[nodiscard]] float zoom() const noexcept;
     [[nodiscard]] EditorTool activeTool() const noexcept {
         return _tool;
     }
@@ -166,6 +210,8 @@ public:
     }
     void setMapLayerVisible(LayerSlot slot, bool visible);
     void setMapLayerOpacity(LayerSlot slot, float opacity);
+    void setMapLayerDimmed(LayerSlot slot, bool dimmed);
+    void setMapLayerLocked(LayerSlot slot, bool locked);
     void addMapLayer(core::LayerKind kind, const std::string& name);
     void removeMapLayer(std::size_t index);
     void moveMapLayer(std::size_t index, bool forward);
@@ -187,6 +233,9 @@ public:
         return _referenceContext;
     }
 
+    /// Peint le canevas : appelé par l'élément unique de la scène, @p exposed en unités monde.
+    void paintCanvas(QPainter& painter, const QRectF& exposed);
+
 signals:
     void activeLayerChanged(hmi::LayerSlot slot);
     void layerViewChanged();
@@ -196,37 +245,54 @@ signals:
     void toolChanged(hmi::EditorTool tool);
     void hoveredCellChanged(std::optional<core::GridPosition> cell);
     void zoomChanged(float zoom);
+    /// Le cadrage a bougé (défilement, agrandissement, vue) : la mini-carte suit.
+    void framingChanged();
+    void canvasViewChanged(hmi::CanvasView view);
 
 protected:
-    void initialize(QRhiCommandBuffer* commandBuffer) override;
-    void render(QRhiCommandBuffer* commandBuffer) override;
-    void releaseResources() override;
-    bool event(QEvent* event) override;
+    bool viewportEvent(QEvent* event) override;
+    void focusOutEvent(QFocusEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    void scrollContentsBy(int dx, int dy) override;
 
 private:
-    /// Crée le pipeline de dessin du brouillon, puis ouvre la carte de départ.
-    void createResources();
-    /// Dessine le brouillon et ses aides d'édition.
-    void renderDraft(QRhiCommandBuffer* commandBuffer);
-    /// Avance l'essai des pas fixes dus, puis le dessine comme le jeu.
-    void renderPlaytest(QRhiCommandBuffer* commandBuffer, float elapsedSeconds);
+    class CanvasItem;
+
+    /// Avance l'essai des pas fixes dus, puis recompose sa scène.
+    void stepPlaytest();
     /// Termine l'essai et rend la main à l'édition (brouillon intact).
     void stopPlaytest();
     /// Direction que composent les touches enfoncées, normalisée — la règle de `GameView.qml`.
     [[nodiscard]] core::Vector2 heldDirection() const;
 
-    void updateEditCamera();
-    [[nodiscard]] core::Vector2 screenPosition(const QMouseEvent* event) const;
-    [[nodiscard]] float minManualZoom() const;
-    [[nodiscard]] float maxManualZoom() const;
-    [[nodiscard]] std::optional<core::GridPosition> cellAt(const QMouseEvent* event);
-    [[nodiscard]] core::GridPosition clampedCell(const QMouseEvent* event);
+    // --- Peinture ---
+    /// Recompose la scène iso du brouillon si elle est périmée.
+    void ensureIsoScene();
+    void paintIso(QPainter& painter, const QRectF& exposed);
+    void paintFlat(QPainter& painter, const QRectF& exposed);
+    void paintPlaytest(QPainter& painter, const QRectF& exposed);
+    /// Les types en couleurs, en losanges : une carte sans lieu (aucune planche à peindre).
+    void paintIsoTypeColors(QPainter& painter, const CellRange& cells);
+    void paintIsoOverlays(QPainter& painter, const CellRange& cells, const IsoBandOpacity& bands);
+    /// @return Le rectangle du monde qu'occupe le contenu de la vue courante, marge comprise.
+    [[nodiscard]] QRectF contentBounds() const;
+    /// Recalcule l'étendue de la scène (vue, taille de carte, essai) et redemande une peinture.
+    void refreshBounds();
+    /// Invalide la scène iso et redemande une peinture.
+    void invalidateScene();
+    /// @return La projection iso du brouillon.
+    [[nodiscard]] core::IsoProjection projection() const;
+    [[nodiscard]] core::Vector2 worldPosition(const QMouseEvent* event) const;
+    void emitZoomIfChanged();
+
+    [[nodiscard]] std::optional<core::GridPosition> cellAt(const QMouseEvent* event) const;
+    [[nodiscard]] core::GridPosition clampedCell(const QMouseEvent* event) const;
     void paintAt(const QMouseEvent* event);
     void applyRectangle(core::GridPosition a, core::GridPosition b);
     void copySelection();
@@ -243,23 +309,28 @@ private:
     [[nodiscard]] const core::TileMap& activeLayerTiles() const;
     void handleEntityPress(const QMouseEvent* event);
     void handleEntityRelease(const QMouseEvent* event);
-    [[nodiscard]] int pixelWidth() const;
-    [[nodiscard]] int pixelHeight() const;
+    [[nodiscard]] bool hasVisualLayers() const;
 
     using Clock = std::chrono::steady_clock;
 
-    hmi::SceneResources _scene;
-    std::unique_ptr<hmi::DraftRenderer> _draftRenderer;
+    QGraphicsScene* _canvasScene;
+    CanvasItem* _item;
+    std::unique_ptr<SceneImages> _images;
+    std::unique_ptr<DraftRenderer> _flat;
     hmi::EditorKeyBindings _editorBindings;
-    Clock::time_point _previousFrame;
 
     core::LevelDraft _draft;
-    hmi::Camera2D _camera;
-    bool _manualCamera = false;
-    float _manualZoom = 1.0F;
-    core::Vector2 _manualCenter{};
+    CanvasView _view = CanvasView::Iso;
+    bool _seeThroughRelief = false;
+    /// Scène iso du brouillon, recomposée seulement quand il change.
+    bool _isoSceneDirty = true;
+    PlaceAppearance _appearance;
+    std::string _appearancePlace;
+    WorldSceneSnapshot _snapshot;
+    ComposedScene _isoScene;
+
     bool _rightDragging = false;
-    core::Vector2 _rightDragLastScreen{};
+    QPoint _rightDragLast;
     core::TileType _activeTile = core::TileType::Solid;
     hmi::EditorTool _tool = hmi::EditorTool::Paint;
     bool _painting = false;
@@ -278,11 +349,19 @@ private:
     /// Empreinte du fichier de la carte à la dernière lecture ou écriture de l'éditeur.
     FileFingerprint _diskFingerprint;
     bool _showGrid = true;
+    /// Le cadrage a été fixé pour ce contenu : un redimensionnement ne le refait pas.
+    bool _framed = false;
 
     // --- Essai immédiat : la carte jouée par le moteur du jeu ---
     std::unique_ptr<WorldPlay> _play;
-    std::unique_ptr<WorldSceneRenderer> _world;
+    QTimer _playTimer;
+    /// Le cadrage d'édition, rendu à la fin de l'essai.
+    QTransform _editTransform;
+    QPointF _editCenter;
+    Clock::time_point _previousFrame;
     core::FixedTimestep _timestep;
+    WorldSceneSnapshot _playSnapshot;
+    ComposedScene _playScene;
     /// Touches de déplacement enfoncées (codes `Qt::Key`).
     std::set<int> _heldKeys;
     /// Interaction demandée depuis le dernier pas.

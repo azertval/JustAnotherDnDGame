@@ -4,20 +4,23 @@
 #include "Editor/Ui/EditorViewport.h"
 
 #include <QEvent>
+#include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QPainter>
+#include <QPen>
+#include <QPolygonF>
+#include <QScrollBar>
+#include <QStyleOptionGraphicsItem>
 #include <QWheelEvent>
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <filesystem>
 #include <limits>
 #include <memory>
 #include <optional>
 #include <utility>
-
-// QRhi est une API privée de QtGui : l'en-tête vit sous rhi/, pas parmi les classes publiques.
-#include <rhi/qrhi.h>
 
 #include "Core/Levels/Level.h"
 #include "Core/Levels/LevelLoader.h"
@@ -31,9 +34,11 @@
 #include "Editor/Logic/LevelFileOperations.h"
 #include "Editor/Logic/LevelNameValidation.h"
 #include "Editor/Ui/DraftRenderer.h"
+#include "Editor/Ui/SceneImages.h"
+#include "Editor/Ui/ScenePainter.h"
 #include "HMI/Game/WorldPlay.h"
-#include "HMI/Graphics/SpriteBatch.h"
-#include "HMI/Graphics/WorldSceneRenderer.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/EntityMarkers.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/ExecutableDirectory.h"
 
@@ -43,10 +48,15 @@ namespace {
 
 // Fond du canevas en édition (gris ardoise) et pendant l'essai (parchemin, la couleur du jeu) : les
 // valeurs que portaient les jetons de la charte, retirés de l'éditeur (LOT-EDITOR-01).
-constexpr std::array<float, 4> EDIT_CLEAR_COLOR = {0x1e / 255.0F, 0x22 / 255.0F, 0x2b / 255.0F,
-                                                   1.0F};
-constexpr std::array<float, 4> PLAYTEST_CLEAR_COLOR = {0xd0 / 255.0F, 0xc0 / 255.0F, 0xa0 / 255.0F,
-                                                       1.0F};
+const QColor EDIT_BACKGROUND(0x1e, 0x22, 0x2b);
+const QColor PLAYTEST_BACKGROUND(0xd0, 0xc0, 0xa0);
+
+/// Un cran de molette agrandit ou réduit d'autant.
+constexpr double ZOOM_STEP = 1.25;
+/// Agrandissement maximal : une unité monde fait alors 8 × 16 pixels.
+constexpr double MAX_PIXELS_PER_UNIT = 8.0 * Camera2D::PIXELS_PER_UNIT;
+/// Cadence de l'essai : celle du jeu (60 images par seconde).
+constexpr int PLAYTEST_FRAME_MS = 16;
 
 [[nodiscard]] std::filesystem::path keybindingsPath() {
     return hmi::executableDirectory() / "Settings" / "keybindings.json";
@@ -54,6 +64,10 @@ constexpr std::array<float, 4> PLAYTEST_CLEAR_COLOR = {0xd0 / 255.0F, 0xc0 / 255
 
 [[nodiscard]] std::filesystem::path levelsDirectory() {
     return hmi::executableDirectory() / "Levels";
+}
+
+[[nodiscard]] std::filesystem::path assetsDirectory() {
+    return hmi::executableDirectory() / "Assets";
 }
 
 /// Carte ouverte au lancement : la première carte du jeu.
@@ -89,23 +103,118 @@ constexpr std::uint64_t NEVER_SAVED = std::numeric_limits<std::uint64_t>::max();
     return key == Qt::Key_Right || key == Qt::Key_D;
 }
 
+[[nodiscard]] QPointF toQt(core::Vector2 point) {
+    return {static_cast<double>(point.x), static_cast<double>(point.y)};
+}
+
+[[nodiscard]] QPolygonF diamondOf(const core::IsoProjection& projection, core::GridPosition cell) {
+    const std::array<core::Vector2, 4> vertices = isoCellDiamond(projection, cell);
+    return QPolygonF{{toQt(vertices[0]), toQt(vertices[1]), toQt(vertices[2]), toQt(vertices[3])}};
+}
+
+/// Le parallélogramme iso d'un rectangle de cases, bornes incluses.
+[[nodiscard]] QPolygonF isoRegion(const core::IsoProjection& projection, core::GridPosition first,
+                                  core::GridPosition last) {
+    const auto at = [&](int column, int row) {
+        return toQt(projection.gridToWorld({static_cast<float>(column), static_cast<float>(row)}));
+    };
+    return QPolygonF{{at(first.column, first.row), at(last.column + 1, first.row),
+                      at(last.column + 1, last.row + 1), at(first.column, last.row + 1)}};
+}
+
+/// Un crayon d'une largeur en **pixels d'écran**, quel que soit l'agrandissement.
+[[nodiscard]] QPen screenPen(const QColor& color, double width) {
+    QPen pen(color, width);
+    pen.setCosmetic(true);
+    pen.setJoinStyle(Qt::MiterJoin);
+    return pen;
+}
+
+[[nodiscard]] QColor withAlpha(QColor color, float alpha) {
+    color.setAlphaF(std::clamp(alpha, 0.0F, 1.0F));
+    return color;
+}
+
 }  // namespace
 
+/**
+ * @brief L'élément unique de la scène : il délègue sa peinture au canevas (décision D2).
+ *
+ * `ItemUsesExtendedStyleOption` donne le rectangle exposé : le canevas ne peint que ce qui se voit.
+ */
+class EditorViewport::CanvasItem final : public QGraphicsItem {
+public:
+    explicit CanvasItem(EditorViewport& owner) : _owner(owner) {
+        setFlag(QGraphicsItem::ItemUsesExtendedStyleOption);
+    }
+
+    [[nodiscard]] QRectF boundingRect() const override {
+        return _bounds;
+    }
+
+    void setBounds(const QRectF& bounds) {
+        if (bounds != _bounds) {
+            prepareGeometryChange();
+            _bounds = bounds;
+        }
+    }
+
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option,
+               QWidget* /*widget*/) override {
+        _owner.paintCanvas(*painter, option->exposedRect);
+    }
+
+private:
+    EditorViewport& _owner;
+    QRectF _bounds;
+};
+
 EditorViewport::EditorViewport(QWidget* parent)
-    : QRhiWidget(parent),
+    : QGraphicsView(parent),
+      _canvasScene(new QGraphicsScene(this)),
+      _item(new CanvasItem(*this)),
+      _images(std::make_unique<SceneImages>(assetsDirectory())),
       _editorBindings(hmi::EditorKeyBindings::load(keybindingsPath())),
       _draft(core::LevelDraft::empty("New map", 24, 14)),
-      _camera(1280, 720),
       _mapId(_draft.name()) {
+    _flat = std::make_unique<DraftRenderer>(DraftTextures{
+        .atlas = const_cast<QImage*>(&_images->atlas()),  // identité opaque, jamais écrite
+        .atlasWidth = _images->atlas().width(),
+        .atlasHeight = _images->atlas().height(),
+        .solid = _images->solid(),
+        .marker = [images = _images.get()](const std::string& key) -> TextureHandle {
+            return const_cast<QImage*>(images->marker(key));
+        }});
+
+    _canvasScene->addItem(_item);
+    setScene(_canvasScene);
+    setBackgroundBrush(EDIT_BACKGROUND);
+    // Une seule peinture par image, de tout ce qui se voit : l'élément unique couvre la scène.
+    setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    setRenderHint(QPainter::SmoothPixmapTransform, false);
+    setRenderHint(QPainter::Antialiasing, false);
+    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    setResizeAnchor(QGraphicsView::AnchorViewCenter);
+    setMouseTracking(true);
+    setFrameShape(QFrame::NoFrame);
+
+    _playTimer.setInterval(PLAYTEST_FRAME_MS);
+    connect(&_playTimer, &QTimer::timeout, this, [this] { stepPlaytest(); });
+
     // La première carte du jeu, comme brouillon. Échec récupérable : on garde le brouillon vierge.
     const std::filesystem::path startPath =
         levelsDirectory() / (std::string{START_MAP_ID} + ".json");
     if (!openLevel(startPath)) {
         HMI_LOG_WARNING("Editeur : echec du chargement de la carte de depart.");
+        markDraftMutated();
     }
 }
 
-EditorViewport::~EditorViewport() = default;
+EditorViewport::~EditorViewport() {
+    // L'élément appelle le canevas : il part avant que les membres ne meurent.
+    _canvasScene->removeItem(_item);
+    delete _item;
+}
 
 void EditorViewport::setTool(hmi::EditorTool tool) {
     if (_tool == tool) {
@@ -113,84 +222,382 @@ void EditorViewport::setTool(hmi::EditorTool tool) {
     }
     _tool = tool;
     emit toolChanged(tool);
-    if (_draftRenderer) {
-        _draftRenderer->invalidate();  // le terrain de rencontre ne se montre qu'à l'outil Entité.
+    viewport()->update();  // le terrain de rencontre ne se montre qu'à l'outil Entité.
+}
+
+// --- Cadrage
+// --------------------------------------------------------------------------------------
+
+core::IsoProjection EditorViewport::projection() const {
+    return {_draft.tileMap().width(), _draft.tileMap().height()};
+}
+
+QRectF EditorViewport::contentBounds() const {
+    if (_play) {
+        const core::IsoProjection played(_playSnapshot.columns, _playSnapshot.rows);
+        const core::Vector2 size = played.sceneSize();
+        const double margin = played.tileWidth();
+        return {-margin, -margin, size.x + (2 * margin), size.y + (2 * margin)};
+    }
+    if (_view == CanvasView::Flat) {
+        return {-1.0, -1.0, static_cast<double>(_draft.tileMap().width()) + 2.0,
+                static_cast<double>(_draft.tileMap().height()) + 2.0};
+    }
+    const core::IsoProjection iso = projection();
+    const core::Vector2 size = iso.sceneSize();
+    const double margin = iso.tileWidth();
+    return {-margin, -margin, size.x + (2 * margin), size.y + (2 * margin)};
+}
+
+void EditorViewport::refreshBounds() {
+    const QRectF bounds = contentBounds();
+    _item->setBounds(bounds);
+    _canvasScene->setSceneRect(bounds);
+    viewport()->update();
+}
+
+void EditorViewport::resetCamera() {
+    fitInView(contentBounds(), Qt::KeepAspectRatio);
+    _framed = false;
+    emitZoomIfChanged();
+    emit framingChanged();
+}
+
+float EditorViewport::zoom() const noexcept {
+    return static_cast<float>(transform().m11()) / Camera2D::PIXELS_PER_UNIT;
+}
+
+void EditorViewport::emitZoomIfChanged() {
+    const float current = zoom();
+    if (current != _lastEmittedZoom) {
+        _lastEmittedZoom = current;
+        emit zoomChanged(current);
     }
 }
 
-int EditorViewport::pixelWidth() const {
-    return std::max(1, static_cast<int>(static_cast<qreal>(width()) * devicePixelRatio()));
+void EditorViewport::resizeEvent(QResizeEvent* event) {
+    QGraphicsView::resizeEvent(event);
+    // Tant que l'auteur n'a pas cadré lui-même, la carte entière reste dans la vue.
+    if (!_framed && !_play) {
+        resetCamera();
+    }
+    emit framingChanged();
 }
 
-int EditorViewport::pixelHeight() const {
-    return std::max(1, static_cast<int>(static_cast<qreal>(height()) * devicePixelRatio()));
+void EditorViewport::scrollContentsBy(int dx, int dy) {
+    QGraphicsView::scrollContentsBy(dx, dy);
+    emit framingChanged();
 }
 
-void EditorViewport::createResources() {
-    HMI_LOG_INFO("Viewport : initialisation du rendu sur QRhi (" + std::to_string(pixelWidth()) +
-                 "x" + std::to_string(pixelHeight()) + ").");
-    _scene.create(rhi(), _scene.context().updates);
-    _draftRenderer =
-        std::make_unique<hmi::DraftRenderer>(_scene.sprites(), _scene.atlas(), _scene.textures());
-}
-
-void EditorViewport::updateEditCamera() {
-    _camera.setViewportSize(pixelWidth(), pixelHeight());
-    if (_manualCamera) {
-        _camera.setZoom(_manualZoom);
-        _camera.setCenter(_manualCenter);
+void EditorViewport::setCanvasView(CanvasView view) {
+    if (_view == view) {
         return;
     }
-    const int levelWidth = _draft.tileMap().width();
-    const int levelHeight = _draft.tileMap().height();
-    _camera.setZoom(hmi::Camera2D::fitZoom(
-        static_cast<float>(pixelWidth()), static_cast<float>(pixelHeight()),
-        static_cast<float>(levelWidth), static_cast<float>(levelHeight), 0.92F));
-    _camera.setCenter(core::Vector2{static_cast<float>(levelWidth) * 0.5F,
-                                    static_cast<float>(levelHeight) * 0.5F});
-}
-
-core::Vector2 EditorViewport::screenPosition(const QMouseEvent* event) const {
-    const qreal ratio = devicePixelRatio();
-    return core::Vector2{static_cast<float>(event->position().x() * ratio),
-                         static_cast<float>(event->position().y() * ratio)};
-}
-
-float EditorViewport::minManualZoom() const {
-    return hmi::Camera2D::fitZoom(static_cast<float>(pixelWidth()),
-                                  static_cast<float>(pixelHeight()),
-                                  static_cast<float>(_draft.tileMap().width()),
-                                  static_cast<float>(_draft.tileMap().height()), 0.92F);
-}
-
-float EditorViewport::maxManualZoom() const {
-    // Laisse au moins 4 cases visibles sur le plus petit axe de l'écran. Borné au minimum : une
-    // carte plus petite que 4 cases rendrait sinon ce maximum inférieur au minimum.
-    constexpr float MINIMUM_VISIBLE_CELLS = 4.0F;
-    const float smallerAxis = static_cast<float>((std::min)(pixelWidth(), pixelHeight()));
-    const float rawMax = smallerAxis / (MINIMUM_VISIBLE_CELLS * hmi::Camera2D::PIXELS_PER_UNIT);
-    return (std::max)(rawMax, minManualZoom());
-}
-
-std::optional<core::GridPosition> EditorViewport::cellAt(const QMouseEvent* event) {
-    updateEditCamera();
-    const core::Vector2 world = _camera.screenToWorld(screenPosition(event));
-    const int column = static_cast<int>(std::floor(world.x));
-    const int row = static_cast<int>(std::floor(world.y));
-    if (!_draft.tileMap().inBounds(column, row)) {
-        return std::nullopt;
+    _view = view;
+    refreshBounds();
+    if (!_play) {
+        resetCamera();
     }
-    return core::GridPosition{.column = column, .row = row};
+    emit canvasViewChanged(_view);
 }
 
-core::GridPosition EditorViewport::clampedCell(const QMouseEvent* event) {
-    updateEditCamera();
-    const core::Vector2 world = _camera.screenToWorld(screenPosition(event));
-    const int width = _draft.tileMap().width();
-    const int height = _draft.tileMap().height();
-    return core::GridPosition{
-        .column = std::clamp(static_cast<int>(std::floor(world.x)), 0, width - 1),
-        .row = std::clamp(static_cast<int>(std::floor(world.y)), 0, height - 1)};
+void EditorViewport::setSeeThroughRelief(bool enabled) {
+    _seeThroughRelief = enabled;
+    viewport()->update();
+}
+
+std::array<core::Vector2, 4> EditorViewport::visibleGridCorners() const {
+    const QRect pixels = viewport()->rect();
+    const QPointF corners[] = {mapToScene(pixels.topLeft()), mapToScene(pixels.topRight()),
+                               mapToScene(pixels.bottomRight()), mapToScene(pixels.bottomLeft())};
+    std::array<core::Vector2, 4> grid{};
+    const core::IsoProjection iso = projection();
+    for (std::size_t index = 0; index < grid.size(); ++index) {
+        const core::Vector2 world{static_cast<float>(corners[index].x()),
+                                  static_cast<float>(corners[index].y())};
+        grid[index] = _view == CanvasView::Flat ? world : iso.worldToGrid(world);
+    }
+    return grid;
+}
+
+void EditorViewport::centerOnGridPoint(core::Vector2 gridPoint) {
+    if (_play) {
+        return;
+    }
+    centerOn(toQt(_view == CanvasView::Flat ? gridPoint : projection().gridToWorld(gridPoint)));
+    _framed = true;
+    emit framingChanged();
+}
+
+core::Vector2 EditorViewport::worldPosition(const QMouseEvent* event) const {
+    const QPointF scenePoint = mapToScene(event->position().toPoint());
+    return {static_cast<float>(scenePoint.x()), static_cast<float>(scenePoint.y())};
+}
+
+std::optional<core::GridPosition> EditorViewport::cellAt(const QMouseEvent* event) const {
+    const core::Vector2 world = worldPosition(event);
+    if (_view == CanvasView::Flat) {
+        return pickFlatCell(world, _draft.tileMap().width(), _draft.tileMap().height());
+    }
+    return pickIsoCell(projection(), world);
+}
+
+core::GridPosition EditorViewport::clampedCell(const QMouseEvent* event) const {
+    const core::Vector2 world = worldPosition(event);
+    if (_view == CanvasView::Flat) {
+        return clampedFlatCell(world, _draft.tileMap().width(), _draft.tileMap().height());
+    }
+    return clampedIsoCell(projection(), world);
+}
+
+// --- Peinture
+// -------------------------------------------------------------------------------------
+
+void EditorViewport::invalidateScene() {
+    _isoSceneDirty = true;
+    viewport()->update();
+}
+
+void EditorViewport::ensureIsoScene() {
+    if (!_isoSceneDirty) {
+        return;
+    }
+    const std::string place = scenePlaceOf(_draft.layers());
+    if (place != _appearancePlace) {
+        _appearancePlace = place;
+        _appearance = PlaceAppearance{};
+        if (!place.empty()) {
+            PlaceAppearanceResult read = PlaceAppearance::loadFromFile(assetsDirectory() / "Scene" /
+                                                                       place / "appearance.json");
+            if (read.ok()) {
+                _appearance = std::move(read.appearance);
+            } else {
+                HMI_LOG_WARNING("Editeur : table d'apparence du lieu " + place + " illisible, " +
+                                read.message);
+            }
+        }
+    }
+    _snapshot = canvasSnapshot(_draft, _appearance);
+    _images->ensure(worldTexturePaths(_snapshot));
+    _isoScene.clear();
+    composeWorldScene(_isoScene, _snapshot, core::IsoProjection(_snapshot.columns, _snapshot.rows),
+                      _images->textures());
+    _isoScene.sort();
+    _isoSceneDirty = false;
+}
+
+void EditorViewport::paintCanvas(QPainter& painter, const QRectF& exposed) {
+    if (_play) {
+        paintPlaytest(painter, exposed);
+    } else if (_view == CanvasView::Flat) {
+        paintFlat(painter, exposed);
+    } else {
+        paintIso(painter, exposed);
+    }
+}
+
+void EditorViewport::paintPlaytest(QPainter& painter, const QRectF& exposed) {
+    const core::Rect visible{
+        {static_cast<float>(exposed.x()), static_cast<float>(exposed.y())},
+        {static_cast<float>(exposed.width()), static_cast<float>(exposed.height())}};
+    paintComposedScene(painter, _playScene, visible);
+}
+
+void EditorViewport::paintFlat(QPainter& painter, const QRectF& exposed) {
+    const core::Rect visible{
+        {static_cast<float>(exposed.x()), static_cast<float>(exposed.y())},
+        {static_cast<float>(exposed.width()), static_cast<float>(exposed.height())}};
+    DraftEntityOverlay overlay;
+    overlay.selectedEntity = _selectedEntity;
+    overlay.terrains = &_terrains;
+    overlay.showTerrain = _tool == hmi::EditorTool::Entity;
+    _flat->setLayerView(_layerView);
+    paintComposedScene(painter, _flat->compose(_draft, visible, _showGrid, highlight(), overlay),
+                       visible);
+    if (_hoverCell) {
+        painter.setPen(screenPen(QColor(255, 236, 140), 2.0));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRect(QRectF(_hoverCell->column, _hoverCell->row, 1.0, 1.0));
+    }
+}
+
+void EditorViewport::paintIso(QPainter& painter, const QRectF& exposed) {
+    ensureIsoScene();
+    const core::IsoProjection iso = projection();
+    const core::Rect visible{
+        {static_cast<float>(exposed.x()), static_cast<float>(exposed.y())},
+        {static_cast<float>(exposed.width()), static_cast<float>(exposed.height())}};
+    const CellRange cells = isoCellsCovering(iso, visible);
+    const IsoBandOpacity bands =
+        isoBandOpacity(_draft.layers(), _layerView, _activeLayer, _seeThroughRelief);
+    if (_snapshot.place.empty()) {
+        // Une carte qui ne nomme aucun lieu n'a aucune pièce : ses types, en couleurs.
+        paintIsoTypeColors(painter, cells);
+    }
+    paintComposedScene(painter, _isoScene, visible, [&bands](const ComposedQuad& quad) {
+        return bandOpacity(bands, quad.layer);
+    });
+    paintIsoOverlays(painter, cells, bands);
+}
+
+void EditorViewport::paintIsoTypeColors(QPainter& painter, const CellRange& cells) {
+    const core::IsoProjection iso = projection();
+    const bool visual = hasVisualLayers();
+    painter.setPen(Qt::NoPen);
+    const auto paintGrid = [&](const core::TileMap& tiles, float opacity) {
+        if (opacity <= 0.0F) {
+            return;
+        }
+        for (int row = cells.firstRow; row <= cells.lastRow; ++row) {
+            for (int column = cells.firstColumn; column <= cells.lastColumn; ++column) {
+                if (!tiles.inBounds(column, row)) {
+                    continue;
+                }
+                const core::TileType type = tiles.tile(column, row);
+                if (type == core::TileType::Empty) {
+                    continue;
+                }
+                painter.setBrush(withAlpha(_images->tileColor(type), opacity));
+                painter.drawPolygon(diamondOf(iso, {.column = column, .row = row}));
+            }
+        }
+    };
+    if (!visual) {
+        paintGrid(_draft.tileMap(), _layerView.display(std::nullopt, false).effectiveOpacity());
+        return;
+    }
+    const std::vector<core::TileLayer>& layers = _draft.layers();
+    for (std::size_t index = 0; index < layers.size(); ++index) {
+        if (core::isVisualLayerKind(layers[index].kind)) {
+            paintGrid(layers[index].tiles, _layerView.display(index, true).effectiveOpacity());
+        }
+    }
+}
+
+void EditorViewport::paintIsoOverlays(QPainter& painter, const CellRange& cells,
+                                      const IsoBandOpacity& bands) {
+    const core::IsoProjection iso = projection();
+    if (cells.empty()) {
+        return;
+    }
+    // Masque de collision : une teinte par catégorie de règle, comme la vue à plat.
+    if (bands.collision > 0.0F) {
+        painter.setPen(Qt::NoPen);
+        const core::TileMap& map = _draft.tileMap();
+        for (int row = cells.firstRow; row <= cells.lastRow; ++row) {
+            for (int column = cells.firstColumn; column <= cells.lastColumn; ++column) {
+                const core::TileType type = map.tile(column, row);
+                QColor tint;
+                if (core::isSolid(type)) {
+                    tint = QColor::fromRgbF(0.85F, 0.20F, 0.20F);
+                } else if (type == core::TileType::Entry) {
+                    tint = QColor::fromRgbF(0.20F, 0.85F, 0.30F);
+                } else {
+                    continue;
+                }
+                painter.setBrush(withAlpha(tint, bands.collision));
+                painter.drawPolygon(diamondOf(iso, {.column = column, .row = row}));
+            }
+        }
+    }
+    // Quadrillage en losanges : les lignes de grille, du premier au dernier bord visible.
+    if (_showGrid) {
+        painter.setPen(screenPen(QColor(255, 255, 255, 46), 1.0));
+        const auto at = [&](int column, int row) {
+            return toQt(iso.gridToWorld({static_cast<float>(column), static_cast<float>(row)}));
+        };
+        for (int column = cells.firstColumn; column <= cells.lastColumn + 1; ++column) {
+            painter.drawLine(at(column, cells.firstRow), at(column, cells.lastRow + 1));
+        }
+        for (int row = cells.firstRow; row <= cells.lastRow + 1; ++row) {
+            painter.drawLine(at(cells.firstColumn, row), at(cells.lastColumn + 1, row));
+        }
+    }
+    // Aperçu du rectangle ou de la sélection.
+    if (const auto zone = highlight()) {
+        painter.setPen(screenPen(QColor(110, 190, 255), 1.0));
+        painter.setBrush(QColor::fromRgbF(0.3F, 0.7F, 1.0F, 0.28F));
+        painter.drawPolygon(isoRegion(iso, zone->first, zone->second));
+    }
+    // Terrain de la rencontre sélectionnée (outil Entité) : zone, puis case de chaque combattant.
+    if (_tool == hmi::EditorTool::Entity && _selectedEntity) {
+        painter.setPen(Qt::NoPen);
+        for (const core::EncounterTerrain& terrain : _terrains) {
+            if (terrain.entityIndex != *_selectedEntity) {
+                continue;
+            }
+            const bool narrow =
+                std::ranges::any_of(terrain.issues, [](const core::TacticalIssue& issue) {
+                    return issue.code == core::TacticalIssueCode::AreaTooNarrow;
+                });
+            painter.setBrush(narrow ? QColor::fromRgbF(1.0F, 0.55F, 0.10F, 0.18F)
+                                    : QColor::fromRgbF(0.30F, 0.70F, 1.00F, 0.18F));
+            for (const core::GridPosition& cell : terrain.area) {
+                painter.drawPolygon(diamondOf(iso, cell));
+            }
+            for (const core::CombatantPlacement& placement : terrain.placements) {
+                const bool refused = std::ranges::any_of(
+                    terrain.issues, [&placement](const core::TacticalIssue& issue) {
+                        return issue.code != core::TacticalIssueCode::AreaTooNarrow &&
+                               issue.cell == placement.position;
+                    });
+                painter.setBrush(refused ? QColor::fromRgbF(0.95F, 0.20F, 0.20F, 0.55F)
+                                         : QColor::fromRgbF(0.25F, 0.85F, 0.35F, 0.55F));
+                painter.drawPolygon(diamondOf(iso, placement.position));
+            }
+        }
+    }
+    // Entités : le marqueur de leur famille au centre de leur losange (LOT-39) ; leurs figurines
+    // et leurs poignées viendront au LOT-EDITOR-05.
+    const float markerSide = iso.tileHeight() * 0.7F;
+    const std::vector<core::MapEntity>& entities = _draft.entities();
+    for (std::size_t index = 0; index < entities.size(); ++index) {
+        const core::MapEntity& entity = entities[index];
+        if (!cells.contains(entity.position)) {
+            continue;
+        }
+        const QPointF center = toQt(iso.tileToWorld(entity.position));
+        const QRectF target(center.x() - (markerSide / 2.0), center.y() - (markerSide / 2.0),
+                            markerSide, markerSide);
+        if (const QImage* const marker = _images->marker(entityMarkerKey(entity.type))) {
+            painter.drawImage(target, *marker);
+        } else {
+            painter.fillRect(target, QColor(255, 0, 255, 204));
+        }
+        if (_selectedEntity == index) {
+            painter.setBrush(Qt::NoBrush);
+            painter.setPen(screenPen(QColor(13, 13, 13), 4.0));
+            painter.drawPolygon(diamondOf(iso, entity.position));
+            painter.setPen(screenPen(QColor(255, 242, 89), 2.0));
+            painter.drawPolygon(diamondOf(iso, entity.position));
+        }
+    }
+    // La case survolée, par son losange : c'est elle que le prochain geste touchera.
+    if (_hoverCell) {
+        painter.setBrush(Qt::NoBrush);
+        painter.setPen(screenPen(QColor(255, 236, 140), 2.0));
+        painter.drawPolygon(diamondOf(iso, *_hoverCell));
+    }
+}
+
+QColor EditorViewport::tileColor(core::TileType type) const {
+    return _images->tileColor(type);
+}
+
+std::string EditorViewport::hoveredPieces() const {
+    if (!_hoverCell || _play) {
+        return {};
+    }
+    return cellPieces(_snapshot, *_hoverCell);
+}
+
+// --- Brouillon
+// ------------------------------------------------------------------------------------
+
+bool EditorViewport::hasVisualLayers() const {
+    return std::ranges::any_of(_draft.layers(), [](const core::TileLayer& layer) {
+        return core::isVisualLayerKind(layer.kind);
+    });
 }
 
 void EditorViewport::paintAt(const QMouseEvent* event) {
@@ -201,6 +608,14 @@ void EditorViewport::paintAt(const QMouseEvent* event) {
 
 bool EditorViewport::paintActiveRegion(int originColumn, int originRow,
                                        const std::vector<std::vector<core::TileType>>& block) {
+    // Une couche verrouillée se voit, mais aucun geste ne la peint (LOT-EDITOR-02, phase 3).
+    if (_layerView.display(_activeLayer, hasVisualLayers()).locked) {
+        if (!_refusalReported) {
+            _refusalReported = true;
+            emit statusMessage(QStringLiteral("The active layer is locked."));
+        }
+        return false;
+    }
     if (!_activeLayer) {
         _draft.paintRegion(originColumn, originRow, block);
         markDraftMutated();
@@ -292,74 +707,15 @@ std::optional<std::pair<core::GridPosition, core::GridPosition>> EditorViewport:
 
 void EditorViewport::markDraftMutated() {
     syncEditingState();
-    if (_draftRenderer) {
-        _draftRenderer->invalidate();
-    }
+    // La scène iso est recomposée tout de suite : la barre d'état lit les pièces de la case.
+    _isoSceneDirty = true;
+    ensureIsoScene();
+    refreshBounds();
     emit draftChanged();
 }
 
-// Crée (ou recrée) les ressources graphiques quand QRhiWidget fournit son interface de rendu.
-void EditorViewport::initialize(QRhiCommandBuffer* commandBuffer) {
-    if (_scene.context().rhi == rhi()) {
-        return;  // même interface : les ressources déjà créées restent valides.
-    }
-    // Changement d'interface (première image, ou widget passé sous une autre fenêtre) : tout ce
-    // qui tient une texture est caduc. Un essai en cours s'arrête — il repartirait de l'entrée.
-    stopPlaytest();
-    releaseResources();
-    _scene.context().rhi = rhi();
-    _scene.context().updates = _scene.context().rhi->nextResourceUpdateBatch();
-    createResources();
-    commandBuffer->resourceUpdate(_scene.context().updates);
-    _scene.context().updates = nullptr;
-    _previousFrame = Clock::now();
-}
-
-void EditorViewport::releaseResources() {
-    // Ce qui tient une texture meurt avant elle : le rendu de l'essai et celui du brouillon
-    // d'abord, puis la grappe de ressources dans l'ordre que `SceneResources::release` fixe.
-    _world.reset();
-    _draftRenderer.reset();
-    _scene.release();
-}
-
-void EditorViewport::render(QRhiCommandBuffer* commandBuffer) {
-    if (!_scene.created()) {
-        return;  // initialize() n'a pas encore pu créer les ressources.
-    }
-    const Clock::time_point now = Clock::now();
-    const float elapsedSeconds = std::chrono::duration<float>(now - _previousFrame).count();
-    _previousFrame = now;
-
-    if (_play) {
-        renderPlaytest(commandBuffer, elapsedSeconds);
-    } else {
-        renderDraft(commandBuffer);
-    }
-    // Animation continue : la prochaine image est demandée dès celle-ci terminée.
-    update();
-}
-
-void EditorViewport::renderDraft(QRhiCommandBuffer* commandBuffer) {
-    _scene.context().updates = _scene.context().rhi->nextResourceUpdateBatch();
-    _scene.sprites().beginFrame();
-    const std::array<float, 4> clear = EDIT_CLEAR_COLOR;
-    updateEditCamera();
-    if (_camera.zoom() != _lastEmittedZoom) {
-        _lastEmittedZoom = _camera.zoom();
-        emit zoomChanged(_lastEmittedZoom);
-    }
-    _draftRenderer->setLayerView(_layerView);
-    hmi::DraftEntityOverlay entityOverlay;
-    entityOverlay.selectedEntity = _selectedEntity;
-    entityOverlay.terrains = &_terrains;
-    entityOverlay.showTerrain = _tool == hmi::EditorTool::Entity;
-    _draftRenderer->render(_draft, _camera, _showGrid, highlight(), entityOverlay);
-    // Téléversement unique puis passe unique (cf. `hmi::SpriteBatch`, enregistrement en deux
-    // phases).
-    _scene.sprites().submit(commandBuffer, renderTarget(), _scene.context().updates, clear.data());
-    _scene.context().updates = nullptr;
-}
+// --- Essai immédiat
+// -------------------------------------------------------------------------------
 
 core::Vector2 EditorViewport::heldDirection() const {
     const auto held = [this](bool (*matches)(int)) {
@@ -375,7 +731,14 @@ core::Vector2 EditorViewport::heldDirection() const {
     return {x, y};
 }
 
-void EditorViewport::renderPlaytest(QRhiCommandBuffer* commandBuffer, float elapsedSeconds) {
+void EditorViewport::stepPlaytest() {
+    if (!_play) {
+        return;
+    }
+    const Clock::time_point now = Clock::now();
+    const float elapsedSeconds = std::chrono::duration<float>(now - _previousFrame).count();
+    _previousFrame = now;
+
     const int steps = _timestep.advance(elapsedSeconds);
     for (int step = 0; step < steps && _play; ++step) {
         const core::ExplorationIntent intent{.move = heldDirection(),
@@ -410,38 +773,108 @@ void EditorViewport::renderPlaytest(QRhiCommandBuffer* commandBuffer, float elap
             emit statusMessage(message.arg(QString::fromStdString(event.value)));
         }
     }
-
-    if (!_world) {
-        _world = std::make_unique<WorldSceneRenderer>(hmi::executableDirectory() / "Assets");
-    }
-    if (!_world->ensureResources(rhi())) {
+    if (!_playSceneDirty) {
         return;
     }
-    if (_playSceneDirty) {
-        _world->setSnapshot(_play->snapshot());
-        _playSceneDirty = false;
+    _playSceneDirty = false;
+    const int previousColumns = _playSnapshot.columns;
+    const int previousRows = _playSnapshot.rows;
+    _playSnapshot = _play->snapshot();
+    _images->ensure(worldTexturePaths(_playSnapshot));
+    const core::IsoProjection played(_playSnapshot.columns, _playSnapshot.rows);
+    _playScene.clear();
+    composeWorldScene(_playScene, _playSnapshot, played, _images->textures());
+    _playScene.sort();
+    if (_playSnapshot.columns != previousColumns || _playSnapshot.rows != previousRows) {
+        refreshBounds();  // un portail a mené sur une autre carte.
     }
+    // La caméra suit le héros, comme en jeu (`hmi::worldCamera`).
     const core::CellPoint hero = _play->session().heroPoint();
-    _world->setFocus({hero.column, hero.row});
-    const std::array<float, 4> clear = PLAYTEST_CLEAR_COLOR;
-    _world->render(commandBuffer, renderTarget(), clear.data());
+    centerOn(toQt(played.gridToWorld({hero.column, hero.row})));
+    viewport()->update();
 }
 
-bool EditorViewport::event(QEvent* event) {
-    switch (event->type()) {
-        case QEvent::FocusOut:
-            _heldKeys.clear();
-            break;
-        case QEvent::Leave:
-            if (_hoverCell) {
-                _hoverCell.reset();
-                emit hoveredCellChanged(std::nullopt);
-            }
-            break;
-        default:
-            break;
+void EditorViewport::startPlaytest() {
+    if (_play) {
+        return;
     }
-    return QRhiWidget::event(event);
+    core::LevelLoadResult validated = _draft.toLevel();
+    if (!validated.ok()) {
+        HMI_LOG_WARNING("Editeur : essai refuse (brouillon invalide) : " + validated.error);
+        emit statusMessage(
+            QStringLiteral("Cannot playtest: %1").arg(QString::fromStdString(validated.error)));
+        return;
+    }
+    // Le brouillon est servi sous l'identifiant de sa carte ; toute autre carte vient du disque,
+    // comme en jeu. Un portail qui ramène ici retrouve donc le brouillon, pas le fichier d'avant.
+    auto edited = std::make_shared<const core::Level>(std::move(*validated.level));
+    core::WorldTravel::MapLoader fromDisk = core::WorldTravel::directoryLoader(levelsDirectory());
+    core::WorldTravel::MapLoader loader = [mapId = _mapId, edited,
+                                           fromDisk](std::string_view requested) {
+        if (requested == mapId) {
+            core::LevelLoadResult served;
+            served.level = *edited;
+            return served;
+        }
+        return fromDisk(requested);
+    };
+    auto play = std::make_unique<WorldPlay>(std::move(loader), assetsDirectory());
+    if (!play->enter(_mapId, {})) {
+        HMI_LOG_WARNING("Editeur : essai refuse, la carte ne s'ouvre pas.");
+        emit statusMessage(QStringLiteral("Cannot playtest: the map does not open."));
+        return;
+    }
+    _editTransform = transform();
+    _editCenter = mapToScene(viewport()->rect().center());
+    _play = std::move(play);
+    _playSnapshot = WorldSceneSnapshot{};
+    _playSceneDirty = true;
+    _heldKeys.clear();
+    _interactRequested = false;
+    _timestep = core::FixedTimestep{};
+    _previousFrame = Clock::now();
+    setBackgroundBrush(PLAYTEST_BACKGROUND);
+    // L'agrandissement du jeu : entier, 1 jusqu'à 720 lignes, 2 au double (`hmi::worldCamera`).
+    const double scale = static_cast<double>(Camera2D::PIXELS_PER_UNIT) *
+                         std::max(1, viewport()->height() / WORLD_ART_HEIGHT_PIXELS);
+    setTransform(QTransform::fromScale(scale, scale));
+    stepPlaytest();
+    _playTimer.start();
+    setFocus();
+    HMI_LOG_INFO("Editeur : essai immediat demarre.");
+    emit statusMessage(QStringLiteral("Playtesting — Esc to return to editing."));
+}
+
+void EditorViewport::stopPlaytest() {
+    if (!_play) {
+        return;
+    }
+    _playTimer.stop();
+    _play.reset();
+    _playScene.clear();
+    _heldKeys.clear();
+    setBackgroundBrush(EDIT_BACKGROUND);
+    refreshBounds();
+    setTransform(_editTransform);
+    centerOn(_editCenter);
+    emit statusMessage(QStringLiteral("Back to editing."));
+}
+
+// --- Événements
+// -----------------------------------------------------------------------------------
+
+bool EditorViewport::viewportEvent(QEvent* event) {
+    if (event->type() == QEvent::Leave && _hoverCell) {
+        _hoverCell.reset();
+        emit hoveredCellChanged(std::nullopt);
+        viewport()->update();
+    }
+    return QGraphicsView::viewportEvent(event);
+}
+
+void EditorViewport::focusOutEvent(QFocusEvent* event) {
+    _heldKeys.clear();
+    QGraphicsView::focusOutEvent(event);
 }
 
 void EditorViewport::keyPressEvent(QKeyEvent* event) {
@@ -463,6 +896,7 @@ void EditorViewport::keyPressEvent(QKeyEvent* event) {
     // Annuler/refaire/enregistrer/essai/grille/recadrer/copier/coller sont des actions Qt uniques
     // (`hmi::EditorActions`) : aucun second traitement ici, sous peine de double déclenchement.
     if (event->isAutoRepeat()) {
+        QGraphicsView::keyPressEvent(event);
         return;
     }
     // Retrait de l'entité sélectionnée (outil Entité, LOT-11) : Suppr, comme dans tout éditeur.
@@ -470,7 +904,7 @@ void EditorViewport::keyPressEvent(QKeyEvent* event) {
         removeEntity(*_selectedEntity);
         return;
     }
-    QRhiWidget::keyPressEvent(event);
+    QGraphicsView::keyPressEvent(event);
 }
 
 void EditorViewport::keyReleaseEvent(QKeyEvent* event) {
@@ -479,6 +913,119 @@ void EditorViewport::keyReleaseEvent(QKeyEvent* event) {
     }
     _heldKeys.erase(event->key());
 }
+
+void EditorViewport::mousePressEvent(QMouseEvent* event) {
+    if (_play) {
+        return;
+    }
+    if (event->button() == Qt::RightButton) {
+        _rightDragging = true;  // le bouton droit déplace la vue.
+        _rightDragLast = event->position().toPoint();
+        return;
+    }
+    if (event->button() != Qt::LeftButton) {
+        return;
+    }
+    switch (_tool) {
+        case hmi::EditorTool::Paint:
+            _painting = true;
+            paintAt(event);
+            break;
+        case hmi::EditorTool::Rectangle:
+        case hmi::EditorTool::Selection:
+            _dragging = true;
+            _dragStart = clampedCell(event);
+            _dragCurrent = _dragStart;
+            viewport()->update();
+            break;
+        case hmi::EditorTool::Entity:
+            handleEntityPress(event);
+            break;
+    }
+}
+
+void EditorViewport::mouseReleaseEvent(QMouseEvent* event) {
+    if (event->button() == Qt::RightButton) {
+        _rightDragging = false;
+        return;
+    }
+    if (event->button() != Qt::LeftButton || _play) {
+        return;
+    }
+    if (_tool == hmi::EditorTool::Entity) {
+        handleEntityRelease(event);
+    }
+    _refusalReported = false;
+    if (_dragging) {
+        _dragCurrent = clampedCell(event);
+        _dragging = false;
+        if (_tool == hmi::EditorTool::Rectangle) {
+            applyRectangle(_dragStart, _dragCurrent);
+        } else if (_tool == hmi::EditorTool::Selection) {
+            _selection = std::make_pair(
+                core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
+                                   .row = std::min(_dragStart.row, _dragCurrent.row)},
+                core::GridPosition{.column = std::max(_dragStart.column, _dragCurrent.column),
+                                   .row = std::max(_dragStart.row, _dragCurrent.row)});
+        }
+        viewport()->update();
+    }
+    _painting = false;
+}
+
+void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
+    if (_play) {
+        return;
+    }
+    if (_rightDragging) {
+        const QPoint current = event->position().toPoint();
+        const QPoint delta = current - _rightDragLast;
+        _rightDragLast = current;
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - delta.x());
+        verticalScrollBar()->setValue(verticalScrollBar()->value() - delta.y());
+        _framed = true;
+    }
+    const std::optional<core::GridPosition> cell = cellAt(event);  // cible du collage (Ctrl+V)
+    if (cell != _hoverCell) {
+        _hoverCell = cell;
+        emit hoveredCellChanged(_hoverCell);
+        viewport()->update();
+    }
+    if (_painting) {
+        paintAt(event);
+    } else if (_dragging) {
+        const core::GridPosition current = clampedCell(event);
+        if (current != _dragCurrent) {
+            _dragCurrent = current;
+            viewport()->update();
+        }
+    }
+}
+
+void EditorViewport::wheelEvent(QWheelEvent* event) {
+    if (_play) {
+        return;
+    }
+    const int notches = event->angleDelta().y() / 120;  // 120 = un cran de molette.
+    if (notches == 0) {
+        return;
+    }
+    // Plus petit que la carte entière n'a pas d'usage ; plus grand que 8 pixels d'art non plus.
+    const QRectF bounds = contentBounds();
+    const double fit = std::min(static_cast<double>(viewport()->width()) / bounds.width(),
+                                static_cast<double>(viewport()->height()) / bounds.height());
+    const double current = transform().m11();
+    const double wanted = std::clamp(current * std::pow(ZOOM_STEP, notches),
+                                     std::min(fit, MAX_PIXELS_PER_UNIT), MAX_PIXELS_PER_UNIT);
+    const double factor = wanted / current;
+    scale(factor, factor);  // ancré sous le pointeur (`AnchorUnderMouse`).
+    _framed = true;
+    emitZoomIfChanged();
+    emit framingChanged();
+}
+
+// --- Fichier
+// --------------------------------------------------------------------------------------
 
 bool EditorViewport::save() {
     const core::LevelLoadResult validated = _draft.toLevel();
@@ -552,10 +1099,11 @@ bool EditorViewport::openLevel(const std::filesystem::path& path) {
     _layerView.reset();
     setActiveLayer(std::nullopt);
     selectEntity(std::nullopt);
+    _selection.reset();
     _savedRevision = _draft.revision();
     _diskFingerprint = fingerprintFile(path);
-    _manualCamera = false;
     markDraftMutated();
+    resetCamera();
     HMI_LOG_INFO("Editeur : carte ouverte : " + path.string());
     emit statusMessage(
         QStringLiteral("Map opened: %1").arg(QString::fromStdString(path.filename().string())));
@@ -579,12 +1127,13 @@ bool EditorViewport::restoreDraft(const std::string& mapId, const std::string& d
     _layerView.reset();
     setActiveLayer(std::nullopt);
     selectEntity(std::nullopt);
+    _selection.reset();
     // Le brouillon repris n'est pas le fichier : il reste modifié jusqu'à l'enregistrement. Le
     // fichier, lui, est pris tel qu'il est maintenant -- c'est contre lui que la garde compare.
     _savedRevision = NEVER_SAVED;
     _diskFingerprint = fingerprintFile(levelPath());
-    _manualCamera = false;
     markDraftMutated();
+    resetCamera();
     HMI_LOG_INFO("Editeur : brouillon repris : " + mapId);
     emit statusMessage(
         QStringLiteral("Draft recovered: %1 (not saved yet).").arg(QString::fromStdString(mapId)));
@@ -597,59 +1146,6 @@ DiskChange EditorViewport::diskChange() const {
 
 void EditorViewport::acceptDiskVersion() {
     _diskFingerprint = fingerprintFile(levelPath());
-}
-
-void EditorViewport::startPlaytest() {
-    if (_play) {
-        return;
-    }
-    core::LevelLoadResult validated = _draft.toLevel();
-    if (!validated.ok()) {
-        HMI_LOG_WARNING("Editeur : essai refuse (brouillon invalide) : " + validated.error);
-        emit statusMessage(
-            QStringLiteral("Cannot playtest: %1").arg(QString::fromStdString(validated.error)));
-        return;
-    }
-    // Le brouillon est servi sous l'identifiant de sa carte ; toute autre carte vient du disque,
-    // comme en jeu. Un portail qui ramène ici retrouve donc le brouillon, pas le fichier d'avant.
-    auto edited = std::make_shared<const core::Level>(std::move(*validated.level));
-    core::WorldTravel::MapLoader fromDisk = core::WorldTravel::directoryLoader(levelsDirectory());
-    core::WorldTravel::MapLoader loader = [mapId = _mapId, edited,
-                                           fromDisk](std::string_view requested) {
-        if (requested == mapId) {
-            core::LevelLoadResult served;
-            served.level = *edited;
-            return served;
-        }
-        return fromDisk(requested);
-    };
-    auto play =
-        std::make_unique<WorldPlay>(std::move(loader), hmi::executableDirectory() / "Assets");
-    if (!play->enter(_mapId, {})) {
-        HMI_LOG_WARNING("Editeur : essai refuse, la carte ne s'ouvre pas.");
-        emit statusMessage(QStringLiteral("Cannot playtest: %1").arg(QString{}));
-        return;
-    }
-    _play = std::move(play);
-    _playSceneDirty = true;
-    _heldKeys.clear();
-    _interactRequested = false;
-    _timestep = core::FixedTimestep{};
-    setFocus();
-    HMI_LOG_INFO("Editeur : essai immediat demarre.");
-    emit statusMessage(QStringLiteral("Playtesting — Esc to return to editing."));
-}
-
-void EditorViewport::stopPlaytest() {
-    if (!_play) {
-        return;
-    }
-    _play.reset();
-    _heldKeys.clear();
-    if (_draftRenderer) {
-        _draftRenderer->invalidate();  // ré-affiche le brouillon (intact).
-    }
-    emit statusMessage(QStringLiteral("Back to editing."));
 }
 
 void EditorViewport::undo() {
@@ -666,10 +1162,7 @@ void EditorViewport::redo() {
 
 void EditorViewport::toggleGrid() noexcept {
     _showGrid = !_showGrid;
-}
-
-void EditorViewport::resetCamera() noexcept {
-    _manualCamera = false;
+    viewport()->update();
 }
 
 void EditorViewport::resizeLevel(int width, int height) {
@@ -690,113 +1183,8 @@ int EditorViewport::levelHeight() const {
     return _draft.tileMap().height();
 }
 
-void EditorViewport::mousePressEvent(QMouseEvent* event) {
-    if (_play) {
-        return;
-    }
-    if (event->button() == Qt::RightButton) {
-        _rightDragging = true;  // le bouton droit déplace la vue.
-        _rightDragLastScreen = screenPosition(event);
-        return;
-    }
-    if (event->button() != Qt::LeftButton) {
-        return;
-    }
-    switch (_tool) {
-        case hmi::EditorTool::Paint:
-            _painting = true;
-            paintAt(event);
-            break;
-        case hmi::EditorTool::Rectangle:
-        case hmi::EditorTool::Selection:
-            _dragging = true;
-            _dragStart = clampedCell(event);
-            _dragCurrent = _dragStart;
-            break;
-        case hmi::EditorTool::Entity:
-            handleEntityPress(event);
-            break;
-    }
-}
-
-void EditorViewport::mouseReleaseEvent(QMouseEvent* event) {
-    if (event->button() == Qt::RightButton) {
-        _rightDragging = false;
-        return;
-    }
-    if (event->button() != Qt::LeftButton || _play) {
-        return;
-    }
-    if (_tool == hmi::EditorTool::Entity) {
-        handleEntityRelease(event);
-    }
-    _refusalReported = false;
-    if (_dragging) {
-        _dragCurrent = clampedCell(event);
-        if (_tool == hmi::EditorTool::Rectangle) {
-            applyRectangle(_dragStart, _dragCurrent);
-        } else if (_tool == hmi::EditorTool::Selection) {
-            _selection = std::make_pair(
-                core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
-                                   .row = std::min(_dragStart.row, _dragCurrent.row)},
-                core::GridPosition{.column = std::max(_dragStart.column, _dragCurrent.column),
-                                   .row = std::max(_dragStart.row, _dragCurrent.row)});
-        }
-        _dragging = false;
-    }
-    _painting = false;
-}
-
-void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
-    if (_play) {
-        return;
-    }
-    if (_rightDragging) {
-        const core::Vector2 current = screenPosition(event);
-        const core::Vector2 delta = current - _rightDragLastScreen;
-        if (!_manualCamera) {
-            // Premier glisser : le cadrage manuel part du cadrage automatique, sans saut de vue.
-            updateEditCamera();
-            _manualZoom = _camera.zoom();
-            _manualCenter = _camera.center();
-            _manualCamera = true;
-        }
-        const float scale = hmi::Camera2D::PIXELS_PER_UNIT * _manualZoom;
-        _manualCenter.x -= delta.x / scale;
-        _manualCenter.y -= delta.y / scale;
-        _rightDragLastScreen = current;
-    }
-    const std::optional<core::GridPosition> cell = cellAt(event);  // cible du collage (Ctrl+V)
-    if (cell != _hoverCell) {
-        _hoverCell = cell;
-        emit hoveredCellChanged(_hoverCell);
-    }
-    if (_painting) {
-        paintAt(event);
-    } else if (_dragging) {
-        _dragCurrent = clampedCell(event);
-    }
-}
-
-void EditorViewport::wheelEvent(QWheelEvent* event) {
-    if (_play) {
-        return;
-    }
-    const int notches = event->angleDelta().y() / 120;  // 120 = un cran de molette.
-    if (notches == 0) {
-        return;
-    }
-    if (!_manualCamera) {
-        updateEditCamera();
-        _manualZoom = _camera.zoom();
-        _manualCenter = _camera.center();
-        _manualCamera = true;
-    }
-    _manualZoom =
-        std::clamp(_manualZoom + static_cast<float>(notches), minManualZoom(), maxManualZoom());
-}
-
-// --- Couches et entités (LOT-11) ---
+// --- Couches et entités (LOT-11)
+// ------------------------------------------------------------------
 
 void EditorViewport::syncEditingState() {
     const LayerSlot active = validActiveLayer(_draft.layers(), _activeLayer);
@@ -833,23 +1221,31 @@ void EditorViewport::setActiveLayer(LayerSlot slot) {
         return;
     }
     _activeLayer = valid;
-    _selection.reset();  // une sélection copiée d'une autre couche tromperait le collage.
+    _selection.reset();    // une sélection copiée d'une autre couche tromperait le collage.
+    viewport()->update();  // le masque de collision iso suit la couche active.
     emit activeLayerChanged(_activeLayer);
 }
 
 void EditorViewport::setMapLayerVisible(LayerSlot slot, bool visible) {
     _layerView.setVisible(slot, visible);
-    if (_draftRenderer) {
-        _draftRenderer->invalidate();
-    }
+    viewport()->update();
     emit layerViewChanged();
 }
 
 void EditorViewport::setMapLayerOpacity(LayerSlot slot, float opacity) {
     _layerView.setOpacity(slot, opacity);
-    if (_draftRenderer) {
-        _draftRenderer->invalidate();
-    }
+    viewport()->update();
+    emit layerViewChanged();
+}
+
+void EditorViewport::setMapLayerDimmed(LayerSlot slot, bool dimmed) {
+    _layerView.setDimmed(slot, dimmed);
+    viewport()->update();
+    emit layerViewChanged();
+}
+
+void EditorViewport::setMapLayerLocked(LayerSlot slot, bool locked) {
+    _layerView.setLocked(slot, locked);
     emit layerViewChanged();
 }
 
@@ -890,6 +1286,7 @@ void EditorViewport::renameMapLayer(std::size_t index, const std::string& name) 
 void EditorViewport::setEditorReferences(const EditorReferences* references) {
     _references = references;
     refreshDiagnostics();
+    viewport()->update();
     emit draftChanged();  // les panneaux relisent avertissements et choix proposés.
 }
 
@@ -905,6 +1302,7 @@ void EditorViewport::selectEntity(std::optional<std::size_t> index) {
         return;
     }
     _selectedEntity = index;
+    viewport()->update();
     emit entitySelectionChanged(_selectedEntity);
 }
 

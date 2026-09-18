@@ -84,9 +84,13 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
     if (level.hoveredCell) {
         lines.permanent[3] =
             formatTwo("(%1, %2)", level.hoveredCell->column, level.hoveredCell->row);
+        if (!level.hoveredPieces.empty()) {
+            lines.permanent[3] += " " + level.hoveredPieces;
+        }
     }
     const int zoomPercent = static_cast<int>(std::lround(level.zoom * 100.0F));
-    lines.permanent[4] = formatOne("Zoom: %1%", zoomPercent);
+    lines.permanent[4] =
+        formatOne("Zoom: %1%", zoomPercent) + (level.isoView ? " · Iso" : " · Flat");
 
     lines.help = toolHelp(level.tool);
     return lines;

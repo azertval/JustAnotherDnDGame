@@ -35,6 +35,10 @@ enum class EditorCommand {
     Redo,
     ToggleGrid,
     ResetCamera,
+    /// Vue iso (cochée, par défaut) ou vue à plat (LOT-EDITOR-02, décision D1).
+    IsoView,
+    /// Reliefs en transparence (LOT-EDITOR-02, phase 3).
+    SeeThroughRelief,
     Copy,
     Paste,
     Rename,
@@ -42,7 +46,7 @@ enum class EditorCommand {
 };
 
 /// Nombre de commandes, déclaré au plus près de l'énumération qu'il compte.
-inline constexpr std::size_t EDITOR_COMMAND_COUNT = 14;
+inline constexpr std::size_t EDITOR_COMMAND_COUNT = 16;
 
 /**
  * @brief Construit et possède les `QAction` de l'éditeur : chaque outil et chaque commande

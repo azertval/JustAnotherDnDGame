@@ -4,12 +4,15 @@
 #pragma once
 
 #include <cstdint>
+#include <functional>
 #include <optional>
+#include <string>
 #include <utility>
 #include <vector>
 
 #include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
+#include "Core/Math/Rect.h"
 #include "Editor/Logic/LayerView.h"
 #include "HMI/Graphics/ComposedScene.h"
 
@@ -26,10 +29,21 @@ class TileMap;
 
 namespace hmi {
 
-class SpriteBatch;
-class TextureAtlas;
-class TextureCache;
-class Camera2D;
+/**
+ * @brief Les textures que la vue à plat nomme, en identités opaques : la composition ne sait pas
+ *        comment elles seront peintes (`LOT-EDITOR-02` : par `QPainter`,
+ * `hmi::paintComposedScene`).
+ */
+struct DraftTextures {
+    /// L'atlas procédural des types de tuile, et sa taille en pixels (pour les UV).
+    TextureHandle atlas = nullptr;
+    int atlasWidth = 1;
+    int atlasHeight = 1;
+    /// Une teinte unie : les aides d'édition (grille, masques, cadres) se peignent en aplat.
+    TextureHandle solid = nullptr;
+    /// Le marqueur d'une clé d'asset d'entité (`LOT-39`), `nullptr` si elle est refusée.
+    std::function<TextureHandle(const std::string& key)> marker;
+};
 
 /**
  * @brief Ce que le canevas montre des entités de carte (`LOT-11`), fourni à chaque rendu.
@@ -44,45 +58,42 @@ struct DraftEntityOverlay {
 };
 
 /**
- * @brief Dessine un `core::LevelDraft` en cours d'édition, **à plat**.
+ * @brief Compose un `core::LevelDraft` en cours d'édition, **à plat** : la vue qui lit les types
+ *        et la collision (décision D1 de la feuille de route de l'éditeur).
  *
  * Une couleur par type de tuile (`hmi::regionForTile`, l'atlas procédural), les couches visuelles
  * dans leur ordre, la collision en masque teinté par catégorie, puis les entités par leur marqueur
- * de famille (`LOT-39`). Le canevas ne cherche pas à ressembler au jeu : il montre ce qu'on édite
- * — le type de chaque case — et l'essai immédiat montre le jeu (`hmi::EditorViewport`).
+ * de famille (`LOT-39`). Cette vue ne cherche pas à ressembler au jeu : elle montre ce qu'on
+ * édite — le type de chaque case. La vue iso, par défaut, montre le lieu (`hmi::EditorViewport`).
  *
- * Toutes les primitives d'une image sont composées dans une seule `hmi::ComposedScene` puis
- * soumises en bloc : les aides d'édition portent le calque `RenderLayer::EditorOverlay`, qui les
- * place au-dessus du reste par construction. La liste obtenue est inspectable sans GPU
- * (`EX-NFR-004`).
+ * Toutes les primitives sont composées dans une seule `hmi::ComposedScene`, en unités de case :
+ * les aides d'édition portent le calque `RenderLayer::EditorOverlay`, qui les place au-dessus du
+ * reste par construction. La liste est inspectable sans GPU (`EX-NFR-004`) ; le canevas la peint.
  */
 class DraftRenderer {
 public:
-    DraftRenderer(SpriteBatch& batch, const TextureAtlas& atlas, TextureCache& cache);
+    explicit DraftRenderer(DraftTextures textures);
 
     /**
-     * @brief Rend le brouillon avec la caméra donnée.
+     * @brief Compose le brouillon.
      *
      * @param draft         Brouillon de carte à dessiner.
-     * @param camera        Caméra qui cadre le canevas.
+     * @param visible       Rectangle visible, en cases : ce qui est hors cadre n'est pas composé.
      * @param showGrid      Superpose la grille des cases (`EX-EDIT-023`).
      * @param highlight     Zone à voiler (bornes incluses) : l'aperçu des outils
      *                      Rectangle/Sélection.
      * @param entityOverlay Entité sélectionnée et terrains de rencontre à superposer (rien par
      *                      défaut).
+     * @return La scène composée, triée ; valide jusqu'au prochain appel.
      */
-    void render(const core::LevelDraft& draft, const Camera2D& camera, bool showGrid,
-                const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
-                const DraftEntityOverlay& entityOverlay = {});
+    const ComposedScene& compose(
+        const core::LevelDraft& draft, const std::optional<core::Rect>& visible, bool showGrid,
+        const std::optional<std::pair<core::GridPosition, core::GridPosition>>& highlight,
+        const DraftEntityOverlay& entityOverlay = {});
 
     void setLayerView(const LayerViewState& view);
 
-    /// Marque la scène comme périmée (après toute mutation du brouillon). Gardée pour les
-    /// appelants : la composition est refaite à chaque image, le coût d'une carte de quelques
-    /// milliers de cases étant négligeable devant celui de la soumettre.
-    void invalidate() noexcept {}
-
-    /// @return La scène composée à la dernière image (primitives soumises et compteurs).
+    /// @return La scène composée au dernier appel de `compose`.
     [[nodiscard]] const ComposedScene& lastScene() const noexcept {
         return _scene;
     }
@@ -108,9 +119,7 @@ private:
                         float a, std::int32_t order);
 
     LayerViewState _layerView;
-    SpriteBatch& _batch;
-    const TextureAtlas& _atlas;
-    TextureCache& _cache;
+    DraftTextures _textures;
     ComposedScene _scene;
 };
 

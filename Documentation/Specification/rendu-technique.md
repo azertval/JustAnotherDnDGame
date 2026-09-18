@@ -84,9 +84,9 @@
 
 ## 6. Surface de rendu
 - \anchor EX-REN-050 **EX-REN-050** — Le rendu doit être présenté dans un **élément composé avec
-  l'interface** — `QQuickRhiItem` pour le jeu, `QRhiWidget` pour l'éditeur — et jamais dans une
-  **fenêtre native** embarquée : un élément frère d'une fenêtre native ne se dessine pas de façon
-  fiable par-dessus elle.
+  l'interface** — `QQuickRhiItem` pour le jeu, une `QGraphicsView` peinte par `QPainter` pour
+  l'éditeur depuis le `LOT-EDITOR-02` — et jamais dans une **fenêtre native** embarquée : un
+  élément frère d'une fenêtre native ne se dessine pas de façon fiable par-dessus elle.
 
 ## Exigences retirées {#ren-retirees}
 

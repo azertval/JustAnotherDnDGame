@@ -49,6 +49,9 @@ signals:
     void activeLayerRequested(hmi::LayerSlot slot);
     void visibilityRequested(hmi::LayerSlot slot, bool visible);
     void opacityRequested(hmi::LayerSlot slot, float opacity);
+    /// Griser ou verrouiller une couche (LOT-EDITOR-02, phase 3) : aides d'édition.
+    void dimRequested(hmi::LayerSlot slot, bool dimmed);
+    void lockRequested(hmi::LayerSlot slot, bool locked);
     void addRequested(core::LayerKind kind);
     void removeRequested(std::size_t index);
     void moveRequested(std::size_t index, bool forward);

@@ -13,8 +13,10 @@
 
 #include "Core/Combat/IsoProjection.h"
 #include "Core/Levels/Level.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
+#include "Core/Rpg/Dialogue.h"
 #include "HMI/Graphics/PlaceAppearance.h"
 
 namespace hmi {
@@ -48,18 +50,18 @@ constexpr std::array<std::string_view, 2> FIGURE_DIRECTORIES = {"Npc/", "Monster
 
 // La couche dont le sol se lit : la premiere couche de sol, a defaut la grille racine (une carte
 // sans couche visuelle reste jouable -- `EX-NFR-040`).
-[[nodiscard]] const core::TileMap& groundOf(const core::Level& level) {
-    for (const core::TileLayer& couche : level.layers()) {
+[[nodiscard]] const core::TileMap& groundOf(const WorldSceneSource& source) {
+    for (const core::TileLayer& couche : source.layers) {
         if (couche.kind == core::LayerKind::Ground) {
             return couche.tiles;
         }
     }
-    return level.tileMap();
+    return source.root;
 }
 
 /// @return La couche de decor, ou `nullptr` si la carte n'en declare pas.
-[[nodiscard]] const core::TileMap* decorOf(const core::Level& level) {
-    for (const core::TileLayer& couche : level.layers()) {
+[[nodiscard]] const core::TileMap* decorOf(const WorldSceneSource& source) {
+    for (const core::TileLayer& couche : source.layers) {
         if (couche.kind == core::LayerKind::Decor) {
             return &couche.tiles;
         }
@@ -178,7 +180,34 @@ std::string_view WorldSceneSnapshot::reliefAt(core::GridPosition cell) const {
 }
 
 std::string scenePlaceOf(const core::Level& level) {
-    for (const core::TileLayer& couche : level.layers()) {
+    return scenePlaceOf(level.layers());
+}
+
+std::vector<WorldFigureSnapshot> npcFigures(const std::vector<core::MapEntity>& entities,
+                                            int frame) {
+    std::vector<WorldFigureSnapshot> figures;
+    for (const core::MapEntity& entity : entities) {
+        if (entity.type != core::NPC_ENTITY_TYPE) {
+            continue;
+        }
+        const auto found = entity.properties.find(std::string{core::NPC_FIGURE_PROPERTY});
+        const std::string* figure =
+            found != entity.properties.end() ? std::get_if<std::string>(&found->second) : nullptr;
+        if (figure == nullptr || figure->empty()) {
+            continue;  // Un PNJ sans figurine ne se dessine pas : il n'est pas encore dessiné.
+        }
+        figures.push_back(
+            WorldFigureSnapshot{.figure = *figure,
+                                .clip = "idle",
+                                .point = {static_cast<float>(entity.position.column) + 0.5F,
+                                          static_cast<float>(entity.position.row) + 0.5F},
+                                .frame = frame});
+    }
+    return figures;
+}
+
+std::string scenePlaceOf(const std::vector<core::TileLayer>& layers) {
+    for (const core::TileLayer& couche : layers) {
         const auto trouvee = couche.properties.find(std::string{SCENE_PLACE_PROPERTY});
         if (trouvee == couche.properties.end()) {
             continue;
@@ -193,13 +222,19 @@ std::string scenePlaceOf(const core::Level& level) {
 
 WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppearance& appearance,
                                       std::vector<WorldFigureSnapshot> figures) {
-    const core::TileMap& sol = groundOf(level);
-    const core::TileMap* decor = decorOf(level);
+    return snapshotWorldScene(worldSceneSource(level), appearance, std::move(figures));
+}
+
+WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
+                                      const PlaceAppearance& appearance,
+                                      std::vector<WorldFigureSnapshot> figures) {
+    const core::TileMap& sol = groundOf(source);
+    const core::TileMap* decor = decorOf(source);
 
     WorldSceneSnapshot snapshot;
     snapshot.columns = std::max(0, sol.width());
     snapshot.rows = std::max(0, sol.height());
-    snapshot.place = scenePlaceOf(level);
+    snapshot.place = scenePlaceOf(source.layers);
     if (snapshot.place.empty()) {
         snapshot.place = appearance.place();
     }
@@ -223,7 +258,7 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppea
 
     // L'assignation de texture a la case l'emporte sur la table du lieu : c'est la ou l'auteur a
     // decide (LOT-11, `EX-EDIT-043`). Elle nomme une piece de la planche, pas un fichier.
-    for (const core::TileTextureOverride& assignee : level.textureOverrides()) {
+    for (const core::TileTextureOverride& assignee : source.textureOverrides) {
         if (!inGrid(assignee.position, snapshot.columns, snapshot.rows)) {
             continue;
         }

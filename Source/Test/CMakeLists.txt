@@ -47,6 +47,7 @@ add_executable(UnitTests
     Unit/Core/Combat/test_iso_projection.cpp
     Unit/Core/Combat/test_tactical_terrain.cpp
     Unit/Core/Resources/test_asset_keys.cpp
+    Unit/Core/Resources/test_scene_piece_manifest.cpp
     Unit/Core/Rpg/test_rpg_enums.cpp
     Unit/Core/Rpg/test_multiclassing.cpp
     Unit/Core/Rpg/test_bestiary.cpp
@@ -115,6 +116,8 @@ add_executable(UnitTests
     Unit/Editor/test_editor_key_bindings.cpp
     Unit/Editor/test_autosave.cpp
     Unit/Editor/test_disk_guard.cpp
+    Unit/Editor/test_canvas_picking.cpp
+    Unit/Editor/test_canvas_scene.cpp
 )
 
 # Encodage/decodage d'image : QImage (Qt) lit et ecrit le PNG, mais aucun device
@@ -142,6 +145,11 @@ if(Qt6_FOUND)
         # heros, et une image du Colisee LIVRE -- la capture de reference du lot.
         Unit/HMI/Graphics/test_world_scene_renderer.cpp
         ../HMI/Graphics/WorldSceneRenderer.cpp
+        # Le canevas de l'editeur peint le lieu comme le jeu (LOT-EDITOR-02) : Martpart et le Colisee
+        # rendus par le GPU du jeu et par le peintre QPainter de l'editeur, compares pixel a pixel.
+        Unit/Editor/test_scene_painter.cpp
+        ../Editor/Ui/ScenePainter.cpp
+        ../Editor/Ui/SceneImages.cpp
         # L'ilot du plan (LOT-96) : son cadrage, et la place du marche LIVREE rendue hors ecran.
         Unit/HMI/Graphics/test_city_block_render.cpp
         ../HMI/Graphics/CityBlockRender.cpp
