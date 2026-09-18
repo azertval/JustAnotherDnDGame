@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <fstream>
 #include <string>
 
 #include <gtest/gtest.h>
@@ -247,4 +248,45 @@ TEST(AssetGalleryTest, ToutAssetLivreEstDansLaGalerie) {
     EXPECT_TRUE(hmi::assetGalleryExcludes("Maps/world.jpg"));
     EXPECT_FALSE(hmi::assetGalleryExcludes("Scene/martpart/street.png"));
     EXPECT_FALSE(hmi::assetGalleryExcludes("Npc/anariel/portrait.png"));
+}
+
+/**
+ * @brief Les figurines de monstres forment leur famille, au gabarit que dit chaque `.anim.json`,
+ *        et une bête sans sort n'a pas d'entrée `cast` (LOT-93).
+ * \castest{<b>Une figurine Grande sans sort paraît dans la galerie.</b><br/>
+ * \tcat Unitaire · Galerie des assets<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Écrire un dossier Monsters/ : un manifeste qui nomme idle et cast, un lion qui n'a
+ * que idle, en cellules de 96 × 96. 2. Lire le catalogue.<br/>
+ * \tattendu Une famille « Monstres » ; le idle du lion en 96 × 96 et 6 images ; aucune entrée
+ * cast, aucune erreur.
+ * }
+ */
+TEST(AssetGalleryTest, FigurinesDeMonstres) {
+    const std::filesystem::path root =
+        std::filesystem::temp_directory_path() / "jadg_asset_gallery_monsters";
+    std::filesystem::remove_all(root);
+    std::filesystem::create_directories(root / "Monsters" / "lion");
+    std::ofstream(root / "Monsters" / "manifest.json")
+        << R"({"version": 1, "animations": ["idle", "cast"], "monsters": []})";
+    std::ofstream(root / "Monsters" / "lion" / "idle.anim.json")
+        << R"({"version": 1, "frameWidth": 96, "frameHeight": 96, "clips": {"idle": )"
+           R"({"frames": [0, 1, 2, 3, 4, 5], "frameDuration": 0.15, "loop": true}}})";
+
+    const hmi::AssetGalleryCatalog catalog = hmi::AssetGalleryCatalog::load(root);
+    std::filesystem::remove_all(root);
+
+    EXPECT_TRUE(catalog.errors.empty());
+    const hmi::AssetGalleryFamily* const monsters = familyNamed(catalog, "Monstres");
+    ASSERT_NE(monsters, nullptr);
+    EXPECT_EQ(monsters->directory, "Monsters");
+    ASSERT_EQ(monsters->entries.size(), 1U);
+    const hmi::AssetGalleryEntry& idle = monsters->entries.front();
+    EXPECT_EQ(idle.model, "lion");
+    EXPECT_EQ(idle.form, "idle");
+    EXPECT_EQ(idle.path, "Monsters/lion/idle.png");
+    EXPECT_EQ(idle.frameWidth, 96);
+    EXPECT_EQ(idle.frameHeight, 96);
+    EXPECT_EQ(idle.frameCount(), 6);
+    EXPECT_TRUE(idle.loop);
 }

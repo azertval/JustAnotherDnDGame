@@ -1,8 +1,10 @@
-"""Retient un portrait et en tire la palette (étape P). Usage : py -3.13 palette.py <slug> <portrait normalisé.png>
+"""Retient un portrait et en tire la palette (étape P). Usage : py -3.13 palette.py <slug> <portrait normalisé.png> [<dossier des fiches>]
+Le troisième argument sert à l'atelier des monstres (LOT-93, `atelier/monstres/`) ; par défaut, pnj/.
 Copie le portrait en pnj/<slug>/portrait.png, écrit pnj/<slug>/palette.txt (sept couleurs, fond exclu, puis au plus
 trois accents). Les sept couleurs sont les plus étendues ; les accents sont les couleurs vives loin des
 sept (lame, magie, lueur des yeux), qui font le personnage sans couvrir de surface : sans eux, la lame
 cramoisie de Nakral, la magie de Xorius et les notes de Jade sortaient de « use only these »."""
+import re
 import sys
 import shutil
 import pathlib
@@ -10,7 +12,7 @@ import colorsys
 import numpy as np
 from PIL import Image
 from prompts import PNJ
-slug, cand = sys.argv[1], pathlib.Path(sys.argv[2]); D = PNJ / slug; D.mkdir(parents=True, exist_ok=True)
+slug, cand = sys.argv[1], pathlib.Path(sys.argv[2]); D = (pathlib.Path(sys.argv[3]) if len(sys.argv) > 3 else PNJ) / slug; D.mkdir(parents=True, exist_ok=True)
 if cand.resolve() != (D / "portrait.png").resolve():
     shutil.copy(cand, D / "portrait.png")
 im = np.asarray(Image.open(cand).convert("RGB")).reshape(-1, 3).astype(int)
@@ -35,7 +37,9 @@ print("couleurs distinctes du portrait :", len(np.unique(im, axis=0)))
 b = (D/"prompt_b.txt").read_text(encoding="utf-8").splitlines()
 i = next(k for k, l in enumerate(b) if l.startswith("PALETTE"))
 j = next(k for k in range(i + 1, len(b)) if b[k].startswith("ANIMATION SET"))
-b[i:j] = ["PALETTE (taken from reference image 5; use only these plus their darker/lighter tones): "
+# le numéro de la référence est celui que la fiche écrit déjà (5 pour un PNJ, 3 pour un monstre)
+ref = re.search(r"reference image (\d+)", b[i]); ref = ref.group(1) if ref else "5"
+b[i:j] = [f"PALETTE (taken from reference image {ref}; use only these plus their darker/lighter tones): "
           + ", ".join(l.split()[0] for l in lignes if "accent" not in l)
           + ("; accent colours (weapon, magic, effects): " + ", ".join(l.split()[0] for l in lignes if "accent" in l) if accents else "") + "."]
 (D/"prompt_b.txt").write_text("\n".join(b) + "\n", encoding="utf-8", newline="\n")

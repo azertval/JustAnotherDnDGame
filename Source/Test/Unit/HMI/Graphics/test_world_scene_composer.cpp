@@ -63,8 +63,10 @@ constexpr const char* TABLE_JSON = R"({
                                              .kind = core::LayerKind::Ground,
                                              .tiles = std::move(sol),
                                              .properties = {{"scene", std::string{"coliseum"}}}});
-    donnees.layers.push_back(core::TileLayer{
-        .name = "decor", .kind = core::LayerKind::Decor, .tiles = std::move(decor), .properties = {}});
+    donnees.layers.push_back(core::TileLayer{.name = "decor",
+                                             .kind = core::LayerKind::Decor,
+                                             .tiles = std::move(decor),
+                                             .properties = {}});
     donnees.textureOverrides.push_back(
         core::TileTextureOverride{.position = {2, 2}, .assetName = "torch-left"});
     return core::Level{std::move(donnees)};
@@ -75,12 +77,12 @@ constexpr const char* TABLE_JSON = R"({
     hmi::ScenePieceTextures resolues;
     int rang = 1;
     for (const std::string& chemin : chemins) {
-        resolues.byPath.emplace(
-            chemin, hmi::SceneTexture{.texture = reinterpret_cast<hmi::TextureHandle>(
-                                          static_cast<std::uintptr_t>(rang++)),
-                                      .width = 68,
-                                      .height = 100,
-                                      .frameWidth = 0});
+        resolues.byPath.emplace(chemin,
+                                hmi::SceneTexture{.texture = reinterpret_cast<hmi::TextureHandle>(
+                                                      static_cast<std::uintptr_t>(rang++)),
+                                                  .width = 68,
+                                                  .height = 100,
+                                                  .frameWidth = 0});
     }
     return resolues;
 }
@@ -111,7 +113,8 @@ TEST(WorldSceneComposerTest, LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase) {
     EXPECT_EQ(instantane.floorAt({1, 0}), "sand-2");
     EXPECT_EQ(instantane.floorAt({2, 0}), "sand-3");
     EXPECT_EQ(instantane.floorAt({3, 0}), "stone-slab");
-    EXPECT_EQ(instantane.floorAt({0, 0}), hmi::snapshotWorldScene(carte(), table(), {}).floorAt({0, 0}));
+    EXPECT_EQ(instantane.floorAt({0, 0}),
+              hmi::snapshotWorldScene(carte(), table(), {}).floorAt({0, 0}));
 
     // Le relief : le mur de la couche de decor, et la piece assignee a la case.
     EXPECT_EQ(instantane.reliefAt({0, 0}), "wall-left");
@@ -122,7 +125,8 @@ TEST(WorldSceneComposerTest, LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase) {
 
 /**
  * @brief Les chemins demandes sont ceux du lieu et des figurines, sans doublon.
- * \castest{<b>La liste des textures a charger couvre exactement ce que la composition resout.</b><br/>
+ * \castest{<b>La liste des textures a charger couvre exactement ce que la composition
+ * resout.</b><br/>
  * \tcat Unitaire · Lieu compose<br/>
  * \tcrit Majeur<br/>
  * \tetapes 1. Tirer l'instantane d'une carte avec une figurine.<br/>
@@ -134,7 +138,8 @@ TEST(WorldSceneComposerTest, LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase) {
 TEST(WorldSceneComposerTest, LesCheminsCouvrentLeLieuEtLesFigurines) {
     const hmi::WorldSceneSnapshot instantane = hmi::snapshotWorldScene(
         carte(), table(),
-        {hmi::WorldFigureSnapshot{.figure = "anariel", .clip = "walk", .point = {1.5F, 1.5F}, .frame = 0}});
+        {hmi::WorldFigureSnapshot{
+            .figure = "anariel", .clip = "walk", .point = {1.5F, 1.5F}, .frame = 0}});
 
     const std::vector<std::string> chemins = hmi::worldTexturePaths(instantane);
     EXPECT_TRUE(std::ranges::is_sorted(chemins));
@@ -160,10 +165,11 @@ TEST(WorldSceneComposerTest, LesCheminsCouvrentLeLieuEtLesFigurines) {
 TEST(WorldSceneComposerTest, LaCompositionPoseChaquePieceSurSonCalque) {
     const hmi::WorldSceneSnapshot instantane = hmi::snapshotWorldScene(
         carte(), table(),
-        {hmi::WorldFigureSnapshot{.figure = "anariel", .clip = "idle", .point = {1.5F, 1.5F}, .frame = 0}});
+        {hmi::WorldFigureSnapshot{
+            .figure = "anariel", .clip = "idle", .point = {1.5F, 1.5F}, .frame = 0}});
     const core::IsoProjection projection{instantane.columns, instantane.rows};
-    const hmi::ComposedScene scene =
-        hmi::composeWorldScene(instantane, projection, textures(hmi::worldTexturePaths(instantane)));
+    const hmi::ComposedScene scene = hmi::composeWorldScene(
+        instantane, projection, textures(hmi::worldTexturePaths(instantane)));
 
     int sols = 0;
     int reliefs = 0;
@@ -188,8 +194,7 @@ TEST(WorldSceneComposerTest, LaCompositionPoseChaquePieceSurSonCalque) {
     ASSERT_EQ(figurines, 1);
 
     // La figurine se pose au pied de sa case : son bas est au-dessus du sommet bas du losange.
-    const float piedDeLaCase =
-        projection.gridToWorld(core::Vector2{2.0F, 2.0F}).y;
+    const float piedDeLaCase = projection.gridToWorld(core::Vector2{2.0F, 2.0F}).y;
     for (const hmi::ComposedQuad& quad : scene.quads()) {
         if (quad.layer == hmi::RenderLayer::Player) {
             EXPECT_LT(quad.sprite.y + quad.sprite.height, piedDeLaCase);
@@ -209,12 +214,31 @@ TEST(WorldSceneComposerTest, LaCompositionPoseChaquePieceSurSonCalque) {
  * }
  */
 TEST(WorldSceneComposerTest, UneFigurineSansImageAUneCleDeMarqueur) {
-    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/idle.png"),
-              "npc/sentinelle-ironhand");
-    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/walk.png"),
-              "npc/sentinelle-ironhand");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/idle.png"), "npc/sentinelle-ironhand");
+    EXPECT_EQ(hmi::figureMarkerKey("Npc/sentinelle-ironhand/walk.png"), "npc/sentinelle-ironhand");
     EXPECT_EQ(hmi::figureMarkerKey("Scene/martpart/street.png"), "");
     EXPECT_EQ(hmi::figureMarkerKey("Npc/"), "");
     EXPECT_EQ(hmi::figureMarkerKey("Npc//idle.png"), "");
     EXPECT_EQ(hmi::figureMarkerKey("Npc/jade"), "");
+    EXPECT_EQ(hmi::figureMarkerKey("Monsters/ironhand-soldier/idle.png"),
+              "monsters/ironhand-soldier");
+}
+
+/**
+ * @brief Une figurine se nomme par son slug de PNJ, ou par son dossier depuis les assets
+ * (`LOT-93`).
+ * \castest{<b>Le soldat Ironhand se lit dans les monstres, Anariel dans les PNJ.</b><br/>
+ * \tcat Unitaire · Scène du monde<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Demander la bande idle d'« anariel », puis celle de « Monsters/ironhand-soldier
+ * ».<br/>
+ * \tattendu `Npc/anariel/idle.png` et `Monsters/ironhand-soldier/idle.png` ; un clip vide vaut
+ * idle.
+ * }
+ */
+TEST(WorldSceneComposerTest, UneFigurineSeNommeParSlugOuParDossier) {
+    EXPECT_EQ(hmi::figureStripPath("anariel", "idle"), "Npc/anariel/idle.png");
+    EXPECT_EQ(hmi::figureStripPath("anariel", ""), "Npc/anariel/idle.png");
+    EXPECT_EQ(hmi::figureStripPath("Monsters/ironhand-soldier", "walk"),
+              "Monsters/ironhand-soldier/walk.png");
 }

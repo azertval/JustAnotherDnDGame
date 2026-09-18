@@ -12068,7 +12068,7 @@
       "x": 47,
       "y": 4,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-oldtown"
     },
     {
@@ -12076,7 +12076,7 @@
       "x": 26,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-downtown"
     },
     {
@@ -12084,7 +12084,7 @@
       "x": 20,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-artisansquare"
     },
     {
@@ -12092,7 +12092,7 @@
       "x": 14,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-bloomburgs"
     },
     {
@@ -12100,7 +12100,7 @@
       "x": 8,
       "y": 39,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-uptown"
     },
     {
@@ -12108,7 +12108,7 @@
       "x": 0,
       "y": 36,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-sloghood"
     },
     {
@@ -12116,7 +12116,7 @@
       "x": 0,
       "y": 30,
       "dialogue": "sentinelle-ironhand",
-      "figure": "sentinelle-ironhand",
+      "figure": "Monsters/ironhand-soldier",
       "guards": "central-empire-the-capital-city-palacedomain"
     },
     {
