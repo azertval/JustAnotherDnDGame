@@ -28,6 +28,8 @@ var dir_1f83c05e1f2f20b6a532ccaeb0dbcc81 =
     [ "Camera2D.h", "Camera2D_8h.html", "Camera2D_8h" ],
     [ "CameraZones.cpp", "CameraZones_8cpp.html", "CameraZones_8cpp" ],
     [ "CameraZones.h", "CameraZones_8h.html", "CameraZones_8h" ],
+    [ "CityBlockRender.cpp", "CityBlockRender_8cpp.html", "CityBlockRender_8cpp" ],
+    [ "CityBlockRender.h", "CityBlockRender_8h.html", "CityBlockRender_8h" ],
     [ "ComposedScene.cpp", "ComposedScene_8cpp.html", "ComposedScene_8cpp" ],
     [ "ComposedScene.h", "ComposedScene_8h.html", "ComposedScene_8h" ],
     [ "DraftRenderer.cpp", "DraftRenderer_8cpp.html", null ],

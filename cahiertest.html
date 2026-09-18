@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>1311 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>1327 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
-Tests unitaires (1295)</h1>
+Tests unitaires (1311)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md6"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -4584,7 +4584,7 @@ Vérifie que <span class="tt">timestep.advance(0.0f)</span> vaut <span class="tt
 Vérifie que <span class="tt">timestep.advance(STEP)</span> vaut <span class="tt">1</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md18"></a>
-World (54)</h3>
+World (66)</h3>
 <p><b><span class="tt"><a class="el" href="test__atlas_8cpp.html" title="Tests de l&#39;atlas des régions (LOT-37) : les treize régions chargent, le graphe tient,...">test_atlas.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4680,6 +4680,119 @@ Vérifie que <span class="tt">absent.errors.empty()</span> est faux.  </td></tr>
 Vérifie que <span class="tt">part.species.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">somme</span> est supérieur ou égal à <span class="tt">97</span>.<br  />
 Vérifie que <span class="tt">somme</span> est inférieur ou égal à <span class="tt">103</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">test_capital_maps.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CapitalMapTest.LaCarteLivreeSeCharge</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:147</span></sub>  </td><td class="markdownTableBodyNone">Chaque quartier livre se charge a sa taille, avec son lieu et une camera qui suit.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">Source/Elements/Levels/capital/&lt;quartier&gt;.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">carte.name()</span> vaut <span class="tt">quartier.nom</span>.<br  />
+Vérifie que <span class="tt">carte.tileMap().width()</span> vaut <span class="tt">quartier.largeur</span>.<br  />
+Vérifie que <span class="tt">carte.tileMap().height()</span> vaut <span class="tt">quartier.hauteur</span>.<br  />
+Vérifie que <span class="tt">hmi::scenePlaceOf(carte)</span> vaut <span class="tt">quartier.lieu</span>.<br  />
+Vérifie que <span class="tt">carte.cameraFraming().mode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a5c6444096b9bc21a78b1f1157e9070b6a3903aab323863bd2e9b68218a7a65ebd" title="Caméra de suivi du personnage (zone morte, anticipation, bornage).">core::CameraFramingMode::Follow</a></span>.<br  />
+Vérifie que <span class="tt">entreeDe(carte).column</span> diffère de <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aff87ea49873961eace1706efc69c8a49" title="Relève ce qu&#39;une carte lue porte de fautif et que le graphe ne peut pas voir.">core::validateWorldMap</a>(quartier.carte, carte).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CapitalMapTest.ChaquePieceNommeeExisteSurLaPlanche</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:171</span></sub>  </td><td class="markdownTableBodyNone">Toute piece qu'un quartier demande existe dans Assets/Scene/\&lt;lieu\&gt;/.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane du quartier avec la table d'apparence livree.<br  />
+ 2. Verifier que chaque chemin de texture demande existe sur le disque.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">chemins.size()</span> est strictement supérieur à <span class="tt">10U</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(ASSETS / chemin)</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CapitalMapTest.ToutLeQuartierSeParcourtDepuisSonEntree</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:192</span></sub>  </td><td class="markdownTableBodyNone">Chaque case franchissable d'un quartier est atteinte depuis son entree, et porte un sol.  </td><td class="markdownTableBodyNone">1. Remplir la carte depuis la tuile d'entree, en ne passant que par le franchissable.<br  />
+ 2. Comparer aux cases franchissables de la carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">vues.contains({colonne, ligne})</span> est vrai.<br  />
+Vérifie que <span class="tt">instantane.floorAt({colonne, ligne}).empty()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CapitalMapTest.ChaquePointDArriveeEstFranchissable</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:226</span></sub>  </td><td class="markdownTableBodyNone">Aucun point d'arrivee d'un quartier n'est dans un mur.  </td><td class="markdownTableBodyNone">1. Relever les entites <span class="tt">spawnPoint</span> de chaque quartier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">carte.tileMap().isSolid(entite.position.column, entite.position.row)</span> est faux.<br  />
+Vérifie que <span class="tt">points</span> est strictement supérieur à <span class="tt">0</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CapitalMapTest.LesIlotsSontDansLaCarteEtNommes</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:252</span></sub>  </td><td class="markdownTableBodyNone">Les ilots d'un quartier sont dans sa carte, et nommes en francais et en anglais. cat Unitaire · Quartiers de la Capitale crit Majeur etapes 1. Lire les ilots de chaque quartier. 2. Chercher <span class="tt">city_block.&lt;nom&gt;</span> dans <span class="tt">fr.lang</span> et <span class="tt">en.lang</span>. attendu Au moins trois ilots, chacun dans les bornes de la carte, et libelle dans les deux catalogues ; l'entree du quartier est dans un ilot (LOT-96).  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ilots.size()</span> est supérieur ou égal à <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">ilot.origin.column</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">ilot.origin.row</span> est supérieur ou égal à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">ilot.origin.column + ilot.columns</span> est inférieur ou égal à <span class="tt">carte.tileMap().width()</span>.<br  />
+Vérifie que <span class="tt">ilot.origin.row + ilot.rows</span> est inférieur ou égal à <span class="tt">carte.tileMap().height()</span>.<br  />
+Vérifie que <span class="tt">francais.find(cle)</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">anglais.find(cle)</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">std::ranges::any_of(ilots, [entree](const <a class="el" href="structcore_1_1CityBlock.html" title="Un îlot : un nom, et un rectangle de cases.">core::CityBlock</a>&amp; ilot) { return ilot.contains(entree); })</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CapitalTravelTest.MartpartArenareaMartpartRameneALaBonneCase</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:293</span></sub>  </td><td class="markdownTableBodyNone">L'avenue se parcourt aller et retour, par points d'arrivee nommes, et la carte quittee est conservee. cat Unitaire · Quartiers de la Capitale crit Critique etapes 1. Entrer a Martpart par le chargeur du jeu, sur le dossier des niveaux livre. 2. Franchir le portail vers Arenarea, puis celui du retour. attendu A Arenarea, le heros est au point « martpart » ; de retour, au point « arenarea » de Martpart. Deux cartes chargees en tout, et Martpart est la meme carte qu'a l'aller : l'etat de la carte quittee est conserve (LOT-96).  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">voyage.enter("capital/martpart", "")</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a2375e547c47a4b8a313cc967bdcac487a95bfdefaaf01553cbf21ccd942855c69" title="Le personnage est sur la carte demandée, à son point d&#39;arrivée.">core::TravelResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">martpart</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">aller.column</span> diffère de <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt">voyage.cross(aller, drapeaux)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a2375e547c47a4b8a313cc967bdcac487a95bfdefaaf01553cbf21ccd942855c69" title="Le personnage est sur la carte demandée, à son point d&#39;arrivée.">core::TravelResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"capital/arenarea"</span>.<br  />
+Vérifie que <span class="tt">arenarea</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac14b74fcacf52610f218bb5dba010762">core::arrivalPointAt</a>(*arenarea, "martpart")</span>.<br  />
+Vérifie que <span class="tt">retour.column</span> diffère de <span class="tt">-1</span>.<br  />
+Vérifie que <span class="tt">voyage.cross(retour, drapeaux)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a2375e547c47a4b8a313cc967bdcac487a95bfdefaaf01553cbf21ccd942855c69" title="Le personnage est sur la carte demandée, à son point d&#39;arrivée.">core::TravelResult::Moved</a></span>.<br  />
+Vérifie que <span class="tt">voyage.currentMapId()</span> vaut <span class="tt">"capital/martpart"</span>.<br  />
+Vérifie que <span class="tt">voyage.position()</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ac14b74fcacf52610f218bb5dba010762">core::arrivalPointAt</a>(*martpart, "arenarea")</span>.<br  />
+Vérifie que <span class="tt">voyage.currentMap()</span> vaut <span class="tt">martpart</span>.<br  />
+Vérifie que <span class="tt">voyage.loadedMapCount()</span> vaut <span class="tt">2U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CapitalGuardTest.ChaqueQuartierFermeASaSentinelle</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__capital__maps_8cpp.html" title="Les cartes des quartiers de la Capitale, telles qu&#39;elles sont LIVREES (LOT-96) : elles se chargent,...">Source/Test/Unit/Core/World/test_capital_maps.cpp</a>:331</span></sub>  </td><td class="markdownTableBodyNone">Les dix portes gardees ont chacune leur sentinelle Ironhand, qui ouvre un dialogue du catalogue. cat Unitaire · Quartiers de la Capitale crit Critique etapes 1. Lire la Capitale livree et le catalogue des dialogues. 2. Pour chaque quartier ferme, relever les PNJ de sa carte de garde qui le gardent. attendu Exactement une sentinelle par quartier ferme, au bord de la carte, sur une case ou l'on peut aller lui parler, avec un dialogue accepte et une figurine qui a au moins son marqueur ; aucune sentinelle ne garde un quartier qui a sa carte (LOT-96).  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ville.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">lu.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">dialogues.find(dialogue)</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/" + texteDe(entite, core::NPC_FIGURE_PROPERTY) + "/idle.png") .empty()</span> est faux.<br  />
+Vérifie que <span class="tt">position.column == 0 \|\| position.row == 0 \|\| position.column == grille.width() - 1 \|\| position.row == grille.height() - 1</span> est vrai.<br  />
+Vérifie que <span class="tt">grille.isSolid(position.column, position.row)</span> est faux.<br  />
+Vérifie que <span class="tt">sentinelles</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">sentinelles</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">fermes</span> vaut <span class="tt">10</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__city__block_8cpp.html" title="Les ilots d&#39;un quartier, lus sur sa carte (LOT-96).">test_city_block.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CityBlockTest.LesIlotsSeLisentEtLesSaisiesFautivesSontEcartees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__city__block_8cpp.html" title="Les ilots d&#39;un quartier, lus sur sa carte (LOT-96).">Source/Test/Unit/Core/World/test_city_block.cpp</a>:38</span></sub>  </td><td class="markdownTableBodyNone">Un ilot est un rectangle nomme de la carte ; un ilot sans nom ou vide est ecarte.  </td><td class="markdownTableBodyNone">1. Poser sur une carte deux ilots valides, un sans nom, un de largeur nulle, et une entite d'un autre type.<br  />
+ 2. Lire les ilots ; demander a chacun s'il contient quelques cases.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ilots.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">ilots[0].name</span> vaut <span class="tt">"place"</span>.<br  />
+Vérifie que <span class="tt">ilots[1].name</span> vaut <span class="tt">"ruelles"</span>.<br  />
+Vérifie que <span class="tt">ilots[0].columns</span> vaut <span class="tt">5</span>.<br  />
+Vérifie que <span class="tt">ilots[0].rows</span> vaut <span class="tt">4</span>.<br  />
+Vérifie que <span class="tt">ilots[0].contains({2, 3})</span> est vrai.<br  />
+Vérifie que <span class="tt">ilots[0].contains({6, 6})</span> est vrai.<br  />
+Vérifie que <span class="tt">ilots[0].contains({7, 3})</span> est faux.<br  />
+Vérifie que <span class="tt">ilots[0].contains({2, 7})</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__city__plan_8cpp.html" title="Le graphe d&#39;une ville jouable (LOT-96) : la lecture, ses refus, et la Capitale livree.">test_city_plan.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CityPlanTest.LaCapitaleLivreeSeLit</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__city__plan_8cpp.html" title="Le graphe d&#39;une ville jouable (LOT-96) : la lecture, ses refus, et la Capitale livree.">Source/Test/Unit/Core/World/test_city_plan.cpp</a>:51</span></sub>  </td><td class="markdownTableBodyNone">La Capitale livree se lit, et sa porte de depart s'ouvre.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">Source/Elements/World/cities/capital.json</span>.<br  />
+ 2. Entrer a sa porte de depart par le chargeur du jeu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lue.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">capitale.location</span> vaut <span class="tt">"central-empire-the-capital-city"</span>.<br  />
+Vérifie que <span class="tt">capitale.districts.size()</span> vaut <span class="tt">12U</span>.<br  />
+Vérifie que <span class="tt">cartes</span> vaut <span class="tt">2</span>.<br  />
+Vérifie que <span class="tt">gardees</span> vaut <span class="tt">10</span>.<br  />
+Vérifie que <span class="tt">capitale.startMap()</span> vaut <span class="tt">"capital/martpart"</span>.<br  />
+Vérifie que <span class="tt">capitale.startArrival</span> vaut <span class="tt">"porte-est"</span>.<br  />
+Vérifie que <span class="tt">arenarea</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">arenarea-&gt;id</span> vaut <span class="tt">"central-empire-the-capital-city-arenarea"</span>.<br  />
+Vérifie que <span class="tt">capitale.districtOfMap("coliseum")</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">voyage.enter(capitale.startMap(), capitale.startArrival)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#a2375e547c47a4b8a313cc967bdcac487a95bfdefaaf01553cbf21ccd942855c69" title="Le personnage est sur la carte demandée, à son point d&#39;arrivée.">core::TravelResult::Moved</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CityPlanFileTest.UnQuartierDoitAvoirSoitUneCarteSoitUnePorteGardee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__city__plan_8cpp.html" title="Le graphe d&#39;une ville jouable (LOT-96) : la lecture, ses refus, et la Capitale livree.">Source/Test/Unit/Core/World/test_city_plan.cpp</a>:88</span></sub>  </td><td class="markdownTableBodyNone">Un quartier doit avoir soit une carte, soit une porte gardee.  </td><td class="markdownTableBodyNone">1. Lire une ville dont un quartier porte <span class="tt">map</span> et <span class="tt">guard</span>, puis une autre dont un quartier ne porte ni l'un ni l'autre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lesDeux.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">lesDeux.error.find("« a »")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">aucun.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">aucun.error.find("« b »")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CityPlanFileTest.UnDepartDansUnQuartierSansCarteEstRefuse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__city__plan_8cpp.html" title="Le graphe d&#39;une ville jouable (LOT-96) : la lecture, ses refus, et la Capitale livree.">Source/Test/Unit/Core/World/test_city_plan.cpp</a>:114</span></sub>  </td><td class="markdownTableBodyNone">« Nouvelle partie » doit pouvoir poser le heros : le depart a une carte.  </td><td class="markdownTableBodyNone">1. Lire une ville dont le quartier de depart est ferme par une porte gardee.<br  />
+ 2. Lire un fichier absent.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">ferme.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">ferme.plan.startMap().empty()</span> est vrai.<br  />
+<span class="tt">EXPECT_NO_THROW(absent = <a class="el" href="namespacecore.html#aaecd848d6b8b1fee4c49ef3e9dcb36c3" title="Lit une ville jouable.">core::loadCityPlan</a>(dir / "inexistant.json"))</span><br  />
+Vérifie que <span class="tt">absent.ok()</span> est faux.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__coliseum__map_8cpp.html" title="La carte du Colisee, telle qu&#39;elle est LIVREE (LOT-09) : elle se charge, elle se tient,...">test_coliseum_map.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4977,8 +5090,19 @@ Vérifie que <span class="tt">graphe.portals[2].toMap</span> vaut <span class="t
 Vérifie que <span class="tt">graphe.portals[2].status</span> vaut <span class="tt">PortalLinkStatus::TargetUnreadable</span>.<br  />
 Vérifie que <span class="tt">graphe.unreachableFrom("village")</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"grotte"})</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldGraphFileTest.UneCarteDUnSousDossierAPourIdentifiantSonCheminRelatif</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:321</span></sub>  </td><td class="markdownTableBodyNone">Les cartes d'un sous-dossier entrent au graphe sous leur chemin relatif.  </td><td class="markdownTableBodyNone">1. Ecrire <span class="tt">capital/martpart.json</span> et <span class="tt">capital/arenarea.json</span>, reliees par portails, et <span class="tt">coliseum.json</span> a la racine.<br  />
+ 2. Charger le graphe du dossier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">graphe.maps.size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[0].mapId</span> vaut <span class="tt">"capital/arenarea"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[1].mapId</span> vaut <span class="tt">"capital/martpart"</span>.<br  />
+Vérifie que <span class="tt">graphe.maps[2].mapId</span> vaut <span class="tt">"coliseum"</span>.<br  />
+Vérifie que <span class="tt">graphe.portals.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[0].status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt">graphe.portals[1].status</span> vaut <span class="tt">PortalLinkStatus::Resolved</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#abe7c6aff6c871d6a58a5ab134ffd7e26" title="L&#39;identifiant de carte d&#39;un fichier de niveau : son chemin relatif à levelsDir, sans extension,...">core::mapIdOf</a>(dir, dir / "capital" / "martpart.json")</span> vaut <span class="tt">"capital/martpart"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>WorldGraphFileTest.UnDossierAbsentDonneUnGrapheVide</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:321</span></sub>  </td><td class="markdownTableBodyNone">Un dossier absent donne un graphe vide.  </td><td class="markdownTableBodyNone">1. Charger le graphe d'un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone"><span class="tt">EXPECT_NO_THROW(graphe = <a class="el" href="namespacecore.html#a3a51a927bbd51ec10f45120e41fcab27" title="Lit chaque *.json de levelsDir (identifiant = nom sans extension) ; une carte illisible reste un nœud...">core::loadWorldGraph</a>(dir / "inexistant"))</span><br  />
+<sub><span class="tt"><a class="el" href="test__world__graph_8cpp.html" title="Tests du graphe statique du monde (LOT-11) : cartes, points d&#39;arrivee, portails et leur statut,...">Source/Test/Unit/Core/World/test_world_graph.cpp</a>:355</span></sub>  </td><td class="markdownTableBodyNone">Un dossier absent donne un graphe vide.  </td><td class="markdownTableBodyNone">1. Charger le graphe d'un dossier qui n'existe pas.  </td><td class="markdownTableBodyNone"><span class="tt">EXPECT_NO_THROW(graphe = <a class="el" href="namespacecore.html#a3a51a927bbd51ec10f45120e41fcab27" title="Lit chaque *.json de levelsDir et de ses sous-dossiers (identifiant : core::mapIdOf) ; une carte illi...">core::loadWorldGraph</a>(dir / "inexistant"))</span><br  />
 Vérifie que <span class="tt">graphe.maps.empty()</span> est vrai.<br  />
 Vérifie que <span class="tt">graphe.portals.empty()</span> est vrai.  </td></tr>
 </table>
@@ -6545,7 +6669,7 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8572b2f7cdb
 Vérifie que <span class="tt">localization.text(key)</span> diffère de <span class="tt">key</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md24"></a>
-Graphics (320)</h3>
+Graphics (324)</h3>
 <p><b><span class="tt"><a class="el" href="test__animated__tiles_8cpp.html" title="Tests unitaires des tuiles animées (LOT-46 TACHE-05) : horloge partagée par asset,...">test_animated_tiles.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -7425,6 +7549,27 @@ Vérifie que <span class="tt">*resultB</span> vaut <span class="tt">0u</span>.  
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CameraZonesTest.ListeDeZonesVideNeRenvoieRien</b> (Mineur)<br  />
 <sub><span class="tt"><a class="el" href="test__camera__zones_8cpp.html" title="Tests unitaires de la résolution de zone de caméra active (mode par salle, zones dessinées à la main,...">Source/Test/Unit/HMI/Graphics/test_camera_zones.cpp</a>:103</span></sub>  </td><td class="markdownTableBodyNone">Une liste de zones vide ne renvoie jamais d'indice.  </td><td class="markdownTableBodyNone">1. Résoudre une position avec une liste de zones vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a105226a84e7eee6e32a6d20a57502b5b" title="Indice de la zone active de zones à position.">hmi::activeCameraZoneIndex</a>({}, GridPosition{0, 0}).has_value()</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__city__block__render_8cpp.html" title="L&#39;ilot vu sur le plan (LOT-96) : son cadrage, et son image hors ecran.">test_city_block_render.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>CityBlockRenderTest.LeCadrageContientLIlot</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__city__block__render_8cpp.html" title="L&#39;ilot vu sur le plan (LOT-96) : son cadrage, et son image hors ecran.">Source/Test/Unit/HMI/Graphics/test_city_block_render.cpp</a>:36</span></sub>  </td><td class="markdownTableBodyNone">Le cadrage d'un ilot couvre son losange englobant, plus la hauteur des pieces.  </td><td class="markdownTableBodyNone">1. Cadrer un ilot de 10 x 8 cases, puis un de 20 x 16, sur une carte de 48 x 40.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">cadrePetit.pixelWidth</span> est strictement supérieur à <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">cadreGrand.pixelWidth</span> vaut <span class="tt">2 * cadrePetit.pixelWidth</span>.<br  />
+Vérifie que <span class="tt">static_cast&lt;float&gt;(cadrePetit.pixelHeight)</span> est strictement supérieur à <span class="tt">losange</span>.<br  />
+Vérifie que <span class="tt">cadrePetit.focus.x + cadrePetit.focus.y</span> est strictement inférieur à <span class="tt">15.0F + 14.0F</span>.<br  />
+Vérifie que <span class="tt">cadrePetit.focus.x - cadrePetit.focus.y</span> vaut <span class="tt">15.0F - 14.0F</span>, à <span class="tt">0.01F</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>CityBlockRenderTest.LaPlaceDuMarcheDevientUneImage</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__city__block__render_8cpp.html" title="L&#39;ilot vu sur le plan (LOT-96) : son cadrage, et son image hors ecran.">Source/Test/Unit/HMI/Graphics/test_city_block_render.cpp</a>:66</span></sub>  </td><td class="markdownTableBodyNone">Un ilot de Martpart se dessine hors ecran, a la taille de son cadrage.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">capital/martpart.json</span>, sa table d'apparence et son ilot « place du marche ».<br  />
+ 2. Le dessiner hors ecran.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lu.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">table.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">place</span> diffère de <span class="tt">ilots.end()</span>.<br  />
+Vérifie que <span class="tt">image.width()</span> vaut <span class="tt">cadrage.pixelWidth</span>.<br  />
+Vérifie que <span class="tt">image.height()</span> vaut <span class="tt">cadrage.pixelHeight</span>.<br  />
+Vérifie que <span class="tt">peints * 3</span> est strictement supérieur à <span class="tt">echantillons</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__depth__sort_8cpp.html" title="Tests unitaires du tri par profondeur en vue de dessus (EX-REN-018, LOT-07).">test_depth_sort.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -8813,6 +8958,14 @@ Vérifie que <span class="tt">std::ranges::count(chemins, "Scene/coliseum/sand.p
 Vérifie que <span class="tt">reliefs</span> vaut <span class="tt">2</span>.<br  />
 Vérifie que <span class="tt">figurines</span> vaut <span class="tt">1</span>.<br  />
 Vérifie que <span class="tt">quad.sprite.y + quad.sprite.height</span> est strictement inférieur à <span class="tt">piedDeLaCase</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.UneFigurineSansImageAUneCleDeMarqueur</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:202</span></sub>  </td><td class="markdownTableBodyNone">La cle du marqueur d'une figurine se tire de son chemin de bande.  </td><td class="markdownTableBodyNone">1. Demander la cle de marqueur de chemins de figurine, de piece et de chemins malformes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/sentinelle-ironhand/idle.png")</span> vaut <span class="tt">"npc/sentinelle-ironhand"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/sentinelle-ironhand/walk.png")</span> vaut <span class="tt">"npc/sentinelle-ironhand"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Scene/martpart/street.png")</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/")</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc//idle.png")</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/jade")</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">test_world_scene_renderer.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -8820,7 +8973,7 @@ Vérifie que <span class="tt">quad.sprite.y + quad.sprite.height</span> est stri
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>WorldSceneRendererTest.CreationLiberationRecreation</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:129</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de vie des ressources QRhi d'un lieu est sur.  </td><td class="markdownTableBodyNone">1. Creer les ressources hors ecran, sans dessiner.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:130</span></sub>  </td><td class="markdownTableBodyNone">Le cycle de vie des ressources QRhi d'un lieu est sur.  </td><td class="markdownTableBodyNone">1. Creer les ressources hors ecran, sans dessiner.<br  />
  2. Liberer, puis liberer encore.<br  />
  3. Recreer, dessiner une image du Colisee livre, detruire le rendu avant l'interface.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(nullptr)</span> est faux.<br  />
 Vérifie que <span class="tt">renderer.created()</span> est faux.<br  />
@@ -8841,7 +8994,7 @@ Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vra
 Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>WorldSceneRendererTest.LeColiseeLivreDevientDesPixels</b> (Bloquant)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:189</span></sub>  </td><td class="markdownTableBodyNone">Le Colisee livre se dessine, sans une seule piece manquante.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">coliseum.json</span> et la table d'apparence du lieu.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:190</span></sub>  </td><td class="markdownTableBodyNone">Le Colisee livre se dessine, sans une seule piece manquante.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">coliseum.json</span> et la table d'apparence du lieu.<br  />
  2. Dessiner une image hors ecran, cadree sur le heros a la porte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
 Vérifie que <span class="tt">image.size()</span> vaut <span class="tt">QSize(TARGET_SIZE, TARGET_SIZE)</span>.<br  />
 Vérifie que <span class="tt">renderer.composed().size()</span> est strictement supérieur à <span class="tt">700U</span>.<br  />
@@ -8852,7 +9005,7 @@ Vérifie que <span class="tt">renderer.composed().size()</span> vaut <span class
 Vérifie que <span class="tt">paintedPixels(empty)</span> vaut <span class="tt">0U</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>WorldSceneRendererTest.LaCameraSuitLeHerosSansSortirDeLaCarte</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:231</span></sub>  </td><td class="markdownTableBodyNone">Le cadrage d'un lieu suit le heros, borne a la scene, a un agrandissement entier.  </td><td class="markdownTableBodyNone">1. Cadrer une grande carte sur son centre, puis sur un coin.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:232</span></sub>  </td><td class="markdownTableBodyNone">Le cadrage d'un lieu suit le heros, borne a la scene, a un agrandissement entier.  </td><td class="markdownTableBodyNone">1. Cadrer une grande carte sur son centre, puis sur un coin.<br  />
  2. Cadrer une carte plus petite que la vue.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">suivie.zoom()</span> vaut <span class="tt">1.0F</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">suivie.center().x</span> vaut <span class="tt">centre.x</span>, à <span class="tt">0.001F</span> près.<br  />
 Vérifie que <span class="tt">suivie.center().y</span> vaut <span class="tt">centre.y</span>, à <span class="tt">0.001F</span> près.<br  />
@@ -8862,6 +9015,17 @@ Vérifie que <span class="tt">bornee.visibleBounds().position.x + bornee.visible
 Vérifie que <span class="tt">petiteVue.zoom()</span> vaut <span class="tt">2.0F</span> (comparaison flottante).<br  />
 Vérifie que <span class="tt">petiteVue.center().x</span> vaut <span class="tt">petite.sceneSize().x / 2.0F</span>, à <span class="tt">0.001F</span> près.<br  />
 Vérifie que <span class="tt">petiteVue.center().y</span> vaut <span class="tt">petite.sceneSize().y / 2.0F</span>, à <span class="tt">0.001F</span> près.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldSceneRendererTest.LesQuartiersLivresDeviennentDesPixels</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">Source/Test/Unit/HMI/Graphics/test_world_scene_renderer.cpp</a>:272</span></sub>  </td><td class="markdownTableBodyNone">Les deux quartiers livres se dessinent sans une piece sur le damier, et la sentinelle par son marqueur.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">capital/martpart.json</span> et <span class="tt">capital/arenarea.json</span>, et la table de Martpart.<br  />
+ 2. Dessiner chacun hors ecran, cadre sur une porte gardee, le heros a cote.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">table.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">figurines.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">renderer.ensureResources(rhi.get())</span> est vrai.<br  />
+Vérifie que <span class="tt">quad.texture</span> diffère de <span class="tt">renderer.textures().missing.texture</span>.<br  />
+Vérifie que <span class="tt">marqueur</span> diffère de <span class="tt">renderer.textures().byPath.end()</span>.<br  />
+Vérifie que <span class="tt">marqueur-&gt;second.texture</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">paintedPixels(image)</span> est strictement supérieur à <span class="tt">static_cast&lt;std::size_t&gt;(TARGET_SIZE * TARGET_SIZE / 4)</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md25"></a>
 Input (82)</h3>

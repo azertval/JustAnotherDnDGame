@@ -497,6 +497,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une région : un nœud du graphe de cartes.  <a href="structcore_1_1Region.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Atlas" id="r_Atlas"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1Atlas.html">Atlas</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'atlas chargé, et ce qui n'a pas pu l'être.  <a href="structcore_1_1Atlas.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CityBlock" id="r_CityBlock"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CityBlock.html">CityBlock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un îlot : un nom, et un rectangle de cases.  <a href="structcore_1_1CityBlock.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CityDistrict" id="r_CityDistrict"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CityDistrict.html">CityDistrict</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un quartier d'une ville jouable.  <a href="structcore_1_1CityDistrict.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CityPlan" id="r_CityPlan"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CityPlan.html">CityPlan</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le graphe d'une ville : ses quartiers et sa porte de départ.  <a href="structcore_1_1CityPlan.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CityPlanResult" id="r_CityPlanResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CityPlanResult.html">CityPlanResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture : le graphe, ou ce qui l'a empêché.  <a href="structcore_1_1CityPlanResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatZone" id="r_CombatZone"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatZone.html">CombatZone</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une zone de combat : son nom, son coin haut-gauche, sa taille.  <a href="structcore_1_1CombatZone.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EntityPropertySpec" id="r_EntityPropertySpec"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EntityPropertySpec.html">EntityPropertySpec</a></td></tr>
@@ -1439,6 +1447,9 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3cb4f147c529e897b3d66b33d07db7fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le nom d'un axe, tel que le schéma l'écrit (<span class="tt">citizenFreedom</span>, …).  <br /></td></tr>
 <tr class="memitem:a4a28b9f58a274691d57f2f961c7909e7" id="r_a4a28b9f58a274691d57f2f961c7909e7"><td class="memItemLeft"><a class="el" href="structcore_1_1Atlas.html">Atlas</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4a28b9f58a274691d57f2f961c7909e7">loadAtlas</a> (const std::filesystem::path &amp;directory)</td></tr>
 <tr class="memdesc:a4a28b9f58a274691d57f2f961c7909e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge l'atlas — <span class="tt">regions/</span> et <span class="tt">locations/</span> sous le dossier donné.  <br /></td></tr>
+<tr class="memitem:a474b696de6dd60c63a9af06b04f00eee" id="r_a474b696de6dd60c63a9af06b04f00eee"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CityBlock.html">CityBlock</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a474b696de6dd60c63a9af06b04f00eee">cityBlocksOf</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
+<tr class="memitem:aaecd848d6b8b1fee4c49ef3e9dcb36c3" id="r_aaecd848d6b8b1fee4c49ef3e9dcb36c3"><td class="memItemLeft"><a class="el" href="structcore_1_1CityPlanResult.html">CityPlanResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#aaecd848d6b8b1fee4c49ef3e9dcb36c3">loadCityPlan</a> (const std::filesystem::path &amp;file)</td></tr>
+<tr class="memdesc:aaecd848d6b8b1fee4c49ef3e9dcb36c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit une ville jouable.  <br /></td></tr>
 <tr class="memitem:a7c047c5fef857528c6b8441b5a3155a4" id="r_a7c047c5fef857528c6b8441b5a3155a4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7c047c5fef857528c6b8441b5a3155a4">combatZonesOf</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memitem:aad245d7e0f83b0197bf751008f87bfe2" id="r_aad245d7e0f83b0197bf751008f87bfe2"><td class="memItemLeft">const <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aad245d7e0f83b0197bf751008f87bfe2">findCombatZone</a> (const std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt; &amp;zones, std::string_view name)</td></tr>
 <tr class="memitem:a2f8f6aa025b66709486f9e1e585ac334" id="r_a2f8f6aa025b66709486f9e1e585ac334"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1WorldIssue.html">WorldIssue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2f8f6aa025b66709486f9e1e585ac334">validateCombatZones</a> (std::string_view mapId, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
@@ -1457,8 +1468,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a99be71340077821d583e53bf779c689d" id="r_a99be71340077821d583e53bf779c689d"><td class="memItemLeft"><a class="el" href="structcore_1_1CellPoint.html">CellPoint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a99be71340077821d583e53bf779c689d">cellCenter</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> cell) noexcept</td></tr>
 <tr class="memitem:a613ed3cc48dbcdf1ed1533b2bb6c9f9c" id="r_a613ed3cc48dbcdf1ed1533b2bb6c9f9c"><td class="memItemLeft"><a class="el" href="structcore_1_1WorldGraph.html">WorldGraph</a>&#160;</td><td class="memItemRight"><a class="el" href="#a613ed3cc48dbcdf1ed1533b2bb6c9f9c">buildWorldGraph</a> (std::vector&lt; <a class="el" href="structcore_1_1WorldMapInput.html">WorldMapInput</a> &gt; maps)</td></tr>
 <tr class="memdesc:a613ed3cc48dbcdf1ed1533b2bb6c9f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construit le graphe à partir de cartes déjà lues.  <br /></td></tr>
+<tr class="memitem:abe7c6aff6c871d6a58a5ab134ffd7e26" id="r_abe7c6aff6c871d6a58a5ab134ffd7e26"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#abe7c6aff6c871d6a58a5ab134ffd7e26">mapIdOf</a> (const std::filesystem::path &amp;levelsDir, const std::filesystem::path &amp;file)</td></tr>
+<tr class="memdesc:abe7c6aff6c871d6a58a5ab134ffd7e26"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'identifiant de carte d'un fichier de niveau : son chemin relatif à <code class="param">levelsDir</code>, sans extension, en barres obliques (<span class="tt">capital/martpart</span>, <span class="tt">LOT-96</span>).  <br /></td></tr>
 <tr class="memitem:a3a51a927bbd51ec10f45120e41fcab27" id="r_a3a51a927bbd51ec10f45120e41fcab27"><td class="memItemLeft"><a class="el" href="structcore_1_1WorldGraph.html">WorldGraph</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3a51a927bbd51ec10f45120e41fcab27">loadWorldGraph</a> (const std::filesystem::path &amp;levelsDir)</td></tr>
-<tr class="memdesc:a3a51a927bbd51ec10f45120e41fcab27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit chaque <span class="tt">*.json</span> de <code class="param">levelsDir</code> (identifiant = nom sans extension) ; une carte illisible reste un nœud, avec son erreur.  <br /></td></tr>
+<tr class="memdesc:a3a51a927bbd51ec10f45120e41fcab27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit chaque <span class="tt">*.json</span> de <code class="param">levelsDir</code> <b>et de ses sous-dossiers</b> (identifiant : <span class="tt"><a class="el" href="#abe7c6aff6c871d6a58a5ab134ffd7e26" title="L&#39;identifiant de carte d&#39;un fichier de niveau : son chemin relatif à levelsDir, sans extension,...">core::mapIdOf</a></span>) ; une carte illisible reste un nœud, avec son erreur.  <br /></td></tr>
 <tr class="memitem:aa92b467992651f41252bd07e5c5f79d0" id="r_aa92b467992651f41252bd07e5c5f79d0"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1PortalTarget.html">PortalTarget</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa92b467992651f41252bd07e5c5f79d0">portalAt</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position)</td></tr>
 <tr class="memitem:ac14b74fcacf52610f218bb5dba010762" id="r_ac14b74fcacf52610f218bb5dba010762"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac14b74fcacf52610f218bb5dba010762">arrivalPointAt</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level, std::string_view name)</td></tr>
 <tr class="memitem:a4fb117011c5e4c979444ba45bb0e8447" id="r_a4fb117011c5e4c979444ba45bb0e8447"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1WorldIssue.html">WorldIssue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4fb117011c5e4c979444ba45bb0e8447">validateWorldGraph</a> (const <a class="el" href="structcore_1_1WorldGraph.html">WorldGraph</a> &amp;graph)</td></tr>
@@ -1602,6 +1615,8 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:ae2e3fb1ff10ddbebb4cdf1b1636afb25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un PNJ qui nomme son dialogue.  <br /></td></tr>
 <tr class="memitem:a319ef53aa8e54d8b5a6e045b39461f73" id="r_a319ef53aa8e54d8b5a6e045b39461f73"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a319ef53aa8e54d8b5a6e045b39461f73">NPC_FIGURE_PROPERTY</a> = &quot;figure&quot;</td></tr>
 <tr class="memdesc:a319ef53aa8e54d8b5a6e045b39461f73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un PNJ qui nomme sa <b>figurine</b> (<span class="tt">Assets/Npc/&lt;slug&gt;</span>, atelier du <span class="tt">LOT-91</span>, lue au <span class="tt">LOT-09</span>).  <br /></td></tr>
+<tr class="memitem:ad9d25f6f58513b895d3b7c2324e62ca1" id="r_ad9d25f6f58513b895d3b7c2324e62ca1"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad9d25f6f58513b895d3b7c2324e62ca1">NPC_GUARDED_DISTRICT_PROPERTY</a> = &quot;guards&quot;</td></tr>
+<tr class="memdesc:ad9d25f6f58513b895d3b7c2324e62ca1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un PNJ <b>sentinelle</b> : la fiche d'atlas du quartier dont il garde la porte (<span class="tt">LOT-96</span>).  <br /></td></tr>
 <tr class="memitem:ab6f6a87729df10e41e9fa1e5f74c4d76" id="r_ab6f6a87729df10e41e9fa1e5f74c4d76"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ab6f6a87729df10e41e9fa1e5f74c4d76">EQUIPMENT_SLOT_COUNT</a> = 16</td></tr>
 <tr class="memdesc:ab6f6a87729df10e41e9fa1e5f74c4d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'emplacements, pour dimensionner les tableaux qui les indexent.  <br /></td></tr>
 <tr class="memitem:a511d502baab5befb28a3742b65ee1e61" id="r_a511d502baab5befb28a3742b65ee1e61"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a511d502baab5befb28a3742b65ee1e61">METERS_PER_TILE</a> = 1.5f</td></tr>
@@ -1610,6 +1625,14 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 <tr class="memdesc:a29a08c23095e20f5b90a5799fb05f24a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de notes — pour les parcours exhaustifs et les contrôles de couverture.  <br /></td></tr>
 <tr class="memitem:abc767d4db86670c1b2d325f75023ca6c" id="r_abc767d4db86670c1b2d325f75023ca6c"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#abc767d4db86670c1b2d325f75023ca6c">kRegionAxisCount</a> = 7</td></tr>
 <tr class="memdesc:abc767d4db86670c1b2d325f75023ca6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'axes.  <br /></td></tr>
+<tr class="memitem:ac0558491c9327cc507693fb30f382432" id="r_ac0558491c9327cc507693fb30f382432"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ac0558491c9327cc507693fb30f382432">CITY_BLOCK_ENTITY_TYPE</a> = &quot;cityBlock&quot;</td></tr>
+<tr class="memdesc:ac0558491c9327cc507693fb30f382432"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'un îlot.  <br /></td></tr>
+<tr class="memitem:af430ac8a0d131f1dfd9e505be43afb5f" id="r_af430ac8a0d131f1dfd9e505be43afb5f"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#af430ac8a0d131f1dfd9e505be43afb5f">CITY_BLOCK_NAME_PROPERTY</a> = &quot;name&quot;</td></tr>
+<tr class="memdesc:af430ac8a0d131f1dfd9e505be43afb5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un îlot : son nom, qui est aussi la clé de son libellé (<span class="tt">city_block.&lt;nom&gt;</span>).  <br /></td></tr>
+<tr class="memitem:a2f587669eceab77a2039da78512d029d" id="r_a2f587669eceab77a2039da78512d029d"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a2f587669eceab77a2039da78512d029d">CITY_BLOCK_WIDTH_PROPERTY</a> = &quot;width&quot;</td></tr>
+<tr class="memdesc:a2f587669eceab77a2039da78512d029d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un îlot : sa largeur, en cases.  <br /></td></tr>
+<tr class="memitem:a3ee2005b92e35b59d0c0b876af5e7660" id="r_a3ee2005b92e35b59d0c0b876af5e7660"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a3ee2005b92e35b59d0c0b876af5e7660">CITY_BLOCK_HEIGHT_PROPERTY</a> = &quot;height&quot;</td></tr>
+<tr class="memdesc:a3ee2005b92e35b59d0c0b876af5e7660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un îlot : sa hauteur, en cases.  <br /></td></tr>
 <tr class="memitem:ac54b7733dd98dce5d1fc0339a653a90d" id="r_ac54b7733dd98dce5d1fc0339a653a90d"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ac54b7733dd98dce5d1fc0339a653a90d">COMBAT_ZONE_ENTITY_TYPE</a> = &quot;combatZone&quot;</td></tr>
 <tr class="memdesc:ac54b7733dd98dce5d1fc0339a653a90d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'une zone de combat : le rectangle où l'on se bat.  <br /></td></tr>
 <tr class="memitem:a18cf6d5df744227c72873a232c0dddb4" id="r_a18cf6d5df744227c72873a232c0dddb4"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a18cf6d5df744227c72873a232c0dddb4">COMBAT_ZONE_NAME_PROPERTY</a> = &quot;name&quot;</td></tr>
@@ -3163,7 +3186,7 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md980"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md988"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -3923,7 +3946,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1014"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -4253,10 +4276,10 @@ La règle de départage</h2>
 
 <p>Vérifie que chaque rencontre posée sur la carte tombe sur un terrain tactique valide. </p>
 <p>Le combat se joue <b>sur la carte d'exploration</b> : une rencontre posée dans un couloir d'une case, ou dont la formation entre dans un mur, ne se découvrirait sinon qu'en jeu. Cette fonction le dit à l'auteur au moment où il pose.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1004"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1012"></a>
 Une seule règle pour « se tenir ici »</h2>
 <p>Les combattants sont posés sur une <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html" title="La grille tactique d&#39;une rencontre.">core::BattleGrid</a></span> construite depuis <code class="param">collision</code>, par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#ae717e61951843569c4bed5e1b9adba67" title="Place combatant, d&#39;emprise side × side, avec anchor pour coin haut-gauche.">core::BattleGrid::place</a></span>, dans l'ordre de la formation — ce que fait le montage (<span class="tt"><a class="el" href="#a5921fce291ef1e0650a91c91bc158a3e" title="Monte la rencontre run sur combat : le groupe, puis les créatures, dans cet ordre.">core::mountEncounter</a></span>). Un avertissement de l'éditeur et un refus au montage ne peuvent donc pas diverger. La zone est une <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span> : diagonales, coins de mur et terrain difficile y suivent la règle du <span class="tt">LOT-19</span>, sans seconde implémentation.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1013"></a>
 Ce qu'elle ne vérifie pas</h2>
 <p>Une rencontre absente de <code class="param">encounters</code> est <b>ignorée</b> : un autre validateur la signale, et la signaler deux fois n'apprendrait rien. Une créature absente du bestiaire — ou un bestiaire absent — compte pour une emprise de taille M. Le groupe du joueur n'est pas posé : ses cases ne sont pas connues avant le jeu, et c'est la taille de la zone qui en répond.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4585,10 +4608,10 @@ Ce qu'elle ne vérifie pas</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1016"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1017"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -5133,6 +5156,32 @@ Déterministe, et c'est le point</h2>
 <p>Peut-on viser <code class="param">target</code> avec cette attaque ? </p>
 <p>La distance, puis la vue.</p>
 <p>Manuel, chapitre 9 : « une cible qui bénéficie d'un abri total ne peut pas être ciblée directement par des attaques » ; <span class="tt">EX-CBT-021</span> : une attaque à distance suppose une ligne de vue. Au corps à corps aussi — frapper par le coin commun de deux murs est aussi impossible que de s'y faufiler. </p>
+
+</div>
+</div>
+<a id="a474b696de6dd60c63a9af06b04f00eee" name="a474b696de6dd60c63a9af06b04f00eee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a474b696de6dd60c63a9af06b04f00eee">&#9670;&#160;</a></span>cityBlocksOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1CityBlock.html">CityBlock</a> &gt; core::cityBlocksOf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les îlots de <code class="param">level</code>, dans l'ordre des entités. Un îlot sans nom ou de taille nulle est une saisie fautive : il est écarté plutôt que montré vide. </dd></dl>
 
 </div>
 </div>
@@ -7856,6 +7905,34 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="aaecd848d6b8b1fee4c49ef3e9dcb36c3" name="aaecd848d6b8b1fee4c49ef3e9dcb36c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaecd848d6b8b1fee4c49ef3e9dcb36c3">&#9670;&#160;</a></span>loadCityPlan()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CityPlanResult.html">CityPlanResult</a> core::loadCityPlan </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit une ville jouable. </p>
+<p>Aucune lecture ne lève (<span class="tt">EX-NFR-040</span>). Sont refusés : un fichier absent ou mal formé, une ville sans quartier, un quartier qui n'a ni carte ni porte gardée — ou les deux —, et un départ dont le quartier n'a pas de carte : « Nouvelle partie » n'aurait nulle part où poser le héros. </p>
+
+</div>
+</div>
 <a id="a8c3c19eb55ce28a2afd54fd1b89fc51d" name="a8c3c19eb55ce28a2afd54fd1b89fc51d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8c3c19eb55ce28a2afd54fd1b89fc51d">&#9670;&#160;</a></span>loadDialogue()</h2>
 
@@ -8169,7 +8246,7 @@ Déterministe, et c'est le point</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Lit chaque <span class="tt">*.json</span> de <code class="param">levelsDir</code> (identifiant = nom sans extension) ; une carte illisible reste un nœud, avec son erreur. </p>
+<p>Lit chaque <span class="tt">*.json</span> de <code class="param">levelsDir</code> <b>et de ses sous-dossiers</b> (identifiant : <span class="tt"><a class="el" href="#abe7c6aff6c871d6a58a5ab134ffd7e26" title="L&#39;identifiant de carte d&#39;un fichier de niveau : son chemin relatif à levelsDir, sans extension,...">core::mapIdOf</a></span>) ; une carte illisible reste un nœud, avec son erreur. </p>
 <p>Les fichiers <span class="tt">sequence-*.json</span> sont écartés, comme le fait le navigateur de cartes : ce ne sont pas des cartes. Un dossier absent donne un graphe vide, sans lever (<span class="tt">EX-NFR-040</span>). </p>
 
 </div>
@@ -8227,6 +8304,37 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Une entité neuve de la famille <code class="param">kind</code> en <code class="param">position</code>, ses propriétés à leur défaut. </p>
+
+</div>
+</div>
+<a id="abe7c6aff6c871d6a58a5ab134ffd7e26" name="abe7c6aff6c871d6a58a5ab134ffd7e26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe7c6aff6c871d6a58a5ab134ffd7e26">&#9670;&#160;</a></span>mapIdOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::mapIdOf </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>levelsDir</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'identifiant de carte d'un fichier de niveau : son chemin relatif à <code class="param">levelsDir</code>, sans extension, en barres obliques (<span class="tt">capital/martpart</span>, <span class="tt">LOT-96</span>). </p>
 
 </div>
 </div>
@@ -11422,6 +11530,102 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="ac0558491c9327cc507693fb30f382432" name="ac0558491c9327cc507693fb30f382432"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0558491c9327cc507693fb30f382432">&#9670;&#160;</a></span>CITY_BLOCK_ENTITY_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::CITY_BLOCK_ENTITY_TYPE = &quot;cityBlock&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Type d'entité d'un îlot. </p>
+
+</div>
+</div>
+<a id="a3ee2005b92e35b59d0c0b876af5e7660" name="a3ee2005b92e35b59d0c0b876af5e7660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ee2005b92e35b59d0c0b876af5e7660">&#9670;&#160;</a></span>CITY_BLOCK_HEIGHT_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::CITY_BLOCK_HEIGHT_PROPERTY = &quot;height&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un îlot : sa hauteur, en cases. </p>
+
+</div>
+</div>
+<a id="af430ac8a0d131f1dfd9e505be43afb5f" name="af430ac8a0d131f1dfd9e505be43afb5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af430ac8a0d131f1dfd9e505be43afb5f">&#9670;&#160;</a></span>CITY_BLOCK_NAME_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::CITY_BLOCK_NAME_PROPERTY = &quot;name&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un îlot : son nom, qui est aussi la clé de son libellé (<span class="tt">city_block.&lt;nom&gt;</span>). </p>
+
+</div>
+</div>
+<a id="a2f587669eceab77a2039da78512d029d" name="a2f587669eceab77a2039da78512d029d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f587669eceab77a2039da78512d029d">&#9670;&#160;</a></span>CITY_BLOCK_WIDTH_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::CITY_BLOCK_WIDTH_PROPERTY = &quot;width&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un îlot : sa largeur, en cases. </p>
+
+</div>
+</div>
 <a id="ab4b604a43e1474873a24b312091aa8a2" name="ab4b604a43e1474873a24b312091aa8a2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab4b604a43e1474873a24b312091aa8a2">&#9670;&#160;</a></span>COLLISION_SKIN</h2>
 
@@ -12269,6 +12473,31 @@ COUNT</span>) : une chute extrême ne produit pas un nuage toujours plus dense. 
 
 <p>Propriété d'un PNJ qui nomme sa <b>figurine</b> (<span class="tt">Assets/Npc/&lt;slug&gt;</span>, atelier du <span class="tt">LOT-91</span>, lue au <span class="tt">LOT-09</span>). </p>
 <p>Vide : le PNJ n'est pas encore dessiné, et ne se dessine pas. </p>
+
+</div>
+</div>
+<a id="ad9d25f6f58513b895d3b7c2324e62ca1" name="ad9d25f6f58513b895d3b7c2324e62ca1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d25f6f58513b895d3b7c2324e62ca1">&#9670;&#160;</a></span>NPC_GUARDED_DISTRICT_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::NPC_GUARDED_DISTRICT_PROPERTY = &quot;guards&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un PNJ <b>sentinelle</b> : la fiche d'atlas du quartier dont il garde la porte (<span class="tt">LOT-96</span>). </p>
+<p>Vide pour un PNJ qui ne garde rien. </p>
 
 </div>
 </div>

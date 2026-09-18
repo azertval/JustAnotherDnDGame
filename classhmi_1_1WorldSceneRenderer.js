@@ -8,6 +8,7 @@ var classhmi_1_1WorldSceneRenderer =
     [ "created", "classhmi_1_1WorldSceneRenderer.html#a4dfef69bdd871d6ca41447ab840f238a", null ],
     [ "ensureResources", "classhmi_1_1WorldSceneRenderer.html#a79799fc66af87ee0b4407f54c5c87bdd", null ],
     [ "ensureTextures", "classhmi_1_1WorldSceneRenderer.html#ae28a3765bdefd7b8fd594e5451c8f6cd", null ],
+    [ "figureMarker", "classhmi_1_1WorldSceneRenderer.html#abe6d8325e53bf390059ab20353dffc17", null ],
     [ "focus", "classhmi_1_1WorldSceneRenderer.html#ab0160a58f9a4c26eef4ea0d7ae44e08d", null ],
     [ "operator=", "classhmi_1_1WorldSceneRenderer.html#a489efac05f908ef5ca8232a463808f45", null ],
     [ "release", "classhmi_1_1WorldSceneRenderer.html#a03228469d91f8968d286566a330c97ac", null ],

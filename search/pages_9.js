@@ -2,13 +2,13 @@ var searchData=
 [
   ['9_0',['9',['../cahiertest.html#autotoc_md27',1,'Localization (9)'],['../cahiertest.html#autotoc_md15',1,'Resources (9)']]],
   ['9_20—_20pause_20dialogue_20marchand_20journal_20_3a_20restylés_1',['T3.9 — Pause, dialogue, marchand, journal : restylés',['../lot-87.html#autotoc_md793',1,'']]],
-  ['9_201_20cinq_20familles_20d_20exigences_20sont_20fantômes_20—_20le_20lint_20le_20dit_20désormais_2',['9.1 Cinq familles d&apos;exigences sont fantômes — le lint le dit désormais',['../roadmap.html#autotoc_md882',1,'']]],
-  ['9_202_20six_20mécaniques_20étaient_20consommées_20sans_20être_20produites_3',['9.2 Six mécaniques étaient consommées sans être produites',['../roadmap.html#autotoc_md883',1,'']]],
-  ['9_203_20l_20allègement_20est_20le_20geste_20à_20plus_20fort_20levier_20du_20programme_4',['9.3 L&apos;allègement est le geste à plus fort levier du programme',['../roadmap.html#autotoc_md884',1,'']]],
-  ['9_204_20le_20socle_20technique_20tient_20mais_20trois_20préconditions_20manquent_5',['9.4 Le socle technique tient, mais trois préconditions manquent',['../roadmap.html#autotoc_md885',1,'']]],
-  ['9_205_20la_20collision_20de_20numéros_20est_20bloquante_20et_20bien_20plus_20large_20qu_20estimé_6',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap.html#autotoc_md886',1,'']]],
-  ['9_206_20second_20audit_2014_20septembre_202026_20_3a_20ce_20qui_20avait_20dérivé_20en_20dix_20jours_7',['9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours',['../roadmap.html#autotoc_md887',1,'']]],
-  ['9_20ce_20que_20l_20audit_20a_20révélé_20sur_20l_20état_20du_20dépôt_8',['9. Ce que l&apos;audit a révélé sur l&apos;état du dépôt',['../roadmap.html#autotoc_md881',1,'']]],
+  ['9_201_20cinq_20familles_20d_20exigences_20sont_20fantômes_20—_20le_20lint_20le_20dit_20désormais_2',['9.1 Cinq familles d&apos;exigences sont fantômes — le lint le dit désormais',['../roadmap.html#autotoc_md890',1,'']]],
+  ['9_202_20six_20mécaniques_20étaient_20consommées_20sans_20être_20produites_3',['9.2 Six mécaniques étaient consommées sans être produites',['../roadmap.html#autotoc_md891',1,'']]],
+  ['9_203_20l_20allègement_20est_20le_20geste_20à_20plus_20fort_20levier_20du_20programme_4',['9.3 L&apos;allègement est le geste à plus fort levier du programme',['../roadmap.html#autotoc_md892',1,'']]],
+  ['9_204_20le_20socle_20technique_20tient_20mais_20trois_20préconditions_20manquent_5',['9.4 Le socle technique tient, mais trois préconditions manquent',['../roadmap.html#autotoc_md893',1,'']]],
+  ['9_205_20la_20collision_20de_20numéros_20est_20bloquante_20et_20bien_20plus_20large_20qu_20estimé_6',['9.5 La collision de numéros est bloquante, et bien plus large qu&apos;estimé',['../roadmap.html#autotoc_md894',1,'']]],
+  ['9_206_20second_20audit_2014_20septembre_202026_20_3a_20ce_20qui_20avait_20dérivé_20en_20dix_20jours_7',['9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours',['../roadmap.html#autotoc_md895',1,'']]],
+  ['9_20ce_20que_20l_20audit_20a_20révélé_20sur_20l_20état_20du_20dépôt_8',['9. Ce que l&apos;audit a révélé sur l&apos;état du dépôt',['../roadmap.html#autotoc_md889',1,'']]],
   ['9_20dangers_20avancés_20lot_20h_2031_9',['9. Dangers avancés (&lt;span class=&quot;tt&quot;&gt;LOT-H-31&lt;/span&gt;)',['../spec-editeur.html#autotoc_md328',1,'']]],
   ['9_20gestion_20des_20erreurs_10',['9. Gestion des erreurs',['../spec-conventions.html#autotoc_md308',1,'']]],
   ['9_20gestion_20des_20ressources_11',['9. Gestion des ressources',['../spec-architecture.html#autotoc_md271',1,'']]],
@@ -23,5 +23,5 @@ var searchData=
   ['94_20',['12. L&apos;écran « Carte » : le monde, une région, une ville (LOT-94)',['../spec-interface-ihm.html#ihm-carte',1,'']]],
   ['94_20—_20les_20images_20du_20corpus_20quittent_20le_20dépôt_20l_20écran_20«_20carte_20»_20revient_20sur_20les_20cartes_20de_20l_20auteur_20_3a_20monde_20région_20ville_21',['LOT-94 — Les images du corpus quittent le dépôt ; l&apos;écran « Carte » revient sur les cartes de l&apos;auteur : monde, région, ville',['../lot-94.html',1,'lots']]],
   ['94_20noms_20ont_20mis_20au_20jour_22',['Cinq défauts du lexique que les 94 noms ont mis au jour',['../lot-33.html#autotoc_md619',1,'']]],
-  ['96_20—_20martpart_20et_20arenarea_20se_20parcourent_20_3a_20le_20graphe_20des_20quartiers_23',['&lt;span class=&quot;tt&quot;&gt;LOT-96&lt;/span&gt; — Martpart et Arenarea se parcourent : le graphe des quartiers',['../roadmap.html#lot-96',1,'']]]
+  ['96_20—_20martpart_20et_20arenarea_20se_20parcourent_20_3a_20le_20graphe_20des_20quartiers_23',['LOT-96 — Martpart et Arenarea se parcourent : le graphe des quartiers',['../lot-96.html',1,'lots']]]
 ];

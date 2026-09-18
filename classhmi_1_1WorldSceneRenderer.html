@@ -128,6 +128,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:ae28a3765bdefd7b8fd594e5451c8f6cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge les textures de <code class="param">paths</code> qui manquent encore. Sur le fil de rendu.  <br /></td></tr>
 <tr class="memitem:ac78c706f2c61547833c83587899679cc" id="r_ac78c706f2c61547833c83587899679cc"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ac78c706f2c61547833c83587899679cc">bandFrameWidth</a> (const std::string &amp;path)</td></tr>
 <tr class="memdesc:ac78c706f2c61547833c83587899679cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">La largeur d'image d'une bande d'animation, lue de son <span class="tt">.anim.json</span> s'il y en a un.  <br /></td></tr>
+<tr class="memitem:abe6d8325e53bf390059ab20353dffc17" id="r_abe6d8325e53bf390059ab20353dffc17"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abe6d8325e53bf390059ab20353dffc17">figureMarker</a> (const std::string &amp;path)</td></tr>
+<tr class="memdesc:abe6d8325e53bf390059ab20353dffc17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le marqueur d'une figurine sans image (<span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a></span>), rien pour une autre piece.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -343,6 +345,33 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Charge les textures de <code class="param">paths</code> qui manquent encore. Sur le fil de rendu. </p>
+
+</div>
+</div>
+<a id="abe6d8325e53bf390059ab20353dffc17" name="abe6d8325e53bf390059ab20353dffc17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe6d8325e53bf390059ab20353dffc17">&#9670;&#160;</a></span>figureMarker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structhmi_1_1LoadedTexture.html">LoadedTexture</a> &gt; hmi::WorldSceneRenderer::figureMarker </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le marqueur d'une figurine sans image (<span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a></span>), rien pour une autre piece. </p>
 
 </div>
 </div>

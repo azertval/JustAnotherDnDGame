@@ -5,6 +5,7 @@ var WorldMaps_8h =
     [ "hmi::MapLabel", "structhmi_1_1MapLabel.html", "structhmi_1_1MapLabel" ],
     [ "hmi::MapSite", "structhmi_1_1MapSite.html", "structhmi_1_1MapSite" ],
     [ "hmi::RegionMap", "structhmi_1_1RegionMap.html", "structhmi_1_1RegionMap" ],
+    [ "hmi::MapDistrict", "structhmi_1_1MapDistrict.html", "structhmi_1_1MapDistrict" ],
     [ "hmi::CityMap", "structhmi_1_1CityMap.html", "structhmi_1_1CityMap" ],
     [ "hmi::WorldMaps", "structhmi_1_1WorldMaps.html", "structhmi_1_1WorldMaps" ],
     [ "hmi::MapPlaceView", "structhmi_1_1MapPlaceView.html", "structhmi_1_1MapPlaceView" ],

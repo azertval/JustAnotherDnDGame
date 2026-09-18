@@ -60,5 +60,6 @@ var Dialogue_8h =
     [ "core::DIALOGUE_CONTINUE_KEY", "namespacecore.html#af7ee0f1291696687c17746182965ce8a", null ],
     [ "core::NPC_DIALOGUE_PROPERTY", "namespacecore.html#ae2e3fb1ff10ddbebb4cdf1b1636afb25", null ],
     [ "core::NPC_ENTITY_TYPE", "namespacecore.html#a9d88411f2638378a427c3aeb435d7590", null ],
-    [ "core::NPC_FIGURE_PROPERTY", "namespacecore.html#a319ef53aa8e54d8b5a6e045b39461f73", null ]
+    [ "core::NPC_FIGURE_PROPERTY", "namespacecore.html#a319ef53aa8e54d8b5a6e045b39461f73", null ],
+    [ "core::NPC_GUARDED_DISTRICT_PROPERTY", "namespacecore.html#ad9d25f6f58513b895d3b7c2324e62ca1", null ]
 ];

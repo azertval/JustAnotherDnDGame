@@ -101,6 +101,7 @@ $(function(){initNavTree('test__world__scene__renderer_8cpp.html','',''); });
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;variant&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &lt;rhi/qrhi.h&gt;</code><br />
@@ -120,13 +121,15 @@ Functions</h2></td></tr>
 <tr class="memdesc:a72ccf2b5697e8d87826644f2a8d4f527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le Colisée livré devient des pixels, et aucune pièce ne tombe sur le damier.  <br /></td></tr>
 <tr class="memitem:aaf6b2fe772ccf7d96339f77d895c1039" id="r_aaf6b2fe772ccf7d96339f77d895c1039"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aaf6b2fe772ccf7d96339f77d895c1039">TEST</a> (WorldSceneRendererTest, LaCameraSuitLeHerosSansSortirDeLaCarte)</td></tr>
 <tr class="memdesc:aaf6b2fe772ccf7d96339f77d895c1039"><td class="mdescLeft">&#160;</td><td class="mdescRight">La caméra suit le héros et ne sort pas de la carte.  <br /></td></tr>
+<tr class="memitem:a2dc9444d0099f06cc6d78cd87022bb99" id="r_a2dc9444d0099f06cc6d78cd87022bb99"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2dc9444d0099f06cc6d78cd87022bb99">TEST</a> (WorldSceneRendererTest, LesQuartiersLivresDeviennentDesPixels)</td></tr>
+<tr class="memdesc:a2dc9444d0099f06cc6d78cd87022bb99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Martpart et Arenarea livres deviennent des pixels, sentinelle comprise.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le rendu QRhi d'un <b>lieu qu'on parcourt</b> (<span class="tt">LOT-09</span>), hors écran : cycle de vie des ressources, cadrage qui suit le héros, et une vraie image de la carte <b>livrée</b>. </p>
 <p>Jumeau de <span class="tt"><a class="el" href="test__arena__scene__renderer_8cpp.html" title="Le rendu QRhi de la scène du Colisée (LOT-86 Phase 5), hors écran : cycle de vie des ressources et un...">test_arena_scene_renderer.cpp</a></span>, et pour la même raison : <span class="tt"><a class="el" href="classhmi_1_1WorldViewportItem.html" title="Surface QRhi de la carte courante : le jumeau d&#39;hmi::ArenaViewportItem pour le monde.">hmi::WorldViewportItem</a></span> n'est qu'un hôte Qt Quick, et tout ce qui peut fuir ou planter vit dans <span class="tt"><a class="el" href="classhmi_1_1WorldSceneRenderer.html" title="Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la scène compo...">hmi::WorldSceneRenderer</a></span>. Ce test le fait tourner sur un <span class="tt">QRhi</span> Direct3D 11 sans fenêtre, sur le Colisée tel qu'il est commité — c'est la <b>capture de référence</b> du lot : elle est écrite à côté des captures de l'arène, pour être relue à l'œil. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a131c4f464cb97cca92a1881bb3302081" name="a131c4f464cb97cca92a1881bb3302081"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a131c4f464cb97cca92a1881bb3302081">&#9670;&#160;</a></span>TEST() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a131c4f464cb97cca92a1881bb3302081">&#9670;&#160;</a></span>TEST() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -160,7 +163,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aaf6b2fe772ccf7d96339f77d895c1039" name="aaf6b2fe772ccf7d96339f77d895c1039"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf6b2fe772ccf7d96339f77d895c1039">&#9670;&#160;</a></span>TEST() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf6b2fe772ccf7d96339f77d895c1039">&#9670;&#160;</a></span>TEST() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -192,7 +195,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a72ccf2b5697e8d87826644f2a8d4f527" name="a72ccf2b5697e8d87826644f2a8d4f527"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72ccf2b5697e8d87826644f2a8d4f527">&#9670;&#160;</a></span>TEST() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a72ccf2b5697e8d87826644f2a8d4f527">&#9670;&#160;</a></span>TEST() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -219,6 +222,38 @@ Functions</h2></td></tr>
 </p><ol type="1">
 <li>Dessiner une image hors ecran, cadree sur le heros a la porte.<br  />
  <b>Resultat attendu :</b> Plus de mille quads composes, tous sur une piece CHARGEE (aucun damier) ; une part notable de l'image est peinte. </li>
+</ol>
+
+</div>
+</div>
+<a id="a2dc9444d0099f06cc6d78cd87022bb99" name="a2dc9444d0099f06cc6d78cd87022bb99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dc9444d0099f06cc6d78cd87022bb99">&#9670;&#160;</a></span>TEST() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">WorldSceneRendererTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LesQuartiersLivresDeviennentDesPixels</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Martpart et Arenarea livres deviennent des pixels, sentinelle comprise. </p>
+<p><b>Cas de test :</b> <b>Les deux quartiers livres se dessinent sans une piece sur le damier, et la sentinelle par son marqueur.</b><br  />
+ <b>Categorie :</b> Unitaire · Rendu QRhi d'un lieu<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Charger <span class="tt">capital/martpart.json</span> et <span class="tt">capital/arenarea.json</span>, et la table de Martpart.<br  />
+</p><ol type="1">
+<li>Dessiner chacun hors ecran, cadre sur une porte gardee, le heros a cote.<br  />
+ <b>Resultat attendu :</b> Aucun quad sur le damier ; la figurine de la sentinelle, qui n'a pas d'image, est chargee &ndash; c'est son marqueur (LOT-39) ; une part notable de l'image est peinte (LOT-96). </li>
 </ol>
 
 </div>

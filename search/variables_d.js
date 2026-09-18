@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['map_0',['map',['../structcore_1_1Arena.html#a1731b51aadd03a1b441dbb669a04d6d8',1,'core::Arena::map'],['../structcore_1_1PortalTarget.html#ae75dd42224ea8a8ec33cc63da16f21ab',1,'core::PortalTarget::map']]],
+  ['map_0',['map',['../structcore_1_1Arena.html#a1731b51aadd03a1b441dbb669a04d6d8',1,'core::Arena::map'],['../structcore_1_1CityDistrict.html#ac637df807c647bf56bc97172cc992ca8',1,'core::CityDistrict::map'],['../structcore_1_1PortalTarget.html#ae75dd42224ea8a8ec33cc63da16f21ab',1,'core::PortalTarget::map']]],
   ['mapid_1',['mapId',['../structcore_1_1WorldMapInput.html#ac74dfe808ca8af4911c4faecc8a15d46',1,'core::WorldMapInput::mapId'],['../structcore_1_1WorldMapNode.html#a30c96589df7305ded6f1389741647adf',1,'core::WorldMapNode::mapId'],['../structcore_1_1WorldIssue.html#ae9acce7882be36f2f71d87a866ced826',1,'core::WorldIssue::mapId'],['../structhmi_1_1WorldGraphLayoutNode.html#a3c3a59bfc8687ee2f660f183ae13401c',1,'hmi::WorldGraphLayoutNode::mapId']]],
   ['mapindex_2',['mapIndex',['../structhmi_1_1GameSession_1_1PlaytestEntity.html#a3a776d00722935e1c5f5b0ea85a0c4f6',1,'hmi::GameSession::PlaytestEntity']]],
   ['maps_3',['maps',['../structcore_1_1WorldGraph.html#a86476afbd405bef5737db45d7a15a9ca',1,'core::WorldGraph']]],

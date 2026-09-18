@@ -29,9 +29,10 @@ var searchData=
   ['visibilitytoggled_26',['visibilityToggled',['../classhmi_1_1PlanesPanel.html#ab40ebbb834c9d848a2c8919dcb7f14b1',1,'hmi::PlanesPanel']]],
   ['visible_27',['visible',['../classhmi_1_1LayerVisibility.html#af2c7fae361305eca683260d4fcd4f995',1,'hmi::LayerVisibility::visible()'],['../classhmi_1_1PlaneVisibility.html#a332247afe983597010120cca6f9cacd2',1,'hmi::PlaneVisibility::visible()']]],
   ['visiblebounds_28',['visibleBounds',['../classhmi_1_1Camera2D.html#a471c631178660b8fcd3d9f8072ef6dfb',1,'hmi::Camera2D']]],
-  ['volume_29',['volume',['../classhmi_1_1AudioEngine.html#a1b97d12d3392c7284e221b9ff30d83dc',1,'hmi::AudioEngine::volume()'],['../classhmi_1_1OptionsModel.html#a7a71606593c8eeaa040cdaa4176c4945',1,'hmi::OptionsModel::volume() const noexcept']]],
-  ['volumechanged_30',['volumeChanged',['../classhmi_1_1OptionsModel.html#a866a05dec00aced02a6b439d61431283',1,'hmi::OptionsModel']]],
-  ['vsync_31',['vsync',['../classhmi_1_1OptionsModel.html#a3aafc6f4b6558daad08c2b836fff9044',1,'hmi::OptionsModel']]],
-  ['vsyncchanged_32',['vsyncChanged',['../classhmi_1_1OptionsModel.html#af6d31966b77f2f9aa6bdb906d0da0bfb',1,'hmi::OptionsModel']]],
-  ['vsyncenabled_33',['vsyncEnabled',['../classhmi_1_1GameViewport.html#afc6cd76360f0150625ee748f25ddd98f',1,'hmi::GameViewport']]]
+  ['visiteddistricts_29',['visitedDistricts',['../classhmi_1_1WorldModel.html#a9e2ed6a1599df88493a0f92ff495cc5d',1,'hmi::WorldModel']]],
+  ['volume_30',['volume',['../classhmi_1_1AudioEngine.html#a1b97d12d3392c7284e221b9ff30d83dc',1,'hmi::AudioEngine::volume()'],['../classhmi_1_1OptionsModel.html#a7a71606593c8eeaa040cdaa4176c4945',1,'hmi::OptionsModel::volume() const noexcept']]],
+  ['volumechanged_31',['volumeChanged',['../classhmi_1_1OptionsModel.html#a866a05dec00aced02a6b439d61431283',1,'hmi::OptionsModel']]],
+  ['vsync_32',['vsync',['../classhmi_1_1OptionsModel.html#a3aafc6f4b6558daad08c2b836fff9044',1,'hmi::OptionsModel']]],
+  ['vsyncchanged_33',['vsyncChanged',['../classhmi_1_1OptionsModel.html#af6d31966b77f2f9aa6bdb906d0da0bfb',1,'hmi::OptionsModel']]],
+  ['vsyncenabled_34',['vsyncEnabled',['../classhmi_1_1GameViewport.html#afc6cd76360f0150625ee748f25ddd98f',1,'hmi::GameViewport']]]
 ];

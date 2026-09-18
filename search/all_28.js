@@ -11,11 +11,11 @@ var searchData=
   ['«_20niveau_20»_20devient_20«_20carte_20»_20partout_8',['Le vocabulaire : « niveau » devient « carte », partout',['../lot-67.html#autotoc_md711',1,'']]],
   ['«_20nouvelle_20partie_20»_20_3a_20un_20échafaudage_20et_20il_20est_20écrit_9',['« Nouvelle partie » : un échafaudage, et il est écrit',['../lot-68.html#autotoc_md718',1,'']]],
   ['«_20oui_20»_10',['La revue (neuf « oui »)',['../lot-91.html#autotoc_md809',1,'']]],
-  ['«_20par_20salle_20»_11',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md961',1,'']]],
+  ['«_20par_20salle_20»_11',['Mélanger plusieurs tailles de caméra dans un même niveau (mode « Par salle »)',['../manuel-partager-niveau.html#autotoc_md969',1,'']]],
   ['«_20parcours_20»_20_3a_20dessiner_20la_20route_20d_20un_20élément_20mobile_12',['L&apos;outil « Parcours » : dessiner la route d&apos;un élément mobile',['../guide-editeur.html#autotoc_md122',1,'']]],
-  ['«_20peut_20on_20se_20tenir_20ici_20»_13',['« peut on se tenir ici »',['../lot-19.html#autotoc_md548',1,'Une seule source de vérité pour « peut-on se tenir ici »'],['../classcore_1_1BattleGrid.html#autotoc_md981',1,'Une seule source de vérité pour « peut-on se tenir ici »']]],
+  ['«_20peut_20on_20se_20tenir_20ici_20»_13',['« peut on se tenir ici »',['../lot-19.html#autotoc_md548',1,'Une seule source de vérité pour « peut-on se tenir ici »'],['../classcore_1_1BattleGrid.html#autotoc_md989',1,'Une seule source de vérité pour « peut-on se tenir ici »']]],
   ['«_20plans_20»_14',['Le panneau « Plans »',['../guide-editeur.html#autotoc_md132',1,'']]],
-  ['«_20se_20tenir_20ici_20»_15',['Une seule règle pour « se tenir ici »',['../namespacecore.html#autotoc_md1004',1,'']]],
+  ['«_20se_20tenir_20ici_20»_15',['Une seule règle pour « se tenir ici »',['../namespacecore.html#autotoc_md1012',1,'']]],
   ['«_20spirale_20de_20la_20mort_20»_16',['La « spirale de la mort »',['../guide-boucle.html#autotoc_md61',1,'']]],
   ['«_20une_20seule_20hmilib_20»_17',['Le découpage retenu — et pourquoi il n&apos;est pas « une seule &lt;span class=&quot;tt&quot;&gt;HmiLib&lt;/span&gt; »',['../lot-02.html#autotoc_md419',1,'']]]
 ];

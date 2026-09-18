@@ -88,7 +88,12 @@ var hierarchy =
     [ "core::CharacterSheet", "structcore_1_1CharacterSheet.html", null ],
     [ "hmi::CharacterSheetContext", "structhmi_1_1CharacterSheetContext.html", null ],
     [ "core::CheckResult", "structcore_1_1CheckResult.html", null ],
+    [ "core::CityBlock", "structcore_1_1CityBlock.html", null ],
+    [ "hmi::CityBlockFraming", "structhmi_1_1CityBlockFraming.html", null ],
+    [ "core::CityDistrict", "structcore_1_1CityDistrict.html", null ],
     [ "hmi::CityMap", "structhmi_1_1CityMap.html", null ],
+    [ "core::CityPlan", "structcore_1_1CityPlan.html", null ],
+    [ "core::CityPlanResult", "structcore_1_1CityPlanResult.html", null ],
     [ "core::ClassLevel", "structcore_1_1ClassLevel.html", null ],
     [ "core::ClipSet", "classcore_1_1ClipSet.html", null ],
     [ "core::Collider", "structcore_1_1Collider.html", null ],
@@ -280,6 +285,7 @@ var hierarchy =
     [ "core::Logger", "classcore_1_1Logger.html", null ],
     [ "hmi::MapCityPointView", "structhmi_1_1MapCityPointView.html", null ],
     [ "hmi::MapCityView", "structhmi_1_1MapCityView.html", null ],
+    [ "hmi::MapDistrict", "structhmi_1_1MapDistrict.html", null ],
     [ "core::MapEntity", "structcore_1_1MapEntity.html", null ],
     [ "hmi::MapFrame", "structhmi_1_1MapFrame.html", null ],
     [ "hmi::MapLabel", "structhmi_1_1MapLabel.html", null ],
@@ -353,6 +359,7 @@ var hierarchy =
     [ "QObject", null, [
       [ "hmi::ArenaModel", "classhmi_1_1ArenaModel.html", null ],
       [ "hmi::CharacterSheetModel", "classhmi_1_1CharacterSheetModel.html", null ],
+      [ "hmi::CityDistrictModel", "classhmi_1_1CityDistrictModel.html", null ],
       [ "hmi::CreditsModel", "classhmi_1_1CreditsModel.html", null ],
       [ "hmi::DialogueModel", "classhmi_1_1DialogueModel.html", null ],
       [ "hmi::EditorActions", "classhmi_1_1EditorActions.html", null ],
@@ -363,6 +370,9 @@ var hierarchy =
       [ "hmi::ScreenRouter", "classhmi_1_1ScreenRouter.html", null ],
       [ "hmi::WorldMapModel", "classhmi_1_1WorldMapModel.html", null ],
       [ "hmi::WorldModel", "classhmi_1_1WorldModel.html", null ]
+    ] ],
+    [ "QQuickImageProvider", null, [
+      [ "hmi::CityBlockImageProvider", "classhmi_1_1CityBlockImageProvider.html", null ]
     ] ],
     [ "QQuickRhiItem", null, [
       [ "hmi::ArenaViewportItem", "classhmi_1_1ArenaViewportItem.html", null ],

@@ -14,5 +14,6 @@ var searchData=
   ['nodelabel_11',['nodeLabel',['../classhmi_1_1WorldGraphView.html#ae9dde0b588fc25d7c59a5bf65dd338fb',1,'hmi::WorldGraphView']]],
   ['nodetooltip_12',['nodeToolTip',['../classhmi_1_1WorldGraphView.html#a9f90d85faf73f76eeffa42a7cb169c6a',1,'hmi::WorldGraphView']]],
   ['normalized_13',['normalized',['../structcore_1_1Vector2.html#af3240f0ac96a586d8990e385f180fb60',1,'core::Vector2']]],
-  ['note_14',['note',['../classcore_1_1ArenaSession.html#ad9d4850a9d42e1eb18cf9cb17c688f03',1,'core::ArenaSession']]]
+  ['note_14',['note',['../classcore_1_1ArenaSession.html#ad9d4850a9d42e1eb18cf9cb17c688f03',1,'core::ArenaSession']]],
+  ['notedistrictvisit_15',['noteDistrictVisit',['../classhmi_1_1WorldModel.html#adc66b2547875ba03914fe3186cd9e7c4',1,'hmi::WorldModel']]]
 ];

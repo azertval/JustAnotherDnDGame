@@ -1,8 +1,8 @@
 var lots =
 [
-    [ "Lots", "lots.html#autotoc_md843", null ],
-    [ "Feuille de route", "lots.html#autotoc_md844", null ],
-    [ "Programme", "lots.html#autotoc_md845", null ],
+    [ "Lots", "lots.html#autotoc_md851", null ],
+    [ "Feuille de route", "lots.html#autotoc_md852", null ],
+    [ "Programme", "lots.html#autotoc_md853", null ],
     [ "LOT-01 — Fork, purge et remise à nu", "lot-01.html", [
       [ "Objectif", "lot-01.html#autotoc_md407", null ],
       [ "Pourquoi purger en premier", "lot-01.html#autotoc_md408", null ],
@@ -417,20 +417,30 @@ var lots =
       [ "Critères d'acceptation", "lot-09.html#autotoc_md471", null ],
       [ "Journal", "lot-09.html#autotoc_md472", null ]
     ] ],
+    [ "LOT-96 — Martpart et Arenarea se parcourent : le graphe des quartiers", "lot-96.html", [
+      [ "Objectif", "lot-96.html#autotoc_md843", null ],
+      [ "Ce que le dépôt contenait à l'ouverture (18 septembre 2026)", "lot-96.html#autotoc_md844", null ],
+      [ "Décisions d'ouverture", "lot-96.html#autotoc_md845", null ],
+      [ "Les phases", "lot-96.html#autotoc_md846", null ],
+      [ "Ce que le lot a livré", "lot-96.html#autotoc_md847", null ],
+      [ "Points ouverts", "lot-96.html#autotoc_md848", null ],
+      [ "Critères d'acceptation", "lot-96.html#autotoc_md849", null ],
+      [ "Journal", "lot-96.html#autotoc_md850", null ]
+    ] ],
     [ "LOT-91 — Atelier des PNJ : les figurines du Character Compendium", "lot-91.html", "lot-91" ],
     [ "Feuille de route — le bac à sable de Tanares", "roadmap.html", [
       [ "État d'avancement", "roadmap.html#roadmap-avancement", null ],
-      [ "1. Le corpus n'est pas versionné", "roadmap.html#autotoc_md848", null ],
-      [ "2. Inventaire du corpus", "roadmap.html#autotoc_md850", [
-        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap.html#autotoc_md851", null ],
-        [ "Ce que chaque document apporte, chiffré", "roadmap.html#autotoc_md852", null ]
+      [ "1. Le corpus n'est pas versionné", "roadmap.html#autotoc_md856", null ],
+      [ "2. Inventaire du corpus", "roadmap.html#autotoc_md858", [
+        [ "Les ressources de table virtuelle (ajoutées le 7 septembre 2026)", "roadmap.html#autotoc_md859", null ],
+        [ "Ce que chaque document apporte, chiffré", "roadmap.html#autotoc_md860", null ]
       ] ],
-      [ "3. Licences : contrainte en sommeil", "roadmap.html#autotoc_md854", null ],
-      [ "4. Ce que l'extraction a appris", "roadmap.html#autotoc_md856", null ],
-      [ "4bis. Ce que les deux livres imposent au moteur — relecture du 14 septembre 2026", "roadmap.html#autotoc_md858", null ],
-      [ "5. Programme de lots proposé — la filière contenu", "roadmap.html#autotoc_md860", [
-        [ "Importer tout, honorer progressivement", "roadmap.html#autotoc_md861", null ],
-        [ "La cible : un bac à sable dans l'univers entier", "roadmap.html#autotoc_md862", null ],
+      [ "3. Licences : contrainte en sommeil", "roadmap.html#autotoc_md862", null ],
+      [ "4. Ce que l'extraction a appris", "roadmap.html#autotoc_md864", null ],
+      [ "4bis. Ce que les deux livres imposent au moteur — relecture du 14 septembre 2026", "roadmap.html#autotoc_md866", null ],
+      [ "5. Programme de lots proposé — la filière contenu", "roadmap.html#autotoc_md868", [
+        [ "Importer tout, honorer progressivement", "roadmap.html#autotoc_md869", null ],
+        [ "La cible : un bac à sable dans l'univers entier", "roadmap.html#autotoc_md870", null ],
         [ "<span class=\"tt\">LOT-35</span> — Sorts et états", "roadmap.html#lot-35", null ],
         [ "<span class=\"tt\">LOT-40</span> — Générateur de terrain", "roadmap.html#lot-40", null ],
         [ "<span class=\"tt\">LOT-41</span> — Peuplement : rencontres et créatures", "roadmap.html#lot-41", null ],
@@ -454,97 +464,96 @@ var lots =
         [ "<span class=\"tt\">LOT-88</span> — Spécifications : retrait de l'héritage plateforme", "roadmap.html#lot-88", null ],
         [ "<span class=\"tt\">LOT-89</span> — Dons, objets magiques et consommables de Tanares", "roadmap.html#lot-89", null ],
         [ "<span class=\"tt\">LOT-90</span> — Le plan pénombral", "roadmap.html#lot-90", null ],
-        [ "<span class=\"tt\">LOT-93</span> — Atelier des monstres : les figurines du bestiaire, depuis le texte seul", "roadmap.html#lot-93", null ],
-        [ "<span class=\"tt\">LOT-96</span> — Martpart et Arenarea se parcourent : le graphe des quartiers", "roadmap.html#lot-96", null ]
+        [ "<span class=\"tt\">LOT-93</span> — Atelier des monstres : les figurines du bestiaire, depuis le texte seul", "roadmap.html#lot-93", null ]
       ] ],
-      [ "6. Ordre d'exécution", "roadmap.html#autotoc_md865", [
-        [ "La règle", "roadmap.html#autotoc_md866", null ],
-        [ "Où lire la suite", "roadmap.html#autotoc_md867", null ],
-        [ "Le regroupement d'intention", "roadmap.html#autotoc_md868", null ],
-        [ "Ce que l'ordre a révélé", "roadmap.html#autotoc_md869", null ],
-        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap.html#autotoc_md870", null ],
+      [ "6. Ordre d'exécution", "roadmap.html#autotoc_md873", [
+        [ "La règle", "roadmap.html#autotoc_md874", null ],
+        [ "Où lire la suite", "roadmap.html#autotoc_md875", null ],
+        [ "Le regroupement d'intention", "roadmap.html#autotoc_md876", null ],
+        [ "Ce que l'ordre a révélé", "roadmap.html#autotoc_md877", null ],
+        [ "Le chemin critique jusqu'au <em>vertical slice</em>", "roadmap.html#autotoc_md878", null ],
         [ "Le plan d'intégration : la Capitale, lot après lot", "roadmap.html#roadmap-capitale", null ],
-        [ "Le graphe des dépendances", "roadmap.html#autotoc_md871", null ],
-        [ "Récapitulatif : qui dépend de qui", "roadmap.html#autotoc_md872", null ]
+        [ "Le graphe des dépendances", "roadmap.html#autotoc_md879", null ],
+        [ "Récapitulatif : qui dépend de qui", "roadmap.html#autotoc_md880", null ]
       ] ],
-      [ "7. Arborescence cible", "roadmap.html#autotoc_md874", null ],
-      [ "8. Décisions prises et questions restantes", "roadmap.html#autotoc_md876", [
-        [ "Tranché", "roadmap.html#autotoc_md877", null ],
-        [ "Écarté à la relecture des livres", "roadmap.html#autotoc_md878", null ],
-        [ "À trancher", "roadmap.html#autotoc_md879", null ]
+      [ "7. Arborescence cible", "roadmap.html#autotoc_md882", null ],
+      [ "8. Décisions prises et questions restantes", "roadmap.html#autotoc_md884", [
+        [ "Tranché", "roadmap.html#autotoc_md885", null ],
+        [ "Écarté à la relecture des livres", "roadmap.html#autotoc_md886", null ],
+        [ "À trancher", "roadmap.html#autotoc_md887", null ]
       ] ],
-      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap.html#autotoc_md881", [
-        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap.html#autotoc_md882", null ],
-        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap.html#autotoc_md883", null ],
-        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap.html#autotoc_md884", null ],
-        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap.html#autotoc_md885", null ],
-        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap.html#autotoc_md886", null ],
-        [ "9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours", "roadmap.html#autotoc_md887", null ]
+      [ "9. Ce que l'audit a révélé sur l'état du dépôt", "roadmap.html#autotoc_md889", [
+        [ "9.1 Cinq familles d'exigences sont fantômes — le lint le dit désormais", "roadmap.html#autotoc_md890", null ],
+        [ "9.2 Six mécaniques étaient consommées sans être produites", "roadmap.html#autotoc_md891", null ],
+        [ "9.3 L'allègement est le geste à plus fort levier du programme", "roadmap.html#autotoc_md892", null ],
+        [ "9.4 Le socle technique tient, mais trois préconditions manquent", "roadmap.html#autotoc_md893", null ],
+        [ "9.5 La collision de numéros est bloquante, et bien plus large qu'estimé", "roadmap.html#autotoc_md894", null ],
+        [ "9.6 Second audit, 14 septembre 2026 : ce qui avait dérivé en dix jours", "roadmap.html#autotoc_md895", null ]
       ] ],
-      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap.html#autotoc_md889", null ],
-      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap.html#autotoc_md891", [
+      [ "10. Ce qu'il faut anticiper, tant que rien n'est construit", "roadmap.html#autotoc_md897", null ],
+      [ "11. Les lots <span class=\"tt\">LOT-09</span> à <span class=\"tt\">LOT-29</span>", "roadmap.html#autotoc_md899", [
         [ "LOT-16 — Les affaires de la Capitale : quêtes et drapeaux de monde", "roadmap.html#lot-16", [
-          [ "Objectif", "roadmap.html#autotoc_md892", null ],
-          [ "La quête, telle que le livre la tend", "roadmap.html#autotoc_md893", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md894", null ],
-          [ "Note de conception", "roadmap.html#autotoc_md895", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md896", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md897", null ]
+          [ "Objectif", "roadmap.html#autotoc_md900", null ],
+          [ "La quête, telle que le livre la tend", "roadmap.html#autotoc_md901", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md902", null ],
+          [ "Note de conception", "roadmap.html#autotoc_md903", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md904", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md905", null ]
         ] ],
         [ "LOT-17 — Reprendre sa partie dans la Capitale : sauvegarde riche", "roadmap.html#lot-17", [
-          [ "Objectif", "roadmap.html#autotoc_md898", null ],
-          [ "Le problème", "roadmap.html#autotoc_md899", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md900", null ],
-          [ "Règles de format", "roadmap.html#autotoc_md901", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md902", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md903", null ]
+          [ "Objectif", "roadmap.html#autotoc_md906", null ],
+          [ "Le problème", "roadmap.html#autotoc_md907", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md908", null ],
+          [ "Règles de format", "roadmap.html#autotoc_md909", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md910", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md911", null ]
         ] ],
         [ "LOT-25 — Sorts et capacités de classe", "roadmap.html#lot-25", [
-          [ "Objectif", "roadmap.html#autotoc_md904", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md905", null ],
-          [ "Note de conception", "roadmap.html#autotoc_md906", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md907", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md908", null ]
+          [ "Objectif", "roadmap.html#autotoc_md912", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md913", null ],
+          [ "Note de conception", "roadmap.html#autotoc_md914", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md915", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md916", null ]
         ] ],
         [ "LOT-26 — Butin, marchands, économie", "roadmap.html#lot-26", [
-          [ "Objectif", "roadmap.html#autotoc_md909", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md910", null ],
-          [ "Le piège du tirage", "roadmap.html#autotoc_md911", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md912", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md913", null ]
+          [ "Objectif", "roadmap.html#autotoc_md917", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md918", null ],
+          [ "Le piège du tirage", "roadmap.html#autotoc_md919", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md920", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md921", null ]
         ] ],
         [ "LOT-27 — La Capitale : contenu du <em>vertical slice</em>", "roadmap.html#lot-27", [
-          [ "Objectif", "roadmap.html#autotoc_md914", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md915", [
-            [ "Les cartes — quatre, tracées depuis le plan", "roadmap.html#autotoc_md916", null ],
-            [ "Les habitants — les figurines de l'atelier", "roadmap.html#autotoc_md917", null ],
-            [ "Les textures — trois jeux, une planche chacun", "roadmap.html#autotoc_md918", null ],
-            [ "Le combat sur la carte", "roadmap.html#autotoc_md919", null ],
-            [ "Retraits", "roadmap.html#autotoc_md920", null ]
+          [ "Objectif", "roadmap.html#autotoc_md922", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md923", [
+            [ "Les cartes — quatre, tracées depuis le plan", "roadmap.html#autotoc_md924", null ],
+            [ "Les habitants — les figurines de l'atelier", "roadmap.html#autotoc_md925", null ],
+            [ "Les textures — trois jeux, une planche chacun", "roadmap.html#autotoc_md926", null ],
+            [ "Le combat sur la carte", "roadmap.html#autotoc_md927", null ],
+            [ "Retraits", "roadmap.html#autotoc_md928", null ]
           ] ],
-          [ "Outillage", "roadmap.html#autotoc_md921", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md922", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md923", null ]
+          [ "Outillage", "roadmap.html#autotoc_md929", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md930", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md931", null ]
         ] ],
         [ "LOT-28 — Audio, effets et version <span class=\"tt\">0.0.1</span>", "roadmap.html#lot-28", [
-          [ "Objectif", "roadmap.html#autotoc_md924", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md925", [
-            [ "Audio", "roadmap.html#autotoc_md926", null ],
-            [ "Effets", "roadmap.html#autotoc_md927", null ],
-            [ "Équilibrage", "roadmap.html#autotoc_md928", null ],
-            [ "Clôture", "roadmap.html#autotoc_md929", null ]
+          [ "Objectif", "roadmap.html#autotoc_md932", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md933", [
+            [ "Audio", "roadmap.html#autotoc_md934", null ],
+            [ "Effets", "roadmap.html#autotoc_md935", null ],
+            [ "Équilibrage", "roadmap.html#autotoc_md936", null ],
+            [ "Clôture", "roadmap.html#autotoc_md937", null ]
           ] ],
-          [ "Note de méthode", "roadmap.html#autotoc_md930", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md931", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md932", null ]
+          [ "Note de méthode", "roadmap.html#autotoc_md938", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md939", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md940", null ]
         ] ],
         [ "LOT-29 — Groupe de quatre personnages", "roadmap.html#lot-29", [
-          [ "Objectif", "roadmap.html#autotoc_md933", null ],
-          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap.html#autotoc_md934", null ],
-          [ "Périmètre", "roadmap.html#autotoc_md935", null ],
-          [ "Le point délicat", "roadmap.html#autotoc_md936", null ],
-          [ "Exigences couvertes", "roadmap.html#autotoc_md937", null ],
-          [ "Critères d'acceptation", "roadmap.html#autotoc_md938", null ]
+          [ "Objectif", "roadmap.html#autotoc_md941", null ],
+          [ "Pourquoi ce lot est un lot d'<b>ajout</b>, pas une refonte", "roadmap.html#autotoc_md942", null ],
+          [ "Périmètre", "roadmap.html#autotoc_md943", null ],
+          [ "Le point délicat", "roadmap.html#autotoc_md944", null ],
+          [ "Exigences couvertes", "roadmap.html#autotoc_md945", null ],
+          [ "Critères d'acceptation", "roadmap.html#autotoc_md946", null ]
         ] ]
       ] ]
     ] ]

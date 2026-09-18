@@ -53,11 +53,13 @@ var searchData=
   ['dirty_50',['dirty',['../structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310',1,'hmi::LevelStatusInfo::dirty'],['../structhmi_1_1PixelEditStatusInfo.html#a5e78865d03928b21b28f7801e71d96ca',1,'hmi::PixelEditStatusInfo::dirty']]],
   ['disadvantages_51',['disadvantages',['../structcore_1_1AttackCircumstances.html#ac9d1136de413f8e4ab2393e8dff3d349',1,'core::AttackCircumstances::disadvantages'],['../structcore_1_1AttackRoll.html#a336d74ae9da041c697992ef3c8ae0ba9',1,'core::AttackRoll::disadvantages'],['../structcore_1_1AttackPreview.html#a0f42e64ab43941c9f9c548ae4a9fb5de',1,'core::AttackPreview::disadvantages']]],
   ['displays_52',['displays',['../structhmi_1_1LayersPanel_1_1Snapshot.html#af8b5e5e733fab3260348a932dd80bf97',1,'hmi::LayersPanel::Snapshot']]],
-  ['docksvisible_53',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
-  ['dodgewhenthreatened_54',['dodgeWhenThreatened',['../structcore_1_1BehaviorProfile.html#a73d047ae8a5ef120e86867fa6ac2f3f8',1,'core::BehaviorProfile']]],
-  ['dooropen_55',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
-  ['doorposition_56',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
-  ['down_57',['down',['../structhmi_1_1ArenaFigureSnapshot.html#ad179a96ca0cb2105f0239df101b41966',1,'hmi::ArenaFigureSnapshot']]],
-  ['drawn_58',['drawn',['../structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c',1,'hmi::AssetGalleryFrame']]],
-  ['duration_59',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
+  ['district_53',['district',['../structhmi_1_1MapCityPointView.html#aed5bb7e2a56442b2385ff7791d6d4852',1,'hmi::MapCityPointView']]],
+  ['districts_54',['districts',['../structcore_1_1CityPlan.html#aabd74854b3292a625c7977b70f8bfbd0',1,'core::CityPlan::districts'],['../structhmi_1_1CityMap.html#a643857b704bef4e7f384989e871d8b92',1,'hmi::CityMap::districts']]],
+  ['docksvisible_55',['docksVisible',['../structhmi_1_1ScreenDressing.html#afaadcce2a4848ec507ac6584b3590205',1,'hmi::ScreenDressing']]],
+  ['dodgewhenthreatened_56',['dodgeWhenThreatened',['../structcore_1_1BehaviorProfile.html#a73d047ae8a5ef120e86867fa6ac2f3f8',1,'core::BehaviorProfile']]],
+  ['dooropen_57',['doorOpen',['../structhmi_1_1MechanismEventState.html#a93b52be466073c5f1eb4b61605f36c65',1,'hmi::MechanismEventState']]],
+  ['doorposition_58',['doorPosition',['../structcore_1_1Mechanism.html#aff8f5698a02356618c67d7fafae8b2b7',1,'core::Mechanism']]],
+  ['down_59',['down',['../structhmi_1_1ArenaFigureSnapshot.html#ad179a96ca0cb2105f0239df101b41966',1,'hmi::ArenaFigureSnapshot']]],
+  ['drawn_60',['drawn',['../structhmi_1_1AssetGalleryFrame.html#a89b2649772ed2a910f02f660f097736c',1,'hmi::AssetGalleryFrame']]],
+  ['duration_61',['duration',['../structhmi_1_1ScreenShakeState.html#a0af939241aae31f584200a4f23d21cd7',1,'hmi::ScreenShakeState']]]
 ];

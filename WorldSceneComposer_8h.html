@@ -133,6 +133,8 @@ Functions</h2></td></tr>
 <tr class="memitem:abbf2a2d38ba582981388654fde028bae" id="r_abbf2a2d38ba582981388654fde028bae"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#abbf2a2d38ba582981388654fde028bae">hmi::scenePlaceOf</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level)</td></tr>
 <tr class="memitem:a8e3a1dcd14a5132e99f15be875c38936" id="r_a8e3a1dcd14a5132e99f15be875c38936"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8e3a1dcd14a5132e99f15be875c38936">hmi::snapshotWorldScene</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level, const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> &amp;appearance, std::vector&lt; <a class="el" href="structhmi_1_1WorldFigureSnapshot.html">WorldFigureSnapshot</a> &gt; figures)</td></tr>
 <tr class="memdesc:a8e3a1dcd14a5132e99f15be875c38936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tire de <code class="param">level</code> l'instantané que la composition dessine.  <br /></td></tr>
+<tr class="memitem:a1c839cebf18adf167ae9ac5452d179b6" id="r_a1c839cebf18adf167ae9ac5452d179b6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6">hmi::figureMarkerKey</a> (std::string_view path)</td></tr>
+<tr class="memdesc:a1c839cebf18adf167ae9ac5452d179b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">La clé du marqueur d'une figurine qui n'a pas d'image (<span class="tt">LOT-39</span>, <span class="tt">LOT-96</span>).  <br /></td></tr>
 <tr class="memitem:a07929611bf03ab59a2de588feb90ad7d" id="r_a07929611bf03ab59a2de588feb90ad7d"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a07929611bf03ab59a2de588feb90ad7d">hmi::worldTexturePaths</a> (const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot)</td></tr>
 <tr class="memitem:a634bad2a915ba6f49caae2a158329bb3" id="r_a634bad2a915ba6f49caae2a158329bb3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a634bad2a915ba6f49caae2a158329bb3">hmi::composeWorldScene</a> (<a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot, const <a class="el" href="classcore_1_1IsoProjection.html">core::IsoProjection</a> &amp;projection, const <a class="el" href="structhmi_1_1ScenePieceTextures.html">ScenePieceTextures</a> &amp;textures)</td></tr>
 <tr class="memdesc:a634bad2a915ba6f49caae2a158329bb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compose le lieu dans un tampon réutilisé.  <br /></td></tr>
@@ -151,7 +153,7 @@ Variables</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Un <b>lieu qu'on parcourt</b> composé en primitives, sans GPU : le jumeau d'<span class="tt">hmi::ArenaSceneComposer</span> pour la carte du jeu (<span class="tt">LOT-09</span>). </p>
 <p>Le lieu et l'arène se dessinent par le <b>même</b> code : même projection isométrique (<span class="tt"><a class="el" href="classcore_1_1IsoProjection.html" title="La projection isométrique d&#39;une grille de combat de columns × rows cases.">core::IsoProjection</a></span>), mêmes planches de l'atelier des textures (<span class="tt">LOT-92</span>, <span class="tt"><a class="el" href="ScenePieces_8h.html" title="La géométrie des pièces de l&#39;atelier des textures (LOT-92), commune au Colisée en combat et aux lieux...">ScenePieces.h</a></span>), même tri par profondeur. Ce qui change est la <b>source</b> : l'arène lit une grille de combat, le lieu lit une carte (<span class="tt"><a class="el" href="classcore_1_1Level.html">core::Level</a></span>) — ses couches, ses assignations de texture, ses entités.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1036"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1044"></a>
 Ce qui va où</h2>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -163,7 +165,7 @@ Ce qui va où</h2>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">figurine (héros, PNJ)  </td><td class="markdownTableBodyNone"><span class="tt">RenderLayer::Player</span>  </td><td class="markdownTableBodyNone">pied de sa case  </td></tr>
 </table>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1037"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1045"></a>
 Par instantané, comme l'arène</h2>
 <p>La composition ne lit qu'un <span class="tt"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html" title="Le lieu en valeurs : ce que la composition lit, et rien d&#39;autre.">hmi::WorldSceneSnapshot</a></span> — des <b>valeurs</b>, aucun pointeur vers la carte ni vers la session. C'est ce qui lui permet de tourner sur le fil de rendu de Qt Quick, l'instantané étant pris dans <span class="tt">synchronize()</span> pendant que le fil graphique est bloqué. </p>
 </div></div><!-- contents -->

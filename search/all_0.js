@@ -34,6 +34,6 @@ var searchData=
   ['08_20—_20vocabulaire_20de_20tuiles_20rpg_31',['LOT-08 — Vocabulaire de tuiles RPG',['../lot-08.html',1,'lots']]],
   ['08_2012_32',['Mesures de référence, à la date du &lt;span class=&quot;tt&quot;&gt;LOT-62&lt;/span&gt; (2026-08-12)',['../guide-rendu.html#autotoc_md257',1,'']]],
   ['09_33',['T3.7 — L&apos;équipe de mercenaires (maquette 09)',['../lot-87.html#autotoc_md791',1,'']]],
-  ['09_20à_20lot_2029_34',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap.html#autotoc_md891',1,'']]],
+  ['09_20à_20lot_2029_34',['11. Les lots &lt;span class=&quot;tt&quot;&gt;LOT-09&lt;/span&gt; à &lt;span class=&quot;tt&quot;&gt;LOT-29&lt;/span&gt;',['../roadmap.html#autotoc_md899',1,'']]],
   ['09_20—_20le_20colisée_20se_20parcourt_20_3a_20exploration_20dans_20le_20jeu_20et_20première_20carte_35',['LOT-09 — Le Colisée se parcourt : exploration dans le jeu et première carte',['../lot-09.html',1,'lots']]]
 ];

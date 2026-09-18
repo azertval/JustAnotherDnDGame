@@ -127,6 +127,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:aac4f7e0b49d62bb8d7397a05f0683046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le graphe ne depend pas de l'ordre des cartes recues.  <br /></td></tr>
 <tr class="memitem:a9adb7d2d981aa085a1c767b67d9fc806" id="r_a9adb7d2d981aa085a1c767b67d9fc806"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9adb7d2d981aa085a1c767b67d9fc806">TEST_F</a> (WorldGraphFileTest, UnDossierDeNiveauxSeLitEnGraphe)</td></tr>
 <tr class="memdesc:a9adb7d2d981aa085a1c767b67d9fc806"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un dossier de niveaux se lit en graphe, carte illisible comprise.  <br /></td></tr>
+<tr class="memitem:a1cefbfe9a27f44bf0f3984ae1ed78c5c" id="r_a1cefbfe9a27f44bf0f3984ae1ed78c5c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1cefbfe9a27f44bf0f3984ae1ed78c5c">TEST_F</a> (WorldGraphFileTest, UneCarteDUnSousDossierAPourIdentifiantSonCheminRelatif)</td></tr>
+<tr class="memdesc:a1cefbfe9a27f44bf0f3984ae1ed78c5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte d'un sous-dossier a pour identifiant son chemin relatif.  <br /></td></tr>
 <tr class="memitem:a7b3aae2c884df78b34294f2532c78ae5" id="r_a7b3aae2c884df78b34294f2532c78ae5"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7b3aae2c884df78b34294f2532c78ae5">TEST_F</a> (WorldGraphFileTest, UnDossierAbsentDonneUnGrapheVide)</td></tr>
 <tr class="memdesc:a7b3aae2c884df78b34294f2532c78ae5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un dossier absent donne un graphe vide, sans lever.  <br /></td></tr>
 </table>
@@ -349,7 +351,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7b3aae2c884df78b34294f2532c78ae5" name="a7b3aae2c884df78b34294f2532c78ae5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b3aae2c884df78b34294f2532c78ae5">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b3aae2c884df78b34294f2532c78ae5">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +380,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a9adb7d2d981aa085a1c767b67d9fc806" name="a9adb7d2d981aa085a1c767b67d9fc806"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9adb7d2d981aa085a1c767b67d9fc806">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9adb7d2d981aa085a1c767b67d9fc806">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,6 +407,38 @@ Functions</h2></td></tr>
 </p><ol type="1">
 <li>Charger le graphe du dossier.<br  />
  <b>Resultat attendu :</b> Trois cartes (identifiant = nom de fichier), l'illisible avec son erreur ; le portail vers elle est <span class="tt">TargetUnreadable</span>, l'aller-retour est resolu. </li>
+</ol>
+
+</div>
+</div>
+<a id="a1cefbfe9a27f44bf0f3984ae1ed78c5c" name="a1cefbfe9a27f44bf0f3984ae1ed78c5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cefbfe9a27f44bf0f3984ae1ed78c5c">&#9670;&#160;</a></span>TEST_F() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_F </td>
+          <td>(</td>
+          <td class="paramtype">WorldGraphFileTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UneCarteDUnSousDossierAPourIdentifiantSonCheminRelatif</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Une carte d'un sous-dossier a pour identifiant son chemin relatif. </p>
+<p><b>Cas de test :</b> <b>Les cartes d'un sous-dossier entrent au graphe sous leur chemin relatif.</b><br  />
+ <b>Categorie :</b> Unitaire · Graphe du monde<br  />
+ <b>Criticite :</b> Critique<br  />
+ <b>Etapes :</b><br  />
+ 1. Ecrire <span class="tt">capital/martpart.json</span> et <span class="tt">capital/arenarea.json</span>, reliees par portails, et <span class="tt">coliseum.json</span> a la racine.<br  />
+</p><ol type="1">
+<li>Charger le graphe du dossier.<br  />
+ <b>Resultat attendu :</b> Trois cartes, <span class="tt">capital/arenarea</span>, <span class="tt">capital/martpart</span> et <span class="tt">coliseum</span> ; les portails entre quartiers se resolvent (LOT-96). </li>
 </ol>
 
 </div>

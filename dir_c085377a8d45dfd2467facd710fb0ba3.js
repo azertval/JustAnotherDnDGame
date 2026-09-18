@@ -2,6 +2,10 @@ var dir_c085377a8d45dfd2467facd710fb0ba3 =
 [
     [ "Atlas.cpp", "Atlas_8cpp.html", "Atlas_8cpp" ],
     [ "Atlas.h", "Atlas_8h.html", "Atlas_8h" ],
+    [ "CityBlock.cpp", "CityBlock_8cpp.html", "CityBlock_8cpp" ],
+    [ "CityBlock.h", "CityBlock_8h.html", "CityBlock_8h" ],
+    [ "CityPlan.cpp", "CityPlan_8cpp.html", "CityPlan_8cpp" ],
+    [ "CityPlan.h", "CityPlan_8h.html", "CityPlan_8h" ],
     [ "CombatZone.cpp", "CombatZone_8cpp.html", "CombatZone_8cpp" ],
     [ "CombatZone.h", "CombatZone_8h.html", "CombatZone_8h" ],
     [ "EntityKinds.cpp", "EntityKinds_8cpp.html", "EntityKinds_8cpp" ],
