@@ -99,6 +99,8 @@ inline constexpr std::string_view MISSING_PIECES_GROUP = "Missing from the sheet
  * qu'une pièce venue à manquer arrête encore la vue — et le vide pour un sol, que la pièce seule
  * habille.
  * @param appearance La table du lieu, `nullptr` sans lieu.
+ * @param piece      Le nom court de la pièce.
+ * @param floor      La pièce est un sol.
  */
 [[nodiscard]] core::TileType pieceCellType(const PlaceAppearance* appearance,
                                            std::string_view piece, bool floor);

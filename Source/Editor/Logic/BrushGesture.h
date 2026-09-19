@@ -82,6 +82,8 @@ struct BrushResult {
  * @param brush      Le pinceau.
  * @param active     La couche active.
  * @param view       Les réglages des couches (verrous).
+ * @param first      Un coin du rectangle.
+ * @param last       Le coin opposé (égal à @p first pour une seule case).
  * @param continuing Le geste prolonge un glisser : une pièce ne se repose pas sur une case que la
  *                   même pièce couvre déjà, sans quoi glisser un étal 2 × 1 le décalerait d'une
  * case à chaque pas.

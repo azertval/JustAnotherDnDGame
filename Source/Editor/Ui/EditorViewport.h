@@ -90,6 +90,7 @@ public:
     /**
      * @brief Arme le pinceau d'une pièce (palette des pièces) : elle va sur sa couche, qui devient
      *        la couche active (`hmi::pieceTargetLayer`).
+     * @param piece Le nom court de la pièce.
      * @param floor La pièce est un sol.
      */
     void setActivePiece(const std::string& piece, bool floor);
