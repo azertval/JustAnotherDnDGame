@@ -269,7 +269,7 @@ Chaque case de couche porte son type et sa pièce ; la grille de collision est d
 réemployé, les zones une forme peinte, les cartes des variantes, la hauteur une place réservée
 (`EX-LVL-021` à `EX-LVL-024`). `LevelEditor --migrate` a converti les trois cartes sans changer ce
 que le jeu joue ; `LevelEditor --check` les garde en CI (`EX-EDIT-062`). Schéma publié :
-`Documentation/Editeur/level.schema.json`. Le Colisée garde 540 cases forcées, à trancher au
+`Documentation/Editeur/level.schema.json`. Le Colisée gardait 540 cases forcées, libérées au
 `LOT-EDITOR-03`.
 
 ### LOT-EDITOR-03 — Peindre avec les pièces du lieu
@@ -283,7 +283,8 @@ couche et écrit, en un geste, sa pièce, le type de sa case et la collision de 
 gomme retire une pièce entière (`EX-EDIT-064`). La collision suit chaque geste sur ses seules
 cases ; peindre la collision force la case, la gomme la libère, et le masque montre les cases
 forcées (`EX-EDIT-065`). Les 540 cases forcées du Colisée — le vide autour de l'amphithéâtre, que
-le héros atteint par la porte, et deux piliers — sont à la décision de l'auteur.
+le héros atteignait par la porte, et deux piliers qui se traversaient — sont libérées : sa collision
+est la déduction.
 
 ### LOT-EDITOR-04 — Les outils du peintre {#lot-editor-04}
 

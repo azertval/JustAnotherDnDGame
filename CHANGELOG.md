@@ -14,6 +14,8 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
     emprise ; un étal 2 × 1 occupe ses deux cases, et la gomme le retire entier.
   - **La collision suit chaque geste**, sur ses seules cases. Peindre la collision force la case,
     la gomme la libère, et un masque magenta montre les cases forcées.
+  - **Le Colisée n'a plus de case forcée** : on ne sort plus par la porte dans le vide qui entoure
+    l'amphithéâtre, et les deux piliers du couloir ouest arrêtent le pas comme ceux de l'est.
 
 - **Le format de carte v4, gardé en CI (LOT-EDITOR-12).**
   - **Chaque case de couche nomme sa pièce** ; la pièce ne vit plus sur la grille de collision. Les

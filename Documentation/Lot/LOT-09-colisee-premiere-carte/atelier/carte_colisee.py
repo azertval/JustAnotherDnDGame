@@ -21,7 +21,8 @@ règles, ni les dialogues, ni ce que la zone de combat fait — tout cela est ai
 - la grille **racine** est la collision, et elle seule (`EX-LVL-016`) : `wall` partout où l'on ne
   passe pas, rien là où l'on passe. Une case qui porte une **assignation de texture** doit avoir un
   type non vide, sans quoi l'écrivain de niveau ne l'émet pas : une case franchissable qui porte du
-  relief reçoit donc `dirt`, non solide, et sa matière visible reste dans la couche de sol ;
+  relief reçoit donc ce que sa pièce oppose (son type tactique au manifeste : `wall` pour un pilier,
+  `dirt` pour un banc qu'on enjambe), et sa matière visible reste dans la couche de sol ;
 - la couche **sol** porte la fente de matière de chaque case franchissable (`sand`, `dirt`,
   `solid`, `bridge`, `stairs`, `grass`, `cliff`), que la table du lieu traduit en pièce ;
 - la couche **décor** porte `wall` sur chaque case de relief, et l'assignation de texture de la
@@ -30,6 +31,11 @@ règles, ni les dialogues, ni ce que la zone de combat fait — tout cela est ai
 Depuis le `LOT-EDITOR-12`, ce tracé v3 passe par `LevelEditor --migrate` avant d'être écrit : la
 carte commitée est en v4 (pièces sur leurs couches, collision déduite, cases forcées, entités à
 identifiant). Il faut donc avoir construit l'éditeur.
+
+*Décision de l'auteur, 19 septembre 2026 (`LOT-EDITOR-03`)* : la collision tracée est celle que
+l'éditeur déduit, sans case forcée. Le **vide** autour de l'amphithéâtre — ni sol ni pièce — est un
+mur : jusque-là franchissable, le héros y sortait par la porte. Les deux **piliers** du couloir
+ouest, posés sur des dalles, arrêtent le pas comme ceux du couloir est.
 
 Usage :
 
@@ -58,6 +64,21 @@ CARTE = RACINE / "Source" / "Elements" / "Levels" / "coliseum.json"
 # script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il ne vit plus
 # que jusqu'au LOT-EDITOR-06, qui fait de l'éditeur la source des cartes faites à la main.
 EDITEUR = RACINE / "build" / "ninja" / "bin" / "LevelEditor.exe"
+MANIFESTE = RACINE / "Source" / "Elements" / "Assets" / "Scene" / "coliseum" / "manifest.json"
+
+# Ce qu'un type tactique du manifeste écrit dans la grille de collision : la règle de
+# `core::collisionTileOf`. Gêne, abri et passage s'écrivent `dirt`, franchissable.
+COLLISION_DU_TACTIQUE = {"solid": "wall", "obstacle": "cliff"}
+
+
+def tactiques() -> dict[str, str]:
+    """Le type tactique de chaque pièce du Colisée, par nom court ; à défaut, un sol passe et une
+    pièce debout arrête la vue (`core::ScenePiece::tactical`)."""
+    textures = json.loads(MANIFESTE.read_text(encoding="utf-8"))["textures"]
+    return {
+        cle.rsplit("/", 1)[-1]: piece.get("tactical", "open" if piece["class"] == "floor" else "solid")
+        for cle, piece in textures.items()
+    }
 
 
 def en_v4(texte_v3: str) -> str:
@@ -257,9 +278,11 @@ def tracer() -> dict:
     sol = matieres()
     relief = pieces_de_relief(sol)
 
-    # La grille racine : la collision, et rien d'autre. `wall` partout où l'on ne passe pas ; une
-    # case franchissable qui porte du relief reçoit `dirt` (non solide) pour que l'assignation de
-    # texture soit émise, sa matière visible restant dans la couche de sol.
+    # La grille racine : la collision, et rien d'autre. `wall` partout où l'on ne passe pas, vide
+    # compris ; une case franchissable qui porte du relief reçoit ce que sa pièce oppose (`dirt`,
+    # non solide, pour un banc), pour que l'assignation de texture soit émise, sa matière visible
+    # restant dans la couche de sol.
+    tactique = tactiques()
     racine: list[dict] = []
     for ligne in range(HAUTEUR):
         for colonne in range(LARGEUR):
@@ -270,12 +293,10 @@ def tracer() -> dict:
                 if case == ENTREE:
                     type_ = "entry"
                 elif piece is not None:
-                    type_ = "dirt"
+                    type_ = COLLISION_DU_TACTIQUE.get(tactique.get(piece, "solid"), "dirt")
                 else:
                     continue
             else:
-                if piece is None:
-                    continue
                 type_ = "wall"
             tuile = {"x": colonne, "y": ligne, "type": type_}
             if piece is not None:

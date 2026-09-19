@@ -84,6 +84,7 @@ un seul geste — ce que les scripts des cartes faisaient jusqu'ici à la place 
 | `Editor/Logic` | `PieceCatalog` (catalogue, recherche, couche et type d'une pièce), `BrushGesture` (pinceau de type, de pièce, gomme) ; barre d'état : pinceau armé, case forcée |
 | `Editor/Ui` | palette à deux onglets (Pieces, Types) et gomme ; canevas armé d'un pinceau ; masque des cases forcées |
 | Tests | `test_level_draft_pieces.cpp` (11), `test_piece_catalog.cpp` (6), `test_brush_gesture.cpp` (7), `test_editor_status.cpp` (+1) |
+| Colisée | `carte_colisee.py` trace la collision déduite ; la carte n'a plus de case forcée (décision de l'auteur, plus bas) |
 
 ## Critères d'acceptation
 
@@ -97,8 +98,8 @@ un seul geste — ce que les scripts des cartes faisaient jusqu'ici à la place 
   deuxième case, fichier rendu intact) et
   `LevelDraftPiecesTest.PoserPuisGommerUnEtalOccupePuisLibereSesDeuxCases`.
 - **Les écarts de collision forcés à la main sont montrés en masque.** ✔ capture de la fenêtre sur
-  le Colisée ; `LevelDraftPiecesTest.PeindreLaCollisionForceOuLibereLaCase`,
-  `…UneCaseForceeTientPuisSeLibere`.
+  le Colisée, avant qu'ils ne soient libérés ;
+  `LevelDraftPiecesTest.PeindreLaCollisionForceOuLibereLaCase`, `…UneCaseForceeTientPuisSeLibere`.
 - **Une pièce absente de la planche reste dans la carte, en damier, jamais retirée.** ✔
   `PieceCatalogTest.LeCatalogueGroupeParClasseEtGardeLesAbsentes`,
   `…SansLieuSeulesLesPiecesCiteesRestent`.
@@ -110,15 +111,21 @@ glisser sur sa deuxième case (rien ne bouge), le gommer ; la collision active, 
 une rue (case magenta), puis la gommer (le magenta part). Les clics postés n'atteignent pas Qt :
 cette vérification ne se fait pas sans la main de l'auteur.
 
-## Les 540 cases forcées du Colisée
+## Les 540 cases forcées du Colisée — libérées
 
-Le masque les montre d'un coup d'œil : l'anneau de **vide** autour de l'amphithéâtre (538 cases,
-ni sol ni pièce) et deux **piliers**, en (7, 10) et (7, 23). Un parcours depuis l'entrée (la porte,
-en (19, 32)) les atteint **toutes** : dans le jeu d'aujourd'hui, le héros peut sortir par la porte
-et marcher dans le vide, héritage de la v3 que la migration a gardé à l'identique. Aucune entité
-n'y est posée. Les piliers en (7, 10) et (7, 23) se traversent, là où les deux autres arrêtent le
-pas. La décision revient à l'auteur (voir la PR) ; les libérer d'un geste, c'est la gomme sur toute
-la carte, la collision active.
+Le masque les a montrées d'un coup d'œil : l'anneau de **vide** autour de l'amphithéâtre (538
+cases, ni sol ni pièce) et deux **piliers**, en (7, 10) et (7, 23). Un parcours depuis l'entrée (la
+porte, en (19, 32)) les atteignait **toutes** : le héros pouvait sortir par la porte et marcher
+dans le vide, héritage de la v3 que la migration avait gardé à l'identique. Aucune entité n'y était
+posée. Les deux piliers se traversaient, là où ceux du couloir est arrêtent le pas.
+
+*Décision de l'auteur, 19 septembre 2026* : **tout libérer**. Le vide est un mur, les quatre piliers
+arrêtent le pas, et la collision du Colisée est exactement la déduction : plus aucune case forcée.
+Le Colisée étant encore tracé par `carte_colisee.py` (jusqu'au `LOT-EDITOR-06`), c'est le script
+qui trace désormais cette collision — le vide en mur, et sur une dalle la collision du type
+tactique de la pièce qu'elle porte —, pour que `--migrate` ne force plus rien ; `--check` du
+script et de l'éditeur sont verts. Un parcours depuis la porte atteint 632 cases, toutes sur un
+sol : les 634 cases franchissables, moins les deux piliers.
 
 ## Ce qui reste hors du lot, nommément
 
