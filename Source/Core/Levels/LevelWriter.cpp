@@ -170,7 +170,8 @@ void writeProperties(const PropertyMap& properties, Json& object) {
 //
 // Deux espaces d'indentation, comme tout ecrivain JSON du projet ; mais les objets d'une liste de
 // cases ("tiles", "forced", "cells") tiennent sur UNE ligne. Une carte est un fichier versionne :
-// poser une piece doit changer une ligne du diff, pas cinq, et Martpart tombe de 190 a 70 Ko.
+// poser une piece doit changer une ligne du diff, pas cinq : Martpart passe de 190 a 126 Ko, ses
+// 1 172 pieces nommees comprises.
 
 void appendScalar(std::string& out, const Json& value) {
     out += value.dump(-1, ' ', false, Json::error_handler_t::replace);

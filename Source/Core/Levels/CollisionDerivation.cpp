@@ -120,9 +120,13 @@ CollisionDerivation deriveCollision(const std::vector<TileLayer>& layers, int wi
     return derivation;
 }
 
+TileType canonicalCollisionTile(TileType type) noexcept {
+    return collisionTileOf(tacticalOfTileType(type));
+}
+
 bool collisionAgrees(const TileMap& written, const TileMap& derived, int column, int row) {
-    const TileType value = written.tile(column, row);
-    return (value == TileType::Entry ? TileType::Empty : value) == derived.tile(column, row);
+    return canonicalCollisionTile(written.tile(column, row)) ==
+           canonicalCollisionTile(derived.tile(column, row));
 }
 
 }  // namespace core

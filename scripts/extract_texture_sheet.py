@@ -703,6 +703,11 @@ def decouper(disposition: dict, planches_recues: list) -> tuple[dict, dict, list
                 **({"mirrorOf": cle(disposition, source_du_miroir(disposition, cellule))}
                    if "mirrorOf" in cellule else {}),
                 "footprint": list(emprise(disposition, cellule)),
+                # ce que la pièce oppose à qui passe, et ses anciens noms (LOT-EDITOR-12) : un
+                # miroir hérite de sa source ce qu'il ne déclare pas
+                **{champ: valeur for champ in ("tactical", "aliases")
+                   if (valeur := cellule.get(champ, (source_du_miroir(disposition, cellule)
+                                                     or {}).get(champ))) is not None},
                 "size": [int(finale.shape[1]), int(finale.shape[0])],
                 # le sommet haut de l'emprise : le coin (0, 0) de la case qui porte la pièce
                 "anchor": [int(haut[0]), int(haut[1])],

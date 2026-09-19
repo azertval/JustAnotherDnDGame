@@ -27,6 +27,10 @@ règles, ni les dialogues, ni ce que la zone de combat fait — tout cela est ai
 - la couche **décor** porte `wall` sur chaque case de relief, et l'assignation de texture de la
   case nomme la pièce exacte (pan gauche ou droit, angle, arche, gradin, banc, torche…).
 
+Depuis le `LOT-EDITOR-12`, ce tracé v3 passe par `LevelEditor --migrate` avant d'être écrit : la
+carte commitée est en v4 (pièces sur leurs couches, collision déduite, cases forcées, entités à
+identifiant). Il faut donc avoir construit l'éditeur.
+
 Usage :
 
     py -3.13 Documentation/Lot/LOT-09-colisee-premiere-carte/atelier/carte_colisee.py [--check]
@@ -39,11 +43,35 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[4]
 CARTE = RACINE / "Source" / "Elements" / "Levels" / "coliseum.json"
+
+# -- Format v4 (LOT-EDITOR-12) -------------------------------------------------------------------
+#
+# Ce script trace une carte v3 ; le dépôt ne garde que des v4. La conversion n'est pas refaite ici :
+# c'est l'éditeur qui la porte (`LevelEditor --migrate`), une seule fois pour toutes les cartes. Le
+# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il ne vit plus
+# que jusqu'au LOT-EDITOR-06, qui fait de l'éditeur la source des cartes faites à la main.
+EDITEUR = RACINE / "build" / "ninja" / "bin" / "LevelEditor.exe"
+
+
+def en_v4(texte_v3: str) -> str:
+    """La carte v3 que trace ce script, migrée en v4 canonique par l'éditeur."""
+    if not EDITEUR.is_file():
+        raise SystemExit(f"{EDITEUR} est absent : construire l'éditeur d'abord (scripts/build.ps1).")
+    with tempfile.TemporaryDirectory() as dossier:
+        entree = Path(dossier) / "carte.json"
+        sortie = Path(dossier) / "carte-v4.json"
+        entree.write_text(texte_v3, encoding="utf-8", newline="\n")
+        subprocess.run([str(EDITEUR), "--data", str(RACINE / "Source" / "Elements"), "--migrate",
+                        str(entree), "--output", str(sortie)], check=True, capture_output=True)
+        return sortie.read_text(encoding="utf-8")
+
 
 LARGEUR = 40
 HAUTEUR = 34
@@ -322,7 +350,7 @@ def main() -> int:
     arguments = analyseur.parse_args()
 
     carte = tracer()
-    texte = json.dumps(carte, ensure_ascii=False, indent=2) + "\n"
+    texte = en_v4(json.dumps(carte, ensure_ascii=False, indent=2) + "\n")
 
     if arguments.check:
         if not CARTE.exists():

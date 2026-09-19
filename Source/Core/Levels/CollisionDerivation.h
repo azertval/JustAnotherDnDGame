@@ -72,8 +72,16 @@ struct CollisionDerivation {
                                                   int height, const ScenePieceManifest* manifest);
 
 /**
+ * @return La valeur canonique de collision de @p type : ce qu'il oppose, écrit `wall`, `cliff` ou
+ *         vide. `dirt`, `entry` ou `bridge` y valent une case vide, `solid` un mur.
+ */
+[[nodiscard]] TileType canonicalCollisionTile(TileType type) noexcept;
+
+/**
  * @brief Vrai si la grille de collision écrite @p written s'accorde avec @p derived en
- *        (@p column, @p row) : même valeur, l'entrée comptant pour une case vide.
+ *        (@p column, @p row) : elles opposent la même chose (`canonicalCollisionTile`). Une case
+ *        `dirt` écrite s'accorde avec une case vide déduite — la v3 écrivait l'une pour l'autre —,
+ *        et l'entrée compte pour une case vide.
  */
 [[nodiscard]] bool collisionAgrees(const TileMap& written, const TileMap& derived, int column,
                                    int row);
