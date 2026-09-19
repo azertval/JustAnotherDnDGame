@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789806901274,
+  "lastUpdate": 1789812853532,
   "repoUrl": "https://github.com/azertval/JustAnotherRpgGame",
   "entries": {
     "Combat et niveaux (Release, windows-2022)": [
@@ -424,6 +424,70 @@ window.BENCHMARK_DATA = {
             "value": 407.82182240278246,
             "unit": "us/iter",
             "extra": "iterations: 3446\ncpu: 403.5475914103308 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "azertval",
+            "username": "azertval",
+            "email": "valentin.eloy@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "7139a1d68fec97bc79bd7860ee3c21fe1e2c2201",
+          "message": "fix(ci): le job links de la Nightly ignore les renvois vers le corpus (#80)\n\nLes préparations régionales de la Fabrique d'assets (#77) renvoient aux PDF\nde Documentation/SourceBook/, que le .gitignore garde hors du dépôt : 86 liens\nintrouvables sur le runner, lychee sort en code 2 depuis la nuit du 19 septembre.\nCes cibles sont exclues ; les documents qui les portent restent vérifiés.\n\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-19T10:11:14Z",
+          "url": "https://github.com/azertval/JustAnotherRpgGame/commit/7139a1d68fec97bc79bd7860ee3c21fe1e2c2201"
+        },
+        "date": 1789812850692,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ReachableAreaDashing",
+            "value": 155998.95089285655,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 155203.6830357143 ns\nthreads: 1"
+          },
+          {
+            "name": "FindPathAcrossGrid",
+            "value": 211793.03124999825,
+            "unit": "ns/iter",
+            "extra": "iterations: 6400\ncpu: 209960.9375 ns\nthreads: 1"
+          },
+          {
+            "name": "LineOfSightAcrossGrid",
+            "value": 57703.03518334913,
+            "unit": "ns/iter",
+            "extra": "iterations: 24216\ncpu: 58071.1100099108 ns\nthreads: 1"
+          },
+          {
+            "name": "CoverFromWithInterposed",
+            "value": 168018.0133928566,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 169154.57589285713 ns\nthreads: 1"
+          },
+          {
+            "name": "PlanTurnFourVersusFour",
+            "value": 1133640.7031250051,
+            "unit": "ns/iter",
+            "extra": "iterations: 1280\ncpu: 1135253.90625 ns\nthreads: 1"
+          },
+          {
+            "name": "LoadShippedLevel",
+            "value": 2411888.4250474563,
+            "unit": "ns/iter",
+            "extra": "iterations: 527\ncpu: 2431214.4212523717 ns\nthreads: 1"
+          },
+          {
+            "name": "ComposeMartpart",
+            "value": 462.54536324070654,
+            "unit": "us/iter",
+            "extra": "iterations: 2987\ncpu: 465.5590893873452 us\nthreads: 1"
           }
         ]
       }
