@@ -11,6 +11,7 @@
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/LevelWriter.h"
 #include "Core/World/WorldGraph.h"
+#include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/LevelNameValidation.h"
 
 namespace hmi {
@@ -59,8 +60,11 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
         const std::filesystem::directory_entry& entry = *it;
         // "sequence-" reste un préfixe réservé : un tel fichier n'est pas une carte, et
         // l'afficher comme ouvrable dans ce panneau mènerait à une ouverture en échec.
+        // Pas plus l'annexe d'une carte (`<carte>.editor.json`, LOT-EDITOR-04), que le jeu ne lit
+        // jamais.
         if (entry.is_regular_file(error) && entry.path().extension() == ".json" &&
-            !entry.path().filename().string().starts_with("sequence-")) {
+            !entry.path().filename().string().starts_with("sequence-") &&
+            !hmi::isSidecarFile(entry.path())) {
             levels.push_back(entry.path());
         }
     }
@@ -114,6 +118,10 @@ FileOperationResult LevelFileOperations::rename(const std::filesystem::path& sou
     const FileOperationResult written = writeRenamed(source, trimmed, target);
     if (written.ok() && target != source) {
         std::filesystem::remove(source, error);  // retire l'ancien fichier (échec non bloquant).
+        // Les notes d'auteur suivent leur carte (LOT-EDITOR-04), échec non bloquant.
+        if (std::filesystem::exists(sidecarPath(source), error)) {
+            std::filesystem::rename(sidecarPath(source), sidecarPath(target), error);
+        }
     }
     return written;
 }
@@ -129,7 +137,12 @@ FileOperationResult LevelFileOperations::duplicate(const std::filesystem::path& 
     for (int index = 2; std::filesystem::exists(pathForName(candidate), error); ++index) {
         candidate = base + " (copie " + std::to_string(index) + ")";
     }
-    return writeRenamed(source, candidate, pathForName(candidate));
+    const FileOperationResult written = writeRenamed(source, candidate, pathForName(candidate));
+    if (written.ok() && std::filesystem::exists(sidecarPath(source), error)) {
+        std::filesystem::copy_file(sidecarPath(source), sidecarPath(pathForName(candidate)),
+                                   error);  // la copie garde les notes, échec non bloquant.
+    }
+    return written;
 }
 
 FileOperationResult LevelFileOperations::remove(const std::filesystem::path& source) {
@@ -140,6 +153,7 @@ FileOperationResult LevelFileOperations::remove(const std::filesystem::path& sou
     if (!std::filesystem::remove(source, error)) {
         return FileOperationResult::failure("Échec de la suppression.");
     }
+    std::filesystem::remove(sidecarPath(source), error);  // ses notes partent avec elle.
     return FileOperationResult::success(source);
 }
 

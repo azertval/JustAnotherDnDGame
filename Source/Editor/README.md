@@ -30,6 +30,8 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - **On pose des pièces, la collision suit.** La palette est la planche du lieu ; une pièce écrit sa
   couche, sa pièce et sa collision en un geste, et seule la main force une case (`EX-EDIT-063` à
   `EX-EDIT-065`).
+- **Un geste, un pas.** Du clic au relâchement, tout outil — trait, ligne, seau, rectangle, reflet
+  du miroir — se défait d'un seul `Ctrl+Z` (`core::GestureScope`, `EX-EDIT-066`).
 
 ## Logique pure (`Logic/`)
 
@@ -39,6 +41,10 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - `BrushGesture` — un coup de pinceau sur un rectangle : un type, une pièce ou la gomme, refus
   compris ; ce que la souris appelle, et ce qu'appellera l'éditeur sans fenêtre (`EX-EDIT-064`,
   `EX-EDIT-065`).
+- `PaintTools` — les outils du peintre : trait, rectangle, ligne, seau, pipette, miroir et mesure,
+  chacun en un geste du brouillon (`EX-EDIT-066`, `EX-EDIT-067`, `EX-EDIT-069`).
+- `EditorSidecar` — l'annexe d'une carte, `<carte>.editor.json`, et ses notes d'auteur
+  (`EX-EDIT-068`).
 - `MapFormat` — `--migrate` et `--check`, la garde du format v4 (`EX-EDIT-062`).
 - `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
 - `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
@@ -68,3 +74,20 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 
 `LevelEditor --crash-test` plante juste après la première sauvegarde automatique : c'est la façon
 d'éprouver la reprise.
+
+## Fichiers à côté des cartes
+
+| Chemin | Contenu |
+|---|---|
+| `Levels/<carte>.editor.json` | L'annexe de la carte : ses notes d'auteur, une par case. Le jeu ne la lit jamais, aucune liste de cartes ne la prend pour une carte ; elle suit la carte qu'on renomme, duplique ou supprime. |
+
+## Touches des outils
+
+| Touche | Outil |
+|---|---|
+| `B` · `R` · `L` · `G` | pinceau, rectangle, ligne, seau |
+| `E` · `I` | gomme, pipette (`Alt` + clic : pipette depuis tout outil) |
+| `S` · `O` | sélection (`Suppr` la gomme), entité |
+| `D` · `N` | mesure (5 pieds la case), note d'auteur |
+| `M` | miroir, par la case survolée |
+| `P` · `Shift+P` | essai depuis l'entrée, depuis la case survolée |

@@ -188,3 +188,36 @@ TEST(EditorStatusTest, LePinceauEtLesCasesForceesSeLisent) {
     EXPECT_EQ(lines.permanent[2], "Entity");
     EXPECT_EQ(lines.help.find("the eraser releases it"), std::string::npos);
 }
+
+/**
+ * @brief La barre d'état dit le miroir, la mesure en cours et la note de la case survolée ; la
+ *        ligne et le seau nomment le pinceau comme le pinceau (`LOT-EDITOR-04`).
+ * \castest{<b>La barre d'etat dit le miroir, la mesure et la note.</b><br/>
+ * \tcat Unitaire · Barre d'etat de l'editeur<br/>
+ * \tcrit Mineur<br/>
+ * \tetapes 1. Outil Ligne, pinceau `wall-left`, miroir actif, une note sous le curseur.<br/>
+ *          2. Outil Mesure, une mesure en cours.<br/>
+ * \tattendu « Line · wall-left · Mirror », « (3, 4) · Note: well » ; puis « Measure · Mirror ·
+ *           7 × 4 · 6 cells = 30 ft » et l'aide des pieds.
+ * }
+ */
+TEST(EditorStatusTest, LeMiroirLaMesureEtLaNoteSeLisent) {
+    hmi::EditorStatusContext context;
+    hmi::LevelStatusInfo level = baseLevel();
+    level.tool = hmi::EditorTool::Line;
+    level.brush = "wall-left";
+    level.mirror = true;
+    level.hoveredCell = core::GridPosition{.column = 3, .row = 4};
+    level.hoveredNote = "well";
+    context.level = level;
+    hmi::EditorStatusLines lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[2], "Line · wall-left · Mirror");
+    EXPECT_EQ(lines.permanent[3], "(3, 4) · Note: well");
+
+    level.tool = hmi::EditorTool::Measure;
+    level.measure = "7 × 4 · 6 cells = 30 ft";
+    context.level = level;
+    lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[2], "Measure · Mirror · 7 × 4 · 6 cells = 30 ft");
+    EXPECT_NE(lines.help.find("1 cell = 5 ft"), std::string::npos);
+}

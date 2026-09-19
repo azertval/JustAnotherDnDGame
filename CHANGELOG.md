@@ -6,6 +6,17 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les outils du peintre (LOT-EDITOR-04).**
+  - **Ligne, seau, gomme et pipette**, chacun à sa touche ; `Alt` + clic prend la pièce qu'on
+    voit depuis n'importe quel outil, et la palette la montre.
+  - **Un geste se défait d'un coup** : un trait de vingt cases, une ligne ou un seau, c'est un seul
+    `Ctrl+Z` (il en fallait un par case).
+  - **Le miroir** (`M`) reflète chaque geste de l'autre côté d'un axe vertical de l'écran et pose la
+    jumelle des pièces : une ligne de `wall-right` trace aussi la façade en `wall-left`. Une maison
+    de Martpart se trace en cinq gestes.
+  - **La mesure** dit cases et pieds ; **les notes d'auteur** s'épinglent aux cases, dans
+    `<carte>.editor.json` ; **l'essai** part de la case survolée (`Shift+P`).
+
 - **L'éditeur pose les pièces du lieu (LOT-EDITOR-03).**
   - **La palette est la planche du lieu** : vignettes groupées par classe, recherche, et à part les
     pièces que la carte cite sans que la planche les ait, en damier. Les types de tuile restent dans

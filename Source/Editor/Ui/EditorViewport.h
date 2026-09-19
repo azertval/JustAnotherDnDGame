@@ -34,8 +34,10 @@
 #include "Editor/Logic/EditContextTarget.h"
 #include "Editor/Logic/EditorDiagnostics.h"
 #include "Editor/Logic/EditorKeyBindings.h"
+#include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/EditorTool.h"
 #include "Editor/Logic/LayerView.h"
+#include "Editor/Logic/PaintTools.h"
 #include "Editor/Logic/PieceCatalog.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/PlaceAppearance.h"
@@ -53,7 +55,12 @@ class QPainter;
  * que la composition du jeu produit — mêmes primitives, même ordre — et la peint par `QPainter`
  * (`hmi::paintComposedScene`), en ne touchant que la partie visible. Par-dessus, les aides
  * d'édition : quadrillage en losanges, case survolée, masque de collision, aperçu des outils,
- * marqueurs d'entité.
+ * marqueurs d'entité, notes d'auteur, axe du miroir.
+ *
+ * Les outils du peintre (`LOT-EDITOR-04`) sont les fonctions pures de `Editor/Logic/PaintTools.h` :
+ * le canevas ne fait que les appeler et en montrer l'aperçu. Un geste — du clic au relâchement —
+ * est un pas d'annulation (`core::GestureScope`), et `Alt` + clic prend le pinceau sous la case
+ * depuis n'importe quel outil.
  *
  * Deux vues, en bascule (décision D1) : **iso** par défaut, le lieu tel qu'on le jouera ; **à
  * plat**, une case par unité et les types en couleurs (`hmi::DraftRenderer`), pour lire types et
@@ -94,8 +101,17 @@ public:
      * @param floor La pièce est un sol.
      */
     void setActivePiece(const std::string& piece, bool floor);
-    /// Arme la gomme de la couche active.
-    void setEraser();
+    /**
+     * @brief Le miroir (`LOT-EDITOR-04`) : actif, chaque geste se reflète de l'autre côté d'un axe
+     *        vertical de l'écran, qui passe par la case survolée à l'activation (le centre de la
+     *        carte sans case survolée).
+     */
+    void setMirror(bool enabled);
+    [[nodiscard]] const std::optional<MirrorAxis>& mirror() const noexcept {
+        return _mirror;
+    }
+    /// @return La mesure en cours (`hmi::measureLabel`), vide sans mesure.
+    [[nodiscard]] std::string measureText() const;
     /// @return Le pinceau armé.
     [[nodiscard]] const CanvasBrush& brush() const noexcept {
         return _brush;
@@ -149,8 +165,24 @@ public:
     /// le prochain enregistrement écrasera la version du disque (mise de côté par l'appelant).
     void acceptDiskVersion();
 
-    /// Joue le brouillon avec le moteur du jeu (`EX-EDIT-008`, `EX-EDIT-055`).
-    void startPlaytest();
+    /**
+     * @brief Joue le brouillon avec le moteur du jeu (`EX-EDIT-008`, `EX-EDIT-055`).
+     * @param from La case d'où part le héros (`LOT-EDITOR-04`), l'entrée si rien. Une case hors
+     *             de la carte ou qui arrête le pas est refusée.
+     */
+    void startPlaytest(std::optional<core::GridPosition> from = std::nullopt);
+    /// Joue le brouillon depuis la case survolée ; depuis l'entrée s'il n'y en a pas.
+    void startPlaytestHere();
+
+    // --- Notes d'auteur (LOT-EDITOR-04) ---
+    /// @return L'annexe de la carte ouverte (`<carte>.editor.json`).
+    [[nodiscard]] const EditorSidecar& sidecar() const noexcept {
+        return _sidecar;
+    }
+    /// Écrit la note de @p cell, retirée si @p text est vide ; l'annexe s'écrit tout de suite.
+    void setNote(core::GridPosition cell, const std::string& text);
+    /// @return La note de la case survolée, sur une ligne, vide sans note.
+    [[nodiscard]] std::string hoveredNote() const;
     [[nodiscard]] bool playtesting() const noexcept {
         return _play != nullptr;
     }
@@ -268,6 +300,12 @@ signals:
     /// Le cadrage a bougé (défilement, agrandissement, vue) : la mini-carte suit.
     void framingChanged();
     void canvasViewChanged(hmi::CanvasView view);
+    /// La pipette a pris @p brush : la palette le montre.
+    void brushPicked(const hmi::CanvasBrush& brush);
+    /// L'outil Note a désigné @p cell : la fenêtre demande le texte.
+    void noteRequested(core::GridPosition cell);
+    /// La mesure, le miroir ou les notes ont changé : la barre d'état relit.
+    void toolStateChanged();
 
 protected:
     bool viewportEvent(QEvent* event) override;
@@ -315,8 +353,23 @@ private:
     [[nodiscard]] core::GridPosition clampedCell(const QMouseEvent* event) const;
     /// Donne un coup de pinceau sur la case pointée ; @p continuing : le geste prolonge un glisser.
     void paintAt(const QMouseEvent* event, bool continuing);
-    /// Le pinceau armé, son type recalculé d'après la table du lieu courant.
+    /// Le pinceau armé, son type recalculé d'après la table du lieu courant ; la gomme à l'outil
+    /// Gomme.
     [[nodiscard]] CanvasBrush currentBrush() const;
+    /// Ce qui accompagne un geste : le miroir et la table du lieu.
+    [[nodiscard]] StrokeContext strokeContext() const;
+    /// La pipette en @p cell : le pinceau pris, et sa couche rendue active.
+    void pickAt(core::GridPosition cell);
+    /// Ferme le geste en cours (glisser du pinceau ou de la gomme), s'il y en a un.
+    void endPainting();
+    /// Relit l'annexe de la carte ouverte.
+    void reloadSidecar();
+    /// Les notes d'auteur, en pastilles, en iso ou à plat.
+    void paintNotes(QPainter& painter, const CellRange& cells, bool iso);
+    /// L'axe du miroir, en iso ou à plat.
+    void paintMirrorAxis(QPainter& painter, bool iso);
+    /// L'aperçu de la ligne ou de la mesure tirée, en iso ou à plat.
+    void paintDragPreview(QPainter& painter, bool iso);
     /// Applique le résultat d'un geste : brouillon redessiné, ou refus dit une fois par geste.
     void reportBrush(const BrushResult& result);
     /// Le masque des cases forcées, en losanges (iso) ou en carrés (à plat).
@@ -360,6 +413,12 @@ private:
     QPoint _rightDragLast;
     CanvasBrush _brush;
     hmi::EditorTool _tool = hmi::EditorTool::Paint;
+    /// L'outil du peintre auquel la pipette rend la main.
+    hmi::EditorTool _paintTool = hmi::EditorTool::Paint;
+    std::optional<MirrorAxis> _mirror;
+    /// La mesure tirée (départ, arrivée), gardée jusqu'au prochain geste de l'outil Mesure.
+    std::optional<std::pair<core::GridPosition, core::GridPosition>> _measure;
+    EditorSidecar _sidecar;
     bool _painting = false;
     bool _dragging = false;
     core::GridPosition _dragStart{};

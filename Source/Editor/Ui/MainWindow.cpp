@@ -116,7 +116,7 @@ MainWindow::MainWindow(bool crashAfterAutosave)
 
     buildUi();
 
-    // La palette arme le pinceau du canevas : un type, une pièce du lieu ou la gomme.
+    // La palette arme le pinceau du canevas : un type ou une pièce du lieu.
     connect(_palette, &PalettePanel::tileSelected, this, [this](core::TileType type) {
         _viewport->setActiveTile(type);
         refreshStatusHelp();
@@ -125,9 +125,27 @@ MainWindow::MainWindow(bool crashAfterAutosave)
         _viewport->setActivePiece(piece.toStdString(), floor);
         refreshStatusHelp();
     });
-    connect(_palette, &PalettePanel::eraserSelected, this, [this] {
-        _viewport->setEraser();
+    // La pipette a pris un pinceau : la palette le montre, sans le réémettre.
+    connect(_viewport, &EditorViewport::brushPicked, this, [this](const CanvasBrush& brush) {
+        if (brush.kind == BrushKind::Piece) {
+            _palette->showPiece(QString::fromStdString(brush.piece), brush.floor);
+        } else if (brush.kind == BrushKind::Type) {
+            _palette->showTile(brush.type);
+        }
         refreshStatusHelp();
+    });
+    connect(_viewport, &EditorViewport::toolStateChanged, this, [this] { refreshStatusHelp(); });
+    // L'outil Note : le texte se saisit dans une boîte, la note s'écrit dans l'annexe de la carte.
+    connect(_viewport, &EditorViewport::noteRequested, this, [this](core::GridPosition cell) {
+        const AuthorNote* const note = noteAt(_viewport->sidecar(), cell);
+        bool accepted = false;
+        const QString text = QInputDialog::getMultiLineText(
+            this, QStringLiteral("Author note"),
+            QStringLiteral("Note on (%1, %2) — empty removes it:").arg(cell.column).arg(cell.row),
+            note != nullptr ? QString::fromStdString(note->text) : QString{}, &accepted);
+        if (accepted) {
+            _viewport->setNote(cell, text.toStdString());
+        }
     });
     // Le catalogue suit la carte : son lieu, et les pièces qu'elle cite sans que la planche les
     // ait.
@@ -266,8 +284,18 @@ void MainWindow::buildMenus() {
     editMenu->addAction(_actions->action(EditorCommand::Copy));
     editMenu->addAction(_actions->action(EditorCommand::Paste));
 
+    QMenu* const toolsMenu = menuBar()->addMenu(QStringLiteral("&Tools"));
+    for (QAction* const act : _actions->all()) {
+        if (act->isCheckable() && act->actionGroup() != nullptr) {
+            toolsMenu->addAction(act);
+        }
+    }
+    toolsMenu->addSeparator();
+    toolsMenu->addAction(_actions->action(EditorCommand::Mirror));
+
     QMenu* const mapMenu = menuBar()->addMenu(QStringLiteral("&Map"));
     mapMenu->addAction(_actions->action(EditorCommand::Playtest));
+    mapMenu->addAction(_actions->action(EditorCommand::PlaytestHere));
 
     QMenu* const viewMenu = menuBar()->addMenu(QStringLiteral("&View"));
     viewMenu->addAction(_actions->action(EditorCommand::IsoView));
@@ -414,6 +442,10 @@ void MainWindow::connectEditorCommands() {
     });
     connect(_actions->action(EditorCommand::Playtest), &QAction::triggered, _viewport,
             [this] { _viewport->startPlaytest(); });
+    connect(_actions->action(EditorCommand::PlaytestHere), &QAction::triggered, _viewport,
+            [this] { _viewport->startPlaytestHere(); });
+    connect(_actions->action(EditorCommand::Mirror), &QAction::toggled, _viewport,
+            [this](bool enabled) { _viewport->setMirror(enabled); });
     connect(_actions->action(EditorCommand::Undo), &QAction::triggered, this,
             [this] { _editContext->undo(); });
     connect(_actions->action(EditorCommand::Redo), &QAction::triggered, this,
@@ -472,6 +504,8 @@ void MainWindow::buildStatusBar() {
     }
     _statusZones[3]->setMinimumWidth(
         fontMetrics().horizontalAdvance(QStringLiteral("(999, 999) square · front-right")));
+    // Une note longue ne doit pas pousser les autres zones hors de la barre.
+    _statusZones[3]->setMaximumWidth(fontMetrics().horizontalAdvance(QStringLiteral("M")) * 70);
     _statusZones[4]->setMinimumWidth(
         fontMetrics().horizontalAdvance(QStringLiteral("Zoom: 999% · Flat")));
     _statusMessageTimer = new QTimer(this);
@@ -847,6 +881,9 @@ void MainWindow::refreshStatusHelp() {
         level.hoveredForced = _viewport->hoveredCellForced();
         level.brush = brushLabel(_viewport->brush());
         level.collisionActive = !_viewport->activeLayer().has_value();
+        level.mirror = _viewport->mirror().has_value();
+        level.measure = _viewport->measureText();
+        level.hoveredNote = _viewport->hoveredNote();
         level.zoom = _viewport->zoom();
         level.isoView = _viewport->canvasView() == CanvasView::Iso;
         context.level = level;

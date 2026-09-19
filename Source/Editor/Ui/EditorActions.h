@@ -23,14 +23,22 @@ namespace hmi {
 
 class EditorKeyBindings;
 
-/// Une commande de l'éditeur : quatre outils, puis les commandes.
+/// Une commande de l'éditeur : les dix outils, puis les commandes.
 enum class EditorCommand {
     ToolPaint,
     ToolRectangle,
+    ToolLine,
+    ToolBucket,
+    ToolEraser,
+    ToolPipette,
     ToolSelection,
     ToolEntity,
+    ToolMeasure,
+    ToolNote,
     Save,
     Playtest,
+    /// L'essai qui part de la case survolée (LOT-EDITOR-04).
+    PlaytestHere,
     Undo,
     Redo,
     ToggleGrid,
@@ -39,6 +47,8 @@ enum class EditorCommand {
     IsoView,
     /// Reliefs en transparence (LOT-EDITOR-02, phase 3).
     SeeThroughRelief,
+    /// Le miroir : chaque geste se reflète de l'autre côté d'un axe (LOT-EDITOR-04).
+    Mirror,
     Copy,
     Paste,
     Rename,
@@ -46,7 +56,7 @@ enum class EditorCommand {
 };
 
 /// Nombre de commandes, déclaré au plus près de l'énumération qu'il compte.
-inline constexpr std::size_t EDITOR_COMMAND_COUNT = 16;
+inline constexpr std::size_t EDITOR_COMMAND_COUNT = 24;
 
 /**
  * @brief Construit et possède les `QAction` de l'éditeur : chaque outil et chaque commande
@@ -54,7 +64,8 @@ inline constexpr std::size_t EDITOR_COMMAND_COUNT = 16;
  *
  * Outil interne (`LOT-EDITOR-01`) : libellés anglais écrits ici, icônes standard du style Qt quand
  * il en a une, texte sinon. La barre d'outils porte les outils et les commandes d'usage continu ;
- * le reste vit au menu.
+ * le reste vit au menu. Chaque outil a sa touche (`LOT-EDITOR-04`) : B, R, L, G, E, I, S, O, D,
+ * N ; `M` bascule le miroir.
  */
 class EditorActions : public QObject {
     Q_OBJECT

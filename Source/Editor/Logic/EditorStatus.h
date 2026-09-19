@@ -32,6 +32,12 @@ struct LevelStatusInfo {
     std::string brush;
     /// La couche active est la grille de collision.
     bool collisionActive = false;
+    /// Le miroir est actif (LOT-EDITOR-04).
+    bool mirror = false;
+    /// La mesure en cours (`hmi::measureLabel`), vide sinon (LOT-EDITOR-04).
+    std::string measure;
+    /// La note d'auteur de la case survolée, vide sinon (LOT-EDITOR-04).
+    std::string hoveredNote;
     float zoom = 1.0F;  ///< Facteur de zoom courant.
     /// Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02.
     bool isoView = true;

@@ -711,6 +711,7 @@ bool LevelDraft::undo() {
     _redoHistory.push_back(snapshot());
     restore(std::move(_undoHistory.back()));
     _undoHistory.pop_back();
+    _gesturePushed = false;  // une mutation qui suit, meme dans le geste, est un pas neuf.
     return true;
 }
 
@@ -721,6 +722,7 @@ bool LevelDraft::redo() {
     _undoHistory.push_back(snapshot());
     restore(std::move(_redoHistory.back()));
     _redoHistory.pop_back();
+    _gesturePushed = false;
     return true;
 }
 
@@ -744,7 +746,32 @@ void LevelDraft::restore(State state) {
     _revision = state.revision;
 }
 
+void LevelDraft::beginGesture() noexcept {
+    if (_gestureDepth == 0) {
+        _gesturePushed = false;
+    }
+    ++_gestureDepth;
+}
+
+void LevelDraft::endGesture() noexcept {
+    if (_gestureDepth == 0) {
+        return;
+    }
+    --_gestureDepth;
+    if (_gestureDepth == 0) {
+        _gesturePushed = false;
+    }
+}
+
 void LevelDraft::pushUndo() {
+    // Dans un geste, seule la premiere mutation empile l'etat d'avant : le geste entier se defait
+    // en un pas. La revision change a chaque mutation, elle.
+    if (_gestureDepth > 0 && _gesturePushed) {
+        _redoHistory.clear();
+        _revision = ++_lastRevision;
+        return;
+    }
+    _gesturePushed = _gestureDepth > 0;
     _undoHistory.push_back(snapshot());
     if (_undoHistory.size() > UNDO_HISTORY_LIMIT) {
         _undoHistory.erase(_undoHistory.begin());

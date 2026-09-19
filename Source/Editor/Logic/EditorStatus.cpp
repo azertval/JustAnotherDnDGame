@@ -41,10 +41,22 @@ const char* toolLabel(EditorTool tool) {
             return "Brush";
         case EditorTool::Rectangle:
             return "Rectangle";
+        case EditorTool::Line:
+            return "Line";
+        case EditorTool::Bucket:
+            return "Bucket";
+        case EditorTool::Eraser:
+            return "Eraser";
+        case EditorTool::Pipette:
+            return "Pipette";
         case EditorTool::Selection:
             return "Selection";
         case EditorTool::Entity:
             return "Entity";
+        case EditorTool::Measure:
+            return "Measure";
+        case EditorTool::Note:
+            return "Note";
     }
     return "Brush";
 }
@@ -52,11 +64,23 @@ const char* toolLabel(EditorTool tool) {
 const char* toolHelp(EditorTool tool) {
     switch (tool) {
         case EditorTool::Paint:
-            return "Paint: left click/drag · Ctrl+Z/Y: undo/redo";
+            return "Paint: left click/drag · Alt+click: pick · Ctrl+Z/Y: undo/redo";
         case EditorTool::Rectangle:
-            return "Rectangle: drag to paint an area · Ctrl+Z/Y: undo/redo";
+            return "Rectangle: drag to paint an area · Alt+click: pick · Ctrl+Z/Y: undo/redo";
+        case EditorTool::Line:
+            return "Line: drag to paint a line · Alt+click: pick · Ctrl+Z/Y: undo/redo";
+        case EditorTool::Bucket:
+            return "Bucket: click to fill the connected cells alike · Alt+click: pick";
+        case EditorTool::Eraser:
+            return "Eraser: left click/drag erases on the active layer · Ctrl+Z/Y: undo/redo";
+        case EditorTool::Pipette:
+            return "Pipette: click to pick what you see, then back to painting";
         case EditorTool::Selection:
-            return "Selection: drag to select · Ctrl+C/V: copy/paste";
+            return "Selection: drag to select · Ctrl+C/V: copy/paste · Del: erase";
+        case EditorTool::Measure:
+            return "Measure: drag from a cell to another · 1 cell = 5 ft";
+        case EditorTool::Note:
+            return "Note: click a cell to write, edit or clear its author note";
         case EditorTool::Entity:
             return "Entity: click an empty cell to place the chosen kind · click an entity to "
                    "select it, drag to move it · Del removes it · Ctrl+click places on an "
@@ -81,9 +105,15 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
         lines.permanent[1] = "Modified";
     }
     lines.permanent[2] = toolLabel(level.tool);
-    const bool brushes = level.tool == EditorTool::Paint || level.tool == EditorTool::Rectangle;
+    const bool brushes = paintsWithBrush(level.tool);
     if (brushes && !level.brush.empty()) {
         lines.permanent[2] += " · " + level.brush;
+    }
+    if (level.mirror) {
+        lines.permanent[2] += " · Mirror";
+    }
+    if (!level.measure.empty()) {
+        lines.permanent[2] += " · " + level.measure;
     }
     if (level.hoveredCell) {
         lines.permanent[3] =
@@ -94,13 +124,16 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
         if (level.hoveredForced) {
             lines.permanent[3] += " · forced collision";
         }
+        if (!level.hoveredNote.empty()) {
+            lines.permanent[3] += " · Note: " + level.hoveredNote;
+        }
     }
     const int zoomPercent = static_cast<int>(std::lround(level.zoom * 100.0F));
     lines.permanent[4] =
         formatOne("Zoom: %1%", zoomPercent) + (level.isoView ? " · Iso" : " · Flat");
 
     lines.help = toolHelp(level.tool);
-    if (brushes && level.collisionActive) {
+    if ((brushes || level.tool == EditorTool::Eraser) && level.collisionActive) {
         lines.help += " · On the collision, painting forces a cell; the eraser releases it";
     }
     return lines;
