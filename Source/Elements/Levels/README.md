@@ -19,18 +19,25 @@ Cartes du jeu, un fichier **JSON** par carte (`EX-LVL-001`, `EX-LVL-003`).
 > identifiant son **chemin relatif** : un portail vise `capital/martpart`, et le graphe du monde
 > comme le navigateur de l'éditeur lisent les sous-dossiers.
 
-- Une carte est un objet JSON : `name`, `width`, `height`, et une liste **`tiles`** d'objets
-  `{ "x", "y", "type", … }` — la grille de **collision**. Les cases **vides** ne sont pas listées
-  (absence = vide). Une tuile peut porter un champ `"texture"` (nom de pièce de la planche du lieu,
-  `EX-EDIT-043`) : pièce assignée **par case**, prioritaire sur la table d'apparence du lieu,
-  indépendante du type lui-même.
+> **Format v4, au `LOT-EDITOR-12`.** Les trois cartes ont été migrées par
+> `LevelEditor --migrate` et sont gardées en CI par `LevelEditor --data Source/Elements --check`.
+> Les scripts d'atelier tracent toujours du v3 et passent par `--migrate` : il faut avoir construit
+> l'éditeur pour les lancer. Schéma : `Documentation/Editeur/level.schema.json` ; spécification :
+> `Documentation/Specification/niveaux.md`.
+
+- Une carte est un objet JSON : `version`, `name`, `width`, `height`, et une liste **`tiles`**
+  d'objets `{ "x", "y", "type" }` — la grille de **collision**, entrée comprise, **déduite** des
+  pièces posées (`EX-LVL-020`). Les cases **vides** ne sont pas listées (absence = vide). Là où
+  l'auteur veut s'écarter de la déduction, la case figure dans **`forced`**.
 - Types de tuiles : `empty`, `solid`, `entry`, et le terrain du RPG (`LOT-08`) : `grass`, `dirt`,
   `sand`, `water`, `deepWater`, `wall`, `cliff`, `bridge`, `stairs`. Une carte porte **exactement
   une** case `entry`, le point d'arrivée par défaut du héros.
-- `"layers"` (optionnel, `LOT-04`) : couches visibles `{ "name", "kind", "tiles" }` (`kind` :
-  `ground`, `decor`) ; `"entities"` (optionnel) : entités placées `{ "type", "x", "y", … }` —
-  PNJ, portails, zones de combat —, leurs autres champs étant des propriétés libres
+- `"layers"` : couches visibles `{ "name", "kind", …, "tiles" }` (`kind` : `ground`, `decor`), dont
+  chaque case `{ "x", "y", "type", "piece" }` nomme la **pièce** de la planche du lieu qu'on y voit
+  (`EX-LVL-019`) ; la propriété de couche `scene` nomme le lieu.
+- `"entities"` : entités `{ "id", "type", "x", "y", … }` — PNJ, portails, zones —, un `id` unique
+  jamais réemployé (`"nextEntityId"`, `EX-LVL-021`), leurs autres champs étant des propriétés libres
   (`EX-LVL-017`, `EX-LVL-018`).
-- Le format est **versionné** (`"version"`, cf. `core::LEVEL_FORMAT_VERSION`) : un fichier sans le
-  champ est lu comme la version initiale, et le chargeur refuse proprement une version qu'il ne
-  connaît pas.
+- Le format est **versionné** (`"version"`, cf. `core::LEVEL_FORMAT_VERSION`) : toute version
+  passée se lit, le chargeur refuse proprement une version qu'il ne connaît pas, et l'écriture est
+  canonique — une case par ligne, un geste = une ligne de diff.

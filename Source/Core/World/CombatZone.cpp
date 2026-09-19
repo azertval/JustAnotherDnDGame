@@ -173,8 +173,9 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
         }
     }
 
-    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
-    // leurs points d'entree --, mais un champ menteur finirait par etre lu.
+    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon.
+    // Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur leurs points
+    // d'entree --, mais un champ menteur finirait par etre lu.
     if (zone.contains(level.entry())) {
         reduite.entry = GridPosition{.column = level.entry().column - zone.origin.column,
                                      .row = level.entry().row - zone.origin.row};

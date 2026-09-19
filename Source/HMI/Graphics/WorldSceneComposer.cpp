@@ -264,7 +264,8 @@ WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
                     : std::string{appearance.floorPiece(grilleSol.tile(column, row), cell)};
             if (decor != nullptr && decor->tiles.inBounds(column, row)) {
                 snapshot.relief[index] = pieceAt(*decor, cell, appearance, false);
-                const core::PieceFootprint emprise = appearance.pieceFootprint(snapshot.relief[index]);
+                const core::PieceFootprint emprise =
+                    appearance.pieceFootprint(snapshot.relief[index]);
                 if (emprise != core::PieceFootprint{}) {
                     snapshot.footprints.insert_or_assign(snapshot.relief[index], emprise);
                 }

@@ -59,8 +59,8 @@ namespace {
     }
     // Un sol passe, une pièce debout arrête la vue ; un nom tactique inconnu garde ce défaut
     // plutôt que de faire perdre la pièce.
-    piece.tactical = piece.pieceClass == ScenePieceClass::Floor ? PieceTactical::Open
-                                                                : PieceTactical::Solid;
+    piece.tactical =
+        piece.pieceClass == ScenePieceClass::Floor ? PieceTactical::Open : PieceTactical::Solid;
     if (const auto tactical = value.find("tactical");
         tactical != value.end() && tactical->is_string()) {
         piece.tactical = parsePieceTactical(tactical->get<std::string>()).value_or(piece.tactical);

@@ -268,12 +268,11 @@ TEST(MapFormatTest, MigrerRendUneCarteQueLeControleAccepte) {
                                donnees.racine() / "Levels" / "rue.json");
 
     std::string sortie;
-    EXPECT_EQ(hmi::runMapCommand({"--migrate", "rue", "--data", donnees.racine().string()}, {},
-                                 sortie),
-              0)
+    EXPECT_EQ(
+        hmi::runMapCommand({"--migrate", "rue", "--data", donnees.racine().string()}, {}, sortie),
+        0)
         << sortie;
-    EXPECT_EQ(hmi::runMapCommand({"--check", "--data", donnees.racine().string()}, {}, sortie),
-              0)
+    EXPECT_EQ(hmi::runMapCommand({"--check", "--data", donnees.racine().string()}, {}, sortie), 0)
         << sortie;
     std::ifstream file(donnees.racine() / "Levels" / "rue.json");
     const std::string texte((std::istreambuf_iterator<char>(file)), {});

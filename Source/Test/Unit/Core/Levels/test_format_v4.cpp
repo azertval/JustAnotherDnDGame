@@ -87,8 +87,10 @@ constexpr const char* MANIFESTE = R"({
     std::vector<core::TileLayer> layers;
     layers.push_back(core::TileLayer{
         .name = "sol", .kind = LayerKind::Ground, .tiles = core::TileMap(4, 2), .properties = {}});
-    layers.push_back(core::TileLayer{
-        .name = "relief", .kind = LayerKind::Decor, .tiles = core::TileMap(4, 2), .properties = {}});
+    layers.push_back(core::TileLayer{.name = "relief",
+                                     .kind = LayerKind::Decor,
+                                     .tiles = core::TileMap(4, 2),
+                                     .properties = {}});
     for (int column = 0; column < 4; ++column) {
         layers[0].tiles.setTile(column, 0, TileType::Dirt);
         layers[0].setPiece(column, 0, "street");
@@ -110,8 +112,8 @@ constexpr const char* MANIFESTE = R"({
  * }
  */
 TEST(FormatV4Test, UneCarteDeChaqueVersionSeCharge) {
-    for (const char* nom :
-         {"format-v0.json", "format-v1.json", "format-v2.json", "format-v3.json", "format-v4.json"}) {
+    for (const char* nom : {"format-v0.json", "format-v1.json", "format-v2.json", "format-v3.json",
+                            "format-v4.json"}) {
         SCOPED_TRACE(nom);
         const core::Level level = chargerFichier(FIXTURES / nom);
         EXPECT_EQ(level.entry(), (GridPosition{0, 0}));
@@ -204,7 +206,8 @@ TEST(FormatV4Test, DeuxEntitesDuMemeIdSontRefusees) {
  * }
  */
 TEST(FormatV4Test, UnIdentifiantDonneNEstJamaisRedonne) {
-    core::LevelDraft draft = core::LevelDraft::fromLevel(chargerFichier(FIXTURES / "format-v4.json"));
+    core::LevelDraft draft =
+        core::LevelDraft::fromLevel(chargerFichier(FIXTURES / "format-v4.json"));
 
     const auto premier = draft.placeEntity(core::MapEntity{.type = "chest", .position = {2, 0}});
     ASSERT_TRUE(premier.has_value());
@@ -335,8 +338,9 @@ TEST(FormatV4Test, UneVarianteSansBaseEstRefusee) {
  */
 TEST(FormatV4Test, UneVarianteQuiPorteDesCasesEstRefusee) {
     const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(
-        R"({"version": 4, "base": "base", "tiles": []})",
-        [](std::string_view) { return core::LevelLoader::loadFromFile(FIXTURES / "format-v4.json"); });
+        R"({"version": 4, "base": "base", "tiles": []})", [](std::string_view) {
+            return core::LevelLoader::loadFromFile(FIXTURES / "format-v4.json");
+        });
 
     EXPECT_EQ(loaded.errorCode, core::LevelValidationError::ParseError);
 }
@@ -380,9 +384,10 @@ TEST(FormatV4Test, UneZonePeinteEstLueParLaGrilleTactique) {
  * }
  */
 TEST(FormatV4Test, UneZoneRectangleCouvreSonRectangle) {
-    const core::MapEntity zone{.type = std::string{core::ZONE_ENTITY_TYPE},
-                               .position = {1, 0},
-                               .properties = {{"width", std::int64_t{2}}, {"height", std::int64_t{1}}}};
+    const core::MapEntity zone{
+        .type = std::string{core::ZONE_ENTITY_TYPE},
+        .position = {1, 0},
+        .properties = {{"width", std::int64_t{2}}, {"height", std::int64_t{1}}}};
 
     EXPECT_EQ(core::zoneCells(zone), (std::vector<GridPosition>{{1, 0}, {2, 0}}));
 }

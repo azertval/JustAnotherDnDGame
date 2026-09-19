@@ -18,10 +18,10 @@
 /**
  * @file Editor/Logic/MapFormat.h
  * @brief La garde du format de carte v4 : la **migration** d'une carte et le **contrôle** de toutes
- *        (`LOT-EDITOR-12`, constat A12). Logique pure, sans fenêtre.
+ *        (`LOT-EDITOR-12`, constat A12, `EX-EDIT-062`). Logique pure, sans fenêtre.
  *
- * Ce que `LevelEditor --migrate` et `LevelEditor --check` appellent (`runMapCommand`), et ce que les
- * tests appellent directement. Les messages sont en anglais, comme toute l'IHM de l'éditeur.
+ * Ce que `LevelEditor --migrate` et `LevelEditor --check` appellent (`runMapCommand`), et ce que
+ * les tests appellent directement. Les messages sont en anglais, comme toute l'IHM de l'éditeur.
  *
  * ## La migration
  *

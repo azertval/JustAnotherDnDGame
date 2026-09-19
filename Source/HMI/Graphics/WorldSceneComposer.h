@@ -137,9 +137,8 @@ struct WorldSceneSource {
 /// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
 template <class Map>
 [[nodiscard]] WorldSceneSource worldSceneSource(const Map& map) {
-    return WorldSceneSource{.root = map.tileMap(),
-                            .layers = map.layers(),
-                            .entities = map.entities()};
+    return WorldSceneSource{
+        .root = map.tileMap(), .layers = map.layers(), .entities = map.entities()};
 }
 
 /// @return Le lieu que déclarent @p layers (propriété de couche `scene`), vide sinon.

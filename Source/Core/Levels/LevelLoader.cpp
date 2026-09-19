@@ -87,14 +87,14 @@ void collectProperties(const nlohmann::json& object, const std::set<std::string>
 }
 
 // Une case {x, y} d'une liste de cases ("forced", "cells"), bornee a la carte.
-[[nodiscard]] std::optional<LevelLoadResult> parseCell(const nlohmann::json& cell, const TileMap& map,
-                                                       const std::string& where,
+[[nodiscard]] std::optional<LevelLoadResult> parseCell(const nlohmann::json& cell,
+                                                       const TileMap& map, const std::string& where,
                                                        GridPosition& position) {
     position = GridPosition{.column = cell.at("x").get<int>(), .row = cell.at("y").get<int>()};
     if (!map.inBounds(position.column, position.row)) {
-        return failure("Case hors bornes dans " + where + " en " +
-                           cellText(position.column, position.row),
-                       LevelValidationError::OutOfBounds);
+        return failure(
+            "Case hors bornes dans " + where + " en " + cellText(position.column, position.row),
+            LevelValidationError::OutOfBounds);
     }
     return std::nullopt;
 }
@@ -390,8 +390,8 @@ void adoptLegacyTextures(std::vector<std::pair<GridPosition, std::string>>& text
     }
     for (const char* cellField : {"width", "height", "tiles", "layers", "forced"}) {
         if (root.contains(cellField)) {
-            return failure(std::string{"Une variante ne porte pas de cases : champ '"} +
-                               cellField + "' en trop",
+            return failure(std::string{"Une variante ne porte pas de cases : champ '"} + cellField +
+                               "' en trop",
                            LevelValidationError::ParseError);
         }
     }
@@ -409,17 +409,17 @@ void adoptLegacyTextures(std::vector<std::pair<GridPosition, std::string>>& text
                        LevelValidationError::MissingBase);
     }
     std::vector<MapEntity> entities;
-    if (std::optional<LevelLoadResult> error = parseEntities(root, base.level->tileMap(), entities)) {
+    if (std::optional<LevelLoadResult> error =
+            parseEntities(root, base.level->tileMap(), entities)) {
         return std::move(*error);
     }
     return LevelLoadResult{
-        .level = applyVariant(*base.level,
-                              LevelData{.name = root.value("name", std::string{}),
-                                        .tileMap = TileMap(1, 1),
-                                        .entities = std::move(entities),
-                                        .nextEntityId = parseNextEntityId(root),
-                                        .base = baseId,
-                                        .scene = root.value("scene", std::string{})}),
+        .level = applyVariant(*base.level, LevelData{.name = root.value("name", std::string{}),
+                                                     .tileMap = TileMap(1, 1),
+                                                     .entities = std::move(entities),
+                                                     .nextEntityId = parseNextEntityId(root),
+                                                     .base = baseId,
+                                                     .scene = root.value("scene", std::string{})}),
         .error = {}};
 }
 
@@ -540,8 +540,7 @@ LevelLoadResult LevelLoader::loadFromFile(const std::filesystem::path& path) {
     const BaseResolver resolveBase = [&path](std::string_view baseId) {
         const std::optional<std::filesystem::path> basePath = findVariantBase(path, baseId);
         if (!basePath) {
-            return failure("Base '" + std::string{baseId} + "' introuvable depuis " +
-                               path.string(),
+            return failure("Base '" + std::string{baseId} + "' introuvable depuis " + path.string(),
                            LevelValidationError::MissingBase);
         }
         std::ifstream baseFile(*basePath, std::ios::binary);

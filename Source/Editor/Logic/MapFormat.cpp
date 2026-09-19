@@ -134,14 +134,14 @@ void checkPieces(const core::Level& level, const PlaceAssets& assets, const std:
                 if (piece->name != name) {
                     aliased[std::string{name}].push_back(cell);
                 }
-                for (const core::GridPosition covered : core::footprintCells(cell, piece->footprint())) {
+                for (const core::GridPosition covered :
+                     core::footprintCells(cell, piece->footprint())) {
                     if (!layer.tiles.inBounds(covered.column, covered.row)) {
                         continue;
                     }
-                    const std::size_t index =
-                        (static_cast<std::size_t>(covered.row) *
-                         static_cast<std::size_t>(layer.tiles.width())) +
-                        static_cast<std::size_t>(covered.column);
+                    const std::size_t index = (static_cast<std::size_t>(covered.row) *
+                                               static_cast<std::size_t>(layer.tiles.width())) +
+                                              static_cast<std::size_t>(covered.column);
                     if (++occupants[index] == 2) {
                         overlapping.push_back(covered);
                     }
@@ -149,9 +149,8 @@ void checkPieces(const core::Level& level, const PlaceAssets& assets, const std:
             }
         }
     }
-    const std::string manifestPath =
-        place.empty() ? std::string{"(no scene declared)"}
-                      : "Assets/Scene/" + place + "/manifest.json";
+    const std::string manifestPath = place.empty() ? std::string{"(no scene declared)"}
+                                                   : "Assets/Scene/" + place + "/manifest.json";
     findings.addCells(MapCheckSeverity::Error, missing,
                       "piece missing from " + manifestPath + " (shown as a checkerboard)");
     for (const auto& [name, cells] : aliased) {
@@ -237,9 +236,9 @@ void checkEntities(const core::Level& level, Findings& findings) {
 void checkHeightReserve(const core::Level& level, Findings& findings) {
     for (const core::TileLayer& layer : level.layers()) {
         if (layer.floor != 0) {
-            findings.add(MapCheckSeverity::Warning,
-                         "layer \"" + layer.name + "\" is on floor " + std::to_string(layer.floor) +
-                             ": reserved, not played yet");
+            findings.add(MapCheckSeverity::Warning, "layer \"" + layer.name + "\" is on floor " +
+                                                        std::to_string(layer.floor) +
+                                                        ": reserved, not played yet");
         }
         std::vector<core::GridPosition> raised;
         for (int row = 0; row < layer.tiles.height(); ++row) {
@@ -249,9 +248,9 @@ void checkHeightReserve(const core::Level& level, Findings& findings) {
                 }
             }
         }
-        findings.addCells(MapCheckSeverity::Warning, raised,
-                          "cell of layer \"" + layer.name +
-                              "\" has an elevation: reserved, not played yet");
+        findings.addCells(
+            MapCheckSeverity::Warning, raised,
+            "cell of layer \"" + layer.name + "\" has an elevation: reserved, not played yet");
     }
 }
 
@@ -272,8 +271,8 @@ std::size_t namePieces(std::vector<core::TileLayer>& layers, const PlaceAppearan
                     continue;
                 }
                 const core::GridPosition cell{.column = column, .row = row};
-                const std::string_view piece = floor ? appearance.floorPiece(type, cell)
-                                                     : appearance.reliefPiece(type, cell);
+                const std::string_view piece =
+                    floor ? appearance.floorPiece(type, cell) : appearance.reliefPiece(type, cell);
                 if (!piece.empty()) {
                     layer.setPiece(column, row, std::string{piece});
                     ++named;
@@ -409,9 +408,9 @@ std::vector<MapCheckFinding> checkMapFile(std::string_view mapId, const std::fil
     // Une carte d'une version passée se lit, mais le dépôt n'en garde pas : elle se migre.
     if (text.find("\"version\": " + std::to_string(core::LEVEL_FORMAT_VERSION)) ==
         std::string::npos) {
-        findings.add(MapCheckSeverity::Error,
-                     "not in format version " + std::to_string(core::LEVEL_FORMAT_VERSION) +
-                         " (run LevelEditor --migrate)");
+        findings.add(MapCheckSeverity::Error, "not in format version " +
+                                                  std::to_string(core::LEVEL_FORMAT_VERSION) +
+                                                  " (run LevelEditor --migrate)");
     } else if (core::LevelWriter::toJsonString(level) != text) {
         findings.add(MapCheckSeverity::Error,
                      "not canonical: loading then saving it changes the file (run --migrate)");
@@ -440,8 +439,8 @@ std::vector<MapCheckFinding> checkMapFile(std::string_view mapId, const std::fil
 }
 
 std::size_t MapCheckReport::count(MapCheckSeverity severity) const {
-    return static_cast<std::size_t>(std::ranges::count(findings, severity,
-                                                       &MapCheckFinding::severity));
+    return static_cast<std::size_t>(
+        std::ranges::count(findings, severity, &MapCheckFinding::severity));
 }
 
 MapCheckReport checkAllMaps(const std::filesystem::path& dataRoot) {
@@ -449,7 +448,8 @@ MapCheckReport checkAllMaps(const std::filesystem::path& dataRoot) {
     const std::filesystem::path levels = levelsOf(dataRoot);
     for (const std::filesystem::path& file : mapFiles(levels)) {
         ++report.maps;
-        std::vector<MapCheckFinding> found = checkMapFile(core::mapIdOf(levels, file), file, dataRoot);
+        std::vector<MapCheckFinding> found =
+            checkMapFile(core::mapIdOf(levels, file), file, dataRoot);
         report.findings.insert(report.findings.end(), found.begin(), found.end());
     }
     // Les portails, d'une carte à l'autre : ce qu'aucune carte seule ne voit.
@@ -546,7 +546,8 @@ std::optional<int> runMapCommand(const std::vector<std::string>& arguments,
             }
             const std::filesystem::path destination = outputFile.value_or(file);
             std::ofstream stream(destination, std::ios::binary);
-            stream.write(migration.text.data(), static_cast<std::streamsize>(migration.text.size()));
+            stream.write(migration.text.data(),
+                         static_cast<std::streamsize>(migration.text.size()));
             if (!stream.good()) {
                 output += "error: cannot write " + destination.string() + "\n";
                 return 1;
@@ -562,8 +563,8 @@ std::optional<int> runMapCommand(const std::vector<std::string>& arguments,
         for (const MapCheckFinding& finding : report.findings) {
             output += formatFinding(finding) + "\n";
         }
-        output += "checked " + std::to_string(report.maps) + " maps: " +
-                  std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
+        output += "checked " + std::to_string(report.maps) +
+                  " maps: " + std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
                   std::to_string(report.count(MapCheckSeverity::Warning)) + " warnings\n";
         if (report.maps == 0) {
             output += "error: no map under " + levelsOf(dataRoot).string() + "\n";

@@ -369,9 +369,8 @@ void LevelDraft::resize(int width, int height) {
     if (_entry && !_tileMap.inBounds(_entry->column, _entry->row)) {
         _entry.reset();
     }
-    std::erase_if(_forcedCollision, [this](GridPosition cell) {
-        return !_tileMap.inBounds(cell.column, cell.row);
-    });
+    std::erase_if(_forcedCollision,
+                  [this](GridPosition cell) { return !_tileMap.inBounds(cell.column, cell.row); });
     // Une entite est keyee par sa case : hors de la nouvelle grille, elle n'a plus de place ou
     // exister, et la garder rendrait la carte irrecuperable (EX-LVL-017).
     std::erase_if(_entities, [this](const MapEntity& entity) {

@@ -12,7 +12,7 @@
 /**
  * @file Core/Levels/LevelVariant.h
  * @brief La **variante** d'une carte : la même carte, sous une autre planche et avec d'autres
- *        entités (`LOT-EDITOR-12`, décision D12).
+ *        entités (`LOT-EDITOR-12`, décision D12, `EX-LVL-023`).
  *
  * L'Arène du Destin du `LOT-27` est le Colisée ; le plan pénombral du `LOT-90` est la même ville
  * sous une autre lumière. Recopier leurs cases ferait deux cartes à tenir d'accord à chaque

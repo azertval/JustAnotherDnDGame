@@ -477,4 +477,3 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
     EXPECT_EQ(loaded.errorCode, core::LevelValidationError::ParseError);
     EXPECT_NE(loaded.error.find("tiles"), std::string::npos) << loaded.error;
 }
-

@@ -13,16 +13,16 @@
  *        elle se trie (`LOT-EDITOR-12`, constat A4).
  *
  * Avant ce lot, le manifeste d'un lieu déclarait l'emprise des pièces larges (étal 2 × 1, façade,
- * gradin), mais personne ne la lisait : ni l'occupation, ni le tri de profondeur, ni la collision de
- * la deuxième case n'étaient définis. La règle est ici, **une seule fois**, et lue par la
+ * gradin), mais personne ne la lisait : ni l'occupation, ni le tri de profondeur, ni la collision
+ * de la deuxième case n'étaient définis. La règle est ici, **une seule fois**, et lue par la
  * composition du jeu (`hmi::composeWorldScene`), la déduction de collision
  * (`core::deriveCollision`) et le contrôle de l'éditeur.
  *
  * ## La règle
  *
  * Une pièce est **ancrée** sur la case que la carte lui donne. Son image se pose par le sommet haut
- * du losange de cette case — c'est l'ancre que l'atelier des textures (`LOT-92`) mesure. Son emprise
- * de `columns` × `rows` cases s'étend donc vers les colonnes et les lignes **croissantes** :
+ * du losange de cette case — c'est l'ancre que l'atelier des textures (`LOT-92`) mesure. Son
+ * emprise de `columns` × `rows` cases s'étend donc vers les indices croissants,
  * `[colonne, colonne + columns[ × [ligne, ligne + rows[`. Elle se trie au **pied** de son emprise,
  * le sommet bas du losange de la case opposée à l'ancre — ce qui la garde derrière tout ce qui se
  * tient devant n'importe laquelle de ses cases.

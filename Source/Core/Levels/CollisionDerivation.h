@@ -14,7 +14,7 @@
 /**
  * @file Core/Levels/CollisionDerivation.h
  * @brief La collision d'une carte, **déduite** de ce qu'elle montre (`LOT-EDITOR-12`, décision
- *        D10).
+ *        D10, `EX-LVL-020`).
  *
  * Jusqu'à la v3, la grille de collision se peignait à part, et rien ne la tenait d'accord avec les
  * pièces posées : un mur dessiné pouvait se traverser. En v4, elle se **déduit** des couches

@@ -1,8 +1,10 @@
 # Cartes & format {#spec-niveaux}
 
-> Statut : **livré**. Format JSON versionné (version 3), chargement, validation, couches, entités
-> et pièces assignées par case ; le Colisée et deux quartiers de la Capitale sont livrés dans ce
-> format. Dépend de [`gameplay.md`](gameplay.md).
+> Statut : **livré**. Format JSON versionné (version 4 depuis le `LOT-EDITOR-12`), chargement,
+> validation, couches à pièces nommées, collision déduite et cases forcées, entités à identifiant,
+> zones peintes, variantes ; le Colisée et deux quartiers de la Capitale sont livrés dans ce format.
+> Dépend de [`gameplay.md`](gameplay.md). Schéma publié :
+> `Documentation/Editeur/level.schema.json`.
 
 ## 1. Représentation des cartes
 - \anchor EX-LVL-001 **EX-LVL-001** — Une carte doit être décrite par un **fichier de données**
@@ -12,13 +14,18 @@
 - \anchor EX-LVL-003 **EX-LVL-003** — Le format retenu est un **JSON structuré orienté objets** : une
   carte est un objet JSON portant ses **métadonnées** (nom, dimensions) et une **liste de tuiles**,
   chaque tuile étant un **objet** `{x, y, type, …}` (les cases vides sont omises) pouvant porter des
-  **champs propres** (la pièce assignée à la case, `"texture"`). Choisi pour un format
+  **champs propres** (la pièce nommée par une case de couche, `"piece"`, `EX-LVL-019`). Choisi pour un
+  format
   **extensible** (données riches par tuile, *round-trip* d'éditeur direct), au prix d'une lisibilité
   « à l'œil » moindre qu'une grille ASCII — l'édition passe par l'**éditeur**, pas par le texte brut.
 - \anchor EX-LVL-005 **EX-LVL-005** — Le fichier de carte doit porter un **numéro de version de
   format**, afin qu'une évolution non rétrocompatible soit **détectée** plutôt que subie. Un fichier
   **sans** numéro de version est lu comme la version initiale, sans erreur ni avertissement ; une
-  version supérieure à celle gérée est refusée avec un message explicite.
+  version supérieure à celle gérée est refusée avec un message explicite. **Toute version passée se
+  lit pour toujours** (une fixture par version reste dans les tests) ; la conversion est un acte
+  explicite (`LevelEditor --migrate`, `EX-EDIT-062`), jamais l'effet de bord d'un enregistrement ;
+  l'écriture est **canonique** : charger puis enregistrer une carte intacte rend le même fichier,
+  octet pour octet.
 - \anchor EX-LVL-004 **EX-LVL-004** — Le chargement d'une carte doit **valider** les données
   (positions des tuiles et des entités **dans les bornes** `width × height`, une seule tuile par case,
   **une et une seule entrée**, types de tuile connus) et signaler une erreur exploitable en cas de
@@ -27,7 +34,8 @@
   qu'une grille unique : un RPG en vue de dessus superpose un **sol** (herbe, dalle, eau), un
   **décor** (arbre, tonneau, tapis) et une **collision** — masque indépendant du visuel, un tapis se
   traverse et un tonneau non. La grille de **collision** d'une carte est son tableau racine `tiles`,
-  celui qui porte déjà l'entrée : le tableau `layers` ne décrit que les couches **visibles**, et une
+  celui qui porte déjà l'entrée — **déduite** des couches visibles depuis la v4 (`EX-LVL-020`) : le
+  tableau `layers` ne décrit que les couches **visibles**, et une
   couche de rôle `collision` qui y serait déclarée est **refusée** — deux grilles à tenir d'accord se
   désynchronisent, et c'est celle qu'on ne voit pas qui gagne. Au chargement, la grille racine est
   **promue** en couche de tête, pour que tout consommateur boucle sur les couches sans cas
@@ -45,6 +53,40 @@
   plus tard — terrain difficile, couverture, hauteur, dialogue d'un PNJ — imposerait une nouvelle
   version de format et la migration de tout le contenu déjà produit. Concrétisé en `LOT-04`.
 
+### Format v4 (`LOT-EDITOR-12`)
+
+La seule révision de format du module éditeur, faite tant qu'il n'y avait que trois cartes.
+
+- \anchor EX-LVL-019 **EX-LVL-019** — Chaque case d'une couche visible porte son **type** et une
+  **pièce** facultative de la planche du lieu (`"piece"`). Le type ne garde qu'un sens, celui des
+  règles et du générateur ; la pièce est ce qu'on voit, et la table d'apparence du lieu n'en est que
+  le **défaut** (cartes générées, case sans pièce). Une pièce **large** est ancrée sur une case et
+  occupe son emprise vers les colonnes et lignes croissantes ; elle se trie au pied de son emprise
+  (`core::footprintCells`, une seule règle, lue par la composition du jeu et par la déduction de
+  collision). Une pièce se cite par son nom courant ou par un ancien nom (`aliases` du manifeste) ;
+  une pièce introuvable reste dans le fichier.
+- \anchor EX-LVL-020 **EX-LVL-020** — La grille de collision est **écrite** dans le fichier — le
+  jeu la lit sans manifeste — et **égale à sa déduction** (`core::deriveCollision`) hors des cases
+  que l'auteur a **forcées** (`"forced"`). La déduction prend, case par case, la contribution la plus
+  forte du **type tactique** de chaque pièce qui la couvre (`tactical` au manifeste : `open`,
+  `difficult`, `cover`, `obstacle`, `solid`), de la règle du type d'une case sans pièce, et fait
+  d'une case que rien ne couvre un mur. Gêne et abri ne sont pas encore joués depuis une pièce :
+  déduits franchissables, signalés par le contrôle.
+- \anchor EX-LVL-021 **EX-LVL-021** — Chaque entité porte un **identifiant** court (`"id"`), unique
+  dans la carte, donné par l'éditeur et **jamais réemployé** (compteur `"nextEntityId"`) : quêtes,
+  drapeaux et sauvegardes citent une entité par `carte#id`, pas par sa case. Deux entités du même
+  identifiant sont refusées au chargement.
+- \anchor EX-LVL-022 **EX-LVL-022** — Une zone (`"type": "zone"`) est un **rectangle** (`width` ×
+  `height` depuis sa case) **ou** un ensemble de cases **peint** (`"cells"`) ; ses propriétés
+  s'appliquent à chaque case couverte, et `core::BattleGrid::zonesAt` lit les deux formes.
+- \anchor EX-LVL-023 **EX-LVL-023** — Une carte peut être la **variante** d'une autre (`"base"`) :
+  elle ne porte aucune case, reprend celles de sa base, change de planche (`"scene"`) et porte ses
+  propres entités. Sa base se cherche du dossier de la variante vers la racine ; une base elle-même
+  variante est refusée.
+- \anchor EX-LVL-024 **EX-LVL-024** — La **hauteur** est réservée : `"floor"` par couche,
+  `"elevation"` par case de couche et par entité, lus, gardés et réécrits ; ni le jeu ni l'éditeur
+  ne s'en servent, et le contrôle signale toute valeur non nulle.
+
 ### Format retenu (JSON, liste de tuiles-objets)
 
 Types de tuiles : `entry` (entrée, point d'arrivée par défaut), `solid` (matière pleine), et le
@@ -52,32 +94,66 @@ terrain du RPG (`EX-EXP-005`) — `grass`, `dirt`, `sand`, `water`, `deepWater` 
 bloque), `wall`, `cliff` (obstacles), `bridge`, `stairs` (passages). Une case **vide** n'est pas
 listée (absence = vide).
 
-Une tuile de la grille racine peut porter `"texture"` : la pièce de la planche du lieu
-(`EX-VIS-008`) dessinée sur cette case, prioritaire sur la table d'apparence de son type
-(`TileTextureOverride`).
+Une case de couche peut nommer sa **pièce** (`"piece"`, `EX-LVL-019`), la pièce de la planche du
+lieu (`EX-VIS-008`) dessinée sur cette case. Une carte v3 portait cette pièce sur la grille racine
+(`"texture"`) : le chargeur la range sur la couche de décor, et une v4 qui en porte encore une est
+refusée. Écriture canonique : champs dans cet ordre, une case par ligne.
 
 ```json
 {
-  "version": 3,
+  "version": 4,
   "name": "Village",
   "width": 12,
   "height": 8,
+  "nextEntityId": 3,
   "tiles": [
-    { "x": 1, "y": 1, "type": "entry" },
-    { "x": 4, "y": 4, "type": "wall", "texture": "puits" }
+    {"x": 1, "y": 1, "type": "entry"},
+    {"x": 4, "y": 4, "type": "wall"}
+  ],
+  "forced": [
+    {"x": 9, "y": 7}
   ],
   "layers": [
-    { "name": "sol", "kind": "ground", "tiles": [{ "x": 4, "y": 4, "type": "dirt" }],
-      "scene": "village" },
-    { "name": "decor", "kind": "decor", "tiles": [{ "x": 5, "y": 4, "type": "wall" }],
-      "difficultTerrain": true }
+    {
+      "name": "sol",
+      "kind": "ground",
+      "scene": "village",
+      "tiles": [
+        {"x": 1, "y": 1, "type": "dirt", "piece": "chemin"}
+      ]
+    },
+    {
+      "name": "relief",
+      "kind": "decor",
+      "tiles": [
+        {"x": 4, "y": 4, "type": "wall", "piece": "puits"}
+      ]
+    }
   ],
   "entities": [
-    { "type": "npc", "x": 6, "y": 3, "dialogue": "bonjour" },
-    { "type": "chest", "x": 2, "y": 7 }
+    {
+      "id": "e1",
+      "type": "npc",
+      "x": 6,
+      "y": 3,
+      "dialogue": "bonjour"
+    },
+    {
+      "id": "e2",
+      "type": "zone",
+      "x": 2,
+      "y": 6,
+      "cells": [
+        {"x": 2, "y": 6},
+        {"x": 3, "y": 7}
+      ],
+      "difficultTerrain": true
+    }
   ]
 }
 ```
+Une **variante** ne porte que `version`, `name`, `base`, `scene`, `nextEntityId` et `entities`
+(`EX-LVL-023`).
 Rôles de couche reconnus : `ground`, `decor`, et `legacy` (rôle de la grille racine promue, jamais
 écrit) ; un rôle inconnu retombe sur `ground` plutôt que de faire échouer la carte (`EX-NFR-040`),
 et `collision` déclaré est refusé (`EX-LVL-016`). La propriété de couche `scene` nomme le **lieu**
@@ -98,6 +174,7 @@ rassemblés dans `core::knownEntityKinds` (`Source/Core/World/EntityKinds.h`) :
 | `combatZone` | `name`, `width`, `height` — requis | découpe de la grille de combat (`LOT-09`) |
 | `cityBlock` | `name`, `width`, `height` — requis | plan de ville (`LOT-96`) |
 | `arenaEntry` | `side` (`allies` ou `enemies`), `rank` (entier) | `core::arenaEntryPoints` (`LOT-50`) |
+| `zone` | `width`, `height` (rectangle) ou `cells` (peinte) ; propriétés de règles | `core::BattleGrid::zonesAt` (`LOT-EDITOR-12`) |
 
 L'**identifiant d'une carte** est le chemin de son fichier sous `Source/Elements/Levels/`, sans
 extension (`coliseum`, `capital/martpart`). Un portail désigne sa destination par `(carte, point
@@ -141,5 +218,7 @@ Coordonnées `x` = colonne, `y` = ligne, origine **haut-gauche** ; toute tuile h
 
 ## Traçabilité
 Le chargement et la validation relèvent de `Source/Core` (`core::LevelLoader`,
-`core::LevelWriter`) ; les fichiers de cartes sont dans `Source/Elements/Levels`. Types de tuiles :
+`core::LevelWriter`, `core::deriveCollision`) ; la migration et le contrôle de toutes les cartes,
+de l'éditeur (`LevelEditor --migrate`, `--check`, `EX-EDIT-062`) ; les fichiers de cartes sont dans
+`Source/Elements/Levels`. Types de tuiles :
 [`gameplay.md`](gameplay.md) ; exploration : [`exploration.md`](exploration.md).

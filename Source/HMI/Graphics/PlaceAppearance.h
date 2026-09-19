@@ -42,7 +42,7 @@
 namespace core {
 struct JsonDocument;
 class ScenePieceManifest;
-}
+}  // namespace core
 
 namespace hmi {
 
@@ -80,10 +80,12 @@ public:
      */
     void adoptManifest(const core::ScenePieceManifest& manifest);
 
-    /// @return Le nom courant de la pièce @p name : elle-même, ou la pièce dont c'est un ancien nom.
+    /// @return Le nom courant de la pièce @p name : elle-même, ou la pièce dont c'est un ancien
+    /// nom.
     [[nodiscard]] std::string_view canonicalPiece(std::string_view name) const;
 
-    /// @return L'emprise de la pièce @p name (nom courant), 1 × 1 si le manifeste ne la connaît pas.
+    /// @return L'emprise de la pièce @p name (nom courant), 1 × 1 si le manifeste ne la connaît
+    /// pas.
     [[nodiscard]] core::PieceFootprint pieceFootprint(std::string_view name) const;
 
     /// @return L'identifiant du lieu (`coliseum`), vide pour une table vide.

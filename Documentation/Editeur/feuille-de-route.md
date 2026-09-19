@@ -188,7 +188,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 |---|---|---|---|
 | `LOT-EDITOR-01` | Le socle du module — **livré** | — | M |
 | `LOT-EDITOR-02` | Le canevas montre le lieu — **livré** | 01 | L |
-| `LOT-EDITOR-12` | Le format v4 et sa garde en CI | 01 | M |
+| `LOT-EDITOR-12` | Le format v4 et sa garde en CI — **livré** | 01 | M |
 | `LOT-EDITOR-03` | Peindre avec les pièces du lieu | 02, 12 | M |
 | `LOT-EDITOR-04` | Les outils du peintre | 03 | M |
 | `LOT-EDITOR-05` | Entités et zones sur le canevas | 02, 12 | M |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01 et 02 (livrés), 12, 03, 04, 05, 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01, 02 et 12 (livrés), 03, 04, 05, 13, 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -212,7 +212,7 @@ digraph editeur {
   node [shape=box, style=rounded, fontsize=10];
   E01 [label="01\nsocle\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E02 [label="02\ncanevas iso\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E12 [label="12\nformat v4\n+ check en CI"];
+  E12 [label="12\nformat v4\n+ check en CI\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E03 [label="03\npièces"];
   E04 [label="04\noutils"];
   E05 [label="05\nentités, zones"];
@@ -259,28 +259,18 @@ losange, hauteur en paramètre (`EX-EDIT-060`) ; calques grisés ou verrouillés
 transparence, mini-carte (`EX-EDIT-061`). La composition vit dans la cible `SceneComposition`, le
 manifeste des pièces dans `Core` ; l'éditeur ne parle plus au GPU.
 
-### LOT-EDITOR-12 — Le format v4 et sa garde en CI {#lot-editor-12}
+### LOT-EDITOR-12 — Le format v4 et sa garde en CI
 
-> Statut : **à faire**. Prérequis : 01. Dans `Core`, sans IHM.
+> Statut : **livré le 19 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-12.
 
-La seule révision de format du module, faite tant qu'il n'y a que trois cartes (D3, D8, D10, D11,
-D12, D13).
-
-- `piece` par case de couche ; règle d'emprise des pièces larges (occupation, tri de profondeur,
-  collision), unique, dans `Core`, lue par le composeur du jeu (A4).
-- Collision écrite dans le fichier, avec la liste des cases forcées ; `core::deriveCollision` ;
-  **type tactique** par pièce dans le manifeste (passe, gêne, arrête le pas, arrête la vue, abri).
-- `id` d'entité ; forme de zone (rectangle ou cases peintes), lue par `BattleGrid::zonesAt` ;
-  variante par `base` ; réserve `floor` et `elevation`.
-- Écriture canonique ; schéma JSON publié ; `aliases` du manifeste.
-- `LevelEditor --migrate`, et un **`--check` minimal branché dans `ci.yml`** : aller-retour octet
-  pour octet, références, pièces présentes, fichier = déduction + cases forcées (A12).
-- Révision de `niveaux.md` et de `EX-EDIT-043`.
-
-*Acceptation* — les trois cartes migrées se jouent à l'identique (même instantané de scène, même
-`BattleGrid`) ; une carte v1, v2 et v3 gardée en fixture se charge pour toujours ; charger puis
-enregistrer une carte intacte rend le même fichier ; le fuzz du chargeur couvre la v4 ; une valeur
-`elevation` non nulle survit à un aller-retour et sort en avertissement du `--check`.
+Chaque case de couche porte son type et sa pièce ; la grille de collision est déduite des pièces et
+écrite, avec ses cases forcées (`EX-LVL-019`, `EX-LVL-020`). Les entités ont un identifiant jamais
+réemployé, les zones une forme peinte, les cartes des variantes, la hauteur une place réservée
+(`EX-LVL-021` à `EX-LVL-024`). `LevelEditor --migrate` a converti les trois cartes sans changer ce
+que le jeu joue ; `LevelEditor --check` les garde en CI (`EX-EDIT-062`). Schéma publié :
+`Documentation/Editeur/level.schema.json`. Le Colisée garde 540 cases forcées, à trancher au
+`LOT-EDITOR-03`.
 
 ### LOT-EDITOR-03 — Peindre avec les pièces du lieu {#lot-editor-03}
 

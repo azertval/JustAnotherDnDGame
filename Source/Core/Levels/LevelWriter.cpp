@@ -138,8 +138,9 @@ void writeProperties(const PropertyMap& properties, Json& object) {
     return layersJson;
 }
 
-// Tableau racine "entities" (EX-LVL-017). Le type est ecrit meme vide : une entite sans type est une
-// donnee fautive qu'il vaut mieux voir dans le fichier que faire disparaitre a l'enregistrement.
+// Tableau racine "entities" (EX-LVL-017). Le type est ecrit meme vide : une entite sans type est
+// une donnee fautive qu'il vaut mieux voir dans le fichier que faire disparaitre a
+// l'enregistrement.
 [[nodiscard]] Json entitiesJson(const std::vector<MapEntity>& entities) {
     Json array = Json::array();
     for (const MapEntity& entity : entities) {

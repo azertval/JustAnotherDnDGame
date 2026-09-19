@@ -56,10 +56,10 @@ enum class LevelValidationError {
  * - Version 4 (`LOT-EDITOR-12`, la seule révision du module éditeur) : chaque case de couche porte
  *   son `type` et une `piece` facultative — l'assignation `"texture"` de la grille racine est lue
  *   dans une carte v3 et rangée comme pièce de la couche de décor, refusée dans une v4 ; la grille
- *   racine est la collision **écrite**, avec ses cases forcées (`"forced"`) ; les entités portent un
- *   `id` unique et un compteur (`"nextEntityId"`) ; une zone peut être peinte (`"cells"`) ; une
- *   carte peut être la **variante** d'une autre (`"base"`, `"scene"`) ; la hauteur est réservée
- *   (`"floor"` par couche, `"elevation"` par case et par entité).
+ *   racine est la collision **écrite**, avec ses cases forcées (`"forced"`) ; chaque entité a un
+ *   `id` unique, et la carte un compteur (`"nextEntityId"`) ; une zone peut être peinte
+ *   (`"cells"`) ; une carte peut être la **variante** d'une autre (`"base"`, `"scene"`) ; la
+ *   hauteur est réservée (`"floor"` par couche, `"elevation"` par case et par entité).
  *
  * Toute clé non reconnue dans une couche ou une entité est rangée dans ses propriétés libres
  * (`core::PropertyMap`) et **réémise** à l'écriture : un fichier produit par une version
