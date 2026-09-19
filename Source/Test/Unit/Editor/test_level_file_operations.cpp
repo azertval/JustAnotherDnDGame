@@ -1,6 +1,7 @@
 // SPDX-FileCopyrightText: 2026 Valentin Eloy
 // SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 
+#include <algorithm>
 #include <cstdint>
 #include <filesystem>
 #include <fstream>
@@ -10,7 +11,11 @@
 
 #include <gtest/gtest.h>
 
+#include "Core/Levels/LevelLoader.h"
+#include "Core/Levels/TileLayer.h"
 #include "Editor/Logic/LevelFileOperations.h"
+#include "Editor/Logic/MapFormat.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
 
 namespace {
 
@@ -49,6 +54,63 @@ TEST_F(LevelFileOps, CreeUnNiveauValide) {
     ASSERT_TRUE(result.ok()) << result.error;
     EXPECT_TRUE(std::filesystem::exists(result.path));
     EXPECT_EQ(ops.list().size(), 1U);
+}
+
+/**
+ * @brief Une carte créée avec un lieu naît comme les cartes livrées, et passe le contrôle
+ * (`LOT-EDITOR-06`) : on la fait ensuite entièrement dans l'éditeur.
+ * \castest{<b>Une carte creee avec un lieu passe le controle.</b><br/>
+ * \tcat Unitaire · Opérations sur fichiers de niveau<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Créer une carte 12 × 8 au lieu `martpart`.<br/>2. La relire, puis la contrôler avec
+ * les planches livrées.<br/>
+ * \tattendu Une couche de sol `sol` au lieu `martpart`, une couche de décor `relief` ; aucune
+ * erreur de contrôle.
+ * }
+ */
+TEST_F(LevelFileOps, UneCarteCreeeAvecUnLieuPasseLeControle) {
+    const hmi::LevelFileOperations ops(dir);
+    const hmi::FileOperationResult result = ops.create("Echoppe", 12, 8, "martpart");
+    ASSERT_TRUE(result.ok()) << result.error;
+
+    const core::LevelLoadResult lu = core::LevelLoader::loadFromFile(result.path);
+    ASSERT_TRUE(lu.ok()) << lu.error;
+    EXPECT_EQ(hmi::scenePlaceOf(*lu.level), "martpart");
+    int sols = 0;
+    int decors = 0;
+    for (const core::TileLayer& couche : lu.level->layers()) {
+        sols += couche.kind == core::LayerKind::Ground && couche.name == "sol" ? 1 : 0;
+        decors += couche.kind == core::LayerKind::Decor && couche.name == "relief" ? 1 : 0;
+    }
+    EXPECT_EQ(sols, 1);
+    EXPECT_EQ(decors, 1);
+
+    const std::filesystem::path donnees = std::filesystem::path(JADG_LEVELS_DIR).parent_path();
+    for (const hmi::MapCheckFinding& constat : hmi::checkMapFile("Echoppe", result.path, donnees)) {
+        EXPECT_NE(constat.severity, hmi::MapCheckSeverity::Error) << hmi::formatFinding(constat);
+    }
+}
+
+/**
+ * @brief Les lieux qu'une nouvelle carte peut prendre sont les planches qui ont un manifeste.
+ * \castest{<b>Les lieux proposes ont un manifeste.</b><br/>
+ * \tcat Unitaire · Opérations sur fichiers de niveau<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Lister les lieux de `Source/Elements`.<br/>
+ * \tattendu `coliseum` et `martpart` en font partie, triés ; chacun a son `manifest.json`.
+ * }
+ */
+TEST(ScenePlacesTest, LesLieuxProposesOntUnManifeste) {
+    const std::filesystem::path donnees = std::filesystem::path(JADG_LEVELS_DIR).parent_path();
+    const std::vector<std::string> lieux = hmi::scenePlaces(donnees);
+    EXPECT_TRUE(std::ranges::is_sorted(lieux));
+    EXPECT_NE(std::ranges::find(lieux, "coliseum"), lieux.end());
+    EXPECT_NE(std::ranges::find(lieux, "martpart"), lieux.end());
+    for (const std::string& lieu : lieux) {
+        EXPECT_TRUE(
+            std::filesystem::is_regular_file(donnees / "Assets" / "Scene" / lieu / "manifest.json"))
+            << lieu;
+    }
 }
 
 /**

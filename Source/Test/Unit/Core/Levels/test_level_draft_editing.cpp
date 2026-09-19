@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -298,6 +299,34 @@ TEST(EditionDeCarteTest, NomEtRoleDUneCoucheSEditent) {
     ASSERT_TRUE(draft.undo());
     EXPECT_EQ(draft.layers()[1].name, "sol");
     EXPECT_EQ(draft.layers()[1].kind, core::LayerKind::Ground);
+}
+
+/**
+ * @brief Une couche prend une propriété — le lieu dont elle tire ses pièces (`LOT-EDITOR-06`) —
+ * en un pas d'annulation, et la garde à l'enregistrement.
+ * \castest{<b>Une propriete de couche s'edite et se defait.</b><br/>
+ * \tcat Unitaire · Edition de carte<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Donner `scene = martpart` a la couche de sol, puis la meme valeur encore.<br/>2.
+ * Tenter une cle vide et la grille de collision.<br/>3. Reconvertir, puis annuler.<br/>
+ * \tattendu Un seul pas ; le niveau relu porte le lieu ; l'annulation le retire.
+ * }
+ */
+TEST(EditionDeCarteTest, UneProprieteDeCoucheSEditeEtSeDefait) {
+    core::LevelDraft draft = draftOf(MAP_LAYERED);
+    EXPECT_TRUE(draft.setLayerProperty(1, "scene", std::string{"martpart"}));
+    EXPECT_FALSE(draft.setLayerProperty(1, "scene", std::string{"martpart"}));
+    EXPECT_FALSE(draft.setLayerProperty(1, "", std::string{"martpart"}));
+    EXPECT_FALSE(draft.setLayerProperty(0, "scene", std::string{"martpart"}));
+
+    const core::LevelLoadResult rebuilt = draft.toLevel();
+    ASSERT_TRUE(rebuilt.ok()) << rebuilt.error;
+    const core::PropertyMap& proprietes = rebuilt.level->layers()[1].properties;
+    ASSERT_TRUE(proprietes.contains("scene"));
+    EXPECT_EQ(std::get<std::string>(proprietes.at("scene")), "martpart");
+
+    ASSERT_TRUE(draft.undo());
+    EXPECT_FALSE(draft.layers()[1].properties.contains("scene"));
 }
 
 /**

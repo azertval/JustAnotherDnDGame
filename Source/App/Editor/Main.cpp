@@ -28,6 +28,7 @@
 #include <vector>
 
 #include "App/Common/Bootstrap.h"
+#include "Editor/Logic/DataRoot.h"
 #include "Editor/Logic/MapFormat.h"
 #include "Editor/Ui/MainWindow.h"
 #include "Editor/Ui/MapRender.h"
@@ -41,21 +42,27 @@ int main(int argc, char** argv) {
     static_cast<void>(app::installLogging(argc, argv, "LevelEditor", app::CrashTest::Deferred));
     const bool crashAfterAutosave = app::commandLineOption(argc, argv, "--crash-test").has_value();
 
-    // Les commandes sans fenêtre, avant toute construction Qt. La racine des données par défaut est
-    // le dossier de l'exécutable, où la construction recopie Levels/ et Assets/.
+    // Une seule racine des données pour la fenêtre et les commandes sans fenêtre : `--data`, sinon
+    // l'arbre des sources qui a construit l'éditeur (LOT-EDITOR-06), sinon le dossier de
+    // l'exécutable, où la construction recopie Levels/ et Assets/.
     const std::vector<std::string> arguments(argv + 1, argv + argc);
     std::string report;
     const std::filesystem::path executable = std::filesystem::absolute(argv[0]);
-    if (const std::optional<int> code =
-            hmi::runMapCommand(arguments, executable.parent_path(), report)) {
+    const std::filesystem::path dataRoot = hmi::resolveDataRoot(
+        arguments, executable.parent_path(), std::filesystem::path{JADG_EDITOR_SOURCE_DATA});
+
+    // Les commandes sans fenêtre, avant toute construction Qt.
+    if (const std::optional<int> code = hmi::runMapCommand(arguments, dataRoot, report)) {
         std::cout << report << std::flush;
         return *code;
     }
-    if (const std::optional<int> code =
-            hmi::runRenderCommand(arguments, executable.parent_path(), report)) {
+    if (const std::optional<int> code = hmi::runRenderCommand(arguments, dataRoot, report)) {
         std::cout << report << std::flush;
         return *code;
     }
+
+    hmi::setEditorDataRoot(dataRoot);
+    HMI_LOG_INFO("Donnees de l'editeur : " + dataRoot.string());
 
     QApplication application(argc, argv);
     // Style choisi avant tout widget : appliqué après, il ne se propage pas aux widgets déjà

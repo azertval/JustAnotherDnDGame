@@ -193,7 +193,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 | `LOT-EDITOR-04` | Les outils du peintre — **livré** | 03 | M |
 | `LOT-EDITOR-05` | Entités et zones sur le canevas — **livré** | 02, 12 | M |
 | `LOT-EDITOR-13` | L'éditeur sans fenêtre — **livré** | 04 | S |
-| `LOT-EDITOR-06` | Les cartes quittent leurs scripts | 05, 13 | S |
+| `LOT-EDITOR-06` | Les cartes quittent leurs scripts — **livré** | 05, 13 | S |
 | `LOT-EDITOR-07` | Contrôle du contenu | 06 | M |
 | `LOT-EDITOR-14` | Renommer et remplacer | 06 | M |
 | `LOT-EDITOR-08` | Tampons et préfabriqués | 04 | S |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01, 02, 12, 03, 04, 05 et 13 (livrés), 06. Le graphe est donné en source
+Le jalon est atteint : 01, 02, 12, 03, 04, 05, 13 et 06 sont livrés. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -217,7 +217,7 @@ digraph editeur {
   E04 [label="04\noutils\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E05 [label="05\nentités, zones\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E13 [label="13\nsans fenêtre\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E06 [label="06\nfin des scripts\n(jalon)", style="rounded,bold"];
+  E06 [label="06\nfin des scripts\n(jalon, livré)", style="rounded,filled,bold", fillcolor="#dddddd"];
   E07 [label="07\ncontrôles"];
   E14 [label="14\nrenommer, remplacer"];
   E08 [label="08\ntampons"];
@@ -325,20 +325,18 @@ en PNG, en isométrie et sans fenêtre, et la CI publie le rendu des cartes qu'u
 (`EX-EDIT-075`). Chaque outil a son scénario, comparé à un fichier attendu (`EX-EDIT-076`). La rue
 d'Arenarea, à Martpart, gommée puis retracée en dix gestes, rend la carte livrée octet pour octet.
 
-### LOT-EDITOR-06 — Les cartes quittent leurs scripts {#lot-editor-06}
+### LOT-EDITOR-06 — Les cartes quittent leurs scripts
 
-> Statut : **à faire**. Prérequis : 05, 13. **Premier jalon.**
+> Statut : **livré le 19 septembre 2026**. **Premier jalon.** Le lot a quitté cette page pour son
+> dossier : @subpage lot-editor-06.
 
-L'éditeur devient la source des cartes faites à la main (D4).
-
-- Dernière génération de `carte_colisee.py` et `carte_quartiers.py`, puis retrait de leur
-  `--check` — celui du 12 tourne déjà en CI ; les scripts restent dans leurs dossiers de lot, comme
-  trace.
-- Une vraie retouche faite dans l'éditeur sur chacune des trois cartes.
-- Guide d'usage : créer une carte de bout en bout.
-
-*Acceptation* — les trois cartes se modifient, s'enregistrent et se rechargent dans l'éditeur sans
-perte et sans script.
+L'éditeur est la source des cartes faites à la main (D4). Les scripts du Colisée et des quartiers
+restent dans leurs dossiers de lot, comme trace, et refusent d'écrire dans `Levels/`. Chaque carte
+livrée s'ouvre et s'enregistre dans l'éditeur sans changer d'un octet (`EX-EDIT-078`), et a reçu
+sa retouche par `--apply` : la porte sud et la loge du Colisée (plus aucun chevauchement), les
+boutiques du marché de Martpart, un angle de mur égaré sur le parvis d'Arenarea. La fenêtre ouvre
+enfin l'arbre des sources, et non la copie de la construction ; une nouvelle carte choisit son lieu
+et passe le contrôle telle quelle (`EX-EDIT-077`). Guide : @ref guide-usage-editeur.
 
 ### LOT-EDITOR-07 — Contrôle du contenu {#lot-editor-07}
 

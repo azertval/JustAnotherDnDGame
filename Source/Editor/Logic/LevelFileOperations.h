@@ -31,8 +31,17 @@ public:
     /// @return Les fichiers `.json` du dossier, triés par nom (vide si le dossier n'existe pas).
     [[nodiscard]] std::vector<std::filesystem::path> list() const;
 
-    /// Crée un niveau minimal valide (grille vide + entrée) nommé @p name, d'une case au moins.
-    [[nodiscard]] FileOperationResult create(const std::string& name, int width, int height) const;
+    /**
+     * @brief Crée un niveau minimal valide nommé @p name, d'une case au moins, entrée au coin bas
+     *        gauche.
+     *
+     * Sans lieu, la carte est une grille unique vide. Avec un lieu (`LOT-EDITOR-06`), elle naît
+     * comme les cartes livrées : une couche de sol `sol` qui prend ses pièces dans la planche de
+     * @p place (propriété `scene`), une couche de décor `relief` au-dessus, et la collision
+     * déduite — tout est vide, donc tout arrête la vue, sauf la case d'entrée, qui reçoit un sol.
+     */
+    [[nodiscard]] FileOperationResult create(const std::string& name, int width, int height,
+                                             const std::string& place = {}) const;
 
     /// Renomme le niveau @p source en @p newName (met à jour le nom interne).
     [[nodiscard]] FileOperationResult rename(const std::filesystem::path& source,

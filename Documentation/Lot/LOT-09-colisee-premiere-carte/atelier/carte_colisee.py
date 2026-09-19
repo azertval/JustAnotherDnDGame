@@ -4,6 +4,13 @@
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Trace la carte du Colisée, version finale (`LOT-09`).
 
+> **Retiré le 19 septembre 2026 (`LOT-EDITOR-06`).** L'éditeur fait foi (décision D4 de la
+> feuille de route de l'éditeur) : `coliseum.json` se modifie dans `LevelEditor`, à la souris ou
+> par `LevelEditor --apply`, et `LevelEditor --check` le garde en CI. Le script reste ici comme
+> trace de la façon dont la carte a été posée. Sa dernière génération a été commitée telle quelle,
+> puis retouchée dans l'éditeur ; il n'écrit donc plus jamais dans `Source/Elements` : il trace
+> dans le dossier que nomme `--sortie`, et son `--check` est parti.
+
 *Décision de l'auteur, 17 septembre 2026* : la carte se **pose par script**, puis se retouche dans
 l'éditeur (`LOT-11`). Le fichier produit est un fichier de niveau ordinaire, sans marque d'origine :
 l'éditeur l'ouvre, le modifie et le réenregistre sans rien savoir de ce script. Écrire mille cases à
@@ -39,11 +46,9 @@ ouest, posés sur des dalles, arrêtent le pas comme ceux du couloir est.
 
 Usage :
 
-    py -3.13 Documentation/Lot/LOT-09-colisee-premiere-carte/atelier/carte_colisee.py [--check]
+    py -3.13 Documentation/Lot/LOT-09-colisee-premiere-carte/atelier/carte_colisee.py --sortie DOSSIER
 
-`--check` ne réécrit rien : il compare ce que le script produirait au fichier commité, et sort en
-erreur s'ils diffèrent — c'est ce que la CI peut demander pour savoir si la carte a été retouchée à
-la main.
+Le tracé s'écrit dans `DOSSIER/coliseum.json` ; le dossier des cartes du jeu est refusé.
 """
 from __future__ import annotations
 
@@ -61,8 +66,8 @@ CARTE = RACINE / "Source" / "Elements" / "Levels" / "coliseum.json"
 #
 # Ce script trace une carte v3 ; le dépôt ne garde que des v4. La conversion n'est pas refaite ici :
 # c'est l'éditeur qui la porte (`LevelEditor --migrate`), une seule fois pour toutes les cartes. Le
-# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il ne vit plus
-# que jusqu'au LOT-EDITOR-06, qui fait de l'éditeur la source des cartes faites à la main.
+# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il a vécu
+# jusqu'au LOT-EDITOR-06, qui a fait de l'éditeur la source des cartes faites à la main.
 EDITEUR = RACINE / "build" / "ninja" / "bin" / "LevelEditor.exe"
 MANIFESTE = RACINE / "Source" / "Elements" / "Assets" / "Scene" / "coliseum" / "manifest.json"
 
@@ -362,36 +367,35 @@ def tracer() -> dict:
 
 
 def main() -> int:
-    analyseur = argparse.ArgumentParser(description="Trace la carte du Colisée (LOT-09).")
+    analyseur = argparse.ArgumentParser(
+        description="Trace la carte du Colisée (LOT-09) ; retiré au LOT-EDITOR-06, trace seulement."
+    )
     analyseur.add_argument(
-        "--check",
-        action="store_true",
-        help="ne rien écrire ; sortir en erreur si le fichier commité diffère de ce que le script produit",
+        "--sortie",
+        type=Path,
+        required=True,
+        help="dossier où écrire le tracé ; jamais celui des cartes du jeu, que l'éditeur tient",
     )
     arguments = analyseur.parse_args()
+
+    sortie = arguments.sortie.resolve()
+    if sortie == CARTE.parent.resolve():
+        print(
+            "carte_colisee : retiré au LOT-EDITOR-06 — la carte du jeu se modifie dans LevelEditor, "
+            "le script n'écrit plus dans Source/Elements/Levels."
+        )
+        return 1
 
     carte = tracer()
     texte = en_v4(json.dumps(carte, ensure_ascii=False, indent=2) + "\n")
 
-    if arguments.check:
-        if not CARTE.exists():
-            print(f"carte_colisee --check : {CARTE} est absent.")
-            return 1
-        if CARTE.read_text(encoding="utf-8") != texte:
-            print(
-                "carte_colisee --check : la carte commitée diffère de ce que le script produit "
-                "(elle a été retouchée dans l'éditeur, ce qui est légitime)."
-            )
-            return 1
-        print("carte_colisee --check : la carte commitée est exactement celle du script.")
-        return 0
-
-    CARTE.parent.mkdir(parents=True, exist_ok=True)
+    trace = sortie / CARTE.name
+    trace.parent.mkdir(parents=True, exist_ok=True)
     # En LF, comme tout le depot : un fichier de donnees commite en CRLF pollue chaque diff.
-    CARTE.write_text(texte, encoding="utf-8", newline="\n")
+    trace.write_text(texte, encoding="utf-8", newline="\n")
     franchissables = len(matieres())
     print(
-        f"carte_colisee : {CARTE.relative_to(RACINE)} écrite — {LARGEUR} x {HAUTEUR} cases, "
+        f"carte_colisee : {trace} écrite — {LARGEUR} x {HAUTEUR} cases, "
         f"{franchissables} franchissables, {len(carte['tiles'])} tuiles racine, "
         f"{len(carte['entities'])} entités."
     )

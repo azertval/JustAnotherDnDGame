@@ -265,6 +265,20 @@ bool LevelDraft::setLayerKind(std::size_t index, LayerKind kind) {
     return true;
 }
 
+bool LevelDraft::setLayerProperty(std::size_t index, const std::string& key, PropertyValue value) {
+    if (!isVisualLayerIndex(index) || key.empty()) {
+        return false;
+    }
+    const PropertyMap& properties = _layers[index].properties;
+    if (const auto found = properties.find(key);
+        found != properties.end() && found->second == value) {
+        return false;
+    }
+    pushUndo();
+    _layers[index].properties[key] = std::move(value);
+    return true;
+}
+
 std::optional<std::size_t> LevelDraft::moveLayer(std::size_t index, bool forward) {
     if (!isVisualLayerIndex(index)) {
         return std::nullopt;

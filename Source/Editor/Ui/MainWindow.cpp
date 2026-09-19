@@ -41,6 +41,7 @@
 #include <optional>
 
 #include "Editor/Logic/Autosave.h"
+#include "Editor/Logic/DataRoot.h"
 #include "Editor/Logic/DiskGuard.h"
 #include "Editor/Logic/EditorStatus.h"
 #include "Editor/Logic/EntityReferences.h"
@@ -53,7 +54,6 @@
 #include "Editor/Ui/PalettePanel.h"
 #include "HMI/HmiLog.h"
 #include "HMI/Platform/CrashDump.h"
-#include "HMI/Platform/ExecutableDirectory.h"
 
 namespace hmi {
 
@@ -106,7 +106,9 @@ constexpr int DISK_CHECK_DELAY_MS = 300;
 
 MainWindow::MainWindow(bool crashAfterAutosave)
     : _viewport(new EditorViewport()), _crashAfterAutosave(crashAfterAutosave) {
-    setWindowTitle(QStringLiteral("Just Another RPG Game — Editor"));
+    // Le dossier des données dans le titre : on sait où l'enregistrement écrit (LOT-EDITOR-06).
+    setWindowTitle(QStringLiteral("Just Another RPG Game — Editor — %1")
+                       .arg(QString::fromStdWString(hmi::editorDataRoot().wstring())));
     setDockNestingEnabled(true);
     _editContext = _viewport;
 
@@ -226,7 +228,7 @@ void MainWindow::buildUi() {
     _actions->populateToolBar(*_toolBar);
 
     _palette = new PalettePanel;
-    _levels = new LevelBrowserPanel(hmi::executableDirectory() / "Levels");
+    _levels = new LevelBrowserPanel(hmi::editorDataRoot() / "Levels");
     _layers = new LayersPanel;
     _entities = new EntityPanel;
     _docks = {
@@ -420,7 +422,7 @@ void MainWindow::connectMapPanels() {
 
 void MainWindow::reloadEditorReferences() {
     _references =
-        std::make_unique<EditorReferences>(hmi::loadEditorReferences(hmi::executableDirectory()));
+        std::make_unique<EditorReferences>(hmi::loadEditorReferences(hmi::editorDataRoot()));
     _viewport->setEditorReferences(_references.get());
 }
 

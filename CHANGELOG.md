@@ -6,6 +6,18 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Les cartes quittent leurs scripts (LOT-EDITOR-06)** — premier jalon de l'éditeur.
+  - **L'éditeur fait foi** : le Colisée, Martpart et Arenarea s'ouvrent et s'enregistrent dans
+    l'éditeur sans changer d'un octet ; les scripts qui les posaient restent comme trace et
+    refusent d'écrire dans les cartes du jeu.
+  - **Une retouche par carte**, rejouée par `--apply` : la porte sud et la loge du Colisée ne se
+    chevauchent plus (`--check` sans avertissement), le marché de Martpart prend trois devantures
+    et un grand étal, un angle de mur égaré quitte le parvis d'Arenarea.
+  - **La fenêtre édite enfin le dépôt** : elle ouvre `Source/Elements`, et non la copie que la
+    construction refait (et écrasait) à côté de l'exécutable ; le titre montre le dossier ouvert.
+  - **Une nouvelle carte choisit son lieu** : nom, taille et planche ; elle naît avec son sol et
+    son relief, et passe le contrôle telle quelle.
+  - **Guide d'usage** : faire une carte de bout en bout, dans l'éditeur.
 - **L'éditeur sans fenêtre (LOT-EDITOR-13).**
   - **`LevelEditor --apply gestes.json`** rejoue sur une carte ce que ferait la main — outil, appui,
     glisser, pièce ou couche armée — par les fonctions mêmes que le canevas appelle ; un geste

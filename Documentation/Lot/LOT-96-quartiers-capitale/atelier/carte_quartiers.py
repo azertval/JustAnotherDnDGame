@@ -4,6 +4,14 @@
 # SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
 """Trace les cartes des quartiers de la Capitale (`LOT-96`).
 
+> **Retiré le 19 septembre 2026 (`LOT-EDITOR-06`).** L'éditeur fait foi (décision D4 de la
+> feuille de route de l'éditeur) : `capital/martpart.json` et `capital/arenarea.json` se modifient
+> dans `LevelEditor`, à la souris ou par `LevelEditor --apply`, et `LevelEditor --check` les garde
+> en CI. Le script reste ici comme trace de la façon dont les cartes ont été posées. Sa dernière
+> génération a été commitée telle quelle, puis retouchée dans l'éditeur ; il n'écrit donc plus
+> jamais dans `Source/Elements` : il trace dans le dossier que nomme `--sortie`, et son `--check`
+> est parti.
+
 Même méthode que le Colisée du `LOT-09` : la carte se **pose par script**, puis se retouche dans
 l'éditeur (`LOT-11`). Le fichier produit est un fichier de niveau ordinaire, sans marque d'origine.
 
@@ -31,7 +39,9 @@ cartes commitées sont en v4. Il faut donc avoir construit l'éditeur.
 
 Usage :
 
-    py -3.13 Documentation/Lot/LOT-96-quartiers-capitale/atelier/carte_quartiers.py [--check]
+    py -3.13 Documentation/Lot/LOT-96-quartiers-capitale/atelier/carte_quartiers.py --sortie DOSSIER
+
+Les tracés s'écrivent dans `DOSSIER/<quartier>.json` ; le dossier des cartes du jeu est refusé.
 """
 from __future__ import annotations
 
@@ -51,8 +61,8 @@ NIVEAUX = RACINE / "Source" / "Elements" / "Levels" / "capital"
 #
 # Ce script trace une carte v3 ; le dépôt ne garde que des v4. La conversion n'est pas refaite ici :
 # c'est l'éditeur qui la porte (`LevelEditor --migrate`), une seule fois pour toutes les cartes. Le
-# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il ne vit plus
-# que jusqu'au LOT-EDITOR-06, qui fait de l'éditeur la source des cartes faites à la main.
+# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il a vécu
+# jusqu'au LOT-EDITOR-06, qui a fait de l'éditeur la source des cartes faites à la main.
 EDITEUR = RACINE / "build" / "ninja" / "bin" / "LevelEditor.exe"
 
 
@@ -514,32 +524,31 @@ def portes_gardees(q: Quartier) -> list[Porte]:
 
 
 def main() -> int:
-    analyseur = argparse.ArgumentParser(description="Trace les cartes des quartiers (LOT-96).")
-    analyseur.add_argument("--check", action="store_true",
-                           help="ne rien écrire ; sortir en erreur si une carte commitée diffère")
+    analyseur = argparse.ArgumentParser(
+        description="Trace les cartes des quartiers (LOT-96) ; retiré au LOT-EDITOR-06, trace seulement.")
+    analyseur.add_argument("--sortie", type=Path, required=True,
+                           help="dossier où écrire les tracés ; jamais celui des cartes du jeu, "
+                                "que l'éditeur tient")
     arguments = analyseur.parse_args()
 
+    sortie = arguments.sortie.resolve()
+    if sortie == NIVEAUX.resolve():
+        print("carte_quartiers : retiré au LOT-EDITOR-06 — les cartes du jeu se modifient dans "
+              "LevelEditor, le script n'écrit plus dans Source/Elements/Levels.")
+        return 1
+
     points = points_du_plan()
-    code = 0
     for q in quartiers():
         q.portes += portes_gardees(q)
         texte = en_v4(json.dumps(tracer(q, points), ensure_ascii=False, indent=2) + "\n")
-        chemin = NIVEAUX / ("%s.json" % q.ident)
-        if arguments.check:
-            if not chemin.exists() or chemin.read_text(encoding="utf-8") != texte:
-                print("carte_quartiers --check : %s diffère de ce que le script produit."
-                      % chemin.relative_to(RACINE).as_posix())
-                code = 1
-            continue
+        chemin = sortie / ("%s.json" % q.ident)
         chemin.parent.mkdir(parents=True, exist_ok=True)
         chemin.write_text(texte, encoding="utf-8", newline="\n")
         marche = sum(1 for c in q.sol if c not in q.obstacles)
         print("carte_quartiers : %s écrite — %d x %d cases, %d franchissables, portes %s."
-              % (chemin.relative_to(RACINE).as_posix(), q.largeur, q.hauteur, marche,
+              % (chemin, q.largeur, q.hauteur, marche,
                  ", ".join("%s %s(%d,%d)" % (p.nom, p.bord, p.x, p.y) for p in q.portes)))
-    if arguments.check and code == 0:
-        print("carte_quartiers --check : les cartes commitées sont exactement celles du script.")
-    return code
+    return 0
 
 
 if __name__ == "__main__":
