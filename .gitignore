@@ -104,3 +104,8 @@ __pycache__/
 # deux postes a chaque ouverture du projet. `*.user`, le pendant de Qt Creator, est deja couvert
 # plus haut.
 *.qtds
+
+# Fabrique : références envoyées au générateur, strictement locales.
+# Seuls leurs chemins et empreintes sont versionnés dans request.json.
+/Tools/AssetFactory/assets/Npc/*/tours/*/reference-*.png
+/Tools/AssetFactory/assets/Npc/*/tours/*/pose-reference.png

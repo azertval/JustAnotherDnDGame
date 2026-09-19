@@ -25,6 +25,9 @@ dev = [
     "jsonschema==4.26.0",
     # Tests des scripts eux-mêmes (scripts/tests).
     "pytest==9.1.1",
+    # Normalisation et contrôles des candidats de la fabrique (sans génération en CI).
+    "pillow==12.1.1",
+    "numpy==2.4.2",
 ]
 
 [tool.uv]
