@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['generation_0',['Generation',['../structcore_1_1Entity.html#a7e90cbccd752d760b3e0757dcfbeeec8',1,'core::Entity']]]
+  ['damageflags_0',['DamageFlags',['../namespacecore.html#a3acedcaf6cf80cdf2bc278d2bb7a4159',1,'core']]],
+  ['damagelistener_1',['DamageListener',['../namespacecore.html#a3590dffd7f4abb831e517aafa42647d6',1,'core']]]
 ];

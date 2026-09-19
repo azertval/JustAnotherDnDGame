@@ -27,6 +27,8 @@ var dir_772c1d7d11cd878bc340037b824a0fc7 =
     [ "LevelFileOperations.h", "LevelFileOperations_8h.html", "LevelFileOperations_8h" ],
     [ "LevelNameValidation.cpp", "LevelNameValidation_8cpp.html", "LevelNameValidation_8cpp" ],
     [ "LevelNameValidation.h", "LevelNameValidation_8h.html", "LevelNameValidation_8h" ],
+    [ "MapFormat.cpp", "MapFormat_8cpp.html", "MapFormat_8cpp" ],
+    [ "MapFormat.h", "MapFormat_8h.html", "MapFormat_8h" ],
     [ "PanelFocus.cpp", "PanelFocus_8cpp.html", "PanelFocus_8cpp" ],
     [ "PanelFocus.h", "PanelFocus_8h.html", "PanelFocus_8h" ],
     [ "ThumbnailGeometry.cpp", "ThumbnailGeometry_8cpp.html", "ThumbnailGeometry_8cpp" ],

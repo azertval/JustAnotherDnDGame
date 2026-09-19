@@ -119,7 +119,7 @@ Objectif</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-010"></a><b>EX-EDIT-010</b> — L'éditeur doit <b>réutiliser le modèle de carte et la validation de <span class="tt">Core</span></b> — aucune duplication de la logique de carte entre le jeu et l'éditeur.</li>
 <li><a class="anchor" id="EX-EDIT-011"></a><b>EX-EDIT-011</b> — Une carte enregistrée par l'éditeur doit être <b>directement jouable</b> par le jeu sans conversion, et réciproquement. Ce que l'éditeur ne sait pas modifier, il doit le <b>transporter</b> : les pièces assignées par case, les propriétés libres des couches et des entités (<span class="tt">EX-LVL-018</span>) traversent un cycle ouvrir/enregistrer sans perte — un éditeur qui efface en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.</li>
-<li><a class="anchor" id="EX-EDIT-043"></a><b>EX-EDIT-043</b> — La <b>pièce</b> assignée à une case (<span class="tt">"texture"</span>, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre type ; la poser relève des ateliers qui produisent les cartes à partir des planches de lieux (<span class="tt">LOT-92</span>).</li>
+<li><a class="anchor" id="EX-EDIT-043"></a><b>EX-EDIT-043</b> — La <b>pièce</b> nommée par une case de couche (<span class="tt">"piece"</span>, <span class="tt">EX-LVL-019</span>) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre type. <em>Révisée au <span class="tt">LOT-EDITOR-12</span></em> : la pièce quitte la grille de collision (<span class="tt">"texture"</span> d'une v3) pour sa couche ; la poser devient l'affaire de l'éditeur au <span class="tt">LOT-EDITOR-03</span>.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
 3. Distribution &amp; collaboration</h1>
@@ -181,6 +181,12 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-060"></a><b>EX-EDIT-060</b> — Le <b>pointage</b> désigne la case dont le <b>losange</b> est sous le pointeur, jamais l'image qui la couvre : sous un relief haut, on pointe la case de derrière. Il prend la hauteur en paramètre (réserve de la décision D11), et reste juste aux quatre coins de la carte. La case survolée, ses coordonnées et ses pièces se lisent à l'écran.</li>
 <li><a class="anchor" id="EX-EDIT-061"></a><b>EX-EDIT-061</b> — Une couche peut être <b>masquée</b>, <b>grisée</b> ou <b>verrouillée</b> (visible, mais aucun geste ne la peint) ; les reliefs peuvent passer <b>en transparence</b> ; une <b>mini-carte</b> montre toute la carte et le cadre de la vue, et ramène la vue d'un clic. Ce sont des aides d'édition : rien n'est enregistré dans la carte.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
+10. La garde du format (<span class="tt">LOT-EDITOR-12</span>)</h1>
+<p>Le format de carte v4 (<span class="tt">EX-LVL-019</span> à <span class="tt">EX-LVL-024</span>) se garde par l'éditeur, sans fenêtre (<a class="el" href="lot-editor-12.html" title="LOT-EDITOR-12 — Le format v4 et sa garde en CI">LOT-EDITOR-12</a>).</p>
+<ul>
+<li><a class="anchor" id="EX-EDIT-062"></a><b>EX-EDIT-062</b> — <span class="tt">LevelEditor --migrate</span> convertit une carte de toute version passée en v4 canonique <b>sans changer ce que le jeu joue</b> (même instantané de scène, même grille tactique) : il nomme la pièce de chaque case d'après la table du lieu, donne les identifiants et force les cases où la collision écrite s'écarte des pièces. <span class="tt">LevelEditor --check</span> contrôle toutes les cartes — version courante, écriture canonique octet pour octet, références, pièces présentes au manifeste, collision égale à la déduction hors cases forcées, identifiants — et tourne en CI. Les deux s'exécutent sans fenêtre et appellent la même logique que l'éditeur.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="edit-retirees"></a>
 Exigences retirées</h1>
 <blockquote class="doxtable">
@@ -206,7 +212,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-EDIT-046"></a><b>EX-EDIT-046</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — mode création des plans.</li>
 <li><a class="anchor" id="EX-EDIT-047"></a><b>EX-EDIT-047</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — panneau des plans.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md231"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md232"></a>
 Traçabilité</h1>
 <p>Le code vit dans <span class="tt">Source/Editor</span> : <span class="tt">Logic/</span> (bibliothèque <span class="tt">EditorLogic</span>, testée sous <span class="tt">Source/Test/Unit/Editor</span>) et <span class="tt">Ui/</span> (l'exécutable <span class="tt">LevelEditor</span>). L'éditeur s'appuie sur <span class="tt">Core</span> (modèle et validation de carte, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) et sur le rendu de <span class="tt">HMI</span> (<span class="tt"><a class="el" href="rendu-technique_8md.html">rendu-technique.md</a></span>) ; ce qui reste de sa présentation est dans <a class="el" href="spec-interface-ihm.html#md_Specification_2interface-ihm" title="Specification/interface-ihm.md"><span class="tt">interface-ihm.md</span></a>. </p>
 </div></div><!-- contents -->

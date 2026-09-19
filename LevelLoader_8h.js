@@ -10,7 +10,9 @@ var LevelLoader_8h =
       [ "core::LevelValidationError::DuplicatePosition", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae661408101649d629107887d94faf5ba", null ],
       [ "core::LevelValidationError::InvalidEntryCount", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a05ea747c9c1db8d4106f81293eec9bff", null ],
       [ "core::LevelValidationError::FileNotFound", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a2767828026039e8ba7b38973cbb701f2", null ],
-      [ "core::LevelValidationError::UnsupportedFormatVersion", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4", null ]
+      [ "core::LevelValidationError::UnsupportedFormatVersion", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4", null ],
+      [ "core::LevelValidationError::DuplicateEntityId", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded", null ],
+      [ "core::LevelValidationError::MissingBase", "namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b", null ]
     ] ],
     [ "core::LEVEL_FORMAT_VERSION", "namespacecore.html#a29f56cd5e629fb74668126bbf151066e", null ]
 ];

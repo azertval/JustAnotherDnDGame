@@ -285,7 +285,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-02</span>  </td><td class="markdownTableBodyNone">Le canevas montre le lieu — <b>livré</b>  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">L  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-12</span>  </td><td class="markdownTableBodyNone">Le format v4 et sa garde en CI  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">M  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-12</span>  </td><td class="markdownTableBodyNone">Le format v4 et sa garde en CI — <b>livré</b>  </td><td class="markdownTableBodyNone">01  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-03</span>  </td><td class="markdownTableBodyNone">Peindre avec les pièces du lieu  </td><td class="markdownTableBodyNone">02, 12  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowOdd">
@@ -310,13 +310,13 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-11</span>  </td><td class="markdownTableBodyNone">Génération assistée  </td><td class="markdownTableBodyNone">07 et <a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">M  </td></tr>
 </table>
 <p>Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.</p>
-<p>Ordre conseillé jusqu'au jalon : 01 et 02 (livrés), 12, 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
+<p>Ordre conseillé jusqu'au jalon : 01, 02 et 12 (livrés), 03, 04, 05, 13, 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
 <div class="fragment"><div class="line">digraph editeur {</div>
 <div class="line">  rankdir=LR;</div>
 <div class="line">  node [shape=box, style=rounded, fontsize=10];</div>
 <div class="line">  E01 [label=&quot;01\nsocle\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E02 [label=&quot;02\ncanevas iso\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
-<div class="line">  E12 [label=&quot;12\nformat v4\n+ check en CI&quot;];</div>
+<div class="line">  E12 [label=&quot;12\nformat v4\n+ check en CI\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E03 [label=&quot;03\npièces&quot;];</div>
 <div class="line">  E04 [label=&quot;04\noutils&quot;];</div>
 <div class="line">  E05 [label=&quot;05\nentités, zones&quot;];</div>
@@ -338,33 +338,24 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <div class="line">  E05 -&gt; E09; E13 -&gt; E09;</div>
 <div class="line">  E07 -&gt; E11; L40 -&gt; E11;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md999"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1001"></a>
 LOT-EDITOR-01 — Le socle du module</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-01.html" title="LOT-EDITOR-01 — Le socle du module">LOT-EDITOR-01 — Le socle du module</a>. </p>
 </blockquote>
 <p>L'éditeur vit dans <span class="tt">Source/Editor/{Logic,Ui}</span> (bibliothèque <span class="tt">EditorLogic</span>, exécutable <span class="tt">LevelEditor</span>) ; il prend le style Fusion, écrit ses textes en anglais et construit ses widgets en code. Un brouillon modifié est sauvegardé automatiquement et proposé à la reprise après un plantage (<span class="tt">EX-EDIT-056</span>), une carte changée sur disque n'est jamais écrasée en silence (<span class="tt">EX-EDIT-057</span>), et l'historique d'annulation est plafonné, « modifié » suivant le contenu (<span class="tt">EX-EDIT-058</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1000"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1002"></a>
 LOT-EDITOR-02 — Le canevas montre le lieu</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-02.html" title="LOT-EDITOR-02 — Le canevas montre le lieu">LOT-EDITOR-02 — Le canevas montre le lieu</a>. </p>
 </blockquote>
 <p>Le canevas est une <span class="tt">QGraphicsView</span> dont l'élément unique peint, par <span class="tt">QPainter</span>, la liste de primitives que compose le jeu ; son image égale celle du GPU à 0,06 % des pixels près (<span class="tt">EX-EDIT-059</span>). Vue iso par défaut, vue à plat en bascule ; le pointage désigne la case par son losange, hauteur en paramètre (<span class="tt">EX-EDIT-060</span>) ; calques grisés ou verrouillés, reliefs en transparence, mini-carte (<span class="tt">EX-EDIT-061</span>). La composition vit dans la cible <span class="tt">SceneComposition</span>, le manifeste des pièces dans <span class="tt">Core</span> ; l'éditeur ne parle plus au GPU.</p>
-<h2 class="doxsection"><a class="anchor" id="lot-editor-12"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1003"></a>
 LOT-EDITOR-12 — Le format v4 et sa garde en CI</h2>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : 01. Dans <span class="tt">Core</span>, sans IHM. </p>
+<p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-12.html" title="LOT-EDITOR-12 — Le format v4 et sa garde en CI">LOT-EDITOR-12 — Le format v4 et sa garde en CI</a>. </p>
 </blockquote>
-<p>La seule révision de format du module, faite tant qu'il n'y a que trois cartes (D3, D8, D10, D11, D12, D13).</p>
-<ul>
-<li><span class="tt">piece</span> par case de couche ; règle d'emprise des pièces larges (occupation, tri de profondeur, collision), unique, dans <span class="tt">Core</span>, lue par le composeur du jeu (A4).</li>
-<li>Collision écrite dans le fichier, avec la liste des cases forcées ; <span class="tt">core::deriveCollision</span> ; <b>type tactique</b> par pièce dans le manifeste (passe, gêne, arrête le pas, arrête la vue, abri).</li>
-<li><span class="tt">id</span> d'entité ; forme de zone (rectangle ou cases peintes), lue par <span class="tt">BattleGrid::zonesAt</span> ; variante par <span class="tt">base</span> ; réserve <span class="tt">floor</span> et <span class="tt">elevation</span>.</li>
-<li>Écriture canonique ; schéma JSON publié ; <span class="tt">aliases</span> du manifeste.</li>
-<li><span class="tt">LevelEditor --migrate</span>, et un <b><span class="tt">--check</span> minimal branché dans <span class="tt">ci.yml</span></b> : aller-retour octet pour octet, références, pièces présentes, fichier = déduction + cases forcées (A12).</li>
-<li>Révision de <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span> et de <span class="tt">EX-EDIT-043</span>.</li>
-</ul>
-<p><em>Acceptation</em> — les trois cartes migrées se jouent à l'identique (même instantané de scène, même <span class="tt">BattleGrid</span>) ; une carte v1, v2 et v3 gardée en fixture se charge pour toujours ; charger puis enregistrer une carte intacte rend le même fichier ; le fuzz du chargeur couvre la v4 ; une valeur <span class="tt">elevation</span> non nulle survit à un aller-retour et sort en avertissement du <span class="tt">--check</span>.</p>
+<p>Chaque case de couche porte son type et sa pièce ; la grille de collision est déduite des pièces et écrite, avec ses cases forcées (<span class="tt">EX-LVL-019</span>, <span class="tt">EX-LVL-020</span>). Les entités ont un identifiant jamais réemployé, les zones une forme peinte, les cartes des variantes, la hauteur une place réservée (<span class="tt">EX-LVL-021</span> à <span class="tt">EX-LVL-024</span>). <span class="tt">LevelEditor --migrate</span> a converti les trois cartes sans changer ce que le jeu joue ; <span class="tt">LevelEditor --check</span> les garde en CI (<span class="tt">EX-EDIT-062</span>). Schéma publié : <span class="tt">Documentation/Editeur/level.schema.json</span>. Le Colisée garde 540 cases forcées, à trancher au <span class="tt">LOT-EDITOR-03</span>.</p>
 <h2 class="doxsection"><a class="anchor" id="lot-editor-03"></a>
 LOT-EDITOR-03 — Peindre avec les pièces du lieu</h2>
 <blockquote class="doxtable">
@@ -512,7 +503,7 @@ LOT-EDITOR-11 — Génération assistée</h2>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a class="el" href="roadmap.html#lot-27" title="LOT-27 — La Capitale : contenu du &lt;em&gt;vertical slice&lt;/em&gt;">LOT-27</a>  </td><td class="markdownTableBodyNone">ses cartes se tracent dans l'éditeur refait : les lots 01 à 06 passent avant elles (D6), sans prérequis déclaré  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">le générateur écrit la v4, appelle <span class="tt">core::deriveCollision</span> et respecte les régions verrouillées ; <span class="tt">LOT-EDITOR-11</span> vient après lui  </td></tr>
+<td class="markdownTableBodyNone"><a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">le générateur écrit la v4, appelle <span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span> et respecte les régions verrouillées ; <span class="tt">LOT-EDITOR-11</span> vient après lui  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><a class="el" href="lot-92.html" title="LOT-92 — Atelier des textures : le style de la scène par maquette, une planche par lieu">LOT-92</a> (ateliers)  </td><td class="markdownTableBodyNone">le manifeste d'un lieu déclare le type tactique et les <span class="tt">aliases</span> de ses pièces  </td></tr>
 <tr class="markdownTableRowOdd">

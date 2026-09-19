@@ -96,6 +96,8 @@ $(function(){initNavTree('TileLayer_8h.html','',''); });
 <p>Couche de tuiles typée d'une carte (<span class="tt">LOT-04</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="LevelProperties_8h_source.html">Core/Levels/LevelProperties.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileMap_8h_source.html">Core/Levels/TileMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
@@ -105,7 +107,7 @@ $(function(){initNavTree('TileLayer_8h.html','',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:core_3A_3ATileLayer" id="r_core_3A_3ATileLayer"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.  <a href="structcore_1_1TileLayer.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche de tuiles : son rôle, sa grille, ses pièces, et ses propriétés libres.  <a href="structcore_1_1TileLayer.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -129,6 +131,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:aaf5abd7971c954a0b6b1f917658f4d38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si une couche de rôle <code class="param">kind</code> porte une <b>image</b> — le sol ou le décor —, et non le masque de collision ou la grille unique d'une carte <span class="tt">version: 2</span>.  <br /></td></tr>
 <tr class="memitem:a96f9c5663954e6157f2593864bad5840" id="r_a96f9c5663954e6157f2593864bad5840"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a96f9c5663954e6157f2593864bad5840">core::isVisualLayerTileType</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) noexcept</td></tr>
 <tr class="memdesc:a96f9c5663954e6157f2593864bad5840"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">type</code> se peint sur une couche <b>visuelle</b> (sol ou décor, <span class="tt">LOT-11</span>).  <br /></td></tr>
+<tr class="memitem:aea16e632b4af252c9fa88d8ce4731b0d" id="r_aea16e632b4af252c9fa88d8ce4731b0d"><td class="memItemLeft"><a class="el" href="structcore_1_1TileLayer.html">TileLayer</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aea16e632b4af252c9fa88d8ce4731b0d">core::resizedLayer</a> (const <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &amp;layer, int width, int height)</td></tr>
+<tr class="memdesc:aea16e632b4af252c9fa88d8ce4731b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couche <code class="param">layer</code> aux dimensions <code class="param">width</code> × <code class="param">height</code> : types, pièces et hauteurs recopiés, tronqués aux bords.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>

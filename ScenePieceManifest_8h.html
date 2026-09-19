@@ -97,9 +97,11 @@ $(function(){initNavTree('ScenePieceManifest_8h.html','',''); });
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
+<code>#include &quot;<a class="el" href="PieceFootprint_8h_source.html">Core/Levels/PieceFootprint.h</a>&quot;</code><br />
 </div>
 <p><a href="ScenePieceManifest_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -125,6 +127,16 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387">core::Other</a>
  }</td></tr>
 <tr class="memdesc:a4a3860a249c1a2e07497950f57f4d461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe d'une pièce, telle que l'atelier la range.  <a href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461">More...</a><br /></td></tr>
+<tr class="memitem:a096c9cc059de39edb20ccea06d18f252" id="r_a096c9cc059de39edb20ccea06d18f252"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">core::PieceTactical</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252ac3bf447eabe632720a3aa1a7ce401274">core::Open</a>
+, <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252a429ee94cd13d541a0d434e93c798ac4c">core::Difficult</a>
+, <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252ac795dfff10a7c952f4c5438951e9ece9">core::Cover</a>
+, <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252afe29c1262b319e6d200d32384ae636c7">core::Obstacle</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa">core::Solid</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a096c9cc059de39edb20ccea06d18f252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une pièce oppose à qui passe : son <b>type tactique</b> (décision D10, constat A5).  <a href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">More...</a><br /></td></tr>
 <tr class="memitem:a79edc6fa3ed0d05e7bad4f1756e2fbcc" id="r_a79edc6fa3ed0d05e7bad4f1756e2fbcc"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcc">core::ScenePieceManifestError</a> : std::uint8_t { <br />
 &#160;&#160;<a class="el" href="namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754">core::None</a>
 , <a class="el" href="namespacecore.html#a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2">core::FileNotFound</a>
@@ -138,12 +150,15 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a15ebe09385d339d43fa1f8031c5610a2" id="r_a15ebe09385d339d43fa1f8031c5610a2"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a15ebe09385d339d43fa1f8031c5610a2">core::pieceTacticalName</a> (<a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> tactical) noexcept</td></tr>
+<tr class="memitem:a24630c3d763af343ac0a0863bddcc5fd" id="r_a24630c3d763af343ac0a0863bddcc5fd"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a24630c3d763af343ac0a0863bddcc5fd">core::parsePieceTactical</a> (std::string_view name) noexcept</td></tr>
 <tr class="memitem:ab61b34d0d8ae2acaa9aa552c099b2255" id="r_ab61b34d0d8ae2acaa9aa552c099b2255"><td class="memItemLeft"><a class="el" href="namespacecore.html#a4a3860a249c1a2e07497950f57f4d461">ScenePieceClass</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#ab61b34d0d8ae2acaa9aa552c099b2255">core::parseScenePieceClass</a> (std::string_view name) noexcept</td></tr>
 <tr class="memitem:a40b827238eccb98a51e5d1e4966f6aae" id="r_a40b827238eccb98a51e5d1e4966f6aae"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a40b827238eccb98a51e5d1e4966f6aae">core::scenePieceShortName</a> (std::string_view key) noexcept</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Le <b>manifeste des pièces</b> d'un lieu : ce que l'atelier des textures (<span class="tt">LOT-92</span>) déclare de chaque pièce de sa planche — classe, emprise, ancre, taille, miroir. </p>
 <p>L'atelier écrit, à côté des images d'un lieu, un <span class="tt">Assets/Scene/&lt;lieu&gt;/manifest.json</span>. Jusqu'au <span class="tt">LOT-EDITOR-02</span>, seule la galerie des assets le lisait, dans <span class="tt">HMI</span> (constat A9 de la feuille de route de l'éditeur) : aucune règle de carte ne pouvait donc s'appuyer sur l'emprise d'une pièce. La lecture descend ici, sans Qt ni GPU, pour que <span class="tt">Core</span> puisse un jour en déduire l'occupation et la collision (<span class="tt">LOT-EDITOR-12</span>) ; <span class="tt">HMI</span> n'en garde que les images.</p>
+<p>Depuis le <span class="tt">LOT-EDITOR-12</span>, le manifeste dit aussi ce qu'une pièce <b>oppose</b> à qui passe (son type tactique, <span class="tt"><a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252" title="Ce qu&#39;une pièce oppose à qui passe : son type tactique (décision D10, constat A5).">core::PieceTactical</a></span>) — c'est de là que <span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span> tire la collision d'une carte — et sous quels <b>anciens noms</b> une carte peut encore la citer (<span class="tt">aliases</span>) : une planche réextraite qui renomme une pièce ne casse aucune carte.</p>
 <p>Le manifeste nomme une pièce par une clé d'atelier (<span class="tt">scene/martpart/wall-left</span>). Une carte, elle, ne connaît que le <b>nom court</b> (<span class="tt">wall-left</span>), celui que la table d'apparence et l'assignation de texture écrivent : le lecteur rend les deux. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->

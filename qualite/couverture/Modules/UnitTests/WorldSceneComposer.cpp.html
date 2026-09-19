@@ -59,25 +59,27 @@ constexpr std::array&lt;std::string_view, 2&gt; FIGURE_DIRECTORIES = {"Npc/", "M
     return path;
 }</span>
 
-// La couche dont le sol se lit : la premiere couche de sol, a defaut la grille racine (une carte
-// sans couche visuelle reste jouable -- `EX-NFR-040`).
-<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap&amp; groundOf(const WorldSceneSource&amp; source) {
+/// @return La premiere couche de role @p kind, ou `nullptr` si la carte n'en declare pas.
+<span style = "background-color:#dfd">[[nodiscard]] const core::TileLayer* layerOf(const WorldSceneSource&amp; source, core::LayerKind kind) {
     for (const core::TileLayer&amp; couche : source.layers) {
-        if (couche.kind == core::LayerKind::Ground) {
-            return couche.tiles;</span>
-        }
-<span style = "background-color:#dfd">    }</span>
-<span style = "background-color:#fdd">    return source.root;</span>
-<span style = "background-color:#dfd">}</span>
-
-/// @return La couche de decor, ou `nullptr` si la carte n'en declare pas.
-<span style = "background-color:#dfd">[[nodiscard]] const core::TileMap* decorOf(const WorldSceneSource&amp; source) {
-    for (const core::TileLayer&amp; couche : source.layers) {
-        if (couche.kind == core::LayerKind::Decor) {
-            return &amp;couche.tiles;</span>
+        if (couche.kind == kind) {
+            return &amp;couche;</span>
         }
 <span style = "background-color:#dfd">    }</span>
 <span style = "background-color:#fdd">    return nullptr;</span>
+<span style = "background-color:#dfd">}</span>
+
+// La piece d'une case : celle que la couche nomme, sous son nom courant, a defaut celle que la
+// table du lieu donne a son type.
+[[nodiscard]] std::string pieceAt(const core::TileLayer&amp; couche, core::GridPosition cell,
+<span style = "background-color:#dfd">                                  const PlaceAppearance&amp; appearance, bool floor) {
+    const std::string_view nommee = couche.pieceAt(cell.column, cell.row);
+    if (!nommee.empty()) {
+        return std::string{appearance.canonicalPiece(nommee)};</span>
+    }
+<span style = "background-color:#dfd">    const core::TileType type = couche.tiles.tile(cell.column, cell.row);
+    return std::string{floor ? appearance.floorPiece(type, cell)</span>
+                             : appearance.reliefPiece(type, cell)};
 <span style = "background-color:#dfd">}</span>
 
 <span style = "background-color:#dfd">[[nodiscard]] core::Vector2 gridPoint(float column, float row) {
@@ -116,14 +118,18 @@ void composeRelief(ComposedScene&amp; scene, const WorldSceneSnapshot&amp; snaps
     if (texture.texture == nullptr) {</span>
 <span style = "background-color:#fdd">        return;</span>
     }
-    // Posee par son ancre, le sommet haut du losange de sa case ; triee au pied de la case, pour
-    // qu'une piece plus haute que sa case reste derriere ce qui est devant elle.
+    // Posee par son ancre, le sommet haut du losange de sa case ; triee au pied de son EMPRISE
+    // (`core::footprintFootCorner`), pour qu'une piece plus haute ou plus large que sa case reste
+    // derriere ce qui se tient devant n'importe laquelle de ses cases.
 <span style = "background-color:#dfd">    const core::Vector2 topVertex = projection.gridToWorld(</span>
         gridPoint(static_cast&lt;float&gt;(cell.column), static_cast&lt;float&gt;(cell.row)));
-<span style = "background-color:#dfd">    const float footY = projection</span>
-                            .gridToWorld(gridPoint(static_cast&lt;float&gt;(cell.column) + 1.0F,
-                                                   static_cast&lt;float&gt;(cell.row) + 1.0F))
-                            .y;
+<span style = "background-color:#dfd">    const auto emprise = snapshot.footprints.find(piece);
+    const core::GridPosition pied = core::footprintFootCorner(</span>
+        cell, emprise == snapshot.footprints.end() ? core::PieceFootprint{} : emprise-&gt;second);
+<span style = "background-color:#dfd">    const float footY =</span>
+        projection
+            .gridToWorld(gridPoint(static_cast&lt;float&gt;(pied.column), static_cast&lt;float&gt;(pied.row)))
+            .y;
 <span style = "background-color:#dfd">    const SpriteQuad quad = standingPieceQuad(texture, topVertex, unitsPerScenePixel);
     scene.addSprite(RenderLayer::Object, texture.texture,</span>
                     worldDepthSortOrder(footY, WorldDepthSlot::Relief), quad);
@@ -238,13 +244,16 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level&amp; level, const PlaceA
 
 WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource&amp; source,
                                       const PlaceAppearance&amp; appearance,
-<span style = "background-color:#dfd">                                      std::vector&lt;WorldFigureSnapshot&gt; figures) {
-    const core::TileMap&amp; sol = groundOf(source);
-    const core::TileMap* decor = decorOf(source);</span>
+<span style = "background-color:#dfd">                                      std::vector&lt;WorldFigureSnapshot&gt; figures) {</span>
+    // Le sol se lit sur la premiere couche de sol, a defaut sur la grille racine (une carte sans
+    // couche visuelle reste jouable -- `EX-NFR-040`).
+<span style = "background-color:#dfd">    const core::TileLayer* sol = layerOf(source, core::LayerKind::Ground);
+    const core::TileLayer* decor = layerOf(source, core::LayerKind::Decor);
+    const core::TileMap&amp; grilleSol = sol != nullptr ? sol-&gt;tiles : source.root;</span>
 
 <span style = "background-color:#dfd">    WorldSceneSnapshot snapshot;
-    snapshot.columns = std::max(0, sol.width());
-    snapshot.rows = std::max(0, sol.height());
+    snapshot.columns = std::max(0, grilleSol.width());
+    snapshot.rows = std::max(0, grilleSol.height());
     snapshot.place = scenePlaceOf(source.layers);
     if (snapshot.place.empty()) {</span>
 <span style = "background-color:#fdd">        snapshot.place = appearance.place();</span>
@@ -260,20 +269,19 @@ WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource&amp; source,
         for (int column = 0; column &lt; snapshot.columns; ++column) {
             const core::GridPosition cell{.column = column, .row = row};
             const std::size_t index = indexOf(cell, snapshot.columns);
-            snapshot.floors[index] = appearance.floorPiece(sol.tile(column, row), cell);
-            if (decor != nullptr &amp;&amp; decor-&gt;inBounds(column, row)) {
-                snapshot.relief[index] = appearance.reliefPiece(decor-&gt;tile(column, row), cell);</span>
+            snapshot.floors[index] =</span>
+                sol != nullptr
+                    ? pieceAt(*sol, cell, appearance, true)
+                    : std::string{appearance.floorPiece(grilleSol.tile(column, row), cell)};
+<span style = "background-color:#dfd">            if (decor != nullptr &amp;&amp; decor-&gt;tiles.inBounds(column, row)) {
+                snapshot.relief[index] = pieceAt(*decor, cell, appearance, false);</span>
+                const core::PieceFootprint emprise =
+<span style = "background-color:#dfd">                    appearance.pieceFootprint(snapshot.relief[index]);
+                if (emprise != core::PieceFootprint{}) {
+                    snapshot.footprints.insert_or_assign(snapshot.relief[index], emprise);</span>
+                }
             }
 <span style = "background-color:#dfd">        }
-    }</span>
-
-    // L'assignation de texture a la case l'emporte sur la table du lieu : c'est la ou l'auteur a
-    // decide (LOT-11, `EX-EDIT-043`). Elle nomme une piece de la planche, pas un fichier.
-<span style = "background-color:#dfd">    for (const core::TileTextureOverride&amp; assignee : source.textureOverrides) {
-        if (!inGrid(assignee.position, snapshot.columns, snapshot.rows)) {</span>
-<span style = "background-color:#fdd">            continue;</span>
-        }
-<span style = "background-color:#dfd">        snapshot.relief[indexOf(assignee.position, snapshot.columns)] = assignee.assetName;
     }
     return snapshot;
 }</span>

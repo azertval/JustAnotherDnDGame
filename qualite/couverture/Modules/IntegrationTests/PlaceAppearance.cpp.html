@@ -21,6 +21,7 @@
 
 #include "Core/Data/JsonDocument.h"
 #include "Core/Levels/TileTypeName.h"
+#include "Core/Resources/ScenePieceManifest.h"
 
 namespace hmi {
 
@@ -113,7 +114,42 @@ constexpr std::string_view FIELD_RELIEF = "relief";
 }</span>
 
 <span style = "background-color:#dfd">PlaceAppearanceResult PlaceAppearance::loadFromFile(const std::filesystem::path&amp; path) {
-    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
+    PlaceAppearanceResult result = fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
+    if (result.ok()) {</span>
+        // Le manifeste voisin est facultatif : un lieu sans planche livree n'en a pas, et sa table
+        // reste lisible.
+<span style = "background-color:#dfd">        const core::ScenePieceManifestResult manifest =</span>
+            core::ScenePieceManifest::loadFromFile(path.parent_path() / "manifest.json");
+<span style = "background-color:#dfd">        if (manifest.ok()) {
+            result.appearance.adoptManifest(manifest.manifest);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return result;
+}</span>
+
+<span style = "background-color:#dfd">void PlaceAppearance::adoptManifest(const core::ScenePieceManifest&amp; manifest) {
+    for (const core::ScenePiece&amp; piece : manifest.pieces()) {
+        for (const std::string&amp; alias : piece.aliases) {
+            _aliases.emplace(alias, piece.name);
+        }
+        if (piece.footprintColumns &gt; 1 || piece.footprintRows &gt; 1) {
+            _footprints.insert_or_assign(piece.name, piece.footprint());</span>
+        }
+<span style = "background-color:#dfd">    }</span>
+    // Un nom courant n'est jamais un alias : il designe la piece qui le porte aujourd'hui.
+<span style = "background-color:#dfd">    for (const core::ScenePiece&amp; piece : manifest.pieces()) {
+        _aliases.erase(piece.name);
+    }
+}</span>
+
+<span style = "background-color:#dfd">std::string_view PlaceAppearance::canonicalPiece(std::string_view name) const {
+    const auto found = _aliases.find(name);
+    return found == _aliases.end() ? name : std::string_view{found-&gt;second};
+}</span>
+
+<span style = "background-color:#dfd">core::PieceFootprint PlaceAppearance::pieceFootprint(std::string_view name) const {
+    const auto found = _footprints.find(name);
+    return found == _footprints.end() ? core::PieceFootprint{} : found-&gt;second;
 }</span>
 
 <span style = "background-color:#dfd">PlaceAppearanceResult PlaceAppearance::fromDocument(const core::JsonDocument&amp; document) {

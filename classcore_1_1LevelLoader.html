@@ -98,17 +98,39 @@ $(function(){initNavTree('classcore_1_1LevelLoader.html','','classcore_1_1LevelL
 
 <p><code>#include &lt;<a class="el" href="LevelLoader_8h_source.html">LevelLoader.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a208c967d93340bab59a83ba4626dd472" id="r_a208c967d93340bab59a83ba4626dd472"><td class="memItemLeft">using&#160;</td><td class="memItemRight"><a class="el" href="#a208c967d93340bab59a83ba4626dd472">BaseResolver</a> = std::function&lt;<a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>(std::string_view baseId)&gt;</td></tr>
+<tr class="memdesc:a208c967d93340bab59a83ba4626dd472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui rend la carte de base d'une variante (décision D12), à partir de son identifiant (<span class="tt">coliseum</span>, <span class="tt">capital/martpart</span>).  <br /></td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a4976f03515627ad9fc7bb6f29445df89" id="r_a4976f03515627ad9fc7bb6f29445df89"><td class="memItemLeft">static <a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4976f03515627ad9fc7bb6f29445df89">loadFromString</a> (std::string_view json)</td></tr>
-<tr class="memdesc:a4976f03515627ad9fc7bb6f29445df89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge un niveau depuis une chaîne JSON.  <br /></td></tr>
+<tr class="memitem:a4bcca95728207d0743b18a6c34a57cc8" id="r_a4bcca95728207d0743b18a6c34a57cc8"><td class="memItemLeft">static <a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4bcca95728207d0743b18a6c34a57cc8">loadFromString</a> (std::string_view json, const <a class="el" href="#a208c967d93340bab59a83ba4626dd472">BaseResolver</a> &amp;resolveBase={})</td></tr>
+<tr class="memdesc:a4bcca95728207d0743b18a6c34a57cc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge un niveau depuis une chaîne JSON.  <br /></td></tr>
 <tr class="memitem:a49dba279ed545b7230ceeb8752e63543" id="r_a49dba279ed545b7230ceeb8752e63543"><td class="memItemLeft">static <a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a49dba279ed545b7230ceeb8752e63543">loadFromFile</a> (const std::filesystem::path &amp;path)</td></tr>
 <tr class="memdesc:a49dba279ed545b7230ceeb8752e63543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Charge un niveau depuis un fichier.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Charge un niveau au format <b>JSON</b> (objet <span class="tt">{name, width, height, tiles}</span> où <span class="tt">tiles</span> est une liste d'objets <span class="tt">{x, y, type, …}</span>), <span class="tt">EX-LVL-001</span>/<span class="tt">EX-LVL-003</span>. </p>
 <p>Le chargement ne lève <b>aucune exception</b> vers l'appelant : toute erreur (JSON malformé, champ manquant, type de tuile inconnu, tuile hors bornes, liaison de mécanisme non résolue…) est renvoyée dans le <span class="tt"><a class="el" href="structcore_1_1LevelLoadResult.html" title="Résultat d&#39;un chargement de niveau : soit un Level, soit une erreur décrite.">LevelLoadResult</a></span>. La <b>validation métier</b> additionnelle (unicité de l'entrée/sortie, positions en double) relève de la validation du niveau. </p>
-</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Member Typedef Documentation</h2>
+<a id="a208c967d93340bab59a83ba4626dd472" name="a208c967d93340bab59a83ba4626dd472"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a208c967d93340bab59a83ba4626dd472">&#9670;&#160;</a></span>BaseResolver</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a208c967d93340bab59a83ba4626dd472">core::LevelLoader::BaseResolver</a> = std::function&lt;<a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>(std::string_view baseId)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Ce qui rend la carte de base d'une variante (décision D12), à partir de son identifiant (<span class="tt">coliseum</span>, <span class="tt">capital/martpart</span>). </p>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a49dba279ed545b7230ceeb8752e63543" name="a49dba279ed545b7230ceeb8752e63543"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a49dba279ed545b7230ceeb8752e63543">&#9670;&#160;</a></span>loadFromFile()</h2>
 
@@ -133,7 +155,8 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Charge un niveau depuis un fichier. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>La base d'une variante se cherche comme <span class="tt">&lt;dossier&gt;/&lt;base&gt;.json</span>, du dossier de la variante vers la racine du disque : le premier qui existe l'emporte. Une carte <span class="tt">capital/x.json</span> qui déclare <span class="tt">"base": "coliseum"</span> trouve donc <span class="tt">Levels/coliseum.json</span>, et <span class="tt">"base":
+"capital/martpart"</span> trouve <span class="tt">Levels/capital/martpart.json</span>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>Chemin du fichier. </td></tr>
   </table>
@@ -143,8 +166,8 @@ Static Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a4976f03515627ad9fc7bb6f29445df89" name="a4976f03515627ad9fc7bb6f29445df89"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4976f03515627ad9fc7bb6f29445df89">&#9670;&#160;</a></span>loadFromString()</h2>
+<a id="a4bcca95728207d0743b18a6c34a57cc8" name="a4bcca95728207d0743b18a6c34a57cc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bcca95728207d0743b18a6c34a57cc8">&#9670;&#160;</a></span>loadFromString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,8 +178,12 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a> core::LevelLoader::loadFromString </td>
           <td>(</td>
-          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>json</em></span></td><td>)</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>json</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="#a208c967d93340bab59a83ba4626dd472">BaseResolver</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>resolveBase</em></span><span class="paramdefsep"> = </span><span class="paramdefval">{}</span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -170,6 +197,7 @@ Static Public Member Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">json</td><td>Contenu JSON. </td></tr>
+    <tr><td class="paramname">resolveBase</td><td>Pour une variante, ce qui charge sa base ; sans lui, une variante est refusée (<span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b" title="Variante dont la base est introuvable, ou elle-même variante.">LevelValidationError::MissingBase</a></span>). </td></tr>
   </table>
   </dd>
 </dl>

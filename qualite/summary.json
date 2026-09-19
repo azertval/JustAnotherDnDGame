@@ -1,12 +1,12 @@
 {
-  "generated": "2026-09-19 08:43 UTC",
-  "commit": "376c541da",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35432250102",
+  "generated": "2026-09-19 10:24 UTC",
+  "commit": "7139a1d68",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35436709229",
   "coverage": {
-    "percent": 91.44,
-    "covered": 19337,
-    "valid": 21147,
-    "files": 213,
+    "percent": 91.57,
+    "covered": 20955,
+    "valid": 22884,
+    "files": 221,
     "areas": [
       {
         "name": "Core",
@@ -16,8 +16,8 @@
       },
       {
         "name": "Core/Combat",
-        "covered": 3283,
-        "valid": 3470,
+        "covered": 3299,
+        "valid": 3487,
         "percent": 94.61
       },
       {
@@ -46,9 +46,9 @@
       },
       {
         "name": "Core/Levels",
-        "covered": 724,
-        "valid": 746,
-        "percent": 97.05
+        "covered": 1157,
+        "valid": 1205,
+        "percent": 96.02
       },
       {
         "name": "Core/Math",
@@ -58,9 +58,9 @@
       },
       {
         "name": "Core/Resources",
-        "covered": 278,
-        "valid": 309,
-        "percent": 89.97
+        "covered": 315,
+        "valid": 347,
+        "percent": 90.78
       },
       {
         "name": "Core/Rpg",
@@ -76,15 +76,15 @@
       },
       {
         "name": "Core/World",
-        "covered": 837,
-        "valid": 927,
-        "percent": 90.29
+        "covered": 853,
+        "valid": 946,
+        "percent": 90.17
       },
       {
         "name": "Editor/Logic",
-        "covered": 770,
-        "valid": 847,
-        "percent": 90.91
+        "covered": 1101,
+        "valid": 1219,
+        "percent": 90.32
       },
       {
         "name": "Editor/Ui",
@@ -106,9 +106,9 @@
       },
       {
         "name": "HMI/Graphics",
-        "covered": 2210,
-        "valid": 2507,
-        "percent": 88.15
+        "covered": 2239,
+        "valid": 2534,
+        "percent": 88.36
       },
       {
         "name": "HMI/Input",
@@ -124,9 +124,9 @@
       },
       {
         "name": "HMI/Platform",
-        "covered": 77,
+        "covered": 75,
         "valid": 134,
-        "percent": 57.46
+        "percent": 55.97
       },
       {
         "name": "HMI/Presentation",
@@ -138,51 +138,51 @@
   },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
-    "runs": 7,
-    "date": "2026-09-19 08:34 UTC",
-    "commit": "376c541da",
+    "runs": 8,
+    "date": "2026-09-19 10:14 UTC",
+    "commit": "7139a1d68",
     "benches": [
       {
         "name": "ReachableAreaDashing",
-        "value": 157455.3236607125,
+        "value": 155998.95089285655,
         "unit": "ns/iter",
-        "change_percent": 21.0
+        "change_percent": -0.9
       },
       {
         "name": "FindPathAcrossGrid",
-        "value": 214656.70312499796,
+        "value": 211793.03124999825,
         "unit": "ns/iter",
-        "change_percent": 21.6
+        "change_percent": -1.3
       },
       {
         "name": "LineOfSightAcrossGrid",
-        "value": 57278.662867524996,
+        "value": 57703.03518334913,
         "unit": "ns/iter",
-        "change_percent": 12.5
+        "change_percent": 0.7
       },
       {
         "name": "CoverFromWithInterposed",
-        "value": 161546.8080357095,
+        "value": 168018.0133928566,
         "unit": "ns/iter",
-        "change_percent": 12.6
+        "change_percent": 4.0
       },
       {
         "name": "PlanTurnFourVersusFour",
-        "value": 1140405.9374999774,
+        "value": 1133640.7031250051,
         "unit": "ns/iter",
-        "change_percent": 27.2
+        "change_percent": -0.6
       },
       {
         "name": "LoadShippedLevel",
-        "value": 1690147.3895582648,
+        "value": 2411888.4250474563,
         "unit": "ns/iter",
-        "change_percent": 34.1
+        "change_percent": 42.7
       },
       {
         "name": "ComposeMartpart",
-        "value": 407.82182240278246,
+        "value": 462.54536324070654,
         "unit": "us/iter",
-        "change_percent": 26.7
+        "change_percent": 13.4
       }
     ]
   },

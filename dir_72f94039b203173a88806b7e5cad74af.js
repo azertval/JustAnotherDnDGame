@@ -9,6 +9,7 @@ var dir_72f94039b203173a88806b7e5cad74af =
     [ "test_entity_editing.cpp", "test__entity__editing_8cpp.html", "test__entity__editing_8cpp" ],
     [ "test_level_file_operations.cpp", "test__level__file__operations_8cpp.html", "test__level__file__operations_8cpp" ],
     [ "test_level_name_validation.cpp", "test__level__name__validation_8cpp.html", "test__level__name__validation_8cpp" ],
+    [ "test_map_format.cpp", "test__map__format_8cpp.html", "test__map__format_8cpp" ],
     [ "test_panel_focus.cpp", "test__panel__focus_8cpp.html", "test__panel__focus_8cpp" ],
     [ "test_scene_painter.cpp", "test__scene__painter_8cpp.html", "test__scene__painter_8cpp" ],
     [ "test_thumbnail_geometry.cpp", "test__thumbnail__geometry_8cpp.html", "test__thumbnail__geometry_8cpp" ],

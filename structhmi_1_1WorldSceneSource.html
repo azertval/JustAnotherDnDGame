@@ -93,7 +93,7 @@ $(function(){initNavTree('structhmi_1_1WorldSceneSource.html','','structhmi_1_1W
 </div><!--header-->
 <div class="contents">
 
-<p>Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de texture et ses entités.  
+<p>Ce que la composition lit d'une carte : sa grille racine, ses couches et ses entités.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="WorldSceneComposer_8h_source.html">WorldSceneComposer.h</a>&gt;</code></p>
@@ -103,14 +103,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a100f5fe49a0395756d617cc5ba270944" id="r_a100f5fe49a0395756d617cc5ba270944"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a100f5fe49a0395756d617cc5ba270944">root</a></td></tr>
 <tr class="memdesc:a100f5fe49a0395756d617cc5ba270944"><td class="mdescLeft">&#160;</td><td class="mdescRight">La grille racine : la collision, et le sol d'une carte sans couche visuelle.  <br /></td></tr>
 <tr class="memitem:af8d15cd77f03234fc187f450bb1fb460" id="r_af8d15cd77f03234fc187f450bb1fb460"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af8d15cd77f03234fc187f450bb1fb460">layers</a></td></tr>
-<tr class="memdesc:af8d15cd77f03234fc187f450bb1fb460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les couches : la première de sol donne le sol, la première de décor le relief.  <br /></td></tr>
-<tr class="memitem:a925bae0e8b298a54365ecc3f41a75476" id="r_a925bae0e8b298a54365ecc3f41a75476"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">core::TileTextureOverride</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a925bae0e8b298a54365ecc3f41a75476">textureOverrides</a></td></tr>
-<tr class="memdesc:a925bae0e8b298a54365ecc3f41a75476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pièces nommées à la case, qui l'emportent sur la table du lieu pour le relief.  <br /></td></tr>
+<tr class="memdesc:af8d15cd77f03234fc187f450bb1fb460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les couches : la première de sol donne le sol, la première de décor le relief ; la pièce qu'une case nomme l'emporte sur la table du lieu.  <br /></td></tr>
 <tr class="memitem:ae07f3241de6be7a67f14494f1dd8dd17" id="r_ae07f3241de6be7a67f14494f1dd8dd17"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ae07f3241de6be7a67f14494f1dd8dd17">entities</a></td></tr>
 <tr class="memdesc:ae07f3241de6be7a67f14494f1dd8dd17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les entités : leurs figurines, pour qui en compose (<span class="tt"><a class="el" href="namespacehmi.html#a7a8f2888417ba2cd0c8440905f9e209a" title="Les figurines des PNJ d&#39;une carte, dans l&#39;ordre des entités.">npcFigures</a></span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de texture et ses entités. </p>
+<div class="textblock"><p>Ce que la composition lit d'une carte : sa grille racine, ses couches et ses entités. </p>
 <p>Le jeu compose une <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">core::Level</a></span> validée ; l'éditeur compose son brouillon (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span>), qui n'est pas toujours valide — une carte en cours de tracé l'est rarement. Les deux exposent les mêmes accesseurs : <span class="tt"><a class="el" href="namespacehmi.html#a2bc9cad778cbd7211055de83a826e032">worldSceneSource</a></span> les prend chez l'un comme chez l'autre, et la composition n'a qu'un chemin (<span class="tt">LOT-EDITOR-02</span>, acceptation : « la même liste de primitives que dans le jeu »). Des références seulement : la source ne vit pas plus longtemps que la carte. </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
 <a id="ae07f3241de6be7a67f14494f1dd8dd17" name="ae07f3241de6be7a67f14494f1dd8dd17"></a>
@@ -141,7 +139,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les couches : la première de sol donne le sol, la première de décor le relief. </p>
+<p>Les couches : la première de sol donne le sol, la première de décor le relief ; la pièce qu'une case nomme l'emporte sur la table du lieu. </p>
 
 </div>
 </div>
@@ -158,22 +156,6 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>La grille racine : la collision, et le sol d'une carte sans couche visuelle. </p>
-
-</div>
-</div>
-<a id="a925bae0e8b298a54365ecc3f41a75476" name="a925bae0e8b298a54365ecc3f41a75476"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a925bae0e8b298a54365ecc3f41a75476">&#9670;&#160;</a></span>textureOverrides</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt;<a class="el" href="structcore_1_1TileTextureOverride.html">core::TileTextureOverride</a>&gt;&amp; hmi::WorldSceneSource::textureOverrides</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Les pièces nommées à la case, qui l'emportent sur la table du lieu pour le relief. </p>
 
 </div>
 </div>

@@ -100,6 +100,10 @@ $(function(){initNavTree('classhmi_1_1PlaceAppearance.html','','classhmi_1_1Plac
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a425e655732fbc0f27996712e53091365" id="r_a425e655732fbc0f27996712e53091365"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a425e655732fbc0f27996712e53091365">adoptManifest</a> (const <a class="el" href="classcore_1_1ScenePieceManifest.html">core::ScenePieceManifest</a> &amp;manifest)</td></tr>
+<tr class="memdesc:a425e655732fbc0f27996712e53091365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adopte les anciens noms et les emprises des pièces d'un manifeste.  <br /></td></tr>
+<tr class="memitem:acbb59fa899535efdd3dfaae9e54caed7" id="r_acbb59fa899535efdd3dfaae9e54caed7"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#acbb59fa899535efdd3dfaae9e54caed7">canonicalPiece</a> (std::string_view name) const</td></tr>
+<tr class="memitem:a6af0c067714cc6a22c8370e1b819c1c4" id="r_a6af0c067714cc6a22c8370e1b819c1c4"><td class="memItemLeft"><a class="el" href="structcore_1_1PieceFootprint.html">core::PieceFootprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6af0c067714cc6a22c8370e1b819c1c4">pieceFootprint</a> (std::string_view name) const</td></tr>
 <tr class="memitem:a0d4246e6bc7472127ffce2ffc6b73e05" id="r_a0d4246e6bc7472127ffce2ffc6b73e05"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a0d4246e6bc7472127ffce2ffc6b73e05">place</a> () const noexcept</td></tr>
 <tr class="memitem:a7f3001880647e7cbd440a608f6c3ad67" id="r_a7f3001880647e7cbd440a608f6c3ad67"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a7f3001880647e7cbd440a608f6c3ad67">floorPiece</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell) const</td></tr>
 <tr class="memdesc:a7f3001880647e7cbd440a608f6c3ad67"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pièce de sol d'une case.  <br /></td></tr>
@@ -112,6 +116,7 @@ Public Member Functions</h2></td></tr>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a64f242c50874e2bfffee39c50d567b2e" id="r_a64f242c50874e2bfffee39c50d567b2e"><td class="memItemLeft">static <a class="el" href="structhmi_1_1PlaceAppearanceResult.html">PlaceAppearanceResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a64f242c50874e2bfffee39c50d567b2e">loadFromString</a> (std::string_view json)</td></tr>
 <tr class="memitem:a0ea6b2906d74f13add881e1857ae8047" id="r_a0ea6b2906d74f13add881e1857ae8047"><td class="memItemLeft">static <a class="el" href="structhmi_1_1PlaceAppearanceResult.html">PlaceAppearanceResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0ea6b2906d74f13add881e1857ae8047">loadFromFile</a> (const std::filesystem::path &amp;path)</td></tr>
+<tr class="memdesc:a0ea6b2906d74f13add881e1857ae8047"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit la table, puis le manifeste rangé à côté d'elle s'il existe (voir l'en-tête).  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-attribs" class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
@@ -130,6 +135,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:af354a8991988a958ed0899d055c1666d" id="r_af354a8991988a958ed0899d055c1666d"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#af354a8991988a958ed0899d055c1666d">_place</a></td></tr>
 <tr class="memitem:a8f89950096f1d9f86881f0e2d92e8ff4" id="r_a8f89950096f1d9f86881f0e2d92e8ff4"><td class="memItemLeft"><a class="el" href="#ae39372602315857b3d4baac10da85cdf">Table</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8f89950096f1d9f86881f0e2d92e8ff4">_floors</a></td></tr>
 <tr class="memitem:ad226619598bfbc5692d7b6b80a6bb367" id="r_ad226619598bfbc5692d7b6b80a6bb367"><td class="memItemLeft"><a class="el" href="#ae39372602315857b3d4baac10da85cdf">Table</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad226619598bfbc5692d7b6b80a6bb367">_relief</a></td></tr>
+<tr class="memitem:ad1c91d434a1680b8129ec6aca5246cab" id="r_ad1c91d434a1680b8129ec6aca5246cab"><td class="memItemLeft">std::map&lt; std::string, std::string, std::less&lt;&gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad1c91d434a1680b8129ec6aca5246cab">_aliases</a></td></tr>
+<tr class="memdesc:ad1c91d434a1680b8129ec6aca5246cab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ancien nom -&gt; nom courant (<span class="tt">aliases</span> du manifeste).  <br /></td></tr>
+<tr class="memitem:a1c4f8e44f18b0de3a332f42577805e0b" id="r_a1c4f8e44f18b0de3a332f42577805e0b"><td class="memItemLeft">std::map&lt; std::string, <a class="el" href="structcore_1_1PieceFootprint.html">core::PieceFootprint</a>, std::less&lt;&gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1c4f8e44f18b0de3a332f42577805e0b">_footprints</a></td></tr>
+<tr class="memdesc:a1c4f8e44f18b0de3a332f42577805e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom courant -&gt; emprise, pour les seules pièces plus grandes qu'une case.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La table d'un lieu : type de tuile → pièces, pour le sol et pour le relief. </p>
@@ -158,6 +167,52 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a425e655732fbc0f27996712e53091365" name="a425e655732fbc0f27996712e53091365"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a425e655732fbc0f27996712e53091365">&#9670;&#160;</a></span>adoptManifest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::PlaceAppearance::adoptManifest </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ScenePieceManifest.html">core::ScenePieceManifest</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>manifest</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adopte les anciens noms et les emprises des pièces d'un manifeste. </p>
+<p><span class="tt"><a class="el" href="#a0ea6b2906d74f13add881e1857ae8047" title="Lit la table, puis le manifeste rangé à côté d&#39;elle s&#39;il existe (voir l&#39;en-tête).">loadFromFile</a></span> l'appelle avec le manifeste voisin ; un test, avec le sien. </p>
+
+</div>
+</div>
+<a id="acbb59fa899535efdd3dfaae9e54caed7" name="acbb59fa899535efdd3dfaae9e54caed7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbb59fa899535efdd3dfaae9e54caed7">&#9670;&#160;</a></span>canonicalPiece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::PlaceAppearance::canonicalPiece </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le nom courant de la pièce <code class="param">name</code> : elle-même, ou la pièce dont c'est un ancien nom. </dd></dl>
+
+</div>
+</div>
 <a id="a675acd63396f543964793480def919a7" name="a675acd63396f543964793480def919a7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a675acd63396f543964793480def919a7">&#9670;&#160;</a></span>empty()</h2>
 
@@ -264,6 +319,8 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Lit la table, puis le manifeste rangé à côté d'elle s'il existe (voir l'en-tête). </p>
+
 </div>
 </div>
 <a id="a64f242c50874e2bfffee39c50d567b2e" name="a64f242c50874e2bfffee39c50d567b2e"></a>
@@ -288,6 +345,32 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6af0c067714cc6a22c8370e1b819c1c4" name="a6af0c067714cc6a22c8370e1b819c1c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6af0c067714cc6a22c8370e1b819c1c4">&#9670;&#160;</a></span>pieceFootprint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1PieceFootprint.html">core::PieceFootprint</a> hmi::PlaceAppearance::pieceFootprint </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'emprise de la pièce <code class="param">name</code> (nom courant), 1 × 1 si le manifeste ne la connaît pas. </dd></dl>
 
 </div>
 </div>
@@ -375,6 +458,30 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="ad1c91d434a1680b8129ec6aca5246cab" name="ad1c91d434a1680b8129ec6aca5246cab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1c91d434a1680b8129ec6aca5246cab">&#9670;&#160;</a></span>_aliases</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, std::string, std::less&lt;&gt; &gt; hmi::PlaceAppearance::_aliases</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ancien nom -&gt; nom courant (<span class="tt">aliases</span> du manifeste). </p>
+
+</div>
+</div>
 <a id="a8f89950096f1d9f86881f0e2d92e8ff4" name="a8f89950096f1d9f86881f0e2d92e8ff4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8f89950096f1d9f86881f0e2d92e8ff4">&#9670;&#160;</a></span>_floors</h2>
 
@@ -394,6 +501,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c4f8e44f18b0de3a332f42577805e0b" name="a1c4f8e44f18b0de3a332f42577805e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c4f8e44f18b0de3a332f42577805e0b">&#9670;&#160;</a></span>_footprints</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="structcore_1_1PieceFootprint.html">core::PieceFootprint</a>, std::less&lt;&gt; &gt; hmi::PlaceAppearance::_footprints</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom courant -&gt; emprise, pour les seules pièces plus grandes qu'une case. </p>
 
 </div>
 </div>

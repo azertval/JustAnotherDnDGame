@@ -133,6 +133,9 @@ var NAVTREEINDEX0 =
 "CityPlan_8cpp.html":[45,0,4,2,10,4],
 "CityPlan_8h.html":[45,0,4,2,10,5],
 "CityPlan_8h_source.html":[45,0,4,2,10,5],
+"CollisionDerivation_8cpp.html":[45,0,4,2,5,0],
+"CollisionDerivation_8h.html":[45,0,4,2,5,1],
+"CollisionDerivation_8h_source.html":[45,0,4,2,5,1],
 "CombatCounters_8cpp.html":[45,0,4,2,0,10],
 "CombatCounters_8h.html":[45,0,4,2,0,11],
 "CombatCounters_8h_source.html":[45,0,4,2,0,11],
@@ -246,8 +249,5 @@ var NAVTREEINDEX0 =
 "EntityMarkers_8h.html":[45,0,4,6,2,24],
 "EntityMarkers_8h_source.html":[45,0,4,6,2,24],
 "EntityPanel_8cpp.html":[45,0,4,3,1,6],
-"EntityPanel_8h.html":[45,0,4,3,1,7],
-"EntityPanel_8h_source.html":[45,0,4,3,1,7],
-"EntityReferences_8cpp.html":[45,0,4,3,0,18],
-"EntityReferences_8h.html":[45,0,4,3,0,19]
+"EntityPanel_8h.html":[45,0,4,3,1,7]
 };

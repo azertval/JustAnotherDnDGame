@@ -134,8 +134,11 @@ namespace {
                       .tileMap = decouper(level.tileMap(), zone),
                       .layers = {},
                       .entities = {},</span>
-                      .entry = {},
-<span style = "background-color:#dfd">                      .textureOverrides = {}};</span>
+                      .entry = {}};
+<span style = "background-color:#dfd">    const auto translater = [&amp;zone](GridPosition cell) {
+        return GridPosition{.column = cell.column - zone.origin.column,</span>
+                            .row = cell.row - zone.origin.row};
+<span style = "background-color:#dfd">    };</span>
 
 <span style = "background-color:#dfd">    for (const TileLayer&amp; couche : level.layers()) {</span>
         // La grille racine est promue en tete des couches par le chargeur : la redecouper ici en
@@ -143,34 +146,47 @@ namespace {
 <span style = "background-color:#dfd">        if (couche.kind == LayerKind::Collision || couche.kind == LayerKind::Legacy) {</span>
 <span style = "background-color:#fdd">            continue;</span>
         }
-<span style = "background-color:#dfd">        reduite.layers.push_back(TileLayer{.name = couche.name,</span>
-                                           .kind = couche.kind,
-                                           .tiles = decouper(couche.tiles, zone),
-                                           .properties = couche.properties});
-<span style = "background-color:#dfd">    }</span>
+<span style = "background-color:#dfd">        TileLayer decoupee{.name = couche.name,
+                           .kind = couche.kind,
+                           .tiles = decouper(couche.tiles, zone),
+                           .properties = couche.properties,
+                           .floor = couche.floor};</span>
+        // Les pieces et les hauteurs suivent leurs cases : une arene decoupee garde son habillage.
+<span style = "background-color:#dfd">        for (int ligne = 0; ligne &lt; zone.rows; ++ligne) {
+            for (int colonne = 0; colonne &lt; zone.columns; ++colonne) {
+                const int source = zone.origin.column + colonne;
+                const int sourceLigne = zone.origin.row + ligne;
+                decoupee.setPiece(colonne, ligne, std::string{couche.pieceAt(source, sourceLigne)});
+                decoupee.setElevation(colonne, ligne, couche.elevationAt(source, sourceLigne));
+            }
+        }
+        reduite.layers.push_back(std::move(decoupee));
+    }</span>
 
 <span style = "background-color:#dfd">    for (const MapEntity&amp; entite : level.entities()) {
         if (!zone.contains(entite.position)) {
             continue;</span>
         }
 <span style = "background-color:#dfd">        MapEntity translatee = entite;
-        translatee.position = GridPosition{.column = entite.position.column - zone.origin.column,</span>
-                                           .row = entite.position.row - zone.origin.row};
+        translatee.position = translater(entite.position);
+        translatee.cells.clear();
+        for (const GridPosition cell : entite.cells) {</span>
+<span style = "background-color:#fdd">            if (zone.contains(cell)) {
+                translatee.cells.push_back(translater(cell));</span>
+            }
+<span style = "background-color:#fdd">        }</span>
 <span style = "background-color:#dfd">        reduite.entities.push_back(std::move(translatee));
     }</span>
 
-<span style = "background-color:#dfd">    for (const TileTextureOverride&amp; assignee : level.textureOverrides()) {
-        if (!zone.contains(assignee.position)) {
-            continue;</span>
+<span style = "background-color:#dfd">    for (const GridPosition cell : level.forcedCollision()) {
+        if (zone.contains(cell)) {
+            reduite.forcedCollision.push_back(translater(cell));</span>
         }
-<span style = "background-color:#dfd">        reduite.textureOverrides.push_back(TileTextureOverride{</span>
-            .position = GridPosition{.column = assignee.position.column - zone.origin.column,
-                                     .row = assignee.position.row - zone.origin.row},
-            .assetName = assignee.assetName});
 <span style = "background-color:#dfd">    }</span>
 
-    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
-    // leurs points d'entree --, mais un champ menteur finirait par etre lu.
+    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon.
+    // Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur leurs points
+    // d'entree --, mais un champ menteur finirait par etre lu.
 <span style = "background-color:#dfd">    if (zone.contains(level.entry())) {</span>
 <span style = "background-color:#fdd">        reduite.entry = GridPosition{.column = level.entry().column - zone.origin.column,</span>
                                      .row = level.entry().row - zone.origin.row};

@@ -173,7 +173,9 @@ enum class PlacementResult {
  * ## Les propriÃ©tÃ©s de zone
  *
  * Une couche de la carte qui porte des propriÃ©tÃ©s libres (`EX-LVL-018`) dÃ©clare une **zone** :
- * les cases non vides de cette couche. La grille les relÃ¨ve sans les interprÃ©ter, sauf une â
+ * les cases non vides de cette couche. Une entitÃ© `zone` en dÃ©clare une aussi, rectangle ou
+ * ensemble de cases peint (`core::zoneCells`, dÃ©cision D13 de l'Ã©diteur). La grille les relÃ¨ve
+ * sans les interprÃ©ter, sauf une â
  * `difficultTerrain: true`, qui double le coÃ»t d'entrÃ©e. Les autres (combat interdit, aucun soin,
  * type de dÃ©gÃ¢ts alÃ©atoire) sont lues par ceux qui en ont l'usage (`LOT-50`, `LOT-81`) au moyen de
  * `zonesAt`, et ce lot n'en invente aucune.

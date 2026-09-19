@@ -1,5 +1,7 @@
 var dir_e9bc3547f945e106b199f4f7c7c6d92f =
 [
+    [ "CollisionDerivation.cpp", "CollisionDerivation_8cpp.html", "CollisionDerivation_8cpp" ],
+    [ "CollisionDerivation.h", "CollisionDerivation_8h.html", "CollisionDerivation_8h" ],
     [ "GridPosition.h", "GridPosition_8h.html", "GridPosition_8h" ],
     [ "Level.h", "Level_8h.html", "Level_8h" ],
     [ "LevelDraft.cpp", "LevelDraft_8cpp.html", null ],
@@ -8,9 +10,14 @@ var dir_e9bc3547f945e106b199f4f7c7c6d92f =
     [ "LevelLoader.h", "LevelLoader_8h.html", "LevelLoader_8h" ],
     [ "LevelProperties.h", "LevelProperties_8h.html", "LevelProperties_8h" ],
     [ "LevelsLog.h", "LevelsLog_8h.html", "LevelsLog_8h" ],
+    [ "LevelVariant.cpp", "LevelVariant_8cpp.html", "LevelVariant_8cpp" ],
+    [ "LevelVariant.h", "LevelVariant_8h.html", "LevelVariant_8h" ],
     [ "LevelWriter.cpp", "LevelWriter_8cpp.html", null ],
     [ "LevelWriter.h", "LevelWriter_8h.html", "LevelWriter_8h" ],
+    [ "MapEntity.cpp", "MapEntity_8cpp.html", "MapEntity_8cpp" ],
     [ "MapEntity.h", "MapEntity_8h.html", "MapEntity_8h" ],
+    [ "PieceFootprint.h", "PieceFootprint_8h.html", "PieceFootprint_8h" ],
+    [ "TileLayer.cpp", "TileLayer_8cpp.html", "TileLayer_8cpp" ],
     [ "TileLayer.h", "TileLayer_8h.html", "TileLayer_8h" ],
     [ "TileMap.cpp", "TileMap_8cpp.html", null ],
     [ "TileMap.h", "TileMap_8h.html", "TileMap_8h" ],

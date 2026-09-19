@@ -300,10 +300,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les types d'entité que ce lot sait rendre <b>interactifs</b>, et ce qu'ils consomment.  <a href="structcore_1_1InteractableKind.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WorldFlags" id="r_WorldFlags"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1WorldFlags.html">WorldFlags</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'ensemble des faits <b>acquis</b> d'une partie : coffres ouverts, quêtes franchies, portes déverrouillées.  <a href="classcore_1_1WorldFlags.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CollisionDerivation" id="r_CollisionDerivation"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CollisionDerivation.html">CollisionDerivation</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la déduction a produit, et ce qu'elle a relevé en chemin.  <a href="structcore_1_1CollisionDerivation.html#details">More...</a><br /></td></tr>
 <tr class="memitem:GridPosition" id="r_GridPosition"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Position d'une case dans la grille d'un niveau, en <b>coordonnées entières</b>.  <a href="structcore_1_1GridPosition.html#details">More...</a><br /></td></tr>
-<tr class="memitem:TileTextureOverride" id="r_TileTextureOverride"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pièce de la planche du lieu assignée explicitement à <b>une case précise</b>, prioritaire sur la table d'apparence de son type (<span class="tt">EX-EDIT-043</span>, <span class="tt">EX-VIS-008</span>).  <a href="structcore_1_1TileTextureOverride.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelData" id="r_LevelData"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1LevelData.html">LevelData</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Composantes d'une carte, nommées — agrégat de construction de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">core::Level</a></span> (<span class="tt">LOT-03</span>).  <a href="structcore_1_1LevelData.html#details">More...</a><br /></td></tr>
 <tr class="memitem:Level" id="r_Level"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1Level.html">Level</a></td></tr>
@@ -318,8 +318,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sérialise une carte vers le format JSON défini par <span class="tt">EX-LVL-003</span>.  <a href="classcore_1_1LevelWriter.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MapEntity" id="r_MapEntity"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1MapEntity.html">MapEntity</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entité de carte — ce qui n'est <b>pas</b> une tuile.  <a href="structcore_1_1MapEntity.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PieceFootprint" id="r_PieceFootprint"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emprise d'une pièce, en cases : colonnes, puis lignes. Au moins 1 × 1.  <a href="structcore_1_1PieceFootprint.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileLayer" id="r_TileLayer"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1TileLayer.html">TileLayer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.  <a href="structcore_1_1TileLayer.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une couche de tuiles : son rôle, sa grille, ses pièces, et ses propriétés libres.  <a href="structcore_1_1TileLayer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileMap" id="r_TileMap"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1TileMap.html">TileMap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Grille dense de tuiles typées (<span class="tt">EX-GP-001</span>), origine haut-gauche.  <a href="classcore_1_1TileMap.html#details">More...</a><br /></td></tr>
 <tr class="memitem:DeterministicRandom" id="r_DeterministicRandom"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classcore_1_1DeterministicRandom.html">DeterministicRandom</a></td></tr>
@@ -718,6 +720,9 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a05ea747c9c1db8d4106f81293eec9bff">InvalidEntryCount</a>
 , <a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
 , <a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4">UnsupportedFormatVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded">DuplicateEntityId</a>
+, <a class="el" href="#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b">MissingBase</a>
 <br />
  }</td></tr>
 <tr class="memdesc:af2a63d18c9ef40479ebdc204e726e823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de chargement/validation d'un niveau (<span class="tt">EX-EDIT-012</span>).  <a href="#af2a63d18c9ef40479ebdc204e726e823">More...</a><br /></td></tr>
@@ -751,6 +756,16 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a4a3860a249c1a2e07497950f57f4d461a6311ae17c1ee52b36e68aaf4ad066387">Other</a>
  }</td></tr>
 <tr class="memdesc:a4a3860a249c1a2e07497950f57f4d461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Classe d'une pièce, telle que l'atelier la range.  <a href="#a4a3860a249c1a2e07497950f57f4d461">More...</a><br /></td></tr>
+<tr class="memitem:a096c9cc059de39edb20ccea06d18f252" id="r_a096c9cc059de39edb20ccea06d18f252"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> : std::uint8_t { <br />
+&#160;&#160;<a class="el" href="#a096c9cc059de39edb20ccea06d18f252ac3bf447eabe632720a3aa1a7ce401274">Open</a>
+, <a class="el" href="#a096c9cc059de39edb20ccea06d18f252a429ee94cd13d541a0d434e93c798ac4c">Difficult</a>
+, <a class="el" href="#a096c9cc059de39edb20ccea06d18f252ac795dfff10a7c952f4c5438951e9ece9">Cover</a>
+, <a class="el" href="#a096c9cc059de39edb20ccea06d18f252afe29c1262b319e6d200d32384ae636c7">Obstacle</a>
+, <br />
+&#160;&#160;<a class="el" href="#a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa">Solid</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a096c9cc059de39edb20ccea06d18f252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une pièce oppose à qui passe : son <b>type tactique</b> (décision D10, constat A5).  <a href="#a096c9cc059de39edb20ccea06d18f252">More...</a><br /></td></tr>
 <tr class="memitem:a79edc6fa3ed0d05e7bad4f1756e2fbcc" id="r_a79edc6fa3ed0d05e7bad4f1756e2fbcc"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcc">ScenePieceManifestError</a> : std::uint8_t { <br />
 &#160;&#160;<a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcca6adf97f83acf6453d4a6a4b1070f3754">None</a>
 , <a class="el" href="#a79edc6fa3ed0d05e7bad4f1756e2fbcca2767828026039e8ba7b38973cbb701f2">FileNotFound</a>
@@ -1199,8 +1214,27 @@ Functions</h2></td></tr>
 <tr class="memdesc:adb2706947c6f0111c0cdd008fde5779e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peuple un <span class="tt"><a class="el" href="classcore_1_1World.html" title="Point d&#39;entrée unique de la simulation : possède les entités, les composants et les systèmes.">World</a></span> d'une <b>entité par objet</b> de la couche <span class="tt">objects</span>.  <br /></td></tr>
 <tr class="memitem:a1a6b22027beb38aaf525b6dff5d3d2b8" id="r_a1a6b22027beb38aaf525b6dff5d3d2b8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a1a6b22027beb38aaf525b6dff5d3d2b8">keyForEntity</a> (std::string_view mapName, std::string_view entityType, int column, int row)</td></tr>
 <tr class="memdesc:a1a6b22027beb38aaf525b6dff5d3d2b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">La clé de drapeau d'une entité de carte : <span class="tt">"&lt;carte&gt;/&lt;type&gt;@&lt;colonne&gt;,&lt;ligne&gt;"</span>.  <br /></td></tr>
+<tr class="memitem:a54b64d433a22d60c2c1345b4aa840b6b" id="r_a54b64d433a22d60c2c1345b4aa840b6b"><td class="memItemLeft"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a54b64d433a22d60c2c1345b4aa840b6b">collisionTileOf</a> (<a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> tactical) noexcept</td></tr>
+<tr class="memitem:a3587c285d8e6987726dddee56f0420f5" id="r_a3587c285d8e6987726dddee56f0420f5"><td class="memItemLeft"><a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3587c285d8e6987726dddee56f0420f5">tacticalOfTileType</a> (<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) noexcept</td></tr>
+<tr class="memitem:a3322a01062af04e9242df68f744c142f" id="r_a3322a01062af04e9242df68f744c142f"><td class="memItemLeft"><a class="el" href="structcore_1_1CollisionDerivation.html">CollisionDerivation</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3322a01062af04e9242df68f744c142f">deriveCollision</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &gt; &amp;layers, int width, int height, const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> *manifest)</td></tr>
+<tr class="memdesc:a3322a01062af04e9242df68f744c142f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déduit la grille de collision d'une carte.  <br /></td></tr>
+<tr class="memitem:a9e7f745df4aabd6864d43a907531834f" id="r_a9e7f745df4aabd6864d43a907531834f"><td class="memItemLeft"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9e7f745df4aabd6864d43a907531834f">canonicalCollisionTile</a> (<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) noexcept</td></tr>
+<tr class="memitem:a81edd55832615bfecbb8da06147ef2c6" id="r_a81edd55832615bfecbb8da06147ef2c6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a81edd55832615bfecbb8da06147ef2c6">collisionAgrees</a> (const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;written, const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;derived, int column, int row)</td></tr>
+<tr class="memdesc:a81edd55832615bfecbb8da06147ef2c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si la grille de collision écrite <code class="param">written</code> s'accorde avec <code class="param">derived</code> en (<code class="param">column</code>, <code class="param">row</code>) : elles opposent la même chose (<span class="tt"><a class="el" href="#a9e7f745df4aabd6864d43a907531834f">canonicalCollisionTile</a></span>).  <br /></td></tr>
 <tr class="memitem:a02b4ac39e4a1c16efbe9ff53132d9a95" id="r_a02b4ac39e4a1c16efbe9ff53132d9a95"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a02b4ac39e4a1c16efbe9ff53132d9a95">operator==</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> left, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> right) noexcept</td></tr>
 <tr class="memitem:a29323798eff97fce936a3352846efb93" id="r_a29323798eff97fce936a3352846efb93"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#a29323798eff97fce936a3352846efb93">operator!=</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> left, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> right) noexcept</td></tr>
+<tr class="memitem:a6c2bfc6a4265b0a8fc867461e1c61137" id="r_a6c2bfc6a4265b0a8fc867461e1c61137"><td class="memItemLeft"><a class="el" href="classcore_1_1Level.html">Level</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6c2bfc6a4265b0a8fc867461e1c61137">applyVariant</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;base, <a class="el" href="structcore_1_1LevelData.html">LevelData</a> variant)</td></tr>
+<tr class="memdesc:a6c2bfc6a4265b0a8fc867461e1c61137"><td class="mdescLeft">&#160;</td><td class="mdescRight">La carte que joue une variante : les cases, couches, collision et entrée de <code class="param">base</code>, les entités et le nom de <code class="param">variant</code>, et sa planche si elle en change.  <br /></td></tr>
+<tr class="memitem:adca42619f89f178b79220de95c7394ab" id="r_adca42619f89f178b79220de95c7394ab"><td class="memItemLeft">std::optional&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adca42619f89f178b79220de95c7394ab">findVariantBase</a> (const std::filesystem::path &amp;variantPath, std::string_view baseId)</td></tr>
+<tr class="memdesc:adca42619f89f178b79220de95c7394ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cherche le fichier de la base <code class="param">baseId</code> d'une variante rangée en <code class="param">variantPath</code>.  <br /></td></tr>
+<tr class="memitem:a3764b26ea4ba9abe8e2f727a3ed486b5" id="r_a3764b26ea4ba9abe8e2f727a3ed486b5"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a3764b26ea4ba9abe8e2f727a3ed486b5">entityIdFor</a> (int number)</td></tr>
+<tr class="memitem:aa14dee2fbf0162c6a5ee07fd6579c500" id="r_aa14dee2fbf0162c6a5ee07fd6579c500"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa14dee2fbf0162c6a5ee07fd6579c500">entityIdNumber</a> (std::string_view id) noexcept</td></tr>
+<tr class="memitem:acdcfbe0879d84908d423e478039532c3" id="r_acdcfbe0879d84908d423e478039532c3"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#acdcfbe0879d84908d423e478039532c3">zoneCells</a> (const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;entity)</td></tr>
+<tr class="memdesc:acdcfbe0879d84908d423e478039532c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cases que couvre la zone <code class="param">entity</code> : ses cases peintes si elle en a, sinon son rectangle (<span class="tt">width</span> × <span class="tt">height</span>, 1 × 1 par défaut) depuis sa case.  <br /></td></tr>
+<tr class="memitem:ae5ef43ac4990d56ddac5719dd23eb279" id="r_ae5ef43ac4990d56ddac5719dd23eb279"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae5ef43ac4990d56ddac5719dd23eb279">footprintCells</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, <a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> footprint)</td></tr>
+<tr class="memitem:ad7128ed31a6cefa3183c61467c636053" id="r_ad7128ed31a6cefa3183c61467c636053"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad7128ed31a6cefa3183c61467c636053">footprintFootCorner</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, <a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> footprint) noexcept</td></tr>
+<tr class="memitem:aea16e632b4af252c9fa88d8ce4731b0d" id="r_aea16e632b4af252c9fa88d8ce4731b0d"><td class="memItemLeft"><a class="el" href="structcore_1_1TileLayer.html">TileLayer</a>&#160;</td><td class="memItemRight"><a class="el" href="#aea16e632b4af252c9fa88d8ce4731b0d">resizedLayer</a> (const <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &amp;layer, int width, int height)</td></tr>
+<tr class="memdesc:aea16e632b4af252c9fa88d8ce4731b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couche <code class="param">layer</code> aux dimensions <code class="param">width</code> × <code class="param">height</code> : types, pièces et hauteurs recopiés, tronqués aux bords.  <br /></td></tr>
 <tr class="memitem:a9a1bd2ed20a557ddf1033a2c264c9bdd" id="r_a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="memItemLeft">constexpr const char *&#160;</td><td class="memItemRight"><a class="el" href="#a9a1bd2ed20a557ddf1033a2c264c9bdd">layerKindName</a> (<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
 <tr class="memdesc:a9a1bd2ed20a557ddf1033a2c264c9bdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom JSON d'un rôle de couche.  <br /></td></tr>
 <tr class="memitem:aaf5abd7971c954a0b6b1f917658f4d38" id="r_aaf5abd7971c954a0b6b1f917658f4d38"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="#aaf5abd7971c954a0b6b1f917658f4d38">isVisualLayerKind</a> (<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind) noexcept</td></tr>
@@ -1242,6 +1276,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a22e0e2c24dd3236fe3a81f89f795fee2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le hachage stable dont <span class="tt"><a class="el" href="#ac6ae670b019f78f94c6c8354d01794bc" title="Peint le marqueur d&#39;une clé d&#39;asset.">assetMarker</a></span> tire sa teinte.  <br /></td></tr>
 <tr class="memitem:ac6ae670b019f78f94c6c8354d01794bc" id="r_ac6ae670b019f78f94c6c8354d01794bc"><td class="memItemLeft"><a class="el" href="structcore_1_1MarkerImage.html">MarkerImage</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac6ae670b019f78f94c6c8354d01794bc">assetMarker</a> (std::string_view key, int width, int height)</td></tr>
 <tr class="memdesc:ac6ae670b019f78f94c6c8354d01794bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint le marqueur d'une clé d'asset.  <br /></td></tr>
+<tr class="memitem:a15ebe09385d339d43fa1f8031c5610a2" id="r_a15ebe09385d339d43fa1f8031c5610a2"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="#a15ebe09385d339d43fa1f8031c5610a2">pieceTacticalName</a> (<a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> tactical) noexcept</td></tr>
+<tr class="memitem:a24630c3d763af343ac0a0863bddcc5fd" id="r_a24630c3d763af343ac0a0863bddcc5fd"><td class="memItemLeft">std::optional&lt; <a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a24630c3d763af343ac0a0863bddcc5fd">parsePieceTactical</a> (std::string_view name) noexcept</td></tr>
 <tr class="memitem:ab61b34d0d8ae2acaa9aa552c099b2255" id="r_ab61b34d0d8ae2acaa9aa552c099b2255"><td class="memItemLeft"><a class="el" href="#a4a3860a249c1a2e07497950f57f4d461">ScenePieceClass</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab61b34d0d8ae2acaa9aa552c099b2255">parseScenePieceClass</a> (std::string_view name) noexcept</td></tr>
 <tr class="memitem:a40b827238eccb98a51e5d1e4966f6aae" id="r_a40b827238eccb98a51e5d1e4966f6aae"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a40b827238eccb98a51e5d1e4966f6aae">scenePieceShortName</a> (std::string_view key) noexcept</td></tr>
 <tr class="memitem:ad539e41d55b3f90675658586d0d0b77e" id="r_ad539e41d55b3f90675658586d0d0b77e"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ad539e41d55b3f90675658586d0d0b77e">abilityName</a> (<a class="el" href="#a97f31c7914a6cfc54cc026a77da58fd1">Ability</a> ability) noexcept</td></tr>
@@ -1475,8 +1511,16 @@ Variables</h2></td></tr>
 <tr class="memdesc:a4ff8c5fc88044f24ec81f72d00e77a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cases libres exigées par combattant (rencontre + groupe).  <br /></td></tr>
 <tr class="memitem:a2a9202a1a89eacaec610bdc83b0ff272" id="r_a2a9202a1a89eacaec610bdc83b0ff272"><td class="memItemLeft">constexpr <a class="el" href="structcore_1_1Entity.html">Entity</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2a9202a1a89eacaec610bdc83b0ff272">INVALID_ENTITY</a> {<a class="el" href="structcore_1_1Entity.html#a215ee621f52074b73615e4c567820e38">Entity::INVALID_INDEX</a>, 0}</td></tr>
 <tr class="memdesc:a2a9202a1a89eacaec610bdc83b0ff272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Entité invalide conventionnelle : ne désigne jamais une entité vivante.  <br /></td></tr>
-<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a29f56cd5e629fb74668126bbf151066e">LEVEL_FORMAT_VERSION</a> = 3</td></tr>
+<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a29f56cd5e629fb74668126bbf151066e">LEVEL_FORMAT_VERSION</a> = 4</td></tr>
 <tr class="memdesc:a29f56cd5e629fb74668126bbf151066e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version courante du format de niveau JSON (<span class="tt">EX-LVL-005</span>).  <br /></td></tr>
+<tr class="memitem:a455104c902c36c4055632cff3653a4b7" id="r_a455104c902c36c4055632cff3653a4b7"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a455104c902c36c4055632cff3653a4b7">SCENE_LAYER_PROPERTY</a> = &quot;scene&quot;</td></tr>
+<tr class="memdesc:a455104c902c36c4055632cff3653a4b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété de couche qui nomme le lieu dont la carte porte les planches (<span class="tt">scene</span>).  <br /></td></tr>
+<tr class="memitem:ac09dbc5848329505d30e5ab32b462538" id="r_ac09dbc5848329505d30e5ab32b462538"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ac09dbc5848329505d30e5ab32b462538">ZONE_ENTITY_TYPE</a> = &quot;zone&quot;</td></tr>
+<tr class="memdesc:ac09dbc5848329505d30e5ab32b462538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'une <b>zone</b> de règles : un rectangle (<span class="tt">width</span> × <span class="tt">height</span> depuis sa case) ou un ensemble de cases peint (<span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a7852db46b5652c07b44fe5fd9bc198f3" title="Forme peinte d&#39;une zone (décision D13) : les cases qu&#39;elle couvre.">MapEntity::cells</a></span>), dont les propriétés s'appliquent à chaque case couverte (décision D13, <span class="tt">EX-LVL-022</span>, lue par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#a0c816b168810ff9052c1f41225f44186" title="Les propriétés de toutes les zones qui couvrent la case, dans l&#39;ordre des couches.">core::BattleGrid::zonesAt</a></span>).  <br /></td></tr>
+<tr class="memitem:a3d0539dc27a6ab16c279522c6a60e76e" id="r_a3d0539dc27a6ab16c279522c6a60e76e"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a3d0539dc27a6ab16c279522c6a60e76e">ZONE_WIDTH_PROPERTY</a> = &quot;width&quot;</td></tr>
+<tr class="memdesc:a3d0539dc27a6ab16c279522c6a60e76e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une zone rectangle : sa largeur, en cases.  <br /></td></tr>
+<tr class="memitem:a444fa8848bf1762434e629e734038e20" id="r_a444fa8848bf1762434e629e734038e20"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a444fa8848bf1762434e629e734038e20">ZONE_HEIGHT_PROPERTY</a> = &quot;height&quot;</td></tr>
+<tr class="memdesc:a444fa8848bf1762434e629e734038e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une zone rectangle : sa hauteur, en cases.  <br /></td></tr>
 <tr class="memitem:a1639bde29cbf10d2ed8629a0fe495374" id="r_a1639bde29cbf10d2ed8629a0fe495374"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a1639bde29cbf10d2ed8629a0fe495374">LAYER_KIND_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a>) + 1</td></tr>
 <tr class="memdesc:a1639bde29cbf10d2ed8629a0fe495374"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de valeurs de <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5d" title="Rôle d&#39;une couche de tuiles dans une carte.">core::LayerKind</a></span> — même convention que <span class="tt"><a class="el" href="#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération.">core::TILE_TYPE_COUNT</a></span> : toute valeur ajoutée doit l'être <b>avant</b> le dernier énumérateur.  <br /></td></tr>
 <tr class="memitem:a319e1d0258052359525fdc83ee93f269" id="r_a319e1d0258052359525fdc83ee93f269"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a319e1d0258052359525fdc83ee93f269">TILE_TYPE_COUNT</a> = static_cast&lt;int&gt;(<a class="el" href="#ace99a1be913e6294e42e9ebb145eb875a0b01cc688e1e0b5f6b70f858a1b389ae">TileType::Stairs</a>) + 1</td></tr>
@@ -2967,6 +3011,10 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" name="af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4"></a>UnsupportedFormatVersion&#160;</td><td class="fielddoc"><p><span class="tt">"version"</span> du fichier supérieure à celle gérée (<span class="tt">EX-LVL-005</span>). </p>
 </td></tr>
+<tr><td class="fieldname"><a id="af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded" name="af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded"></a>DuplicateEntityId&#160;</td><td class="fielddoc"><p>Deux entités portent le même <span class="tt">id</span> (format v4, décision D8). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b" name="af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b"></a>MissingBase&#160;</td><td class="fielddoc"><p>Variante dont la base est introuvable, ou elle-même variante. </p>
+</td></tr>
 </table>
 
 </div>
@@ -2992,7 +3040,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1042"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1052"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -3105,6 +3153,46 @@ L'altitude est un attribut, jamais une géométrie</h2>
 <tr><td class="fieldname"><a id="ac0c9dc39aafc4bad02c96a9659df0c1bada099a58dee575669ba6db4611297762" name="ac0c9dc39aafc4bad02c96a9659df0c1bada099a58dee575669ba6db4611297762"></a>NotPlaced&#160;</td><td class="fielddoc"><p>Le combattant actif n'est pas sur la grille. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ac0c9dc39aafc4bad02c96a9659df0c1ba4bed942140642650ca78039de000796a" name="ac0c9dc39aafc4bad02c96a9659df0c1ba4bed942140642650ca78039de000796a"></a>Unreachable&#160;</td><td class="fielddoc"><p>La destination n'est pas une fin de déplacement permise dans ce qui reste du budget. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a096c9cc059de39edb20ccea06d18f252" name="a096c9cc059de39edb20ccea06d18f252"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a096c9cc059de39edb20ccea06d18f252">&#9670;&#160;</a></span>PieceTactical</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a096c9cc059de39edb20ccea06d18f252">core::PieceTactical</a> : std::uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce qu'une pièce oppose à qui passe : son <b>type tactique</b> (décision D10, constat A5). </p>
+<p>Rangés du plus faible au plus fort : sur une case que plusieurs pièces couvrent, la plus forte l'emporte (<span class="tt"><a class="el" href="#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>). Les noms du manifeste sont entre parenthèses. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a096c9cc059de39edb20ccea06d18f252ac3bf447eabe632720a3aa1a7ce401274" name="a096c9cc059de39edb20ccea06d18f252ac3bf447eabe632720a3aa1a7ce401274"></a>Open&#160;</td><td class="fielddoc"><p>Passe (<span class="tt">open</span>) : un sol, un banc qu'on enjambe, une arche. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a096c9cc059de39edb20ccea06d18f252a429ee94cd13d541a0d434e93c798ac4c" name="a096c9cc059de39edb20ccea06d18f252a429ee94cd13d541a0d434e93c798ac4c"></a>Difficult&#160;</td><td class="fielddoc"><p>Gêne (<span class="tt">difficult</span>) : terrain difficile. </p>
+<p><b>Pas encore joué</b> depuis une pièce : déduit comme <span class="tt">Open</span>, et signalé par <span class="tt">LevelEditor --check</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a096c9cc059de39edb20ccea06d18f252ac795dfff10a7c952f4c5438951e9ece9" name="a096c9cc059de39edb20ccea06d18f252ac795dfff10a7c952f4c5438951e9ece9"></a>Cover&#160;</td><td class="fielddoc"><p>Abri (<span class="tt">cover</span>) : un muret derrière lequel on se protège. </p>
+<p><b>Pas encore joué</b> depuis une pièce, comme la gêne. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a096c9cc059de39edb20ccea06d18f252afe29c1262b319e6d200d32384ae636c7" name="a096c9cc059de39edb20ccea06d18f252afe29c1262b319e6d200d32384ae636c7"></a>Obstacle&#160;</td><td class="fielddoc"><p>Arrête le pas (<span class="tt">obstacle</span>) : infranchissable au sol, mais on voit par-dessus et on le survole — une fosse, un bassin. </p>
+<p>Déduit en <span class="tt">cliff</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa" name="a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa"></a>Solid&#160;</td><td class="fielddoc"><p>Arrête la vue (<span class="tt">solid</span>) : un mur, une façade. Déduit en <span class="tt">wall</span>. </p>
 </td></tr>
 </table>
 
@@ -3744,7 +3832,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1068"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1078"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -4044,10 +4132,10 @@ La règle de départage</h2>
 
 <p>Vérifie que chaque rencontre posée sur la carte tombe sur un terrain tactique valide. </p>
 <p>Le combat se joue <b>sur la carte d'exploration</b> : une rencontre posée dans un couloir d'une case, ou dont la formation entre dans un mur, ne se découvrirait sinon qu'en jeu. Cette fonction le dit à l'auteur au moment où il pose.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1066"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1076"></a>
 Une seule règle pour « se tenir ici »</h2>
 <p>Les combattants sont posés sur une <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html" title="La grille tactique d&#39;une rencontre.">core::BattleGrid</a></span> construite depuis <code class="param">collision</code>, par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#ae717e61951843569c4bed5e1b9adba67" title="Place combatant, d&#39;emprise side × side, avec anchor pour coin haut-gauche.">core::BattleGrid::place</a></span>, dans l'ordre de la formation — ce que fait le montage (<span class="tt"><a class="el" href="#a5921fce291ef1e0650a91c91bc158a3e" title="Monte la rencontre run sur combat : le groupe, puis les créatures, dans cet ordre.">core::mountEncounter</a></span>). Un avertissement de l'éditeur et un refus au montage ne peuvent donc pas diverger. La zone est une <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span> : diagonales, coins de mur et terrain difficile y suivent la règle du <span class="tt">LOT-19</span>, sans seconde implémentation.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1067"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1077"></a>
 Ce qu'elle ne vérifie pas</h2>
 <p>Une rencontre absente de <code class="param">encounters</code> est <b>ignorée</b> : un autre validateur la signale, et la signaler deux fois n'apprendrait rien. Une créature absente du bestiaire — ou un bestiaire absent — compte pour une emprise de taille M. Le groupe du joueur n'est pas posé : ses cases ne sont pas connues avant le jeu, et c'est la taille de la zone qui en répond.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4060,6 +4148,44 @@ Ce qu'elle ne vérifie pas</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Un verdict par rencontre reconnue, dans l'ordre des entités. </dd></dl>
+
+</div>
+</div>
+<a id="a6c2bfc6a4265b0a8fc867461e1c61137" name="a6c2bfc6a4265b0a8fc867461e1c61137"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c2bfc6a4265b0a8fc867461e1c61137">&#9670;&#160;</a></span>applyVariant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcore_1_1Level.html">Level</a> core::applyVariant </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>base</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1LevelData.html">LevelData</a></td>          <td class="paramname"><span class="paramname"><em>variant</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La carte que joue une variante : les cases, couches, collision et entrée de <code class="param">base</code>, les entités et le nom de <code class="param">variant</code>, et sa planche si elle en change. </p>
+<p>La carte rendue garde <span class="tt">base</span> et <span class="tt">scene</span> : l'écrivain la réécrit en variante, sans ses cases. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">base</td><td>La carte de base, chargée. </td></tr>
+    <tr><td class="paramname">variant</td><td>Ce que le fichier de la variante déclare. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -4376,10 +4502,10 @@ Ce qu'elle ne vérifie pas</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1070"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1084"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1071"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1085"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -4675,6 +4801,32 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a9e7f745df4aabd6864d43a907531834f" name="a9e7f745df4aabd6864d43a907531834f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e7f745df4aabd6864d43a907531834f">&#9670;&#160;</a></span>canonicalCollisionTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> core::canonicalCollisionTile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La valeur canonique de collision de <code class="param">type</code> : ce qu'il oppose, écrit <span class="tt">wall</span>, <span class="tt">cliff</span> ou vide. <span class="tt">dirt</span>, <span class="tt">entry</span> ou <span class="tt">bridge</span> y valent une case vide, <span class="tt">solid</span> un mur. </dd></dl>
+
+</div>
+</div>
 <a id="acdf25cd5af39e26e10f832898b4f011b" name="acdf25cd5af39e26e10f832898b4f011b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acdf25cd5af39e26e10f832898b4f011b">&#9670;&#160;</a></span>carriedWeightGrams()</h2>
 
@@ -4878,6 +5030,74 @@ Déterministe, et c'est le point</h2>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Les îlots de <code class="param">level</code>, dans l'ordre des entités. Un îlot sans nom ou de taille nulle est une saisie fautive : il est écarté plutôt que montré vide. </dd></dl>
+
+</div>
+</div>
+<a id="a81edd55832615bfecbb8da06147ef2c6" name="a81edd55832615bfecbb8da06147ef2c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81edd55832615bfecbb8da06147ef2c6">&#9670;&#160;</a></span>collisionAgrees()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::collisionAgrees </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>written</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>derived</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>column</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>row</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si la grille de collision écrite <code class="param">written</code> s'accorde avec <code class="param">derived</code> en (<code class="param">column</code>, <code class="param">row</code>) : elles opposent la même chose (<span class="tt"><a class="el" href="#a9e7f745df4aabd6864d43a907531834f">canonicalCollisionTile</a></span>). </p>
+<p>Une case <span class="tt">dirt</span> écrite s'accorde avec une case vide déduite — la v3 écrivait l'une pour l'autre —, et l'entrée compte pour une case vide. </p>
+
+</div>
+</div>
+<a id="a54b64d433a22d60c2c1345b4aa840b6b" name="a54b64d433a22d60c2c1345b4aa840b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b64d433a22d60c2c1345b4aa840b6b">&#9670;&#160;</a></span>collisionTileOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a> core::collisionTileOf </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a></td>          <td class="paramname"><span class="paramname"><em>tactical</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La valeur de grille de collision d'un type tactique : <span class="tt">Wall</span>, <span class="tt">Cliff</span> ou <span class="tt">Empty</span>. </dd></dl>
 
 </div>
 </div>
@@ -5526,6 +5746,56 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a3322a01062af04e9242df68f744c142f" name="a3322a01062af04e9242df68f744c142f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3322a01062af04e9242df68f744c142f">&#9670;&#160;</a></span>deriveCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CollisionDerivation.html">CollisionDerivation</a> core::deriveCollision </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>layers</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> *</td>          <td class="paramname"><span class="paramname"><em>manifest</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Déduit la grille de collision d'une carte. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">layers</td><td>Les couches de la carte ; seules les couches visuelles comptent. </td></tr>
+    <tr><td class="paramname">width</td><td>Largeur de la carte, en cases. </td></tr>
+    <tr><td class="paramname">height</td><td>Hauteur de la carte, en cases. </td></tr>
+    <tr><td class="paramname">manifest</td><td>Le manifeste des pièces du lieu, ou <span class="tt">nullptr</span> : toute pièce compte alors comme inconnue, et la case suit la règle de son type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9a5cbcc72fe725bdada14f1b5a38e3d1" name="a9a5cbcc72fe725bdada14f1b5a38e3d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a5cbcc72fe725bdada14f1b5a38e3d1">&#9670;&#160;</a></span>derivedStatsFor()</h2>
 
@@ -5955,6 +6225,58 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a3764b26ea4ba9abe8e2f727a3ed486b5" name="a3764b26ea4ba9abe8e2f727a3ed486b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3764b26ea4ba9abe8e2f727a3ed486b5">&#9670;&#160;</a></span>entityIdFor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::entityIdFor </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>number</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'identifiant que l'éditeur donne à la <code class="param">number-ième</code> entité d'une carte : <span class="tt">e&lt;number&gt;</span>. </dd></dl>
+
+</div>
+</div>
+<a id="aa14dee2fbf0162c6a5ee07fd6579c500" name="aa14dee2fbf0162c6a5ee07fd6579c500"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa14dee2fbf0162c6a5ee07fd6579c500">&#9670;&#160;</a></span>entityIdNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; int &gt; core::entityIdNumber </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le numéro d'un identifiant de la forme <span class="tt">e&lt;number&gt;</span>, ou <span class="tt">std::nullopt</span> pour un autre. </dd></dl>
+
+</div>
+</div>
 <a id="a4ba622b6ecedd0e50fd24d0d5b81ebde" name="a4ba622b6ecedd0e50fd24d0d5b81ebde"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4ba622b6ecedd0e50fd24d0d5b81ebde">&#9670;&#160;</a></span>equip()</h2>
 
@@ -6285,6 +6607,38 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="adca42619f89f178b79220de95c7394ab" name="adca42619f89f178b79220de95c7394ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adca42619f89f178b79220de95c7394ab">&#9670;&#160;</a></span>findVariantBase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::filesystem::path &gt; core::findVariantBase </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>variantPath</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>baseId</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Cherche le fichier de la base <code class="param">baseId</code> d'une variante rangée en <code class="param">variantPath</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">&lt;dossier&gt;/&lt;baseId&gt;.json</span> pour le premier dossier, de celui de la variante vers la racine, où ce fichier existe ; <span class="tt">std::nullopt</span> si aucun. </dd></dl>
+
+</div>
+</div>
 <a id="aa16398d9f2424d88762163aa2bfe850e" name="aa16398d9f2424d88762163aa2bfe850e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa16398d9f2424d88762163aa2bfe850e">&#9670;&#160;</a></span>firstValidAttack()</h2>
 
@@ -6338,6 +6692,66 @@ Déterministe, et c'est le point</h2>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5ef43ac4990d56ddac5719dd23eb279" name="ae5ef43ac4990d56ddac5719dd23eb279"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5ef43ac4990d56ddac5719dd23eb279">&#9670;&#160;</a></span>footprintCells()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; core::footprintCells </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a></td>          <td class="paramname"><span class="paramname"><em>footprint</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les cases qu'occupe une pièce d'emprise <code class="param">footprint</code> ancrée en <code class="param">anchor</code>, ligne par ligne. Une emprise dégénérée compte pour 1 × 1. </dd></dl>
+
+</div>
+</div>
+<a id="ad7128ed31a6cefa3183c61467c636053" name="ad7128ed31a6cefa3183c61467c636053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7128ed31a6cefa3183c61467c636053">&#9670;&#160;</a></span>footprintFootCorner()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> core::footprintFootCorner </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a></td>          <td class="paramname"><span class="paramname"><em>footprint</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le coin de grille (en cases, continu) dont la projection donne le <b>pied</b> de la pièce : <span class="tt">(colonne + columns, ligne + rows)</span>, le sommet bas de la case opposée à l'ancre. Pour une pièce 1 × 1, le pied de sa case. </dd></dl>
 
 </div>
 </div>
@@ -8833,6 +9247,32 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a24630c3d763af343ac0a0863bddcc5fd" name="a24630c3d763af343ac0a0863bddcc5fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24630c3d763af343ac0a0863bddcc5fd">&#9670;&#160;</a></span>parsePieceTactical()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> &gt; core::parsePieceTactical </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le type tactique nommé <code class="param">name</code>, ou <span class="tt">std::nullopt</span> pour un nom inconnu. </dd></dl>
+
+</div>
+</div>
 <a id="ab61b34d0d8ae2acaa9aa552c099b2255" name="ab61b34d0d8ae2acaa9aa552c099b2255"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab61b34d0d8ae2acaa9aa552c099b2255">&#9670;&#160;</a></span>parseScenePieceClass()</h2>
 
@@ -8890,6 +9330,32 @@ Déterministe, et c'est le point</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le type correspondant, ou <span class="tt">std::nullopt</span> si le nom est inconnu — un nom inconnu est une donnée invalide à signaler, jamais un type deviné. </dd></dl>
+
+</div>
+</div>
+<a id="a15ebe09385d339d43fa1f8031c5610a2" name="a15ebe09385d339d43fa1f8031c5610a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15ebe09385d339d43fa1f8031c5610a2">&#9670;&#160;</a></span>pieceTacticalName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const char * core::pieceTacticalName </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a></td>          <td class="paramname"><span class="paramname"><em>tactical</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le nom de manifeste de <code class="param">tactical</code> (<span class="tt">open</span>, <span class="tt">difficult</span>, <span class="tt">cover</span>, <span class="tt">obstacle</span>, <span class="tt">solid</span>). </dd></dl>
 
 </div>
 </div>
@@ -9533,6 +9999,42 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="aea16e632b4af252c9fa88d8ce4731b0d" name="aea16e632b4af252c9fa88d8ce4731b0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea16e632b4af252c9fa88d8ce4731b0d">&#9670;&#160;</a></span>resizedLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> core::resizedLayer </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>layer</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>width</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>height</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La couche <code class="param">layer</code> aux dimensions <code class="param">width</code> × <code class="param">height</code> : types, pièces et hauteurs recopiés, tronqués aux bords. </p>
+
+</div>
+</div>
 <a id="ab1a4d741effe8706e8261be043b9224a" name="ab1a4d741effe8706e8261be043b9224a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab1a4d741effe8706e8261be043b9224a">&#9670;&#160;</a></span>resolveAttack()</h2>
 
@@ -10106,6 +10608,32 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a3587c285d8e6987726dddee56f0420f5" name="a3587c285d8e6987726dddee56f0420f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3587c285d8e6987726dddee56f0420f5">&#9670;&#160;</a></span>tacticalOfTileType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> core::tacticalOfTileType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le type tactique que la règle des types donne à <code class="param">type</code> (étape 2 ci-dessus). </dd></dl>
+
+</div>
+</div>
 <a id="acc72525dbecb690d39a4f7ebe97423b5" name="acc72525dbecb690d39a4f7ebe97423b5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc72525dbecb690d39a4f7ebe97423b5">&#9670;&#160;</a></span>thrownAttackFor()</h2>
 
@@ -10565,6 +11093,33 @@ Déterministe, et c'est le point</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="acdcfbe0879d84908d423e478039532c3" name="acdcfbe0879d84908d423e478039532c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdcfbe0879d84908d423e478039532c3">&#9670;&#160;</a></span>zoneCells()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; core::zoneCells </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les cases que couvre la zone <code class="param">entity</code> : ses cases peintes si elle en a, sinon son rectangle (<span class="tt">width</span> × <span class="tt">height</span>, 1 × 1 par défaut) depuis sa case. </p>
 
 </div>
 </div>
@@ -11377,7 +11932,7 @@ Déterministe, et c'est le point</h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">int core::LEVEL_FORMAT_VERSION = 3</td>
+          <td class="memname">int core::LEVEL_FORMAT_VERSION = 4</td>
         </tr>
       </table>
   </td>
@@ -11388,8 +11943,11 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Version courante du format de niveau JSON (<span class="tt">EX-LVL-005</span>). </p>
-<p>Écrite par <span class="tt"><a class="el" href="classcore_1_1LevelWriter.html" title="Sérialise une carte vers le format JSON défini par EX-LVL-003.">LevelWriter</a></span> dans le champ racine <span class="tt">"version"</span>. Un fichier sans ce champ est lu comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux antérieurs à ce champ. Une version supérieure à celle-ci est une erreur exploitable (<span class="tt"><a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">LevelValidationError::UnsupportedFormatVersion</a></span>), pas une lecture au mieux.</p>
-<p>Version 3 (<span class="tt">LOT-04</span>) : <b>couches de tuiles</b> (<span class="tt">"layers"</span>, <span class="tt"><a class="el" href="structcore_1_1TileLayer.html" title="Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.">core::TileLayer</a></span>) et <b>entités</b> (<span class="tt">"entities"</span>, <span class="tt"><a class="el" href="structcore_1_1MapEntity.html" title="Une entité de carte — ce qui n&#39;est pas une tuile.">core::MapEntity</a></span>), les deux optionnels. <span class="tt">"layers"</span> ne porte que les couches <b>visibles</b> (sol, décor) : la grille de collision d'une carte est son tableau racine <span class="tt">"tiles"</span>, celui qui porte déjà l'entrée — une couche <span class="tt">"collision"</span> déclarée est refusée (<span class="tt">EX-LVL-016</span>). Cette grille racine est <b>promue</b> en couche de tête, de rôle <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da15fb6ccbd11ebebcea2b48dc477f3561">LayerKind::Collision</a></span>, ou <span class="tt"><a class="el" href="#ab0cf50b7ad0dce1357c85662e0fb7e5da0cc0a0507cf3d31e5089f420a4cf8b4b">LayerKind::Legacy</a></span> quand la carte ne déclare aucune couche : aucun fichier existant n'a besoin d'être touché, et rien de son comportement ne change.</p>
+<p>Écrite par <span class="tt"><a class="el" href="classcore_1_1LevelWriter.html" title="Sérialise une carte vers le format JSON défini par EX-LVL-003.">LevelWriter</a></span> dans le champ racine <span class="tt">"version"</span>. Un fichier sans ce champ est lu comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux antérieurs à ce champ. Une version supérieure à celle-ci est une erreur exploitable (<span class="tt"><a class="el" href="#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">LevelValidationError::UnsupportedFormatVersion</a></span>), pas une lecture au mieux. <b>Toute version passée se lit pour toujours</b> : une fixture par version reste dans les tests.</p>
+<ul>
+<li>Version 3 (<span class="tt">LOT-04</span>) : <b>couches de tuiles</b> (<span class="tt">"layers"</span>, <span class="tt"><a class="el" href="structcore_1_1TileLayer.html" title="Une couche de tuiles : son rôle, sa grille, ses pièces, et ses propriétés libres.">core::TileLayer</a></span>) et <b>entités</b> (<span class="tt">"entities"</span>, <span class="tt"><a class="el" href="structcore_1_1MapEntity.html" title="Une entité de carte — ce qui n&#39;est pas une tuile.">core::MapEntity</a></span>). <span class="tt">"layers"</span> ne porte que les couches <b>visibles</b> (sol, décor) : la grille de collision d'une carte est son tableau racine <span class="tt">"tiles"</span>, celui qui porte l'entrée — une couche <span class="tt">"collision"</span> déclarée est refusée (<span class="tt">EX-LVL-016</span>). La grille racine est <b>promue</b> en couche de tête, de rôle <span class="tt">Collision</span>, ou <span class="tt">Legacy</span> sans couche déclarée.</li>
+<li>Version 4 (<span class="tt">LOT-EDITOR-12</span>, la seule révision du module éditeur) : chaque case de couche porte son <span class="tt">type</span> et une <span class="tt">piece</span> facultative — l'assignation <span class="tt">"texture"</span> de la grille racine est lue dans une carte v3 et rangée comme pièce de la couche de décor, refusée dans une v4 ; la grille racine est la collision <b>écrite</b>, avec ses cases forcées (<span class="tt">"forced"</span>) ; chaque entité a un <span class="tt">id</span> unique, et la carte un compteur (<span class="tt">"nextEntityId"</span>) ; une zone peut être peinte (<span class="tt">"cells"</span>) ; une carte peut être la <b>variante</b> d'une autre (<span class="tt">"base"</span>, <span class="tt">"scene"</span>) ; la hauteur est réservée (<span class="tt">"floor"</span> par couche, <span class="tt">"elevation"</span> par case et par entité).</li>
+</ul>
 <p>Toute clé non reconnue dans une couche ou une entité est rangée dans ses propriétés libres (<span class="tt"><a class="el" href="#ac3cd7f319efbfd33f183ca31782d1731" title="Propriétés libres, indexées par nom.">core::PropertyMap</a></span>) et <b>réémise</b> à l'écriture : un fichier produit par une version ultérieure de l'éditeur traverse une version antérieure sans rien perdre. </p>
 
 </div>
@@ -11665,6 +12223,30 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a455104c902c36c4055632cff3653a4b7" name="a455104c902c36c4055632cff3653a4b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a455104c902c36c4055632cff3653a4b7">&#9670;&#160;</a></span>SCENE_LAYER_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::SCENE_LAYER_PROPERTY = &quot;scene&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété de couche qui nomme le lieu dont la carte porte les planches (<span class="tt">scene</span>). </p>
+
+</div>
+</div>
 <a id="a14b37b629c559f3f0bcc2481f4178393" name="a14b37b629c559f3f0bcc2481f4178393"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a14b37b629c559f3f0bcc2481f4178393">&#9670;&#160;</a></span>SPAWN_POINT_ENTITY_TYPE</h2>
 
@@ -11835,6 +12417,78 @@ Déterministe, et c'est le point</h2>
 <p>Nombre de valeurs de <span class="tt"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-LVL-002).">core::TileType</a></span> — <b>seule</b> source de vérité de la fin de l'énumération. </p>
 <p>Ajouter un type ne demande rien d'autre que de l'ajouter ci-dessus, <b>avant</b> le dernier énumérateur : cette constante suit, et ses consommateurs avec elle. L'ajouter en <b>fin</b> de liste demande en plus de re-pointer cette seule ligne.</p>
 <p>Volontairement une constante libre plutôt qu'un énumérateur <span class="tt">Count</span> : les <span class="tt">switch</span> sur <span class="tt"><a class="el" href="#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-LVL-002).">TileType</a></span> du projet sont <b>exhaustifs et sans <span class="tt">default</span></b> (c'est ce qui fait que le compilateur désigne lui-même les points à mettre à jour), et un énumérateur sentinelle les obligerait tous à traiter un cas qui ne décrit aucune tuile. </p>
+
+</div>
+</div>
+<a id="ac09dbc5848329505d30e5ab32b462538" name="ac09dbc5848329505d30e5ab32b462538"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac09dbc5848329505d30e5ab32b462538">&#9670;&#160;</a></span>ZONE_ENTITY_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ZONE_ENTITY_TYPE = &quot;zone&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Type d'entité d'une <b>zone</b> de règles : un rectangle (<span class="tt">width</span> × <span class="tt">height</span> depuis sa case) ou un ensemble de cases peint (<span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a7852db46b5652c07b44fe5fd9bc198f3" title="Forme peinte d&#39;une zone (décision D13) : les cases qu&#39;elle couvre.">MapEntity::cells</a></span>), dont les propriétés s'appliquent à chaque case couverte (décision D13, <span class="tt">EX-LVL-022</span>, lue par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#a0c816b168810ff9052c1f41225f44186" title="Les propriétés de toutes les zones qui couvrent la case, dans l&#39;ordre des couches.">core::BattleGrid::zonesAt</a></span>). </p>
+
+</div>
+</div>
+<a id="a444fa8848bf1762434e629e734038e20" name="a444fa8848bf1762434e629e734038e20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a444fa8848bf1762434e629e734038e20">&#9670;&#160;</a></span>ZONE_HEIGHT_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ZONE_HEIGHT_PROPERTY = &quot;height&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'une zone rectangle : sa hauteur, en cases. </p>
+
+</div>
+</div>
+<a id="a3d0539dc27a6ab16c279522c6a60e76e" name="a3d0539dc27a6ab16c279522c6a60e76e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d0539dc27a6ab16c279522c6a60e76e">&#9670;&#160;</a></span>ZONE_WIDTH_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ZONE_WIDTH_PROPERTY = &quot;width&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'une zone rectangle : sa largeur, en cases. </p>
 
 </div>
 </div>

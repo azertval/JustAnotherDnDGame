@@ -25,23 +25,10 @@
 
 /**
  * @file Core/Levels/Level.h
- * @brief Carte chargÃ©e : grille de collision, couches, entitÃ©s, point d'entrÃ©e.
+ * @brief Carte chargÃ©e : grille de collision, couches, entitÃ©s, point d'entrÃ©e, variante.
  */
 
 namespace core {
-
-/**
- * @brief PiÃ¨ce de la planche du lieu assignÃ©e explicitement Ã  **une case prÃ©cise**, prioritaire sur
- *        la table d'apparence de son type (`EX-EDIT-043`, `EX-VIS-008`).
- *
- * Vecteur annexe de `Level`, keyÃ© par position, `TileMap` ne portant qu'un `TileType` par case. Le
- * nom de piÃ¨ce est une simple chaÃ®ne : `Core` ne vÃ©rifie pas son existence (`EX-NFR-011`), une
- * assignation pointant une piÃ¨ce absente reste une carte valide.
- */
-struct TileTextureOverride {
-    GridPosition position;
-    std::string assetName;
-};
 
 /**
  * @brief Composantes d'une carte, nommÃ©es â agrÃ©gat de construction de `core::Level` (`LOT-03`).
@@ -80,8 +67,21 @@ struct LevelData {
     std::vector&lt;MapEntity&gt; entities;
     /// Point d'arrivÃ©e par dÃ©faut (case `Entry`).
     GridPosition entry{};
-    /// PiÃ¨ces assignÃ©es par case (`EX-EDIT-043`), prioritaires sur la table d'apparence du lieu.
-    std::vector&lt;TileTextureOverride&gt; textureOverrides;
+    /// Cases de collision **forcÃ©es Ã  la main** (format v4, dÃ©cision D10) : lÃ , la grille de
+    /// collision peut s'Ã©carter de ce que `core::deriveCollision` tire des piÃ¨ces et des types.
+    /// Partout ailleurs, `LevelEditor --check` exige que la grille Ã©gale la dÃ©duction. TriÃ©es
+    /// (ligne, colonne), sans doublon.
+    std::vector&lt;GridPosition&gt; forcedCollision;
+    /// Prochain identifiant d'entitÃ© Ã  donner (dÃ©cision D8) : un compteur Ã©crit dans la carte, pour
+    /// qu'un identifiant retirÃ© ne soit **jamais** redonnÃ© Ã  une autre entitÃ©. 1 par dÃ©faut.
+<span style = "background-color:#dfd">    int nextEntityId = 1;</span>
+    /// Carte dont celle-ci est une **variante** (dÃ©cision D12), par son identifiant
+    /// (`coliseum`, `capital/martpart`) ; vide pour une carte ordinaire. Une variante ne porte ni
+    /// case ni couche : elle reprend celles de sa base, change de planche (`scene`) et porte ses
+    /// propres entitÃ©s (`core::applyVariant`).
+    std::string base;
+    /// Planche que la variante substitue Ã  celle de sa base ; vide pour la garder.
+    std::string scene;
 };
 
 /**
@@ -102,7 +102,10 @@ public:
           _layers(std::move(data.layers)),
           _entities(std::move(data.entities)),
           _entry(data.entry),
-          _textureOverrides(std::move(data.textureOverrides)) {}</span>
+          _forcedCollision(std::move(data.forcedCollision)),
+          _nextEntityId(data.nextEntityId),
+          _base(std::move(data.base)),
+          _scene(std::move(data.scene)) {}</span>
 
     /// @return Le nom de la carte.
 <span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; name() const noexcept {
@@ -130,10 +133,39 @@ public:
         return _entry;
     }</span>
 
-    /// @return Les piÃ¨ces assignÃ©es par case (`EX-EDIT-043`).
-<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides() const noexcept {
-        return _textureOverrides;
+    /// @return Les cases de collision forcÃ©es Ã  la main (`LevelData::forcedCollision`).
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;GridPosition&gt;&amp; forcedCollision() const noexcept {
+        return _forcedCollision;
     }</span>
+
+    /// @return Le prochain identifiant d'entitÃ© Ã  donner (`LevelData::nextEntityId`).
+<span style = "background-color:#dfd">    [[nodiscard]] int nextEntityId() const noexcept {
+        return _nextEntityId;
+    }</span>
+
+    /// @return La carte dont celle-ci est une variante, vide pour une carte ordinaire.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; base() const noexcept {
+        return _base;
+    }</span>
+
+    /// @return La planche que la variante substitue Ã  celle de sa base, vide sinon.
+<span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; scene() const noexcept {
+        return _scene;
+    }</span>
+
+    /// @return Toutes les composantes de la carte, recopiÃ©es â ce que l'Ã©crivain et le brouillon
+    ///         reprennent sans en oublier une.
+<span style = "background-color:#dfd">    [[nodiscard]] LevelData data() const {
+        return LevelData{.name = _name,</span>
+                         .tileMap = _tileMap,
+                         .layers = _layers,
+                         .entities = _entities,
+                         .entry = _entry,
+                         .forcedCollision = _forcedCollision,
+                         .nextEntityId = _nextEntityId,
+                         .base = _base,
+                         .scene = _scene};
+<span style = "background-color:#dfd">    }</span>
 
 private:
     std::string _name;
@@ -141,7 +173,10 @@ private:
     std::vector&lt;TileLayer&gt; _layers;
     std::vector&lt;MapEntity&gt; _entities;
     GridPosition _entry;
-    std::vector&lt;TileTextureOverride&gt; _textureOverrides;
+    std::vector&lt;GridPosition&gt; _forcedCollision;
+    int _nextEntityId = 1;
+    std::string _base;
+    std::string _scene;
 };
 
 }  // namespace core</pre>

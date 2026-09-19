@@ -129,7 +129,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7ac47bce808a2ac8e8fce362411269cf" id="r_a7ac47bce808a2ac8e8fce362411269cf"><td class="memItemLeft">const std::string &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a7ac47bce808a2ac8e8fce362411269cf">name</a> () const noexcept</td></tr>
 <tr class="memitem:acc48e2f45fb3db53de09e30f60f75845" id="r_acc48e2f45fb3db53de09e30f60f75845"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap</a> () const noexcept</td></tr>
 <tr class="memitem:a7614f7f0cdaea145907831e56781182b" id="r_a7614f7f0cdaea145907831e56781182b"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry</a> () const noexcept</td></tr>
-<tr class="memitem:af2eb7b9effb3254a92e30abba631eba9" id="r_af2eb7b9effb3254a92e30abba631eba9"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#af2eb7b9effb3254a92e30abba631eba9">textureOverrides</a> () const noexcept</td></tr>
+<tr class="memitem:a866028a90b2dd6e0488d093b85e036db" id="r_a866028a90b2dd6e0488d093b85e036db"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a866028a90b2dd6e0488d093b85e036db">forcedCollision</a> () const noexcept</td></tr>
+<tr class="memitem:a3cac8c27dd893a226e6190a1dc77ae1a" id="r_a3cac8c27dd893a226e6190a1dc77ae1a"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3cac8c27dd893a226e6190a1dc77ae1a">nextEntityId</a> () const noexcept</td></tr>
 <tr class="memitem:a6532974328bb6e474d5b91d93f34c373" id="r_a6532974328bb6e474d5b91d93f34c373"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a6532974328bb6e474d5b91d93f34c373">layers</a> () const noexcept</td></tr>
 <tr class="memitem:a74e03f07db273bcdd42544044ac78e8f" id="r_a74e03f07db273bcdd42544044ac78e8f"><td class="memItemLeft">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a74e03f07db273bcdd42544044ac78e8f">entities</a> () const noexcept</td></tr>
 <tr class="memitem:a0017cadc8caea0b43ba08b120ce76bb0" id="r_a0017cadc8caea0b43ba08b120ce76bb0"><td class="memItemLeft"><a class="el" href="structcore_1_1LevelLoadResult.html">LevelLoadResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0">toLevel</a> () const</td></tr>
@@ -194,8 +195,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a10582098171a1944915fbe6031715a67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si <code class="param">index</code> désigne une entité de <span class="tt"><a class="el" href="#aafa403c6e7bfc2795abcf8c52709775b">_entities</a></span>.  <br /></td></tr>
 <tr class="memitem:a9d039adf33432c729620cd113ee8b5fb" id="r_a9d039adf33432c729620cd113ee8b5fb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9d039adf33432c729620cd113ee8b5fb">setEntryInternal</a> (int column, int row)</td></tr>
 <tr class="memdesc:a9d039adf33432c729620cd113ee8b5fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logique de <span class="tt"><a class="el" href="#ad27c800742bff5e3bd6f4c04e9780d25" title="Place l&#39;entrée en (column, row) ; déplace l&#39;occurrence existante s&#39;il y en avait une (unicité,...">setEntry</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span>.  <br /></td></tr>
-<tr class="memitem:ab7f7455e7141d3dbd679b3864832aacf" id="r_ab7f7455e7141d3dbd679b3864832aacf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab7f7455e7141d3dbd679b3864832aacf">removeTextureOverrideAt</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position)</td></tr>
-<tr class="memdesc:ab7f7455e7141d3dbd679b3864832aacf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire la pièce assignée à <code class="param">position</code>, s'il y en a une.  <br /></td></tr>
 <tr class="memitem:a89fced43d78e2f2fcd89fd03b75373bc" id="r_a89fced43d78e2f2fcd89fd03b75373bc"><td class="memItemLeft"><a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a>&#160;</td><td class="memItemRight"><a class="el" href="#a89fced43d78e2f2fcd89fd03b75373bc">snapshot</a> () const</td></tr>
 <tr class="memdesc:a89fced43d78e2f2fcd89fd03b75373bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Capture l'état courant (pour empiler dans l'historique undo/redo).  <br /></td></tr>
 <tr class="memitem:a320a399e76d85ed27d70875d6b410f93" id="r_a320a399e76d85ed27d70875d6b410f93"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a320a399e76d85ed27d70875d6b410f93">restore</a> (<a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> state)</td></tr>
@@ -212,7 +211,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ad06d3935521ff07ddb8c35b7ab7ee863" id="r_ad06d3935521ff07ddb8c35b7ab7ee863"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad06d3935521ff07ddb8c35b7ab7ee863">_entry</a></td></tr>
 <tr class="memitem:a2783d6ae5f766d52acae67fbb9f68c1b" id="r_a2783d6ae5f766d52acae67fbb9f68c1b"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">TileLayer</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2783d6ae5f766d52acae67fbb9f68c1b">_layers</a></td></tr>
 <tr class="memitem:aafa403c6e7bfc2795abcf8c52709775b" id="r_aafa403c6e7bfc2795abcf8c52709775b"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aafa403c6e7bfc2795abcf8c52709775b">_entities</a></td></tr>
-<tr class="memitem:a1549c812b59d506266ccdefb5356b752" id="r_a1549c812b59d506266ccdefb5356b752"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1549c812b59d506266ccdefb5356b752">_textureOverrides</a></td></tr>
+<tr class="memitem:a847b7a776a926c04917b31a8772d6d54" id="r_a847b7a776a926c04917b31a8772d6d54"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a847b7a776a926c04917b31a8772d6d54">_forcedCollision</a></td></tr>
+<tr class="memitem:a55e89a0cd600a1c786bef0ca5b128c38" id="r_a55e89a0cd600a1c786bef0ca5b128c38"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a55e89a0cd600a1c786bef0ca5b128c38">_nextEntityId</a> = 1</td></tr>
+<tr class="memdesc:a55e89a0cd600a1c786bef0ca5b128c38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compteur d'identifiants : hors des instantanés, il ne recule jamais (décision D8).  <br /></td></tr>
+<tr class="memitem:a0c9cf50df582c84ead881028833651a2" id="r_a0c9cf50df582c84ead881028833651a2"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0c9cf50df582c84ead881028833651a2">_base</a></td></tr>
+<tr class="memdesc:a0c9cf50df582c84ead881028833651a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base et planche d'une variante (décision D12) : ni peintes ni défaites, recopiées.  <br /></td></tr>
+<tr class="memitem:a0cf8062f8459248edfb0a12d3ae341cf" id="r_a0cf8062f8459248edfb0a12d3ae341cf"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0cf8062f8459248edfb0a12d3ae341cf">_scene</a></td></tr>
 <tr class="memitem:a86779d05f96a388738e19979489d7a63" id="r_a86779d05f96a388738e19979489d7a63"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a86779d05f96a388738e19979489d7a63">_undoHistory</a></td></tr>
 <tr class="memitem:a886d07163934d6b0f0f5b8f9da13c410" id="r_a886d07163934d6b0f0f5b8f9da13c410"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a886d07163934d6b0f0f5b8f9da13c410">_redoHistory</a></td></tr>
 <tr class="memitem:a162095858b19aa7f372f4416371f5594" id="r_a162095858b19aa7f372f4416371f5594"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a162095858b19aa7f372f4416371f5594">_revision</a> = 0</td></tr>
@@ -221,7 +225,7 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
-<p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
+<p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
 <p>Invariant maintenu par tous les mutateurs : la grille de tuiles reste la <b>source de vérité</b> de la position d'entrée (comme pour <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>) ; <span class="tt"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry()</a></span> n'est qu'un accès en cache, toujours synchronisé avec le contenu de <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>.</p>
 <p>Logique <b>pure</b>, sans dépendance rendu ni fenêtre — testable sans GPU (<span class="tt">EX-NFR-010</span>). </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
@@ -461,6 +465,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a866028a90b2dd6e0488d093b85e036db" name="a866028a90b2dd6e0488d093b85e036db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a866028a90b2dd6e0488d093b85e036db">&#9670;&#160;</a></span>forcedCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp; core::LevelDraft::forcedCollision </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les cases de collision forcées à la main (<span class="tt"><a class="el" href="structcore_1_1LevelData.html#aa1fa5536f5844015713e54fcc225a3b7" title="Cases de collision forcées à la main (format v4, décision D10) : là, la grille de collision peut s&#39;éc...">core::LevelData::forcedCollision</a></span>). </dd></dl>
+
+</div>
+</div>
 <a id="a481be057c3f8c05cfe5e19a89d93231c" name="a481be057c3f8c05cfe5e19a89d93231c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a481be057c3f8c05cfe5e19a89d93231c">&#9670;&#160;</a></span>fromLevel()</h2>
 
@@ -645,6 +675,32 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le nom courant du niveau. </dd></dl>
+
+</div>
+</div>
+<a id="a3cac8c27dd893a226e6190a1dc77ae1a" name="a3cac8c27dd893a226e6190a1dc77ae1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cac8c27dd893a226e6190a1dc77ae1a">&#9670;&#160;</a></span>nextEntityId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::LevelDraft::nextEntityId </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le prochain identifiant d'entité que <span class="tt"><a class="el" href="#aa37465c2a3293c00fc88743b287b6649" title="Pose entity en fin de liste.">placeEntity</a></span> donnera. </dd></dl>
 
 </div>
 </div>
@@ -876,7 +932,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Pose <code class="param">entity</code> en fin de liste. </p>
-<dl class="section return"><dt>Returns</dt><dd>Son rang, ou <span class="tt">std::nullopt</span> si sa case est hors de la grille (<span class="tt">EX-LVL-017</span>). </dd></dl>
+<p>Une entité sans identifiant en reçoit un neuf (<span class="tt"><a class="el" href="namespacecore.html#a3764b26ea4ba9abe8e2f727a3ed486b5">core::entityIdFor</a></span>), jamais donné auparavant dans cette carte (décision D8). </p><dl class="section return"><dt>Returns</dt><dd>Son rang, ou <span class="tt">std::nullopt</span> si sa case est hors de la grille (<span class="tt">EX-LVL-017</span>). </dd></dl>
 
 </div>
 </div>
@@ -987,33 +1043,6 @@ Private Attributes</h2></td></tr>
 
 <p>Retire la couche visuelle au rang <code class="param">index</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si <code class="param">index</code> est hors bornes ou désigne une couche non visuelle. </dd></dl>
-
-</div>
-</div>
-<a id="ab7f7455e7141d3dbd679b3864832aacf" name="ab7f7455e7141d3dbd679b3864832aacf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7f7455e7141d3dbd679b3864832aacf">&#9670;&#160;</a></span>removeTextureOverrideAt()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void core::LevelDraft::removeTextureOverrideAt </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>position</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Retire la pièce assignée à <code class="param">position</code>, s'il y en a une. </p>
 
 </div>
 </div>
@@ -1284,32 +1313,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af2eb7b9effb3254a92e30abba631eba9" name="af2eb7b9effb3254a92e30abba631eba9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2eb7b9effb3254a92e30abba631eba9">&#9670;&#160;</a></span>textureOverrides()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a> &gt; &amp; core::LevelDraft::textureOverrides </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>Les pièces assignées par case (<span class="tt">EX-EDIT-043</span>). </dd></dl>
-
-</div>
-</div>
 <a id="acc48e2f45fb3db53de09e30f60f75845" name="acc48e2f45fb3db53de09e30f60f75845"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc48e2f45fb3db53de09e30f60f75845">&#9670;&#160;</a></span>tileMap()</h2>
 
@@ -1478,6 +1481,30 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a0c9cf50df582c84ead881028833651a2" name="a0c9cf50df582c84ead881028833651a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c9cf50df582c84ead881028833651a2">&#9670;&#160;</a></span>_base</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::LevelDraft::_base</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Base et planche d'une variante (décision D12) : ni peintes ni défaites, recopiées. </p>
+
+</div>
+</div>
 <a id="aafa403c6e7bfc2795abcf8c52709775b" name="aafa403c6e7bfc2795abcf8c52709775b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aafa403c6e7bfc2795abcf8c52709775b">&#9670;&#160;</a></span>_entities</h2>
 
@@ -1511,6 +1538,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::optional&lt;<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&gt; core::LevelDraft::_entry</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a847b7a776a926c04917b31a8772d6d54" name="a847b7a776a926c04917b31a8772d6d54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a847b7a776a926c04917b31a8772d6d54">&#9670;&#160;</a></span>_forcedCollision</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&gt; core::LevelDraft::_forcedCollision</td>
         </tr>
       </table>
   </td>
@@ -1590,6 +1639,30 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a55e89a0cd600a1c786bef0ca5b128c38" name="a55e89a0cd600a1c786bef0ca5b128c38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55e89a0cd600a1c786bef0ca5b128c38">&#9670;&#160;</a></span>_nextEntityId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::LevelDraft::_nextEntityId = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compteur d'identifiants : hors des instantanés, il ne recule jamais (décision D8). </p>
+
+</div>
+</div>
 <a id="a886d07163934d6b0f0f5b8f9da13c410" name="a886d07163934d6b0f0f5b8f9da13c410"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a886d07163934d6b0f0f5b8f9da13c410">&#9670;&#160;</a></span>_redoHistory</h2>
 
@@ -1634,8 +1707,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a1549c812b59d506266ccdefb5356b752" name="a1549c812b59d506266ccdefb5356b752"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1549c812b59d506266ccdefb5356b752">&#9670;&#160;</a></span>_textureOverrides</h2>
+<a id="a0cf8062f8459248edfb0a12d3ae341cf" name="a0cf8062f8459248edfb0a12d3ae341cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cf8062f8459248edfb0a12d3ae341cf">&#9670;&#160;</a></span>_scene</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1644,7 +1717,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a>&gt; core::LevelDraft::_textureOverrides</td>
+          <td class="memname">std::string core::LevelDraft::_scene</td>
         </tr>
       </table>
   </td>

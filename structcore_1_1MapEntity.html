@@ -103,15 +103,71 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a0585fa6522c09d42c879ed8bd9c32550" id="r_a0585fa6522c09d42c879ed8bd9c32550"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0585fa6522c09d42c879ed8bd9c32550">type</a></td></tr>
 <tr class="memdesc:a0585fa6522c09d42c879ed8bd9c32550"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de l'entité, libre : <span class="tt">"npc"</span>, <span class="tt">"chest"</span>, <span class="tt">"sign"</span>, <span class="tt">"portal"</span>, <span class="tt">"encounter"</span>…  <br /></td></tr>
 <tr class="memitem:a3e295d3994994b3a15733b8377a25695" id="r_a3e295d3994994b3a15733b8377a25695"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3e295d3994994b3a15733b8377a25695">position</a></td></tr>
-<tr class="memdesc:a3e295d3994994b3a15733b8377a25695"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case occupée par l'entité.  <br /></td></tr>
+<tr class="memdesc:a3e295d3994994b3a15733b8377a25695"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case occupée par l'entité — pour une zone peinte, sa case de référence.  <br /></td></tr>
 <tr class="memitem:a8e85ab253ba2e9b4e70fcdce5e1bff0f" id="r_a8e85ab253ba2e9b4e70fcdce5e1bff0f"><td class="memItemLeft"><a class="el" href="namespacecore.html#ac3cd7f319efbfd33f183ca31782d1731">PropertyMap</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8e85ab253ba2e9b4e70fcdce5e1bff0f">properties</a></td></tr>
 <tr class="memdesc:a8e85ab253ba2e9b4e70fcdce5e1bff0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriétés libres (<span class="tt"><a class="el" href="namespacecore.html#ac3cd7f319efbfd33f183ca31782d1731" title="Propriétés libres, indexées par nom.">core::PropertyMap</a></span>), y compris les clés que le chargeur n'a pas reconnues — elles sont réémises telles quelles à l'écriture.  <br /></td></tr>
+<tr class="memitem:afa63cbd6027812c62b6945e5202bade3" id="r_afa63cbd6027812c62b6945e5202bade3"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#afa63cbd6027812c62b6945e5202bade3">id</a></td></tr>
+<tr class="memdesc:afa63cbd6027812c62b6945e5202bade3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifiant court, unique dans la carte, donné par l'éditeur et <b>jamais réemployé</b> (format v4, décision D8, <span class="tt">EX-LVL-021</span>).  <br /></td></tr>
+<tr class="memitem:a7142eabb809cffbf76fb1c6f29b229c7" id="r_a7142eabb809cffbf76fb1c6f29b229c7"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a7142eabb809cffbf76fb1c6f29b229c7">elevation</a> = 0</td></tr>
+<tr class="memdesc:a7142eabb809cffbf76fb1c6f29b229c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hauteur de l'entité. <b>Réservée</b> (décision D11) : lue, gardée, réécrite, jamais jouée.  <br /></td></tr>
+<tr class="memitem:a7852db46b5652c07b44fe5fd9bc198f3" id="r_a7852db46b5652c07b44fe5fd9bc198f3"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7852db46b5652c07b44fe5fd9bc198f3">cells</a></td></tr>
+<tr class="memdesc:a7852db46b5652c07b44fe5fd9bc198f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forme <b>peinte</b> d'une zone (décision D13) : les cases qu'elle couvre.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Une entité de carte — ce qui n'est <b>pas</b> une tuile. </p>
 <p>La grille ne porte qu'un <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-LVL-002).">core::TileType</a></span> par case, sans métadonnée : un PNJ a un nom et un dialogue, un coffre un contenu et un état « déjà ouvert », un portail une carte cible et un point d'arrivée. Des vecteurs annexes indexés par position, un par famille, obligeraient à ajouter un vecteur à chaque famille nouvelle. Une <b>liste d'objets à propriétés</b> les porte toutes.</p>
 <p><span class="tt">Core</span> ne connaît <b>aucune</b> sémantique de <span class="tt"><a class="el" href="#a0585fa6522c09d42c879ed8bd9c32550" title="Type de l&#39;entité, libre : &quot;npc&quot;, &quot;chest&quot;, &quot;sign&quot;, &quot;portal&quot;, &quot;encounter&quot;…">type</a></span> : c'est une chaîne, interprétée par le gameplay (<span class="tt">LOT-10</span> et suivants). Le chargeur ne valide donc pas qu'un type existe — une entité inconnue est une erreur de conception tolérée, pas une carte invalide (<span class="tt">EX-NFR-040</span>). </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a7852db46b5652c07b44fe5fd9bc198f3" name="a7852db46b5652c07b44fe5fd9bc198f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7852db46b5652c07b44fe5fd9bc198f3">&#9670;&#160;</a></span>cells</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&gt; core::MapEntity::cells</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Forme <b>peinte</b> d'une zone (décision D13) : les cases qu'elle couvre. </p>
+<p>Vide pour une entité ponctuelle ou une zone rectangle (propriétés <span class="tt">width</span> et <span class="tt">height</span>). </p>
+
+</div>
+</div>
+<a id="a7142eabb809cffbf76fb1c6f29b229c7" name="a7142eabb809cffbf76fb1c6f29b229c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7142eabb809cffbf76fb1c6f29b229c7">&#9670;&#160;</a></span>elevation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::MapEntity::elevation = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Hauteur de l'entité. <b>Réservée</b> (décision D11) : lue, gardée, réécrite, jamais jouée. </p>
+
+</div>
+</div>
+<a id="afa63cbd6027812c62b6945e5202bade3" name="afa63cbd6027812c62b6945e5202bade3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa63cbd6027812c62b6945e5202bade3">&#9670;&#160;</a></span>id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string core::MapEntity::id</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Identifiant court, unique dans la carte, donné par l'éditeur et <b>jamais réemployé</b> (format v4, décision D8, <span class="tt">EX-LVL-021</span>). </p>
+<p>Quêtes, drapeaux et sauvegardes citent l'entité par <span class="tt">carte#<a class="el" href="#afa63cbd6027812c62b6945e5202bade3" title="Identifiant court, unique dans la carte, donné par l&#39;éditeur et jamais réemployé (format v4,...">id</a></span> : déplacer un coffre ne casse plus rien. Vide pour une entité lue d'une carte antérieure à la v4, jusqu'à sa migration. </p>
+
+</div>
+</div>
 <a id="a3e295d3994994b3a15733b8377a25695" name="a3e295d3994994b3a15733b8377a25695"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3e295d3994994b3a15733b8377a25695">&#9670;&#160;</a></span>position</h2>
 
@@ -124,7 +180,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Case occupée par l'entité. </p>
+<p>Case occupée par l'entité — pour une zone peinte, sa case de référence. </p>
 
 </div>
 </div>

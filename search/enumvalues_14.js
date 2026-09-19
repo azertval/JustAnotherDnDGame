@@ -6,7 +6,7 @@ var searchData=
   ['wall_3',['Wall',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0',1,'core::Wall'],['../namespacehmi.html#a3aefab663a13beaed4fec7f172fb4a67a94e8a499539d1a472f3b5dbbb85508c0',1,'hmi::Wall']]],
   ['walldecoration_4',['WallDecoration',['../namespacehmi.html#a3aefab663a13beaed4fec7f172fb4a67aa275e84942f845eea0c75e0bbcb6ee3d',1,'hmi']]],
   ['warndeleted_5',['WarnDeleted',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7aa30447d6d036b6f7f6a80bd7ff53b27f',1,'hmi']]],
-  ['warning_6',['Warning',['../namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'core']]],
+  ['warning_6',['Warning',['../namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'core::Warning'],['../namespacehmi.html#a89e7b964e1125a35414c9694fad4fd64a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'hmi::Warning']]],
   ['water_7',['Water',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18',1,'core']]],
   ['whilewalking_8',['WhileWalking',['../namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf',1,'hmi']]],
   ['wide_9',['Wide',['../namespacecore.html#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1',1,'core']]],

@@ -121,8 +121,8 @@ Functions</h2></td></tr>
 <tr class="memdesc:a2c1df3ff92b4e48fe201246661fafc30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les champs inconnus d'une entité sont ignorés sans erreur et <b>préservés</b> à la réécriture (<span class="tt">EX-LVL-018</span>).  <br /></td></tr>
 <tr class="memitem:ac076aec8081ac436640ef158dc4e3daa" id="r_ac076aec8081ac436640ef158dc4e3daa"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac076aec8081ac436640ef158dc4e3daa">TEST</a> (CouchesDeCarteTest, LaCoucheDeCollisionEstLaGrilleDuGameplay)</td></tr>
 <tr class="memdesc:ac076aec8081ac436640ef158dc4e3daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">La grille consommée par le gameplay est celle de la couche de <b>collision</b>, pas celle du sol ni du décor (<span class="tt">EX-LVL-016</span>).  <br /></td></tr>
-<tr class="memitem:a6ce7d743db1c9b2249b1f5f23f01dea4" id="r_a6ce7d743db1c9b2249b1f5f23f01dea4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6ce7d743db1c9b2249b1f5f23f01dea4">TEST</a> (CouchesDeCarteTest, CarteVersion4RefuseeAvecUnMessageExplicite)</td></tr>
-<tr class="memdesc:a6ce7d743db1c9b2249b1f5f23f01dea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte <span class="tt">version: 4</span> est refusée avec un message explicite et une erreur typée (<span class="tt">EX-LVL-005</span>, <span class="tt">EX-NFR-040</span>).  <br /></td></tr>
+<tr class="memitem:ac34c733ea2a1e173bc1719c0b4dc66ab" id="r_ac34c733ea2a1e173bc1719c0b4dc66ab"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ac34c733ea2a1e173bc1719c0b4dc66ab">TEST</a> (CouchesDeCarteTest, CarteDUneVersionFutureRefuseeAvecUnMessageExplicite)</td></tr>
+<tr class="memdesc:ac34c733ea2a1e173bc1719c0b4dc66ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte d'une version <b>future</b> est refusée avec un message explicite et une erreur typée (<span class="tt">EX-LVL-005</span>, <span class="tt">EX-NFR-040</span>).  <br /></td></tr>
 <tr class="memitem:adf384e4fabb9fa184237bfedbc2d5108" id="r_adf384e4fabb9fa184237bfedbc2d5108"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#adf384e4fabb9fa184237bfedbc2d5108">TEST</a> (CouchesDeCarteTest, TuileHorsBornesDansUneCoucheRefusee)</td></tr>
 <tr class="memdesc:adf384e4fabb9fa184237bfedbc2d5108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une tuile hors bornes dans une couche est refusée, en nommant la couche fautive (<span class="tt">EX-LVL-004</span>).  <br /></td></tr>
 <tr class="memitem:a9f54229b5e29933307d7419af2cb1f00" id="r_a9f54229b5e29933307d7419af2cb1f00"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9f54229b5e29933307d7419af2cb1f00">TEST</a> (CouchesDeCarteTest, EntiteHorsBornesRefusee)</td></tr>
@@ -202,8 +202,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ac34c733ea2a1e173bc1719c0b4dc66ab" name="ac34c733ea2a1e173bc1719c0b4dc66ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac34c733ea2a1e173bc1719c0b4dc66ab">&#9670;&#160;</a></span>TEST() <span class="overload">[3/14]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">CouchesDeCarteTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CarteDUneVersionFutureRefuseeAvecUnMessageExplicite</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Une carte d'une version <b>future</b> est refusée avec un message explicite et une erreur typée (<span class="tt">EX-LVL-005</span>, <span class="tt">EX-NFR-040</span>). </p>
+<p><b>Cas de test :</b> <b>Une carte d'une version future est refusee explicitement.</b><br  />
+ <b>Categorie :</b> Unitaire · Couches de carte<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Charger une carte declarant la version suivant la version courante.<br  />
+ <b>Resultat attendu :</b> Le chargement echoue avec l'erreur UnsupportedFormatVersion et un message nommant la version. </p>
+
+</div>
+</div>
 <a id="a01fd21f2a2e31a7dd7ac18c8d00dffa8" name="a01fd21f2a2e31a7dd7ac18c8d00dffa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01fd21f2a2e31a7dd7ac18c8d00dffa8">&#9670;&#160;</a></span>TEST() <span class="overload">[3/14]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a01fd21f2a2e31a7dd7ac18c8d00dffa8">&#9670;&#160;</a></span>TEST() <span class="overload">[4/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -233,7 +262,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a28dce15a034e30c7268da5403381fc5b" name="a28dce15a034e30c7268da5403381fc5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a28dce15a034e30c7268da5403381fc5b">&#9670;&#160;</a></span>TEST() <span class="overload">[4/14]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a28dce15a034e30c7268da5403381fc5b">&#9670;&#160;</a></span>TEST() <span class="overload">[5/14]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,35 +288,6 @@ Functions</h2></td></tr>
  1. Charger une carte version 2.<br  />
 2. La reserialiser.<br  />
  <b>Resultat attendu :</b> Le JSON produit ne contient ni 'layers' ni 'entities'. </p>
-
-</div>
-</div>
-<a id="a6ce7d743db1c9b2249b1f5f23f01dea4" name="a6ce7d743db1c9b2249b1f5f23f01dea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ce7d743db1c9b2249b1f5f23f01dea4">&#9670;&#160;</a></span>TEST() <span class="overload">[5/14]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">TEST </td>
-          <td>(</td>
-          <td class="paramtype">CouchesDeCarteTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">CarteVersion4RefuseeAvecUnMessageExplicite</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Une carte <span class="tt">version: 4</span> est refusée avec un message explicite et une erreur typée (<span class="tt">EX-LVL-005</span>, <span class="tt">EX-NFR-040</span>). </p>
-<p><b>Cas de test :</b> <b>Une carte version 4 est refusee explicitement.</b><br  />
- <b>Categorie :</b> Unitaire · Couches de carte<br  />
- <b>Criticite :</b> Majeur<br  />
- <b>Etapes :</b><br  />
- 1. Charger une carte declarant version 4.<br  />
- <b>Resultat attendu :</b> Le chargement echoue avec l'erreur UnsupportedFormatVersion et un message nommant la version. </p>
 
 </div>
 </div>

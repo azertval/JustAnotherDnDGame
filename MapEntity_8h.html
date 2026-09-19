@@ -95,7 +95,10 @@ $(function(){initNavTree('MapEntity_8h.html','',''); });
 
 <p>Entité placée sur une carte : PNJ, coffre, panneau, portail, déclencheur (<span class="tt">LOT-04</span>).  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="GridPosition_8h_source.html">Core/Levels/GridPosition.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelProperties_8h_source.html">Core/Levels/LevelProperties.h</a>&quot;</code><br />
 </div>
@@ -110,6 +113,22 @@ Classes</h2></td></tr>
 Namespaces</h2></td></tr>
 <tr class="memitem:core" id="r_core"><td class="memItemLeft">namespace &#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html">core</a></td></tr>
 <tr class="memdesc:namespacecore"><td class="mdescLeft">&#160;</td><td class="mdescRight">Espace de noms du moteur et de la logique de jeu. <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a3764b26ea4ba9abe8e2f727a3ed486b5" id="r_a3764b26ea4ba9abe8e2f727a3ed486b5"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a3764b26ea4ba9abe8e2f727a3ed486b5">core::entityIdFor</a> (int number)</td></tr>
+<tr class="memitem:aa14dee2fbf0162c6a5ee07fd6579c500" id="r_aa14dee2fbf0162c6a5ee07fd6579c500"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aa14dee2fbf0162c6a5ee07fd6579c500">core::entityIdNumber</a> (std::string_view id) noexcept</td></tr>
+<tr class="memitem:acdcfbe0879d84908d423e478039532c3" id="r_acdcfbe0879d84908d423e478039532c3"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#acdcfbe0879d84908d423e478039532c3">core::zoneCells</a> (const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;entity)</td></tr>
+<tr class="memdesc:acdcfbe0879d84908d423e478039532c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les cases que couvre la zone <code class="param">entity</code> : ses cases peintes si elle en a, sinon son rectangle (<span class="tt">width</span> × <span class="tt">height</span>, 1 × 1 par défaut) depuis sa case.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ac09dbc5848329505d30e5ab32b462538" id="r_ac09dbc5848329505d30e5ab32b462538"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#ac09dbc5848329505d30e5ab32b462538">core::ZONE_ENTITY_TYPE</a> = &quot;zone&quot;</td></tr>
+<tr class="memdesc:ac09dbc5848329505d30e5ab32b462538"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'une <b>zone</b> de règles : un rectangle (<span class="tt">width</span> × <span class="tt">height</span> depuis sa case) ou un ensemble de cases peint (<span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a7852db46b5652c07b44fe5fd9bc198f3" title="Forme peinte d&#39;une zone (décision D13) : les cases qu&#39;elle couvre.">MapEntity::cells</a></span>), dont les propriétés s'appliquent à chaque case couverte (décision D13, <span class="tt">EX-LVL-022</span>, lue par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#a0c816b168810ff9052c1f41225f44186" title="Les propriétés de toutes les zones qui couvrent la case, dans l&#39;ordre des couches.">core::BattleGrid::zonesAt</a></span>).  <br /></td></tr>
+<tr class="memitem:a3d0539dc27a6ab16c279522c6a60e76e" id="r_a3d0539dc27a6ab16c279522c6a60e76e"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a3d0539dc27a6ab16c279522c6a60e76e">core::ZONE_WIDTH_PROPERTY</a> = &quot;width&quot;</td></tr>
+<tr class="memdesc:a3d0539dc27a6ab16c279522c6a60e76e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une zone rectangle : sa largeur, en cases.  <br /></td></tr>
+<tr class="memitem:a444fa8848bf1762434e629e734038e20" id="r_a444fa8848bf1762434e629e734038e20"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a444fa8848bf1762434e629e734038e20">core::ZONE_HEIGHT_PROPERTY</a> = &quot;height&quot;</td></tr>
+<tr class="memdesc:a444fa8848bf1762434e629e734038e20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une zone rectangle : sa hauteur, en cases.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Entité placée sur une carte : PNJ, coffre, panneau, portail, déclencheur (<span class="tt">LOT-04</span>). </p>

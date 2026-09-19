@@ -18,6 +18,7 @@
 #include &lt;variant&gt;
 
 #include "Core/Levels/Level.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
 
@@ -94,6 +95,27 @@ BattleGrid::BattleGrid(const TileMap&amp; collision)
                     _difficult[index] = true;</span>
                 }
 <span style = "background-color:#dfd">            }
+        }
+        _zones.push_back(std::move(zone));
+    }</span>
+    // Les zones posees comme entites (decision D13) : un rectangle ou des cases peintes, apres les
+    // couches -- `zonesAt` les rend dans l'ordre des couches, puis des entites.
+<span style = "background-color:#dfd">    for (const MapEntity&amp; entity : level.entities()) {
+        if (entity.type != ZONE_ENTITY_TYPE) {
+            continue;</span>
+        }
+<span style = "background-color:#dfd">        Zone zone{.properties = entity.properties,
+                  .cells = std::vector&lt;bool&gt;(_terrain.size(), false)};
+        const bool difficult = marksDifficult(entity.properties);
+        for (const GridPosition cell : zoneCells(entity)) {
+            if (!inBounds(cell)) {</span>
+<span style = "background-color:#fdd">                continue;</span>
+            }
+<span style = "background-color:#dfd">            const std::size_t index = indexOf(cell);
+            zone.cells[index] = true;
+            if (difficult) {
+                _difficult[index] = true;
+            }
         }
         _zones.push_back(std::move(zone));
     }

@@ -14,6 +14,7 @@
 
 #include "Core/Levels/LevelLoader.h"
 
+#include &lt;algorithm&gt;
 #include &lt;fstream&gt;
 #include &lt;set&gt;
 #include &lt;sstream&gt;
@@ -24,6 +25,7 @@
 #include &lt;nlohmann/json.hpp&gt;
 
 #include "Core/Data/JsonDocument.h"
+#include "Core/Levels/LevelVariant.h"
 #include "Core/Levels/LevelsLog.h"
 #include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
@@ -35,6 +37,12 @@ namespace core {
 
 namespace {
 
+/// Premiere version ou la grille racine ne porte plus d'assignation de texture (LOT-EDITOR-12).
+constexpr int PIECES_ON_LAYERS_VERSION = 4;
+
+/// Nom de la couche de decor creee pour recevoir les assignations d'une carte v3 qui n'en a pas.
+constexpr const char* MIGRATED_RELIEF_LAYER_NAME = "relief";
+
 // Construit un rÃ©sultat d'Ã©chec avec un message et un code categorise (EX-EDIT-012).
 // Journalise systematiquement la raison ici (point unique) : chaque site d'appel n'a pas a le
 // refaire, et un echec de chargement reste tracable meme hors du contexte HMI (tests, outillage).
@@ -43,7 +51,11 @@ namespace {
     return LevelLoadResult{.level = std::nullopt, .error = std::move(message), .errorCode = code};
 }</span>
 
-// --- Couches et entites (LOT-04, format version 3) -------------------------------------------
+<span style = "background-color:#dfd">[[nodiscard]] std::string cellText(int x, int y) {
+    return "(" + std::to_string(x) + ", " + std::to_string(y) + ")";
+}</span>
+
+// --- Couches et entites (LOT-04, format version 3 et suivantes) ------------------------------
 
 // Role d'une couche d'apres son champ "kind". Valeur de conception par defaut (Ground) si absent
 // ou non reconnu -- meme tolerance que le reste du format (EX-NFR-040) : une couche au role
@@ -61,12 +73,12 @@ namespace {
 
 // Range dans @p properties toute cle de @p object qui n'est pas dans @p known.
 //
-// C'est LE mecanisme qui evite un version: 4. Une cle inconnue n'est ni rejetee (elle ferait
-// echouer un fichier produit par une version ulterieure) ni perdue (l'editeur la ferait
-// disparaitre au premier enregistrement) : elle est conservee telle quelle et reemise.
+// Une cle inconnue n'est ni rejetee (elle ferait echouer un fichier produit par une version
+// ulterieure) ni perdue (l'editeur la ferait disparaitre au premier enregistrement) : elle est
+// conservee telle quelle et reemise.
 //
 // Les valeurs COMPOSITES (objet, tableau) n'entrent pas dans core::PropertyValue et sont ignorees
-// -- limite documentee sur core::PropertyMap. Le format n'en produit aucune aujourd'hui.
+// -- limite documentee sur core::PropertyMap.
 void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::string&gt;&amp; known,
 <span style = "background-color:#dfd">                       PropertyMap&amp; properties) {
     for (const auto&amp; [key, value] : object.items()) {
@@ -85,6 +97,44 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
     }
 }</span>
 
+// Une case {x, y} d'une liste de cases ("forced", "cells"), bornee a la carte.
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseCell(const nlohmann::json&amp; cell,
+                                                       const TileMap&amp; map, const std::string&amp; where,
+<span style = "background-color:#dfd">                                                       GridPosition&amp; position) {
+    position = GridPosition{.column = cell.at("x").get&lt;int&gt;(), .row = cell.at("y").get&lt;int&gt;()};
+    if (!map.inBounds(position.column, position.row)) {
+        return failure(</span>
+            "Case hors bornes dans " + where + " en " + cellText(position.column, position.row),
+            LevelValidationError::OutOfBounds);
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+// Une case d'une couche : son type, sa piece et sa hauteur (format v4).
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseLayerTile(const nlohmann::json&amp; tile,
+<span style = "background-color:#dfd">                                                            TileLayer&amp; layer) {
+    const int x = tile.at("x").get&lt;int&gt;();
+    const int y = tile.at("y").get&lt;int&gt;();
+    if (!layer.tiles.inBounds(x, y)) {
+        return failure("Tuile hors bornes dans la couche '" + layer.name + "' en " + cellText(x, y),</span>
+                       LevelValidationError::OutOfBounds);
+    }
+<span style = "background-color:#dfd">    const std::optional&lt;TileType&gt; type = parseTileType(tile.at("type").get&lt;std::string&gt;());
+    if (!type) {</span>
+<span style = "background-color:#fdd">        return failure("Type de tuile inconnu dans la couche '" + layer.name +</span>
+                           "' : " + tile.at("type").get&lt;std::string&gt;(),
+                       LevelValidationError::UnknownTileType);
+    }
+<span style = "background-color:#dfd">    layer.tiles.setTile(x, y, *type);
+    if (tile.contains("piece")) {
+        layer.setPiece(x, y, tile.at("piece").get&lt;std::string&gt;());</span>
+    }
+<span style = "background-color:#dfd">    if (tile.contains("elevation")) {
+        layer.setElevation(x, y, tile.at("elevation").get&lt;int&gt;());</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
 // Traite le tableau racine optionnel "layers" (LOT-04). Absent = carte version 2, dont la grille
 // unique est promue par l'appelant. Chaque couche porte sa propre grille, aux MEMES dimensions que
 // la carte : une couche decalee d'une case rendrait la collision incoherente avec l'affichage,
@@ -98,39 +148,27 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
 <span style = "background-color:#dfd">    if (!root.at("layers").is_array()) {</span>
 <span style = "background-color:#fdd">        return failure("Le champ 'layers' doit etre une liste", LevelValidationError::ParseError);</span>
     }
-<span style = "background-color:#dfd">    static const std::set&lt;std::string&gt; known{"name", "kind", "tiles"};
+<span style = "background-color:#dfd">    static const std::set&lt;std::string&gt; known{"name", "kind", "tiles", "floor"};
     for (const nlohmann::json&amp; layerJson : root.at("layers")) {
         TileLayer layer{.name = layerJson.value("name", std::string{}),
                         .kind = parseLayerKind(layerJson),
                         .tiles = TileMap(width, height),
-                        .properties = {}};
+                        .properties = {},
+                        .floor = layerJson.value("floor", 0)};
         if (layerJson.contains("tiles")) {
             if (!layerJson.at("tiles").is_array()) {</span>
 <span style = "background-color:#fdd">                return failure("Le champ 'tiles' d'une couche doit etre une liste",</span>
                                LevelValidationError::ParseError);
             }
 <span style = "background-color:#dfd">            for (const nlohmann::json&amp; tile : layerJson.at("tiles")) {
-                const int x = tile.at("x").get&lt;int&gt;();
-                const int y = tile.at("y").get&lt;int&gt;();
-                if (!layer.tiles.inBounds(x, y)) {
-                    return failure("Tuile hors bornes dans la couche '" + layer.name + "' en (" +</span>
-                                       std::to_string(x) + ", " + std::to_string(y) + ")",
-                                   LevelValidationError::OutOfBounds);
+                if (std::optional&lt;LevelLoadResult&gt; error = parseLayerTile(tile, layer)) {
+                    return error;
                 }
-                const std::optional&lt;TileType&gt; type =
-<span style = "background-color:#dfd">                    parseTileType(tile.at("type").get&lt;std::string&gt;());
-                if (!type) {</span>
-<span style = "background-color:#fdd">                    return failure("Type de tuile inconnu dans la couche '" + layer.name +</span>
-                                       "' : " + tile.at("type").get&lt;std::string&gt;(),
-                                   LevelValidationError::UnknownTileType);
-                }
-<span style = "background-color:#dfd">                layer.tiles.setTile(x, y, *type);
             }</span>
         }
         // Une couche 'collision' DECLAREE est refusee : la collision d'une carte est son tableau
         // racine "tiles", et l'accepter ici creerait une seconde grille a tenir d'accord avec la
-        // premiere -- celle ou vit l'entree. Mieux vaut un refus
-        // nomme qu'une carte a demi jouable (EX-LVL-016, EX-NFR-040).
+        // premiere -- celle ou vit l'entree (EX-LVL-016, EX-NFR-040).
 <span style = "background-color:#dfd">        if (layer.kind == LayerKind::Collision) {
             return failure(</span>
                 "Couche 'collision' declaree dans 'layers' : la grille de collision "
@@ -145,9 +183,10 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
 
 // Traite le tableau racine optionnel "entities" (LOT-04). Core n'attribue AUCUNE semantique au
 // champ "type" : c'est le gameplay qui l'interprete, et une entite de type inconnu est une erreur
-// de conception toleree plutot qu'une carte invalide (EX-NFR-040).
-[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseEntities(const nlohmann::json&amp; root, int width,
-                                                           int height,
+// de conception toleree plutot qu'une carte invalide (EX-NFR-040). Un identifiant, lui, est unique
+// (decision D8) : deux entites du meme id rendraient ambigue toute reference `carte#id`.
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseEntities(const nlohmann::json&amp; root,
+                                                           const TileMap&amp; map,
 <span style = "background-color:#dfd">                                                           std::vector&lt;MapEntity&gt;&amp; entities) {
     if (!root.contains("entities")) {
         return std::nullopt;</span>
@@ -155,21 +194,70 @@ void collectProperties(const nlohmann::json&amp; object, const std::set&lt;std::
 <span style = "background-color:#dfd">    if (!root.at("entities").is_array()) {</span>
 <span style = "background-color:#fdd">        return failure("Le champ 'entities' doit etre une liste", LevelValidationError::ParseError);</span>
     }
-<span style = "background-color:#dfd">    static const std::set&lt;std::string&gt; known{"type", "x", "y"};
+<span style = "background-color:#dfd">    static const std::set&lt;std::string&gt; known{"id", "type", "x", "y", "elevation", "cells"};
+    std::set&lt;std::string&gt; ids;
     for (const nlohmann::json&amp; entityJson : root.at("entities")) {
         MapEntity entity{.type = entityJson.value("type", std::string{}),</span>
                          .position = GridPosition{.column = entityJson.value("x", 0),
                                                   .row = entityJson.value("y", 0)},
-<span style = "background-color:#dfd">                         .properties = {}};</span>
-        if (entity.position.column &lt; 0 || entity.position.column &gt;= width ||
-<span style = "background-color:#dfd">            entity.position.row &lt; 0 || entity.position.row &gt;= height) {
-            return failure("Entite hors bornes en (" + std::to_string(entity.position.column) +</span>
-                               ", " + std::to_string(entity.position.row) + ")",
-                           LevelValidationError::OutOfBounds);
+<span style = "background-color:#dfd">                         .properties = {},
+                         .id = entityJson.value("id", std::string{}),
+                         .elevation = entityJson.value("elevation", 0),
+                         .cells = {}};
+        if (!map.inBounds(entity.position.column, entity.position.row)) {
+            return failure(</span>
+                "Entite hors bornes en " + cellText(entity.position.column, entity.position.row),
+                LevelValidationError::OutOfBounds);
+        }
+<span style = "background-color:#dfd">        if (!entity.id.empty() &amp;&amp; !ids.insert(entity.id).second) {
+            return failure("Deux entites portent l'identifiant '" + entity.id + "'",</span>
+                           LevelValidationError::DuplicateEntityId);
+        }
+<span style = "background-color:#dfd">        if (entityJson.contains("cells")) {
+            if (!entityJson.at("cells").is_array()) {</span>
+<span style = "background-color:#fdd">                return failure("Le champ 'cells' d'une entite doit etre une liste",</span>
+                               LevelValidationError::ParseError);
+            }
+<span style = "background-color:#dfd">            for (const nlohmann::json&amp; cellJson : entityJson.at("cells")) {
+                GridPosition cell;
+                if (std::optional&lt;LevelLoadResult&gt; error =</span>
+                        parseCell(cellJson, map, "une zone peinte", cell)) {
+<span style = "background-color:#fdd">                    return error;</span>
+<span style = "background-color:#dfd">                }
+                entity.cells.push_back(cell);
+            }</span>
         }
 <span style = "background-color:#dfd">        collectProperties(entityJson, known, entity.properties);
         entities.push_back(std::move(entity));
     }
+    return std::nullopt;
+}</span>
+
+// Cases de collision forcees a la main (format v4, decision D10) : triees (ligne, colonne), sans
+// doublon -- l'ecriture est canonique, et une meme case forcee deux fois ne veut rien dire de plus.
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseForced(const nlohmann::json&amp; root,
+                                                         const TileMap&amp; map,
+<span style = "background-color:#dfd">                                                         std::vector&lt;GridPosition&gt;&amp; forced) {
+    if (!root.contains("forced")) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (!root.at("forced").is_array()) {</span>
+<span style = "background-color:#fdd">        return failure("Le champ 'forced' doit etre une liste", LevelValidationError::ParseError);</span>
+    }
+<span style = "background-color:#dfd">    for (const nlohmann::json&amp; cellJson : root.at("forced")) {
+        GridPosition cell;
+        if (std::optional&lt;LevelLoadResult&gt; error =</span>
+                parseCell(cellJson, map, "les cases forcees", cell)) {
+<span style = "background-color:#dfd">            return error;
+        }
+        forced.push_back(cell);
+    }
+    const auto byRow = [](GridPosition left, GridPosition right) {
+        return std::pair{left.row, left.column} &lt; std::pair{right.row, right.column};
+    };
+    std::ranges::sort(forced, byRow);
+    const auto [first, last] = std::ranges::unique(forced);
+    forced.erase(first, last);
     return std::nullopt;
 }</span>
 
@@ -181,14 +269,14 @@ struct TileParseState {
     GridPosition&amp; entry;
     int&amp; entryCount;
     std::set&lt;std::pair&lt;int, int&gt;&gt;&amp; occupiedPositions;
-    std::vector&lt;TileTextureOverride&gt;&amp; textureOverrides;
+    /// Assignations de texture d'une carte v3, a ranger comme pieces de la couche de decor.
+    std::vector&lt;std::pair&lt;GridPosition, std::string&gt;&gt;&amp; legacyTextures;
+    int version;
 };
 
-// Traite UNE entrÃ©e du tableau `tiles` : pose la tuile dans la grille et alimente les
-// accumulateurs de @p state (dÃ©compte des entrÃ©es, piÃ¨ces assignÃ©es). Extrait de
-// LevelLoader::loadFromString ci-dessous (seule sa taille, pas son comportement) : std::nullopt
-// en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer IMMÃDIATEMENT -- aucun Ã©tat partiel n'est jamais
-// renvoyÃ© avec succÃ¨s.
+// Traite UNE entrÃ©e du tableau racine `tiles` (la grille de collision) : pose la tuile et alimente
+// les accumulateurs de @p state. std::nullopt en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer
+// IMMÃDIATEMENT -- aucun Ã©tat partiel n'est jamais renvoyÃ© avec succÃ¨s.
 [[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseTile(const nlohmann::json&amp; tile,
 <span style = "background-color:#dfd">                                                       TileParseState&amp; state) {
     const int x = tile.at("x").get&lt;int&gt;();
@@ -201,23 +289,25 @@ struct TileParseState {
                        LevelValidationError::UnknownTileType);
     }
 <span style = "background-color:#dfd">    if (!state.map.inBounds(x, y)) {</span>
-<span style = "background-color:#fdd">        return failure(</span>
-            "Tuile hors bornes en (" + std::to_string(x) + ", " + std::to_string(y) + ")",
-            LevelValidationError::OutOfBounds);
+<span style = "background-color:#fdd">        return failure("Tuile hors bornes en " + cellText(x, y), LevelValidationError::OutOfBounds);</span>
     }
 <span style = "background-color:#dfd">    if (!state.occupiedPositions.emplace(x, y).second) {</span>
-<span style = "background-color:#fdd">        return failure(</span>
-            "Deux tuiles a la meme position (" + std::to_string(x) + ", " + std::to_string(y) + ")",
-            LevelValidationError::DuplicatePosition);
+<span style = "background-color:#fdd">        return failure("Deux tuiles a la meme position " + cellText(x, y),</span>
+                       LevelValidationError::DuplicatePosition);
     }
 <span style = "background-color:#dfd">    state.map.setTile(x, y, *type);</span>
 
-    // Piece assignee a la case (EX-EDIT-043), independante du type de tuile : pas de liste
-    // blanche, l'usage est purement visuel.
+    // Piece assignee a la case d'une carte v3 (EX-EDIT-043) : elle quitte la grille de collision
+    // pour la couche de decor, ou elle a toujours ete dessinee. Une v4 qui en porte encore une
+    // melangerait les deux formats : refusee, plutot que lue a moitie.
 <span style = "background-color:#dfd">    if (tile.contains("texture")) {
-        state.textureOverrides.push_back(</span>
-            TileTextureOverride{.position = GridPosition{.column = x, .row = y},
-                                .assetName = tile.at("texture").get&lt;std::string&gt;()});
+        if (state.version &gt;= PIECES_ON_LAYERS_VERSION) {
+            return failure("Champ 'texture' dans la grille de collision d'une carte v4 en " +</span>
+                               cellText(x, y) + " : la piece se nomme sur sa couche ('piece')",
+                           LevelValidationError::ParseError);
+        }
+<span style = "background-color:#dfd">        state.legacyTextures.emplace_back(GridPosition{.column = x, .row = y},</span>
+                                          tile.at("texture").get&lt;std::string&gt;());
     }
 
 <span style = "background-color:#dfd">    if (*type == TileType::Entry) {
@@ -227,10 +317,21 @@ struct TileParseState {
 <span style = "background-color:#dfd">    return std::nullopt;
 }</span>
 
-// Valide les champs d'en-tÃªte obligatoires (width/height/tiles, dimensions strictement positives,
-// version de format gÃ©rÃ©e) et extrait @p width/@p height. Extrait de
-// LevelLoader::loadFromString : std::nullopt en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer
-// immÃ©diatement.
+// Version du format (EX-LVL-005) : absente = version initiale (0), sans erreur ni avertissement
+// (retrocompatibilite des niveaux anterieurs a ce champ).
+[[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseVersion(const nlohmann::json&amp; root,
+<span style = "background-color:#dfd">                                                          int&amp; version) {
+    version = root.value("version", 0);
+    if (version &gt; LEVEL_FORMAT_VERSION) {
+        return failure("Version de format non geree : " + std::to_string(version) +</span>
+                           " (maximum gere : " + std::to_string(LEVEL_FORMAT_VERSION) + ")",
+                       LevelValidationError::UnsupportedFormatVersion);
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+// Valide les champs d'en-tÃªte obligatoires (width/height/tiles, dimensions strictement positives)
+// et extrait @p width/@p height. std::nullopt en cas de succÃ¨s, sinon l'Ã©chec Ã  renvoyer.
 [[nodiscard]] std::optional&lt;LevelLoadResult&gt; parseHeader(const nlohmann::json&amp; root, int&amp; width,
 <span style = "background-color:#dfd">                                                         int&amp; height) {
     if (!root.contains("width") || !root.contains("height") || !root.contains("tiles")) {</span>
@@ -247,20 +348,10 @@ struct TileParseState {
 <span style = "background-color:#fdd">        return failure("Dimensions invalides (width et height doivent etre &gt; 0)",</span>
                        LevelValidationError::ParseError);
     }
-
-    // Version du format (EX-LVL-005) : absente = version initiale (0), sans erreur ni
-    // avertissement (rÃ©trocompatibilitÃ© des niveaux antÃ©rieurs Ã  ce champ).
-<span style = "background-color:#dfd">    const int version = root.value("version", 0);
-    if (version &gt; LEVEL_FORMAT_VERSION) {
-        return failure("Version de format non geree : " + std::to_string(version) +</span>
-                           " (maximum gere : " + std::to_string(LEVEL_FORMAT_VERSION) + ")",
-                       LevelValidationError::UnsupportedFormatVersion);
-    }
 <span style = "background-color:#dfd">    return std::nullopt;
 }</span>
 
-// Exactement une entrÃ©e (EX-LVL-004). Extrait de LevelLoader::loadFromString : std::nullopt en cas
-// de succÃ¨s, sinon l'Ã©chec Ã  renvoyer immÃ©diatement.
+// Exactement une entrÃ©e (EX-LVL-004).
 <span style = "background-color:#dfd">[[nodiscard]] std::optional&lt;LevelLoadResult&gt; validateEntryCount(int entryCount) {
     if (entryCount == 0) {
         return failure("Carte sans entree (aucune tuile 'entry')",</span>
@@ -273,89 +364,173 @@ struct TileParseState {
 <span style = "background-color:#dfd">    return std::nullopt;
 }</span>
 
+// Range les assignations d'une carte v3 comme pieces de la PREMIERE couche de decor -- celle que la
+// composition lisait deja pour le relief -- ou d'une couche de decor creee pour elles.
+void adoptLegacyTextures(std::vector&lt;std::pair&lt;GridPosition, std::string&gt;&gt;&amp; textures, int width,
+<span style = "background-color:#dfd">                         int height, std::vector&lt;TileLayer&gt;&amp; layers) {
+    if (textures.empty()) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    auto decor = std::ranges::find(layers, LayerKind::Decor, &amp;TileLayer::kind);
+    if (decor == layers.end()) {
+        layers.push_back(TileLayer{.name = MIGRATED_RELIEF_LAYER_NAME,</span>
+                                   .kind = LayerKind::Decor,
+                                   .tiles = TileMap(width, height),
+                                   .properties = {}});
+<span style = "background-color:#dfd">        decor = std::prev(layers.end());</span>
+    }
+<span style = "background-color:#dfd">    for (auto&amp; [cell, piece] : textures) {
+        decor-&gt;setPiece(cell.column, cell.row, std::move(piece));
+    }
+}</span>
+
+// Le compteur d'identifiants (decision D8) : au moins 1.
+<span style = "background-color:#dfd">[[nodiscard]] int parseNextEntityId(const nlohmann::json&amp; root) {
+    return std::max(1, root.value("nextEntityId", 1));
+}</span>
+
+// Une variante (decision D12) : son nom, sa base, sa planche, ses entites. Ni case ni couche --
+// elles viennent de la base. Les entites sont bornees par la carte de base.
+[[nodiscard]] LevelLoadResult loadVariant(const nlohmann::json&amp; root, int version,
+<span style = "background-color:#dfd">                                          const LevelLoader::BaseResolver&amp; resolveBase) {
+    const std::string baseId = root.at("base").get&lt;std::string&gt;();
+    if (version &lt; LEVEL_FORMAT_VERSION) {</span>
+<span style = "background-color:#fdd">        return failure("Variante ('base') dans une carte de version " + std::to_string(version) +</span>
+                           " : les variantes datent de la version 4",
+                       LevelValidationError::ParseError);
+    }
+<span style = "background-color:#dfd">    for (const char* cellField : {"width", "height", "tiles", "layers", "forced"}) {
+        if (root.contains(cellField)) {
+            return failure(std::string{"Une variante ne porte pas de cases : champ '"} + cellField +</span>
+                               "' en trop",
+                           LevelValidationError::ParseError);
+        }
+<span style = "background-color:#dfd">    }
+    if (!resolveBase) {
+        return failure("Variante de '" + baseId + "' sans moyen de charger sa base",</span>
+                       LevelValidationError::MissingBase);
+    }
+<span style = "background-color:#dfd">    LevelLoadResult base = resolveBase(baseId);
+    if (!base.ok()) {
+        return failure("Base '" + baseId + "' de la variante illisible : " + base.error,</span>
+                       LevelValidationError::MissingBase);
+    }
+<span style = "background-color:#dfd">    if (!base.level-&gt;base().empty()) {</span>
+<span style = "background-color:#fdd">        return failure("La base '" + baseId + "' est elle-meme une variante",</span>
+                       LevelValidationError::MissingBase);
+    }
+<span style = "background-color:#dfd">    std::vector&lt;MapEntity&gt; entities;
+    if (std::optional&lt;LevelLoadResult&gt; error =</span>
+            parseEntities(root, base.level-&gt;tileMap(), entities)) {
+<span style = "background-color:#fdd">        return std::move(*error);</span>
+<span style = "background-color:#dfd">    }
+    return LevelLoadResult{</span>
+        .level = applyVariant(*base.level, LevelData{.name = root.value("name", std::string{}),
+                                                     .tileMap = TileMap(1, 1),
+                                                     .entities = std::move(entities),
+                                                     .nextEntityId = parseNextEntityId(root),
+                                                     .base = baseId,
+                                                     .scene = root.value("scene", std::string{})}),
+        .error = {}};
+<span style = "background-color:#dfd">}</span>
+
+// Une carte ordinaire, toutes versions confondues.
+<span style = "background-color:#dfd">[[nodiscard]] LevelLoadResult loadMap(const nlohmann::json&amp; root, int version) {
+    int width = 0;
+    int height = 0;
+    if (std::optional&lt;LevelLoadResult&gt; headerError = parseHeader(root, width, height)) {</span>
+<span style = "background-color:#fdd">        return std::move(*headerError);</span>
+<span style = "background-color:#dfd">    }</span>
+
+<span style = "background-color:#dfd">    std::string name = root.value("name", std::string{});
+    TileMap map(width, height);</span>
+
+    GridPosition entry{};
+<span style = "background-color:#dfd">    int entryCount = 0;
+    std::set&lt;std::pair&lt;int, int&gt;&gt; occupiedPositions;
+    std::vector&lt;std::pair&lt;GridPosition, std::string&gt;&gt; legacyTextures;</span>
+
+<span style = "background-color:#dfd">    TileParseState tileState{.map = map,</span>
+                             .entry = entry,
+                             .entryCount = entryCount,
+                             .occupiedPositions = occupiedPositions,
+                             .legacyTextures = legacyTextures,
+<span style = "background-color:#dfd">                             .version = version};
+    for (const nlohmann::json&amp; tile : root.at("tiles")) {
+        if (std::optional&lt;LevelLoadResult&gt; tileError = parseTile(tile, tileState)) {
+            return std::move(*tileError);
+        }
+    }
+    if (std::optional&lt;LevelLoadResult&gt; countError = validateEntryCount(entryCount)) {
+        return std::move(*countError);
+    }</span>
+
+<span style = "background-color:#dfd">    LEVELS_LOG_TRACE("Carte chargee : '" + name + "' (" + std::to_string(width) + "x" +</span>
+                     std::to_string(height) + ")");
+    // Le tableau racine "layers" ne porte que les couches VISIBLES (sol, decor) : la grille de
+    // collision, elle, EST le tableau racine "tiles" -- celui qui porte l'entree, et dont dependent
+    // l'exploration et la grille de combat tactique. Une seule source de verite.
+<span style = "background-color:#dfd">    std::vector&lt;TileLayer&gt; declaredLayers;
+    if (std::optional&lt;LevelLoadResult&gt; layersError =</span>
+            parseLayers(root, width, height, declaredLayers)) {
+<span style = "background-color:#dfd">        return std::move(*layersError);
+    }
+    adoptLegacyTextures(legacyTextures, width, height, declaredLayers);
+    std::vector&lt;MapEntity&gt; entities;
+    if (std::optional&lt;LevelLoadResult&gt; entitiesError = parseEntities(root, map, entities)) {
+        return std::move(*entitiesError);
+    }
+    std::vector&lt;GridPosition&gt; forced;
+    if (std::optional&lt;LevelLoadResult&gt; forcedError = parseForced(root, map, forced)) {
+        return std::move(*forcedError);
+    }</span>
+
+    // La grille racine est PROMUE en couche de tete, pour que tout consommateur boucle sur
+    // `layers()` sans cas particulier (EX-LVL-016). Son role dit ce qu'elle vaut : `Collision`
+    // quand la carte declare des couches visibles a cote, `Legacy` quand elle n'en declare
+    // aucune -- une grille plate de version 2, qui vaut alors a la fois decor et collision.
+<span style = "background-color:#dfd">    std::vector&lt;TileLayer&gt; layers;
+    layers.reserve(declaredLayers.size() + 1);
+    layers.push_back(</span>
+        TileLayer{.name = {},
+                  .kind = declaredLayers.empty() ? LayerKind::Legacy : LayerKind::Collision,
+                  .tiles = map,
+                  .properties = {}});
+<span style = "background-color:#dfd">    for (TileLayer&amp; declared : declaredLayers) {
+        layers.push_back(std::move(declared));
+    }</span>
+
+<span style = "background-color:#dfd">    return LevelLoadResult{.level = Level(LevelData{.name = std::move(name),</span>
+                                                    .tileMap = std::move(map),
+                                                    .layers = std::move(layers),
+                                                    .entities = std::move(entities),
+                                                    .entry = entry,
+                                                    .forcedCollision = std::move(forced),
+                                                    .nextEntityId = parseNextEntityId(root)}),
+                           .error = {}};
+<span style = "background-color:#dfd">}</span>
+
 }  // namespace
 
 // Charge un niveau depuis une chaine JSON.
-<span style = "background-color:#dfd">LevelLoadResult LevelLoader::loadFromString(std::string_view json) {</span>
+LevelLoadResult LevelLoader::loadFromString(std::string_view json,
+<span style = "background-color:#dfd">                                            const BaseResolver&amp; resolveBase) {</span>
     // Enveloppe commune : brique partagee du LOT-79 (EX-CNT-012). La garde de version est
-    // desactivee (0) parce que `parseHeader` porte la sienne, avec sa propre categorie d'echec.
+    // desactivee (0) parce que `parseVersion` porte la sienne, avec sa propre categorie d'echec.
 <span style = "background-color:#dfd">    const JsonDocument document = readJsonObject(json, 0, "niveau");
     if (!document.ok()) {
         return failure(document.message, LevelValidationError::ParseError);</span>
     }
 <span style = "background-color:#dfd">    const nlohmann::json&amp; root = document.root;</span>
     try {
-<span style = "background-color:#dfd">        int width = 0;
-        int height = 0;
-        if (std::optional&lt;LevelLoadResult&gt; headerError = parseHeader(root, width, height)) {
-            return std::move(*headerError);
-        }</span>
-
-<span style = "background-color:#dfd">        std::string name = root.value("name", std::string{});
-        TileMap map(width, height);</span>
-
-        GridPosition entry{};
-<span style = "background-color:#dfd">        int entryCount = 0;
-        std::set&lt;std::pair&lt;int, int&gt;&gt; occupiedPositions;
-        std::vector&lt;TileTextureOverride&gt; textureOverrides;</span>
-
-        // Chaque objet de 'tiles' place une tuile dans la grille.
-<span style = "background-color:#dfd">        TileParseState tileState{.map = map,</span>
-                                 .entry = entry,
-                                 .entryCount = entryCount,
-                                 .occupiedPositions = occupiedPositions,
-                                 .textureOverrides = textureOverrides};
-<span style = "background-color:#dfd">        for (const nlohmann::json&amp; tile : root.at("tiles")) {
-            std::optional&lt;LevelLoadResult&gt; tileError = parseTile(tile, tileState);
-            if (tileError) {
-                return std::move(*tileError);</span>
-            }
-<span style = "background-color:#dfd">        }</span>
-
-<span style = "background-color:#dfd">        if (std::optional&lt;LevelLoadResult&gt; countError = validateEntryCount(entryCount)) {
-            return std::move(*countError);
-        }</span>
-
-<span style = "background-color:#dfd">        LEVELS_LOG_TRACE("Carte chargee : '" + name + "' (" + std::to_string(width) + "x" +</span>
-                         std::to_string(height) + ")");
-        // Couches et entites (LOT-04). Le tableau racine "layers" ne porte que les couches
-        // VISIBLES (sol, decor) : la grille de collision, elle, EST le tableau racine "tiles" --
-        // celui qui porte deja l'entree, et dont dependent l'exploration et la grille de combat
-        // tactique. Une seule source de verite, jamais deux grilles a tenir d'accord.
-<span style = "background-color:#dfd">        std::vector&lt;TileLayer&gt; declaredLayers;
-        if (std::optional&lt;LevelLoadResult&gt; layersError =</span>
-                parseLayers(root, width, height, declaredLayers)) {
-<span style = "background-color:#dfd">            return std::move(*layersError);
+<span style = "background-color:#dfd">        int version = 0;
+        if (std::optional&lt;LevelLoadResult&gt; versionError = parseVersion(root, version)) {
+            return std::move(*versionError);
         }
-        std::vector&lt;MapEntity&gt; entities;
-        if (std::optional&lt;LevelLoadResult&gt; entitiesError =</span>
-                parseEntities(root, width, height, entities)) {
-<span style = "background-color:#dfd">            return std::move(*entitiesError);
-        }</span>
-
-        // La grille racine est PROMUE en couche de tete, pour que tout consommateur boucle sur
-        // `layers()` sans cas particulier (EX-LVL-016). Son role dit ce qu'elle vaut : `Collision`
-        // quand la carte declare des couches visibles a cote, `Legacy` quand elle n'en declare
-        // aucune -- une grille plate de version 2, qui vaut alors a la fois decor et collision.
-<span style = "background-color:#dfd">        std::vector&lt;TileLayer&gt; layers;
-        layers.reserve(declaredLayers.size() + 1);
-        layers.push_back(</span>
-            TileLayer{.name = {},
-                      .kind = declaredLayers.empty() ? LayerKind::Legacy : LayerKind::Collision,
-                      .tiles = map,
-                      .properties = {}});
-<span style = "background-color:#dfd">        for (TileLayer&amp; declared : declaredLayers) {
-            layers.push_back(std::move(declared));
-        }</span>
-
-<span style = "background-color:#dfd">        return LevelLoadResult{</span>
-            .level = Level(LevelData{.name = std::move(name),
-                                     .tileMap = std::move(map),
-                                     .layers = std::move(layers),
-                                     .entities = std::move(entities),
-                                     .entry = entry,
-                                     .textureOverrides = std::move(textureOverrides)}),
-            .error = {}};
+        if (root.contains("base")) {
+            return loadVariant(root, version, resolveBase);</span>
+        }
+<span style = "background-color:#dfd">        return loadMap(root, version);</span>
 <span style = "background-color:#fdd">    } catch (const nlohmann::json::exception&amp; error) {
         return failure(std::string("JSON invalide : ") + error.what(),</span>
                        LevelValidationError::ParseError);
@@ -365,13 +540,26 @@ struct TileParseState {
 // Charge un niveau depuis un fichier (lecture binaire puis delegation a loadFromString).
 <span style = "background-color:#dfd">LevelLoadResult LevelLoader::loadFromFile(const std::filesystem::path&amp; path) {
     std::ifstream file(path, std::ios::binary);
-    if (!file) {</span>
-<span style = "background-color:#fdd">        return failure("Fichier de niveau introuvable : " + path.string(),</span>
+    if (!file) {
+        return failure("Fichier de niveau introuvable : " + path.string(),</span>
                        LevelValidationError::FileNotFound);
     }
 <span style = "background-color:#dfd">    std::ostringstream buffer;
-    buffer &lt;&lt; file.rdbuf();
-    return loadFromString(buffer.str());
+    buffer &lt;&lt; file.rdbuf();</span>
+    // La base d'une variante se lit sans resolveur : une base qui serait elle-meme une variante est
+    // refusee, et une chaine de variantes ne peut donc pas boucler.
+<span style = "background-color:#dfd">    const BaseResolver resolveBase = [&amp;path](std::string_view baseId) {
+        const std::optional&lt;std::filesystem::path&gt; basePath = findVariantBase(path, baseId);
+        if (!basePath) {</span>
+<span style = "background-color:#fdd">            return failure("Base '" + std::string{baseId} + "' introuvable depuis " + path.string(),</span>
+                           LevelValidationError::MissingBase);
+        }
+<span style = "background-color:#dfd">        std::ifstream baseFile(*basePath, std::ios::binary);
+        std::ostringstream baseBuffer;
+        baseBuffer &lt;&lt; baseFile.rdbuf();
+        return loadFromString(baseBuffer.str());
+    };
+    return loadFromString(buffer.str(), resolveBase);
 }</span>
 
 }  // namespace core</pre>

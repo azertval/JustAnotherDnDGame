@@ -109,7 +109,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Sérialise une carte vers le format JSON défini par <span class="tt">EX-LVL-003</span>. </p>
-<p>Fonction <b>pure</b>, symétrique à <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> : recharger la chaîne produite reconstruit une carte équivalente (mêmes tuiles, couches, entités, pièces assignées), <span class="tt">EX-EDIT-011</span>. </p>
+<p>Fonction <b>pure</b>, symétrique à <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> : recharger la chaîne produite reconstruit une carte équivalente (mêmes tuiles, couches, pièces, entités, cases forcées), <span class="tt">EX-EDIT-011</span>. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="af8378a93386f208796483bc21092c3e0" name="af8378a93386f208796483bc21092c3e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af8378a93386f208796483bc21092c3e0">&#9670;&#160;</a></span>buildJson()</h2>
@@ -137,11 +137,16 @@ Static Public Member Functions</h2></td></tr>
 <p>Construit le JSON à partir des composantes d'un niveau (utilisé également par <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">LevelDraft::toLevel()</a></span>, qui n'a pas nécessairement de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> construit). </p>
 <p>Prend l'agrégat <span class="tt"><a class="el" href="structcore_1_1LevelData.html" title="Composantes d&#39;une carte, nommées — agrégat de construction de core::Level (LOT-03).">core::LevelData</a></span> du <span class="tt">LOT-03</span> plutôt que ses composantes en <b>paramètres positionnels</b>, dont plusieurs <span class="tt">std::vector</span> voisins s'intervertiraient sans que le compilateur bronche.</p>
 <p>Champs consommés, et les conventions qui les gouvernent :</p><ul>
-<li><span class="tt">tileMap</span> est la <b>source de vérité</b> de l'entrée : une tuile <span class="tt">Entry</span> présente dans la grille est émise ; <span class="tt">entry</span> n'en est que la relecture, jamais écrit à part.</li>
-<li><span class="tt">layers</span> et <span class="tt">entities</span> (<span class="tt">LOT-04</span>, <span class="tt">EX-LVL-016</span>/<span class="tt">EX-LVL-017</span>) sont émis dans les tableaux racine optionnels <span class="tt">"layers"</span> et <span class="tt">"entities"</span>, omis quand ils sont vides ou — pour les couches — quand la carte n'en porte qu'une, de rôle <span class="tt">Legacy</span> : une carte <span class="tt">version: 2</span> promue au chargement ressort <b>telle qu'elle est entrée</b>, sans couche apparue de nulle part.</li>
+<li><span class="tt">tileMap</span> est la grille de <b>collision</b> et la <b>source de vérité</b> de l'entrée : une tuile <span class="tt">Entry</span> présente dans la grille est émise ; <span class="tt">entry</span> n'en est que la relecture.</li>
+<li><span class="tt">layers</span> et <span class="tt">entities</span> (<span class="tt">LOT-04</span>, <span class="tt">EX-LVL-016</span>/<span class="tt">EX-LVL-017</span>) sont émis dans les tableaux racine optionnels <span class="tt">"layers"</span> et <span class="tt">"entities"</span>, omis quand ils sont vides ou — pour les couches — quand la carte n'en porte qu'une, de rôle <span class="tt">Legacy</span>. Une case de couche porte son <span class="tt">type</span>, sa <span class="tt">piece</span> et sa hauteur (<span class="tt">elevation</span>) si elle en a.</li>
 <li>Les propriétés libres d'une couche ou d'une entité, y compris les clés que le chargeur n'a pas reconnues, sont réémises à côté des champs connus (<span class="tt">EX-LVL-018</span>).</li>
-<li><span class="tt">textureOverrides</span> (<span class="tt">EX-EDIT-043</span>) est émis sur la tuile racine de sa case, champ <span class="tt">"texture"</span>.</li>
+<li><span class="tt">forcedCollision</span> s'écrit dans <span class="tt">"forced"</span>, <span class="tt">nextEntityId</span> quand il ne vaut pas 1.</li>
+<li>Une <b>variante</b> (<span class="tt">base</span> non vide) ne s'écrit que par ce qu'elle déclare : nom, base, planche, compteur et entités.</li>
 </ul>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1081"></a>
+Écriture canonique (<span class="tt">LOT-EDITOR-12</span>)</h2>
+<p>Toujours la version courante, les champs dans l'ordre du format (<span class="tt">version</span>, <span class="tt">name</span>, …, les cases en dernier), deux espaces d'indentation, et <b>une case par ligne</b> dans les listes de cases (<span class="tt">tiles</span>, <span class="tt">forced</span>, <span class="tt">cells</span>) : poser une pièce change une ligne du diff. Charger puis écrire une carte v4 écrite ainsi rend le même fichier, octet pour octet — <span class="tt">LevelEditor
+--check</span> le vérifie sur toutes les cartes.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Composantes de la carte à sérialiser. </td></tr>

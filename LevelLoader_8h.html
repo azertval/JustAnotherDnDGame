@@ -96,6 +96,7 @@ $(function(){initNavTree('LevelLoader_8h.html','',''); });
 <p>Chargement d'un niveau depuis le format JSON (liste de tuiles-objets).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
@@ -127,13 +128,16 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a05ea747c9c1db8d4106f81293eec9bff">core::InvalidEntryCount</a>
 , <a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a2767828026039e8ba7b38973cbb701f2">core::FileNotFound</a>
 , <a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4">core::UnsupportedFormatVersion</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded">core::DuplicateEntityId</a>
+, <a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b">core::MissingBase</a>
 <br />
  }</td></tr>
 <tr class="memdesc:af2a63d18c9ef40479ebdc204e726e823"><td class="mdescLeft">&#160;</td><td class="mdescRight">Catégorie d'échec de chargement/validation d'un niveau (<span class="tt">EX-EDIT-012</span>).  <a href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a29f56cd5e629fb74668126bbf151066e">core::LEVEL_FORMAT_VERSION</a> = 3</td></tr>
+<tr class="memitem:a29f56cd5e629fb74668126bbf151066e" id="r_a29f56cd5e629fb74668126bbf151066e"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a29f56cd5e629fb74668126bbf151066e">core::LEVEL_FORMAT_VERSION</a> = 4</td></tr>
 <tr class="memdesc:a29f56cd5e629fb74668126bbf151066e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version courante du format de niveau JSON (<span class="tt">EX-LVL-005</span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>

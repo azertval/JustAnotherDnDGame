@@ -100,6 +100,7 @@ $(function(){initNavTree('structcore_1_1ScenePiece.html','','structcore_1_1Scene
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a3007113a2df28f76da5e67d11eeb1986" id="r_a3007113a2df28f76da5e67d11eeb1986"><td class="memItemLeft"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3007113a2df28f76da5e67d11eeb1986">footprint</a> () const noexcept</td></tr>
 <tr class="memitem:a1e1b67c75d3e7d3ab6b5c389ddb71308" id="r_a1e1b67c75d3e7d3ab6b5c389ddb71308"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1e1b67c75d3e7d3ab6b5c389ddb71308">operator==</a> (const <a class="el" href="structcore_1_1ScenePiece.html">ScenePiece</a> &amp;) const =default</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
@@ -124,10 +125,40 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a6457afd02a3b99e9a3eb45f1f486b112" id="r_a6457afd02a3b99e9a3eb45f1f486b112"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a6457afd02a3b99e9a3eb45f1f486b112">anchorY</a> = -1</td></tr>
 <tr class="memitem:a2edc0cbade8abd293671d037c45bd9a0" id="r_a2edc0cbade8abd293671d037c45bd9a0"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a2edc0cbade8abd293671d037c45bd9a0">mirrorOf</a></td></tr>
 <tr class="memdesc:a2edc0cbade8abd293671d037c45bd9a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom court de la pièce dont celle-ci est le miroir, vide sinon.  <br /></td></tr>
+<tr class="memitem:a9a5d01fa7da564a436751b3a588d2660" id="r_a9a5d01fa7da564a436751b3a588d2660"><td class="memItemLeft"><a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9a5d01fa7da564a436751b3a588d2660">tactical</a> = <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa">PieceTactical::Solid</a></td></tr>
+<tr class="memdesc:a9a5d01fa7da564a436751b3a588d2660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type tactique (<span class="tt"><a class="el" href="#a9a5d01fa7da564a436751b3a588d2660" title="Type tactique (tactical du manifeste).">tactical</a></span> du manifeste).  <br /></td></tr>
+<tr class="memitem:a4c40e2acdc88439674762e5402ba224d" id="r_a4c40e2acdc88439674762e5402ba224d"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4c40e2acdc88439674762e5402ba224d">aliases</a></td></tr>
+<tr class="memdesc:a4c40e2acdc88439674762e5402ba224d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Anciens noms courts sous lesquels une carte peut citer la pièce (<span class="tt"><a class="el" href="#a4c40e2acdc88439674762e5402ba224d" title="Anciens noms courts sous lesquels une carte peut citer la pièce (aliases).">aliases</a></span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Une pièce de la planche d'un lieu. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a3007113a2df28f76da5e67d11eeb1986" name="a3007113a2df28f76da5e67d11eeb1986"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3007113a2df28f76da5e67d11eeb1986">&#9670;&#160;</a></span>footprint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> core::ScenePiece::footprint </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'emprise de la pièce. </dd></dl>
+
+</div>
+</div>
 <a id="a1e1b67c75d3e7d3ab6b5c389ddb71308" name="a1e1b67c75d3e7d3ab6b5c389ddb71308"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1e1b67c75d3e7d3ab6b5c389ddb71308">&#9670;&#160;</a></span>operator==()</h2>
 
@@ -154,6 +185,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="a4c40e2acdc88439674762e5402ba224d" name="a4c40e2acdc88439674762e5402ba224d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c40e2acdc88439674762e5402ba224d">&#9670;&#160;</a></span>aliases</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; core::ScenePiece::aliases</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Anciens noms courts sous lesquels une carte peut citer la pièce (<span class="tt"><a class="el" href="#a4c40e2acdc88439674762e5402ba224d" title="Anciens noms courts sous lesquels une carte peut citer la pièce (aliases).">aliases</a></span>). </p>
+
+</div>
+</div>
 <a id="af94e3b5b0fabf10f5afc596e42d521c6" name="af94e3b5b0fabf10f5afc596e42d521c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af94e3b5b0fabf10f5afc596e42d521c6">&#9670;&#160;</a></span>anchorX</h2>
 
@@ -320,6 +367,23 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9a5d01fa7da564a436751b3a588d2660" name="a9a5d01fa7da564a436751b3a588d2660"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a5d01fa7da564a436751b3a588d2660">&#9670;&#160;</a></span>tactical</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252">PieceTactical</a> core::ScenePiece::tactical = <a class="el" href="namespacecore.html#a096c9cc059de39edb20ccea06d18f252ae41480b6bbfbf7407974a88d3d34f4fa">PieceTactical::Solid</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Type tactique (<span class="tt"><a class="el" href="#a9a5d01fa7da564a436751b3a588d2660" title="Type tactique (tactical du manifeste).">tactical</a></span> du manifeste). </p>
+<p>À défaut, un sol passe et une pièce debout arrête la vue : c'est ce que valent les murs, façades et portes que les planches livrent. </p>
 
 </div>
 </div>

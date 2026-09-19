@@ -15,11 +15,13 @@
 #pragma once
 
 #include &lt;cstdint&gt;
+#include &lt;map&gt;
 #include &lt;string&gt;
 #include &lt;string_view&gt;
 #include &lt;vector&gt;
 
 #include "Core/Levels/GridPosition.h"
+#include "Core/Levels/PieceFootprint.h"
 #include "Core/Math/Vector2.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/ScenePieces.h"
@@ -32,7 +34,7 @@
  * Le lieu et l'arÃ¨ne se dessinent par le **mÃªme** code : mÃªme projection isomÃ©trique
  * (`core::IsoProjection`), mÃªmes planches de l'atelier des textures (`LOT-92`, `ScenePieces.h`),
  * mÃªme tri par profondeur. Ce qui change est la **source** : l'arÃ¨ne lit une grille de combat, le
- * lieu lit une carte (`core::Level`) â ses couches, ses assignations de texture, ses entitÃ©s.
+ * lieu lit une carte (`core::Level`) â ses couches, les piÃ¨ces qu'elles nomment, ses entitÃ©s.
  *
  * ## Ce qui va oÃ¹
  *
@@ -55,7 +57,6 @@ class Level;
 class TileMap;
 struct MapEntity;
 struct TileLayer;
-struct TileTextureOverride;
 }  // namespace core
 
 namespace hmi {
@@ -104,7 +105,8 @@ struct WorldFigureSnapshot {
  * @brief Le lieu **en valeurs** : ce que la composition lit, et rien d'autre.
  *
  * `floors` et `relief` portent une entrÃ©e par case, ligne par ligne : le **nom** de la piÃ¨ce de la
- * planche du lieu, vide si la case ne dessine rien.
+ * planche du lieu, vide si la case ne dessine rien. `footprints` donne l'emprise des piÃ¨ces de
+ * relief plus grandes qu'une case : la composition les trie au pied de leur emprise.
  */
 struct WorldSceneSnapshot {
     int columns = 0;
@@ -113,6 +115,7 @@ struct WorldSceneSnapshot {
     std::string place;
     std::vector&lt;std::string&gt; floors;
     std::vector&lt;std::string&gt; relief;
+    std::map&lt;std::string, core::PieceFootprint, std::less&lt;&gt;&gt; footprints;
     std::vector&lt;WorldFigureSnapshot&gt; figures;
 
     /// @return Le nom de la piÃ¨ce de sol de @p cell, vide hors grille ou sans piÃ¨ce.
@@ -124,8 +127,7 @@ struct WorldSceneSnapshot {
 };
 
 /**
- * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de
- *        texture et ses entitÃ©s.
+ * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches et ses entitÃ©s.
  *
  * Le jeu compose une `core::Level` validÃ©e ; l'Ã©diteur compose son brouillon (`core::LevelDraft`),
  * qui n'est pas toujours valide â une carte en cours de tracÃ© l'est rarement. Les deux exposent les
@@ -136,10 +138,9 @@ struct WorldSceneSnapshot {
 struct WorldSceneSource {
     /// La grille racine : la collision, et le sol d'une carte sans couche visuelle.
     const core::TileMap&amp; root;
-    /// Les couches : la premiÃ¨re de sol donne le sol, la premiÃ¨re de dÃ©cor le relief.
+    /// Les couches : la premiÃ¨re de sol donne le sol, la premiÃ¨re de dÃ©cor le relief ; la piÃ¨ce
+    /// qu'une case nomme l'emporte sur la table du lieu.
     const std::vector&lt;core::TileLayer&gt;&amp; layers;
-    /// Les piÃ¨ces nommÃ©es Ã  la case, qui l'emportent sur la table du lieu pour le relief.
-    const std::vector&lt;core::TileTextureOverride&gt;&amp; textureOverrides;
     /// Les entitÃ©s : leurs figurines, pour qui en compose (`npcFigures`).
     const std::vector&lt;core::MapEntity&gt;&amp; entities;
 };
@@ -147,10 +148,8 @@ struct WorldSceneSource {
 /// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
 template &lt;class Map&gt;
 <span style = "background-color:#dfd">[[nodiscard]] WorldSceneSource worldSceneSource(const Map&amp; map) {
-    return WorldSceneSource{.root = map.tileMap(),</span>
-                            .layers = map.layers(),
-                            .textureOverrides = map.textureOverrides(),
-                            .entities = map.entities()};
+    return WorldSceneSource{</span>
+        .root = map.tileMap(), .layers = map.layers(), .entities = map.entities()};
 <span style = "background-color:#dfd">}</span>
 
 /// @return Le lieu que dÃ©clarent @p layers (propriÃ©tÃ© de couche `scene`), vide sinon.
@@ -174,8 +173,8 @@ template &lt;class Map&gt;
  * @brief Tire de @p level l'instantanÃ© que la composition dessine.
  *
  * Le sol vient de la couche **visuelle de sol** (`core::LayerKind::Ground`, Ã  dÃ©faut la grille
- * racine), traduit par @p appearance ; le relief de la couche **dÃ©cor**, oÃ¹ une assignation de
- * texture Ã  la case (`core::TileTextureOverride`) l'emporte sur la table du lieu.
+ * racine), le relief de la couche **dÃ©cor** : la piÃ¨ce que la case nomme (sous son nom courant,
+ * `hmi::PlaceAppearance::canonicalPiece`), Ã  dÃ©faut celle que la table du lieu donne Ã  son type.
  *
  * @param source     La carte, lue seulement.
  * @param appearance La table du lieu.

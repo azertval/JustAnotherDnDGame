@@ -131,6 +131,14 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Visibilité et opacité des couches <b>dans l'éditeur</b> — une aide d'édition, jamais une propriété de la carte : rien n'est annulable, rien n'est enregistré (même statut que <span class="tt">hmi::PlaneVisibility</span>).  <a href="classhmi_1_1LayerViewState.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LevelFileOperations" id="r_LevelFileOperations"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1LevelFileOperations.html">LevelFileOperations</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opérations sur les fichiers de niveaux d'un dossier, <b>sans dépendance Qt/GPU</b>.  <a href="classhmi_1_1LevelFileOperations.html#details">More...</a><br /></td></tr>
+<tr class="memitem:PlaceAssets" id="r_PlaceAssets"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que le lieu d'une carte apporte : son manifeste et sa table, s'ils existent.  <a href="structhmi_1_1PlaceAssets.html#details">More...</a><br /></td></tr>
+<tr class="memitem:MapCheckFinding" id="r_MapCheckFinding"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un constat du contrôle, sur une carte, et parfois sur une case.  <a href="structhmi_1_1MapCheckFinding.html#details">More...</a><br /></td></tr>
+<tr class="memitem:MapCheckReport" id="r_MapCheckReport"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MapCheckReport.html">MapCheckReport</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le bilan du contrôle de toutes les cartes.  <a href="structhmi_1_1MapCheckReport.html#details">More...</a><br /></td></tr>
+<tr class="memitem:MapMigration" id="r_MapMigration"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la migration d'une carte a produit.  <a href="structhmi_1_1MapMigration.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PanelFocusEntry" id="r_PanelFocusEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1PanelFocusEntry.html">PanelFocusEntry</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une entrée de la table : l'outil <code class="param">tool</code> met en avant le panneau <code class="param">panel</code>.  <a href="structhmi_1_1PanelFocusEntry.html#details">More...</a><br /></td></tr>
 <tr class="memitem:TileEntry" id="r_TileEntry"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1TileEntry.html">TileEntry</a></td></tr>
@@ -283,7 +291,7 @@ Classes</h2></td></tr>
 <tr class="memitem:WorldSceneSnapshot" id="r_WorldSceneSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le lieu <b>en valeurs</b> : ce que la composition lit, et rien d'autre.  <a href="structhmi_1_1WorldSceneSnapshot.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WorldSceneSource" id="r_WorldSceneSource"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1WorldSceneSource.html">WorldSceneSource</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de texture et ses entités.  <a href="structhmi_1_1WorldSceneSource.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la composition lit d'une carte : sa grille racine, ses couches et ses entités.  <a href="structhmi_1_1WorldSceneSource.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WorldSceneRenderer" id="r_WorldSceneRenderer"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1WorldSceneRenderer.html">WorldSceneRenderer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui dessine un lieu : ressources GPU, textures des planches, et la passe qui soumet la scène composée.  <a href="classhmi_1_1WorldSceneRenderer.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ButtonRepeat" id="r_ButtonRepeat"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1ButtonRepeat.html">ButtonRepeat</a></td></tr>
@@ -452,6 +460,10 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="memdesc:a406a41b256977e2be0da3b64f976cce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que l'outil « Entité » fait d'un clic ou d'un glisser.  <a href="#a406a41b256977e2be0da3b64f976cce1">More...</a><br /></td></tr>
+<tr class="memitem:a89e7b964e1125a35414c9694fad4fd64" id="r_a89e7b964e1125a35414c9694fad4fd64"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a89e7b964e1125a35414c9694fad4fd64">MapCheckSeverity</a> { <a class="el" href="#a89e7b964e1125a35414c9694fad4fd64a902b0d55fddef6f8d651fe1035b7d4bd">Error</a>
+, <a class="el" href="#a89e7b964e1125a35414c9694fad4fd64a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>
+ }</td></tr>
+<tr class="memdesc:a89e7b964e1125a35414c9694fad4fd64"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gravité d'un constat du contrôle.  <a href="#a89e7b964e1125a35414c9694fad4fd64">More...</a><br /></td></tr>
 <tr class="memitem:aaa32928dac1bf321cd65435b9a0b0726" id="r_aaa32928dac1bf321cd65435b9a0b0726"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> { <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a278f9a3d3077c522e71022e302b9e0e4">Palette</a>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a91aedca00492a5fba2c282abec5626f3">Levels</a>
 , <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726a87bfda183c4f851a101e97bbb1bbace7">Layers</a>
@@ -753,6 +765,18 @@ Functions</h2></td></tr>
 <tr class="memdesc:abf93f3d263fe7268a624a8a96566a89e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indique si <code class="param">name</code> peut servir de nom de niveau (donc de nom de fichier Windows).  <br /></td></tr>
 <tr class="memitem:acb440eec2a1a3d3cc760795b9875ae8e" id="r_acb440eec2a1a3d3cc760795b9875ae8e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#acb440eec2a1a3d3cc760795b9875ae8e">trimLevelName</a> (const std::string &amp;name)</td></tr>
 <tr class="memdesc:acb440eec2a1a3d3cc760795b9875ae8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire les espaces de bord de <code class="param">name</code> (le nom réellement utilisé une fois confirmé).  <br /></td></tr>
+<tr class="memitem:a5b2225206c785643e614da4760a74f95" id="r_a5b2225206c785643e614da4760a74f95"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5b2225206c785643e614da4760a74f95">loadPlaceAssets</a> (const std::filesystem::path &amp;dataRoot, std::string_view place)</td></tr>
+<tr class="memitem:ae7b3f6f5d7f2751645dc12ed67e74af8" id="r_ae7b3f6f5d7f2751645dc12ed67e74af8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae7b3f6f5d7f2751645dc12ed67e74af8">formatFinding</a> (const <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &amp;finding)</td></tr>
+<tr class="memitem:a42fc6546d215eea2d52d55f917655fd4" id="r_a42fc6546d215eea2d52d55f917655fd4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a42fc6546d215eea2d52d55f917655fd4">checkMapFile</a> (std::string_view mapId, const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
+<tr class="memdesc:a42fc6546d215eea2d52d55f917655fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contrôle une carte, lue depuis son fichier.  <br /></td></tr>
+<tr class="memitem:a6e21da09e85978f4e71f38116267e04a" id="r_a6e21da09e85978f4e71f38116267e04a"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapCheckReport.html">MapCheckReport</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6e21da09e85978f4e71f38116267e04a">checkAllMaps</a> (const std::filesystem::path &amp;dataRoot)</td></tr>
+<tr class="memdesc:a6e21da09e85978f4e71f38116267e04a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contrôle toutes les cartes de <span class="tt">&lt;dataRoot&gt;/Levels</span>, sous-dossiers compris, puis les références entre elles.  <br /></td></tr>
+<tr class="memitem:a1644ea52edad99de10786aa95605fb5b" id="r_a1644ea52edad99de10786aa95605fb5b"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1644ea52edad99de10786aa95605fb5b">migrateLevel</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level, const <a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a> &amp;assets)</td></tr>
+<tr class="memdesc:a1644ea52edad99de10786aa95605fb5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Migre une carte chargée (étapes 2 à 5 de l'en-tête).  <br /></td></tr>
+<tr class="memitem:a856d281d19a2bb61819bed1b54cd3eb1" id="r_a856d281d19a2bb61819bed1b54cd3eb1"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a>&#160;</td><td class="memItemRight"><a class="el" href="#a856d281d19a2bb61819bed1b54cd3eb1">migrateMapFile</a> (const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
+<tr class="memdesc:a856d281d19a2bb61819bed1b54cd3eb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit <code class="param">file</code> et le migre, le lieu étant cherché sous <code class="param">dataRoot</code>.  <br /></td></tr>
+<tr class="memitem:a75e0715b710f1ffbe1d6392719cb07c2" id="r_a75e0715b710f1ffbe1d6392719cb07c2"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a75e0715b710f1ffbe1d6392719cb07c2">runMapCommand</a> (const std::vector&lt; std::string &gt; &amp;arguments, const std::filesystem::path &amp;defaultDataRoot, std::string &amp;output)</td></tr>
+<tr class="memdesc:a75e0715b710f1ffbe1d6392719cb07c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span> et <span class="tt">--migrate</span>.  <br /></td></tr>
 <tr class="memitem:ad532ff719e53686ef85d80516e85089e" id="r_ad532ff719e53686ef85d80516e85089e"><td class="memItemLeft">const std::array&lt; <a class="el" href="structhmi_1_1PanelFocusEntry.html">PanelFocusEntry</a>, <a class="el" href="#aa22d8fa67dd7b945de1a25413ef6532e">PANEL_FOCUS_CATALOG_COUNT</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad532ff719e53686ef85d80516e85089e">panelFocusCatalog</a> ()</td></tr>
 <tr class="memitem:a581615846aad015aff0e0a17e4f997c4" id="r_a581615846aad015aff0e0a17e4f997c4"><td class="memItemLeft">std::optional&lt; <a class="el" href="#aaa32928dac1bf321cd65435b9a0b0726">PanelId</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a581615846aad015aff0e0a17e4f997c4">panelForTool</a> (<a class="el" href="#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> tool)</td></tr>
 <tr class="memitem:a8158375fa940021f6bb346e7c2b09247" id="r_a8158375fa940021f6bb346e7c2b09247"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a8158375fa940021f6bb346e7c2b09247">thumbnailPixelSize</a> (int logicalSize, double scaleFactor) noexcept</td></tr>
@@ -1689,6 +1713,34 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a83c98e56e30eafa606048853f7962e48ae1dffc8709f31a4987c8a88334107e89" name="a83c98e56e30eafa606048853f7962e48ae1dffc8709f31a4987c8a88334107e89"></a>F1&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a83c98e56e30eafa606048853f7962e48afe5c3684dce76cdd9f7f42430868aa74" name="a83c98e56e30eafa606048853f7962e48afe5c3684dce76cdd9f7f42430868aa74"></a>F2&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a83c98e56e30eafa606048853f7962e48ab213ce22ca6ad4eda8db82966b9b6e5a" name="a83c98e56e30eafa606048853f7962e48ab213ce22ca6ad4eda8db82966b9b6e5a"></a>F10&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<a id="a89e7b964e1125a35414c9694fad4fd64" name="a89e7b964e1125a35414c9694fad4fd64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89e7b964e1125a35414c9694fad4fd64">&#9670;&#160;</a></span>MapCheckSeverity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a89e7b964e1125a35414c9694fad4fd64">hmi::MapCheckSeverity</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gravité d'un constat du contrôle. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a89e7b964e1125a35414c9694fad4fd64a902b0d55fddef6f8d651fe1035b7d4bd" name="a89e7b964e1125a35414c9694fad4fd64a902b0d55fddef6f8d651fe1035b7d4bd"></a>Error&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a89e7b964e1125a35414c9694fad4fd64a0eaadb4fcb48a0a0ed7bc9868be9fbaa" name="a89e7b964e1125a35414c9694fad4fd64a0eaadb4fcb48a0a0ed7bc9868be9fbaa"></a>Warning&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -2701,6 +2753,77 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Les valeurs de la fiche, prêtes à être posées par <span class="tt">hmi::RpgScreenFrame::setValues</span>. Un contexte incomplet (fiche absente) rend une table <b>vide</b>, jamais des zéros : l'écran garde alors ses tirets, ce qui est la vérité. </dd></dl>
+
+</div>
+</div>
+<a id="a6e21da09e85978f4e71f38116267e04a" name="a6e21da09e85978f4e71f38116267e04a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e21da09e85978f4e71f38116267e04a">&#9670;&#160;</a></span>checkAllMaps()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1MapCheckReport.html">MapCheckReport</a> hmi::checkAllMaps </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contrôle toutes les cartes de <span class="tt">&lt;dataRoot&gt;/Levels</span>, sous-dossiers compris, puis les références entre elles. </p>
+
+</div>
+</div>
+<a id="a42fc6546d215eea2d52d55f917655fd4" name="a42fc6546d215eea2d52d55f917655fd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42fc6546d215eea2d52d55f917655fd4">&#9670;&#160;</a></span>checkMapFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &gt; hmi::checkMapFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>mapId</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Contrôle une carte, lue depuis son fichier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mapId</td><td>Son identifiant (<span class="tt">capital/martpart</span>), pour les messages. </td></tr>
+    <tr><td class="paramname">file</td><td>Son fichier. </td></tr>
+    <tr><td class="paramname">dataRoot</td><td>La racine des données (<span class="tt">Source/Elements</span>), où vivent les planches. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -3843,6 +3966,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ae7b3f6f5d7f2751645dc12ed67e74af8" name="ae7b3f6f5d7f2751645dc12ed67e74af8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7b3f6f5d7f2751645dc12ed67e74af8">&#9670;&#160;</a></span>formatFinding()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::formatFinding </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>finding</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le constat en une ligne : <span class="tt">capital/martpart (12, 3): error: …</span>. </dd></dl>
+
+</div>
+</div>
 <a id="aabc578b802bb386e63d830e168140fe7" name="aabc578b802bb386e63d830e168140fe7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aabc578b802bb386e63d830e168140fe7">&#9670;&#160;</a></span>formatSceneStatistics()</h2>
 
@@ -4609,6 +4758,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a5b2225206c785643e614da4760a74f95" name="a5b2225206c785643e614da4760a74f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b2225206c785643e614da4760a74f95">&#9670;&#160;</a></span>loadPlaceAssets()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a> hmi::loadPlaceAssets </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>place</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le manifeste et la table du lieu <code class="param">place</code>, lus dans <span class="tt">&lt;dataRoot&gt;/Assets/Scene/&lt;place&gt;/</span>. </dd></dl>
+
+</div>
+</div>
 <a id="a9821e11a6df2a1d3415b00f423657686" name="a9821e11a6df2a1d3415b00f423657686"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9821e11a6df2a1d3415b00f423657686">&#9670;&#160;</a></span>loadTextureFromFile()</h2>
 
@@ -4673,6 +4852,75 @@ Variables</h2></td></tr>
 
 <p>Les pixels d'un marqueur au format que <span class="tt"><a class="el" href="#a4e6bdeca2a66b069fe3b093ee6670f0e" title="Crée une texture GPU à partir de pixels RGBA déjà décodés.">hmi::createTexture</a></span> attend : un <span class="tt">std::uint32_t</span> par pixel, <span class="tt">R | G&lt;&lt;8 | B&lt;&lt;16 | A&lt;&lt;24</span> (RGBA8 petit-boutiste), ligne par ligne depuis le haut. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">width * height</span> pixels, ou un vecteur vide pour une image vide. </dd></dl>
+
+</div>
+</div>
+<a id="a1644ea52edad99de10786aa95605fb5b" name="a1644ea52edad99de10786aa95605fb5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1644ea52edad99de10786aa95605fb5b">&#9670;&#160;</a></span>migrateLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a> hmi::migrateLevel </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>assets</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Migre une carte chargée (étapes 2 à 5 de l'en-tête). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td>La carte, toutes versions confondues. </td></tr>
+    <tr><td class="paramname">assets</td><td>Le manifeste et la table de son lieu (vides pour une carte sans lieu). </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a856d281d19a2bb61819bed1b54cd3eb1" name="a856d281d19a2bb61819bed1b54cd3eb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a856d281d19a2bb61819bed1b54cd3eb1">&#9670;&#160;</a></span>migrateMapFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a> hmi::migrateMapFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit <code class="param">file</code> et le migre, le lieu étant cherché sous <code class="param">dataRoot</code>. </p>
 
 </div>
 </div>
@@ -5655,7 +5903,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1123"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1140"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -5667,6 +5915,48 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le libellé traduit ; la <b>clé elle-même</b> si le catalogue ne la porte pas — jamais une chaîne vide, qui donnerait un écran troué sans dire pourquoi. </dd></dl>
+
+</div>
+</div>
+<a id="a75e0715b710f1ffbe1d6392719cb07c2" name="a75e0715b710f1ffbe1d6392719cb07c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75e0715b710f1ffbe1d6392719cb07c2">&#9670;&#160;</a></span>runMapCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; int &gt; hmi::runMapCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>arguments</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>defaultDataRoot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>output</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span> et <span class="tt">--migrate</span>. </p>
+<ul>
+<li><span class="tt">--data &lt;racine&gt;</span> : la racine des données, <span class="tt">Source/Elements</span> ou le dossier de l'exécutable (défaut : <code class="param">defaultDataRoot</code>) ;</li>
+<li><span class="tt">--check</span> : contrôle toutes les cartes ; sortie 1 à la première erreur, 0 sinon ;</li>
+<li><span class="tt">--migrate [carte…]</span> : migre en place les cartes nommées (identifiant ou chemin), toutes à défaut ; <span class="tt">--output &lt;fichier&gt;</span> écrit ailleurs une carte unique.</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Le code de sortie, ou <span class="tt">std::nullopt</span> si la ligne de commande ne demande ni l'un ni l'autre — l'éditeur ouvre alors sa fenêtre. </dd></dl>
 
 </div>
 </div>
@@ -5935,7 +6225,7 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </div><div class="memdoc">
 
 <p>Tire de <code class="param">level</code> l'instantané que la composition dessine. </p>
-<p>Le sol vient de la couche <b>visuelle de sol</b> (<span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>, à défaut la grille racine), traduit par <code class="param">appearance</code> ; le relief de la couche <b>décor</b>, où une assignation de texture à la case (<span class="tt"><a class="el" href="structcore_1_1TileTextureOverride.html" title="Pièce de la planche du lieu assignée explicitement à une case précise, prioritaire sur la table d&#39;app...">core::TileTextureOverride</a></span>) l'emporte sur la table du lieu.</p>
+<p>Le sol vient de la couche <b>visuelle de sol</b> (<span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>, à défaut la grille racine), le relief de la couche <b>décor</b> : la pièce que la case nomme (sous son nom courant, <span class="tt"><a class="el" href="classhmi_1_1PlaceAppearance.html#acbb59fa899535efdd3dfaae9e54caed7">hmi::PlaceAppearance::canonicalPiece</a></span>), à défaut celle que la table du lieu donne à son type.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">source</td><td>La carte, lue seulement. </td></tr>

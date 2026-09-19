@@ -93,7 +93,7 @@ $(function(){initNavTree('fuzz__level_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Cible libFuzzer de <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89" title="Charge un niveau depuis une chaîne JSON.">core::LevelLoader::loadFromString</a></span>.  
+<p>Cible libFuzzer de <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">core::LevelLoader::loadFromString</a></span>.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
@@ -106,9 +106,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a711a7a667e5bd1cf25e37770e35f4206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Point d'entrée appelé par libFuzzer pour chaque entrée générée.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Cible libFuzzer de <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4976f03515627ad9fc7bb6f29445df89" title="Charge un niveau depuis une chaîne JSON.">core::LevelLoader::loadFromString</a></span>. </p>
+<div class="textblock"><p>Cible libFuzzer de <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">core::LevelLoader::loadFromString</a></span>. </p>
 <p>Le lecteur de niveaux : le plus gros lecteur du dépôt, qui dimensionne une carte d'après le fichier et n'attrape que les exceptions de nlohmann.</p>
-<p>Le lecteur promet de rendre une erreur décrite, jamais de lever : toute exception qui s'échappe, lecture hors bornes ou allocation démesurée est un défaut que le job <span class="tt">fuzz</span> de nuit rapporte avec l'entrée qui le reproduit. Rejouer une entrée : <span class="tt">fuzz_level.exe crash-&lt;empreinte&gt;</span>. </p>
+<p>Le lecteur promet de rendre une erreur décrite, jamais de lever : toute exception qui s'échappe, lecture hors bornes ou allocation démesurée est un défaut que le job <span class="tt">fuzz</span> de nuit rapporte avec l'entrée qui le reproduit. Rejouer une entrée : <span class="tt">fuzz_level.exe crash-&lt;empreinte&gt;</span>.</p>
+<p>Depuis le format v4 (<span class="tt">LOT-EDITOR-12</span>), une entrée peut être une <b>variante</b> : sa base se résout vers une petite carte fixe, pour que le chemin des variantes soit parcouru comme les autres. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
 <a id="a711a7a667e5bd1cf25e37770e35f4206" name="a711a7a667e5bd1cf25e37770e35f4206"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a711a7a667e5bd1cf25e37770e35f4206">&#9670;&#160;</a></span>LLVMFuzzerTestOneInput()</h2>

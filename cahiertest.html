@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>758 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>784 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Tests unitaires (755)</h1>
+Tests unitaires (781)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,179 @@ Vérifie que <span class="tt">drapeaux.isSet("donjon/chest@1,1")</span> est faux
 Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">2U</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
-Levels (83)</h3>
+Levels (100)</h3>
+<p><b><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">test_format_v4.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneCarteDeChaqueVersionSeCharge</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:107</span></sub>  </td><td class="markdownTableBodyNone">Une carte de chaque version se charge.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">format-v0.json</span> à <span class="tt">format-v4.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.entry()</span> vaut <span class="tt">(GridPosition{0, 0})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneV4CanoniqueRessortOctetPourOctet</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:125</span></sub>  </td><td class="markdownTableBodyNone">Une v4 canonique ressort octet pour octet.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">format-v4.json</span>.<br  />
+2. L'écrire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::LevelWriter::toJsonString(chargerFichier(path))</span> vaut <span class="tt">lire(path)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneV3RessortEnV4EtSeStabilise</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:140</span></sub>  </td><td class="markdownTableBodyNone">Une v3 ressort en v4, et se stabilise.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">format-v3.json</span> et l'écrire.<br  />
+2. Relire et réécrire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premiere.find("\\"version\\\\": 4\")&lt;/tt&gt; diffère de &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;premiere.find(R\"({\"x\": 3, \"y\": 0, \"type\": \"wall\", \"piece\": \"wall-left\"})\")&lt;/tt&gt; diffère de &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;premiere.find(\"texture\")</span> vaut <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">core::LevelWriter::toJsonString(charger(premiere))</span> vaut <span class="tt">premiere</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.LaReserveDeHauteurSurvitALAllerRetour</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:161</span></sub>  </td><td class="markdownTableBodyNone">La réserve de hauteur survit à l'aller-retour.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">format-v4.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.layers()[2].floor</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">level.layers()[1].elevationAt(2, 1)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">level.entities().front().elevation</span> vaut <span class="tt">2</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.DeuxEntitesDuMemeIdSontRefusees</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:180</span></sub>  </td><td class="markdownTableBodyNone">Deux entités du même id sont refusées.  </td><td class="markdownTableBodyNone">1. Charger une carte dont deux entités portent <span class="tt">e1</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a53820fd4c1e3f6efc92bd098c3ac3ded" title="Deux entités portent le même id (format v4, décision D8).">core::LevelValidationError::DuplicateEntityId</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UnIdentifiantDonneNEstJamaisRedonne</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:200</span></sub>  </td><td class="markdownTableBodyNone">Un identifiant donné n'est jamais redonné.  </td><td class="markdownTableBodyNone">1. Poser un coffre dans <span class="tt">format-v4.json</span> (compteur à 4).<br  />
+2. Annuler, poser un autre coffre.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">premier.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities()[*premier].id</span> vaut <span class="tt">"e4"</span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">second.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.entities()[*second].id</span> vaut <span class="tt">"e5"</span>.<br  />
+Vérifie que <span class="tt">draft.toJson().find("\\"nextEntityId\\\\": 6\")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UnIdENSeLitEtSEcrit</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:226</span></sub>  </td><td class="markdownTableBodyNone">Un id e&lt;n&gt; se lit et s'écrit.  </td><td class="markdownTableBodyNone">1. Écrire et relire <span class="tt">e12</span>, puis lire <span class="tt">herald</span> et <span class="tt">e</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::entityIdFor(12)</span> vaut <span class="tt">"e12"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa14dee2fbf0162c6a5ee07fd6579c500">core::entityIdNumber</a>("e12")</span> vaut <span class="tt">12</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa14dee2fbf0162c6a5ee07fd6579c500">core::entityIdNumber</a>("herald").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa14dee2fbf0162c6a5ee07fd6579c500">core::entityIdNumber</a>("e").has_value()</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#aa14dee2fbf0162c6a5ee07fd6579c500">core::entityIdNumber</a>("e1x").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.LesCasesForceesSeRangentSansDoublon</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:243</span></sub>  </td><td class="markdownTableBodyNone">Les cases forcées se rangent sans doublon.  </td><td class="markdownTableBodyNone">1. Charger des cases forcées en désordre, dont un doublon.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.forcedCollision()</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{1, 0}, {0, 1}})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneCaseForceeHorsCarteEstRefusee</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:261</span></sub>  </td><td class="markdownTableBodyNone">Une case forcée hors carte est refusée.  </td><td class="markdownTableBodyNone">1. Charger une case forcée en (5, 5) sur une carte 2 × 2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f" title="Tuile positionnée hors des dimensions déclarées.">core::LevelValidationError::OutOfBounds</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneVarianteReprendLesCasesDeSaBase</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:282</span></sub>  </td><td class="markdownTableBodyNone">Une variante reprend les cases de sa base.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">variante/quartier/nuit.json</span>, variante de <span class="tt">base</span>.<br  />
+2. La réécrire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">variante.base()</span> vaut <span class="tt">"base"</span>.<br  />
+Vérifie que <span class="tt">variante.tileMap().width()</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">variante.tileMap().tile(2, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">variante.entry()</span> vaut <span class="tt">base.entry()</span>.<br  />
+Vérifie que <span class="tt">variante.entities().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">variante.entities().front().type</span> vaut <span class="tt">"spawnPoint"</span>.<br  />
+Vérifie que <span class="tt">scene</span> diffère de <span class="tt">variante.layers()[1].properties.end()</span>.<br  />
+Vérifie que <span class="tt">std::get&lt;std::string&gt;(scene-&gt;second)</span> vaut <span class="tt">"coliseum-doom"</span>.<br  />
+Vérifie que <span class="tt">variante.layers()[1].pieceAt(1, 0)</span> vaut <span class="tt">"sand-2"</span>.<br  />
+Vérifie que <span class="tt">core::LevelWriter::toJsonString(variante)</span> vaut <span class="tt">lire(path)</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneVarianteSansBaseEstRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:311</span></sub>  </td><td class="markdownTableBodyNone">Une variante sans base est refusée.  </td><td class="markdownTableBodyNone">1. Charger la variante depuis une chaîne, sans résolveur.<br  />
+2. Déclarer une base introuvable depuis un fichier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::LevelLoader::loadFromString(texte).errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b" title="Variante dont la base est introuvable, ou elle-même variante.">core::LevelValidationError::MissingBase</a></span>.<br  />
+Vérifie que <span class="tt">sansBase.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ac47d91983ec7eede11379d041ecaac1b" title="Variante dont la base est introuvable, ou elle-même variante.">core::LevelValidationError::MissingBase</a></span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneVarianteQuiPorteDesCasesEstRefusee</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:332</span></sub>  </td><td class="markdownTableBodyNone">Une variante qui porte des cases est refusée.  </td><td class="markdownTableBodyNone">1. Charger une variante qui déclare <span class="tt">tiles</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, champ obligatoire manquant, ou de mauvais type.">core::LevelValidationError::ParseError</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneZonePeinteEstLueParLaGrilleTactique</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:353</span></sub>  </td><td class="markdownTableBodyNone">Une zone peinte est lue par la grille tactique.  </td><td class="markdownTableBodyNone">1. Charger <span class="tt">format-v4.json</span> (zone peinte en (1, 1) et (2, 2)).<br  />
+2. Construire sa <span class="tt">BattleGrid</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">porteLaZone({1, 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">porteLaZone({2, 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">porteLaZone({2, 1})</span> est faux.<br  />
+Vérifie que <span class="tt">grid.isDifficult({2, 2})</span> est vrai.<br  />
+Vérifie que <span class="tt">grid.isDifficult({2, 1})</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneZoneRectangleCouvreSonRectangle</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:379</span></sub>  </td><td class="markdownTableBodyNone">Une zone rectangle couvre son rectangle.  </td><td class="markdownTableBodyNone">1. Demander les cases d'une zone 2 × 1 en (1, 0).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::zoneCells(zone)</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{1, 0}, {2, 0}})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.UneEmpriseSEtendDepuisSonAncre</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:400</span></sub>  </td><td class="markdownTableBodyNone">Une emprise s'étend depuis son ancre.  </td><td class="markdownTableBodyNone">1. Demander les cases et le pied d'une emprise 2 × 1 ancrée en (3, 4).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ae5ef43ac4990d56ddac5719dd23eb279">core::footprintCells</a>({3, 4}, etal)</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{3, 4}, {4, 4}})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad7128ed31a6cefa3183c61467c636053">core::footprintFootCorner</a>({3, 4}, etal)</span> vaut <span class="tt">(GridPosition{5, 5})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacecore.html#ad7128ed31a6cefa3183c61467c636053">core::footprintFootCorner</a>({3, 4}, {})</span> vaut <span class="tt">(GridPosition{4, 5})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.LeManifesteDitCeQuUnePieceOppose</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:419</span></sub>  </td><td class="markdownTableBodyNone">Le manifeste dit ce qu'une pièce oppose.  </td><td class="markdownTableBodyNone">1. Lire le manifeste d'essai.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">pieces.find("street")-&gt;tactical</span> vaut <span class="tt">PieceTactical::Open</span>.<br  />
+Vérifie que <span class="tt">pieces.find("wall-left")-&gt;tactical</span> vaut <span class="tt">PieceTactical::Solid</span>.<br  />
+Vérifie que <span class="tt">pieces.find("bench")-&gt;tactical</span> vaut <span class="tt">PieceTactical::Open</span>.<br  />
+Vérifie que <span class="tt">pieces.find("stall")-&gt;tactical</span> vaut <span class="tt">PieceTactical::Obstacle</span>.<br  />
+Vérifie que <span class="tt">pieces.find("odd")-&gt;tactical</span> vaut <span class="tt">PieceTactical::Solid</span>.<br  />
+Vérifie que <span class="tt">pieces.find("low-wall")</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">pieces.find("low-wall")-&gt;name</span> vaut <span class="tt">"parapet"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.LaCollisionSeDeduitDesPieces</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:442</span></sub>  </td><td class="markdownTableBodyNone">La collision se déduit des pièces.  </td><td class="markdownTableBodyNone">1. Poser un étal 2 × 1 en (0, 0), un mur en (3, 0), un banc en (2, 0).<br  />
+2. Déduire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">derivee.collision.tile(0, 0)</span> vaut <span class="tt">TileType::Cliff</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(1, 0)</span> vaut <span class="tt">TileType::Cliff</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(2, 0)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(3, 0)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(column, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">derivee.unknownPieces.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">derivee.unplayed.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>FormatV4Test.TypesPiecesInconnuesGeneEtAbri</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:475</span></sub>  </td><td class="markdownTableBodyNone">Types, pièces inconnues, gêne et abri.  </td><td class="markdownTableBodyNone">1. Poser de l'eau profonde sans pièce, une pièce inconnue sur un mur, une flaque, un muret par son ancien nom.<br  />
+2. Déduire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">derivee.collision.tile(0, 1)</span> vaut <span class="tt">TileType::Cliff</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(1, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(2, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">derivee.collision.tile(3, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">derivee.unknownPieces</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{1, 1}})</span>.<br  />
+Vérifie que <span class="tt">derivee.unplayed</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{2, 1}, {3, 1}})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>FormatV4Test.LEntreeSAccordeAvecUneCaseVide</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">Source/Test/Unit/Core/Levels/test_format_v4.cpp</a>:505</span></sub>  </td><td class="markdownTableBodyNone">L'entrée s'accorde avec une case vide.  </td><td class="markdownTableBodyNone">1. Comparer une entrée à du vide, un mur à du vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">core::collisionAgrees(ecrite, deduite, 0, 0)</span> est vrai.<br  />
+Vérifie que <span class="tt">core::collisionAgrees(ecrite, deduite, 1, 0)</span> est faux.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">test_layer_pieces.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UneCaseDeCouchePorteSonTypeEtSaPiece</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:51</span></sub>  </td><td class="markdownTableBodyNone">Une case de couche porte son type et sa pièce.  </td><td class="markdownTableBodyNone">1. Charger une carte v4 dont le décor nomme une pièce.<br  />
+2. Lire la case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.layers().size()</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">level.layers()[1].pieceAt(0, 0)</span> vaut <span class="tt">"street"</span>.<br  />
+Vérifie que <span class="tt">level.layers()[DECOR].tiles.tile(1, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">level.layers()[DECOR].pieceAt(1, 1)</span> vaut <span class="tt">"wall-red"</span>.<br  />
+Vérifie que <span class="tt">level.layers()[DECOR].pieceAt(2, 2).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.LAssignationDUneCarteV3DevientUnePieceDuDecor</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:71</span></sub>  </td><td class="markdownTableBodyNone">L'assignation d'une carte v3 devient une pièce du décor.  </td><td class="markdownTableBodyNone">1. Charger une carte v3 dont la grille racine porte une texture.<br  />
+2. Lire la couche de décor.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.layers()[DECOR].pieceAt(2, 1)</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt">level.tileMap().tile(2, 1)</span> vaut <span class="tt">TileType::Wall</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UneV3SansDecorRecoitUneCoucheDeRelief</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:95</span></sub>  </td><td class="markdownTableBodyNone">Une v3 sans décor reçoit une couche de relief.  </td><td class="markdownTableBodyNone">1. Charger une carte v2 plate dont une tuile porte une texture.<br  />
+2. Lire ses couches.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">level.layers().size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">level.layers()[1].kind</span> vaut <span class="tt">LayerKind::Decor</span>.<br  />
+Vérifie que <span class="tt">level.layers()[1].name</span> vaut <span class="tt">"relief"</span>.<br  />
+Vérifie que <span class="tt">level.layers()[1].pieceAt(2, 2)</span> vaut <span class="tt">"crate"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UneV4QuiPorteUneTextureRacineEstRefusee</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:118</span></sub>  </td><td class="markdownTableBodyNone">Une v4 qui porte une texture racine est refusée.  </td><td class="markdownTableBodyNone">1. Charger une v4 dont une tuile racine porte <span class="tt">texture</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, champ obligatoire manquant, ou de mauvais type.">core::LevelValidationError::ParseError</a></span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UnAutreTypeRetireLaPieceLeMemeLaGarde</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:138</span></sub>  </td><td class="markdownTableBodyNone">Un autre type retire la pièce, le même la garde.  </td><td class="markdownTableBodyNone">1. Repeindre <span class="tt">wall</span> sur la case habillée.<br  />
+2. Peindre <span class="tt">dirt</span> dessus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.paintLayerTile(DECOR, 1, 1, TileType::Wall)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1)</span> vaut <span class="tt">"wall-red"</span>.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(DECOR, 1, 1, TileType::Dirt)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UneRegionRepeinteRetireLaPieceLAnnulationLaRend</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:158</span></sub>  </td><td class="markdownTableBodyNone">Une région repeinte retire la pièce ; l'annulation la rend.  </td><td class="markdownTableBodyNone">1. Peindre un bloc de sable sur la case habillée.<br  />
+2. Annuler.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.paintLayerRegion(DECOR, 1, 1, {{TileType::Sand, TileType::Sand}})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1)</span> vaut <span class="tt">"wall-red"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.ReduireLaGrilleTronqueLesPiecesHorsBornes</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:177</span></sub>  </td><td class="markdownTableBodyNone">Réduire la grille tronque les pièces hors bornes.  </td><td class="markdownTableBodyNone">1. Réduire la carte à 2 × 2, puis à 1 × 1.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1)</span> vaut <span class="tt">"wall-red"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].hasPieces()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.PiecesEtHauteursSurviventALAllerRetour</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:196</span></sub>  </td><td class="markdownTableBodyNone">Pièces et hauteurs survivent à l'aller-retour.  </td><td class="markdownTableBodyNone">1. Donner une hauteur à une case habillée.<br  />
+2. Écrire puis relire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">json.find("\\"texture\\\\"\")&lt;/tt&gt; vaut &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;relue.layers()[DECOR].pieceAt(1, 1)&lt;/tt&gt; vaut &lt;tt&gt;\"wall-red\"&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;relue.layers()[DECOR].elevationAt(1, 1)&lt;/tt&gt; vaut &lt;tt&gt;2&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;relue.layers()[1].pieceAt(0, 0)&lt;/tt&gt; vaut &lt;tt&gt;\"street\"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LayerPiecesTest.UneCaseVideQuiNommeUnePieceSEcrit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__layer__pieces_8cpp.html" title="Tests unitaires des pièces nommées par les cases de couche (format v4, LOT-EDITOR-12,...">Source/Test/Unit/Core/Levels/test_layer_pieces.cpp</a>:219</span></sub>  </td><td class="markdownTableBodyNone">Une case vide qui nomme une pièce s'écrit.  </td><td class="markdownTableBodyNone">1. Nommer une pièce sur une case sans type.<br  />
+2. Écrire puis relire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">relue.layers()[DECOR].pieceAt(3, 3)</span> vaut <span class="tt">"banner"</span>.<br  />
+Vérifie que <span class="tt">relue.layers()[DECOR].tiles.tile(3, 3)</span> vaut <span class="tt">TileType::Empty</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__level_8cpp.html" title="Tests unitaires du modèle de niveau : TileMap et Level.">test_level.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2591,28 +2763,28 @@ Vérifie que <span class="tt">collision</span> diffère de <span class="tt">null
 Vérifie que <span class="tt">&amp;loaded.level-&gt;layers().front()</span> vaut <span class="tt">collision</span>.<br  />
 Vérifie que <span class="tt">collision-&gt;tiles.tile(1, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ab948e8a02a7f8dc9f098c89e8df9892c">core::TileType::Entry</a></span>.  </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CarteVersion4RefuseeAvecUnMessageExplicite</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:261</span></sub>  </td><td class="markdownTableBodyNone">Une carte version 4 est refusee explicitement.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant version 4.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+<td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CarteDUneVersionFutureRefuseeAvecUnMessageExplicite</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:261</span></sub>  </td><td class="markdownTableBodyNone">Une carte d'une version future est refusee explicitement.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant la version suivant la version courante.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
 Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a7d194788f42fea83b92833f89101a8f4" title="&quot;version&quot; du fichier supérieure à celle gérée (EX-LVL-005).">core::LevelValidationError::UnsupportedFormatVersion</a></span>.<br  />
-Vérifie que <span class="tt">loaded.error.find('4')</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+Vérifie que <span class="tt">loaded.error.find(future)</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.TuileHorsBornesDansUneCoucheRefusee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:288</span></sub>  </td><td class="markdownTableBodyNone">Une tuile hors bornes dans une couche est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche pose une tuile en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:289</span></sub>  </td><td class="markdownTableBodyNone">Une tuile hors bornes dans une couche est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche pose une tuile en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
 Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f" title="Tuile positionnée hors des dimensions déclarées.">core::LevelValidationError::OutOfBounds</a></span>.<br  />
 Vérifie que <span class="tt">loaded.error.find("sol")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.EntiteHorsBornesRefusee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:316</span></sub>  </td><td class="markdownTableBodyNone">Une entite hors bornes est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une entite est posee en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:317</span></sub>  </td><td class="markdownTableBodyNone">Une entite hors bornes est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une entite est posee en dehors de la grille.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
 Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823a46dc1018ac1d8fca7c2752a61ce2fd0f" title="Tuile positionnée hors des dimensions déclarées.">core::LevelValidationError::OutOfBounds</a></span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.RoleDeCoucheInconnuRetombeSurLeSol</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:342</span></sub>  </td><td class="markdownTableBodyNone">Un role de couche inconnu ne fait pas echouer la carte.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche declare un role inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:343</span></sub>  </td><td class="markdownTableBodyNone">Un role de couche inconnu ne fait pas echouer la carte.  </td><td class="markdownTableBodyNone">1. Charger une carte dont une couche declare un role inconnu.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">loaded.level-&gt;layers().size()</span> vaut <span class="tt">2u</span>.<br  />
 Vérifie que <span class="tt">loaded.level-&gt;layers().back().kind</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5da3519d51443d41746a097cd54cd5c11cf">core::LayerKind::Ground</a></span>.<br  />
 Vérifie que <span class="tt">loaded.level-&gt;layers().back().name</span> vaut <span class="tt">"brouillard"</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.BrouillonDEditionPreserveCouchesEtEntites</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:371</span></sub>  </td><td class="markdownTableBodyNone">Le brouillon d'edition preserve couches et entites.  </td><td class="markdownTableBodyNone">1. Charger une carte version 3 et en faire un brouillon d'edition.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:372</span></sub>  </td><td class="markdownTableBodyNone">Le brouillon d'edition preserve couches et entites.  </td><td class="markdownTableBodyNone">1. Charger une carte version 3 et en faire un brouillon d'edition.<br  />
 2. Reconvertir le brouillon en niveau, sans rien modifier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">draft.layers().size()</span> vaut <span class="tt">3u</span>.<br  />
 Vérifie que <span class="tt">draft.entities().size()</span> vaut <span class="tt">2u</span>.<br  />
@@ -2621,7 +2793,7 @@ Vérifie que <span class="tt">rebuilt.level-&gt;layers().size()</span> vaut <spa
 Vérifie que <span class="tt">rebuilt.level-&gt;entities().size()</span> vaut <span class="tt">2u</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.TuilePeinteAtteintLaCoucheDeCollision</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:396</span></sub>  </td><td class="markdownTableBodyNone">Une tuile peinte dans l'editeur atteint la couche de collision.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 en brouillon.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:397</span></sub>  </td><td class="markdownTableBodyNone">Une tuile peinte dans l'editeur atteint la couche de collision.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 en brouillon.<br  />
 2. Peindre un solide en (2, 0).<br  />
 3. Reconvertir le brouillon en niveau.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">rebuilt.ok()</span> est vrai.<br  />
@@ -2632,7 +2804,7 @@ Vérifie que <span class="tt">ground-&gt;tiles.tile(2, 0)</span> vaut <span clas
 Vérifie que <span class="tt">ground-&gt;tiles.tile(1, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.RedimensionnementEmporteCouchesEtEntites</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:427</span></sub>  </td><td class="markdownTableBodyNone">Un redimensionnement emporte couches et entites.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 de 4x3 en brouillon.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:428</span></sub>  </td><td class="markdownTableBodyNone">Un redimensionnement emporte couches et entites.  </td><td class="markdownTableBodyNone">1. Ouvrir une carte version 3 de 4x3 en brouillon.<br  />
 2. La redimensionner en 2x2.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
 Vérifie que <span class="tt">draft.wouldResizeDropContent(2, 2)</span> est vrai.<br  />
 Vérifie que <span class="tt">layer.tiles.width()</span> vaut <span class="tt">2</span>.<br  />
@@ -2640,7 +2812,7 @@ Vérifie que <span class="tt">layer.tiles.height()</span> vaut <span class="tt">
 Vérifie que <span class="tt">draft.entities().empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CouchesDeCarteTest.CoucheDeCollisionDeclareeRefusee</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:454</span></sub>  </td><td class="markdownTableBodyNone">Une couche 'collision' declaree est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant une couche de role 'collision'.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__map__layers_8cpp.html" title="Tests unitaires du format de carte version: 3 : couches typées, entités, propriétés libres et migrati...">Source/Test/Unit/Core/Levels/test_map_layers.cpp</a>:455</span></sub>  </td><td class="markdownTableBodyNone">Une couche 'collision' declaree est refusee.  </td><td class="markdownTableBodyNone">1. Charger une carte declarant une couche de role 'collision'.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est faux.<br  />
 Vérifie que <span class="tt">loaded.errorCode</span> vaut <span class="tt"><a class="el" href="namespacecore.html#af2a63d18c9ef40479ebdc204e726e823ae41199faa7290c167f70f314c5e6c165" title="JSON malformé, champ obligatoire manquant, ou de mauvais type.">core::LevelValidationError::ParseError</a></span>.<br  />
 Vérifie que <span class="tt">loaded.error.find("tiles")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
@@ -2676,71 +2848,6 @@ Vérifie que <span class="tt">core::isSolid(core::TileType::Stairs)</span> est f
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a319e1d0258052359525fdc83ee93f269" title="Nombre de valeurs de core::TileType — seule source de vérité de la fin de l&#39;énumération.">core::TILE_TYPE_COUNT</a></span> vaut <span class="tt">12</span>.<br  />
 Vérifie que <span class="tt">name.empty()</span> est faux.<br  />
 Vérifie que <span class="tt">std::adjacent_find(sorted.begin(), sorted.end())</span> vaut <span class="tt">sorted.end()</span>.  </td></tr>
-</table>
-<p><b><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">test_tile_texture_override.cpp</a></span></b></p>
-<table class="markdownTable">
-<tr class="markdownTableHead">
-<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.PeindreUnAutreTypeRetireLOverride</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:45</span></sub>  </td><td class="markdownTableBodyNone">Repeindre un autre type retire l'override.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().empty()</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.PeindreLeMemeTypeConserveLOverride</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:65</span></sub>  </td><td class="markdownTableBodyNone">Repeindre le même type conserve l'override.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().front().assetName</span> vaut <span class="tt">"wall_red.png"</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.PaintRegionRetireLOverrideDUneCaseDontLeTypeChange</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:85</span></sub>  </td><td class="markdownTableBodyNone">paintRegion retire l'override d'une case dont le type change.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().empty()</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.CollerUneRegionNeCopiePasLesOverridesDeLaSource</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:105</span></sub>  </td><td class="markdownTableBodyNone">Coller une région ne copie pas les overrides de la source.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().front().position</span> vaut <span class="tt">(GridPosition{1, 1})</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.ReduireLaGrilleTronqueLesOverridesHorsBornes</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">Réduire la grille tronque les overrides hors bornes.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().empty()</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.WouldResizeDropContentSignaleLaPerteDUnOverride</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:146</span></sub>  </td><td class="markdownTableBodyNone">wouldResizeDropContent signale la perte d'un override.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.wouldResizeDropContent(2, 2)</span> est vrai.<br  />
-Vérifie que <span class="tt">draft.wouldResizeDropContent(5, 5)</span> est faux.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.UndoRestitueUnOverrideRetire</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">undo restitue un override retiré.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.textureOverrides().empty()</span> est vrai.<br  />
-Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().front().assetName</span> vaut <span class="tt">"wall_red.png"</span>.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.FromLevelRestitueLesOverrides</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:184</span></sub>  </td><td class="markdownTableBodyNone">fromLevel restitue les overrides de texture.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().size()</span> vaut <span class="tt">1u</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().front().position</span> vaut <span class="tt">(GridPosition{2, 2})</span>.<br  />
-Vérifie que <span class="tt">draft.textureOverrides().front().assetName</span> vaut <span class="tt">"wall_red.png"</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.LeChampTextureSurvitAuRoundTripJson</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:211</span></sub>  </td><td class="markdownTableBodyNone">Le champ texture survit au round-trip JSON.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">reloaded.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">reloaded.level-&gt;textureOverrides().size()</span> vaut <span class="tt">2u</span>.<br  />
-Vérifie que <span class="tt">hasCrate</span> est vrai.<br  />
-Vérifie que <span class="tt">hasWall</span> est vrai.  </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.SansOverrideLeChampTextureEstAbsentDuJson</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:248</span></sub>  </td><td class="markdownTableBodyNone">Sans override, le champ texture est absent du JSON produit.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">json.find("\\"texture\\\\"\")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><b>TileTextureOverrideTest.NiveauSansChampTextureSeChargeSansOverride</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__tile__texture__override_8cpp.html" title="Tests unitaires de la texture assignée par instance (EX-EDIT-043).">Source/Test/Unit/Core/Levels/test_tile_texture_override.cpp</a>:269</span></sub>  </td><td class="markdownTableBodyNone">Un niveau sans champ texture se charge sans override.  </td><td class="markdownTableBodyNone">1. Mettre en place le contexte du test (arrangement).<br  />
-2. Executer le scenario et verifier les assertions.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
-Vérifie que <span class="tt">loaded.level-&gt;textureOverrides().empty()</span> est vrai.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__tile__type__name_8cpp.html" title="Tests unitaires de la correspondance type de tuile &lt;-&gt; nom textuel (EX-LVL-003).">test_tile_type_name.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4116,18 +4223,18 @@ Vérifie que <span class="tt">pnj</span> vaut <span class="tt">1</span>.<br  />
 Vérifie que <span class="tt">reduite.layers().size()</span> vaut <span class="tt">1U</span>.<br  />
 Vérifie que <span class="tt">reduite.layers().front().tiles.width()</span> vaut <span class="tt">4</span>.<br  />
 Vérifie que <span class="tt">reduite.layers().front().tiles.tile(0, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
-Vérifie que <span class="tt">reduite.textureOverrides().size()</span> vaut <span class="tt">1U</span>.<br  />
-Vérifie que <span class="tt">reduite.textureOverrides().front().position</span> vaut <span class="tt">(<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>{1, 1})</span>.<br  />
-Vérifie que <span class="tt">reduite.textureOverrides().front().assetName</span> vaut <span class="tt">"torch-left"</span>.  </td></tr>
+Vérifie que <span class="tt">reduite.layers().front().pieceAt(1, 1)</span> vaut <span class="tt">"torch-left"</span>.<br  />
+Vérifie que <span class="tt">reduite.layers().front().pieces.size()</span> vaut <span class="tt">12U</span>.<br  />
+Vérifie que <span class="tt">reduite.forcedCollision()</span> vaut <span class="tt">(std::vector&lt;<a class="el" href="structcore_1_1GridPosition.html" title="Position d&#39;une case dans la grille d&#39;un niveau, en coordonnées entières.">core::GridPosition</a>&gt;{{2, 1}})</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>CombatZoneTest.LaSessionIgnoreLesCasesHorsZone</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:126</span></sub>  </td><td class="markdownTableBodyNone">La grille de combat de la carte reduite ne connait que la zone.  </td><td class="markdownTableBodyNone">1. Monter une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> sur la carte reduite a la zone.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">zones.size()</span> vaut <span class="tt">1U</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:127</span></sub>  </td><td class="markdownTableBodyNone">La grille de combat de la carte reduite ne connait que la zone.  </td><td class="markdownTableBodyNone">1. Monter une <span class="tt"><a class="el" href="classcore_1_1ArenaSession.html" title="Une session d&#39;arène : la carte, la composition, et le combat qui s&#39;y joue.">core::ArenaSession</a></span> sur la carte reduite a la zone.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">zones.size()</span> vaut <span class="tt">1U</span>.<br  />
 Vérifie que <span class="tt">session.combat().grid().width()</span> vaut <span class="tt">4</span>.<br  />
 Vérifie que <span class="tt">session.combat().grid().height()</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">session.combat().grid().inBounds({4, 0})</span> est faux.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>CombatZoneTest.ChaqueDefautDeZoneEstReleveAuChargement</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:148</span></sub>  </td><td class="markdownTableBodyNone">Une zone degeneree, debordante ou entierement pleine est refusee, avec son code.  </td><td class="markdownTableBodyNone">1. Declarer une zone de largeur nulle, une zone qui sort de la carte, une zone entierement muree.<br  />
+<sub><span class="tt"><a class="el" href="test__combat__zone_8cpp.html" title="Tests de la zone de combat (LOT-09) : la session joue sur la zone declaree, et les cases du dehors lu...">Source/Test/Unit/Core/World/test_combat_zone.cpp</a>:149</span></sub>  </td><td class="markdownTableBodyNone">Une zone degeneree, debordante ou entierement pleine est refusee, avec son code.  </td><td class="markdownTableBodyNone">1. Declarer une zone de largeur nulle, une zone qui sort de la carte, une zone entierement muree.<br  />
  2. Valider la carte.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", degeneree).size()</span> vaut <span class="tt">1U</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", degeneree).front().code</span> vaut <span class="tt">WorldIssueCode::CombatZoneDegenerate</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">core::validateCombatZones</a>("colisee", debordante).size()</span> vaut <span class="tt">1U</span>.<br  />
@@ -4768,6 +4875,59 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#abf93f3d263f
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#acb440eec2a1a3d3cc760795b9875ae8e" title="Retire les espaces de bord de name (le nom réellement utilisé une fois confirmé).">hmi::trimLevelName</a>("Niveau 1")</span> vaut <span class="tt">"Niveau 1"</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#acb440eec2a1a3d3cc760795b9875ae8e" title="Retire les espaces de bord de name (le nom réellement utilisé une fois confirmé).">hmi::trimLevelName</a>(" ")</span> vaut <span class="tt">""</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">test_map_format.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapFormatTest.LaMigrationNeChangePasCeQueLeJeuJoue</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:153</span></sub>  </td><td class="markdownTableBodyNone">La migration ne change pas ce que le jeu joue.  </td><td class="markdownTableBodyNone">1. Migrer <span class="tt">format-v3.json</span> avec la planche de Martpart.<br  />
+2. Relire la v4.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">migration.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">instantane(v4)</span> vaut <span class="tt">instantane(v3)</span>.<br  />
+Vérifie que <span class="tt">memeGrilleTactique(v4, v3)</span> est vrai.<br  />
+Vérifie que <span class="tt">migration.namedPieces</span> vaut <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">v4.layers()[1].pieceAt(2, 0)</span> vaut <span class="tt">"square"</span>.<br  />
+Vérifie que <span class="tt">migration.newIds</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">v4.entities()[1].id</span> vaut <span class="tt">"e2"</span>.<br  />
+Vérifie que <span class="tt">v4.nextEntityId()</span> vaut <span class="tt">3</span>.<br  />
+Vérifie que <span class="tt">migration.newForcedCells</span> vaut <span class="tt">7U</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MapFormatTest.LaMigrationEstIdempotente</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:181</span></sub>  </td><td class="markdownTableBodyNone">La migration est idempotente.  </td><td class="markdownTableBodyNone">1. Migrer <span class="tt">format-v3.json</span>.<br  />
+2. Relire et migrer encore.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">seconde.text</span> vaut <span class="tt">premiere.text</span>.<br  />
+Vérifie que <span class="tt">seconde.namedPieces + seconde.newIds + seconde.newForcedCells</span> vaut <span class="tt">0U</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapFormatTest.LesCartesLivreesPassentLeControle</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:200</span></sub>  </td><td class="markdownTableBodyNone">Les cartes livrées passent le contrôle.  </td><td class="markdownTableBodyNone">1. Contrôler <span class="tt">Source/Elements/Levels</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bilan.maps</span> est supérieur ou égal à <span class="tt">3U</span>.<br  />
+Vérifie que <span class="tt">constat.severity</span> diffère de <span class="tt">MapCheckSeverity::Error</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MapFormatTest.ChaqueDefautSortEtLeControleEchoue</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:218</span></sub>  </td><td class="markdownTableBodyNone">Chaque défaut sort, et le contrôle échoue.  </td><td class="markdownTableBodyNone">1. Écrire une v4 non canonique, sans id, à pièce absente, à collision écartée, avec une hauteur et un portail vers nulle part.<br  />
+2. Lancer <span class="tt">--check</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">signale(constats, MapCheckSeverity::Error, "not canonical")</span> est vrai.<br  />
+Vérifie que <span class="tt">signale(constats, MapCheckSeverity::Error, "has no id")</span> est vrai.<br  />
+Vérifie que <span class="tt">signale(constats, MapCheckSeverity::Error, "piece missing")</span> est vrai.<br  />
+Vérifie que <span class="tt">signale(constats, MapCheckSeverity::Error, "collision differs")</span> est vrai.<br  />
+Vérifie que <span class="tt">signale(constats, MapCheckSeverity::Warning, "elevation")</span> est vrai.<br  />
+Vérifie que <span class="tt">code.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*code</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">sortie.find("does not exist")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapFormatTest.MigrerRendUneCarteQueLeControleAccepte</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:257</span></sub>  </td><td class="markdownTableBodyNone">&ndash;migrate rend une carte que &ndash;check accepte.  </td><td class="markdownTableBodyNone">1. Copier <span class="tt">format-v3.json</span> dans un dossier de données.<br  />
+2. <span class="tt">--migrate</span> puis <span class="tt">--check</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--migrate", "rue", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--check", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">texte.find("\\"version\\\\": 4\")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MapFormatTest.SansCommandeLEditeurOuvreSaFenetre</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:284</span></sub>  </td><td class="markdownTableBodyNone">Sans commande, l'éditeur ouvre sa fenêtre.  </td><td class="markdownTableBodyNone">1. Passer <span class="tt">--crash-test</span> seul.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--crash-test"}, {}, sortie).has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">sortie.empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapFormatTest.LesTroisCartesMigreesSeJouentALIdentique</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:300</span></sub>  </td><td class="markdownTableBodyNone">Les trois cartes migrées se jouent à l'identique.  </td><td class="markdownTableBodyNone">1. Extraire les v3 : <span class="tt">git show 376c541da:Source/Elements/Levels/…</span> (le dernier commit de main avant ce lot).<br  />
+ 2. <span class="tt">JADG_V3_MAPS_DIR=&lt;dossier&gt;</span> puis lancer ce test.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">instantane(v4)</span> vaut <span class="tt">instantane(v3)</span>.<br  />
+Vérifie que <span class="tt">memeGrilleTactique(v4, v3)</span> est vrai.<br  />
+Vérifie que <span class="tt">v4.entry()</span> vaut <span class="tt">v3.entry()</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__panel__focus_8cpp.html" title="Tests unitaires de la correspondance outil → panneau.">test_panel_focus.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4972,7 +5132,7 @@ Vérifie que <span class="tt">engine.volume()</span> vaut <span class="tt">0.42f
 <sub><span class="tt"><a class="el" href="test__audio__engine_8cpp.html" title="Tests unitaires du moteur audio (EX-REN-047, EX-NFR-040).">Source/Test/Unit/HMI/Audio/test_audio_engine.cpp</a>:61</span></sub>  </td><td class="markdownTableBodyNone">Le volume par defaut du moteur audio est au maximum.  </td><td class="markdownTableBodyNone">1. Construire un AudioEngine sans regler de volume.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">engine.volume()</span> vaut <span class="tt">1.0f</span> (comparaison flottante).  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md20"></a>
-Graphics (128)</h3>
+Graphics (130)</h3>
 <p><b><span class="tt"><a class="el" href="test__animation__catalog_8cpp.html" title="Tests unitaires du format nom-asset.anim.json (hmi::AnimationCatalog) : lecture, validation,...">test_animation_catalog.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -5980,7 +6140,7 @@ Vérifie que <span class="tt">secondRow.height</span> vaut <span class="tt"><a c
 <th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:94</span></sub>  </td><td class="markdownTableBodyNone">Le sol vient du type de tuile, le relief de la piece nommee a la case.  </td><td class="markdownTableBodyNone">1. Batir une carte de sable avec une case de pierre, un mur de decor et une assignation de texture a la case.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:97</span></sub>  </td><td class="markdownTableBodyNone">Le sol vient du type de tuile, le relief de la piece nommee a la case.  </td><td class="markdownTableBodyNone">1. Batir une carte de sable avec une case de pierre, un mur de decor et une piece nommee a une case du decor.<br  />
  2. En tirer l'instantane.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">instantane.columns</span> vaut <span class="tt">4</span>.<br  />
 Vérifie que <span class="tt">instantane.rows</span> vaut <span class="tt">3</span>.<br  />
 Vérifie que <span class="tt">instantane.place</span> vaut <span class="tt">"coliseum"</span>.<br  />
@@ -5995,7 +6155,7 @@ Vérifie que <span class="tt">instantane.reliefAt({1, 1}).empty()</span> est vra
 Vérifie que <span class="tt">instantane.floorAt({9, 9}).empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LesCheminsCouvrentLeLieuEtLesFigurines</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:128</span></sub>  </td><td class="markdownTableBodyNone">La liste des textures a charger couvre exactement ce que la composition resout.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane d'une carte avec une figurine.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:130</span></sub>  </td><td class="markdownTableBodyNone">La liste des textures a charger couvre exactement ce que la composition resout.  </td><td class="markdownTableBodyNone">1. Tirer l'instantane d'une carte avec une figurine.<br  />
  2. Lister les chemins de texture.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">std::ranges::is_sorted(chemins)</span> est vrai.<br  />
 Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/sand.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
 Vérifie que <span class="tt">std::ranges::find(chemins, "Scene/coliseum/stone-slab.png")</span> diffère de <span class="tt">chemins.end()</span>.<br  />
@@ -6006,13 +6166,13 @@ Vérifie que <span class="tt">std::ranges::find(chemins, "Npc/anariel/walk.png")
 Vérifie que <span class="tt">std::ranges::count(chemins, "Scene/coliseum/sand.png")</span> vaut <span class="tt">1</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LaCompositionPoseChaquePieceSurSonCalque</b> (Critique)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:157</span></sub>  </td><td class="markdownTableBodyNone">Sol, relief et figurine tombent sur les calques Tile, Object et Player.  </td><td class="markdownTableBodyNone">1. Composer une carte de douze cases avec un mur, une torche et une figurine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sols</span> vaut <span class="tt">12</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:159</span></sub>  </td><td class="markdownTableBodyNone">Sol, relief et figurine tombent sur les calques Tile, Object et Player.  </td><td class="markdownTableBodyNone">1. Composer une carte de douze cases avec un mur, une torche et une figurine.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">sols</span> vaut <span class="tt">12</span>.<br  />
 Vérifie que <span class="tt">reliefs</span> vaut <span class="tt">2</span>.<br  />
 Vérifie que <span class="tt">figurines</span> vaut <span class="tt">1</span>.<br  />
 Vérifie que <span class="tt">quad.sprite.y + quad.sprite.height</span> est strictement inférieur à <span class="tt">piedDeLaCase</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>WorldSceneComposerTest.UneFigurineSansImageAUneCleDeMarqueur</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:207</span></sub>  </td><td class="markdownTableBodyNone">La cle du marqueur d'une figurine se tire de son chemin de bande.  </td><td class="markdownTableBodyNone">1. Demander la cle de marqueur de chemins de figurine, de piece et de chemins malformes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/sentinelle-ironhand/idle.png")</span> vaut <span class="tt">"npc/sentinelle-ironhand"</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:209</span></sub>  </td><td class="markdownTableBodyNone">La cle du marqueur d'une figurine se tire de son chemin de bande.  </td><td class="markdownTableBodyNone">1. Demander la cle de marqueur de chemins de figurine, de piece et de chemins malformes.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/sentinelle-ironhand/idle.png")</span> vaut <span class="tt">"npc/sentinelle-ironhand"</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/sentinelle-ironhand/walk.png")</span> vaut <span class="tt">"npc/sentinelle-ironhand"</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Scene/martpart/street.png")</span> vaut <span class="tt">""</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Npc/")</span> vaut <span class="tt">""</span>.<br  />
@@ -6021,9 +6181,21 @@ Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1c839cebf18adf167ae9ac5452d179b6" title="La clé du marqueur d&#39;une figurine qui n&#39;a pas d&#39;image (LOT-39, LOT-96).">hmi::figureMarkerKey</a>("Monsters/ironhand-soldier/idle.png")</span> vaut <span class="tt">"monsters/ironhand-soldier"</span>.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>WorldSceneComposerTest.UneFigurineSeNommeParSlugOuParDossier</b> (Majeur)<br  />
-<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:230</span></sub>  </td><td class="markdownTableBodyNone">Le soldat Ironhand se lit dans les monstres, Anariel dans les PNJ.  </td><td class="markdownTableBodyNone">1. Demander la bande idle d'« anariel », puis celle de « Monsters/ironhand-soldier ».  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab7381540071701283f2f87b282a68eb5" title="Le chemin d&#39;une bande de figurine, relatif au dossier des assets.">hmi::figureStripPath</a>("anariel", "idle")</span> vaut <span class="tt">"Npc/anariel/idle.png"</span>.<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:232</span></sub>  </td><td class="markdownTableBodyNone">Le soldat Ironhand se lit dans les monstres, Anariel dans les PNJ.  </td><td class="markdownTableBodyNone">1. Demander la bande idle d'« anariel », puis celle de « Monsters/ironhand-soldier ».  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab7381540071701283f2f87b282a68eb5" title="Le chemin d&#39;une bande de figurine, relatif au dossier des assets.">hmi::figureStripPath</a>("anariel", "idle")</span> vaut <span class="tt">"Npc/anariel/idle.png"</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab7381540071701283f2f87b282a68eb5" title="Le chemin d&#39;une bande de figurine, relatif au dossier des assets.">hmi::figureStripPath</a>("anariel", "")</span> vaut <span class="tt">"Npc/anariel/idle.png"</span>.<br  />
 Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab7381540071701283f2f87b282a68eb5" title="Le chemin d&#39;une bande de figurine, relatif au dossier des assets.">hmi::figureStripPath</a>("Monsters/ironhand-soldier", "walk")</span> vaut <span class="tt">"Monsters/ironhand-soldier/walk.png"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.LaPieceNommeeLEmporteSousSonNomCourant</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:251</span></sub>  </td><td class="markdownTableBodyNone">La pièce nommée l'emporte, sous son nom courant.  </td><td class="markdownTableBodyNone">1. Nommer <span class="tt">stone-slab</span> sur une case de sable, et <span class="tt">old-torch</span>, ancien nom de <span class="tt">torch-left</span>, sur le décor.<br  />
+2. Tirer l'instantané avec le manifeste des alias.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">manifeste.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">instantane.floorAt({0, 1})</span> vaut <span class="tt">"stone-slab"</span>.<br  />
+Vérifie que <span class="tt">instantane.reliefAt({2, 2})</span> vaut <span class="tt">"torch-left"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>WorldSceneComposerTest.UnePieceLargeSeTrieAuPiedDeSonEmprise</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__world__scene__composer_8cpp.html" title="Tests de la composition d&#39;un lieu parcouru (LOT-09) : le sol vient du type de tuile,...">Source/Test/Unit/HMI/Graphics/test_world_scene_composer.cpp</a>:280</span></sub>  </td><td class="markdownTableBodyNone">Une pièce large se trie au pied de son emprise.  </td><td class="markdownTableBodyNone">1. Poser un étal 2 × 1 et un mur 1 × 1 sur la même case d'ancrage de deux cartes.<br  />
+ 2. Composer les deux.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">manifeste.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">large.footprints.at("stall")</span> vaut <span class="tt">(<a class="el" href="structcore_1_1PieceFootprint.html" title="Emprise d&#39;une pièce, en cases : colonnes, puis lignes. Au moins 1 × 1.">core::PieceFootprint</a>{.columns = 2, .rows = 1})</span>.<br  />
+Vérifie que <span class="tt">ordreDuRelief(large)</span> est strictement supérieur à <span class="tt">ordreDuRelief(simple)</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__world__scene__renderer_8cpp.html" title="Le rendu QRhi d&#39;un lieu qu&#39;on parcourt (LOT-09), hors écran : cycle de vie des ressources,...">test_world_scene_renderer.cpp</a></span></b></p>
 <table class="markdownTable">

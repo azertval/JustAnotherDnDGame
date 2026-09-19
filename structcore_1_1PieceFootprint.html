@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.16.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>JustAnotherRpgGame: core::TileTextureOverride Struct Reference</title>
+<title>JustAnotherRpgGame: core::PieceFootprint Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -63,7 +63,7 @@ $(function() {
   </div>
 </div>
 <script type="text/javascript">
-$(function(){initNavTree('structcore_1_1TileTextureOverride.html','','structcore_1_1TileTextureOverride-members'); });
+$(function(){initNavTree('structcore_1_1PieceFootprint.html','','structcore_1_1PieceFootprint-members'); });
 </script>
 <div id="container">
 <div id="doc-content">
@@ -89,46 +89,75 @@ $(function(){initNavTree('structcore_1_1TileTextureOverride.html','','structcore
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">core::TileTextureOverride Struct Reference</div></div>
+  <div class="headertitle"><div class="title">core::PieceFootprint Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Pièce de la planche du lieu assignée explicitement à <b>une case précise</b>, prioritaire sur la table d'apparence de son type (<span class="tt">EX-EDIT-043</span>, <span class="tt">EX-VIS-008</span>).  
+<p>Emprise d'une pièce, en cases : colonnes, puis lignes. Au moins 1 × 1.  
  <a href="#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="Level_8h_source.html">Level.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="PieceFootprint_8h_source.html">PieceFootprint.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a3fbf5f69344aebb17f2109faf2c1e766" id="r_a3fbf5f69344aebb17f2109faf2c1e766"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3fbf5f69344aebb17f2109faf2c1e766">operator==</a> (const <a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> &amp;) const =default</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a03a135f3977d8006b699cb8e352af176" id="r_a03a135f3977d8006b699cb8e352af176"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a03a135f3977d8006b699cb8e352af176">position</a></td></tr>
-<tr class="memitem:a3c6992f18eb4035141f8137b11986202" id="r_a3c6992f18eb4035141f8137b11986202"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a3c6992f18eb4035141f8137b11986202">assetName</a></td></tr>
+<tr class="memitem:aab21fd5d766c5ef6e89e6d0ebc3c7497" id="r_aab21fd5d766c5ef6e89e6d0ebc3c7497"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aab21fd5d766c5ef6e89e6d0ebc3c7497">columns</a> = 1</td></tr>
+<tr class="memitem:aa1302afb8a518379e2e0320a5f9df122" id="r_aa1302afb8a518379e2e0320a5f9df122"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#aa1302afb8a518379e2e0320a5f9df122">rows</a> = 1</td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Pièce de la planche du lieu assignée explicitement à <b>une case précise</b>, prioritaire sur la table d'apparence de son type (<span class="tt">EX-EDIT-043</span>, <span class="tt">EX-VIS-008</span>). </p>
-<p>Vecteur annexe de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>, keyé par position, <span class="tt"><a class="el" href="classcore_1_1TileMap.html" title="Grille dense de tuiles typées (EX-GP-001), origine haut-gauche.">TileMap</a></span> ne portant qu'un <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875" title="Type d&#39;une tuile de la grille d&#39;une carte (EX-LVL-002).">TileType</a></span> par case. Le nom de pièce est une simple chaîne : <span class="tt">Core</span> ne vérifie pas son existence (<span class="tt">EX-NFR-011</span>), une assignation pointant une pièce absente reste une carte valide. </p>
-</div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a3c6992f18eb4035141f8137b11986202" name="a3c6992f18eb4035141f8137b11986202"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c6992f18eb4035141f8137b11986202">&#9670;&#160;</a></span>assetName</h2>
+<div class="textblock"><p>Emprise d'une pièce, en cases : colonnes, puis lignes. Au moins 1 × 1. </p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a3fbf5f69344aebb17f2109faf2c1e766" name="a3fbf5f69344aebb17f2109faf2c1e766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fbf5f69344aebb17f2109faf2c1e766">&#9670;&#160;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::PieceFootprint::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> &amp;</td>          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel default">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="aab21fd5d766c5ef6e89e6d0ebc3c7497" name="aab21fd5d766c5ef6e89e6d0ebc3c7497"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab21fd5d766c5ef6e89e6d0ebc3c7497">&#9670;&#160;</a></span>columns</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::string core::TileTextureOverride::assetName</td>
+          <td class="memname">int core::PieceFootprint::columns = 1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a03a135f3977d8006b699cb8e352af176" name="a03a135f3977d8006b699cb8e352af176"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03a135f3977d8006b699cb8e352af176">&#9670;&#160;</a></span>position</h2>
+<a id="aa1302afb8a518379e2e0320a5f9df122" name="aa1302afb8a518379e2e0320a5f9df122"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1302afb8a518379e2e0320a5f9df122">&#9670;&#160;</a></span>rows</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> core::TileTextureOverride::position</td>
+          <td class="memname">int core::PieceFootprint::rows = 1</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -136,7 +165,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Core/Levels/<a class="el" href="Level_8h_source.html">Level.h</a></li>
+<li>/home/runner/work/JustAnotherRpgGame/JustAnotherRpgGame/Source/Core/Levels/<a class="el" href="PieceFootprint_8h_source.html">PieceFootprint.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -151,7 +180,7 @@ Public Attributes</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1TileTextureOverride.html">TileTextureOverride</a></li>
+    <li class="navelem"><a href="namespacecore.html">core</a></li><li class="navelem"><a href="structcore_1_1PieceFootprint.html">PieceFootprint</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.16.1 </li>
   </ul>
 </div>

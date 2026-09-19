@@ -6,9 +6,9 @@ var roadmap_editeur =
     [ "4. Architecture", "roadmap-editeur.html#roadmap-editeur-architecture", null ],
     [ "5. Cinq règles pour durer", "roadmap-editeur.html#roadmap-editeur-perennite", null ],
     [ "6. Les lots", "roadmap-editeur.html#roadmap-editeur-lots", [
-      [ "LOT-EDITOR-01 — Le socle du module", "roadmap-editeur.html#autotoc_md999", null ],
-      [ "LOT-EDITOR-02 — Le canevas montre le lieu", "roadmap-editeur.html#autotoc_md1000", null ],
-      [ "LOT-EDITOR-12 — Le format v4 et sa garde en CI", "roadmap-editeur.html#lot-editor-12", null ],
+      [ "LOT-EDITOR-01 — Le socle du module", "roadmap-editeur.html#autotoc_md1001", null ],
+      [ "LOT-EDITOR-02 — Le canevas montre le lieu", "roadmap-editeur.html#autotoc_md1002", null ],
+      [ "LOT-EDITOR-12 — Le format v4 et sa garde en CI", "roadmap-editeur.html#autotoc_md1003", null ],
       [ "LOT-EDITOR-03 — Peindre avec les pièces du lieu", "roadmap-editeur.html#lot-editor-03", null ],
       [ "LOT-EDITOR-04 — Les outils du peintre", "roadmap-editeur.html#lot-editor-04", null ],
       [ "LOT-EDITOR-05 — Entités et zones sur le canevas", "roadmap-editeur.html#lot-editor-05", null ],
@@ -24,19 +24,28 @@ var roadmap_editeur =
     [ "7. Points de contact avec le jeu", "roadmap-editeur.html#roadmap-editeur-contacts", null ],
     [ "8. Risques et pistes écartées", "roadmap-editeur.html#roadmap-editeur-risques", null ],
     [ "LOT-EDITOR-01 — Le socle du module", "lot-editor-01.html", [
-      [ "Objectif", "lot-editor-01.html#autotoc_md1003", null ],
-      [ "Ce que le dépôt contenait à l'ouverture (18 septembre 2026)", "lot-editor-01.html#autotoc_md1004", null ],
-      [ "Décisions", "lot-editor-01.html#autotoc_md1005", null ],
-      [ "Livraison", "lot-editor-01.html#autotoc_md1006", null ],
-      [ "Critères d'acceptation", "lot-editor-01.html#autotoc_md1007", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-editor-01.html#autotoc_md1008", null ]
+      [ "Objectif", "lot-editor-01.html#autotoc_md1006", null ],
+      [ "Ce que le dépôt contenait à l'ouverture (18 septembre 2026)", "lot-editor-01.html#autotoc_md1007", null ],
+      [ "Décisions", "lot-editor-01.html#autotoc_md1008", null ],
+      [ "Livraison", "lot-editor-01.html#autotoc_md1009", null ],
+      [ "Critères d'acceptation", "lot-editor-01.html#autotoc_md1010", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-editor-01.html#autotoc_md1011", null ]
     ] ],
     [ "LOT-EDITOR-02 — Le canevas montre le lieu", "lot-editor-02.html", [
-      [ "Objectif", "lot-editor-02.html#autotoc_md1009", null ],
-      [ "Ce que le dépôt contenait à l'ouverture (18 septembre 2026)", "lot-editor-02.html#autotoc_md1010", null ],
-      [ "Décisions", "lot-editor-02.html#autotoc_md1011", null ],
-      [ "Livraison", "lot-editor-02.html#autotoc_md1012", null ],
-      [ "Critères d'acceptation", "lot-editor-02.html#autotoc_md1013", null ],
-      [ "Ce qui reste hors du lot, nommément", "lot-editor-02.html#autotoc_md1014", null ]
+      [ "Objectif", "lot-editor-02.html#autotoc_md1012", null ],
+      [ "Ce que le dépôt contenait à l'ouverture (18 septembre 2026)", "lot-editor-02.html#autotoc_md1013", null ],
+      [ "Décisions", "lot-editor-02.html#autotoc_md1014", null ],
+      [ "Livraison", "lot-editor-02.html#autotoc_md1015", null ],
+      [ "Critères d'acceptation", "lot-editor-02.html#autotoc_md1016", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-editor-02.html#autotoc_md1017", null ]
+    ] ],
+    [ "LOT-EDITOR-12 — Le format v4 et sa garde en CI", "lot-editor-12.html", [
+      [ "Objectif", "lot-editor-12.html#autotoc_md1018", null ],
+      [ "Ce que le dépôt contenait à l'ouverture (19 septembre 2026)", "lot-editor-12.html#autotoc_md1019", null ],
+      [ "Décisions", "lot-editor-12.html#autotoc_md1020", null ],
+      [ "Livraison", "lot-editor-12.html#autotoc_md1021", null ],
+      [ "Critères d'acceptation", "lot-editor-12.html#autotoc_md1022", null ],
+      [ "Ce que la migration a trouvé, à trancher par l'auteur", "lot-editor-12.html#autotoc_md1023", null ],
+      [ "Ce qui reste hors du lot, nommément", "lot-editor-12.html#autotoc_md1024", null ]
     ] ]
 ];

@@ -37,8 +37,9 @@ var searchData=
   ['copy_34',['Copy',['../namespacehmi.html#aa4f5968d7b564d555f29fdc5d2fc9585a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy'],['../namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a5fb63579fc981698f97d55bfecb213ea',1,'hmi::Copy']]],
   ['corner_35',['Corner',['../namespacehmi.html#a9da4795fe7ae9a1a208f6f8a3348ae8da45671f70ac97ff86643523f29eb4d3b9',1,'hmi']]],
   ['count_36',['Count',['../namespacehmi.html#a4180e6c308353c9965d695855746d982ae93f994f01c537c4e2f7d8528c3eb5e9',1,'hmi']]],
-  ['credits_37',['Credits',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a948a2e3548aaf7f9941a3192fa607d51',1,'hmi::ScreenRouter::Credits'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51',1,'hmi::Credits']]],
-  ['crimeandviolence_38',['CrimeAndViolence',['../namespacecore.html#a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23',1,'core']]],
-  ['cube_39',['Cube',['../namespacecore.html#ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12',1,'core']]],
-  ['cylinder_40',['Cylinder',['../namespacecore.html#ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563',1,'core']]]
+  ['cover_37',['Cover',['../namespacecore.html#a096c9cc059de39edb20ccea06d18f252ac795dfff10a7c952f4c5438951e9ece9',1,'core']]],
+  ['credits_38',['Credits',['../classhmi_1_1ScreenRouter.html#a82f878c3ef3a0d8b924af7bbca4b37f7a948a2e3548aaf7f9941a3192fa607d51',1,'hmi::ScreenRouter::Credits'],['../namespacehmi.html#a168b24f798c2e6d06beb9472a071528da948a2e3548aaf7f9941a3192fa607d51',1,'hmi::Credits']]],
+  ['crimeandviolence_39',['CrimeAndViolence',['../namespacecore.html#a1471b5a70feb139829909360f5b07940a1ac8b82da41e7a78301dfa6e47b6bb23',1,'core']]],
+  ['cube_40',['Cube',['../namespacecore.html#ad490fa58f4db55cab180bf278e3db721aa296104f0c61a9cf39f4824d05315e12',1,'core']]],
+  ['cylinder_41',['Cylinder',['../namespacecore.html#ad490fa58f4db55cab180bf278e3db721a2ec2c2961c7ce5a114d969c1f562a563',1,'core']]]
 ];

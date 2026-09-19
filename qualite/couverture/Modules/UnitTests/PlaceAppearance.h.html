@@ -22,6 +22,7 @@
 #include &lt;vector&gt;
 
 #include "Core/Levels/GridPosition.h"
+#include "Core/Levels/PieceFootprint.h"
 #include "Core/Levels/TileType.h"
 
 /**
@@ -35,17 +36,24 @@
  *   donne `sand`, `sand-2` ou `sand-3`, la variante choisie par la case elle-mÃªme, toujours la
  *   mÃªme pour la mÃªme case. Le sol est dense â sept mille cases pour le ColisÃ©e â, et le nommer Ã 
  *   la case rendrait la carte illisible et son tracÃ© interminable.
- * - **Le relief** (murs, torches, bancs, arches, gradins) nomme sa piÃ¨ce **Ã  la case**, par
- *   l'assignation de texture que l'Ã©diteur du `LOT-11` sait dÃ©jÃ  poser
- *   (`core::TileTextureOverride`). Le relief est rare et voulu : c'est lÃ  que l'auteur dÃ©cide.
- *   Ã dÃ©faut d'assignation, le type de la case de dÃ©cor donne la piÃ¨ce par cette mÃªme table.
+ * - **Le relief** (murs, torches, bancs, arches, gradins) nomme sa piÃ¨ce **Ã  la case**. Le relief
+ *   est rare et voulu : c'est lÃ  que l'auteur dÃ©cide. Ã dÃ©faut, le type de la case de dÃ©cor donne
+ *   la piÃ¨ce par cette mÃªme table.
  *
- * Aucune Ã©volution du format de niveau : ni champ nouveau, ni `version: 4`.
+ * ## Depuis le format v4 (`LOT-EDITOR-12`)
+ *
+ * Toute case de couche peut nommer sa piÃ¨ce (`core::TileLayer::pieces`), le sol comme le relief :
+ * une carte faite Ã  la main les nomme toutes, et la table ne sert plus que de **dÃ©faut** â celui
+ * des cartes gÃ©nÃ©rÃ©es, et d'une case sans piÃ¨ce. Lue par `loadFromFile`, la table prend aussi le
+ * **manifeste** rangÃ© Ã  cÃ´tÃ© d'elle (`manifest.json`) : les anciens noms des piÃ¨ces (`aliases`),
+ * pour qu'une carte qui cite une piÃ¨ce renommÃ©e la montre encore, et leurs **emprises**, pour que
+ * la composition trie une piÃ¨ce large au pied de son emprise (`core::footprintFootCorner`).
  */
 
 namespace core {
 struct JsonDocument;
-}
+class ScenePieceManifest;
+}  // namespace core
 
 namespace hmi {
 
@@ -72,7 +80,24 @@ public:
     static constexpr int FORMAT_VERSION = 1;
 
     [[nodiscard]] static PlaceAppearanceResult loadFromString(std::string_view json);
+
+    /// @brief Lit la table, puis le manifeste rangÃ© Ã  cÃ´tÃ© d'elle s'il existe (voir l'en-tÃªte).
     [[nodiscard]] static PlaceAppearanceResult loadFromFile(const std::filesystem::path&amp; path);
+
+    /**
+     * @brief Adopte les anciens noms et les emprises des piÃ¨ces d'un manifeste.
+     *
+     * `loadFromFile` l'appelle avec le manifeste voisin ; un test, avec le sien.
+     */
+    void adoptManifest(const core::ScenePieceManifest&amp; manifest);
+
+    /// @return Le nom courant de la piÃ¨ce @p name : elle-mÃªme, ou la piÃ¨ce dont c'est un ancien
+    /// nom.
+    [[nodiscard]] std::string_view canonicalPiece(std::string_view name) const;
+
+    /// @return L'emprise de la piÃ¨ce @p name (nom courant), 1 Ã 1 si le manifeste ne la connaÃ®t
+    /// pas.
+    [[nodiscard]] core::PieceFootprint pieceFootprint(std::string_view name) const;
 
     /// @return L'identifiant du lieu (`coliseum`), vide pour une table vide.
 <span style = "background-color:#dfd">    [[nodiscard]] const std::string&amp; place() const noexcept {
@@ -109,6 +134,10 @@ private:
     std::string _place;
     Table _floors;
     Table _relief;
+    /// Ancien nom -&gt; nom courant (`aliases` du manifeste).
+    std::map&lt;std::string, std::string, std::less&lt;&gt;&gt; _aliases;
+    /// Nom courant -&gt; emprise, pour les seules piÃ¨ces plus grandes qu'une case.
+    std::map&lt;std::string, core::PieceFootprint, std::less&lt;&gt;&gt; _footprints;
 };
 
 /// @brief RÃ©sultat d'une lecture : la table, et ce qui a Ã©chouÃ©.
