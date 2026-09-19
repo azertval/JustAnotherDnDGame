@@ -7,8 +7,9 @@ var searchData=
   ['bench_5flevels_2ecpp_4',['bench_levels.cpp',['../bench__levels_8cpp.html',1,'']]],
   ['bestiary_2ecpp_5',['Bestiary.cpp',['../Bestiary_8cpp.html',1,'']]],
   ['bestiary_2eh_6',['Bestiary.h',['../Bestiary_8h.html',1,'']]],
-  ['bootstrap_2ecpp_7',['Bootstrap.cpp',['../Bootstrap_8cpp.html',1,'']]],
-  ['bootstrap_2eh_8',['Bootstrap.h',['../Bootstrap_8h.html',1,'']]],
-  ['buildconfig_2eh_9',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]],
-  ['buttonrepeat_2eh_10',['ButtonRepeat.h',['../ButtonRepeat_8h.html',1,'']]]
+  ['bilan_2dpoc_2emd_7',['bilan-poc.md',['../bilan-poc_8md.html',1,'']]],
+  ['bootstrap_2ecpp_8',['Bootstrap.cpp',['../Bootstrap_8cpp.html',1,'']]],
+  ['bootstrap_2eh_9',['Bootstrap.h',['../Bootstrap_8h.html',1,'']]],
+  ['buildconfig_2eh_10',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]],
+  ['buttonrepeat_2eh_11',['ButtonRepeat.h',['../ButtonRepeat_8h.html',1,'']]]
 ];
