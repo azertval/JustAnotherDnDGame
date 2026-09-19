@@ -16,3 +16,7 @@ exclude_path = [
   "Documentation/generated",
   "\\.claude",
 ]
+# Le corpus (Documentation/SourceBook/) reste hors du dépôt (.gitignore) : les renvois vers ses PDF
+# ne se résolvent que sur le poste de l'auteur. Ils sont exclus comme cibles ; les documents qui les
+# portent restent vérifiés.
+exclude = ["/Documentation/SourceBook/"]
