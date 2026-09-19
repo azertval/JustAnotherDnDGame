@@ -66,7 +66,7 @@ Les régions, textures et Ironhand restent dans les tâches suivantes, hors road
 
 ## Vérifications exécutées
 
-- Python 3.13 : 104 tests des scripts réussis, dont 13 tests de la fabrique.
+- Python 3.13 : 105 tests des scripts réussis, dont 14 tests de la fabrique.
 - `scripts/build.ps1 -Test` : construction réussie, aucun échec sur 769 cas ; un test de
   capture d’arène explicitement sauté par la suite existante. Les assets testés restent ceux livrés.
 - Contrôles du dépôt : 18 sur 19 verts localement ; PSScriptAnalyzer 1.25.0 absent du poste.
