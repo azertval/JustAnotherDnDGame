@@ -747,13 +747,18 @@ void LevelDraft::restore(State state) {
 }
 
 void LevelDraft::beginGesture() noexcept {
-    if (_gestureDepth++ == 0) {
+    if (_gestureDepth == 0) {
         _gesturePushed = false;
     }
+    ++_gestureDepth;
 }
 
 void LevelDraft::endGesture() noexcept {
-    if (_gestureDepth > 0 && --_gestureDepth == 0) {
+    if (_gestureDepth == 0) {
+        return;
+    }
+    --_gestureDepth;
+    if (_gestureDepth == 0) {
         _gesturePushed = false;
     }
 }
