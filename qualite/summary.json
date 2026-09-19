@@ -1,7 +1,7 @@
 {
-  "generated": "2026-09-18 21:59 UTC",
+  "generated": "2026-09-19 05:27 UTC",
   "commit": "e89301c25",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35398334913",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35423958788",
   "coverage": {
     "percent": 91.44,
     "covered": 19327,
@@ -138,45 +138,51 @@
   },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
-    "runs": 4,
-    "date": "2026-09-18 02:39 UTC",
-    "commit": "e32d883e1",
+    "runs": 5,
+    "date": "2026-09-19 02:37 UTC",
+    "commit": "e89301c25",
     "benches": [
       {
         "name": "ReachableAreaDashing",
-        "value": 157095.9040178518,
+        "value": 155707.55580357,
         "unit": "ns/iter",
-        "change_percent": -6.3
+        "change_percent": -0.9
       },
       {
         "name": "FindPathAcrossGrid",
-        "value": 211820.87499999724,
+        "value": 212740.00000000015,
         "unit": "ns/iter",
-        "change_percent": -7.0
+        "change_percent": 0.4
       },
       {
         "name": "LineOfSightAcrossGrid",
-        "value": 57509.62296959313,
+        "value": 57417.955071027,
         "unit": "ns/iter",
-        "change_percent": -12.0
+        "change_percent": -0.2
       },
       {
         "name": "CoverFromWithInterposed",
-        "value": 166593.49294045253,
+        "value": 162747.968750002,
         "unit": "ns/iter",
-        "change_percent": -11.9
+        "change_percent": -2.3
       },
       {
         "name": "PlanTurnFourVersusFour",
-        "value": 1135662.187499964,
+        "value": 1135160.6250000088,
         "unit": "ns/iter",
-        "change_percent": -4.2
+        "change_percent": -0.0
       },
       {
         "name": "LoadShippedLevel",
-        "value": 1688721.1042944589,
+        "value": 1667925.5689424297,
         "unit": "ns/iter",
-        "change_percent": 118.8
+        "change_percent": -1.2
+      },
+      {
+        "name": "ComposeMartpart",
+        "value": 408.2537144515445,
+        "unit": "us/iter",
+        "change_percent": null
       }
     ]
   },

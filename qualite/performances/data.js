@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789699177146,
+  "lastUpdate": 1789785429619,
   "repoUrl": "https://github.com/azertval/JustAnotherRpgGame",
   "entries": {
     "Combat et niveaux (Release, windows-2022)": [
@@ -232,6 +232,70 @@ window.BENCHMARK_DATA = {
             "value": 1688721.1042944589,
             "unit": "ns/iter",
             "extra": "iterations: 815\ncpu: 1687116.5644171778 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "azertval",
+            "username": "azertval",
+            "email": "valentin.eloy@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "e89301c25f5864a0b9a979a588c2f95ee8cfaef6",
+          "message": "LOT-EDITOR-02 — Le canevas montre le lieu, en iso comme dans le jeu (#76)\n\n* refactor(editeur): LOT-EDITOR-02 — la composition sort de HmiLib, le manifeste des pièces descend dans Core\n\nPhase 1 du lot (constats A8 et A9 de la feuille de route de l'éditeur).\n\n- SceneComposition : ComposedScene, PlaceAppearance et WorldSceneComposer forment\n  une bibliothèque sans GPU ni Qt, que HmiLib lie en PUBLIC ; le jeu ne change pas.\n- WorldSceneSource : la composition lit une core::Level ou un brouillon d'éditeur\n  par les mêmes accesseurs ; npcFigures sort de WorldPlay pour être partagé.\n- core::ScenePieceManifest lit Assets/Scene/<lieu>/manifest.json (classe, emprise,\n  ancre, taille, miroir) ; la galerie des assets le lit par là.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* feat(editeur): LOT-EDITOR-02 — le canevas montre le lieu, en iso comme dans le jeu\n\nPhases 2 et 3 du lot (décisions D1, D2, D11 de la feuille de route de l'éditeur).\n\n- EditorViewport devient une QGraphicsView dont l'élément unique peint, par\n  QPainter, la liste de primitives que compose le jeu, bornée au visible ;\n  quadrillage en losanges, case survolée, aperçu des outils, marqueurs, terrain\n  de rencontre et masque de collision par-dessus. Vue à plat en bascule (F9).\n- ScenePainter : remplissage texturé échantillonné au centre des pixels, comme le\n  GPU ; ScenePainterTest compare Martpart et le Colisée au rendu QRhi du jeu\n  (0,06 % des pixels au pire, tolérance 0,5 %).\n- Pointage par le losange, hauteur en paramètre (CanvasPicking) ; instantané du\n  canevas identique à celui du jeu (CanvasScene), testés.\n- Calques grisés et verrouillés, reliefs en transparence (F8), mini-carte,\n  pièces de la case survolée dans la barre d'état.\n- L'essai immédiat est peint de même : l'éditeur ne lie plus ni SpriteBatch ni\n  QRhi ni Qt6::GuiPrivate. Mesure ComposeMartpart : 0,5 ms.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* docs(editeur): LOT-EDITOR-02 — dossier du lot, exigences, guides et README\n\n- Documentation/Editeur/LOT-EDITOR-02-canevas/epic.md : décisions, livraison,\n  acceptation, ce qui reste hors du lot ; le lot quitte la feuille de route.\n- editeur-niveaux.md : EX-EDIT-059 (le canevas montre le lieu comme le jeu),\n  EX-EDIT-060 (pointage par le losange), EX-EDIT-061 (calques, mini-carte).\n- EX-REN-050, guides éditeur, rendu, IHM Qt et boucle : le canevas est une\n  QGraphicsView peinte par QPainter ; cahier de test régénéré.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* docs(editeur): LOT-EDITOR-02 — entrée du changelog\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* fix(editeur): LOT-EDITOR-02 — CI : deux erreurs clang-tidy et trois paramètres non documentés\n\n- CanvasPicking.cpp : la borne de `cellIndex` divise en flottant (bugprone-integer-division).\n- SceneImages.cpp : le pas de ligne se calcule en `qsizetype` (implicit-widening).\n- CanvasPicking.h, ScenePainter.h : paramètres Doxygen complétés (WARN_AS_ERROR).\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-18T21:45:17Z",
+          "url": "https://github.com/azertval/JustAnotherRpgGame/commit/e89301c25f5864a0b9a979a588c2f95ee8cfaef6"
+        },
+        "date": 1789785426293,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ReachableAreaDashing",
+            "value": 155707.55580357,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 155203.6830357143 ns\nthreads: 1"
+          },
+          {
+            "name": "FindPathAcrossGrid",
+            "value": 212740.00000000015,
+            "unit": "ns/iter",
+            "extra": "iterations: 6400\ncpu: 212402.34375 ns\nthreads: 1"
+          },
+          {
+            "name": "LineOfSightAcrossGrid",
+            "value": 57417.955071027,
+            "unit": "ns/iter",
+            "extra": "iterations: 24216\ncpu: 58071.1100099108 ns\nthreads: 1"
+          },
+          {
+            "name": "CoverFromWithInterposed",
+            "value": 162747.968750002,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 162179.1294642857 ns\nthreads: 1"
+          },
+          {
+            "name": "PlanTurnFourVersusFour",
+            "value": 1135160.6250000088,
+            "unit": "ns/iter",
+            "extra": "iterations: 1280\ncpu: 1123046.875 ns\nthreads: 1"
+          },
+          {
+            "name": "LoadShippedLevel",
+            "value": 1667925.5689424297,
+            "unit": "ns/iter",
+            "extra": "iterations: 747\ncpu: 1673360.107095047 ns\nthreads: 1"
+          },
+          {
+            "name": "ComposeMartpart",
+            "value": 408.2537144515445,
+            "unit": "us/iter",
+            "extra": "iterations: 3446\ncpu: 403.5475914103308 us\nthreads: 1"
           }
         ]
       }
