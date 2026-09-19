@@ -94,7 +94,8 @@ depuis le jeu, est l'**arène** du `LOT-50`.
   toute taille.
 - \anchor EX-EDIT-014 **EX-EDIT-014** — Au-delà de la peinture case par case, l'éditeur doit fournir
   un **outil de remplissage rectangulaire** et un **outil de sélection** avec **copier/coller** d'une
-  zone de tuiles.
+  zone de tuiles. *Révisée au `LOT-EDITOR-04`* : `Suppr` gomme la sélection en un pas ; les autres
+  outils du peintre sont en `EX-EDIT-066`.
 - \anchor EX-EDIT-015 **EX-EDIT-015** — L'éditeur doit exposer ses commandes de façon
   **découvrable** à l'écran : une barre d'outils pour changer d'outil, un aperçu des raccourcis
   clavier, et des libellés sur les entrées de la palette.
@@ -221,6 +222,29 @@ On pose ce que le jeu montrera, et la collision suit
   collision **force** la case qui s'écarte de la déduction et libère celle qui s'y accorde ; la
   gomme, la collision active, rend les cases forcées à la déduction. Les cases forcées se montrent
   en **masque** quand on peint la collision, et la barre d'état les signale.
+
+## 12. Les outils du peintre (`LOT-EDITOR-04`)
+Tracer vite, et défaire d'un coup ([LOT-EDITOR-04](@ref lot-editor-04)).
+
+- \anchor EX-EDIT-066 **EX-EDIT-066** — L'éditeur fournit, en plus du pinceau et du rectangle, la
+  **ligne**, le **seau** (les cases reliées de même contenu, pièces d'une case seulement), la
+  **gomme** en outil et la **pipette**, qui prend la pièce ou le type qu'on voit sous la case ;
+  `Alt` + clic est la pipette depuis n'importe quel outil. Chaque outil a **sa touche**. Chaque
+  outil est une fonction pure, testée, qui passe par le pinceau (`EX-EDIT-064`) ; **un geste — du
+  clic au relâchement — est un pas d'annulation**, quel que soit le nombre de cases.
+- \anchor EX-EDIT-067 **EX-EDIT-067** — Le **miroir** reflète chaque geste de l'autre côté d'un axe
+  vertical de l'écran iso, en un pas avec lui : la case (c, r) a pour reflet (r + k, c − k), et une
+  pièce y devient sa **jumelle** (`mirrorOf` du manifeste). Un geste qui chevauche son reflet ne se
+  reflète pas. L'axe se voit sur le canevas.
+- \anchor EX-EDIT-068 **EX-EDIT-068** — Les **notes d'auteur** s'épinglent à une case et vivent
+  dans `<carte>.editor.json`, à côté de la carte, que le jeu ne lit jamais : écriture canonique,
+  clés inconnues gardées, fichier retiré quand il n'a plus rien. Elles ne sont ni annulées ni
+  comptées comme une modification de la carte, et suivent la carte qu'on renomme, duplique ou
+  supprime. Aucune liste de cartes ne prend une annexe pour une carte.
+- \anchor EX-EDIT-069 **EX-EDIT-069** — La **mesure** donne l'étendue en cases et la distance
+  entre deux cases, en cases et en pieds (une case = 5 pieds, une diagonale = une case). L'**essai**
+  peut partir de la case survolée, sans toucher au brouillon ; une case qui arrête le pas est
+  refusée.
 
 ## Exigences retirées {#edit-retirees}
 
