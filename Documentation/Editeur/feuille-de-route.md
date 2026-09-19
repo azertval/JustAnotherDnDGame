@@ -189,7 +189,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 | `LOT-EDITOR-01` | Le socle du module — **livré** | — | M |
 | `LOT-EDITOR-02` | Le canevas montre le lieu — **livré** | 01 | L |
 | `LOT-EDITOR-12` | Le format v4 et sa garde en CI — **livré** | 01 | M |
-| `LOT-EDITOR-03` | Peindre avec les pièces du lieu | 02, 12 | M |
+| `LOT-EDITOR-03` | Peindre avec les pièces du lieu — **livré** | 02, 12 | M |
 | `LOT-EDITOR-04` | Les outils du peintre | 03 | M |
 | `LOT-EDITOR-05` | Entités et zones sur le canevas | 02, 12 | M |
 | `LOT-EDITOR-13` | L'éditeur sans fenêtre | 04 | S |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01, 02 et 12 (livrés), 03, 04, 05, 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01, 02, 12 et 03 (livrés), 04, 05, 13, 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -213,7 +213,7 @@ digraph editeur {
   E01 [label="01\nsocle\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E02 [label="02\ncanevas iso\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E12 [label="12\nformat v4\n+ check en CI\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E03 [label="03\npièces"];
+  E03 [label="03\npièces\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E04 [label="04\noutils"];
   E05 [label="05\nentités, zones"];
   E13 [label="13\nsans fenêtre"];
@@ -272,22 +272,18 @@ que le jeu joue ; `LevelEditor --check` les garde en CI (`EX-EDIT-062`). Schéma
 `Documentation/Editeur/level.schema.json`. Le Colisée garde 540 cases forcées, à trancher au
 `LOT-EDITOR-03`.
 
-### LOT-EDITOR-03 — Peindre avec les pièces du lieu {#lot-editor-03}
+### LOT-EDITOR-03 — Peindre avec les pièces du lieu
 
-> Statut : **à faire**. Prérequis : 02, 12.
+> Statut : **livré le 19 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-03.
 
-La palette est la planche du lieu. Poser une pièce écrit sa couche, sa `piece` et sa collision en
-un seul geste.
-
-- Catalogue de pièces, vignettes groupées par `class`, libellés du lieu, recherche.
-- Les écarts de collision forcés à la main sont montrés en masque.
-- Une pièce absente de la planche reste dans la carte, montrée en damier, jamais retirée.
-- Carte sans lieu : repli sur les types en couleurs.
-- Révision de `EX-EDIT-002` et `EX-EDIT-018` : poser une pièce devient l'affaire de l'éditeur.
-
-*Acceptation* — repeindre une rue et une façade de Martpart sans toucher à la collision rend un
-fichier identique à l'original ; poser puis gommer un étal 2 × 1 occupe puis libère ses deux
-cases, collision comprise.
+La palette est la planche du lieu : vignettes groupées par classe, recherche, et à part les pièces
+que la carte cite sans que la planche les ait, en damier (`EX-EDIT-063`). Une pièce va sur sa
+couche et écrit, en un geste, sa pièce, le type de sa case et la collision de son emprise ; la
+gomme retire une pièce entière (`EX-EDIT-064`). La collision suit chaque geste sur ses seules
+cases ; peindre la collision force la case, la gomme la libère, et le masque montre les cases
+forcées (`EX-EDIT-065`). Les 540 cases forcées du Colisée — le vide autour de l'amphithéâtre, que
+le héros atteint par la porte, et deux piliers — sont à la décision de l'auteur.
 
 ### LOT-EDITOR-04 — Les outils du peintre {#lot-editor-04}
 

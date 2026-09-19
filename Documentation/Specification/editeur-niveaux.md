@@ -19,8 +19,10 @@ au contenu du jeu.
 - \anchor EX-EDIT-001 **EX-EDIT-001** — L'éditeur doit permettre de créer et modifier une carte
   **sans compétence en programmation** ni ligne de commande.
 - \anchor EX-EDIT-002 **EX-EDIT-002** — L'édition doit être **directe** : une grille visuelle où
-  l'on peint les tuiles à la souris, depuis une **palette** de types, chaque type dessiné de la
-  couleur que le canevas lui donne.
+  l'on peint à la souris, depuis une **palette**. *Révisée au `LOT-EDITOR-03`* : la palette est
+  d'abord la **planche du lieu** — on y choisit une pièce, dessinée par son image (`EX-EDIT-063`) —,
+  et les types de tuile, chacun de la couleur que le canevas lui donne, restent le repli d'une
+  carte sans lieu et le vocabulaire de la collision.
 - \anchor EX-EDIT-004 **EX-EDIT-004** — L'éditeur doit permettre de poser l'**entrée** de la carte,
   unique : la poser ailleurs la déplace.
 - \anchor EX-EDIT-005 **EX-EDIT-005** — L'éditeur doit permettre de **redimensionner** la grille et
@@ -47,7 +49,8 @@ au contenu du jeu.
 - \anchor EX-EDIT-043 **EX-EDIT-043** — La **pièce** nommée par une case de couche (`"piece"`,
   `EX-LVL-019`) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre
   type. *Révisée au `LOT-EDITOR-12`* : la pièce quitte la grille de collision (`"texture"` d'une v3)
-  pour sa couche ; la poser devient l'affaire de l'éditeur au `LOT-EDITOR-03`.
+  pour sa couche. *Révisée au `LOT-EDITOR-03`* : la poser est l'affaire de l'éditeur
+  (`EX-EDIT-064`).
 
 ## 3. Distribution & collaboration
 - \anchor EX-EDIT-020 **EX-EDIT-020** — L'éditeur doit être fourni comme un **outil exécutable** que
@@ -100,7 +103,9 @@ depuis le jeu, est l'**arène** du `LOT-50`.
   code, pas une limite arbitraire de `Core`.
 - \anchor EX-EDIT-018 **EX-EDIT-018** — La palette doit regrouper les types de tuiles en
   **catégories** (Tuile, Jalon, Sol, Obstacle, Passage) plutôt qu'en liste plate, et rester
-  entièrement accessible par **défilement** quand tout est déplié.
+  entièrement accessible par **défilement** quand tout est déplié. *Révisée au `LOT-EDITOR-03`* :
+  c'est l'onglet « Types » de la palette ; les pièces du lieu ont le leur, groupé par classe
+  (`EX-EDIT-063`).
 - \anchor EX-EDIT-023 **EX-EDIT-023** — L'éditeur doit afficher, en superposition de la grille de
   tuiles, un **quadrillage de repère** case par case (bascule `F10`), sans effet sur le cadrage.
 
@@ -196,6 +201,26 @@ Le format de carte v4 (`EX-LVL-019` à `EX-LVL-024`) se garde par l'éditeur, sa
   les cartes — version courante, écriture canonique octet pour octet, références, pièces présentes
   au manifeste, collision égale à la déduction hors cases forcées, identifiants — et tourne en CI.
   Les deux s'exécutent sans fenêtre et appellent la même logique que l'éditeur.
+
+## 11. Peindre avec les pièces du lieu (`LOT-EDITOR-03`)
+On pose ce que le jeu montrera, et la collision suit
+([LOT-EDITOR-03](@ref lot-editor-03)).
+
+- \anchor EX-EDIT-063 **EX-EDIT-063** — La palette montre les **pièces du lieu** de la carte, par
+  leur image, **groupées par classe** (sols, pièces debout, pièces larges) sous le nom court que la
+  carte écrit, avec une **recherche** sur le nom et la classe. Une pièce que la carte cite et que la
+  planche n'a pas y paraît à part, en damier, et se pose encore : elle n'est jamais retirée que par
+  un geste qui la vise. Une carte sans lieu retombe sur la palette des types.
+- \anchor EX-EDIT-064 **EX-EDIT-064** — Poser une pièce écrit, **en un geste** et un pas
+  d'annulation, sa couche (la première de sol pour un sol, la première de décor sinon), sa pièce,
+  le type de sa case et la **collision de son emprise**. Deux emprises ne se recouvrent pas sur une
+  couche ; la gomme retire une pièce entière depuis n'importe laquelle de ses cases, collision
+  comprise ; reposer la même pièce ne modifie pas la carte.
+- \anchor EX-EDIT-065 **EX-EDIT-065** — La collision **suit** chaque geste sur une couche visuelle,
+  sur les seules cases qu'il touche, hors cases forcées et hors entrée. Peindre la grille de
+  collision **force** la case qui s'écarte de la déduction et libère celle qui s'y accorde ; la
+  gomme, la collision active, rend les cases forcées à la déduction. Les cases forcées se montrent
+  en **masque** quand on peint la collision, et la barre d'état les signale.
 
 ## Exigences retirées {#edit-retirees}
 
