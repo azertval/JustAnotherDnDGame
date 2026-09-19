@@ -45,6 +45,8 @@ add_library(EditorLogic STATIC
     Logic/EditorSidecar.cpp
     # L'éditeur sans fenêtre (LOT-EDITOR-13) : --apply rejoue des gestes par les fonctions des outils.
     Logic/GestureScript.cpp
+    # Les cartes se font dans l'éditeur (LOT-EDITOR-06) : la racine des données qu'il ouvre.
+    Logic/DataRoot.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic
@@ -106,6 +108,10 @@ target_link_libraries(LevelEditor PRIVATE
 
 target_include_directories(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source)
 target_compile_definitions(LevelEditor PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX UNICODE _UNICODE)
+# L'arbre des sources qui a construit l'éditeur : il y ouvre les cartes, pas dans la copie que
+# CopyGameData refait à chaque construction (LOT-EDITOR-06, hmi::resolveDataRoot).
+target_compile_definitions(LevelEditor PRIVATE
+    JADG_EDITOR_SOURCE_DATA="${PROJECT_SOURCE_DIR}/Source/Elements")
 if(ENABLE_PCH)
     target_precompile_headers(LevelEditor PRIVATE ${PROJECT_SOURCE_DIR}/Source/pch.h)
 endif()

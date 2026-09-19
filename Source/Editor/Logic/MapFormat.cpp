@@ -390,6 +390,20 @@ PlaceAssets loadPlaceAssets(const std::filesystem::path& dataRoot, std::string_v
     return assets;
 }
 
+std::vector<std::string> scenePlaces(const std::filesystem::path& dataRoot) {
+    std::vector<std::string> places;
+    std::error_code error;
+    for (auto it = std::filesystem::directory_iterator(dataRoot / "Assets" / "Scene", error);
+         !error && it != std::filesystem::directory_iterator(); it.increment(error)) {
+        if (it->is_directory(error) &&
+            std::filesystem::is_regular_file(it->path() / "manifest.json", error)) {
+            places.push_back(it->path().filename().string());
+        }
+    }
+    std::ranges::sort(places);
+    return places;
+}
+
 std::string formatFinding(const MapCheckFinding& finding) {
     std::string line = finding.mapId;
     if (finding.cell) {

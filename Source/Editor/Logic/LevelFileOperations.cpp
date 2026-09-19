@@ -4,8 +4,11 @@
 #include "Editor/Logic/LevelFileOperations.h"
 
 #include <algorithm>
+#include <cstddef>
+#include <optional>
 #include <system_error>
 #include <utility>
+#include <vector>
 
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
@@ -13,6 +16,7 @@
 #include "Core/World/WorldGraph.h"
 #include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/LevelNameValidation.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
 
 namespace hmi {
 
@@ -74,8 +78,8 @@ std::vector<std::filesystem::path> LevelFileOperations::list() const {
     return levels;
 }
 
-FileOperationResult LevelFileOperations::create(const std::string& name, int width,
-                                                int height) const {
+FileOperationResult LevelFileOperations::create(const std::string& name, int width, int height,
+                                                const std::string& place) const {
     const std::string trimmed = hmi::trimLevelName(name);
     if (!hmi::isValidLevelName(name)) {
         return FileOperationResult::failure("Nom de niveau invalide.");
@@ -90,6 +94,21 @@ FileOperationResult LevelFileOperations::create(const std::string& name, int wid
     }
     // Niveau minimal valide : grille vide + une entrée (coin bas gauche).
     core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
+    if (!place.empty()) {
+        // Les couches des cartes livrées. Le sol nomme le lieu ; la collision est celle que la
+        // déduction donne à une carte vide : le vide arrête la vue (décision D10).
+        const std::optional<std::size_t> ground = draft.addLayer(core::LayerKind::Ground, "sol");
+        draft.setLayerProperty(*ground, std::string{SCENE_PLACE_PROPERTY}, place);
+        draft.addLayer(core::LayerKind::Decor, "relief");
+        draft.paintRegion(0, 0,
+                          std::vector<std::vector<core::TileType>>(
+                              static_cast<std::size_t>(height),
+                              std::vector<core::TileType>(static_cast<std::size_t>(width),
+                                                          core::TileType::Wall)));
+        // L'entrée ne se tient pas dans le vide : sa case reçoit un sol de terre, que la table du
+        // lieu traduit en pièce.
+        draft.paintLayerTile(*ground, 0, height - 1, core::TileType::Dirt);
+    }
     draft.setEntry(0, height - 1);
     core::LevelLoadResult validated = draft.toLevel();
     if (!validated.ok()) {

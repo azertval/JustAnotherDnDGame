@@ -33,6 +33,7 @@
 #include "Core/Levels/TileTypeName.h"
 #include "Core/Math/Vector2.h"
 #include "Core/World/WorldTravel.h"
+#include "Editor/Logic/DataRoot.h"
 #include "Editor/Logic/EntityGesture.h"
 #include "Editor/Logic/EntityReferences.h"
 #include "Editor/Logic/EntityShapes.h"
@@ -69,11 +70,11 @@ constexpr int PLAYTEST_FRAME_MS = 16;
 }
 
 [[nodiscard]] std::filesystem::path levelsDirectory() {
-    return hmi::executableDirectory() / "Levels";
+    return hmi::editorDataRoot() / "Levels";
 }
 
 [[nodiscard]] std::filesystem::path assetsDirectory() {
-    return hmi::executableDirectory() / "Assets";
+    return hmi::editorDataRoot() / "Assets";
 }
 
 /// Carte ouverte au lancement : la première carte du jeu.
@@ -443,7 +444,7 @@ void EditorViewport::ensureIsoScene() {
         _manifest.reset();
         if (!place.empty()) {
             // Ce que --check lit, lu de la même façon : la table et le manifeste du lieu.
-            PlaceAssets assets = loadPlaceAssets(hmi::executableDirectory(), place);
+            PlaceAssets assets = loadPlaceAssets(hmi::editorDataRoot(), place);
             if (assets.appearance) {
                 _appearance = std::move(*assets.appearance);
             } else {

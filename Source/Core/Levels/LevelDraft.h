@@ -160,6 +160,10 @@ public:
     /// Change le rôle (sol ↔ décor) de la couche visuelle au rang @p index.
     bool setLayerKind(std::size_t index, LayerKind kind);
 
+    /// Assigne la propriété @p key de la couche visuelle au rang @p index — par exemple le lieu
+    /// dont elle prend les pièces (`scene`, `LOT-EDITOR-06`). Une valeur identique n'empile rien.
+    bool setLayerProperty(std::size_t index, const std::string& key, PropertyValue value);
+
     /**
      * @brief Échange la couche visuelle au rang @p index avec sa voisine visuelle, en avant
      *        (@p forward) ou en arrière. L'entrée de collision ne se franchit pas : elle n'a pas

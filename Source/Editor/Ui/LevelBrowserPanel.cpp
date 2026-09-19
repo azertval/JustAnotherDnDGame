@@ -3,6 +3,10 @@
 
 #include "Editor/Ui/LevelBrowserPanel.h"
 
+#include <QComboBox>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QInputDialog>
 #include <QLineEdit>
@@ -11,6 +15,7 @@
 #include <QModelIndex>
 #include <QPushButton>
 #include <QSortFilterProxyModel>
+#include <QSpinBox>
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QTabWidget>
@@ -19,6 +24,7 @@
 
 #include "Core/World/WorldGraph.h"
 #include "Editor/Logic/LevelFileOperations.h"
+#include "Editor/Logic/MapFormat.h"
 #include "Editor/Ui/WorldGraphView.h"
 #include "HMI/HmiLog.h"
 
@@ -28,6 +34,11 @@ namespace {
 
 // Rôle portant le chemin absolu du fichier d'un item de la liste.
 constexpr int PATH_ROLE = Qt::UserRole + 1;
+
+// Taille proposée pour une nouvelle carte, et son plafond (celui du redimensionnement).
+constexpr int NEW_MAP_WIDTH = 24;
+constexpr int NEW_MAP_HEIGHT = 14;
+constexpr int NEW_MAP_MAXIMUM_SIDE = 100;
 
 // Texte localisé d'une clé (repli sur la clé si aucun catalogue — ne survient pas en pratique).
 // Signale l'échec éventuel d'une opération à l'utilisateur (jamais silencieux) et le journalise.
@@ -142,15 +153,41 @@ std::filesystem::path LevelBrowserPanel::selectedPath() const {
 }
 
 void LevelBrowserPanel::onNew() {
-    bool accepted = false;
-    const QString name =
-        QInputDialog::getText(this, QStringLiteral("New map"), QStringLiteral("Map name:"),
-                              QLineEdit::Normal, QString(), &accepted);
-    if (!accepted || name.isEmpty()) {
+    // Nom, taille et lieu (LOT-EDITOR-06) : sans lieu, la palette n'aurait que les types en
+    // couleurs, et aucune pièce à poser.
+    QDialog dialog(this);
+    dialog.setWindowTitle(QStringLiteral("New map"));
+    auto* const nameEdit = new QLineEdit(&dialog);
+    auto* const widthSpin = new QSpinBox(&dialog);
+    auto* const heightSpin = new QSpinBox(&dialog);
+    for (QSpinBox* const spin : {widthSpin, heightSpin}) {
+        spin->setRange(1, NEW_MAP_MAXIMUM_SIDE);
+    }
+    widthSpin->setValue(NEW_MAP_WIDTH);
+    heightSpin->setValue(NEW_MAP_HEIGHT);
+    auto* const placeCombo = new QComboBox(&dialog);
+    for (const std::string& place : scenePlaces(_dir.parent_path())) {
+        placeCombo->addItem(QString::fromStdString(place), QString::fromStdString(place));
+    }
+    placeCombo->addItem(QStringLiteral("(none: colored tile types)"), QString());
+    auto* const buttons =
+        new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog);
+    connect(buttons, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    connect(buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    auto* const form = new QFormLayout(&dialog);
+    form->addRow(QStringLiteral("Map name"), nameEdit);
+    form->addRow(QStringLiteral("Width (cells)"), widthSpin);
+    form->addRow(QStringLiteral("Height (cells)"), heightSpin);
+    form->addRow(QStringLiteral("Place (piece sheet)"), placeCombo);
+    form->addRow(buttons);
+    if (dialog.exec() != QDialog::Accepted || nameEdit->text().isEmpty()) {
         return;
     }
+    const QString name = nameEdit->text();
     const LevelFileOperations ops(_dir);
-    const FileOperationResult result = ops.create(name.toStdString(), 24, 14);  // taille par défaut
+    const FileOperationResult result =
+        ops.create(name.toStdString(), widthSpin->value(), heightSpin->value(),
+                   placeCombo->currentData().toString().toStdString());
     if (result.ok()) {
         HMI_LOG_INFO("Niveaux : cree « " + name.toStdString() + " ».");
     }
