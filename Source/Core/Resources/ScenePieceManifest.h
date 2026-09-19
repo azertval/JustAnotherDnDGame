@@ -5,9 +5,12 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
+
+#include "Core/Levels/PieceFootprint.h"
 
 /**
  * @file Core/Resources/ScenePieceManifest.h
@@ -19,6 +22,11 @@
  * route de l'éditeur) : aucune règle de carte ne pouvait donc s'appuyer sur l'emprise d'une pièce.
  * La lecture descend ici, sans Qt ni GPU, pour que `Core` puisse un jour en déduire l'occupation et
  * la collision (`LOT-EDITOR-12`) ; `HMI` n'en garde que les images.
+ *
+ * Depuis le `LOT-EDITOR-12`, le manifeste dit aussi ce qu'une pièce **oppose** à qui passe (son
+ * type tactique, `core::PieceTactical`) — c'est de là que `core::deriveCollision` tire la collision
+ * d'une carte — et sous quels **anciens noms** une carte peut encore la citer (`aliases`) : une
+ * planche réextraite qui renomme une pièce ne casse aucune carte.
  *
  * Le manifeste nomme une pièce par une clé d'atelier (`scene/martpart/wall-left`). Une carte, elle,
  * ne connaît que le **nom court** (`wall-left`), celui que la table d'apparence et l'assignation de
@@ -40,6 +48,34 @@ enum class ScenePieceClass : std::uint8_t {
     /// Une classe que ce lecteur ne connaît pas : gardée par son nom, jamais refusée.
     Other,
 };
+
+/**
+ * @brief Ce qu'une pièce oppose à qui passe : son **type tactique** (décision D10, constat A5).
+ *
+ * Rangés du plus faible au plus fort : sur une case que plusieurs pièces couvrent, la plus forte
+ * l'emporte (`core::deriveCollision`). Les noms du manifeste sont entre parenthèses.
+ */
+enum class PieceTactical : std::uint8_t {
+    /// Passe (`open`) : un sol, un banc qu'on enjambe, une arche.
+    Open,
+    /// Gêne (`difficult`) : terrain difficile. **Pas encore joué** depuis une pièce : déduit comme
+    /// `Open`, et signalé par `LevelEditor --check`.
+    Difficult,
+    /// Abri (`cover`) : un muret derrière lequel on se protège. **Pas encore joué** depuis une
+    /// pièce, comme la gêne.
+    Cover,
+    /// Arrête le pas (`obstacle`) : infranchissable au sol, mais on voit par-dessus et on le
+    /// survole — une fosse, un bassin. Déduit en `cliff`.
+    Obstacle,
+    /// Arrête la vue (`solid`) : un mur, une façade. Déduit en `wall`.
+    Solid,
+};
+
+/// @return Le nom de manifeste de @p tactical (`open`, `difficult`, `cover`, `obstacle`, `solid`).
+[[nodiscard]] const char* pieceTacticalName(PieceTactical tactical) noexcept;
+
+/// @return Le type tactique nommé @p name, ou `std::nullopt` pour un nom inconnu.
+[[nodiscard]] std::optional<PieceTactical> parsePieceTactical(std::string_view name) noexcept;
 
 /// @brief Une pièce de la planche d'un lieu.
 struct ScenePiece {
@@ -64,6 +100,16 @@ struct ScenePiece {
     /// Nom court de la pièce dont celle-ci est le miroir, vide sinon. L'image miroir est livrée
     /// telle quelle par l'atelier : le rendu n'a rien à retourner.
     std::string mirrorOf;
+    /// Type tactique (`tactical` du manifeste). À défaut, un sol passe et une pièce debout arrête
+    /// la vue : c'est ce que valent les murs, façades et portes que les planches livrent.
+    PieceTactical tactical = PieceTactical::Solid;
+    /// Anciens noms courts sous lesquels une carte peut citer la pièce (`aliases`).
+    std::vector<std::string> aliases;
+
+    /// @return L'emprise de la pièce.
+    [[nodiscard]] PieceFootprint footprint() const noexcept {
+        return PieceFootprint{.columns = footprintColumns, .rows = footprintRows};
+    }
 
     [[nodiscard]] bool operator==(const ScenePiece&) const = default;
 };
@@ -102,7 +148,8 @@ public:
         return _pieces;
     }
 
-    /// @return La pièce de nom court @p name, `nullptr` si le lieu ne la déclare pas.
+    /// @return La pièce de nom court @p name, ou dont @p name est un ancien nom (`aliases`) ;
+    ///         `nullptr` si le lieu ne la déclare pas.
     [[nodiscard]] const ScenePiece* find(std::string_view name) const noexcept;
 
 private:

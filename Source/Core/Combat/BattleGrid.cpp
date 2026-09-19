@@ -7,6 +7,7 @@
 #include <variant>
 
 #include "Core/Levels/Level.h"
+#include "Core/Levels/MapEntity.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
 
@@ -82,6 +83,27 @@ void BattleGrid::addZones(const Level& level) {
                 if (difficult) {
                     _difficult[index] = true;
                 }
+            }
+        }
+        _zones.push_back(std::move(zone));
+    }
+    // Les zones posees comme entites (decision D13) : un rectangle ou des cases peintes, apres les
+    // couches -- `zonesAt` les rend dans l'ordre des couches, puis des entites.
+    for (const MapEntity& entity : level.entities()) {
+        if (entity.type != ZONE_ENTITY_TYPE) {
+            continue;
+        }
+        Zone zone{.properties = entity.properties,
+                  .cells = std::vector<bool>(_terrain.size(), false)};
+        const bool difficult = marksDifficult(entity.properties);
+        for (const GridPosition cell : zoneCells(entity)) {
+            if (!inBounds(cell)) {
+                continue;
+            }
+            const std::size_t index = indexOf(cell);
+            zone.cells[index] = true;
+            if (difficult) {
+                _difficult[index] = true;
             }
         }
         _zones.push_back(std::move(zone));

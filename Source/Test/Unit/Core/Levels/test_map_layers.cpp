@@ -256,19 +256,20 @@ TEST(CouchesDeCarteTest, LaCoucheDeCollisionEstLaGrilleDuGameplay) {
 }
 
 /**
- * @brief Une carte `version: 4` est refusée avec un message explicite et une erreur typée
- * (`EX-LVL-005`, `EX-NFR-040`).
- * \castest{<b>Une carte version 4 est refusee explicitement.</b><br/>
+ * @brief Une carte d'une version **future** est refusée avec un message explicite et une erreur
+ * typée (`EX-LVL-005`, `EX-NFR-040`).
+ * \castest{<b>Une carte d'une version future est refusee explicitement.</b><br/>
  * \tcat Unitaire · Couches de carte<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Charger une carte declarant version 4.<br/>
+ * \tetapes 1. Charger une carte declarant la version suivant la version courante.<br/>
  * \tattendu Le chargement echoue avec l'erreur UnsupportedFormatVersion et un message nommant la
  * version.
  * }
  */
-TEST(CouchesDeCarteTest, CarteVersion4RefuseeAvecUnMessageExplicite) {
-    constexpr const char* MAP_V4 = R"({
-      "version": 4,
+TEST(CouchesDeCarteTest, CarteDUneVersionFutureRefuseeAvecUnMessageExplicite) {
+    const std::string future = std::to_string(core::LEVEL_FORMAT_VERSION + 1);
+    const std::string carte = R"({
+      "version": )" + future + R"(,
       "name": "Trop neuve",
       "width": 2,
       "height": 2,
@@ -276,10 +277,10 @@ TEST(CouchesDeCarteTest, CarteVersion4RefuseeAvecUnMessageExplicite) {
         { "x": 0, "y": 0, "type": "entry" }
       ]
     })";
-    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(MAP_V4);
+    const core::LevelLoadResult loaded = core::LevelLoader::loadFromString(carte);
     ASSERT_FALSE(loaded.ok());
     EXPECT_EQ(loaded.errorCode, core::LevelValidationError::UnsupportedFormatVersion);
-    EXPECT_NE(loaded.error.find('4'), std::string::npos) << loaded.error;
+    EXPECT_NE(loaded.error.find(future), std::string::npos) << loaded.error;
 }
 
 /**
@@ -476,4 +477,3 @@ TEST(CouchesDeCarteTest, CoucheDeCollisionDeclareeRefusee) {
     EXPECT_EQ(loaded.errorCode, core::LevelValidationError::ParseError);
     EXPECT_NE(loaded.error.find("tiles"), std::string::npos) << loaded.error;
 }
-

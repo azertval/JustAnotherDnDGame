@@ -35,6 +35,8 @@ add_library(EditorLogic STATIC
     # Le canevas qui montre le lieu (LOT-EDITOR-02) : pointage iso et à plat, logique pure.
     Logic/CanvasPicking.cpp
     Logic/CanvasScene.cpp
+    # La garde du format de carte v4 (LOT-EDITOR-12) : --migrate et --check, sans fenêtre.
+    Logic/MapFormat.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic

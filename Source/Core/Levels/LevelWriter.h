@@ -23,7 +23,7 @@ class TileMap;
  * @brief Sérialise une carte vers le format JSON défini par `EX-LVL-003`.
  *
  * Fonction **pure**, symétrique à `LevelLoader::loadFromString` : recharger la chaîne produite
- * reconstruit une carte équivalente (mêmes tuiles, couches, entités, pièces assignées),
+ * reconstruit une carte équivalente (mêmes tuiles, couches, pièces, entités, cases forcées),
  * `EX-EDIT-011`.
  */
 class LevelWriter {
@@ -56,17 +56,25 @@ public:
      * compilateur bronche.
      *
      * Champs consommés, et les conventions qui les gouvernent :
-     * - `tileMap` est la **source de vérité** de l'entrée : une tuile `Entry` présente dans la
-     *   grille est émise ; `entry` n'en est que la relecture, jamais écrit à part.
+     * - `tileMap` est la grille de **collision** et la **source de vérité** de l'entrée : une
+     *   tuile `Entry` présente dans la grille est émise ; `entry` n'en est que la relecture.
      * - `layers` et `entities` (`LOT-04`, `EX-LVL-016`/`EX-LVL-017`) sont émis dans les tableaux
      *   racine optionnels `"layers"` et `"entities"`, omis quand ils sont vides ou — pour les
-     *   couches — quand la carte n'en porte qu'une, de rôle `Legacy` : une carte `version: 2`
-     *   promue au chargement ressort **telle qu'elle est entrée**, sans couche apparue de nulle
-     *   part.
+     *   couches — quand la carte n'en porte qu'une, de rôle `Legacy`. Une case de couche porte son
+     *   `type`, sa `piece` et sa hauteur (`elevation`) si elle en a.
      * - Les propriétés libres d'une couche ou d'une entité, y compris les clés que le chargeur
      *   n'a pas reconnues, sont réémises à côté des champs connus (`EX-LVL-018`).
-     * - `textureOverrides` (`EX-EDIT-043`) est émis sur la tuile racine de sa case, champ
-     *   `"texture"`.
+     * - `forcedCollision` s'écrit dans `"forced"`, `nextEntityId` quand il ne vaut pas 1.
+     * - Une **variante** (`base` non vide) ne s'écrit que par ce qu'elle déclare : nom, base,
+     *   planche, compteur et entités.
+     *
+     * ## Écriture canonique (`LOT-EDITOR-12`)
+     *
+     * Toujours la version courante, les champs dans l'ordre du format (`version`, `name`, …, les
+     * cases en dernier), deux espaces d'indentation, et **une case par ligne** dans les listes de
+     * cases (`tiles`, `forced`, `cells`) : poser une pièce change une ligne du diff. Charger puis
+     * écrire une carte v4 écrite ainsi rend le même fichier, octet pour octet — `LevelEditor
+     * --check` le vérifie sur toutes les cartes.
      *
      * @param data Composantes de la carte à sérialiser.
      * @return Le contenu JSON correspondant.

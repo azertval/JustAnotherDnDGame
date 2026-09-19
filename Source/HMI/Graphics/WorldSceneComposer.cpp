@@ -48,25 +48,27 @@ constexpr std::array<std::string_view, 2> FIGURE_DIRECTORIES = {"Npc/", "Monster
     return path;
 }
 
-// La couche dont le sol se lit : la premiere couche de sol, a defaut la grille racine (une carte
-// sans couche visuelle reste jouable -- `EX-NFR-040`).
-[[nodiscard]] const core::TileMap& groundOf(const WorldSceneSource& source) {
+/// @return La premiere couche de role @p kind, ou `nullptr` si la carte n'en declare pas.
+[[nodiscard]] const core::TileLayer* layerOf(const WorldSceneSource& source, core::LayerKind kind) {
     for (const core::TileLayer& couche : source.layers) {
-        if (couche.kind == core::LayerKind::Ground) {
-            return couche.tiles;
-        }
-    }
-    return source.root;
-}
-
-/// @return La couche de decor, ou `nullptr` si la carte n'en declare pas.
-[[nodiscard]] const core::TileMap* decorOf(const WorldSceneSource& source) {
-    for (const core::TileLayer& couche : source.layers) {
-        if (couche.kind == core::LayerKind::Decor) {
-            return &couche.tiles;
+        if (couche.kind == kind) {
+            return &couche;
         }
     }
     return nullptr;
+}
+
+// La piece d'une case : celle que la couche nomme, sous son nom courant, a defaut celle que la
+// table du lieu donne a son type.
+[[nodiscard]] std::string pieceAt(const core::TileLayer& couche, core::GridPosition cell,
+                                  const PlaceAppearance& appearance, bool floor) {
+    const std::string_view nommee = couche.pieceAt(cell.column, cell.row);
+    if (!nommee.empty()) {
+        return std::string{appearance.canonicalPiece(nommee)};
+    }
+    const core::TileType type = couche.tiles.tile(cell.column, cell.row);
+    return std::string{floor ? appearance.floorPiece(type, cell)
+                             : appearance.reliefPiece(type, cell)};
 }
 
 [[nodiscard]] core::Vector2 gridPoint(float column, float row) {
@@ -105,14 +107,18 @@ void composeRelief(ComposedScene& scene, const WorldSceneSnapshot& snapshot,
     if (texture.texture == nullptr) {
         return;
     }
-    // Posee par son ancre, le sommet haut du losange de sa case ; triee au pied de la case, pour
-    // qu'une piece plus haute que sa case reste derriere ce qui est devant elle.
+    // Posee par son ancre, le sommet haut du losange de sa case ; triee au pied de son EMPRISE
+    // (`core::footprintFootCorner`), pour qu'une piece plus haute ou plus large que sa case reste
+    // derriere ce qui se tient devant n'importe laquelle de ses cases.
     const core::Vector2 topVertex = projection.gridToWorld(
         gridPoint(static_cast<float>(cell.column), static_cast<float>(cell.row)));
-    const float footY = projection
-                            .gridToWorld(gridPoint(static_cast<float>(cell.column) + 1.0F,
-                                                   static_cast<float>(cell.row) + 1.0F))
-                            .y;
+    const auto emprise = snapshot.footprints.find(piece);
+    const core::GridPosition pied = core::footprintFootCorner(
+        cell, emprise == snapshot.footprints.end() ? core::PieceFootprint{} : emprise->second);
+    const float footY =
+        projection
+            .gridToWorld(gridPoint(static_cast<float>(pied.column), static_cast<float>(pied.row)))
+            .y;
     const SpriteQuad quad = standingPieceQuad(texture, topVertex, unitsPerScenePixel);
     scene.addSprite(RenderLayer::Object, texture.texture,
                     worldDepthSortOrder(footY, WorldDepthSlot::Relief), quad);
@@ -228,12 +234,15 @@ WorldSceneSnapshot snapshotWorldScene(const core::Level& level, const PlaceAppea
 WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
                                       const PlaceAppearance& appearance,
                                       std::vector<WorldFigureSnapshot> figures) {
-    const core::TileMap& sol = groundOf(source);
-    const core::TileMap* decor = decorOf(source);
+    // Le sol se lit sur la premiere couche de sol, a defaut sur la grille racine (une carte sans
+    // couche visuelle reste jouable -- `EX-NFR-040`).
+    const core::TileLayer* sol = layerOf(source, core::LayerKind::Ground);
+    const core::TileLayer* decor = layerOf(source, core::LayerKind::Decor);
+    const core::TileMap& grilleSol = sol != nullptr ? sol->tiles : source.root;
 
     WorldSceneSnapshot snapshot;
-    snapshot.columns = std::max(0, sol.width());
-    snapshot.rows = std::max(0, sol.height());
+    snapshot.columns = std::max(0, grilleSol.width());
+    snapshot.rows = std::max(0, grilleSol.height());
     snapshot.place = scenePlaceOf(source.layers);
     if (snapshot.place.empty()) {
         snapshot.place = appearance.place();
@@ -249,20 +258,19 @@ WorldSceneSnapshot snapshotWorldScene(const WorldSceneSource& source,
         for (int column = 0; column < snapshot.columns; ++column) {
             const core::GridPosition cell{.column = column, .row = row};
             const std::size_t index = indexOf(cell, snapshot.columns);
-            snapshot.floors[index] = appearance.floorPiece(sol.tile(column, row), cell);
-            if (decor != nullptr && decor->inBounds(column, row)) {
-                snapshot.relief[index] = appearance.reliefPiece(decor->tile(column, row), cell);
+            snapshot.floors[index] =
+                sol != nullptr
+                    ? pieceAt(*sol, cell, appearance, true)
+                    : std::string{appearance.floorPiece(grilleSol.tile(column, row), cell)};
+            if (decor != nullptr && decor->tiles.inBounds(column, row)) {
+                snapshot.relief[index] = pieceAt(*decor, cell, appearance, false);
+                const core::PieceFootprint emprise =
+                    appearance.pieceFootprint(snapshot.relief[index]);
+                if (emprise != core::PieceFootprint{}) {
+                    snapshot.footprints.insert_or_assign(snapshot.relief[index], emprise);
+                }
             }
         }
-    }
-
-    // L'assignation de texture a la case l'emporte sur la table du lieu : c'est la ou l'auteur a
-    // decide (LOT-11, `EX-EDIT-043`). Elle nomme une piece de la planche, pas un fichier.
-    for (const core::TileTextureOverride& assignee : source.textureOverrides) {
-        if (!inGrid(assignee.position, snapshot.columns, snapshot.rows)) {
-            continue;
-        }
-        snapshot.relief[indexOf(assignee.position, snapshot.columns)] = assignee.assetName;
     }
     return snapshot;
 }

@@ -6,6 +6,16 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Le format de carte v4, gardé en CI (LOT-EDITOR-12).**
+  - **Chaque case de couche nomme sa pièce** ; la pièce ne vit plus sur la grille de collision. Les
+    trois cartes (Colisée, Martpart, Arenarea) ont été migrées et se jouent à l'identique.
+  - **La collision se déduit des pièces** (type tactique déclaré par le manifeste du lieu), hors
+    des cases que l'auteur force à la main ; une pièce large occupe et trie toute son emprise.
+  - **Identifiants d'entité** jamais réemployés, **zones peintes**, **variantes** de carte, et une
+    place réservée à la hauteur.
+  - `LevelEditor --migrate` convertit une carte ; `LevelEditor --check` contrôle toutes les cartes
+    en CI. Schéma publié : `Documentation/Editeur/level.schema.json`.
+
 - **Un minidump s'écrit même quand une zone mémoire est illisible.** Si une zone ne peut pas
   être lue pendant le dump (la pile d'un thread qui se termine, par exemple), elle est sautée au
   lieu de faire échouer tout le fichier (`ERROR_PARTIAL_COPY`). Vu sur la Nightly du 19 septembre.

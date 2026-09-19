@@ -123,8 +123,11 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
                       .tileMap = decouper(level.tileMap(), zone),
                       .layers = {},
                       .entities = {},
-                      .entry = {},
-                      .textureOverrides = {}};
+                      .entry = {}};
+    const auto translater = [&zone](GridPosition cell) {
+        return GridPosition{.column = cell.column - zone.origin.column,
+                            .row = cell.row - zone.origin.row};
+    };
 
     for (const TileLayer& couche : level.layers()) {
         // La grille racine est promue en tete des couches par le chargeur : la redecouper ici en
@@ -132,10 +135,21 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
         if (couche.kind == LayerKind::Collision || couche.kind == LayerKind::Legacy) {
             continue;
         }
-        reduite.layers.push_back(TileLayer{.name = couche.name,
-                                           .kind = couche.kind,
-                                           .tiles = decouper(couche.tiles, zone),
-                                           .properties = couche.properties});
+        TileLayer decoupee{.name = couche.name,
+                           .kind = couche.kind,
+                           .tiles = decouper(couche.tiles, zone),
+                           .properties = couche.properties,
+                           .floor = couche.floor};
+        // Les pieces et les hauteurs suivent leurs cases : une arene decoupee garde son habillage.
+        for (int ligne = 0; ligne < zone.rows; ++ligne) {
+            for (int colonne = 0; colonne < zone.columns; ++colonne) {
+                const int source = zone.origin.column + colonne;
+                const int sourceLigne = zone.origin.row + ligne;
+                decoupee.setPiece(colonne, ligne, std::string{couche.pieceAt(source, sourceLigne)});
+                decoupee.setElevation(colonne, ligne, couche.elevationAt(source, sourceLigne));
+            }
+        }
+        reduite.layers.push_back(std::move(decoupee));
     }
 
     for (const MapEntity& entite : level.entities()) {
@@ -143,23 +157,25 @@ Level cropLevelToZone(const Level& level, const CombatZone& zone) {
             continue;
         }
         MapEntity translatee = entite;
-        translatee.position = GridPosition{.column = entite.position.column - zone.origin.column,
-                                           .row = entite.position.row - zone.origin.row};
+        translatee.position = translater(entite.position);
+        translatee.cells.clear();
+        for (const GridPosition cell : entite.cells) {
+            if (zone.contains(cell)) {
+                translatee.cells.push_back(translater(cell));
+            }
+        }
         reduite.entities.push_back(std::move(translatee));
     }
 
-    for (const TileTextureOverride& assignee : level.textureOverrides()) {
-        if (!zone.contains(assignee.position)) {
-            continue;
+    for (const GridPosition cell : level.forcedCollision()) {
+        if (zone.contains(cell)) {
+            reduite.forcedCollision.push_back(translater(cell));
         }
-        reduite.textureOverrides.push_back(TileTextureOverride{
-            .position = GridPosition{.column = assignee.position.column - zone.origin.column,
-                                     .row = assignee.position.row - zone.origin.row},
-            .assetName = assignee.assetName});
     }
 
-    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon. Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur
-    // leurs points d'entree --, mais un champ menteur finirait par etre lu.
+    // L'entree de la carte reduite : celle de la carte si elle est dans la zone, son coin sinon.
+    // Une grille de combat ne s'en sert pas -- l'arene pose les combattants sur leurs points
+    // d'entree --, mais un champ menteur finirait par etre lu.
     if (zone.contains(level.entry())) {
         reduite.entry = GridPosition{.column = level.entry().column - zone.origin.column,
                                      .row = level.entry().row - zone.origin.row};

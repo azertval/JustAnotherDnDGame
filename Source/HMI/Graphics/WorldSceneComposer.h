@@ -4,11 +4,13 @@
 #pragma once
 
 #include <cstdint>
+#include <map>
 #include <string>
 #include <string_view>
 #include <vector>
 
 #include "Core/Levels/GridPosition.h"
+#include "Core/Levels/PieceFootprint.h"
 #include "Core/Math/Vector2.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/ScenePieces.h"
@@ -21,7 +23,7 @@
  * Le lieu et l'arène se dessinent par le **même** code : même projection isométrique
  * (`core::IsoProjection`), mêmes planches de l'atelier des textures (`LOT-92`, `ScenePieces.h`),
  * même tri par profondeur. Ce qui change est la **source** : l'arène lit une grille de combat, le
- * lieu lit une carte (`core::Level`) — ses couches, ses assignations de texture, ses entités.
+ * lieu lit une carte (`core::Level`) — ses couches, les pièces qu'elles nomment, ses entités.
  *
  * ## Ce qui va où
  *
@@ -44,7 +46,6 @@ class Level;
 class TileMap;
 struct MapEntity;
 struct TileLayer;
-struct TileTextureOverride;
 }  // namespace core
 
 namespace hmi {
@@ -93,7 +94,8 @@ struct WorldFigureSnapshot {
  * @brief Le lieu **en valeurs** : ce que la composition lit, et rien d'autre.
  *
  * `floors` et `relief` portent une entrée par case, ligne par ligne : le **nom** de la pièce de la
- * planche du lieu, vide si la case ne dessine rien.
+ * planche du lieu, vide si la case ne dessine rien. `footprints` donne l'emprise des pièces de
+ * relief plus grandes qu'une case : la composition les trie au pied de leur emprise.
  */
 struct WorldSceneSnapshot {
     int columns = 0;
@@ -102,6 +104,7 @@ struct WorldSceneSnapshot {
     std::string place;
     std::vector<std::string> floors;
     std::vector<std::string> relief;
+    std::map<std::string, core::PieceFootprint, std::less<>> footprints;
     std::vector<WorldFigureSnapshot> figures;
 
     /// @return Le nom de la pièce de sol de @p cell, vide hors grille ou sans pièce.
@@ -113,8 +116,7 @@ struct WorldSceneSnapshot {
 };
 
 /**
- * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches, ses assignations de
- *        texture et ses entités.
+ * @brief Ce que la composition lit d'une carte : sa grille racine, ses couches et ses entités.
  *
  * Le jeu compose une `core::Level` validée ; l'éditeur compose son brouillon (`core::LevelDraft`),
  * qui n'est pas toujours valide — une carte en cours de tracé l'est rarement. Les deux exposent les
@@ -125,10 +127,9 @@ struct WorldSceneSnapshot {
 struct WorldSceneSource {
     /// La grille racine : la collision, et le sol d'une carte sans couche visuelle.
     const core::TileMap& root;
-    /// Les couches : la première de sol donne le sol, la première de décor le relief.
+    /// Les couches : la première de sol donne le sol, la première de décor le relief ; la pièce
+    /// qu'une case nomme l'emporte sur la table du lieu.
     const std::vector<core::TileLayer>& layers;
-    /// Les pièces nommées à la case, qui l'emportent sur la table du lieu pour le relief.
-    const std::vector<core::TileTextureOverride>& textureOverrides;
     /// Les entités : leurs figurines, pour qui en compose (`npcFigures`).
     const std::vector<core::MapEntity>& entities;
 };
@@ -136,10 +137,8 @@ struct WorldSceneSource {
 /// @return La source de composition de @p map (`core::Level` ou `core::LevelDraft`).
 template <class Map>
 [[nodiscard]] WorldSceneSource worldSceneSource(const Map& map) {
-    return WorldSceneSource{.root = map.tileMap(),
-                            .layers = map.layers(),
-                            .textureOverrides = map.textureOverrides(),
-                            .entities = map.entities()};
+    return WorldSceneSource{
+        .root = map.tileMap(), .layers = map.layers(), .entities = map.entities()};
 }
 
 /// @return Le lieu que déclarent @p layers (propriété de couche `scene`), vide sinon.
@@ -163,8 +162,8 @@ template <class Map>
  * @brief Tire de @p level l'instantané que la composition dessine.
  *
  * Le sol vient de la couche **visuelle de sol** (`core::LayerKind::Ground`, à défaut la grille
- * racine), traduit par @p appearance ; le relief de la couche **décor**, où une assignation de
- * texture à la case (`core::TileTextureOverride`) l'emporte sur la table du lieu.
+ * racine), le relief de la couche **décor** : la pièce que la case nomme (sous son nom courant,
+ * `hmi::PlaceAppearance::canonicalPiece`), à défaut celle que la table du lieu donne à son type.
  *
  * @param source     La carte, lue seulement.
  * @param appearance La table du lieu.

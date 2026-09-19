@@ -350,6 +350,15 @@ jobs:
             Write-Host "OK : $exe"
           }
 
+      - name: Controler les cartes (LevelEditor --check)
+        shell: pwsh
+        # LOT-EDITOR-12 (constat A12) : la seule garde des cartes etait le `--check` des scripts
+        # qui les posent, et il ne tournait pas en CI. Celui de l'editeur relit toutes les cartes de
+        # Source/Elements/Levels -- version 4, ecriture canonique (octet pour octet), references,
+        # pieces presentes au manifeste, collision egale a la deduction hors des cases forcees --
+        # sans fenetre, et echoue a la premiere erreur.
+        run: build/ninja/bin/LevelEditor.exe --data Source/Elements --check
+
       - name: Conserver le rapport de tests
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

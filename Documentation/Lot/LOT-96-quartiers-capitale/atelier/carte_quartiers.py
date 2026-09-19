@@ -26,6 +26,9 @@ ruelles, les étals. Un quartier du livre n'a pas de plan rue par rue.
   `bridge` la ruelle, `stairs` le pas de porte), que `Assets/Scene/<lieu>/appearance.json` traduit ;
 - la couche **décor** porte `wall` sur chaque case de relief, dont l'assignation nomme la pièce.
 
+Depuis le `LOT-EDITOR-12`, ce tracé v3 passe par `LevelEditor --migrate` avant d'être écrit : les
+cartes commitées sont en v4. Il faut donc avoir construit l'éditeur.
+
 Usage :
 
     py -3.13 Documentation/Lot/LOT-96-quartiers-capitale/atelier/carte_quartiers.py [--check]
@@ -34,21 +37,45 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import math
 import sys
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parents[4]
 NIVEAUX = RACINE / "Source" / "Elements" / "Levels" / "capital"
+
+# -- Format v4 (LOT-EDITOR-12) -------------------------------------------------------------------
+#
+# Ce script trace une carte v3 ; le dépôt ne garde que des v4. La conversion n'est pas refaite ici :
+# c'est l'éditeur qui la porte (`LevelEditor --migrate`), une seule fois pour toutes les cartes. Le
+# script en dépend donc : il faut avoir construit l'éditeur (`scripts/build.ps1`). Il ne vit plus
+# que jusqu'au LOT-EDITOR-06, qui fait de l'éditeur la source des cartes faites à la main.
+EDITEUR = RACINE / "build" / "ninja" / "bin" / "LevelEditor.exe"
+
+
+def en_v4(texte_v3: str) -> str:
+    """La carte v3 que trace ce script, migrée en v4 canonique par l'éditeur."""
+    if not EDITEUR.is_file():
+        raise SystemExit(f"{EDITEUR} est absent : construire l'éditeur d'abord (scripts/build.ps1).")
+    with tempfile.TemporaryDirectory() as dossier:
+        entree = Path(dossier) / "carte.json"
+        sortie = Path(dossier) / "carte-v4.json"
+        entree.write_text(texte_v3, encoding="utf-8", newline="\n")
+        subprocess.run([str(EDITEUR), "--data", str(RACINE / "Source" / "Elements"), "--migrate",
+                        str(entree), "--output", str(sortie)], check=True, capture_output=True)
+        return sortie.read_text(encoding="utf-8")
+
 PLAN = RACINE / "Source" / "Elements" / "Maps" / "world-maps.json"
 VILLE_JOUABLE = RACINE / "Source" / "Elements" / "World" / "cities" / "capital.json"
 
-# La sentinelle d'une porte gardée (phase 4) : son dialogue, et sa figurine — qui n'existe pas
-# encore : le rendu la dessine par le marqueur du LOT-39 jusqu'à ce que l'atelier du LOT-91 la
-# produise.
+# La sentinelle d'une porte gardée (phase 4) : son dialogue, et sa figurine — celle du soldat
+# Ironhand de l'atelier des monstres (LOT-93), qui l'a posée dans les cartes sans que ce script la
+# suive ; alignée au LOT-EDITOR-12.
 SENTINELLE_DIALOGUE = "sentinelle-ironhand"
-SENTINELLE_FIGURINE = "sentinelle-ironhand"
+SENTINELLE_FIGURINE = "Monsters/ironhand-soldier"
 
 # La console Windows est en cp1252 : les messages portent des accents.
 if hasattr(sys.stdout, "reconfigure"):
@@ -496,7 +523,7 @@ def main() -> int:
     code = 0
     for q in quartiers():
         q.portes += portes_gardees(q)
-        texte = json.dumps(tracer(q, points), ensure_ascii=False, indent=2) + "\n"
+        texte = en_v4(json.dumps(tracer(q, points), ensure_ascii=False, indent=2) + "\n")
         chemin = NIVEAUX / ("%s.json" % q.ident)
         if arguments.check:
             if not chemin.exists() or chemin.read_text(encoding="utf-8") != texte:

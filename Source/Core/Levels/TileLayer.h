@@ -4,6 +4,8 @@
 #pragma once
 
 #include <string>
+#include <string_view>
+#include <vector>
 
 #include "Core/Levels/LevelProperties.h"
 #include "Core/Levels/TileMap.h"
@@ -115,10 +117,21 @@ inline constexpr int LAYER_KIND_COUNT = static_cast<int>(LayerKind::Legacy) + 1;
 }
 
 /**
- * @brief Une couche de tuiles : son rôle, sa grille, et ses propriétés libres.
+ * @brief Une couche de tuiles : son rôle, sa grille, ses pièces, et ses propriétés libres.
  *
  * Toutes les couches d'une carte partagent ses dimensions — le chargeur le vérifie, une couche
  * décalée d'une case rendrait la collision incohérente avec ce qui est affiché.
+ *
+ * ## Une case = un type et une pièce (format v4, `LOT-EDITOR-12`, `EX-LVL-019`)
+ *
+ * Le **type** d'une case ne garde qu'un sens : celui des règles et du générateur (décision D3 de la
+ * feuille de route de l'éditeur). Ce qu'on **voit** est la **pièce** de la planche du lieu que la
+ * case nomme (`wall-left`, `street-2`) ; sans pièce, la table d'apparence du lieu la déduit du
+ * type, ce qui est le cas des cartes générées. Une pièce large est ancrée sur une case et occupe
+ * son emprise (`core::footprintCells`).
+ *
+ * Pièces et hauteurs sont rangées **denses**, ligne par ligne, et **vides** tant qu'aucune case
+ * n'en porte : une carte sans pièce ne paie rien.
  */
 struct TileLayer {
     /// Nom de la couche, libre et affiché par l'éditeur (« sol », « décor », « collision »…).
@@ -131,6 +144,39 @@ struct TileLayer {
     /// Propriétés libres (`core::PropertyMap`), y compris les clés que le chargeur n'a pas
     /// reconnues — elles sont réémises telles quelles à l'écriture.
     PropertyMap properties;
+    /// Étage de la couche. **Réservé** (décision D11, `EX-LVL-024`) : lu, gardé et réécrit, mais ni
+    /// le jeu ni l'éditeur ne s'en servent ; toute valeur non nulle est signalée par `LevelEditor
+    /// --check`.
+    int floor = 0;
+    /// Pièce nommée par case, ligne par ligne ; vide si aucune case n'en nomme.
+    std::vector<std::string> pieces;
+    /// Hauteur par case, ligne par ligne ; vide si toutes valent 0. **Réservée** comme `floor`.
+    std::vector<int> elevations;
+
+    /// @return La pièce nommée en (@p column, @p row), vide hors grille ou sans pièce.
+    [[nodiscard]] std::string_view pieceAt(int column, int row) const noexcept;
+
+    /// @brief Nomme la pièce de (@p column, @p row) ; une chaîne vide la retire. Hors grille :
+    /// rien.
+    void setPiece(int column, int row, std::string piece);
+
+    /// @return Vrai si au moins une case de la couche nomme une pièce.
+    [[nodiscard]] bool hasPieces() const noexcept;
+
+    /// @return La hauteur de (@p column, @p row), 0 hors grille ou par défaut.
+    [[nodiscard]] int elevationAt(int column, int row) const noexcept;
+
+    /// @brief Donne sa hauteur à (@p column, @p row). Hors grille : rien.
+    void setElevation(int column, int row, int elevation);
+
+    /// @return Vrai si au moins une case de la couche a une hauteur non nulle.
+    [[nodiscard]] bool hasElevation() const noexcept;
 };
+
+/**
+ * @brief La couche @p layer aux dimensions @p width × @p height : types, pièces et hauteurs
+ *        recopiés, tronqués aux bords.
+ */
+[[nodiscard]] TileLayer resizedLayer(const TileLayer& layer, int width, int height);
 
 }  // namespace core

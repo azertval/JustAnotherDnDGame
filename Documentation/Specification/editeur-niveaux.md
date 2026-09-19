@@ -44,9 +44,10 @@ au contenu du jeu.
   doit le **transporter** : les pièces assignées par case, les propriétés libres des couches et des
   entités (`EX-LVL-018`) traversent un cycle ouvrir/enregistrer sans perte — un éditeur qui efface
   en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.
-- \anchor EX-EDIT-043 **EX-EDIT-043** — La **pièce** assignée à une case (`"texture"`, `niveaux.md`)
-  doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre type ; la poser
-  relève des ateliers qui produisent les cartes à partir des planches de lieux (`LOT-92`).
+- \anchor EX-EDIT-043 **EX-EDIT-043** — La **pièce** nommée par une case de couche (`"piece"`,
+  `EX-LVL-019`) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre
+  type. *Révisée au `LOT-EDITOR-12`* : la pièce quitte la grille de collision (`"texture"` d'une v3)
+  pour sa couche ; la poser devient l'affaire de l'éditeur au `LOT-EDITOR-03`.
 
 ## 3. Distribution & collaboration
 - \anchor EX-EDIT-020 **EX-EDIT-020** — L'éditeur doit être fourni comme un **outil exécutable** que
@@ -183,6 +184,18 @@ On édite sur le lieu tel qu'on le jouera. Ces trois exigences viennent du canev
   **verrouillée** (visible, mais aucun geste ne la peint) ; les reliefs peuvent passer **en
   transparence** ; une **mini-carte** montre toute la carte et le cadre de la vue, et ramène la vue
   d'un clic. Ce sont des aides d'édition : rien n'est enregistré dans la carte.
+
+## 10. La garde du format (`LOT-EDITOR-12`)
+Le format de carte v4 (`EX-LVL-019` à `EX-LVL-024`) se garde par l'éditeur, sans fenêtre
+([LOT-EDITOR-12](@ref lot-editor-12)).
+
+- \anchor EX-EDIT-062 **EX-EDIT-062** — `LevelEditor --migrate` convertit une carte de toute version
+  passée en v4 canonique **sans changer ce que le jeu joue** (même instantané de scène, même grille
+  tactique) : il nomme la pièce de chaque case d'après la table du lieu, donne les identifiants et
+  force les cases où la collision écrite s'écarte des pièces. `LevelEditor --check` contrôle toutes
+  les cartes — version courante, écriture canonique octet pour octet, références, pièces présentes
+  au manifeste, collision égale à la déduction hors cases forcées, identifiants — et tourne en CI.
+  Les deux s'exécutent sans fenêtre et appellent la même logique que l'éditeur.
 
 ## Exigences retirées {#edit-retirees}
 

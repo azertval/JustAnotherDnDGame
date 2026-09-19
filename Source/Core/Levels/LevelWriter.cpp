@@ -5,7 +5,6 @@
 
 #include <cstdint>
 #include <fstream>
-#include <map>
 #include <string>
 #include <utility>
 #include <variant>
@@ -24,17 +23,19 @@ namespace core {
 
 namespace {
 
-// --- Couches et entites (LOT-04, format version 3) -------------------------------------------
+// Objet JSON a cles ORDONNEES par insertion : l'ordre des champs est celui du format, pas l'ordre
+// alphabetique -- "version" en tete, les tuiles en dernier.
+using Json = nlohmann::ordered_json;
+
+/// Tableaux dont les objets s'ecrivent sur UNE ligne chacun : une case = une ligne de diff.
+[[nodiscard]] bool isCellArray(const std::string& key) {
+    return key == "tiles" || key == "forced" || key == "cells";
+}
 
 // Reemet les proprietes libres d'une couche ou d'une entite A PLAT dans son objet JSON, a cote de
-// ses champs connus (EX-LVL-018). C'est la moitie ecriture du mecanisme qui evite un version: 4 :
-// le chargeur range dans cette table toute cle qu'il ne reconnait pas, et on la lui rend telle
-// quelle. Une cle homonyme d'un champ connu ne peut pas s'y trouver -- collectProperties l'aurait
-// ecartee -- et un ecrasement est donc impossible.
-//
-// core::PropertyMap est ordonnee : l'ecriture est deterministe, deux enregistrements du meme
-// niveau produisent le meme fichier.
-void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
+// ses champs connus (EX-LVL-018). Le chargeur range dans cette table toute cle qu'il ne reconnait
+// pas, et on la lui rend telle quelle ; core::PropertyMap est ordonnee, l'ecriture deterministe.
+void writeProperties(const PropertyMap& properties, Json& object) {
     for (const auto& [key, value] : properties) {
         // Alternative par alternative plutot que std::visit : l'analyseur statique ne suit pas la
         // table de saut de visit et croit la valeur non initialisee.
@@ -50,21 +51,35 @@ void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
     }
 }
 
-// Tuiles non vides d'une grille, au format {x, y, type}. Les cases vides sont omises (EX-LVL-003),
-// et une couche ne porte pas le champ specifique du tableau racine (texture) : les pieces
-// assignees par case restent attachees a la grille racine.
-[[nodiscard]] nlohmann::json layerTilesJson(const TileMap& tiles) {
-    nlohmann::json array = nlohmann::json::array();
-    for (int row = 0; row < tiles.height(); ++row) {
-        for (int column = 0; column < tiles.width(); ++column) {
-            const TileType type = tiles.tile(column, row);
-            if (type == TileType::Empty) {
+[[nodiscard]] Json cellJson(GridPosition cell) {
+    Json object;
+    object["x"] = cell.column;
+    object["y"] = cell.row;
+    return object;
+}
+
+// Cases d'une couche visuelle, au format {x, y, type, piece?, elevation?}. Une case est omise
+// quand elle ne porte rien : ni type, ni piece, ni hauteur (EX-LVL-003).
+[[nodiscard]] Json layerTilesJson(const TileLayer& layer) {
+    Json array = Json::array();
+    for (int row = 0; row < layer.tiles.height(); ++row) {
+        for (int column = 0; column < layer.tiles.width(); ++column) {
+            const TileType type = layer.tiles.tile(column, row);
+            const std::string_view piece = layer.pieceAt(column, row);
+            const int elevation = layer.elevationAt(column, row);
+            if (type == TileType::Empty && piece.empty() && elevation == 0) {
                 continue;
             }
-            nlohmann::json tile;
+            Json tile;
             tile["x"] = column;
             tile["y"] = row;
             tile["type"] = tileTypeName(type);
+            if (!piece.empty()) {
+                tile["piece"] = std::string{piece};
+            }
+            if (elevation != 0) {
+                tile["elevation"] = elevation;
+            }
             array.push_back(std::move(tile));
         }
     }
@@ -73,110 +88,176 @@ void writeProperties(const PropertyMap& properties, nlohmann::json& object) {
 
 // Vrai pour la couche que le chargeur PROMEUT depuis la grille racine (Collision, ou Legacy pour
 // une carte sans couche declaree). Elle n'est jamais reecrite dans "layers" : elle est deja le
-// tableau racine "tiles". L'ecrire dupliquerait la grille dans le fichier, et une carte version 2
-// ressortirait convertie en version 3 dans le dos de son auteur.
+// tableau racine "tiles".
 [[nodiscard]] bool isPromotedRootLayer(const TileLayer& layer) {
     return layer.kind == LayerKind::Collision || layer.kind == LayerKind::Legacy;
 }
 
-// Position (colonne, ligne) -> chaine associee (piece assignee).
-using PositionMap = std::map<std::pair<int, int>, std::string>;
-
-// Position -> nom d'asset de la texture assignee par instance (EX-EDIT-043), independamment
-// du type de la tuile a cette position.
-[[nodiscard]] PositionMap textureOverridesByPosition(
-    const std::vector<TileTextureOverride>& textureOverrides) {
-    PositionMap textureOverrideByPosition;
-    for (const TileTextureOverride& override : textureOverrides) {
-        textureOverrideByPosition.emplace(
-            std::make_pair(override.position.column, override.position.row), override.assetName);
-    }
-    return textureOverrideByPosition;
-}
-
-// Valeur associee a @p key dans @p values, ecrite sous @p field de @p object si elle existe.
-void writeIfFound(const PositionMap& values, const std::pair<int, int>& key, const char* field,
-                  nlohmann::json& object) {
-    const auto found = values.find(key);
-    if (found != values.end()) {
-        object[field] = found->second;
-    }
-}
-
-// Tableau racine "tiles" : grille de collision et pieces assignees par case.
-[[nodiscard]] nlohmann::json rootTilesJson(const TileMap& tileMap,
-                                           const PositionMap& textureOverrideByPosition) {
-    nlohmann::json tiles = nlohmann::json::array();
+// Tableau racine "tiles" : la grille de collision, entree comprise.
+[[nodiscard]] Json rootTilesJson(const TileMap& tileMap) {
+    Json tiles = Json::array();
     for (int row = 0; row < tileMap.height(); ++row) {
         for (int column = 0; column < tileMap.width(); ++column) {
             const TileType type = tileMap.tile(column, row);
             if (type == TileType::Empty) {
                 continue;
             }
-            nlohmann::json tile;
+            Json tile;
             tile["x"] = column;
             tile["y"] = row;
             tile["type"] = tileTypeName(type);
-            // Piece assignee a la case (EX-EDIT-043), independante du type.
-            writeIfFound(textureOverrideByPosition, std::make_pair(column, row), "texture", tile);
             tiles.push_back(std::move(tile));
         }
     }
     return tiles;
 }
 
-// Tableau racine optionnel "layers" (EX-LVL-016, LOT-04) : les couches VISIBLES uniquement,
-// dans leur ordre de superposition, du sol vers le decor. La grille racine, promue en couche
-// au chargement, en est exclue -- elle est deja "tiles". Rien a ecrire, pas de
-// champ : une carte plate reste une carte plate.
-[[nodiscard]] nlohmann::json visibleLayersJson(const std::vector<TileLayer>& layers) {
-    nlohmann::json layersJson = nlohmann::json::array();
+// Tableau racine optionnel "layers" : les couches VISIBLES uniquement, dans leur ordre de
+// superposition. Champs connus d'abord, proprietes ensuite, cases en dernier : ce qui dit ce qu'est
+// la couche se lit en tete, sans descendre sous des centaines de cases.
+[[nodiscard]] Json visibleLayersJson(const std::vector<TileLayer>& layers) {
+    Json layersJson = Json::array();
     for (const TileLayer& layer : layers) {
-        if (!isPromotedRootLayer(layer)) {
-            nlohmann::json layerJson;
-            // Le nom est libre et facultatif : omis quand il est vide, comme tout champ a sa
-            // valeur par defaut. Le role, lui, est toujours ecrit -- c'est la raison d'etre de la
-            // couche, jamais du bruit.
-            if (!layer.name.empty()) {
-                layerJson["name"] = layer.name;
-            }
-            layerJson["kind"] = layerKindName(layer.kind);
-            layerJson["tiles"] = layerTilesJson(layer.tiles);
-            writeProperties(layer.properties, layerJson);
-            layersJson.push_back(std::move(layerJson));
+        if (isPromotedRootLayer(layer)) {
+            continue;
         }
+        Json layerJson;
+        // Le nom est libre et facultatif : omis quand il est vide, comme tout champ a sa valeur
+        // par defaut. Le role, lui, est toujours ecrit.
+        if (!layer.name.empty()) {
+            layerJson["name"] = layer.name;
+        }
+        layerJson["kind"] = layerKindName(layer.kind);
+        if (layer.floor != 0) {
+            layerJson["floor"] = layer.floor;
+        }
+        writeProperties(layer.properties, layerJson);
+        layerJson["tiles"] = layerTilesJson(layer);
+        layersJson.push_back(std::move(layerJson));
     }
     return layersJson;
 }
 
-// Tableau racine "entities" (EX-LVL-017, LOT-04). Le type est ecrit meme vide : une entite sans
-// type est une donnee fautive qu'il vaut mieux voir dans le fichier que faire disparaitre a
+// Tableau racine "entities" (EX-LVL-017). Le type est ecrit meme vide : une entite sans type est
+// une donnee fautive qu'il vaut mieux voir dans le fichier que faire disparaitre a
 // l'enregistrement.
-[[nodiscard]] nlohmann::json entitiesJson(const std::vector<MapEntity>& entities) {
-    nlohmann::json array = nlohmann::json::array();
+[[nodiscard]] Json entitiesJson(const std::vector<MapEntity>& entities) {
+    Json array = Json::array();
     for (const MapEntity& entity : entities) {
-        nlohmann::json entityJson;
+        Json entityJson;
+        if (!entity.id.empty()) {
+            entityJson["id"] = entity.id;
+        }
         entityJson["type"] = entity.type;
         entityJson["x"] = entity.position.column;
         entityJson["y"] = entity.position.row;
+        if (entity.elevation != 0) {
+            entityJson["elevation"] = entity.elevation;
+        }
+        if (!entity.cells.empty()) {
+            Json cells = Json::array();
+            for (const GridPosition cell : entity.cells) {
+                cells.push_back(cellJson(cell));
+            }
+            entityJson["cells"] = std::move(cells);
+        }
         writeProperties(entity.properties, entityJson);
         array.push_back(std::move(entityJson));
     }
     return array;
 }
 
+// --- Ecriture canonique ---------------------------------------------------------------------
+//
+// Deux espaces d'indentation, comme tout ecrivain JSON du projet ; mais les objets d'une liste de
+// cases ("tiles", "forced", "cells") tiennent sur UNE ligne. Une carte est un fichier versionne :
+// poser une piece doit changer une ligne du diff, pas cinq : Martpart passe de 190 a 126 Ko, ses
+// 1 172 pieces nommees comprises.
+
+void appendScalar(std::string& out, const Json& value) {
+    out += value.dump(-1, ' ', false, Json::error_handler_t::replace);
+}
+
+void appendInline(std::string& out, const Json& object) {
+    out += '{';
+    bool first = true;
+    for (const auto& [key, value] : object.items()) {
+        if (!first) {
+            out += ", ";
+        }
+        first = false;
+        appendScalar(out, Json(key));
+        out += ": ";
+        appendScalar(out, value);
+    }
+    out += '}';
+}
+
+void appendIndent(std::string& out, int depth) {
+    out.append(static_cast<std::size_t>(depth) * 2U, ' ');
+}
+
+void appendValue(std::string& out, const Json& value, int depth, bool cellsInline) {
+    if (value.is_object()) {
+        if (value.empty()) {
+            out += "{}";
+            return;
+        }
+        out += "{\n";
+        bool first = true;
+        for (const auto& [key, member] : value.items()) {
+            if (!first) {
+                out += ",\n";
+            }
+            first = false;
+            appendIndent(out, depth + 1);
+            appendScalar(out, Json(key));
+            out += ": ";
+            appendValue(out, member, depth + 1, isCellArray(key));
+        }
+        out += '\n';
+        appendIndent(out, depth);
+        out += '}';
+        return;
+    }
+    if (value.is_array()) {
+        if (value.empty()) {
+            out += "[]";
+            return;
+        }
+        out += "[\n";
+        bool first = true;
+        for (const Json& element : value) {
+            if (!first) {
+                out += ",\n";
+            }
+            first = false;
+            appendIndent(out, depth + 1);
+            if (cellsInline && element.is_object()) {
+                appendInline(out, element);
+            } else {
+                appendValue(out, element, depth + 1, false);
+            }
+        }
+        out += '\n';
+        appendIndent(out, depth);
+        out += ']';
+        return;
+    }
+    appendScalar(out, value);
+}
+
+[[nodiscard]] std::string canonicalText(const Json& root) {
+    std::string out;
+    appendValue(out, root, 0, false);
+    out += '\n';
+    return out;
+}
+
 }  // namespace
 
 std::string LevelWriter::toJsonString(const Level& level) {
-    // Recompose l'agregat a partir des accesseurs : Level ne conserve pas de LevelData, et le
-    // cout (une copie de la grille et des vecteurs) est celui d'un enregistrement de fichier, pas
-    // d'une boucle de jeu. L'entree est volontairement omise -- buildJson la relit de la grille,
-    // jamais du champ.
-    return buildJson(LevelData{.name = level.name(),
-                               .tileMap = level.tileMap(),
-                               .layers = level.layers(),
-                               .entities = level.entities(),
-                               .textureOverrides = level.textureOverrides()});
+    return buildJson(level.data());
 }
 
 bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& path) {
@@ -190,29 +271,49 @@ bool LevelWriter::saveToFile(const Level& level, const std::filesystem::path& pa
 }
 
 std::string LevelWriter::buildJson(const LevelData& data) {
-    const TileMap& tileMap = data.tileMap;
-
-    nlohmann::json root;
+    Json root;
     root["version"] = LEVEL_FORMAT_VERSION;
     root["name"] = data.name;
+
+    // Une variante (decision D12) ne s'ecrit que par ce qu'elle declare : ses cases sont celles de
+    // sa base, et les recopier en ferait une seconde carte a tenir d'accord.
+    if (!data.base.empty()) {
+        root["base"] = data.base;
+        if (!data.scene.empty()) {
+            root["scene"] = data.scene;
+        }
+        if (data.nextEntityId != 1) {
+            root["nextEntityId"] = data.nextEntityId;
+        }
+        if (!data.entities.empty()) {
+            root["entities"] = entitiesJson(data.entities);
+        }
+        return canonicalText(root);
+    }
+
+    const TileMap& tileMap = data.tileMap;
     root["width"] = tileMap.width();
     root["height"] = tileMap.height();
-    root["tiles"] = rootTilesJson(tileMap, textureOverridesByPosition(data.textureOverrides));
+    if (data.nextEntityId != 1) {
+        root["nextEntityId"] = data.nextEntityId;
+    }
+    root["tiles"] = rootTilesJson(tileMap);
+    if (!data.forcedCollision.empty()) {
+        Json forced = Json::array();
+        for (const GridPosition cell : data.forcedCollision) {
+            forced.push_back(cellJson(cell));
+        }
+        root["forced"] = std::move(forced);
+    }
 
-    nlohmann::json layersJson = visibleLayersJson(data.layers);
+    Json layersJson = visibleLayersJson(data.layers);
     if (!layersJson.empty()) {
         root["layers"] = std::move(layersJson);
     }
-
-    // Tableau racine optionnel "entities" (EX-LVL-017, LOT-04), omis si vide.
     if (!data.entities.empty()) {
         root["entities"] = entitiesJson(data.entities);
     }
-
-    // Indentation a deux espaces et saut de ligne final, comme tout ecrivain JSON du projet : une
-    // carte est un fichier versionne, dont la relecture en revue de code suppose un diff ligne a
-    // ligne.
-    return root.dump(2) + "\n";
+    return canonicalText(root);
 }
 
 }  // namespace core

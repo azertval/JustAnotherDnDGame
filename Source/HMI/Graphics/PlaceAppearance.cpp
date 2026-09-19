@@ -10,6 +10,7 @@
 
 #include "Core/Data/JsonDocument.h"
 #include "Core/Levels/TileTypeName.h"
+#include "Core/Resources/ScenePieceManifest.h"
 
 namespace hmi {
 
@@ -102,7 +103,42 @@ PlaceAppearanceResult PlaceAppearance::loadFromString(std::string_view json) {
 }
 
 PlaceAppearanceResult PlaceAppearance::loadFromFile(const std::filesystem::path& path) {
-    return fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
+    PlaceAppearanceResult result = fromDocument(core::readJsonObjectFromFile(path, FORMAT_VERSION));
+    if (result.ok()) {
+        // Le manifeste voisin est facultatif : un lieu sans planche livree n'en a pas, et sa table
+        // reste lisible.
+        const core::ScenePieceManifestResult manifest =
+            core::ScenePieceManifest::loadFromFile(path.parent_path() / "manifest.json");
+        if (manifest.ok()) {
+            result.appearance.adoptManifest(manifest.manifest);
+        }
+    }
+    return result;
+}
+
+void PlaceAppearance::adoptManifest(const core::ScenePieceManifest& manifest) {
+    for (const core::ScenePiece& piece : manifest.pieces()) {
+        for (const std::string& alias : piece.aliases) {
+            _aliases.emplace(alias, piece.name);
+        }
+        if (piece.footprintColumns > 1 || piece.footprintRows > 1) {
+            _footprints.insert_or_assign(piece.name, piece.footprint());
+        }
+    }
+    // Un nom courant n'est jamais un alias : il designe la piece qui le porte aujourd'hui.
+    for (const core::ScenePiece& piece : manifest.pieces()) {
+        _aliases.erase(piece.name);
+    }
+}
+
+std::string_view PlaceAppearance::canonicalPiece(std::string_view name) const {
+    const auto found = _aliases.find(name);
+    return found == _aliases.end() ? name : std::string_view{found->second};
+}
+
+core::PieceFootprint PlaceAppearance::pieceFootprint(std::string_view name) const {
+    const auto found = _footprints.find(name);
+    return found == _footprints.end() ? core::PieceFootprint{} : found->second;
 }
 
 PlaceAppearanceResult PlaceAppearance::fromDocument(const core::JsonDocument& document) {

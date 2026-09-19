@@ -29,11 +29,10 @@ core::MapEntity zone(std::string nom, core::GridPosition origine, int largeur, i
     return core::MapEntity{
         .type = std::string{core::COMBAT_ZONE_ENTITY_TYPE},
         .position = origine,
-        .properties = {{std::string{core::COMBAT_ZONE_NAME_PROPERTY}, std::move(nom)},
-                       {std::string{core::COMBAT_ZONE_WIDTH_PROPERTY},
-                        static_cast<std::int64_t>(largeur)},
-                       {std::string{core::COMBAT_ZONE_HEIGHT_PROPERTY},
-                        static_cast<std::int64_t>(hauteur)}}};
+        .properties = {
+            {std::string{core::COMBAT_ZONE_NAME_PROPERTY}, std::move(nom)},
+            {std::string{core::COMBAT_ZONE_WIDTH_PROPERTY}, static_cast<std::int64_t>(largeur)},
+            {std::string{core::COMBAT_ZONE_HEIGHT_PROPERTY}, static_cast<std::int64_t>(hauteur)}}};
 }
 
 // Une carte de 12 x 10, murs au pourtour, une zone « sable » de 4 x 3 en (4, 4), un PNJ dedans et
@@ -49,12 +48,13 @@ core::Level carte(std::vector<core::MapEntity> entites) {
 
     core::LevelData donnees{.name = "colisee", .tileMap = std::move(collision)};
     donnees.entry = {1, 1};
-    donnees.layers.push_back(core::TileLayer{
-        .name = "relief", .kind = core::LayerKind::Decor, .tiles = std::move(decor), .properties = {}});
-    donnees.textureOverrides.push_back(
-        core::TileTextureOverride{.position = {5, 5}, .assetName = "torch-left"});
-    donnees.textureOverrides.push_back(
-        core::TileTextureOverride{.position = {1, 1}, .assetName = "wall-left"});
+    donnees.layers.push_back(core::TileLayer{.name = "relief",
+                                             .kind = core::LayerKind::Decor,
+                                             .tiles = std::move(decor),
+                                             .properties = {}});
+    donnees.layers.back().setPiece(5, 5, "torch-left");
+    donnees.layers.back().setPiece(1, 1, "wall-left");
+    donnees.forcedCollision = {{1, 1}, {6, 5}};
     donnees.entities = std::move(entites);
     return core::Level{std::move(donnees)};
 }
@@ -69,18 +69,18 @@ core::Level carte(std::vector<core::MapEntity> entites) {
  * \tetapes 1. Declarer une zone « sable » de 4 x 3 en (4, 4) sur une carte de 12 x 10.<br/>
  * 2. Reduire la carte a la zone.<br/>
  * \tattendu Une grille de 4 x 3 ; les entites du dedans translatees a l'origine de la zone, celles
- * du dehors absentes ; le decor et les assignations de texture decoupes de meme.
+ * du dehors absentes ; le decor, ses pieces et les cases forcees decoupes de meme.
  * }
  */
 TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
-    const core::Level complete =
-        carte({zone("sable", {4, 4}, 4, 3),
-               core::MapEntity{.type = std::string{core::NPC_ENTITY_TYPE}, .position = {5, 5}},
-               core::MapEntity{.type = std::string{core::NPC_ENTITY_TYPE}, .position = {1, 1}},
-               core::MapEntity{.type = std::string{core::ARENA_ENTRY_ENTITY_TYPE},
-                               .position = {4, 6},
-                               .properties = {{std::string{core::ARENA_SIDE_PROPERTY},
-                                               std::string{"allies"}}}}});
+    const core::Level complete = carte(
+        {zone("sable", {4, 4}, 4, 3),
+         core::MapEntity{.type = std::string{core::NPC_ENTITY_TYPE}, .position = {5, 5}},
+         core::MapEntity{.type = std::string{core::NPC_ENTITY_TYPE}, .position = {1, 1}},
+         core::MapEntity{
+             .type = std::string{core::ARENA_ENTRY_ENTITY_TYPE},
+             .position = {4, 6},
+             .properties = {{std::string{core::ARENA_SIDE_PROPERTY}, std::string{"allies"}}}}});
 
     const std::vector<core::CombatZone> zones = core::combatZonesOf(complete);
     ASSERT_EQ(zones.size(), 1U);
@@ -90,7 +90,8 @@ TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
     EXPECT_TRUE(zones.front().contains({7, 6}));
     EXPECT_FALSE(zones.front().contains({8, 6}));
     EXPECT_EQ(core::findCombatZone(zones, "sable"), &zones.front());
-    EXPECT_EQ(core::findCombatZone(zones, ""), &zones.front()) << "une seule zone se trouve sans nom";
+    EXPECT_EQ(core::findCombatZone(zones, ""), &zones.front())
+        << "une seule zone se trouve sans nom";
     EXPECT_EQ(core::findCombatZone(zones, "tribunes"), nullptr);
 
     const core::Level reduite = core::cropLevelToZone(complete, zones.front());
@@ -111,14 +112,14 @@ TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
     }
     EXPECT_EQ(pnj, 1) << "le PNJ du dehors n'entre pas dans la grille de combat";
 
-    // Le decor et les assignations suivent : une seule couche visible, decoupee, et la torche de
-    // la zone translatee ; le mur du dehors est parti.
+    // Le decor et ses pieces suivent : une seule couche visible, decoupee, et la torche de la zone
+    // translatee ; le mur du dehors est parti. Les cases forcees suivent de meme.
     ASSERT_EQ(reduite.layers().size(), 1U);
     EXPECT_EQ(reduite.layers().front().tiles.width(), 4);
     EXPECT_EQ(reduite.layers().front().tiles.tile(0, 0), core::TileType::Wall);
-    ASSERT_EQ(reduite.textureOverrides().size(), 1U);
-    EXPECT_EQ(reduite.textureOverrides().front().position, (core::GridPosition{1, 1}));
-    EXPECT_EQ(reduite.textureOverrides().front().assetName, "torch-left");
+    EXPECT_EQ(reduite.layers().front().pieceAt(1, 1), "torch-left");
+    EXPECT_EQ(reduite.layers().front().pieces.size(), 12U) << "une piece par case de la zone";
+    EXPECT_EQ(reduite.forcedCollision(), (std::vector<core::GridPosition>{{2, 1}}));
 }
 
 /**
