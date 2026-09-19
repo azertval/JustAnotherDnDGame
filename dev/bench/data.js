@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1789804288705,
+  "lastUpdate": 1789806901274,
   "repoUrl": "https://github.com/azertval/JustAnotherRpgGame",
   "entries": {
     "Combat et niveaux (Release, windows-2022)": [
@@ -360,6 +360,70 @@ window.BENCHMARK_DATA = {
             "value": 321.9763065385605,
             "unit": "us/iter",
             "extra": "iterations: 4267\ncpu: 322.2404499648465 us\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "azertval",
+            "username": "azertval",
+            "email": "valentin.eloy@gmail.com"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "376c541da2dab816d4b4e9bdc1cb9d3093d9b374",
+          "message": "fix(hmi): un minidump saute la mémoire illisible au lieu d'échouer (#78)\n\n* fix(hmi): skip unreadable memory when writing a minidump\n\nThe Nightly shuffle job failed on CrashDumpTest.EcritUnMinidumpAvecLeContexteDUneException\nwith ERROR_PARTIAL_COPY on every repeat (run 35416051895): dbghelp cancels the whole dump\nwhen a memory read fails, typically the stack of a thread exiting while it is being read.\nA MiniDumpWriteDump callback now answers ReadMemoryFailureCallback with S_OK, so the\nunreadable region is skipped and the dump is written.\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n* docs(changelog): record the minidump partial-copy fix\n\nCo-Authored-By: Claude Opus 5 <noreply@anthropic.com>\n\n---------\n\nCo-authored-by: Claude Opus 5 <noreply@anthropic.com>",
+          "timestamp": "2026-09-19T08:31:59Z",
+          "url": "https://github.com/azertval/JustAnotherRpgGame/commit/376c541da2dab816d4b4e9bdc1cb9d3093d9b374"
+        },
+        "date": 1789806898794,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "ReachableAreaDashing",
+            "value": 157455.3236607125,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 156947.54464285713 ns\nthreads: 1"
+          },
+          {
+            "name": "FindPathAcrossGrid",
+            "value": 214656.70312499796,
+            "unit": "ns/iter",
+            "extra": "iterations: 6400\ncpu: 214843.75 ns\nthreads: 1"
+          },
+          {
+            "name": "LineOfSightAcrossGrid",
+            "value": 57278.662867524996,
+            "unit": "ns/iter",
+            "extra": "iterations: 24216\ncpu: 57425.87545424513 ns\nthreads: 1"
+          },
+          {
+            "name": "CoverFromWithInterposed",
+            "value": 161546.8080357095,
+            "unit": "ns/iter",
+            "extra": "iterations: 8960\ncpu: 162179.1294642857 ns\nthreads: 1"
+          },
+          {
+            "name": "PlanTurnFourVersusFour",
+            "value": 1140405.9374999774,
+            "unit": "ns/iter",
+            "extra": "iterations: 1280\ncpu: 1135253.90625 ns\nthreads: 1"
+          },
+          {
+            "name": "LoadShippedLevel",
+            "value": 1690147.3895582648,
+            "unit": "ns/iter",
+            "extra": "iterations: 747\ncpu: 1673360.107095047 ns\nthreads: 1"
+          },
+          {
+            "name": "ComposeMartpart",
+            "value": 407.82182240278246,
+            "unit": "us/iter",
+            "extra": "iterations: 3446\ncpu: 403.5475914103308 us\nthreads: 1"
           }
         ]
       }
