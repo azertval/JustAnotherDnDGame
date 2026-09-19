@@ -210,9 +210,9 @@ public:
     }</span>
 
     /// @return Le manifeste des piÃ¨ces du lieu, `nullptr` sans lieu.
-    [[nodiscard]] const ScenePieceManifest* pieceManifest() const noexcept {
+<span style = "background-color:#dfd">    [[nodiscard]] const ScenePieceManifest* pieceManifest() const noexcept {
         return _manifest.get();
-    }
+    }</span>
 
     /// @return L'emprise de @p piece selon le manifeste, 1 Ã 1 si elle y est inconnue.
     [[nodiscard]] PieceFootprint pieceFootprint(std::string_view piece) const noexcept;
@@ -317,6 +317,30 @@ public:
      * @return `true` si l'entrÃ©e, une entitÃ© ou une piÃ¨ce assignÃ©e serait perdue.
      */
     [[nodiscard]] bool wouldResizeDropContent(int width, int height) const noexcept;
+
+    /**
+     * @name Gestes (`LOT-EDITOR-04`)
+     *
+     * Un geste de l'auteur â un glisser du pinceau, une ligne, un seau, un trait et son reflet â
+     * enchaÃ®ne plusieurs mutations ; il se dÃ©fait pourtant **en un pas**. Entre `beginGesture` et
+     * `endGesture`, seule la premiÃ¨re mutation qui change la carte empile un pas d'annulation ; un
+     * geste sans effet n'en empile aucun. Les appels s'imbriquent : seul le plus extÃ©rieur ferme le
+     * geste. La rÃ©vision change Ã  chaque mutation, comme hors geste.
+     * @{
+     */
+
+    /// Ouvre un geste.
+    void beginGesture() noexcept;
+
+    /// Ferme le geste ouvert ; sans effet s'il n'y en a pas.
+    void endGesture() noexcept;
+
+    /// @return Vrai si un geste est ouvert.
+<span style = "background-color:#dfd">    [[nodiscard]] bool inGesture() const noexcept {
+        return _gestureDepth &gt; 0;
+    }</span>
+
+    /** @} */
 
     /**
      * @brief Annule la derniÃ¨re mutation (`EX-EDIT-005`).
@@ -506,6 +530,28 @@ private:
 <span style = "background-color:#dfd">    std::uint64_t _revision = 0;</span>
     /// DerniÃ¨re rÃ©vision donnÃ©e : jamais rÃ©employÃ©e, mÃªme aprÃ¨s un `undo()`.
 <span style = "background-color:#dfd">    std::uint64_t _lastRevision = 0;</span>
+    /// Profondeur des gestes ouverts (`beginGesture`).
+<span style = "background-color:#dfd">    int _gestureDepth = 0;</span>
+    /// Le geste ouvert a dÃ©jÃ  empilÃ© son pas d'annulation.
+<span style = "background-color:#dfd">    bool _gesturePushed = false;</span>
+};
+
+/// @brief Un geste ouvert le temps d'une portÃ©e (`LevelDraft::beginGesture`).
+class GestureScope {
+public:
+<span style = "background-color:#dfd">    explicit GestureScope(LevelDraft&amp; draft) noexcept : _draft(draft) {
+        _draft.beginGesture();
+    }
+    ~GestureScope() {
+        _draft.endGesture();
+    }</span>
+    GestureScope(const GestureScope&amp;) = delete;
+    GestureScope&amp; operator=(const GestureScope&amp;) = delete;
+    GestureScope(GestureScope&amp;&amp;) = delete;
+    GestureScope&amp; operator=(GestureScope&amp;&amp;) = delete;
+
+private:
+    LevelDraft&amp; _draft;
 };
 
 }  // namespace core</pre>

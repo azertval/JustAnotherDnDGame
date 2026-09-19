@@ -78,8 +78,8 @@ BrushResult applyPiece(core::LevelDraft&amp; draft, const CanvasBrush&amp; brush
         }
 <span style = "background-color:#dfd">        return changedIf(draft.placePiece(*layer, first, brush.piece, brush.type));</span>
     }
-<span style = "background-color:#fdd">    return changedIf(draft.placePieceRegion(*layer, first, last, brush.piece, brush.type));</span>
-<span style = "background-color:#dfd">}</span>
+<span style = "background-color:#dfd">    return changedIf(draft.placePieceRegion(*layer, first, last, brush.piece, brush.type));
+}</span>
 
 BrushResult applyEraser(core::LevelDraft&amp; draft, LayerSlot active, const LayerViewState&amp; view,
 <span style = "background-color:#dfd">                        core::GridPosition first, core::GridPosition last) {

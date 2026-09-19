@@ -59,7 +59,8 @@ var searchData=
   ['attackrange_56',['AttackRange',['../structcore_1_1AttackRange.html',1,'core']]],
   ['attackroll_57',['AttackRoll',['../structcore_1_1AttackRoll.html',1,'core']]],
   ['audioengine_58',['AudioEngine',['../classhmi_1_1AudioEngine.html',1,'hmi']]],
-  ['autosaverecord_59',['AutosaveRecord',['../structhmi_1_1AutosaveRecord.html',1,'hmi']]],
-  ['autosavestore_60',['AutosaveStore',['../classhmi_1_1AutosaveStore.html',1,'hmi']]],
-  ['availablechoice_61',['AvailableChoice',['../structcore_1_1AvailableChoice.html',1,'core']]]
+  ['authornote_59',['AuthorNote',['../structhmi_1_1AuthorNote.html',1,'hmi']]],
+  ['autosaverecord_60',['AutosaveRecord',['../structhmi_1_1AutosaveRecord.html',1,'hmi']]],
+  ['autosavestore_61',['AutosaveStore',['../classhmi_1_1AutosaveStore.html',1,'hmi']]],
+  ['availablechoice_62',['AvailableChoice',['../structcore_1_1AvailableChoice.html',1,'core']]]
 ];

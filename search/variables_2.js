@@ -18,7 +18,7 @@ var searchData=
   ['bloodiedtarget_15',['bloodiedTarget',['../structcore_1_1BehaviorProfile.html#adf6c463b3d92f415bd0a349f986e5a6a',1,'core::BehaviorProfile']]],
   ['bonus_5faction_5fresource_16',['BONUS_ACTION_RESOURCE',['../namespacecore.html#a1a7647b95079dc030d27953b8c41ecf6',1,'core']]],
   ['broken_17',['broken',['../structhmi_1_1WorldGraphLayoutEdge.html#a9a3f8b191fcfd59846f45c98f43101de',1,'hmi::WorldGraphLayoutEdge']]],
-  ['brush_18',['brush',['../structhmi_1_1LevelStatusInfo.html#af7a683c327b50588af07ffeb31952c45',1,'hmi::LevelStatusInfo']]],
+  ['brush_18',['brush',['../structhmi_1_1LevelStatusInfo.html#af7a683c327b50588af07ffeb31952c45',1,'hmi::LevelStatusInfo::brush'],['../structhmi_1_1PickedBrush.html#a0f42adc4762d5b0be4f089a91373dfb5',1,'hmi::PickedBrush::brush']]],
   ['burrow_19',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
   ['button_5fcount_20',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
   ['button_5frepeat_5fdelay_21',['BUTTON_REPEAT_DELAY',['../namespacehmi.html#a9ab13e58906fc19eaceaa84921d13f32',1,'hmi']]],

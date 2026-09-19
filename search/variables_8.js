@@ -24,5 +24,6 @@ var searchData=
   ['hooks_21',['hooks',['../structcore_1_1AttackContext.html#af7e121d9e35bf129fe638219d390b3cd',1,'core::AttackContext']]],
   ['hoveredcell_22',['hoveredCell',['../structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414',1,'hmi::LevelStatusInfo']]],
   ['hoveredforced_23',['hoveredForced',['../structhmi_1_1LevelStatusInfo.html#a0d258b359594eefc33b451516f2e3c2d',1,'hmi::LevelStatusInfo']]],
-  ['hoveredpieces_24',['hoveredPieces',['../structhmi_1_1LevelStatusInfo.html#a2effd6644d86469c43423355353cded6',1,'hmi::LevelStatusInfo']]]
+  ['hoverednote_24',['hoveredNote',['../structhmi_1_1LevelStatusInfo.html#a6252b8385d7687c85e99ea368b003f64',1,'hmi::LevelStatusInfo']]],
+  ['hoveredpieces_25',['hoveredPieces',['../structhmi_1_1LevelStatusInfo.html#a2effd6644d86469c43423355353cded6',1,'hmi::LevelStatusInfo']]]
 ];

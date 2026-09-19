@@ -179,15 +179,15 @@ namespace {
         const std::filesystem::directory_entry&amp; fichier = *iterateur;
         const std::filesystem::path&amp; chemin = fichier.path();</span>
         // Memes exclusions que le navigateur de cartes (`hmi::LevelFileOperations::list`) : les
-        // scripts `sequence-*.json` vivent a cote des niveaux sans en etre.
-<span style = "background-color:#dfd">        if (!fichier.is_regular_file(code) || chemin.extension() != ".json" ||</span>
-            chemin.filename().string().starts_with("sequence-")) {
+        // scripts `sequence-*.json` et les annexes de l'editeur (`*.editor.json`) vivent a cote
+        // des niveaux sans en etre.
+        if (!fichier.is_regular_file(code) || chemin.extension() != ".json" ||
+<span style = "background-color:#dfd">            chemin.filename().string().starts_with("sequence-") ||</span>
+            chemin.filename().string().ends_with(".editor.json")) {
 <span style = "background-color:#dfd">            continue;</span>
         }
-<span style = "background-color:#dfd">        WorldMapInput carte{.mapId = mapIdOf(levelsDir, chemin),
-                            .name = {},
-                            .entities = {},
-                            .loadError = {}};
+        WorldMapInput carte{
+<span style = "background-color:#dfd">            .mapId = mapIdOf(levelsDir, chemin), .name = {}, .entities = {}, .loadError = {}};
         LevelLoadResult lu = LevelLoader::loadFromFile(chemin);
         if (lu.ok()) {
             carte.name = lu.level-&gt;name();

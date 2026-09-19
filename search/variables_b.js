@@ -8,7 +8,7 @@ var searchData=
   ['languages_5',['languages',['../structcore_1_1Creature.html#a6297613a530c3798ee46006e8107fa8f',1,'core::Creature::languages'],['../structcore_1_1Species.html#a54f54385419b690997002e266ae465b4',1,'core::Species::languages'],['../structcore_1_1CharacterSheet.html#af4449f47520b2b4db9d35eb0e2abb9b5',1,'core::CharacterSheet::languages']]],
   ['lastcolumn_6',['lastColumn',['../structhmi_1_1CellRange.html#abfadb34d360c1d2d238889c8981cee88',1,'hmi::CellRange']]],
   ['lastrow_7',['lastRow',['../structhmi_1_1CellRange.html#ada0790ba351e0cd693071fac96481544',1,'hmi::CellRange']]],
-  ['layer_8',['layer',['../structcore_1_1Sprite.html#ab90c3529acbce1120cdcf7d3dbb09082',1,'core::Sprite::layer'],['../structhmi_1_1ComposedQuad.html#af6d4eeb26df72fc862a647b8acaf813c',1,'hmi::ComposedQuad::layer']]],
+  ['layer_8',['layer',['../structcore_1_1Sprite.html#ab90c3529acbce1120cdcf7d3dbb09082',1,'core::Sprite::layer'],['../structhmi_1_1PickedBrush.html#ae1bd26f71adf35f52a917a4433e347b5',1,'hmi::PickedBrush::layer'],['../structhmi_1_1ComposedQuad.html#af6d4eeb26df72fc862a647b8acaf813c',1,'hmi::ComposedQuad::layer']]],
   ['layer_5fkind_5fcount_9',['LAYER_KIND_COUNT',['../namespacecore.html#a1639bde29cbf10d2ed8629a0fe495374',1,'core']]],
   ['layerlist_10',['layerList',['../structhmi_1_1LayersPanel_1_1Widgets.html#af415615505e74f8faaf2d5c0c3195dfb',1,'hmi::LayersPanel::Widgets']]],
   ['layers_11',['layers',['../structcore_1_1LevelData.html#a346a7cadd4d3753fa7e86a323db66a1f',1,'core::LevelData::layers'],['../structcore_1_1LevelDraft_1_1State.html#a09352d444a7a0a4a7150a20777fcbf9c',1,'core::LevelDraft::State::layers'],['../structhmi_1_1WorldSceneSource.html#af8d15cd77f03234fc187f450bb1fb460',1,'hmi::WorldSceneSource::layers']]],

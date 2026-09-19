@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>809 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>822 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Tests unitaires (806)</h1>
+Tests unitaires (819)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,7 @@ Vérifie que <span class="tt">drapeaux.isSet("donjon/chest@1,1")</span> est faux
 Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">2U</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
-Levels (111)</h3>
+Levels (112)</h3>
 <p><b><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">test_format_v4.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2632,6 +2632,22 @@ Vérifie que <span class="tt">draft.removeEntityProperty(0, "dialogue")</span> e
 Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est faux.<br  />
 Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
 Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditionDeCarteTest.UnGesteSeDefaitEnUnPas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__editing_8cpp.html" title="Tests unitaires de l&#39;édition des couches et des entités d&#39;un brouillon (LOT-11) : création,...">Source/Test/Unit/Core/Levels/test_level_draft_editing.cpp</a>:389</span></sub>  </td><td class="markdownTableBodyNone">Un geste = un pas d'annulation.  </td><td class="markdownTableBodyNone">1. Ouvrir un geste, peindre trois cases l'une après l'autre, le fermer.<br  />
+2. Ouvrir un geste sans rien changer.<br  />
+3. Annuler, refaire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.inGesture()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.revision()</span> diffère de <span class="tt">apresUne</span>.<br  />
+Vérifie que <span class="tt">draft.inGesture()</span> est faux.<br  />
+Vérifie que <span class="tt">draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.revision()</span> vaut <span class="tt">avant</span>.<br  />
+Vérifie que <span class="tt">draft.tileMap().tile(2, 0)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">draft.tileMap().tile(3, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt">draft.redo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.revision()</span> vaut <span class="tt">apres</span>.<br  />
+Vérifie que <span class="tt">draft.tileMap().tile(3, 1)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">test_level_draft_pieces.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4856,6 +4872,54 @@ Vérifie que <span class="tt">content.find("\\"jeu\\\\"\")&lt;/tt&gt; diffère d
 3. Relire le fichier.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bindings.save(path)</span> est vrai.<br  />
 Vérifie que <span class="tt">content.find("\\"manette\\\\"\")&lt;/tt&gt; diffère de &lt;tt&gt;std::string::npos&lt;/tt&gt;.&lt;br/&gt;Vérifie que &lt;tt&gt;content.find(\"sauter\")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__editor__sidecar_8cpp.html" title="Tests du fichier annexe d&#39;une carte, &lt;carte&gt;.editor.json, et de ses notes d&#39;auteur (LOT-EDITOR-04,...">test_editor_sidecar.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditorSidecarTest.LAnnexeVitACoteDeLaCarte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__sidecar_8cpp.html" title="Tests du fichier annexe d&#39;une carte, &lt;carte&gt;.editor.json, et de ses notes d&#39;auteur (LOT-EDITOR-04,...">Source/Test/Unit/Editor/test_editor_sidecar.cpp</a>:52</span></sub>  </td><td class="markdownTableBodyNone">L'annexe vit à côté de la carte.  </td><td class="markdownTableBodyNone">1. Nommer l'annexe de <span class="tt">capital/martpart.json</span>.<br  />
+2. Lister un dossier de cartes qui contient une carte et son annexe.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a28a348b8119969df025bff7cb050234b">hmi::sidecarPath</a>(std::filesystem::path("capital") / "martpart.json")</span> vaut <span class="tt">std::filesystem::path("capital") / "martpart.editor.json"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab5342ecaae737d73b9f36aa33f33b20d">hmi::isSidecarFile</a>("martpart.editor.json")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab5342ecaae737d73b9f36aa33f33b20d">hmi::isSidecarFile</a>("martpart.json")</span> est faux.<br  />
+Vérifie que <span class="tt">operations.create("place", 4, 4).ok()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a868dcb3f5bae6a1191118bfb6aeea1c8" title="Écrit l&#39;annexe dans path, ou retire le fichier si elle est vide.">hmi::writeSidecar</a>(<a class="el" href="namespacehmi.html#a28a348b8119969df025bff7cb050234b">hmi::sidecarPath</a>(dossier.chemin() / "place.json"), annexe)</span> est vrai.<br  />
+Vérifie que <span class="tt">cartes.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">cartes.front().filename()</span> vaut <span class="tt">"place.json"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditorSidecarTest.LesNotesSEcriventSeRelisentEtSeRetirent</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__sidecar_8cpp.html" title="Tests du fichier annexe d&#39;une carte, &lt;carte&gt;.editor.json, et de ses notes d&#39;auteur (LOT-EDITOR-04,...">Source/Test/Unit/Editor/test_editor_sidecar.cpp</a>:80</span></sub>  </td><td class="markdownTableBodyNone">Les notes s'écrivent, se relisent et se retirent.  </td><td class="markdownTableBodyNone">1. Écrire deux notes, en réécrire une, écrire l'annexe.<br  />
+2. La relire.<br  />
+3. Effacer les deux notes, réécrire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 5, .row = 2}, "door to the tavern")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 1, .row = 0}, "gate")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 1, .row = 0}, "gate")</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 1, .row = 0}, "north gate")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 9, .row = 9}, " ")</span> est faux.<br  />
+Vérifie que <span class="tt">annexe.notes.size()</span> vaut <span class="tt">2U</span>.<br  />
+Vérifie que <span class="tt">annexe.notes.front().cell</span> vaut <span class="tt">(GridPosition{1, 0})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a55dd038af95137b5be885aade862d10e">hmi::noteAt</a>(annexe, {.column = 5, .row = 2})</span> diffère de <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a55dd038af95137b5be885aade862d10e">hmi::noteAt</a>(annexe, {.column = 5, .row = 2})-&gt;text</span> vaut <span class="tt">"door to the tavern"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a55dd038af95137b5be885aade862d10e">hmi::noteAt</a>(annexe, {.column = 0, .row = 0})</span> vaut <span class="tt">nullptr</span>.<br  />
+Vérifie que <span class="tt">hmi::sidecarJson(annexe)</span> vaut <span class="tt">R"({ "notes": [ { "column": 1, "row": 0, "text": "north gate" }, { "column": 5, "row": 2, "text": "door to the tavern" } ], "version": 1 } )"</span>.<br  />
+Vérifie que <span class="tt">hmi::writeSidecar(fichier, annexe)</span> est vrai.<br  />
+Vérifie que <span class="tt">relue.warning.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">relue.sidecar</span> vaut <span class="tt">annexe</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 1, .row = 0}, "")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a3c12284190bee7405686941fa445fff7" title="Écrit la note de cell ; un texte vide (ou fait d&#39;espaces) la retire.">hmi::setNote</a>(annexe, {.column = 5, .row = 2}, "\\n")</span> est vrai.<br  />
+Vérifie que <span class="tt">hmi::writeSidecar(fichier, annexe)</span> est vrai.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(fichier)</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditorSidecarTest.LAnnexeTolereEtGardeCeQuElleNeConnaitPas</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__sidecar_8cpp.html" title="Tests du fichier annexe d&#39;une carte, &lt;carte&gt;.editor.json, et de ses notes d&#39;auteur (LOT-EDITOR-04,...">Source/Test/Unit/Editor/test_editor_sidecar.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">L'annexe tolère et garde ce qu'elle ne connaît pas.  </td><td class="markdownTableBodyNone">1. Lire une annexe avec une clé <span class="tt">lockedRegions</span> et une note sans texte.<br  />
+2. Lire un texte qui n'est pas du JSON.<br  />
+3. Lire un fichier absent.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lue.warning.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">lue.sidecar.notes.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af9e99c3df83d453a28ec874bc6106d4a">hmi::sidecarJson</a>(lue.sidecar).find("\\"lockedRegions\\\\"\")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">illisible.warning.empty()</span> est faux.<br  />
+Vérifie que <span class="tt">illisible.sidecar.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">absente.warning.empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">absente.sidecar.empty()</span> est vrai.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">test_editor_status.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4898,6 +4962,13 @@ Vérifie que <span class="tt">lines.permanent[3]</span> vaut <span class="tt">"(
 Vérifie que <span class="tt">lines.help.find("the eraser releases it")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
 Vérifie que <span class="tt">lines.permanent[2]</span> vaut <span class="tt">"Entity"</span>.<br  />
 Vérifie que <span class="tt">lines.help.find("the eraser releases it")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>EditorStatusTest.LeMiroirLaMesureEtLaNoteSeLisent</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">Source/Test/Unit/Editor/test_editor_status.cpp</a>:195</span></sub>  </td><td class="markdownTableBodyNone">La barre d'etat dit le miroir, la mesure et la note.  </td><td class="markdownTableBodyNone">1. Outil Ligne, pinceau <span class="tt">wall-left</span>, miroir actif, une note sous le curseur.<br  />
+ 2. Outil Mesure, une mesure en cours.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lines.permanent[2]</span> vaut <span class="tt">"Line · wall-left · Mirror"</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[3]</span> vaut <span class="tt">"(3, 4) · Note: well"</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[2]</span> vaut <span class="tt">"Measure · Mirror · 7 × 4 · 6 cells = 30 ft"</span>.<br  />
+Vérifie que <span class="tt">lines.help.find("1 cell = 5 ft")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">test_entity_editing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -5098,6 +5169,119 @@ Vérifie que <span class="tt">sortie.empty()</span> est vrai.  </td></tr>
  2. <span class="tt">JADG_V3_MAPS_DIR=&lt;dossier&gt;</span> puis lancer ce test.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">instantane(v4)</span> vaut <span class="tt">instantane(v3)</span>.<br  />
 Vérifie que <span class="tt">memeGrilleTactique(v4, v3)</span> est vrai.<br  />
 Vérifie que <span class="tt">v4.entry()</span> vaut <span class="tt">v3.entry()</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">test_paint_tools.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LaLignePoseUneCaseParPas</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:113</span></sub>  </td><td class="markdownTableBodyNone">La ligne pose une case par pas.  </td><td class="markdownTableBodyNone">1. Tracer une ligne droite, une diagonale, une pente raide, un point.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 1, .row = 2}, {.column = 4, .row = 2})</span> vaut <span class="tt">(Cells{{1, 2}, {2, 2}, {3, 2}, {4, 2}})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 3, .row = 3}, {.column = 1, .row = 1})</span> vaut <span class="tt">(Cells{{3, 3}, {2, 2}, {1, 1}})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 0, .row = 0}, {.column = 1, .row = 3})</span> vaut <span class="tt">(Cells{{0, 0}, {0, 1}, {1, 2}, {1, 3}})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 5, .row = 5}, {.column = 5, .row = 5})</span> vaut <span class="tt">(Cells{{5, 5}})</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.UnTraitEstUnSeulPas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:133</span></sub>  </td><td class="markdownTableBodyNone">Un trait est un seul pas d'annulation.  </td><td class="markdownTableBodyNone">1. Sur Martpart, tracer une ligne de <span class="tt">light</span> sur six cases de rue.<br  />
+2. Annuler.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, cell.column, cell.row)</span> vaut <span class="tt">"light"</span>.<br  />
+Vérifie que <span class="tt">carte.draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">carte.draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LeSeauRemplitUneRegionEnUnPas</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:158</span></sub>  </td><td class="markdownTableBodyNone">Le seau remplit une région, en un pas.  </td><td class="markdownTableBodyNone">1. Sur Martpart, verser <span class="tt">square</span> sur une case de la place, le sol actif… puis <span class="tt">street-3</span> sur la place.<br  />
+2. Annuler.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">carte.pieceEn(carte.sol, graine.column, graine.row)</span> vaut <span class="tt">"square"</span>.<br  />
+Vérifie que <span class="tt">static_cast&lt;int&gt;(place.size())</span> vaut <span class="tt">carres</span>.<br  />
+Vérifie que <span class="tt">result.changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, cell.column, cell.row)</span> vaut <span class="tt">"street-3"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, 0, 3)</span> vaut <span class="tt">"street"</span>.<br  />
+Vérifie que <span class="tt">collisionSuitLesPieces(carte.draft)</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">carte.draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LeSeauEtLesPiecesLarges</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:197</span></sub>  </td><td class="markdownTableBodyNone">Le seau et les pièces larges.  </td><td class="markdownTableBodyNone">1. Verser <span class="tt">feature-1</span> (2 × 1).<br  />
+2. Poser un étal, chercher la région de sa case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">refus.changed</span> est faux.<br  />
+Vérifie que <span class="tt">refus.refusal.find("single-cell pieces")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">carte.draft.canUndo()</span> est faux.<br  />
+Vérifie que <span class="tt">carte.draft.placePiece(carte.decor, {.column = 20, .row = 16}, "feature-1", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aae27f1521d18b1d80a966d54a3f06cfd" title="La région que le seau remplit : les cases reliées à seed par un côté (quatre voisins) qui portent le ...">hmi::floodRegion</a>(carte.draft, carte.decor, {.column = 21, .row = 16})</span> vaut <span class="tt">(std::vector&lt;GridPosition&gt;{{20, 16}, {21, 16}})</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LaPipettePrendCeQuOnVoit</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:222</span></sub>  </td><td class="markdownTableBodyNone">La pipette prend ce qu'on voit.  </td><td class="markdownTableBodyNone">1. Sur Martpart, piquer un mur, la collision active puis le sol actif, et une case vide.<br  />
+2. Poser un étal, piquer sa deuxième case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">collision</span> est vrai.<br  />
+Vérifie que <span class="tt">collision-&gt;brush.kind</span> vaut <span class="tt">BrushKind::Type</span>.<br  />
+Vérifie que <span class="tt">collision-&gt;brush.type</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision-&gt;layer</span> est faux.<br  />
+Vérifie que <span class="tt">surLeSol</span> est vrai.<br  />
+Vérifie que <span class="tt">surLeSol-&gt;brush</span> vaut <span class="tt">carte.piece("street", true)</span>.<br  />
+Vérifie que <span class="tt">surLeSol-&gt;layer</span> vaut <span class="tt">carte.sol</span>.<br  />
+Vérifie que <span class="tt">devant</span> est vrai.<br  />
+Vérifie que <span class="tt">devant-&gt;brush</span> vaut <span class="tt">carte.piece("wall-right", false)</span>.<br  />
+Vérifie que <span class="tt">devant-&gt;layer</span> vaut <span class="tt">carte.decor</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab96fa423fcd48543b29174b992e6f5c0" title="La pipette : le pinceau qui repeindrait ce qu&#39;on voit en cell.">hmi::pickBrush</a>(carte.draft, carte.decor, {.column = 30, .row = 0}, table)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ab96fa423fcd48543b29174b992e6f5c0" title="La pipette : le pinceau qui repeindrait ce qu&#39;on voit en cell.">hmi::pickBrush</a>(carte.draft, carte.decor, {.column = -1, .row = 0}, table)</span> est faux.<br  />
+Vérifie que <span class="tt">carte.draft.placePiece(carte.decor, {.column = 20, .row = 16}, "feature-1", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">etal</span> est vrai.<br  />
+Vérifie que <span class="tt">etal-&gt;brush.piece</span> vaut <span class="tt">"feature-1"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LeMiroirPoseLaJumelle</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:265</span></sub>  </td><td class="markdownTableBodyNone">Le miroir pose la jumelle, de l'autre côté de l'axe.  </td><td class="markdownTableBodyNone">1. Refléter des cases, nommer les jumelles.<br  />
+2. Tracer une ligne de <span class="tt">wall-right</span>, le miroir actif.<br  />
+3. Poser un <span class="tt">wall-left</span> sur l'axe, une façade qui le traverse.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">axe.offset</span> vaut <span class="tt">25</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac0ae9e678bcf9c742436127d81b94b40">hmi::mirrorCell</a>(axe, {.column = 26, .row = 5})</span> vaut <span class="tt">(GridPosition{30, 1})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac0ae9e678bcf9c742436127d81b94b40">hmi::mirrorCell</a>(axe, {.column = 30, .row = 5})</span> vaut <span class="tt">(GridPosition{30, 5})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa976a1e8cdd376c6e1142fad5214e286">hmi::mirrorPieceName</a>(manifeste, "wall-left")</span> vaut <span class="tt">"wall-right"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa976a1e8cdd376c6e1142fad5214e286">hmi::mirrorPieceName</a>(manifeste, "wall-right")</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa976a1e8cdd376c6e1142fad5214e286">hmi::mirrorPieceName</a>(manifeste, "front-left")</span> vaut <span class="tt">"front-right"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa976a1e8cdd376c6e1142fad5214e286">hmi::mirrorPieceName</a>(manifeste, "light")</span> vaut <span class="tt">"light"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aa976a1e8cdd376c6e1142fad5214e286">hmi::mirrorPieceName</a>(nullptr, "wall-left")</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac28181ffcc60f1a3a3d72a1d1d4001be" title="Donne brush sur chacune de cells, dans l&#39;ordre, en un geste, reflets compris.">hmi::applyStroke</a>(carte.draft, carte.piece("wall-right", false), std::nullopt, vue, <a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 26, .row = 5}, {.column = 28, .row = 5}), false, carte.contexte(axe)) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, column, 5)</span> vaut <span class="tt">"wall-right"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 30, column - 25)</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt">carte.draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac28181ffcc60f1a3a3d72a1d1d4001be" title="Donne brush sur chacune de cells, dans l&#39;ordre, en un geste, reflets compris.">hmi::applyStroke</a>(carte.draft, carte.piece("wall-corner", false), std::nullopt, vue, {{.column = 30, .row = 5}}, false, carte.contexte(axe)) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 30, 5)</span> vaut <span class="tt">"wall-corner"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac28181ffcc60f1a3a3d72a1d1d4001be" title="Donne brush sur chacune de cells, dans l&#39;ordre, en un geste, reflets compris.">hmi::applyStroke</a>(carte.draft, carte.piece("front-left", false), std::nullopt, vue, {{.column = 24, .row = 0}}, false, carte.contexte(coupe)) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 24, 0)</span> vaut <span class="tt">"front-left"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 23, 1)</span> vaut <span class="tt">""</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.LaMesureEnCasesEtEnPieds</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:316</span></sub>  </td><td class="markdownTableBodyNone">La mesure en cases et en pieds.  </td><td class="markdownTableBodyNone">1. Mesurer de (2, 1) à (8, 4), puis une case sur elle-même.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">mesure</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1Measure.html" title="Une mesure entre deux cases.">hmi::Measure</a>{.columns = 6, .rows = 3, .cells = 6, .feet = 30})</span>.<br  />
+Vérifie que <span class="tt">hmi::measureLabel(mesure)</span> vaut <span class="tt">"7 × 4 · 6 cells = 30 ft"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ad700de438e32b031575672ea56198aed">hmi::measureLabel</a>(<a class="el" href="namespacehmi.html#a9e8aa722715e4ca8b1c75806a71e7b56">hmi::measureBetween</a>({.column = 3, .row = 3}, {.column = 3, .row = 3}))</span> vaut <span class="tt">"1 × 1 · 0 cells = 0 ft"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PaintToolsTest.UneMaisonDeMartpartEnMoinsDeDixGestes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">Source/Test/Unit/Editor/test_paint_tools.cpp</a>:336</span></sub>  </td><td class="markdownTableBodyNone">Une maison de Martpart en six gestes.  </td><td class="markdownTableBodyNone">Sur un terrain vide de Martpart, le décor actif, le miroir par l'angle (30, 5) :<br  />
+ 1. rectangle de <span class="tt">street</span> (25, 0)–(29, 4) ;<br  />
+2. ligne de <span class="tt">wall-right</span> (25, 5)–(29, 5) ;<br  />
+ 3. pinceau <span class="tt">wall-corner</span> sur l'angle ;<br  />
+4. pinceau <span class="tt">door-right</span> en (27, 5) ;<br  />
+5. pinceau <span class="tt">doorstep</span> en (27, 4) ;<br  />
+6. annuler puis refaire le dernier geste.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">carte.pieceEn(carte.sol, column, row)</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, column, row)</span> vaut <span class="tt">""</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a1a59e0da62704797c214af4c224f7e57" title="Donne brush sur le rectangle [first, last], en un geste, reflet compris (le rectangle reflété,...">hmi::applyRectangleStroke</a>(carte.draft, carte.piece("street", true), active, vue, {.column = 25, .row = 0}, {.column = 29, .row = 4}, miroir) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ac28181ffcc60f1a3a3d72a1d1d4001be" title="Donne brush sur chacune de cells, dans l&#39;ordre, en un geste, reflets compris.">hmi::applyStroke</a>(carte.draft, carte.piece("wall-right", false), active, vue, <a class="el" href="namespacehmi.html#af759d2b783c12c7eb6e871adc4e19867">hmi::lineCells</a>({.column = 25, .row = 5}, {.column = 29, .row = 5}), false, miroir) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">pinceau(carte.piece("wall-corner", false), {.column = 30, .row = 5})</span> est vrai.<br  />
+Vérifie que <span class="tt">pinceau(carte.piece("door-right", false), {.column = 27, .row = 5})</span> est vrai.<br  />
+Vérifie que <span class="tt">pinceau(carte.piece("doorstep", true), {.column = 27, .row = 4})</span> est vrai.<br  />
+Vérifie que <span class="tt">gestes</span> est strictement inférieur à <span class="tt">10</span>.<br  />
+Vérifie que <span class="tt">carte.draft.undoDepth()</span> vaut <span class="tt">static_cast&lt;std::size_t&gt;(gestes)</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, column, row)</span> vaut <span class="tt">seuil ? "doorstep" : "street"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, i, 5)</span> vaut <span class="tt">porte ? "door-right" : "wall-right"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 30, i - 25)</span> vaut <span class="tt">porte ? "door-left" : "wall-left"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.decor, 30, 5)</span> vaut <span class="tt">"wall-corner"</span>.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(27, 5)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(27, 4)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">carte.draft.forcedCollision().empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">collisionSuitLesPieces(carte.draft)</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, 27, 4)</span> vaut <span class="tt">"street"</span>.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, 29, 2)</span> vaut <span class="tt">"street"</span>.<br  />
+Vérifie que <span class="tt">carte.draft.redo()</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.pieceEn(carte.sol, 29, 2)</span> vaut <span class="tt">"doorstep"</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__panel__focus_8cpp.html" title="Tests unitaires de la correspondance outil → panneau.">test_panel_focus.cpp</a></span></b></p>
 <table class="markdownTable">

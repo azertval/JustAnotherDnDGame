@@ -116,6 +116,12 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:af7a683c327b50588af07ffeb31952c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau armé (<span class="tt">wall-left</span>, <span class="tt">grass</span>, <span class="tt">Eraser</span>), vide s'il n'y a rien à dire.  <br /></td></tr>
 <tr class="memitem:a5e79b8c27aa7f5e7173ebe943b0305ba" id="r_a5e79b8c27aa7f5e7173ebe943b0305ba"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5e79b8c27aa7f5e7173ebe943b0305ba">collisionActive</a> = false</td></tr>
 <tr class="memdesc:a5e79b8c27aa7f5e7173ebe943b0305ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couche active est la grille de collision.  <br /></td></tr>
+<tr class="memitem:ae47c18b3d84ce8359e02423712f87cae" id="r_ae47c18b3d84ce8359e02423712f87cae"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ae47c18b3d84ce8359e02423712f87cae">mirror</a> = false</td></tr>
+<tr class="memdesc:ae47c18b3d84ce8359e02423712f87cae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le miroir est actif (LOT-EDITOR-04).  <br /></td></tr>
+<tr class="memitem:ae1b1fa9eb16d8b346d6fbfc8f2826a6d" id="r_ae1b1fa9eb16d8b346d6fbfc8f2826a6d"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae1b1fa9eb16d8b346d6fbfc8f2826a6d">measure</a></td></tr>
+<tr class="memdesc:ae1b1fa9eb16d8b346d6fbfc8f2826a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La mesure en cours (<span class="tt"><a class="el" href="namespacehmi.html#ad700de438e32b031575672ea56198aed">hmi::measureLabel</a></span>), vide sinon (LOT-EDITOR-04).  <br /></td></tr>
+<tr class="memitem:a6252b8385d7687c85e99ea368b003f64" id="r_a6252b8385d7687c85e99ea368b003f64"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a6252b8385d7687c85e99ea368b003f64">hoveredNote</a></td></tr>
+<tr class="memdesc:a6252b8385d7687c85e99ea368b003f64"><td class="mdescLeft">&#160;</td><td class="mdescRight">La note d'auteur de la case survolée, vide sinon (LOT-EDITOR-04).  <br /></td></tr>
 <tr class="memitem:a952a592f66671fc3a835b8fd1158ea5b" id="r_a952a592f66671fc3a835b8fd1158ea5b"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a952a592f66671fc3a835b8fd1158ea5b">zoom</a> = 1.0F</td></tr>
 <tr class="memdesc:a952a592f66671fc3a835b8fd1158ea5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de zoom courant.  <br /></td></tr>
 <tr class="memitem:a1a37c393c46c84bc6d6e0f7db90d60b6" id="r_a1a37c393c46c84bc6d6e0f7db90d60b6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1a37c393c46c84bc6d6e0f7db90d60b6">isoView</a> = true</td></tr>
@@ -204,6 +210,22 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a6252b8385d7687c85e99ea368b003f64" name="a6252b8385d7687c85e99ea368b003f64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6252b8385d7687c85e99ea368b003f64">&#9670;&#160;</a></span>hoveredNote</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::LevelStatusInfo::hoveredNote</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La note d'auteur de la case survolée, vide sinon (LOT-EDITOR-04). </p>
+
+</div>
+</div>
 <a id="a2effd6644d86469c43423355353cded6" name="a2effd6644d86469c43423355353cded6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2effd6644d86469c43423355353cded6">&#9670;&#160;</a></span>hoveredPieces</h2>
 
@@ -233,6 +255,38 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02. </p>
+
+</div>
+</div>
+<a id="ae1b1fa9eb16d8b346d6fbfc8f2826a6d" name="ae1b1fa9eb16d8b346d6fbfc8f2826a6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1b1fa9eb16d8b346d6fbfc8f2826a6d">&#9670;&#160;</a></span>measure</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::LevelStatusInfo::measure</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La mesure en cours (<span class="tt"><a class="el" href="namespacehmi.html#ad700de438e32b031575672ea56198aed">hmi::measureLabel</a></span>), vide sinon (LOT-EDITOR-04). </p>
+
+</div>
+</div>
+<a id="ae47c18b3d84ce8359e02423712f87cae" name="ae47c18b3d84ce8359e02423712f87cae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae47c18b3d84ce8359e02423712f87cae">&#9670;&#160;</a></span>mirror</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LevelStatusInfo::mirror = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le miroir est actif (LOT-EDITOR-04). </p>
 
 </div>
 </div>

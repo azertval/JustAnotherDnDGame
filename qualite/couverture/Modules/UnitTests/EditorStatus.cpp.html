@@ -52,10 +52,22 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#dfd">            return "Brush";</span>
         case EditorTool::Rectangle:
 <span style = "background-color:#fdd">            return "Rectangle";</span>
+        case EditorTool::Line:
+<span style = "background-color:#dfd">            return "Line";</span>
+        case EditorTool::Bucket:
+<span style = "background-color:#fdd">            return "Bucket";</span>
+        case EditorTool::Eraser:
+<span style = "background-color:#fdd">            return "Eraser";</span>
+        case EditorTool::Pipette:
+<span style = "background-color:#fdd">            return "Pipette";</span>
         case EditorTool::Selection:
 <span style = "background-color:#fdd">            return "Selection";</span>
         case EditorTool::Entity:
 <span style = "background-color:#dfd">            return "Entity";</span>
+        case EditorTool::Measure:
+<span style = "background-color:#dfd">            return "Measure";</span>
+        case EditorTool::Note:
+<span style = "background-color:#fdd">            return "Note";</span>
     }
 <span style = "background-color:#fdd">    return "Brush";</span>
 <span style = "background-color:#dfd">}</span>
@@ -63,11 +75,23 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#dfd">const char* toolHelp(EditorTool tool) {
     switch (tool) {</span>
         case EditorTool::Paint:
-<span style = "background-color:#dfd">            return "Paint: left click/drag Â· Ctrl+Z/Y: undo/redo";</span>
+<span style = "background-color:#dfd">            return "Paint: left click/drag Â· Alt+click: pick Â· Ctrl+Z/Y: undo/redo";</span>
         case EditorTool::Rectangle:
-<span style = "background-color:#fdd">            return "Rectangle: drag to paint an area Â· Ctrl+Z/Y: undo/redo";</span>
+<span style = "background-color:#fdd">            return "Rectangle: drag to paint an area Â· Alt+click: pick Â· Ctrl+Z/Y: undo/redo";</span>
+        case EditorTool::Line:
+<span style = "background-color:#dfd">            return "Line: drag to paint a line Â· Alt+click: pick Â· Ctrl+Z/Y: undo/redo";</span>
+        case EditorTool::Bucket:
+<span style = "background-color:#fdd">            return "Bucket: click to fill the connected cells alike Â· Alt+click: pick";</span>
+        case EditorTool::Eraser:
+<span style = "background-color:#fdd">            return "Eraser: left click/drag erases on the active layer Â· Ctrl+Z/Y: undo/redo";</span>
+        case EditorTool::Pipette:
+<span style = "background-color:#fdd">            return "Pipette: click to pick what you see, then back to painting";</span>
         case EditorTool::Selection:
-<span style = "background-color:#fdd">            return "Selection: drag to select Â· Ctrl+C/V: copy/paste";</span>
+<span style = "background-color:#fdd">            return "Selection: drag to select Â· Ctrl+C/V: copy/paste Â· Del: erase";</span>
+        case EditorTool::Measure:
+<span style = "background-color:#dfd">            return "Measure: drag from a cell to another Â· 1 cell = 5 ft";</span>
+        case EditorTool::Note:
+<span style = "background-color:#fdd">            return "Note: click a cell to write, edit or clear its author note";</span>
         case EditorTool::Entity:
 <span style = "background-color:#dfd">            return "Entity: click an empty cell to place the chosen kind Â· click an entity to "</span>
                    "select it, drag to move it Â· Del removes it Â· Ctrl+click places on an "
@@ -92,9 +116,15 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
         lines.permanent[1] = "Modified";</span>
     }
 <span style = "background-color:#dfd">    lines.permanent[2] = toolLabel(level.tool);
-    const bool brushes = level.tool == EditorTool::Paint || level.tool == EditorTool::Rectangle;
+    const bool brushes = paintsWithBrush(level.tool);
     if (brushes &amp;&amp; !level.brush.empty()) {
         lines.permanent[2] += " Â· " + level.brush;</span>
+    }
+<span style = "background-color:#dfd">    if (level.mirror) {
+        lines.permanent[2] += " Â· Mirror";</span>
+    }
+<span style = "background-color:#dfd">    if (!level.measure.empty()) {
+        lines.permanent[2] += " Â· " + level.measure;</span>
     }
 <span style = "background-color:#dfd">    if (level.hoveredCell) {
         lines.permanent[3] =</span>
@@ -105,13 +135,16 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#dfd">        if (level.hoveredForced) {
             lines.permanent[3] += " Â· forced collision";</span>
         }
+<span style = "background-color:#dfd">        if (!level.hoveredNote.empty()) {
+            lines.permanent[3] += " Â· Note: " + level.hoveredNote;</span>
+        }
     }
 <span style = "background-color:#dfd">    const int zoomPercent = static_cast&lt;int&gt;(std::lround(level.zoom * 100.0F));
     lines.permanent[4] =</span>
         formatOne("Zoom: %1%", zoomPercent) + (level.isoView ? " Â· Iso" : " Â· Flat");
 
 <span style = "background-color:#dfd">    lines.help = toolHelp(level.tool);
-    if (brushes &amp;&amp; level.collisionActive) {
+    if ((brushes || level.tool == EditorTool::Eraser) &amp;&amp; level.collisionActive) {
         lines.help += " Â· On the collision, painting forces a cell; the eraser releases it";</span>
     }
 <span style = "background-color:#dfd">    return lines;

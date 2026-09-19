@@ -22,6 +22,7 @@
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/LevelWriter.h"
 #include "Core/World/WorldGraph.h"
+#include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/LevelNameValidation.h"
 
 namespace hmi {
@@ -70,8 +71,11 @@ LevelFileOperations::LevelFileOperations(std::filesystem::path levelsDir)
         const std::filesystem::directory_entry&amp; entry = *it;</span>
         // "sequence-" reste un prÃ©fixe rÃ©servÃ© : un tel fichier n'est pas une carte, et
         // l'afficher comme ouvrable dans ce panneau mÃ¨nerait Ã  une ouverture en Ã©chec.
-<span style = "background-color:#dfd">        if (entry.is_regular_file(error) &amp;&amp; entry.path().extension() == ".json" &amp;&amp;</span>
-            !entry.path().filename().string().starts_with("sequence-")) {
+        // Pas plus l'annexe d'une carte (`&lt;carte&gt;.editor.json`, LOT-EDITOR-04), que le jeu ne lit
+        // jamais.
+        if (entry.is_regular_file(error) &amp;&amp; entry.path().extension() == ".json" &amp;&amp;
+<span style = "background-color:#dfd">            !entry.path().filename().string().starts_with("sequence-") &amp;&amp;</span>
+            !hmi::isSidecarFile(entry.path())) {
 <span style = "background-color:#dfd">            levels.push_back(entry.path());
         }
     }
@@ -125,6 +129,10 @@ FileOperationResult LevelFileOperations::rename(const std::filesystem::path&amp;
 <span style = "background-color:#dfd">    const FileOperationResult written = writeRenamed(source, trimmed, target);
     if (written.ok() &amp;&amp; target != source) {
         std::filesystem::remove(source, error);  // retire l'ancien fichier (Ã©chec non bloquant).</span>
+        // Les notes d'auteur suivent leur carte (LOT-EDITOR-04), Ã©chec non bloquant.
+<span style = "background-color:#dfd">        if (std::filesystem::exists(sidecarPath(source), error)) {</span>
+<span style = "background-color:#fdd">            std::filesystem::rename(sidecarPath(source), sidecarPath(target), error);</span>
+        }
     }
 <span style = "background-color:#dfd">    return written;
 }</span>
@@ -140,7 +148,12 @@ FileOperationResult LevelFileOperations::rename(const std::filesystem::path&amp;
     for (int index = 2; std::filesystem::exists(pathForName(candidate), error); ++index) {
         candidate = base + " (copie " + std::to_string(index) + ")";
     }
-    return writeRenamed(source, candidate, pathForName(candidate));
+    const FileOperationResult written = writeRenamed(source, candidate, pathForName(candidate));
+    if (written.ok() &amp;&amp; std::filesystem::exists(sidecarPath(source), error)) {</span>
+<span style = "background-color:#fdd">        std::filesystem::copy_file(sidecarPath(source), sidecarPath(pathForName(candidate)),</span>
+                                   error);  // la copie garde les notes, Ã©chec non bloquant.
+    }
+<span style = "background-color:#dfd">    return written;
 }</span>
 
 <span style = "background-color:#dfd">FileOperationResult LevelFileOperations::remove(const std::filesystem::path&amp; source) {
@@ -151,7 +164,8 @@ FileOperationResult LevelFileOperations::rename(const std::filesystem::path&amp;
 <span style = "background-color:#dfd">    if (!std::filesystem::remove(source, error)) {</span>
 <span style = "background-color:#fdd">        return FileOperationResult::failure("Ãchec de la suppression.");</span>
     }
-<span style = "background-color:#dfd">    return FileOperationResult::success(source);
+<span style = "background-color:#dfd">    std::filesystem::remove(sidecarPath(source), error);  // ses notes partent avec elle.
+    return FileOperationResult::success(source);
 }</span>
 
 }  // namespace hmi</pre>

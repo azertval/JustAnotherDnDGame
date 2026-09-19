@@ -722,6 +722,7 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
 <span style = "background-color:#dfd">    _redoHistory.push_back(snapshot());
     restore(std::move(_undoHistory.back()));
     _undoHistory.pop_back();
+    _gesturePushed = false;  // une mutation qui suit, meme dans le geste, est un pas neuf.
     return true;
 }</span>
 
@@ -732,6 +733,7 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
 <span style = "background-color:#dfd">    _undoHistory.push_back(snapshot());
     restore(std::move(_redoHistory.back()));
     _redoHistory.pop_back();
+    _gesturePushed = false;
     return true;
 }</span>
 
@@ -755,7 +757,32 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
     _revision = state.revision;
 }</span>
 
-<span style = "background-color:#dfd">void LevelDraft::pushUndo() {
+<span style = "background-color:#dfd">void LevelDraft::beginGesture() noexcept {
+    if (_gestureDepth == 0) {
+        _gesturePushed = false;</span>
+    }
+<span style = "background-color:#dfd">    ++_gestureDepth;
+}</span>
+
+<span style = "background-color:#dfd">void LevelDraft::endGesture() noexcept {
+    if (_gestureDepth == 0) {</span>
+<span style = "background-color:#fdd">        return;</span>
+    }
+<span style = "background-color:#dfd">    --_gestureDepth;
+    if (_gestureDepth == 0) {
+        _gesturePushed = false;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
+<span style = "background-color:#dfd">void LevelDraft::pushUndo() {</span>
+    // Dans un geste, seule la premiere mutation empile l'etat d'avant : le geste entier se defait
+    // en un pas. La revision change a chaque mutation, elle.
+<span style = "background-color:#dfd">    if (_gestureDepth &gt; 0 &amp;&amp; _gesturePushed) {
+        _redoHistory.clear();
+        _revision = ++_lastRevision;
+        return;</span>
+    }
+<span style = "background-color:#dfd">    _gesturePushed = _gestureDepth &gt; 0;
     _undoHistory.push_back(snapshot());
     if (_undoHistory.size() &gt; UNDO_HISTORY_LIMIT) {
         _undoHistory.erase(_undoHistory.begin());</span>

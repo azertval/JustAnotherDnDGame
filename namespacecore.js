@@ -106,6 +106,7 @@ var namespacecore =
     [ "LevelData", "structcore_1_1LevelData.html", "structcore_1_1LevelData" ],
     [ "Level", "classcore_1_1Level.html", "classcore_1_1Level" ],
     [ "LevelDraft", "classcore_1_1LevelDraft.html", "classcore_1_1LevelDraft" ],
+    [ "GestureScope", "classcore_1_1GestureScope.html", "classcore_1_1GestureScope" ],
     [ "LevelLoadResult", "structcore_1_1LevelLoadResult.html", "structcore_1_1LevelLoadResult" ],
     [ "LevelLoader", "classcore_1_1LevelLoader.html", "classcore_1_1LevelLoader" ],
     [ "LevelWriter", "classcore_1_1LevelWriter.html", "classcore_1_1LevelWriter" ],

@@ -125,6 +125,12 @@ Signals</h2></td></tr>
 <tr class="memitem:a0ecd8fdfe4df322d8cc2c51adb2822ee" id="r_a0ecd8fdfe4df322d8cc2c51adb2822ee"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0ecd8fdfe4df322d8cc2c51adb2822ee">framingChanged</a> ()</td></tr>
 <tr class="memdesc:a0ecd8fdfe4df322d8cc2c51adb2822ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le cadrage a bougé (défilement, agrandissement, vue) : la mini-carte suit.  <br /></td></tr>
 <tr class="memitem:a81bbca5dd660cdd3afd2133a89620c5d" id="r_a81bbca5dd660cdd3afd2133a89620c5d"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a81bbca5dd660cdd3afd2133a89620c5d">canvasViewChanged</a> (<a class="el" href="namespacehmi.html#a78257412917b7881b3766489df80d4c4">hmi::CanvasView</a> view)</td></tr>
+<tr class="memitem:a1f8f8e3517f40b8d48a25e4df633ac0e" id="r_a1f8f8e3517f40b8d48a25e4df633ac0e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1f8f8e3517f40b8d48a25e4df633ac0e">brushPicked</a> (const <a class="el" href="structhmi_1_1CanvasBrush.html">hmi::CanvasBrush</a> &amp;<a class="el" href="#a092b1ee865b290125749d74f20757baf">brush</a>)</td></tr>
+<tr class="memdesc:a1f8f8e3517f40b8d48a25e4df633ac0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pipette a pris <code class="param">brush</code> : la palette le montre.  <br /></td></tr>
+<tr class="memitem:a19f4cbb148843da2d058891d846ac467" id="r_a19f4cbb148843da2d058891d846ac467"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a19f4cbb148843da2d058891d846ac467">noteRequested</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell)</td></tr>
+<tr class="memdesc:a19f4cbb148843da2d058891d846ac467"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'outil Note a désigné <code class="param">cell</code> : la fenêtre demande le texte.  <br /></td></tr>
+<tr class="memitem:a429870503228f40a8030484d1ac1be96" id="r_a429870503228f40a8030484d1ac1be96"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a429870503228f40a8030484d1ac1be96">toolStateChanged</a> ()</td></tr>
+<tr class="memdesc:a429870503228f40a8030484d1ac1be96"><td class="mdescLeft">&#160;</td><td class="mdescRight">La mesure, le miroir ou les notes ont changé : la barre d'état relit.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -136,8 +142,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:af352a355f15f2844e6c2755cf5da4452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme le pinceau d'un type de tuile (palette des types) : il peint la couche active.  <br /></td></tr>
 <tr class="memitem:a25a54d0ec31cb6f2b1bd4fe3a6524fdb" id="r_a25a54d0ec31cb6f2b1bd4fe3a6524fdb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a25a54d0ec31cb6f2b1bd4fe3a6524fdb">setActivePiece</a> (const std::string &amp;piece, bool floor)</td></tr>
 <tr class="memdesc:a25a54d0ec31cb6f2b1bd4fe3a6524fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme le pinceau d'une pièce (palette des pièces) : elle va sur sa couche, qui devient la couche active (<span class="tt"><a class="el" href="namespacehmi.html#aabb6d90483bf13d7b93dc031ac1cdfb0">hmi::pieceTargetLayer</a></span>).  <br /></td></tr>
-<tr class="memitem:af9cbcb29a4fcba2722230a8f8e03a9cf" id="r_af9cbcb29a4fcba2722230a8f8e03a9cf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af9cbcb29a4fcba2722230a8f8e03a9cf">setEraser</a> ()</td></tr>
-<tr class="memdesc:af9cbcb29a4fcba2722230a8f8e03a9cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme la gomme de la couche active.  <br /></td></tr>
+<tr class="memitem:a09b32876e54292849826a1eb0a86978c" id="r_a09b32876e54292849826a1eb0a86978c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a09b32876e54292849826a1eb0a86978c">setMirror</a> (bool enabled)</td></tr>
+<tr class="memdesc:a09b32876e54292849826a1eb0a86978c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le miroir (<span class="tt">LOT-EDITOR-04</span>) : actif, chaque geste se reflète de l'autre côté d'un axe vertical de l'écran, qui passe par la case survolée à l'activation (le centre de la carte sans case survolée).  <br /></td></tr>
+<tr class="memitem:a20e045b51857cdc042a0e11cfe354e6e" id="r_a20e045b51857cdc042a0e11cfe354e6e"><td class="memItemLeft">const std::optional&lt; <a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a20e045b51857cdc042a0e11cfe354e6e">mirror</a> () const noexcept</td></tr>
+<tr class="memitem:a59fd535b0c18c365e1e3ea31ca544ebe" id="r_a59fd535b0c18c365e1e3ea31ca544ebe"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a59fd535b0c18c365e1e3ea31ca544ebe">measureText</a> () const</td></tr>
 <tr class="memitem:a092b1ee865b290125749d74f20757baf" id="r_a092b1ee865b290125749d74f20757baf"><td class="memItemLeft">const <a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a092b1ee865b290125749d74f20757baf">brush</a> () const noexcept</td></tr>
 <tr class="memitem:adfec046652f3ec5702b1d6d30947493e" id="r_adfec046652f3ec5702b1d6d30947493e"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1PieceCatalogGroup.html">PieceCatalogGroup</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adfec046652f3ec5702b1d6d30947493e">pieceCatalog</a> () const</td></tr>
 <tr class="memitem:a187bce4cdab8c53ae8d2f03690d3d18f" id="r_a187bce4cdab8c53ae8d2f03690d3d18f"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a187bce4cdab8c53ae8d2f03690d3d18f">placeDirectory</a> () const</td></tr>
@@ -159,8 +167,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a697617cceb5275c38ada41a44ba10595" id="r_a697617cceb5275c38ada41a44ba10595"><td class="memItemLeft"><a class="el" href="namespacehmi.html#ad3d9a6a21747a6c69be71dfc46024733">DiskChange</a>&#160;</td><td class="memItemRight"><a class="el" href="#a697617cceb5275c38ada41a44ba10595">diskChange</a> () const</td></tr>
 <tr class="memitem:acde2f77a3436465195e4f80a9ee5a09e" id="r_acde2f77a3436465195e4f80a9ee5a09e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#acde2f77a3436465195e4f80a9ee5a09e">acceptDiskVersion</a> ()</td></tr>
 <tr class="memdesc:acde2f77a3436465195e4f80a9ee5a09e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prend l'état actuel du fichier pour référence : l'auteur a choisi de garder son brouillon, le prochain enregistrement écrasera la version du disque (mise de côté par l'appelant).  <br /></td></tr>
-<tr class="memitem:af25fb7956d59f4176c0ec248b9e623e2" id="r_af25fb7956d59f4176c0ec248b9e623e2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af25fb7956d59f4176c0ec248b9e623e2">startPlaytest</a> ()</td></tr>
-<tr class="memdesc:af25fb7956d59f4176c0ec248b9e623e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le brouillon avec le moteur du jeu (<span class="tt">EX-EDIT-008</span>, <span class="tt">EX-EDIT-055</span>).  <br /></td></tr>
+<tr class="memitem:a9f13d18b7e5c97c8ada215ece2745577" id="r_a9f13d18b7e5c97c8ada215ece2745577"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a9f13d18b7e5c97c8ada215ece2745577">startPlaytest</a> (std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; from=std::nullopt)</td></tr>
+<tr class="memdesc:a9f13d18b7e5c97c8ada215ece2745577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le brouillon avec le moteur du jeu (<span class="tt">EX-EDIT-008</span>, <span class="tt">EX-EDIT-055</span>).  <br /></td></tr>
+<tr class="memitem:a0377cf0a2cc7721aa592cc26a237b721" id="r_a0377cf0a2cc7721aa592cc26a237b721"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0377cf0a2cc7721aa592cc26a237b721">startPlaytestHere</a> ()</td></tr>
+<tr class="memdesc:a0377cf0a2cc7721aa592cc26a237b721"><td class="mdescLeft">&#160;</td><td class="mdescRight">Joue le brouillon depuis la case survolée ; depuis l'entrée s'il n'y en a pas.  <br /></td></tr>
+<tr class="memitem:a67c35916a9387bec4072d4df7d2f345b" id="r_a67c35916a9387bec4072d4df7d2f345b"><td class="memItemLeft">const <a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a67c35916a9387bec4072d4df7d2f345b">sidecar</a> () const noexcept</td></tr>
+<tr class="memitem:a97d46d6864c0f2b4c2781cf862dba0cc" id="r_a97d46d6864c0f2b4c2781cf862dba0cc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a97d46d6864c0f2b4c2781cf862dba0cc">setNote</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, const std::string &amp;text)</td></tr>
+<tr class="memdesc:a97d46d6864c0f2b4c2781cf862dba0cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit la note de <code class="param">cell</code>, retirée si <code class="param">text</code> est vide ; l'annexe s'écrit tout de suite.  <br /></td></tr>
+<tr class="memitem:adef0e96de6460676435f9e635f375d4d" id="r_adef0e96de6460676435f9e635f375d4d"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#adef0e96de6460676435f9e635f375d4d">hoveredNote</a> () const</td></tr>
 <tr class="memitem:a5ef8175f20eead2a5e702ad74df8b858" id="r_a5ef8175f20eead2a5e702ad74df8b858"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5ef8175f20eead2a5e702ad74df8b858">playtesting</a> () const noexcept</td></tr>
 <tr class="memitem:a41f7e0c2f21b648fb2a7f4963d87ab0e" id="r_a41f7e0c2f21b648fb2a7f4963d87ab0e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a41f7e0c2f21b648fb2a7f4963d87ab0e">undo</a> () override</td></tr>
 <tr class="memitem:a3dcdc1db20f07dd27ce73c3267568b0f" id="r_a3dcdc1db20f07dd27ce73c3267568b0f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3dcdc1db20f07dd27ce73c3267568b0f">redo</a> () override</td></tr>
@@ -264,7 +278,21 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:ad4159f9caacd2bff36b13c7a1422fe43" id="r_ad4159f9caacd2bff36b13c7a1422fe43"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad4159f9caacd2bff36b13c7a1422fe43">paintAt</a> (const QMouseEvent *event, bool continuing)</td></tr>
 <tr class="memdesc:ad4159f9caacd2bff36b13c7a1422fe43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Donne un coup de pinceau sur la case pointée ; <code class="param">continuing</code> : le geste prolonge un glisser.  <br /></td></tr>
 <tr class="memitem:ae6ecba56f6405a7881120fc02f329eca" id="r_ae6ecba56f6405a7881120fc02f329eca"><td class="memItemLeft"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae6ecba56f6405a7881120fc02f329eca">currentBrush</a> () const</td></tr>
-<tr class="memdesc:ae6ecba56f6405a7881120fc02f329eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau armé, son type recalculé d'après la table du lieu courant.  <br /></td></tr>
+<tr class="memdesc:ae6ecba56f6405a7881120fc02f329eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau armé, son type recalculé d'après la table du lieu courant ; la gomme à l'outil Gomme.  <br /></td></tr>
+<tr class="memitem:af5807f5d3b60b40f4e1de624b061131d" id="r_af5807f5d3b60b40f4e1de624b061131d"><td class="memItemLeft"><a class="el" href="structhmi_1_1StrokeContext.html">StrokeContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#af5807f5d3b60b40f4e1de624b061131d">strokeContext</a> () const</td></tr>
+<tr class="memdesc:af5807f5d3b60b40f4e1de624b061131d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui accompagne un geste : le miroir et la table du lieu.  <br /></td></tr>
+<tr class="memitem:ace595443371f40efd2f9daadd0f3967c" id="r_ace595443371f40efd2f9daadd0f3967c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ace595443371f40efd2f9daadd0f3967c">pickAt</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell)</td></tr>
+<tr class="memdesc:ace595443371f40efd2f9daadd0f3967c"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pipette en <code class="param">cell</code> : le pinceau pris, et sa couche rendue active.  <br /></td></tr>
+<tr class="memitem:a7dd8d9d501a17ddd27b55754072587c0" id="r_a7dd8d9d501a17ddd27b55754072587c0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7dd8d9d501a17ddd27b55754072587c0">endPainting</a> ()</td></tr>
+<tr class="memdesc:a7dd8d9d501a17ddd27b55754072587c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ferme le geste en cours (glisser du pinceau ou de la gomme), s'il y en a un.  <br /></td></tr>
+<tr class="memitem:a799aeaed317a541cca4990fa8585b09b" id="r_a799aeaed317a541cca4990fa8585b09b"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a799aeaed317a541cca4990fa8585b09b">reloadSidecar</a> ()</td></tr>
+<tr class="memdesc:a799aeaed317a541cca4990fa8585b09b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relit l'annexe de la carte ouverte.  <br /></td></tr>
+<tr class="memitem:afcbbe47bf9021c1020cfba5ddc856b1e" id="r_afcbbe47bf9021c1020cfba5ddc856b1e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afcbbe47bf9021c1020cfba5ddc856b1e">paintNotes</a> (QPainter &amp;painter, const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;cells, bool iso)</td></tr>
+<tr class="memdesc:afcbbe47bf9021c1020cfba5ddc856b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les notes d'auteur, en pastilles, en iso ou à plat.  <br /></td></tr>
+<tr class="memitem:a8c9bb4c6af8f6f2dc6c880c688f83665" id="r_a8c9bb4c6af8f6f2dc6c880c688f83665"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a8c9bb4c6af8f6f2dc6c880c688f83665">paintMirrorAxis</a> (QPainter &amp;painter, bool iso)</td></tr>
+<tr class="memdesc:a8c9bb4c6af8f6f2dc6c880c688f83665"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'axe du miroir, en iso ou à plat.  <br /></td></tr>
+<tr class="memitem:abac3d42b2ca099154d6be3a75cb040c7" id="r_abac3d42b2ca099154d6be3a75cb040c7"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abac3d42b2ca099154d6be3a75cb040c7">paintDragPreview</a> (QPainter &amp;painter, bool iso)</td></tr>
+<tr class="memdesc:abac3d42b2ca099154d6be3a75cb040c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'aperçu de la ligne ou de la mesure tirée, en iso ou à plat.  <br /></td></tr>
 <tr class="memitem:aacf895f32863859e3fa65cbd1715fcbf" id="r_aacf895f32863859e3fa65cbd1715fcbf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aacf895f32863859e3fa65cbd1715fcbf">reportBrush</a> (const <a class="el" href="structhmi_1_1BrushResult.html">BrushResult</a> &amp;result)</td></tr>
 <tr class="memdesc:aacf895f32863859e3fa65cbd1715fcbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique le résultat d'un geste : brouillon redessiné, ou refus dit une fois par geste.  <br /></td></tr>
 <tr class="memitem:a15def7390e4a5adbafc5bc2d3e447838" id="r_a15def7390e4a5adbafc5bc2d3e447838"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a15def7390e4a5adbafc5bc2d3e447838">paintForcedMask</a> (QPainter &amp;painter, const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;cells, bool iso)</td></tr>
@@ -304,6 +332,12 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a892cb197cb3589c6a5ddb1d05c380ce3" id="r_a892cb197cb3589c6a5ddb1d05c380ce3"><td class="memItemLeft">QPoint&#160;</td><td class="memItemRight"><a class="el" href="#a892cb197cb3589c6a5ddb1d05c380ce3">_rightDragLast</a></td></tr>
 <tr class="memitem:aac7a636be58f4b53b6c4dc87316da291" id="r_aac7a636be58f4b53b6c4dc87316da291"><td class="memItemLeft"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a>&#160;</td><td class="memItemRight"><a class="el" href="#aac7a636be58f4b53b6c4dc87316da291">_brush</a></td></tr>
 <tr class="memitem:a39acf3a579e4fc9386e065792dfdd795" id="r_a39acf3a579e4fc9386e065792dfdd795"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a>&#160;</td><td class="memItemRight"><a class="el" href="#a39acf3a579e4fc9386e065792dfdd795">_tool</a> = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></td></tr>
+<tr class="memitem:a972a72049875158f783a43dcfbbe2b4e" id="r_a972a72049875158f783a43dcfbbe2b4e"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a>&#160;</td><td class="memItemRight"><a class="el" href="#a972a72049875158f783a43dcfbbe2b4e">_paintTool</a> = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></td></tr>
+<tr class="memdesc:a972a72049875158f783a43dcfbbe2b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'outil du peintre auquel la pipette rend la main.  <br /></td></tr>
+<tr class="memitem:adf4c4340d5ddddf45886694f8e737940" id="r_adf4c4340d5ddddf45886694f8e737940"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adf4c4340d5ddddf45886694f8e737940">_mirror</a></td></tr>
+<tr class="memitem:a8846933c38c4e4e0f1cb985400c9bffd" id="r_a8846933c38c4e4e0f1cb985400c9bffd"><td class="memItemLeft">std::optional&lt; std::pair&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8846933c38c4e4e0f1cb985400c9bffd">_measure</a></td></tr>
+<tr class="memdesc:a8846933c38c4e4e0f1cb985400c9bffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">La mesure tirée (départ, arrivée), gardée jusqu'au prochain geste de l'outil Mesure.  <br /></td></tr>
+<tr class="memitem:ac33939d8b9f0803d85f6231df7358af5" id="r_ac33939d8b9f0803d85f6231df7358af5"><td class="memItemLeft"><a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac33939d8b9f0803d85f6231df7358af5">_sidecar</a></td></tr>
 <tr class="memitem:aa71f68af481a5d89bf76e8187ad4476b" id="r_aa71f68af481a5d89bf76e8187ad4476b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa71f68af481a5d89bf76e8187ad4476b">_painting</a> = false</td></tr>
 <tr class="memitem:a82b5611d3b188ac378fadb6052bf1666" id="r_a82b5611d3b188ac378fadb6052bf1666"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a82b5611d3b188ac378fadb6052bf1666">_dragging</a> = false</td></tr>
 <tr class="memitem:a0a26711d0ec5890b074aa9297c2b100c" id="r_a0a26711d0ec5890b074aa9297c2b100c"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a0a26711d0ec5890b074aa9297c2b100c">_dragStart</a> {}</td></tr>
@@ -645,6 +679,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a1f8f8e3517f40b8d48a25e4df633ac0e" name="a1f8f8e3517f40b8d48a25e4df633ac0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f8f8e3517f40b8d48a25e4df633ac0e">&#9670;&#160;</a></span>brushPicked</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::brushPicked </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CanvasBrush.html">hmi::CanvasBrush</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>brush</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La pipette a pris <code class="param">brush</code> : la palette le montre. </p>
+
+</div>
+</div>
 <a id="a2a55ebbd168bcb95a73b01e001110975" name="a2a55ebbd168bcb95a73b01e001110975"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a55ebbd168bcb95a73b01e001110975">&#9670;&#160;</a></span>canCopy()</h2>
 
@@ -973,7 +1034,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Le pinceau armé, son type recalculé d'après la table du lieu courant. </p>
+<p>Le pinceau armé, son type recalculé d'après la table du lieu courant ; la gomme à l'outil Gomme. </p>
 
 </div>
 </div>
@@ -1151,6 +1212,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dd8d9d501a17ddd27b55754072587c0" name="a7dd8d9d501a17ddd27b55754072587c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dd8d9d501a17ddd27b55754072587c0">&#9670;&#160;</a></span>endPainting()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::endPainting </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ferme le geste en cours (glisser du pinceau ou de la gomme), s'il y en a un. </p>
 
 </div>
 </div>
@@ -1486,6 +1574,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="adef0e96de6460676435f9e635f375d4d" name="adef0e96de6460676435f9e635f375d4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adef0e96de6460676435f9e635f375d4d">&#9670;&#160;</a></span>hoveredNote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EditorViewport::hoveredNote </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La note de la case survolée, sur une ligne, vide sans note. </dd></dl>
+
+</div>
+</div>
 <a id="acea96d2cf94cd7780c655afb1ab5c9df" name="acea96d2cf94cd7780c655afb1ab5c9df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acea96d2cf94cd7780c655afb1ab5c9df">&#9670;&#160;</a></span>hoveredPieces()</h2>
 
@@ -1796,6 +1910,57 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a59fd535b0c18c365e1e3ea31ca544ebe" name="a59fd535b0c18c365e1e3ea31ca544ebe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59fd535b0c18c365e1e3ea31ca544ebe">&#9670;&#160;</a></span>measureText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EditorViewport::measureText </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La mesure en cours (<span class="tt"><a class="el" href="namespacehmi.html#ad700de438e32b031575672ea56198aed">hmi::measureLabel</a></span>), vide sans mesure. </dd></dl>
+
+</div>
+</div>
+<a id="a20e045b51857cdc042a0e11cfe354e6e" name="a20e045b51857cdc042a0e11cfe354e6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20e045b51857cdc042a0e11cfe354e6e">&#9670;&#160;</a></span>mirror()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::optional&lt; <a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a> &gt; &amp; hmi::EditorViewport::mirror </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa4bcb6c8f6bc9edf3895248c339e399a" name="aa4bcb6c8f6bc9edf3895248c339e399a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa4bcb6c8f6bc9edf3895248c339e399a">&#9670;&#160;</a></span>mouseMoveEvent()</h2>
 
@@ -1889,6 +2054,33 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19f4cbb148843da2d058891d846ac467" name="a19f4cbb148843da2d058891d846ac467"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19f4cbb148843da2d058891d846ac467">&#9670;&#160;</a></span>noteRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::noteRequested </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'outil Note a désigné <code class="param">cell</code> : la fenêtre demande le texte. </p>
 
 </div>
 </div>
@@ -1988,6 +2180,37 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Peint le canevas : appelé par l'élément unique de la scène, <code class="param">exposed</code> en unités monde. </p>
+
+</div>
+</div>
+<a id="abac3d42b2ca099154d6be3a75cb040c7" name="abac3d42b2ca099154d6be3a75cb040c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abac3d42b2ca099154d6be3a75cb040c7">&#9670;&#160;</a></span>paintDragPreview()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintDragPreview </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>iso</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'aperçu de la ligne ou de la mesure tirée, en iso ou à plat. </p>
 
 </div>
 </div>
@@ -2150,6 +2373,73 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8c9bb4c6af8f6f2dc6c880c688f83665" name="a8c9bb4c6af8f6f2dc6c880c688f83665"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c9bb4c6af8f6f2dc6c880c688f83665">&#9670;&#160;</a></span>paintMirrorAxis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintMirrorAxis </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>iso</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'axe du miroir, en iso ou à plat. </p>
+
+</div>
+</div>
+<a id="afcbbe47bf9021c1020cfba5ddc856b1e" name="afcbbe47bf9021c1020cfba5ddc856b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcbbe47bf9021c1020cfba5ddc856b1e">&#9670;&#160;</a></span>paintNotes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintNotes </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>iso</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les notes d'auteur, en pastilles, en iso ou à plat. </p>
+
+</div>
+</div>
 <a id="a336dfc55a240f816a2870182ba2d9711" name="a336dfc55a240f816a2870182ba2d9711"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a336dfc55a240f816a2870182ba2d9711">&#9670;&#160;</a></span>paintPlaytest()</h2>
 
@@ -2228,6 +2518,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ace595443371f40efd2f9daadd0f3967c" name="ace595443371f40efd2f9daadd0f3967c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace595443371f40efd2f9daadd0f3967c">&#9670;&#160;</a></span>pickAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::pickAt </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La pipette en <code class="param">cell</code> : le pinceau pris, et sa couche rendue active. </p>
 
 </div>
 </div>
@@ -2410,6 +2727,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a799aeaed317a541cca4990fa8585b09b" name="a799aeaed317a541cca4990fa8585b09b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a799aeaed317a541cca4990fa8585b09b">&#9670;&#160;</a></span>reloadSidecar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::reloadSidecar </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Relit l'annexe de la carte ouverte. </p>
 
 </div>
 </div>
@@ -2864,25 +3208,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af9cbcb29a4fcba2722230a8f8e03a9cf" name="af9cbcb29a4fcba2722230a8f8e03a9cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9cbcb29a4fcba2722230a8f8e03a9cf">&#9670;&#160;</a></span>setEraser()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::EditorViewport::setEraser </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Arme la gomme de la couche active. </p>
-
-</div>
-</div>
 <a id="aff2c5ce800456e6f5d9b3dc935c13aa6" name="aff2c5ce800456e6f5d9b3dc935c13aa6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aff2c5ce800456e6f5d9b3dc935c13aa6">&#9670;&#160;</a></span>setMapLayerDimmed()</h2>
 
@@ -2967,6 +3292,48 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a09b32876e54292849826a1eb0a86978c" name="a09b32876e54292849826a1eb0a86978c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09b32876e54292849826a1eb0a86978c">&#9670;&#160;</a></span>setMirror()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setMirror </td>
+          <td>(</td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>enabled</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le miroir (<span class="tt">LOT-EDITOR-04</span>) : actif, chaque geste se reflète de l'autre côté d'un axe vertical de l'écran, qui passe par la case survolée à l'activation (le centre de la carte sans case survolée). </p>
+
+</div>
+</div>
+<a id="a97d46d6864c0f2b4c2781cf862dba0cc" name="a97d46d6864c0f2b4c2781cf862dba0cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97d46d6864c0f2b4c2781cf862dba0cc">&#9670;&#160;</a></span>setNote()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setNote </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>text</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Écrit la note de <code class="param">cell</code>, retirée si <code class="param">text</code> est vide ; l'annexe s'écrit tout de suite. </p>
+
+</div>
+</div>
 <a id="a5c389802e5ee41652f87a2c339599e14" name="a5c389802e5ee41652f87a2c339599e14"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5c389802e5ee41652f87a2c339599e14">&#9670;&#160;</a></span>setSeeThroughRelief()</h2>
 
@@ -3003,8 +3370,34 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="af25fb7956d59f4176c0ec248b9e623e2" name="af25fb7956d59f4176c0ec248b9e623e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af25fb7956d59f4176c0ec248b9e623e2">&#9670;&#160;</a></span>startPlaytest()</h2>
+<a id="a67c35916a9387bec4072d4df7d2f345b" name="a67c35916a9387bec4072d4df7d2f345b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67c35916a9387bec4072d4df7d2f345b">&#9670;&#160;</a></span>sidecar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a> &amp; hmi::EditorViewport::sidecar </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'annexe de la carte ouverte (<span class="tt">&lt;carte&gt;.editor.json</span>). </dd></dl>
+
+</div>
+</div>
+<a id="a9f13d18b7e5c97c8ada215ece2745577" name="a9f13d18b7e5c97c8ada215ece2745577"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f13d18b7e5c97c8ada215ece2745577">&#9670;&#160;</a></span>startPlaytest()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3012,13 +3405,38 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void hmi::EditorViewport::startPlaytest </td>
           <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td class="paramtype">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>from</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::nullopt</span></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 <p>Joue le brouillon avec le moteur du jeu (<span class="tt">EX-EDIT-008</span>, <span class="tt">EX-EDIT-055</span>). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">from</td><td>La case d'où part le héros (<span class="tt">LOT-EDITOR-04</span>), l'entrée si rien. Une case hors de la carte ou qui arrête le pas est refusée. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a0377cf0a2cc7721aa592cc26a237b721" name="a0377cf0a2cc7721aa592cc26a237b721"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0377cf0a2cc7721aa592cc26a237b721">&#9670;&#160;</a></span>startPlaytestHere()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::startPlaytestHere </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Joue le brouillon depuis la case survolée ; depuis l'entrée s'il n'y en a pas. </p>
 
 </div>
 </div>
@@ -3098,6 +3516,33 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Termine l'essai et rend la main à l'édition (brouillon intact). </p>
+
+</div>
+</div>
+<a id="af5807f5d3b60b40f4e1de624b061131d" name="af5807f5d3b60b40f4e1de624b061131d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5807f5d3b60b40f4e1de624b061131d">&#9670;&#160;</a></span>strokeContext()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1StrokeContext.html">StrokeContext</a> hmi::EditorViewport::strokeContext </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ce qui accompagne un geste : le miroir et la table du lieu. </p>
 
 </div>
 </div>
@@ -3199,6 +3644,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a429870503228f40a8030484d1ac1be96" name="a429870503228f40a8030484d1ac1be96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a429870503228f40a8030484d1ac1be96">&#9670;&#160;</a></span>toolStateChanged</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::toolStateChanged </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La mesure, le miroir ou les notes ont changé : la barre d'état relit. </p>
 
 </div>
 </div>
@@ -4111,6 +4583,52 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a8846933c38c4e4e0f1cb985400c9bffd" name="a8846933c38c4e4e0f1cb985400c9bffd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8846933c38c4e4e0f1cb985400c9bffd">&#9670;&#160;</a></span>_measure</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;std::pair&lt;<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&gt; &gt; hmi::EditorViewport::_measure</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La mesure tirée (départ, arrivée), gardée jusqu'au prochain geste de l'outil Mesure. </p>
+
+</div>
+</div>
+<a id="adf4c4340d5ddddf45886694f8e737940" name="adf4c4340d5ddddf45886694f8e737940"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf4c4340d5ddddf45886694f8e737940">&#9670;&#160;</a></span>_mirror</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt;<a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a>&gt; hmi::EditorViewport::_mirror</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="aa71f68af481a5d89bf76e8187ad4476b" name="aa71f68af481a5d89bf76e8187ad4476b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa71f68af481a5d89bf76e8187ad4476b">&#9670;&#160;</a></span>_painting</h2>
 
@@ -4130,6 +4648,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a972a72049875158f783a43dcfbbe2b4e" name="a972a72049875158f783a43dcfbbe2b4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a972a72049875158f783a43dcfbbe2b4e">&#9670;&#160;</a></span>_paintTool</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> hmi::EditorViewport::_paintTool = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'outil du peintre auquel la pipette rend la main. </p>
 
 </div>
 </div>
@@ -4478,6 +5020,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">bool hmi::EditorViewport::_showGrid = true</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac33939d8b9f0803d85f6231df7358af5" name="ac33939d8b9f0803d85f6231df7358af5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33939d8b9f0803d85f6231df7358af5">&#9670;&#160;</a></span>_sidecar</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a> hmi::EditorViewport::_sidecar</td>
         </tr>
       </table>
   </td>

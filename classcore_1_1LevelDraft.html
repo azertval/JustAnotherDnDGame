@@ -189,6 +189,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac2764691a4e1e3b6eacb50d454e0a948" id="r_ac2764691a4e1e3b6eacb50d454e0a948"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ac2764691a4e1e3b6eacb50d454e0a948">removeEntityProperty</a> (std::size_t index, const std::string &amp;key)</td></tr>
 <tr class="memdesc:ac2764691a4e1e3b6eacb50d454e0a948"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire la propriété <code class="param">key</code> de l'entité <code class="param">index</code>, si elle l'a.  <br /></td></tr>
 <tr class="memitem:abb842bc0b3cfa387d1f5c20c7eb5bb3a" id="r_abb842bc0b3cfa387d1f5c20c7eb5bb3a"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abb842bc0b3cfa387d1f5c20c7eb5bb3a">entityAt</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position) const</td></tr>
+<tr id="pub-methods-3" class="groupHeader"><td colspan="2"><div class="groupHeader">Gestes (&lt;tt&gt;LOT-EDITOR-04&lt;/tt&gt;)</div></td></tr>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>Un geste de l'auteur — un glisser du pinceau, une ligne, un seau, un trait et son reflet — enchaîne plusieurs mutations ; il se défait pourtant <b>en un pas</b>.</p>
+<p>Entre <span class="tt"><a class="el" href="#a3e4f26ec16d2e600fb0e4beb8d7630ed" title="Ouvre un geste.">beginGesture</a></span> et <span class="tt"><a class="el" href="#ad4f3da1eead22d7b458eb2b7a0310a77" title="Ferme le geste ouvert ; sans effet s&#39;il n&#39;y en a pas.">endGesture</a></span>, seule la première mutation qui change la carte empile un pas d'annulation ; un geste sans effet n'en empile aucun. Les appels s'imbriquent : seul le plus extérieur ferme le geste. La révision change à chaque mutation, comme hors geste. </p>
+</div></td></tr>
+<tr class="memitem:a3e4f26ec16d2e600fb0e4beb8d7630ed" id="r_a3e4f26ec16d2e600fb0e4beb8d7630ed"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3e4f26ec16d2e600fb0e4beb8d7630ed">beginGesture</a> () noexcept</td></tr>
+<tr class="memdesc:a3e4f26ec16d2e600fb0e4beb8d7630ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ouvre un geste.  <br /></td></tr>
+<tr class="memitem:ad4f3da1eead22d7b458eb2b7a0310a77" id="r_ad4f3da1eead22d7b458eb2b7a0310a77"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad4f3da1eead22d7b458eb2b7a0310a77">endGesture</a> () noexcept</td></tr>
+<tr class="memdesc:ad4f3da1eead22d7b458eb2b7a0310a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ferme le geste ouvert ; sans effet s'il n'y en a pas.  <br /></td></tr>
+<tr class="memitem:a94655cfc1e43c9f0b2c01a0db3e79cf9" id="r_a94655cfc1e43c9f0b2c01a0db3e79cf9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a94655cfc1e43c9f0b2c01a0db3e79cf9">inGesture</a> () const noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -254,12 +263,16 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a162095858b19aa7f372f4416371f5594" id="r_a162095858b19aa7f372f4416371f5594"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a162095858b19aa7f372f4416371f5594">_revision</a> = 0</td></tr>
 <tr class="memitem:a5700e680da1882f49b61e75e50cb3fc1" id="r_a5700e680da1882f49b61e75e50cb3fc1"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a5700e680da1882f49b61e75e50cb3fc1">_lastRevision</a> = 0</td></tr>
 <tr class="memdesc:a5700e680da1882f49b61e75e50cb3fc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dernière révision donnée : jamais réemployée, même après un <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span>.  <br /></td></tr>
+<tr class="memitem:a3d9da53b48079e59b6efb7f036e8de81" id="r_a3d9da53b48079e59b6efb7f036e8de81"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a3d9da53b48079e59b6efb7f036e8de81">_gestureDepth</a> = 0</td></tr>
+<tr class="memdesc:a3d9da53b48079e59b6efb7f036e8de81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Profondeur des gestes ouverts (<span class="tt"><a class="el" href="#a3e4f26ec16d2e600fb0e4beb8d7630ed" title="Ouvre un geste.">beginGesture</a></span>).  <br /></td></tr>
+<tr class="memitem:a443e3fcb2d150f8d185f290025561946" id="r_a443e3fcb2d150f8d185f290025561946"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a443e3fcb2d150f8d185f290025561946">_gesturePushed</a> = false</td></tr>
+<tr class="memdesc:a443e3fcb2d150f8d185f290025561946"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le geste ouvert a déjà empilé son pas d'annulation.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
 <p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
 <p>Invariant maintenu par tous les mutateurs : la grille de tuiles reste la <b>source de vérité</b> de la position d'entrée (comme pour <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>) ; <span class="tt"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry()</a></span> n'est qu'un accès en cache, toujours synchronisé avec le contenu de <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1090"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1098"></a>
 La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class="tt">EX-EDIT-064</span>, <span class="tt">EX-EDIT-065</span>)</h2>
 <p>Dès qu'une carte a une couche visuelle, sa collision se <b>déduit</b> de ce qu'elle montre (<span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>, décision D10) et s'écrit, hors des cases <b>forcées</b> à la main. Le brouillon tient cet accord geste par geste, sans rien toucher d'autre :</p>
 <ul>
@@ -329,6 +342,33 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le rang de la couche créée, ou <span class="tt">std::nullopt</span> si <code class="param">kind</code> n'est pas visuel. </dd></dl>
+
+</div>
+</div>
+<a id="a3e4f26ec16d2e600fb0e4beb8d7630ed" name="a3e4f26ec16d2e600fb0e4beb8d7630ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e4f26ec16d2e600fb0e4beb8d7630ed">&#9670;&#160;</a></span>beginGesture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::beginGesture </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ouvre un geste. </p>
 
 </div>
 </div>
@@ -452,6 +492,33 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ad4f3da1eead22d7b458eb2b7a0310a77" name="ad4f3da1eead22d7b458eb2b7a0310a77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4f3da1eead22d7b458eb2b7a0310a77">&#9670;&#160;</a></span>endGesture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::endGesture </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ferme le geste ouvert ; sans effet s'il n'y en a pas. </p>
 
 </div>
 </div>
@@ -645,6 +712,32 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a94655cfc1e43c9f0b2c01a0db3e79cf9" name="a94655cfc1e43c9f0b2c01a0db3e79cf9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94655cfc1e43c9f0b2c01a0db3e79cf9">&#9670;&#160;</a></span>inGesture()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::inGesture </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Vrai si un geste est ouvert. </dd></dl>
 
 </div>
 </div>
@@ -2060,6 +2153,54 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3d9da53b48079e59b6efb7f036e8de81" name="a3d9da53b48079e59b6efb7f036e8de81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d9da53b48079e59b6efb7f036e8de81">&#9670;&#160;</a></span>_gestureDepth</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int core::LevelDraft::_gestureDepth = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Profondeur des gestes ouverts (<span class="tt"><a class="el" href="#a3e4f26ec16d2e600fb0e4beb8d7630ed" title="Ouvre un geste.">beginGesture</a></span>). </p>
+
+</div>
+</div>
+<a id="a443e3fcb2d150f8d185f290025561946" name="a443e3fcb2d150f8d185f290025561946"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a443e3fcb2d150f8d185f290025561946">&#9670;&#160;</a></span>_gesturePushed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::_gesturePushed = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le geste ouvert a déjà empilé son pas d'annulation. </p>
 
 </div>
 </div>

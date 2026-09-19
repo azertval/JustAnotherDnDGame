@@ -93,7 +93,7 @@ $(function(){initNavTree('EditorTool_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Outil actif dans la grille de l'éditeur (<span class="tt">EX-EDIT-014</span>).  
+<p>Outil actif dans la grille de l'éditeur (<span class="tt">EX-EDIT-014</span>, <span class="tt">EX-EDIT-066</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 </div>
@@ -105,20 +105,34 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a02048ad8ad69a87a10e8307ac2bd68dd" id="r_a02048ad8ad69a87a10e8307ac2bd68dd"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> { <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::Paint</a>
+<tr class="memitem:a02048ad8ad69a87a10e8307ac2bd68dd" id="r_a02048ad8ad69a87a10e8307ac2bd68dd"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> { <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::Paint</a>
 , <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68ddace9291906a4c3b042650b70d7f3b152e">hmi::Rectangle</a>
+, <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4803e6b9e63dabf04de980788d6a13c4">hmi::Line</a>
+, <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda30edf70db68aa84f05d3e72326807b0c">hmi::Bucket</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda1432aab1d005218c17376fbee5b3c894">hmi::Eraser</a>
+, <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68ddabf54875d27ecf38f3409b85b3e8d3a71">hmi::Pipette</a>
 , <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de">hmi::Selection</a>
 , <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f">hmi::Entity</a>
+, <br />
+&#160;&#160;<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda0cbbe0321e0c40dfa77a159ef6bfad6b">hmi::Measure</a>
+, <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda3b0649c72650c313a357338dcdfb64ec">hmi::Note</a>
+<br />
  }</td></tr>
-<tr class="memdesc:a02048ad8ad69a87a10e8307ac2bd68dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outil actif dans la grille de l'éditeur, changé via <span class="tt">Tab</span> ou la barre d'outils (<span class="tt"><a class="el" href="classhmi_1_1EditorActions.html" title="Construit et possède les QAction de l&#39;éditeur : chaque outil et chaque commande n&#39;existe qu&#39;une fois,...">hmi::EditorActions</a></span>).  <a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">More...</a><br /></td></tr>
+<tr class="memdesc:a02048ad8ad69a87a10e8307ac2bd68dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Outil actif dans la grille de l'éditeur, choisi par la barre d'outils ou sa touche (<span class="tt"><a class="el" href="classhmi_1_1EditorActions.html" title="Construit et possède les QAction de l&#39;éditeur : chaque outil et chaque commande n&#39;existe qu&#39;une fois,...">hmi::EditorActions</a></span>).  <a href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">More...</a><br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a52671ff2dc84b7e7e8d8c5daa415ab97" id="r_a52671ff2dc84b7e7e8d8c5daa415ab97"><td class="memItemLeft">constexpr bool&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a52671ff2dc84b7e7e8d8c5daa415ab97">hmi::paintsWithBrush</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">EditorTool</a> tool) noexcept</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a96d20a1938609691a1560c6dae34527f" id="r_a96d20a1938609691a1560c6dae34527f"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">hmi::EDITOR_TOOL_COUNT</a> = 4</td></tr>
+<tr class="memitem:a96d20a1938609691a1560c6dae34527f" id="r_a96d20a1938609691a1560c6dae34527f"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a96d20a1938609691a1560c6dae34527f">hmi::EDITOR_TOOL_COUNT</a> = 10</td></tr>
 <tr class="memdesc:a96d20a1938609691a1560c6dae34527f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Outil actif dans la grille de l'éditeur (<span class="tt">EX-EDIT-014</span>). </p>
+<div class="textblock"><p>Outil actif dans la grille de l'éditeur (<span class="tt">EX-EDIT-014</span>, <span class="tt">EX-EDIT-066</span>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

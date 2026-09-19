@@ -110,8 +110,6 @@ Signals</h2></td></tr>
 <tr class="memdesc:a41293567f5813d2d68819193c823e846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Émis quand l'utilisateur sélectionne une tuile (feuille) dans l'arbre des types.  <br /></td></tr>
 <tr class="memitem:aecbb1989cbaeff2231f0a0de3b81a1a9" id="r_aecbb1989cbaeff2231f0a0de3b81a1a9"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aecbb1989cbaeff2231f0a0de3b81a1a9">pieceSelected</a> (const QString &amp;piece, bool floor)</td></tr>
 <tr class="memdesc:aecbb1989cbaeff2231f0a0de3b81a1a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Émis quand l'utilisateur choisit une pièce ; <code class="param">floor</code> : elle va sur la couche de sol.  <br /></td></tr>
-<tr class="memitem:a5e101c3a1835a1a7fcd14533ab4510e5" id="r_a5e101c3a1835a1a7fcd14533ab4510e5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5e101c3a1835a1a7fcd14533ab4510e5">eraserSelected</a> ()</td></tr>
-<tr class="memdesc:a5e101c3a1835a1a7fcd14533ab4510e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Émis quand l'utilisateur prend la gomme.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -119,6 +117,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1a573b3201ad6ce9d9d5c86cad1c8154" id="r_a1a573b3201ad6ce9d9d5c86cad1c8154"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1a573b3201ad6ce9d9d5c86cad1c8154">selectedTile</a> () const noexcept</td></tr>
 <tr class="memitem:ad24eefa6be650cefdc4a56ac62995347" id="r_ad24eefa6be650cefdc4a56ac62995347"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad24eefa6be650cefdc4a56ac62995347">setPieceCatalog</a> (std::vector&lt; <a class="el" href="structhmi_1_1PieceCatalogGroup.html">PieceCatalogGroup</a> &gt; catalog, const std::filesystem::path &amp;placeDirectory)</td></tr>
 <tr class="memdesc:ad24eefa6be650cefdc4a56ac62995347"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montre le catalogue d'un lieu.  <br /></td></tr>
+<tr class="memitem:a1e5eed578fb9a7ce0901d3e6698497ff" id="r_a1e5eed578fb9a7ce0901d3e6698497ff"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a1e5eed578fb9a7ce0901d3e6698497ff">showPiece</a> (const QString &amp;piece, bool floor)</td></tr>
+<tr class="memdesc:a1e5eed578fb9a7ce0901d3e6698497ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montre <code class="param">piece</code> choisie (la pipette l'a prise), sans rien émettre.  <br /></td></tr>
+<tr class="memitem:a22fb2b59adc8c82a357e357d72dbe9d6" id="r_a22fb2b59adc8c82a357e357d72dbe9d6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a22fb2b59adc8c82a357e357d72dbe9d6">showTile</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type)</td></tr>
+<tr class="memdesc:a22fb2b59adc8c82a357e357d72dbe9d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Montre le type <code class="param">type</code> choisi (la pipette l'a pris), sans rien émettre.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pro-methods" class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -131,8 +133,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a7fdb92fcf95438fa75044ab0363e8d92" id="r_a7fdb92fcf95438fa75044ab0363e8d92"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7fdb92fcf95438fa75044ab0363e8d92">buildPieceModel</a> ()</td></tr>
 <tr class="memitem:ab9b24b5798171c54e5b7f569f97b51a2" id="r_ab9b24b5798171c54e5b7f569f97b51a2"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab9b24b5798171c54e5b7f569f97b51a2">onCurrentChanged</a> (const QModelIndex &amp;current)</td></tr>
 <tr class="memitem:a6cacdc20ab7455f5b924685f5c02b8cc" id="r_a6cacdc20ab7455f5b924685f5c02b8cc"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6cacdc20ab7455f5b924685f5c02b8cc">onPieceChanged</a> (const QModelIndex &amp;current)</td></tr>
-<tr class="memitem:a031ee86204fede6fe41f541946412220" id="r_a031ee86204fede6fe41f541946412220"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a031ee86204fede6fe41f541946412220">releaseEraser</a> ()</td></tr>
-<tr class="memdesc:a031ee86204fede6fe41f541946412220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relâche la gomme sans rien émettre : un choix de la palette arme son propre pinceau.  <br /></td></tr>
 <tr class="memitem:a7f429cc45ca73c48b62bc282f1a13418" id="r_a7f429cc45ca73c48b62bc282f1a13418"><td class="memItemLeft">QPixmap&#160;</td><td class="memItemRight"><a class="el" href="#a7f429cc45ca73c48b62bc282f1a13418">thumbnailFor</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type)</td></tr>
 <tr class="memdesc:a7f429cc45ca73c48b62bc282f1a13418"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vignette d'un type : sa couleur dans l'atlas procédural.  <br /></td></tr>
 <tr class="memitem:af5575a09e7355c2943e52d46068fe60d" id="r_af5575a09e7355c2943e52d46068fe60d"><td class="memItemLeft">QPixmap&#160;</td><td class="memItemRight"><a class="el" href="#af5575a09e7355c2943e52d46068fe60d">pieceThumbnail</a> (const <a class="el" href="structhmi_1_1PieceCatalogEntry.html">PieceCatalogEntry</a> &amp;entry) const</td></tr>
@@ -140,7 +140,6 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a7afea6f1a497425597701192be84b9f4" id="r_a7afea6f1a497425597701192be84b9f4"><td class="memItemLeft">QToolButton *&#160;</td><td class="memItemRight"><a class="el" href="#a7afea6f1a497425597701192be84b9f4">_eraser</a></td></tr>
 <tr class="memitem:a8c439c34132f48eff4e01a8f4ce6680a" id="r_a8c439c34132f48eff4e01a8f4ce6680a"><td class="memItemLeft">QTabWidget *&#160;</td><td class="memItemRight"><a class="el" href="#a8c439c34132f48eff4e01a8f4ce6680a">_tabs</a></td></tr>
 <tr class="memitem:ac1c3c3448d58c787304bc74f60b5100f" id="r_ac1c3c3448d58c787304bc74f60b5100f"><td class="memItemLeft">QWidget *&#160;</td><td class="memItemRight"><a class="el" href="#ac1c3c3448d58c787304bc74f60b5100f">_piecesPage</a></td></tr>
 <tr class="memitem:aad3f85488e8c5f20569fe7c1253fe1ff" id="r_aad3f85488e8c5f20569fe7c1253fe1ff"><td class="memItemLeft">QLineEdit *&#160;</td><td class="memItemRight"><a class="el" href="#aad3f85488e8c5f20569fe7c1253fe1ff">_search</a></td></tr>
@@ -157,13 +156,12 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La palette : <b>la planche du lieu</b> d'abord, les types en repli (<span class="tt">LOT-EDITOR-03</span>). </p>
-<p>Deux onglets et une gomme :</p>
+<p>Deux onglets :</p>
 <ul>
 <li><b>Pieces</b> — le catalogue du lieu (<span class="tt"><a class="el" href="namespacehmi.html#af13dc656bfde25b7f2e991d124ec836e" title="Le catalogue d&#39;un lieu.">hmi::pieceCatalog</a></span>) : vignettes groupées par classe, sous le nom court que la carte écrit, une recherche, et à part les pièces que la carte cite et que la planche n'a plus, en damier (<span class="tt">EX-EDIT-063</span>). Choisir une pièce arme le pinceau de pièce ; la pièce va d'elle-même sur sa couche.</li>
 <li><b>Types</b> — la taxonomie des types de tuile (<span class="tt"><a class="el" href="namespacehmi.html#a324d7671eeb331de4b3459d66be9d0ca" title="Taxonomie complète des types de tuiles peignables, en catégories/sous-groupes.">hmi::tileTaxonomy</a></span>), en arbre : le repli d'une carte sans lieu, et la collision (<span class="tt">EX-EDIT-018</span>). Sans lieu, l'onglet des pièces est éteint.</li>
-<li><b>Eraser</b> — la gomme de la couche active.</li>
 </ul>
-<p>Le panneau ne connaît ni brouillon ni canevas : il émet ce qu'on choisit. </p>
+<p>Le panneau ne connaît ni brouillon ni canevas : il émet ce qu'on choisit. La gomme est un outil de la barre d'outils depuis le <span class="tt">LOT-EDITOR-04</span> ; la pipette montre ici ce qu'elle a pris (<span class="tt"><a class="el" href="#a1e5eed578fb9a7ce0901d3e6698497ff" title="Montre piece choisie (la pipette l&#39;a prise), sans rien émettre.">showPiece</a></span>, <span class="tt"><a class="el" href="#a22fb2b59adc8c82a357e357d72dbe9d6" title="Montre le type type choisi (la pipette l&#39;a pris), sans rien émettre.">showTile</a></span>), sans rien émettre. </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aca2b8a823be65548be1dc034db9c3de4" name="aca2b8a823be65548be1dc034db9c3de4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aca2b8a823be65548be1dc034db9c3de4">&#9670;&#160;</a></span>PalettePanel()</h2>
@@ -238,33 +236,6 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5e101c3a1835a1a7fcd14533ab4510e5" name="a5e101c3a1835a1a7fcd14533ab4510e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e101c3a1835a1a7fcd14533ab4510e5">&#9670;&#160;</a></span>eraserSelected</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::PalettePanel::eraserSelected </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Émis quand l'utilisateur prend la gomme. </p>
 
 </div>
 </div>
@@ -403,33 +374,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a031ee86204fede6fe41f541946412220" name="a031ee86204fede6fe41f541946412220"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a031ee86204fede6fe41f541946412220">&#9670;&#160;</a></span>releaseEraser()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void hmi::PalettePanel::releaseEraser </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Relâche la gomme sans rien émettre : un choix de la palette arme son propre pinceau. </p>
-
-</div>
-</div>
 <a id="a1a573b3201ad6ce9d9d5c86cad1c8154" name="a1a573b3201ad6ce9d9d5c86cad1c8154"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a573b3201ad6ce9d9d5c86cad1c8154">&#9670;&#160;</a></span>selectedTile()</h2>
 
@@ -483,6 +427,48 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a1e5eed578fb9a7ce0901d3e6698497ff" name="a1e5eed578fb9a7ce0901d3e6698497ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e5eed578fb9a7ce0901d3e6698497ff">&#9670;&#160;</a></span>showPiece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::PalettePanel::showPiece </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>floor</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Montre <code class="param">piece</code> choisie (la pipette l'a prise), sans rien émettre. </p>
+
+</div>
+</div>
+<a id="a22fb2b59adc8c82a357e357d72dbe9d6" name="a22fb2b59adc8c82a357e357d72dbe9d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22fb2b59adc8c82a357e357d72dbe9d6">&#9670;&#160;</a></span>showTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::PalettePanel::showTile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Montre le type <code class="param">type</code> choisi (la pipette l'a pris), sans rien émettre. </p>
 
 </div>
 </div>
@@ -552,28 +538,6 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::vector&lt;<a class="el" href="structhmi_1_1PieceCatalogGroup.html">PieceCatalogGroup</a>&gt; hmi::PalettePanel::_catalog</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7afea6f1a497425597701192be84b9f4" name="a7afea6f1a497425597701192be84b9f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7afea6f1a497425597701192be84b9f4">&#9670;&#160;</a></span>_eraser</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QToolButton* hmi::PalettePanel::_eraser</td>
         </tr>
       </table>
   </td>

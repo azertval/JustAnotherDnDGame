@@ -16,11 +16,13 @@ var searchData=
   ['mapsite_13',['MapSite',['../structhmi_1_1MapSite.html',1,'hmi']]],
   ['markercolor_14',['MarkerColor',['../structcore_1_1MarkerColor.html',1,'core']]],
   ['markerimage_15',['MarkerImage',['../structcore_1_1MarkerImage.html',1,'core']]],
-  ['memorylogsink_16',['MemoryLogSink',['../classcore_1_1MemoryLogSink.html',1,'core']]],
-  ['minimap_17',['MiniMap',['../classhmi_1_1MiniMap.html',1,'hmi']]],
-  ['modifier_18',['Modifier',['../structcore_1_1Modifier.html',1,'core']]],
-  ['mountrefusal_19',['MountRefusal',['../structcore_1_1MountRefusal.html',1,'core']]],
-  ['moveoutcome_20',['MoveOutcome',['../structcore_1_1MoveOutcome.html',1,'core']]],
-  ['movepreview_21',['MovePreview',['../structcore_1_1MovePreview.html',1,'core']]],
-  ['mover_22',['Mover',['../structcore_1_1Mover.html',1,'core']]]
+  ['measure_16',['Measure',['../structhmi_1_1Measure.html',1,'hmi']]],
+  ['memorylogsink_17',['MemoryLogSink',['../classcore_1_1MemoryLogSink.html',1,'core']]],
+  ['minimap_18',['MiniMap',['../classhmi_1_1MiniMap.html',1,'hmi']]],
+  ['mirroraxis_19',['MirrorAxis',['../structhmi_1_1MirrorAxis.html',1,'hmi']]],
+  ['modifier_20',['Modifier',['../structcore_1_1Modifier.html',1,'core']]],
+  ['mountrefusal_21',['MountRefusal',['../structcore_1_1MountRefusal.html',1,'core']]],
+  ['moveoutcome_22',['MoveOutcome',['../structcore_1_1MoveOutcome.html',1,'core']]],
+  ['movepreview_23',['MovePreview',['../structcore_1_1MovePreview.html',1,'core']]],
+  ['mover_24',['Mover',['../structcore_1_1Mover.html',1,'core']]]
 ];
