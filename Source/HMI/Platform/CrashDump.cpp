@@ -100,6 +100,31 @@ struct DumpJob {
     DWORD error = ERROR_SUCCESS;
 };
 
+/// Rappel de MiniDumpWriteDump : une zone mémoire illisible est sautée au lieu d'annuler le dump.
+/// Sans lui, une pile qu'un autre thread libère pendant la lecture fait échouer toute l'écriture
+/// sur ERROR_PARTIAL_COPY -- vu sur les runners de CI après des tests qui laissent des threads
+/// (Nightly, ordre aléatoire répété), à chaque essai. Les autres rappels gardent le comportement
+/// par défaut : threads et modules inclus, aucune mémoire ajoutée.
+BOOL CALLBACK skipUnreadableMemory(PVOID /*param*/, const PMINIDUMP_CALLBACK_INPUT input,
+                                   PMINIDUMP_CALLBACK_OUTPUT output) {
+    if (input == nullptr || output == nullptr) {
+        return FALSE;
+    }
+    switch (input->CallbackType) {
+    case IncludeModuleCallback:
+    case IncludeThreadCallback:
+    case ModuleCallback:
+    case ThreadCallback:
+    case ThreadExCallback:
+        return TRUE;
+    case ReadMemoryFailureCallback:
+        output->Status = S_OK;
+        return TRUE;
+    default:
+        return FALSE;
+    }
+}
+
 DWORD WINAPI writeDumpJob(LPVOID parameter) {
     auto* const job = static_cast<DumpJob*>(parameter);
     // Piles, contexte, modules chargés et déchargés, et la mémoire que les piles désignent : de
@@ -131,6 +156,8 @@ DWORD WINAPI writeDumpJob(LPVOID parameter) {
          .clientPointers = FALSE},
         {.type = reduced, .pointers = job->original, .clientPointers = TRUE},
     }};
+    MINIDUMP_CALLBACK_INFORMATION callback{};
+    callback.CallbackRoutine = &skipUnreadableMemory;
     for (const Attempt& attempt : attempts) {
         LARGE_INTEGER start{};
         SetFilePointerEx(job->file, start, nullptr, FILE_BEGIN);
@@ -141,7 +168,7 @@ DWORD WINAPI writeDumpJob(LPVOID parameter) {
         information.ClientPointers = attempt.clientPointers;
         job->written = MiniDumpWriteDump(
             GetCurrentProcess(), GetCurrentProcessId(), job->file, attempt.type,
-            attempt.pointers != nullptr ? &information : nullptr, nullptr, nullptr);
+            attempt.pointers != nullptr ? &information : nullptr, nullptr, &callback);
         if (job->written != FALSE) {
             job->error = ERROR_SUCCESS;
             return 0;
