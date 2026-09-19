@@ -6,6 +6,10 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Un minidump s'écrit même quand une zone mémoire est illisible.** Si une zone ne peut pas
+  être lue pendant le dump (la pile d'un thread qui se termine, par exemple), elle est sautée au
+  lieu de faire échouer tout le fichier (`ERROR_PARTIAL_COPY`). Vu sur la Nightly du 19 septembre.
+
 - **Fabrique d’assets, premier essai PNJ (LOT-CREATION-ASSETS, hors roadmap).**
   Préparation A+B+C, mémoire par asset, réception, reprises ciblées, contrôles bloquants,
   comparaisons et journaux en ligne de commande, avec génération dans le chat local.
