@@ -111,6 +111,31 @@ struct DumpJob {
     DWORD error = ERROR_SUCCESS;
 };
 
+/// Rappel de MiniDumpWriteDump : une zone mÃ©moire illisible est sautÃ©e au lieu d'annuler le dump.
+/// Sans lui, une pile qu'un autre thread libÃ¨re pendant la lecture fait Ã©chouer toute l'Ã©criture
+/// sur ERROR_PARTIAL_COPY -- vu sur les runners de CI aprÃ¨s des tests qui laissent des threads
+/// (Nightly, ordre alÃ©atoire rÃ©pÃ©tÃ©), Ã  chaque essai. Les autres rappels gardent le comportement
+/// par dÃ©faut : threads et modules inclus, aucune mÃ©moire ajoutÃ©e.
+BOOL CALLBACK skipUnreadableMemory(PVOID /*param*/, const PMINIDUMP_CALLBACK_INPUT input,
+<span style = "background-color:#dfd">                                   PMINIDUMP_CALLBACK_OUTPUT output) {
+    if (input == nullptr || output == nullptr) {</span>
+<span style = "background-color:#fdd">        return FALSE;</span>
+    }
+<span style = "background-color:#dfd">    switch (input-&gt;CallbackType) {</span>
+    case IncludeModuleCallback:
+    case IncludeThreadCallback:
+    case ModuleCallback:
+    case ThreadCallback:
+    case ThreadExCallback:
+<span style = "background-color:#dfd">        return TRUE;</span>
+    case ReadMemoryFailureCallback:
+<span style = "background-color:#fdd">        output-&gt;Status = S_OK;
+        return TRUE;</span>
+    default:
+<span style = "background-color:#dfd">        return FALSE;</span>
+    }
+<span style = "background-color:#dfd">}</span>
+
 <span style = "background-color:#dfd">DWORD WINAPI writeDumpJob(LPVOID parameter) {
     auto* const job = static_cast&lt;DumpJob*&gt;(parameter);</span>
     // Piles, contexte, modules chargÃ©s et dÃ©chargÃ©s, et la mÃ©moire que les piles dÃ©signent : de
@@ -142,7 +167,9 @@ struct DumpJob {
          .clientPointers = FALSE},
         {.type = reduced, .pointers = job-&gt;original, .clientPointers = TRUE},</span>
     }};
-<span style = "background-color:#dfd">    for (const Attempt&amp; attempt : attempts) {
+<span style = "background-color:#dfd">    MINIDUMP_CALLBACK_INFORMATION callback{};
+    callback.CallbackRoutine = &amp;skipUnreadableMemory;
+    for (const Attempt&amp; attempt : attempts) {
         LARGE_INTEGER start{};
         SetFilePointerEx(job-&gt;file, start, nullptr, FILE_BEGIN);
         SetEndOfFile(job-&gt;file);
@@ -152,14 +179,14 @@ struct DumpJob {
         information.ClientPointers = attempt.clientPointers;
         job-&gt;written = MiniDumpWriteDump(</span>
             GetCurrentProcess(), GetCurrentProcessId(), job-&gt;file, attempt.type,
-            attempt.pointers != nullptr ? &amp;information : nullptr, nullptr, nullptr);
+            attempt.pointers != nullptr ? &amp;information : nullptr, nullptr, &amp;callback);
 <span style = "background-color:#dfd">        if (job-&gt;written != FALSE) {
             job-&gt;error = ERROR_SUCCESS;
             return 0;</span>
         }
-<span style = "background-color:#fdd">        job-&gt;error = GetLastError();
-    }
-    return 0;</span>
+<span style = "background-color:#dfd">        job-&gt;error = GetLastError();
+    }</span>
+<span style = "background-color:#fdd">    return 0;</span>
 <span style = "background-color:#dfd">}</span>
 
 }  // namespace

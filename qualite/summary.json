@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-19 07:56 UTC",
-  "commit": "ec4006622",
-  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35430107134",
+  "generated": "2026-09-19 08:43 UTC",
+  "commit": "376c541da",
+  "run_url": "https://github.com/azertval/JustAnotherRpgGame/actions/runs/35432250102",
   "coverage": {
     "percent": 91.44,
-    "covered": 19327,
-    "valid": 21136,
+    "covered": 19337,
+    "valid": 21147,
     "files": 213,
     "areas": [
       {
@@ -124,9 +124,9 @@
       },
       {
         "name": "HMI/Platform",
-        "covered": 67,
-        "valid": 123,
-        "percent": 54.47
+        "covered": 77,
+        "valid": 134,
+        "percent": 57.46
       },
       {
         "name": "HMI/Presentation",
@@ -138,51 +138,51 @@
   },
   "benchmarks": {
     "suite": "Combat et niveaux (Release, windows-2022)",
-    "runs": 6,
-    "date": "2026-09-19 07:51 UTC",
-    "commit": "a7a1bd508",
+    "runs": 7,
+    "date": "2026-09-19 08:34 UTC",
+    "commit": "376c541da",
     "benches": [
       {
         "name": "ReachableAreaDashing",
-        "value": 130155.43750000802,
+        "value": 157455.3236607125,
         "unit": "ns/iter",
-        "change_percent": -16.4
+        "change_percent": 21.0
       },
       {
         "name": "FindPathAcrossGrid",
-        "value": 176519.54573358322,
+        "value": 214656.70312499796,
         "unit": "ns/iter",
-        "change_percent": -17.0
+        "change_percent": 21.6
       },
       {
         "name": "LineOfSightAcrossGrid",
-        "value": 50919.592857143565,
+        "value": 57278.662867524996,
         "unit": "ns/iter",
-        "change_percent": -11.3
+        "change_percent": 12.5
       },
       {
         "name": "CoverFromWithInterposed",
-        "value": 143435.70312499919,
+        "value": 161546.8080357095,
         "unit": "ns/iter",
-        "change_percent": -11.9
+        "change_percent": 12.6
       },
       {
         "name": "PlanTurnFourVersusFour",
-        "value": 896577.3535220468,
+        "value": 1140405.9374999774,
         "unit": "ns/iter",
-        "change_percent": -21.0
+        "change_percent": 27.2
       },
       {
         "name": "LoadShippedLevel",
-        "value": 1260119.377509984,
+        "value": 1690147.3895582648,
         "unit": "ns/iter",
-        "change_percent": -24.4
+        "change_percent": 34.1
       },
       {
         "name": "ComposeMartpart",
-        "value": 321.9763065385605,
+        "value": 407.82182240278246,
         "unit": "us/iter",
-        "change_percent": -21.1
+        "change_percent": 26.7
       }
     ]
   },
