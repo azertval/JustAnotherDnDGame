@@ -169,6 +169,17 @@ std::string_view PlaceAppearance::reliefPiece(core::TileType type, core::GridPos
     return pieceOf(_relief, type, cell);
 }
 
+std::optional<core::TileType> PlaceAppearance::typeOfPiece(std::string_view piece,
+                                                           bool floor) const {
+    const std::string_view name = canonicalPiece(piece);
+    for (const auto& [type, noms] : floor ? _floors : _relief) {
+        if (std::ranges::find(noms, name) != noms.end()) {
+            return type;
+        }
+    }
+    return std::nullopt;
+}
+
 std::vector<std::string> PlaceAppearance::pieces() const {
     std::set<std::string> uniques;
     for (const auto* table : {&_floors, &_relief}) {

@@ -27,10 +27,19 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
   (`EX-EDIT-058`).
 - **On édite ce qu'on jouera.** Le canevas peint la liste de primitives que compose le jeu, et son
   image égale celle du GPU à une tolérance près (`EX-EDIT-059`).
+- **On pose des pièces, la collision suit.** La palette est la planche du lieu ; une pièce écrit sa
+  couche, sa pièce et sa collision en un geste, et seule la main force une case (`EX-EDIT-063` à
+  `EX-EDIT-065`).
 
 ## Logique pure (`Logic/`)
 
-- `TileTaxonomy` — l'arbre catégories/tuiles de la palette, libellés compris.
+- `TileTaxonomy` — l'arbre catégories/tuiles de la palette des types, libellés compris.
+- `PieceCatalog` — le catalogue des pièces d'un lieu (groupes par classe, recherche, pièces
+  absentes de la planche), la couche où va une pièce et le type qu'elle écrit (`EX-EDIT-063`).
+- `BrushGesture` — un coup de pinceau sur un rectangle : un type, une pièce ou la gomme, refus
+  compris ; ce que la souris appelle, et ce qu'appellera l'éditeur sans fenêtre (`EX-EDIT-064`,
+  `EX-EDIT-065`).
+- `MapFormat` — `--migrate` et `--check`, la garde du format v4 (`EX-EDIT-062`).
 - `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
 - `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
 - `EntityGesture` — le geste de l'outil « Entité » : sélectionner, poser, déplacer.

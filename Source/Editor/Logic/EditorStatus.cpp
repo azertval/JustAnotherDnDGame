@@ -81,11 +81,18 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
         lines.permanent[1] = "Modified";
     }
     lines.permanent[2] = toolLabel(level.tool);
+    const bool brushes = level.tool == EditorTool::Paint || level.tool == EditorTool::Rectangle;
+    if (brushes && !level.brush.empty()) {
+        lines.permanent[2] += " · " + level.brush;
+    }
     if (level.hoveredCell) {
         lines.permanent[3] =
             formatTwo("(%1, %2)", level.hoveredCell->column, level.hoveredCell->row);
         if (!level.hoveredPieces.empty()) {
             lines.permanent[3] += " " + level.hoveredPieces;
+        }
+        if (level.hoveredForced) {
+            lines.permanent[3] += " · forced collision";
         }
     }
     const int zoomPercent = static_cast<int>(std::lround(level.zoom * 100.0F));
@@ -93,6 +100,9 @@ EditorStatusLines editorStatusLines(const EditorStatusContext& context) {
         formatOne("Zoom: %1%", zoomPercent) + (level.isoView ? " · Iso" : " · Flat");
 
     lines.help = toolHelp(level.tool);
+    if (brushes && level.collisionActive) {
+        lines.help += " · On the collision, painting forces a cell; the eraser releases it";
+    }
     return lines;
 }
 

@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <filesystem>
 #include <map>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -105,6 +106,16 @@ public:
 
     /// @brief La pièce de relief d'une case, même règle de variante que le sol.
     [[nodiscard]] std::string_view reliefPiece(core::TileType type, core::GridPosition cell) const;
+
+    /**
+     * @brief Le type que la table donne à @p piece : la réciproque de `floorPiece` (@p floor) ou de
+     *        `reliefPiece` (`LOT-EDITOR-03`). Une pièce posée à la main garde ainsi le type dont
+     *        la table la tirerait, et le type reste le sens de règle de la case (décision D3).
+     * @return Le premier type, dans l'ordre de l'énumération, dont la table cite @p piece (ou la
+     *         pièce dont @p piece est un ancien nom) ; `std::nullopt` si aucun ne la cite.
+     */
+    [[nodiscard]] std::optional<core::TileType> typeOfPiece(std::string_view piece,
+                                                            bool floor) const;
 
     /// @return Tous les noms de pièce que la table peut rendre, triés, sans doublon — ce que le
     ///         rendu doit charger.

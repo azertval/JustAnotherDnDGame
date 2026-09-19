@@ -23,7 +23,8 @@ textes anglais, aucun formulaire `.ui` (`LOT-EDITOR-01`).
 - `DraftRenderer` — la vue à plat composée : une couleur par type de tuile, la collision en masque,
   les entités par leur marqueur.
 - `MiniMap` — toute la carte, un pixel par case, et le cadre de la vue ; un clic y recentre la vue.
-- `PalettePanel` — l'arbre des tuiles (`hmi::tileTaxonomy`).
+- `PalettePanel` — la palette : l'onglet « Pieces » (la planche du lieu, `hmi::pieceCatalog`,
+  vignettes et recherche), l'onglet « Types » (`hmi::tileTaxonomy`) et la gomme.
 - `LevelBrowserPanel`, `WorldGraphView` — la liste des cartes et le graphe du monde.
 - `LayersPanel` — couche active, visibilité, opacité, grisé, verrou, ajout, retrait, ordre et
   nom.

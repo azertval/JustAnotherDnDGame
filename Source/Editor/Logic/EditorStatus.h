@@ -26,6 +26,12 @@ struct LevelStatusInfo {
     std::optional<core::GridPosition> hoveredCell;  ///< Case survolée, si le curseur est dessus.
     /// Pièces de la case survolée (`street · wall-left`), vide sans lieu (LOT-EDITOR-02).
     std::string hoveredPieces;
+    /// La collision de la case survolée est forcée à la main (LOT-EDITOR-03).
+    bool hoveredForced = false;
+    /// Le pinceau armé (`wall-left`, `grass`, `Eraser`), vide s'il n'y a rien à dire.
+    std::string brush;
+    /// La couche active est la grille de collision.
+    bool collisionActive = false;
     float zoom = 1.0F;  ///< Facteur de zoom courant.
     /// Vue du canevas : iso (le lieu) ou à plat (les types), LOT-EDITOR-02.
     bool isoView = true;

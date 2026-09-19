@@ -115,7 +115,7 @@ des cartes ne partent (constat A12).
 
 ## Ce que la migration a trouvé, à trancher par l'auteur
 
-- **Le Colisée garde 540 cases forcées.** 538 sont du **vide** — ni sol ni pièce — que la v3
+- **Le Colisée garde 540 cases forcées** — *libérées au `LOT-EDITOR-03`, décision de l'auteur*. 538 sont du **vide** — ni sol ni pièce — que la v3
   laissait franchissable ; la déduction en fait des murs, et la migration les a forcées pour que le
   jeu ne change pas. Deux sont des **piliers** posés sur des cases franchissables, là où deux autres
   piliers sont des obstacles. Martpart et Arenarea migrent sans aucune case forcée. Le masque des
