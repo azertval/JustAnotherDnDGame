@@ -192,7 +192,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 | `LOT-EDITOR-03` | Peindre avec les pièces du lieu — **livré** | 02, 12 | M |
 | `LOT-EDITOR-04` | Les outils du peintre — **livré** | 03 | M |
 | `LOT-EDITOR-05` | Entités et zones sur le canevas — **livré** | 02, 12 | M |
-| `LOT-EDITOR-13` | L'éditeur sans fenêtre | 04 | S |
+| `LOT-EDITOR-13` | L'éditeur sans fenêtre — **livré** | 04 | S |
 | `LOT-EDITOR-06` | Les cartes quittent leurs scripts | 05, 13 | S |
 | `LOT-EDITOR-07` | Contrôle du contenu | 06 | M |
 | `LOT-EDITOR-14` | Renommer et remplacer | 06 | M |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01, 02, 12, 03, 04 et 05 (livrés), 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01, 02, 12, 03, 04, 05 et 13 (livrés), 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -216,7 +216,7 @@ digraph editeur {
   E03 [label="03\npièces\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E04 [label="04\noutils\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E05 [label="05\nentités, zones\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E13 [label="13\nsans fenêtre"];
+  E13 [label="13\nsans fenêtre\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E06 [label="06\nfin des scripts\n(jalon)", style="rounded,bold"];
   E07 [label="07\ncontrôles"];
   E14 [label="14\nrenommer, remplacer"];
@@ -313,19 +313,17 @@ filtre (`EX-EDIT-072`). L'inspecteur est tiré d'un schéma typé — entiers bo
 drapeaux, lieux, objets, `carte#id` —, et un test bloque toute famille lue par le jeu et absente de
 la table : il a trouvé `zone` (`EX-EDIT-073`).
 
-### LOT-EDITOR-13 — L'éditeur sans fenêtre {#lot-editor-13}
+### LOT-EDITOR-13 — L'éditeur sans fenêtre
 
-> Statut : **à faire**. Prérequis : 04.
+> Statut : **livré le 19 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-13.
 
-Ce que les scripts apportaient, sans les scripts (D9, A11).
-
-- `--render carte.png` : rendu iso hors écran, calques au choix.
-- `--apply gestes.json` : rejoue les fonctions pures des outils ; un geste refusé rend une erreur
-  lisible et ne touche pas au fichier.
-- Un scénario `--apply` par outil, comparé à un fichier attendu (§5, règle 4).
-
-*Acceptation* — refaire par `--apply` une rue de Martpart rend le même fichier que le geste à la
-souris ; la CI publie le rendu PNG des cartes qu'une PR change.
+`LevelEditor --apply gestes.json` rejoue sur une carte ce que ferait la main — un outil, un appui,
+un glisser, et ce qu'on arme entre deux gestes — par les fonctions mêmes que le canevas appelle ; un
+geste refusé nomme le geste et n'écrit rien (`EX-EDIT-074`). `LevelEditor --render` rend une carte
+en PNG, en isométrie et sans fenêtre, et la CI publie le rendu des cartes qu'une PR change
+(`EX-EDIT-075`). Chaque outil a son scénario, comparé à un fichier attendu (`EX-EDIT-076`). La rue
+d'Arenarea, à Martpart, gommée puis retracée en dix gestes, rend la carte livrée octet pour octet.
 
 ### LOT-EDITOR-06 — Les cartes quittent leurs scripts {#lot-editor-06}
 

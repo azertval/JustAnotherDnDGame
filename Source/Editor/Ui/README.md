@@ -17,6 +17,8 @@ textes anglais, aucun formulaire `.ui` (`LOT-EDITOR-01`).
   transparence.
 - `ScenePainter` — peint une `hmi::ComposedScene` par `QPainter`, comme le GPU la dessine
   (échantillonnage au plus proche, remplissage texturé) ; rend aussi hors écran.
+- `MapRender` — `LevelEditor --render` : une carte rendue en PNG, en isométrie et sans fenêtre, par
+  le même peintre ; bandes et échelle au choix (`EX-EDIT-075`).
 - `SceneImages` — les images des planches et des figurines, chargées à la demande selon les règles
   du rendu du jeu (marqueur d'une figurine absente, damier d'une pièce absente), l'atlas des types
   et les marqueurs d'entité.

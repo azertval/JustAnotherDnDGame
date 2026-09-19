@@ -3,6 +3,7 @@
 
 #include "Editor/Logic/EntityGesture.h"
 
+#include <algorithm>
 #include <utility>
 
 #include "Core/Levels/LevelDraft.h"
@@ -152,6 +153,41 @@ ShapeGestureDecision resolveShapePress(const core::MapEntity& entity, core::Grid
             break;
     }
     return {};
+}
+
+EntityDragApplied applyEntityDrag(core::LevelDraft& draft, const EntityDragResult& result) {
+    EntityDragApplied applied;
+    if (result.refused || result.empty()) {
+        return applied;
+    }
+    const core::GestureScope gesture(draft);
+    for (const auto& [index, entity] : result.replaced) {
+        applied.changed = draft.replaceEntity(index, entity) || applied.changed;
+    }
+    if (result.placed) {
+        applied.placed = draft.placeEntity(*result.placed);
+        applied.changed = applied.placed.has_value() || applied.changed;
+    }
+    return applied;
+}
+
+std::optional<std::size_t> placeEntityOfKind(core::LevelDraft& draft, const std::string& kind,
+                                             core::GridPosition cell) {
+    return draft.placeEntity(newEntity(kind, cell));
+}
+
+std::size_t removeEntities(core::LevelDraft& draft, std::vector<std::size_t> indices) {
+    std::ranges::sort(indices);
+    const auto [first, last] = std::ranges::unique(indices);
+    indices.erase(first, last);
+    std::size_t removed = 0;
+    const core::GestureScope gesture(draft);
+    for (auto index = indices.rbegin(); index != indices.rend(); ++index) {
+        if (draft.removeEntity(*index)) {
+            ++removed;
+        }
+    }
+    return removed;
 }
 
 }  // namespace hmi

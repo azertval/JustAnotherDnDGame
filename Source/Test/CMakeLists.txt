@@ -126,6 +126,7 @@ add_executable(UnitTests
     Unit/Editor/test_paint_tools.cpp
     Unit/Editor/test_editor_sidecar.cpp
     Unit/Editor/test_entity_shapes.cpp
+    Unit/Editor/test_gesture_script.cpp
 )
 
 # Encodage/decodage d'image : QImage (Qt) lit et ecrit le PNG, mais aucun device
@@ -158,6 +159,9 @@ if(Qt6_FOUND)
         Unit/Editor/test_scene_painter.cpp
         ../Editor/Ui/ScenePainter.cpp
         ../Editor/Ui/SceneImages.cpp
+        # LevelEditor --render (LOT-EDITOR-13) : une carte livree rendue en PNG, sans fenetre.
+        Unit/Editor/test_map_render.cpp
+        ../Editor/Ui/MapRender.cpp
         # L'ilot du plan (LOT-96) : son cadrage, et la place du marche LIVREE rendue hors ecran.
         Unit/HMI/Graphics/test_city_block_render.cpp
         ../HMI/Graphics/CityBlockRender.cpp

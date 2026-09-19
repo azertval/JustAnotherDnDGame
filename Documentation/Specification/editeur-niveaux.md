@@ -278,6 +278,26 @@ Les zones se tirent à la souris, les entités montrent leur figurine et leurs l
   d'extension** : toute famille d'entité que le jeu lit est dans `core::knownEntityKinds`, et un
   test bloquant le vérifie sur les sources du jeu et les cartes livrées.
 
+## 14. L'éditeur sans fenêtre (`LOT-EDITOR-13`)
+Ce que les scripts des cartes apportaient — l'édition en masse, rejouable, relue en diff —, sans
+les scripts ([LOT-EDITOR-13](@ref lot-editor-13)).
+
+- \anchor EX-EDIT-074 **EX-EDIT-074** — `LevelEditor --apply gestes.json [carte]` rejoue sur une
+  carte une liste de **gestes** : un outil, un appui, un glisser, un relâchement, et ce qu'on arme
+  entre deux gestes (pièce, type, couche, verrou, miroir, famille d'entité, sélection). Il appelle
+  **les fonctions mêmes** que le canevas appelle à la souris, dans le même ordre : un geste rejoué
+  rend le fichier que le geste à la main aurait rendu, et chaque geste qui change la carte est un
+  pas d'annulation. Tous les outils s'y rejouent, notes et mesure comprises. Un geste que la
+  fenêtre refuserait arrête tout, avec une erreur qui **nomme le geste** et sa raison, et **le
+  fichier n'est pas touché**.
+- \anchor EX-EDIT-075 **EX-EDIT-075** — `LevelEditor --render [carte…]` rend une carte en PNG,
+  en isométrie et **sans fenêtre**, par le peintre du canevas (`EX-EDIT-059`) : bandes au choix
+  (sol, relief, figurines, masque de collision), échelle au choix, une image par carte nommée
+  d'après son identifiant. La CI rend chaque carte qu'une PR ajoute ou change et publie les images.
+- \anchor EX-EDIT-076 **EX-EDIT-076** — Chaque outil a **un scénario `--apply`**, rejoué sur une
+  carte-témoin et comparé octet pour octet à un fichier attendu : c'est le test d'IHM du module
+  (règle 4 de la feuille de route).
+
 ## Exigences retirées {#edit-retirees}
 
 > Ancres conservées, jamais renumérotées : les lots livrés s'y réfèrent. Chacune servait un
