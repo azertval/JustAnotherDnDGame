@@ -156,3 +156,35 @@ TEST(EditorStatusTest, LesPiecesEtLaVueSeLisent) {
     lines = hmi::editorStatusLines(context);
     EXPECT_EQ(lines.permanent[4], "Zoom: 100% · Flat");
 }
+
+/**
+ * @brief La barre d'état nomme le pinceau armé, signale une case forcée et rappelle, la collision
+ *        active, ce que pinceau et gomme y font (`LOT-EDITOR-03`).
+ * \castest{<b>La barre d'etat dit le pinceau et les cases forcees.</b><br/>
+ * 	cat Unitaire · Barre d'etat de l'editeur<br/>
+ * 	crit Mineur<br/>
+ * 	etapes 1. Armer la piece `wall-left`, survoler une case forcee, la collision active.<br/>
+ *          2. Passer a l'outil Entite.<br/>
+ * 	attendu « Brush · wall-left », « · forced collision », et l'aide de la collision ; l'outil
+ *           Entite ne nomme plus de pinceau.
+ * }
+ */
+TEST(EditorStatusTest, LePinceauEtLesCasesForceesSeLisent) {
+    hmi::EditorStatusContext context;
+    hmi::LevelStatusInfo level = baseLevel();
+    level.brush = "wall-left";
+    level.hoveredCell = core::GridPosition{.column = 3, .row = 4};
+    level.hoveredForced = true;
+    level.collisionActive = true;
+    context.level = level;
+    hmi::EditorStatusLines lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[2], "Brush · wall-left");
+    EXPECT_EQ(lines.permanent[3], "(3, 4) · forced collision");
+    EXPECT_NE(lines.help.find("the eraser releases it"), std::string::npos);
+
+    level.tool = hmi::EditorTool::Entity;
+    context.level = level;
+    lines = hmi::editorStatusLines(context);
+    EXPECT_EQ(lines.permanent[2], "Entity");
+    EXPECT_EQ(lines.help.find("the eraser releases it"), std::string::npos);
+}

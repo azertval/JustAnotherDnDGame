@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <utility>
 
+#include "Core/Levels/CollisionDerivation.h"
 #include "Core/Levels/LevelWriter.h"
 
 namespace core {
@@ -68,6 +69,7 @@ void LevelDraft::paintTile(int column, int row, TileType type) {
     }
     pushUndo();
     paintTileInternal(column, row, type);
+    updateForcing({GridPosition{.column = column, .row = row}});
 }
 
 void LevelDraft::paintRegion(int originColumn, int originRow,
@@ -87,6 +89,7 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
         return;
     }
     pushUndo();
+    std::vector<GridPosition> painted;
     for (std::size_t rowOffset = 0; rowOffset < block.size(); ++rowOffset) {
         const std::vector<TileType>& rowTiles = block[rowOffset];
         for (std::size_t columnOffset = 0; columnOffset < rowTiles.size(); ++columnOffset) {
@@ -96,8 +99,10 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
                 continue;  // decoupe silencieuse aux bords, meme principe que resize()
             }
             paintTileInternal(column, row, rowTiles[columnOffset]);
+            painted.push_back({.column = column, .row = row});
         }
     }
+    updateForcing(painted);
 }
 
 void LevelDraft::paintTileInternal(int column, int row, TileType type) {
@@ -120,11 +125,16 @@ void LevelDraft::setEntry(int column, int row) {
 
 void LevelDraft::setEntryInternal(int column, int row) {
     const GridPosition position{.column = column, .row = row};
-    if (_entry && *_entry != position) {
-        _tileMap.setTile(_entry->column, _entry->row, TileType::Empty);
+    const std::optional<GridPosition> previous = _entry;
+    if (previous && *previous != position) {
+        _tileMap.setTile(previous->column, previous->row, TileType::Empty);
     }
     _tileMap.setTile(column, row, TileType::Entry);
     _entry = position;
+    if (previous && *previous != position) {
+        // La case quittée par l'entrée reprend ce que ses couches lui donnent.
+        followCollision({*previous});
+    }
 }
 
 // --- Couches de tuiles (LOT-11) ---
@@ -217,8 +227,23 @@ bool LevelDraft::removeLayer(std::size_t index) {
         return false;
     }
     pushUndo();
+    // Ce que la couche couvrait change de collision : ses cases peintes, emprises comprises.
+    std::vector<GridPosition> covered;
+    const TileLayer& removed = _layers[index];
+    for (int row = 0; row < removed.tiles.height(); ++row) {
+        for (int column = 0; column < removed.tiles.width(); ++column) {
+            const std::string_view piece = removed.pieceAt(column, row);
+            if (removed.tiles.tile(column, row) == TileType::Empty && piece.empty()) {
+                continue;
+            }
+            const std::vector<GridPosition> cells =
+                footprintCells({.column = column, .row = row}, pieceFootprint(piece));
+            covered.insert(covered.end(), cells.begin(), cells.end());
+        }
+    }
     _layers.erase(_layers.begin() + static_cast<std::ptrdiff_t>(index));
     alignRootLayer(_layers, _tileMap);
+    followCollision(covered);
     return true;
 }
 
@@ -266,7 +291,16 @@ bool LevelDraft::paintLayerTile(std::size_t index, int column, int row, TileType
         return false;
     }
     pushUndo();
+    std::vector<GridPosition> touched{{.column = column, .row = row}};
+    if (const std::optional<GridPosition> anchor =
+            pieceAnchorAt(index, GridPosition{.column = column, .row = row})) {
+        // Un autre type retire la pièce : toute son emprise change de collision.
+        const std::vector<GridPosition> covered = footprintCells(
+            *anchor, pieceFootprint(_layers[index].pieceAt(anchor->column, anchor->row)));
+        touched.insert(touched.end(), covered.begin(), covered.end());
+    }
     setLayerCellType(_layers[index], column, row, type);
+    followCollision(touched);
     return true;
 }
 
@@ -277,17 +311,279 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
     }
     pushUndo();
     TileMap& tiles = _layers[index].tiles;
+    std::vector<GridPosition> touched;
     for (std::size_t rowOffset = 0; rowOffset < block.size(); ++rowOffset) {
         const std::vector<TileType>& rowTiles = block[rowOffset];
         for (std::size_t columnOffset = 0; columnOffset < rowTiles.size(); ++columnOffset) {
             const int column = originColumn + static_cast<int>(columnOffset);
             const int row = originRow + static_cast<int>(rowOffset);
-            if (tiles.inBounds(column, row)) {
-                setLayerCellType(_layers[index], column, row, rowTiles[columnOffset]);
+            if (!tiles.inBounds(column, row)) {
+                continue;
+            }
+            const std::string_view piece = _layers[index].pieceAt(column, row);
+            const std::vector<GridPosition> covered =
+                footprintCells({.column = column, .row = row}, pieceFootprint(piece));
+            touched.insert(touched.end(), covered.begin(), covered.end());
+            setLayerCellType(_layers[index], column, row, rowTiles[columnOffset]);
+        }
+    }
+    followCollision(touched);
+    return true;
+}
+
+// --- Pieces de couche (LOT-EDITOR-03) ---
+
+namespace {
+
+/// Plus grande emprise qu'on cherche autour d'une case : au-dela, une piece couvrant la case
+/// depuis son ancre serait plus grande que tout ce que les planches livrent.
+constexpr int MAX_FOOTPRINT_SEARCH = 8;
+
+[[nodiscard]] bool byRow(GridPosition left, GridPosition right) noexcept {
+    return left.row != right.row ? left.row < right.row : left.column < right.column;
+}
+
+}  // namespace
+
+PieceFootprint LevelDraft::pieceFootprint(std::string_view piece) const noexcept {
+    const ScenePiece* const found =
+        piece.empty() || _manifest == nullptr ? nullptr : _manifest->find(piece);
+    return found != nullptr ? found->footprint() : PieceFootprint{};
+}
+
+std::optional<GridPosition> LevelDraft::pieceAnchorAt(std::size_t index, GridPosition cell) const {
+    if (!isVisualLayerIndex(index)) {
+        return std::nullopt;
+    }
+    const TileLayer& layer = _layers[index];
+    if (!layer.tiles.inBounds(cell.column, cell.row)) {
+        return std::nullopt;
+    }
+    if (!layer.pieceAt(cell.column, cell.row).empty()) {
+        return cell;
+    }
+    // Une piece large couvre la case depuis une ancre en haut a gauche d'elle : la plus proche
+    // d'abord.
+    for (int rowOffset = 0; rowOffset < MAX_FOOTPRINT_SEARCH; ++rowOffset) {
+        for (int columnOffset = 0; columnOffset < MAX_FOOTPRINT_SEARCH; ++columnOffset) {
+            if (rowOffset == 0 && columnOffset == 0) {
+                continue;
+            }
+            const GridPosition anchor{.column = cell.column - columnOffset,
+                                      .row = cell.row - rowOffset};
+            const std::string_view piece = layer.pieceAt(anchor.column, anchor.row);
+            if (piece.empty()) {
+                continue;
+            }
+            const PieceFootprint footprint = pieceFootprint(piece);
+            if (columnOffset < footprint.columns && rowOffset < footprint.rows) {
+                return anchor;
             }
         }
     }
+    return std::nullopt;
+}
+
+bool LevelDraft::pieceFits(GridPosition anchor, std::string_view piece) const noexcept {
+    const PieceFootprint footprint = pieceFootprint(piece);
+    return _tileMap.inBounds(anchor.column, anchor.row) &&
+           _tileMap.inBounds(anchor.column + footprint.columns - 1,
+                             anchor.row + footprint.rows - 1);
+}
+
+void LevelDraft::removePieceInternal(std::size_t index, GridPosition anchor,
+                                     std::vector<GridPosition>& touched) {
+    TileLayer& layer = _layers[index];
+    const std::vector<GridPosition> covered =
+        footprintCells(anchor, pieceFootprint(layer.pieceAt(anchor.column, anchor.row)));
+    touched.insert(touched.end(), covered.begin(), covered.end());
+    layer.setPiece(anchor.column, anchor.row, {});
+    layer.tiles.setTile(anchor.column, anchor.row, TileType::Empty);
+}
+
+void LevelDraft::placePieceInternal(std::size_t index, GridPosition anchor,
+                                    const std::string& piece, TileType type,
+                                    std::vector<GridPosition>& touched) {
+    const std::vector<GridPosition> covered = footprintCells(anchor, pieceFootprint(piece));
+    // Deux emprises ne se recouvrent pas sur une couche : ce que la piece couvrirait part, piece
+    // entiere, meme si son ancre est hors de l'emprise nouvelle.
+    for (const GridPosition cell : covered) {
+        while (const std::optional<GridPosition> other = pieceAnchorAt(index, cell)) {
+            removePieceInternal(index, *other, touched);
+        }
+    }
+    TileLayer& layer = _layers[index];
+    // Les autres cases de l'emprise sont occupees par la piece : un type qu'on y laisserait
+    // dessinerait sa piece par defaut sous elle.
+    for (const GridPosition cell : covered) {
+        layer.tiles.setTile(cell.column, cell.row, TileType::Empty);
+    }
+    layer.setPiece(anchor.column, anchor.row, piece);
+    layer.tiles.setTile(anchor.column, anchor.row, type);
+    touched.insert(touched.end(), covered.begin(), covered.end());
+}
+
+bool LevelDraft::placePiece(std::size_t index, GridPosition anchor, const std::string& piece,
+                            TileType type) {
+    if (!isVisualLayerIndex(index) || piece.empty() || !isVisualLayerTileType(type) ||
+        !pieceFits(anchor, piece)) {
+        return false;
+    }
+    const TileLayer& layer = _layers[index];
+    if (layer.pieceAt(anchor.column, anchor.row) == piece &&
+        layer.tiles.tile(anchor.column, anchor.row) == type) {
+        return false;  // reposer la meme piece ne modifie pas la carte (EX-EDIT-058)
+    }
+    pushUndo();
+    std::vector<GridPosition> touched;
+    placePieceInternal(index, anchor, piece, type, touched);
+    followCollision(touched);
     return true;
+}
+
+bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPosition last,
+                                  const std::string& piece, TileType type) {
+    if (!isVisualLayerIndex(index) || piece.empty() || !isVisualLayerTileType(type)) {
+        return false;
+    }
+    const PieceFootprint footprint = pieceFootprint(piece);
+    const int minColumn = (std::max)(0, (std::min)(first.column, last.column));
+    const int maxColumn = (std::min)(_tileMap.width() - 1, (std::max)(first.column, last.column));
+    const int minRow = (std::max)(0, (std::min)(first.row, last.row));
+    const int maxRow = (std::min)(_tileMap.height() - 1, (std::max)(first.row, last.row));
+    std::vector<GridPosition> anchors;
+    for (int row = minRow; row + footprint.rows - 1 <= maxRow; row += footprint.rows) {
+        for (int column = minColumn; column + footprint.columns - 1 <= maxColumn;
+             column += footprint.columns) {
+            anchors.push_back({.column = column, .row = row});
+        }
+    }
+    // Un pavage deja en place n'empile rien : chaque ancre porte la piece et son type, et le reste
+    // de chaque emprise est libre.
+    const TileLayer& layer = _layers[index];
+    const bool unchanged = std::ranges::all_of(anchors, [&](GridPosition anchor) {
+        if (layer.pieceAt(anchor.column, anchor.row) != piece ||
+            layer.tiles.tile(anchor.column, anchor.row) != type) {
+            return false;
+        }
+        return std::ranges::all_of(footprintCells(anchor, footprint), [&](GridPosition cell) {
+            return cell == anchor || (layer.pieceAt(cell.column, cell.row).empty() &&
+                                      layer.tiles.tile(cell.column, cell.row) == TileType::Empty);
+        });
+    });
+    if (anchors.empty() || unchanged) {
+        return false;
+    }
+    pushUndo();
+    std::vector<GridPosition> touched;
+    for (const GridPosition anchor : anchors) {
+        placePieceInternal(index, anchor, piece, type, touched);
+    }
+    followCollision(touched);
+    return true;
+}
+
+bool LevelDraft::eraseLayerRegion(std::size_t index, GridPosition first, GridPosition last) {
+    if (!isVisualLayerIndex(index)) {
+        return false;
+    }
+    const int minColumn = (std::max)(0, (std::min)(first.column, last.column));
+    const int maxColumn = (std::min)(_tileMap.width() - 1, (std::max)(first.column, last.column));
+    const int minRow = (std::max)(0, (std::min)(first.row, last.row));
+    const int maxRow = (std::min)(_tileMap.height() - 1, (std::max)(first.row, last.row));
+    const auto holdsSomething = [this, index](GridPosition cell) {
+        return pieceAnchorAt(index, cell).has_value() ||
+               _layers[index].tiles.tile(cell.column, cell.row) != TileType::Empty;
+    };
+    bool changes = false;
+    for (int row = minRow; row <= maxRow && !changes; ++row) {
+        for (int column = minColumn; column <= maxColumn && !changes; ++column) {
+            changes = holdsSomething({.column = column, .row = row});
+        }
+    }
+    if (!changes) {
+        return false;
+    }
+    pushUndo();
+    std::vector<GridPosition> touched;
+    for (int row = minRow; row <= maxRow; ++row) {
+        for (int column = minColumn; column <= maxColumn; ++column) {
+            const GridPosition cell{.column = column, .row = row};
+            if (const std::optional<GridPosition> anchor = pieceAnchorAt(index, cell)) {
+                removePieceInternal(index, *anchor, touched);
+            } else if (_layers[index].tiles.tile(column, row) != TileType::Empty) {
+                _layers[index].tiles.setTile(column, row, TileType::Empty);
+                touched.push_back(cell);
+            }
+        }
+    }
+    followCollision(touched);
+    return true;
+}
+
+bool LevelDraft::isCollisionForced(GridPosition cell) const noexcept {
+    return std::ranges::binary_search(_forcedCollision, cell, byRow);
+}
+
+bool LevelDraft::unforceCollision(const std::vector<GridPosition>& cells) {
+    std::vector<GridPosition> released;
+    for (const GridPosition cell : cells) {
+        if (isCollisionForced(cell)) {
+            released.push_back(cell);
+        }
+    }
+    if (released.empty()) {
+        return false;
+    }
+    pushUndo();
+    std::erase_if(_forcedCollision, [&released](GridPosition cell) {
+        return std::ranges::find(released, cell) != released.end();
+    });
+    followCollision(released);
+    return true;
+}
+
+bool LevelDraft::derivesCollision() const noexcept {
+    return hasVisualLayer(_layers);
+}
+
+void LevelDraft::followCollision(const std::vector<GridPosition>& cells) {
+    if (cells.empty() || !derivesCollision()) {
+        return;
+    }
+    const CollisionDerivation derived =
+        deriveCollision(_layers, _tileMap.width(), _tileMap.height(), _manifest.get());
+    for (const GridPosition cell : cells) {
+        if (!_tileMap.inBounds(cell.column, cell.row) || isCollisionForced(cell) ||
+            _entry == cell) {
+            continue;
+        }
+        // Une case qui s'accorde deja garde son ecriture : un geste qui ne change rien a ce qu'elle
+        // oppose ne change pas le fichier.
+        if (!collisionAgrees(_tileMap, derived.collision, cell.column, cell.row)) {
+            _tileMap.setTile(cell.column, cell.row, derived.collision.tile(cell.column, cell.row));
+        }
+    }
+}
+
+void LevelDraft::updateForcing(const std::vector<GridPosition>& cells) {
+    if (cells.empty() || !derivesCollision()) {
+        return;
+    }
+    const CollisionDerivation derived =
+        deriveCollision(_layers, _tileMap.width(), _tileMap.height(), _manifest.get());
+    for (const GridPosition cell : cells) {
+        if (_entry == cell) {
+            continue;  // l'entree est un repere, pas une collision : elle ne se force pas.
+        }
+        const bool forced = isCollisionForced(cell);
+        const bool agrees = collisionAgrees(_tileMap, derived.collision, cell.column, cell.row);
+        if (agrees && forced) {
+            std::erase(_forcedCollision, cell);
+        } else if (!agrees && !forced) {
+            _forcedCollision.insert(std::ranges::upper_bound(_forcedCollision, cell, byRow), cell);
+        }
+    }
 }
 
 // --- Entites de carte (LOT-11) ---
@@ -359,6 +655,8 @@ std::optional<std::size_t> LevelDraft::entityAt(GridPosition position) const {
 
 void LevelDraft::resize(int width, int height) {
     pushUndo();
+    const int previousWidth = _tileMap.width();
+    const int previousHeight = _tileMap.height();
     _tileMap = resizedCopy(_tileMap, width, height);
     // Les couches suivent la grille racine (LOT-04) : toutes les couches d'une carte partagent ses
     // dimensions, c'est ce que le chargeur verifie a la relecture.
@@ -381,6 +679,16 @@ void LevelDraft::resize(int width, int height) {
             return !_tileMap.inBounds(cell.column, cell.row);
         });
     }
+    // Les cases gagnées n'ont rien sous elles : leur collision est celle du vide.
+    std::vector<GridPosition> gained;
+    for (int row = 0; row < height; ++row) {
+        for (int column = 0; column < width; ++column) {
+            if (column >= previousWidth || row >= previousHeight) {
+                gained.push_back({.column = column, .row = row});
+            }
+        }
+    }
+    followCollision(gained);
 }
 
 bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {

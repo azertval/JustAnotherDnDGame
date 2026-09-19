@@ -7,20 +7,27 @@
 #include <QIcon>
 #include <QImage>
 #include <QItemSelectionModel>
+#include <QLineEdit>
 #include <QModelIndex>
+#include <QPainter>
 #include <QPixmap>
+#include <QSignalBlocker>
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QString>
+#include <QTabWidget>
+#include <QToolButton>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <QVariant>
 #include <cstdint>
 #include <cstring>
 #include <string>
+#include <utility>
 
 #include "Editor/Logic/ThumbnailGeometry.h"
 #include "Editor/Logic/TileTaxonomy.h"
+#include "HMI/Graphics/MissingTexture.h"
 #include "HMI/Graphics/ProceduralAtlas.h"
 #include "HMI/Graphics/TileVisuals.h"
 
@@ -30,11 +37,16 @@ namespace {
 
 // Rôle de données portant le `core::TileType` d'une feuille (les en-têtes n'en ont pas).
 constexpr int TILE_TYPE_ROLE = Qt::UserRole + 1;
+// Rôles d'une feuille de pièce : son nom court, et si elle va sur la couche de sol.
+constexpr int PIECE_NAME_ROLE = Qt::UserRole + 2;
+constexpr int PIECE_FLOOR_ROLE = Qt::UserRole + 3;
 
 // Cote des vignettes de la palette, en pixels d'ecran : un multiple entier de la taille d'une case
 // (16) -- toute autre valeur reechantillonnerait le pixel art de travers, meme en plus proche
 // voisin.
 constexpr int THUMBNAIL_SIZE = 32;
+// Cote des vignettes de pièce : une pièce debout est haute, elle se lit mal plus petite.
+constexpr int PIECE_THUMBNAIL_SIZE = 48;
 
 // Crée une feuille sélectionnable portant son type de tuile.
 [[nodiscard]] QStandardItem* makeLeaf(const TileEntry& entry) {
@@ -63,22 +75,81 @@ constexpr int THUMBNAIL_SIZE = 32;
     return item;
 }
 
+// Libellé d'une pièce : son nom, et son emprise si elle couvre plus d'une case.
+[[nodiscard]] QString pieceLabel(const PieceCatalogEntry& entry) {
+    QString label = QString::fromStdString(entry.name);
+    if (entry.footprint.columns != 1 || entry.footprint.rows != 1) {
+        label +=
+            QStringLiteral("  (%1 × %2)").arg(entry.footprint.columns).arg(entry.footprint.rows);
+    }
+    return label;
+}
+
 }  // namespace
 
 PalettePanel::PalettePanel(QWidget* parent)
-    : QWidget(parent), _tree(new QTreeView(this)), _model(new QStandardItemModel(this)) {
+    : QWidget(parent),
+      _eraser(new QToolButton(this)),
+      _tabs(new QTabWidget(this)),
+      _piecesPage(new QWidget(this)),
+      _search(new QLineEdit(this)),
+      _pieceTree(new QTreeView(this)),
+      _pieceModel(new QStandardItemModel(this)),
+      _tree(new QTreeView(this)),
+      _model(new QStandardItemModel(this)) {
     auto* const layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-    layout->addWidget(_tree);
+
+    _eraser->setText(QStringLiteral("Eraser"));
+    _eraser->setCheckable(true);
+    _eraser->setToolButtonStyle(Qt::ToolButtonTextOnly);
+    _eraser->setToolTip(
+        QStringLiteral("Erase on the active layer: a whole piece, or a cell's type. On the "
+                       "collision, release forced cells."));
+    layout->addWidget(_eraser);
+    connect(_eraser, &QToolButton::toggled, this, [this](bool checked) {
+        if (checked) {
+            emit eraserSelected();
+        } else if (_tabs->currentIndex() == 0 && !_selectedPiece.isEmpty()) {
+            emit pieceSelected(_selectedPiece, _selectedPieceFloor);  // on repose la gomme
+        } else {
+            emit tileSelected(_selected);
+        }
+    });
+
+    auto* const piecesLayout = new QVBoxLayout(_piecesPage);
+    piecesLayout->setContentsMargins(0, 0, 0, 0);
+    _search->setPlaceholderText(QStringLiteral("Search pieces…"));
+    _search->setClearButtonEnabled(true);
+    piecesLayout->addWidget(_search);
+    piecesLayout->addWidget(_pieceTree);
+    _pieceTree->setHeaderHidden(true);
+    _pieceTree->setModel(_pieceModel);
+    _pieceTree->setSelectionMode(QAbstractItemView::SingleSelection);
+    _pieceTree->setIconSize(QSize(PIECE_THUMBNAIL_SIZE, PIECE_THUMBNAIL_SIZE));
+    connect(_search, &QLineEdit::textChanged, this, [this](const QString&) { buildPieceModel(); });
+    connect(_pieceTree->selectionModel(), &QItemSelectionModel::currentChanged, this,
+            [this](const QModelIndex& current, const QModelIndex&) { onPieceChanged(current); });
+    // Recliquer la pièce courante la reprend, après la gomme par exemple.
+    connect(_pieceTree, &QTreeView::clicked, this, &PalettePanel::onPieceChanged);
+
     _tree->setHeaderHidden(true);
     _tree->setModel(_model);
     _tree->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    _tabs->addTab(_piecesPage, QStringLiteral("Pieces"));
+    _tabs->addTab(_tree, QStringLiteral("Types"));
+    layout->addWidget(_tabs);
+
     buildModel();
     _tree->expandAll();
+    // Sans lieu, rien à poser : l'onglet des pièces s'éteint jusqu'au premier catalogue.
+    _tabs->setTabEnabled(0, false);
+    _tabs->setCurrentIndex(1);
 
     connect(_tree->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [this](const QModelIndex& current, const QModelIndex&) { onCurrentChanged(current); });
+    connect(_tree, &QTreeView::clicked, this, &PalettePanel::onCurrentChanged);
 }
 
 void PalettePanel::buildModel() {
@@ -102,6 +173,58 @@ void PalettePanel::buildModel() {
     }
 }
 
+void PalettePanel::setPieceCatalog(std::vector<PieceCatalogGroup> catalog,
+                                   const std::filesystem::path& placeDirectory) {
+    if (catalog == _catalog && placeDirectory == _placeDirectory) {
+        return;
+    }
+    const bool hadPieces = !_catalog.empty();
+    _catalog = std::move(catalog);
+    _placeDirectory = placeDirectory;
+    buildPieceModel();
+    const bool hasPieces = !_catalog.empty();
+    _tabs->setTabEnabled(0, hasPieces);
+    // Un lieu qui paraît ouvre ses pièces ; un lieu qui s'en va rend la main aux types (repli).
+    if (hasPieces != hadPieces) {
+        _tabs->setCurrentIndex(hasPieces ? 0 : 1);
+    }
+}
+
+void PalettePanel::buildPieceModel() {
+    const QSignalBlocker blocker(_pieceTree->selectionModel());
+    _pieceModel->clear();
+    QModelIndex reselect;
+    for (const PieceCatalogGroup& group :
+         filterPieceCatalog(_catalog, _search->text().toStdString())) {
+        QStandardItem* const header = makeHeader(QString::fromStdString(group.label));
+        for (const PieceCatalogEntry& entry : group.pieces) {
+            auto* const leaf = new QStandardItem(pieceLabel(entry));
+            leaf->setEditable(false);
+            leaf->setIcon(QIcon(pieceThumbnail(entry)));
+            leaf->setToolTip(QString::fromStdString(pieceDescription(entry)));
+            leaf->setData(QString::fromStdString(entry.name), PIECE_NAME_ROLE);
+            leaf->setData(entry.floor, PIECE_FLOOR_ROLE);
+            header->appendRow(leaf);
+        }
+        _pieceModel->appendRow(header);
+    }
+    _pieceTree->expandAll();
+    // La pièce choisie reste choisie d'une recherche à l'autre, si elle y paraît encore.
+    for (int groupRow = 0; groupRow < _pieceModel->rowCount() && !reselect.isValid(); ++groupRow) {
+        const QStandardItem* const header = _pieceModel->item(groupRow);
+        for (int row = 0; row < header->rowCount(); ++row) {
+            if (header->child(row)->data(PIECE_NAME_ROLE).toString() == _selectedPiece) {
+                reselect = header->child(row)->index();
+                break;
+            }
+        }
+    }
+    if (reselect.isValid()) {
+        _pieceTree->selectionModel()->setCurrentIndex(reselect,
+                                                      QItemSelectionModel::ClearAndSelect);
+    }
+}
+
 // Vignette d'un type : sa couleur dans l'atlas procedural, celle que le canevas peint.
 QPixmap PalettePanel::thumbnailFor(core::TileType type) {
     const ProceduralAtlasImage atlas = buildProceduralAtlasImage();
@@ -120,6 +243,32 @@ QPixmap PalettePanel::thumbnailFor(core::TileType type) {
     return pixmap;
 }
 
+QPixmap PalettePanel::pieceThumbnail(const PieceCatalogEntry& entry) const {
+    const qreal scale = devicePixelRatioF();
+    const int side = thumbnailPixelSize(PIECE_THUMBNAIL_SIZE, scale);
+    QImage source;
+    if (!entry.missing && !entry.file.empty()) {
+        source.load(QString::fromStdWString((_placeDirectory / entry.file).wstring()));
+    }
+    if (source.isNull()) {
+        // Une pièce absente se montre comme le canevas la montre : en damier (EX-NFR-040).
+        source = toImage(buildMissingTextureImage());
+    }
+    // Une pièce réduite se lisse ; une pièce agrandie garde ses pixels (EX-ARCH-022).
+    const bool shrinks = source.width() > side || source.height() > side;
+    const QImage fitted =
+        source.scaled(side, side, Qt::KeepAspectRatio,
+                      shrinks ? Qt::SmoothTransformation : Qt::FastTransformation);
+    QImage square(side, side, QImage::Format_ARGB32_Premultiplied);
+    square.fill(Qt::transparent);
+    QPainter painter(&square);
+    painter.drawImage((side - fitted.width()) / 2, (side - fitted.height()) / 2, fitted);
+    painter.end();
+    QPixmap pixmap = QPixmap::fromImage(square);
+    pixmap.setDevicePixelRatio(scale);
+    return pixmap;
+}
+
 bool PalettePanel::event(QEvent* event) {
     if (event->type() == QEvent::ScreenChangeInternal) {
         // Un deplacement vers un ecran d'echelle differente doit regenerer les vignettes :
@@ -127,6 +276,7 @@ bool PalettePanel::event(QEvent* event) {
         _model->clear();
         buildModel();
         _tree->expandAll();
+        buildPieceModel();
     }
     return QWidget::event(event);
 }
@@ -137,7 +287,24 @@ void PalettePanel::onCurrentChanged(const QModelIndex& current) {
         return;  // en-tête (catégorie/sous-groupe) : pas un type sélectionnable.
     }
     _selected = static_cast<core::TileType>(tileData.toInt());
+    releaseEraser();
     emit tileSelected(_selected);
+}
+
+void PalettePanel::onPieceChanged(const QModelIndex& current) {
+    const QVariant name = current.data(PIECE_NAME_ROLE);
+    if (!name.isValid()) {
+        return;  // en-tête de groupe.
+    }
+    _selectedPiece = name.toString();
+    _selectedPieceFloor = current.data(PIECE_FLOOR_ROLE).toBool();
+    releaseEraser();
+    emit pieceSelected(_selectedPiece, _selectedPieceFloor);
+}
+
+void PalettePanel::releaseEraser() {
+    const QSignalBlocker blocker(_eraser);  // le choix qui suit arme le pinceau, pas la gomme
+    _eraser->setChecked(false);
 }
 
 }  // namespace hmi

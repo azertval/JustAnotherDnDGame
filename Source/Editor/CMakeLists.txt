@@ -37,6 +37,9 @@ add_library(EditorLogic STATIC
     Logic/CanvasScene.cpp
     # La garde du format de carte v4 (LOT-EDITOR-12) : --migrate et --check, sans fenêtre.
     Logic/MapFormat.cpp
+    # Peindre avec les pièces du lieu (LOT-EDITOR-03) : catalogue et coups de pinceau.
+    Logic/PieceCatalog.cpp
+    Logic/BrushGesture.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic

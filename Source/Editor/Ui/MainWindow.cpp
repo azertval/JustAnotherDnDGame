@@ -61,7 +61,7 @@ namespace {
 
 // Version de la disposition sérialisée : à incrémenter si l'ensemble des docks change, pour
 // invalider proprement une disposition sauvegardée devenue incompatible (`restoreState`).
-constexpr int LAYOUT_VERSION = 11;  // 11 : un seul espace, quatre panneaux (LOT-88)
+constexpr int LAYOUT_VERSION = 12;  // 12 : la palette des pièces prend la hauteur (LOT-EDITOR-03)
 
 // Clés de persistance (portée application ; l'organisation/appli sont fixées dans `main`).
 constexpr const char* GEOMETRY_KEY = "mainWindow/geometry";
@@ -116,9 +116,26 @@ MainWindow::MainWindow(bool crashAfterAutosave)
 
     buildUi();
 
-    // Sélectionner une tuile dans la palette définit le type peint au clic dans le canevas.
-    connect(_palette, &PalettePanel::tileSelected, _viewport,
-            [this](core::TileType type) { _viewport->setActiveTile(type); });
+    // La palette arme le pinceau du canevas : un type, une pièce du lieu ou la gomme.
+    connect(_palette, &PalettePanel::tileSelected, this, [this](core::TileType type) {
+        _viewport->setActiveTile(type);
+        refreshStatusHelp();
+    });
+    connect(_palette, &PalettePanel::pieceSelected, this, [this](const QString& piece, bool floor) {
+        _viewport->setActivePiece(piece.toStdString(), floor);
+        refreshStatusHelp();
+    });
+    connect(_palette, &PalettePanel::eraserSelected, this, [this] {
+        _viewport->setEraser();
+        refreshStatusHelp();
+    });
+    // Le catalogue suit la carte : son lieu, et les pièces qu'elle cite sans que la planche les
+    // ait.
+    const auto refreshPalette = [this] {
+        _palette->setPieceCatalog(_viewport->pieceCatalog(), _viewport->placeDirectory());
+    };
+    connect(_viewport, &EditorViewport::draftChanged, this, refreshPalette);
+    refreshPalette();
     // Le canevas change d'outil de lui-même (une famille d'entité choisie arme l'outil Entité) :
     // la barre d'outils suit, sans reboucler (setActiveTool n'émet rien).
     connect(_viewport, &EditorViewport::toolChanged, _actions, &EditorActions::setActiveTool);
@@ -151,6 +168,9 @@ MainWindow::MainWindow(bool crashAfterAutosave)
     reloadEditorReferences();
 
     resize(1280, 720);
+    // La palette des pièces est l'outil qu'on regarde le plus : elle prend la hauteur à gauche.
+    resizeDocks({dockFor(PanelId::Palette), dockFor(PanelId::Layers)}, {440, 180}, Qt::Vertical);
+    resizeDocks({dockFor(PanelId::Palette)}, {260}, Qt::Horizontal);
     refreshStatusHelp();
 
     // Capture la disposition par défaut (après création des docks, avant restauration d'une
@@ -824,6 +844,9 @@ void MainWindow::refreshStatusHelp() {
         level.tool = _viewport->activeTool();
         level.hoveredCell = _viewport->hoveredCell();
         level.hoveredPieces = _viewport->hoveredPieces();
+        level.hoveredForced = _viewport->hoveredCellForced();
+        level.brush = brushLabel(_viewport->brush());
+        level.collisionActive = !_viewport->activeLayer().has_value();
         level.zoom = _viewport->zoom();
         level.isoView = _viewport->canvasView() == CanvasView::Iso;
         context.level = level;

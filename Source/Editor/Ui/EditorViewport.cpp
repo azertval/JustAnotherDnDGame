@@ -33,6 +33,7 @@
 #include "Editor/Logic/EntityReferences.h"
 #include "Editor/Logic/LevelFileOperations.h"
 #include "Editor/Logic/LevelNameValidation.h"
+#include "Editor/Logic/MapFormat.h"
 #include "Editor/Ui/DraftRenderer.h"
 #include "Editor/Ui/SceneImages.h"
 #include "Editor/Ui/ScenePainter.h"
@@ -366,17 +367,25 @@ void EditorViewport::ensureIsoScene() {
     if (place != _appearancePlace) {
         _appearancePlace = place;
         _appearance = PlaceAppearance{};
+        _manifest.reset();
         if (!place.empty()) {
-            PlaceAppearanceResult read = PlaceAppearance::loadFromFile(assetsDirectory() / "Scene" /
-                                                                       place / "appearance.json");
-            if (read.ok()) {
-                _appearance = std::move(read.appearance);
+            // Ce que --check lit, lu de la même façon : la table et le manifeste du lieu.
+            PlaceAssets assets = loadPlaceAssets(hmi::executableDirectory(), place);
+            if (assets.appearance) {
+                _appearance = std::move(*assets.appearance);
             } else {
-                HMI_LOG_WARNING("Editeur : table d'apparence du lieu " + place + " illisible, " +
-                                read.message);
+                HMI_LOG_WARNING("Editeur : table d'apparence du lieu " + place + " illisible.");
+            }
+            if (assets.manifest) {
+                _manifest =
+                    std::make_shared<const core::ScenePieceManifest>(std::move(*assets.manifest));
+            } else {
+                HMI_LOG_WARNING("Editeur : manifeste des pieces du lieu " + place + " illisible.");
             }
         }
     }
+    // Un brouillon remplacé (ouverture, reprise) repart sans manifeste : on le lui redonne.
+    _draft.setPieceManifest(_manifest);
     _snapshot = canvasSnapshot(_draft, _appearance);
     _images->ensure(worldTexturePaths(_snapshot));
     _isoScene.clear();
@@ -414,6 +423,16 @@ void EditorViewport::paintFlat(QPainter& painter, const QRectF& exposed) {
     _flat->setLayerView(_layerView);
     paintComposedScene(painter, _flat->compose(_draft, visible, _showGrid, highlight(), overlay),
                        visible);
+    if (!_activeLayer && hasVisualLayers()) {
+        paintForcedMask(painter,
+                        CellRange{.firstColumn = std::max(0, static_cast<int>(exposed.left())),
+                                  .firstRow = std::max(0, static_cast<int>(exposed.top())),
+                                  .lastColumn = std::min(_draft.tileMap().width() - 1,
+                                                         static_cast<int>(exposed.right())),
+                                  .lastRow = std::min(_draft.tileMap().height() - 1,
+                                                      static_cast<int>(exposed.bottom()))},
+                        false);
+    }
     if (_hoverCell) {
         painter.setPen(screenPen(QColor(255, 236, 140), 2.0));
         painter.setBrush(Qt::NoBrush);
@@ -499,6 +518,7 @@ void EditorViewport::paintIsoOverlays(QPainter& painter, const CellRange& cells,
                 painter.drawPolygon(diamondOf(iso, {.column = column, .row = row}));
             }
         }
+        paintForcedMask(painter, cells, true);
     }
     // Quadrillage en losanges : les lignes de grille, du premier au dernier bord visible.
     if (_showGrid) {
@@ -600,49 +620,79 @@ bool EditorViewport::hasVisualLayers() const {
     });
 }
 
-void EditorViewport::paintAt(const QMouseEvent* event) {
+void EditorViewport::paintAt(const QMouseEvent* event, bool continuing) {
     if (const std::optional<core::GridPosition> cell = cellAt(event)) {
-        paintActiveRegion(cell->column, cell->row, {{_activeTile}});
+        reportBrush(
+            applyBrush(_draft, currentBrush(), _activeLayer, _layerView, *cell, *cell, continuing));
     }
 }
 
-bool EditorViewport::paintActiveRegion(int originColumn, int originRow,
-                                       const std::vector<std::vector<core::TileType>>& block) {
-    // Une couche verrouillée se voit, mais aucun geste ne la peint (LOT-EDITOR-02, phase 3).
-    if (_layerView.display(_activeLayer, hasVisualLayers()).locked) {
-        if (!_refusalReported) {
-            _refusalReported = true;
-            emit statusMessage(QStringLiteral("The active layer is locked."));
-        }
-        return false;
+CanvasBrush EditorViewport::currentBrush() const {
+    CanvasBrush brush = _brush;
+    if (brush.kind == BrushKind::Piece) {
+        // La table du lieu peut avoir changé depuis le choix (une autre carte ouverte).
+        brush.type = pieceCellType(&_appearance, brush.piece, brush.floor);
     }
-    if (!_activeLayer) {
-        _draft.paintRegion(originColumn, originRow, block);
+    return brush;
+}
+
+void EditorViewport::reportBrush(const BrushResult& result) {
+    if (result.changed) {
         markDraftMutated();
-        return true;
+    } else if (!result.refusal.empty() && !_refusalReported) {
+        _refusalReported = true;  // une fois par geste, pas à chaque case glissée
+        emit statusMessage(QString::fromStdString(result.refusal));
     }
-    for (const std::vector<core::TileType>& row : block) {
-        for (const core::TileType type : row) {
-            if (!core::isVisualLayerTileType(type)) {
-                if (!_refusalReported) {
-                    _refusalReported = true;
-                    emit statusMessage(
-                        QStringLiteral("\"%1\" cannot be painted on a visual layer: the entry "
-                                       "lives in the collision grid.")
-                            .arg(QString::fromStdString(std::string{core::tileTypeName(type)})));
-                }
-                return false;
-            }
+}
+
+void EditorViewport::setActiveTile(core::TileType type) {
+    _brush = CanvasBrush{.kind = BrushKind::Type, .type = type, .piece = {}, .floor = false};
+}
+
+void EditorViewport::setActivePiece(const std::string& piece, bool floor) {
+    _brush = CanvasBrush{.kind = BrushKind::Piece,
+                         .type = pieceCellType(&_appearance, piece, floor),
+                         .piece = piece,
+                         .floor = floor};
+    // La pièce va sur sa couche : on la montre active, verrou et opacité compris.
+    if (const std::optional<std::size_t> layer = pieceTargetLayer(_draft.layers(), floor)) {
+        setActiveLayer(*layer);
+    }
+}
+
+void EditorViewport::setEraser() {
+    _brush = CanvasBrush{.kind = BrushKind::Eraser, .type = {}, .piece = {}, .floor = false};
+}
+
+std::vector<PieceCatalogGroup> EditorViewport::pieceCatalog() const {
+    return hmi::pieceCatalog(_manifest.get(), _draft.layers());
+}
+
+std::filesystem::path EditorViewport::placeDirectory() const {
+    return _appearancePlace.empty() ? std::filesystem::path{}
+                                    : assetsDirectory() / "Scene" / _appearancePlace;
+}
+
+bool EditorViewport::hoveredCellForced() const {
+    return _hoverCell && !_play && _draft.isCollisionForced(*_hoverCell);
+}
+
+void EditorViewport::paintForcedMask(QPainter& painter, const CellRange& cells, bool iso) {
+    // Les écarts forcés à la main (EX-EDIT-065) : un aplat magenta et son contour, qui ne se
+    // confondent avec aucune teinte de règle.
+    painter.setBrush(QColor(236, 64, 200, 110));
+    painter.setPen(screenPen(QColor(236, 64, 200), 1.0));
+    const core::IsoProjection projected = projection();
+    for (const core::GridPosition cell : _draft.forcedCollision()) {
+        if (!cells.contains(cell)) {
+            continue;
+        }
+        if (iso) {
+            painter.drawPolygon(diamondOf(projected, cell));
+        } else {
+            painter.drawRect(QRectF(cell.column, cell.row, 1.0, 1.0));
         }
     }
-    const bool changed =
-        block.size() == 1 && block.front().size() == 1
-            ? _draft.paintLayerTile(*_activeLayer, originColumn, originRow, block.front().front())
-            : _draft.paintLayerRegion(*_activeLayer, originColumn, originRow, block);
-    if (changed) {
-        markDraftMutated();
-    }
-    return changed;
 }
 
 const core::TileMap& EditorViewport::activeLayerTiles() const {
@@ -653,15 +703,8 @@ const core::TileMap& EditorViewport::activeLayerTiles() const {
 }
 
 void EditorViewport::applyRectangle(core::GridPosition a, core::GridPosition b) {
-    const int minColumn = std::min(a.column, b.column);
-    const int maxColumn = std::max(a.column, b.column);
-    const int minRow = std::min(a.row, b.row);
-    const int maxRow = std::max(a.row, b.row);
-    const std::vector<std::vector<core::TileType>> block(
-        static_cast<std::size_t>(maxRow - minRow + 1),
-        std::vector<core::TileType>(static_cast<std::size_t>(maxColumn - minColumn + 1),
-                                    _activeTile));
-    paintActiveRegion(minColumn, minRow, block);  // un seul pas d'annulation pour tout le rectangle
+    // Un seul pas d'annulation pour tout le rectangle ; une pièce le pave au pas de son emprise.
+    reportBrush(applyBrush(_draft, currentBrush(), _activeLayer, _layerView, a, b));
 }
 
 void EditorViewport::copySelection() {
@@ -688,7 +731,10 @@ void EditorViewport::pasteClipboard() {
     if (_clipboard.empty() || !_hoverCell) {
         return;
     }
-    if (paintActiveRegion(_hoverCell->column, _hoverCell->row, _clipboard)) {
+    const BrushResult result =
+        paintTypeBlock(_draft, _activeLayer, _layerView, *_hoverCell, _clipboard);
+    reportBrush(result);
+    if (result.changed) {
         emit statusMessage(QStringLiteral("Region pasted."));
     }
     _refusalReported = false;
@@ -929,7 +975,7 @@ void EditorViewport::mousePressEvent(QMouseEvent* event) {
     switch (_tool) {
         case hmi::EditorTool::Paint:
             _painting = true;
-            paintAt(event);
+            paintAt(event, false);
             break;
         case hmi::EditorTool::Rectangle:
         case hmi::EditorTool::Selection:
@@ -992,7 +1038,7 @@ void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
         viewport()->update();
     }
     if (_painting) {
-        paintAt(event);
+        paintAt(event, true);
     } else if (_dragging) {
         const core::GridPosition current = clampedCell(event);
         if (current != _dragCurrent) {

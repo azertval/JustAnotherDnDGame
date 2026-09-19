@@ -27,6 +27,7 @@
 #include "Core/Levels/TileType.h"
 #include "Core/Time/FixedTimestep.h"
 #include "Core/World/EntityKinds.h"
+#include "Editor/Logic/BrushGesture.h"
 #include "Editor/Logic/CanvasPicking.h"
 #include "Editor/Logic/CanvasScene.h"
 #include "Editor/Logic/DiskGuard.h"
@@ -35,6 +36,7 @@
 #include "Editor/Logic/EditorKeyBindings.h"
 #include "Editor/Logic/EditorTool.h"
 #include "Editor/Logic/LayerView.h"
+#include "Editor/Logic/PieceCatalog.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/PlaceAppearance.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
@@ -82,10 +84,27 @@ public:
     EditorViewport(const EditorViewport&) = delete;
     EditorViewport& operator=(const EditorViewport&) = delete;
 
-    /// Type de tuile peint au clic (choisi dans la palette).
-    void setActiveTile(core::TileType type) noexcept {
-        _activeTile = type;
+    // --- Pinceau (LOT-EDITOR-03) ---
+    /// Arme le pinceau d'un type de tuile (palette des types) : il peint la couche active.
+    void setActiveTile(core::TileType type);
+    /**
+     * @brief Arme le pinceau d'une pièce (palette des pièces) : elle va sur sa couche, qui devient
+     *        la couche active (`hmi::pieceTargetLayer`).
+     * @param floor La pièce est un sol.
+     */
+    void setActivePiece(const std::string& piece, bool floor);
+    /// Arme la gomme de la couche active.
+    void setEraser();
+    /// @return Le pinceau armé.
+    [[nodiscard]] const CanvasBrush& brush() const noexcept {
+        return _brush;
     }
+    /// @return Le catalogue des pièces du lieu de la carte ouverte (`hmi::pieceCatalog`).
+    [[nodiscard]] std::vector<PieceCatalogGroup> pieceCatalog() const;
+    /// @return Le dossier des images du lieu (`Assets/Scene/<lieu>`), vide sans lieu.
+    [[nodiscard]] std::filesystem::path placeDirectory() const;
+    /// @return Vrai si la collision de la case survolée est forcée à la main.
+    [[nodiscard]] bool hoveredCellForced() const;
     void setTool(hmi::EditorTool tool);
     [[nodiscard]] hmi::EditorKeyBindings& editorBindings() noexcept {
         return _editorBindings;
@@ -293,7 +312,14 @@ private:
 
     [[nodiscard]] std::optional<core::GridPosition> cellAt(const QMouseEvent* event) const;
     [[nodiscard]] core::GridPosition clampedCell(const QMouseEvent* event) const;
-    void paintAt(const QMouseEvent* event);
+    /// Donne un coup de pinceau sur la case pointée ; @p continuing : le geste prolonge un glisser.
+    void paintAt(const QMouseEvent* event, bool continuing);
+    /// Le pinceau armé, son type recalculé d'après la table du lieu courant.
+    [[nodiscard]] CanvasBrush currentBrush() const;
+    /// Applique le résultat d'un geste : brouillon redessiné, ou refus dit une fois par geste.
+    void reportBrush(const BrushResult& result);
+    /// Le masque des cases forcées, en losanges (iso) ou en carrés (à plat).
+    void paintForcedMask(QPainter& painter, const CellRange& cells, bool iso);
     void applyRectangle(core::GridPosition a, core::GridPosition b);
     void copySelection();
     void pasteClipboard();
@@ -304,8 +330,6 @@ private:
     void markDraftMutated();
     void syncEditingState();
     void refreshDiagnostics();
-    bool paintActiveRegion(int originColumn, int originRow,
-                           const std::vector<std::vector<core::TileType>>& block);
     [[nodiscard]] const core::TileMap& activeLayerTiles() const;
     void handleEntityPress(const QMouseEvent* event);
     void handleEntityRelease(const QMouseEvent* event);
@@ -326,12 +350,14 @@ private:
     bool _isoSceneDirty = true;
     PlaceAppearance _appearance;
     std::string _appearancePlace;
+    /// Le manifeste des pièces du lieu : le brouillon en tire emprises et collision.
+    std::shared_ptr<const core::ScenePieceManifest> _manifest;
     WorldSceneSnapshot _snapshot;
     ComposedScene _isoScene;
 
     bool _rightDragging = false;
     QPoint _rightDragLast;
-    core::TileType _activeTile = core::TileType::Solid;
+    CanvasBrush _brush;
     hmi::EditorTool _tool = hmi::EditorTool::Paint;
     bool _painting = false;
     bool _dragging = false;
