@@ -6,6 +6,20 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Entités et zones sur le canevas (LOT-EDITOR-05).**
+  - **Les zones se tirent à la souris** : une zone de combat, un îlot ou une zone de règles se
+    tire entre deux coins et se redimensionne par huit poignées ; pendant qu'on tire la zone de
+    combat du Colisée, son verdict tactique suit (cases libres, entrées d'arène dedans et dehors).
+  - **L'outil Forme** (`Z`) peint une zone de règles case par case et trace un trajet de PNJ point
+    par point ; la famille « trajet » entre dans la table, prête pour les rondes.
+  - **Les entités se voient** : figurine à la place du marqueur, étiquette (la carte cible d'un
+    portail, le nom d'une zone), formation d'une rencontre par ses figurines.
+  - **Sélection multiple et déplacement en groupe** (`Maj` + clic), liste filtrable avec
+    identifiants ; l'inspecteur borne les entiers et propose figurines, drapeaux, lieux, objets et
+    `carte#id`.
+  - **Un test bloque toute famille d'entité lue par le jeu et inconnue de l'éditeur** : il a
+    trouvé la zone de règles, que l'éditeur ne savait pas poser.
+
 - **Les outils du peintre (LOT-EDITOR-04).**
   - **Ligne, seau, gomme et pipette**, chacun à sa touche ; `Alt` + clic prend la pièce qu'on
     voit depuis n'importe quel outil, et la palette la montre.

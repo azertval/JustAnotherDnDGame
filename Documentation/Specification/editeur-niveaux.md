@@ -82,8 +82,9 @@ depuis le jeu, est l'**arène** du `LOT-50`.
 - Édition collaborative en temps réel.
 - Édition des assets graphiques et sonores : l'éditeur agence des cartes, il ne dessine pas les
   planches. Les planches de lieux et les figurines viennent de leurs ateliers (`LOT-92`, `LOT-91`).
-- Sélection multiple non contiguë et historique annuler/refaire par delta (l'historique par
-  instantanés complets reste adapté à la taille des cartes du projet).
+- Sélection multiple non contiguë **de cases** et historique annuler/refaire par delta
+  (l'historique par instantanés complets reste adapté à la taille des cartes du projet). Les
+  **entités**, elles, se sélectionnent à plusieurs (`EX-EDIT-072`).
 
 ## 6. Robustesse et confort d'édition
 - \anchor EX-EDIT-012 **EX-EDIT-012** — L'éditeur doit **demander confirmation** avant toute action
@@ -128,7 +129,9 @@ depuis le jeu, est l'**arène** du `LOT-50`.
   famille ou une propriété ajoutée à la table y apparaît sans toucher au panneau. Une entité d'un
   type inconnu, et toute propriété que la table ne déclare pas, sont **montrées et transportées**
   (`EX-EDIT-011`). Chaque geste est **annulable**. Une entité sans illustration se dessine par le
-  **marqueur généré** de sa famille (`EX-CNT-041`). Concrétisé au `LOT-11`.
+  **marqueur généré** de sa famille (`EX-CNT-041`). Concrétisé au `LOT-11`. *Révisée au
+  `LOT-EDITOR-05`* : les zones se tirent et se redimensionnent, les entités se sélectionnent à
+  plusieurs (`EX-EDIT-070` à `EX-EDIT-073`).
 - \anchor EX-EDIT-051 **EX-EDIT-051** — Une propriété qui **référence** une donnée hors de la carte
   doit se choisir dans ce qui existe : dialogues **acceptés** au chargement, rencontres, cartes,
   points d'arrivée de la carte cible. Une référence cassée est **signalée** dans le panneau, à sa
@@ -245,6 +248,35 @@ Tracer vite, et défaire d'un coup ([LOT-EDITOR-04](@ref lot-editor-04)).
   entre deux cases, en cases et en pieds (une case = 5 pieds, une diagonale = une case). L'**essai**
   peut partir de la case survolée, sans toucher au brouillon ; une case qui arrête le pas est
   refusée.
+
+## 13. Entités et zones sur le canevas (`LOT-EDITOR-05`)
+Les zones se tirent à la souris, les entités montrent leur figurine et leurs liens
+([LOT-EDITOR-05](@ref lot-editor-05)).
+
+- \anchor EX-EDIT-070 **EX-EDIT-070** — Une entité se dessine et se manipule **par la forme** que
+  sa famille déclare (`core::EntityKind::shape`), jamais par son type : un **point**, un
+  **rectangle** (zone de combat, îlot), une **zone de règles** rectangle ou peinte (`EX-LVL-022`),
+  un **trajet** en ligne brisée. Une famille à forme se **tire** au lieu de se poser ; un rectangle
+  sélectionné a huit **poignées** (coins et milieux de côté), un trajet une par point ; l'outil
+  **Forme** peint une zone case par case (`Ctrl` gomme) et trace un trajet point par point. Chaque
+  geste, du clic au relâchement, est un pas d'annulation, et l'aperçu montre ce qu'il écrira.
+- \anchor EX-EDIT-071 **EX-EDIT-071** — Le canevas montre ce que l'entité **désigne** : la
+  figurine de l'atelier à la place du marqueur quand elle existe, l'**étiquette** que sa famille
+  déclare (la carte cible d'un portail, le nom d'une zone), la **formation** d'une rencontre
+  sélectionnée par les figurines de ses créatures, et le **verdict tactique** d'une zone de combat
+  sélectionnée — cases libres et pleines, entrées d'arène dedans et dehors —, recalculé pendant
+  qu'on la tire. Une zone qui ne se joue pas, et une entrée d'arène hors de toute zone, avertissent.
+- \anchor EX-EDIT-072 **EX-EDIT-072** — Les entités se **sélectionnent à plusieurs** (`Maj` + clic
+  sur le canevas, sélection étendue dans la liste), se **déplacent en groupe** — tout le groupe ou
+  rien, s'il sortirait de la carte — et se retirent ensemble, en un pas. La liste des entités se
+  **filtre** sur la famille, l'identifiant et les valeurs, et montre l'identifiant et l'étiquette
+  de chacune.
+- \anchor EX-EDIT-073 **EX-EDIT-073** — L'inspecteur est tiré d'un **schéma typé** : entier
+  **borné**, énumération, et **référence** à un catalogue avec sa liste de choix — dialogue,
+  rencontre, carte, point d'arrivée, figurine, drapeau, lieu de l'atlas, objet, `carte#id`. Une
+  valeur hors bornes ou absente de son catalogue avertit, sans empêcher d'enregistrer. **Contrat
+  d'extension** : toute famille d'entité que le jeu lit est dans `core::knownEntityKinds`, et un
+  test bloquant le vérifie sur les sources du jeu et les cartes livrées.
 
 ## Exigences retirées {#edit-retirees}
 
