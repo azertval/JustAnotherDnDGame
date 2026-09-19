@@ -221,7 +221,16 @@ void EditorViewport::setTool(hmi::EditorTool tool) {
     if (_tool == tool) {
         return;
     }
+    endPainting();
+    _dragging = false;
     _tool = tool;
+    if (paintsWithBrush(tool)) {
+        _paintTool = tool;  // la pipette y revient.
+    }
+    if (tool != hmi::EditorTool::Measure && _measure) {
+        _measure.reset();
+        emit toolStateChanged();
+    }
     emit toolChanged(tool);
     viewport()->update();  // le terrain de rencontre ne se montre qu'à l'outil Entité.
 }
@@ -423,16 +432,17 @@ void EditorViewport::paintFlat(QPainter& painter, const QRectF& exposed) {
     _flat->setLayerView(_layerView);
     paintComposedScene(painter, _flat->compose(_draft, visible, _showGrid, highlight(), overlay),
                        visible);
+    const CellRange flatCells{
+        .firstColumn = std::max(0, static_cast<int>(exposed.left())),
+        .firstRow = std::max(0, static_cast<int>(exposed.top())),
+        .lastColumn = std::min(_draft.tileMap().width() - 1, static_cast<int>(exposed.right())),
+        .lastRow = std::min(_draft.tileMap().height() - 1, static_cast<int>(exposed.bottom()))};
     if (!_activeLayer && hasVisualLayers()) {
-        paintForcedMask(painter,
-                        CellRange{.firstColumn = std::max(0, static_cast<int>(exposed.left())),
-                                  .firstRow = std::max(0, static_cast<int>(exposed.top())),
-                                  .lastColumn = std::min(_draft.tileMap().width() - 1,
-                                                         static_cast<int>(exposed.right())),
-                                  .lastRow = std::min(_draft.tileMap().height() - 1,
-                                                      static_cast<int>(exposed.bottom()))},
-                        false);
+        paintForcedMask(painter, flatCells, false);
     }
+    paintNotes(painter, flatCells, false);
+    paintDragPreview(painter, false);
+    paintMirrorAxis(painter, false);
     if (_hoverCell) {
         painter.setPen(screenPen(QColor(255, 236, 140), 2.0));
         painter.setBrush(Qt::NoBrush);
@@ -592,12 +602,89 @@ void EditorViewport::paintIsoOverlays(QPainter& painter, const CellRange& cells,
             painter.drawPolygon(diamondOf(iso, entity.position));
         }
     }
+    paintNotes(painter, cells, true);
+    paintDragPreview(painter, true);
+    paintMirrorAxis(painter, true);
     // La case survolée, par son losange : c'est elle que le prochain geste touchera.
     if (_hoverCell) {
         painter.setBrush(Qt::NoBrush);
         painter.setPen(screenPen(QColor(255, 236, 140), 2.0));
         painter.drawPolygon(diamondOf(iso, *_hoverCell));
     }
+}
+
+void EditorViewport::paintNotes(QPainter& painter, const CellRange& cells, bool iso) {
+    // Une pastille ambre cerclée de sombre, en haut de la case : lisible sur tout sol.
+    painter.setPen(screenPen(QColor(40, 30, 10), 1.0));
+    painter.setBrush(QColor(255, 196, 60));
+    const core::IsoProjection projected = projection();
+    for (const AuthorNote& note : _sidecar.notes) {
+        if (!cells.contains(note.cell)) {
+            continue;
+        }
+        if (iso) {
+            const QPointF center = toQt(projected.tileToWorld(note.cell));
+            const double radius = projected.tileHeight() * 0.18;
+            painter.drawEllipse(QPointF(center.x(), center.y() - (projected.tileHeight() * 0.2)),
+                                radius, radius);
+        } else {
+            painter.drawEllipse(QPointF(note.cell.column + 0.75, note.cell.row + 0.25), 0.16, 0.16);
+        }
+    }
+}
+
+void EditorViewport::paintMirrorAxis(QPainter& painter, bool iso) {
+    if (!_mirror) {
+        return;
+    }
+    // Les centres des cases c − r = k, d'un bord de la carte à l'autre : une verticale en iso.
+    const int k = _mirror->offset;
+    const int first = std::max(0, -k);
+    const int last = std::min(_draft.tileMap().height() - 1, _draft.tileMap().width() - 1 - k);
+    if (first > last) {
+        return;
+    }
+    const core::Vector2 from{static_cast<float>(k + first), static_cast<float>(first)};
+    const core::Vector2 to{static_cast<float>(k + last + 1), static_cast<float>(last + 1)};
+    const core::IsoProjection projected = projection();
+    painter.setPen(screenPen(QColor(120, 255, 200), 2.0));
+    painter.drawLine(toQt(iso ? projected.gridToWorld(from) : from),
+                     toQt(iso ? projected.gridToWorld(to) : to));
+}
+
+void EditorViewport::paintDragPreview(QPainter& painter, bool iso) {
+    std::optional<std::pair<core::GridPosition, core::GridPosition>> segment;
+    if (_dragging && (_tool == hmi::EditorTool::Line || _tool == hmi::EditorTool::Measure)) {
+        segment = std::make_pair(_dragStart, _dragCurrent);
+    } else if (_tool == hmi::EditorTool::Measure) {
+        segment = _measure;
+    }
+    if (!segment) {
+        return;
+    }
+    const core::IsoProjection projected = projection();
+    const auto shape = [&](core::GridPosition cell) {
+        return iso ? diamondOf(projected, cell)
+                   : QPolygonF(QRectF(cell.column, cell.row, 1.0, 1.0));
+    };
+    painter.setPen(screenPen(QColor(110, 190, 255), 1.0));
+    painter.setBrush(QColor::fromRgbF(0.3F, 0.7F, 1.0F, 0.28F));
+    if (_tool == hmi::EditorTool::Line) {
+        for (const core::GridPosition cell : lineCells(segment->first, segment->second)) {
+            painter.drawPolygon(shape(cell));
+        }
+        return;
+    }
+    // La mesure : ses deux cases, et le trait qui joint leurs centres.
+    painter.drawPolygon(shape(segment->first));
+    painter.drawPolygon(shape(segment->second));
+    const auto center = [&](core::GridPosition cell) {
+        const core::Vector2 point{static_cast<float>(cell.column) + 0.5F,
+                                  static_cast<float>(cell.row) + 0.5F};
+        return toQt(iso ? projected.gridToWorld(point) : point);
+    };
+    painter.setPen(screenPen(QColor(110, 190, 255), 2.0));
+    painter.drawLine(center(segment->first), center(segment->second));
 }
 
 QColor EditorViewport::tileColor(core::TileType type) const {
@@ -622,12 +709,110 @@ bool EditorViewport::hasVisualLayers() const {
 
 void EditorViewport::paintAt(const QMouseEvent* event, bool continuing) {
     if (const std::optional<core::GridPosition> cell = cellAt(event)) {
-        reportBrush(
-            applyBrush(_draft, currentBrush(), _activeLayer, _layerView, *cell, *cell, continuing));
+        reportBrush(applyStroke(_draft, currentBrush(), _activeLayer, _layerView, {*cell},
+                                continuing, strokeContext()));
     }
 }
 
+StrokeContext EditorViewport::strokeContext() const {
+    return StrokeContext{.mirror = _mirror,
+                         .appearance = _appearancePlace.empty() ? nullptr : &_appearance};
+}
+
+void EditorViewport::endPainting() {
+    if (_painting) {
+        _painting = false;
+        _draft.endGesture();
+    }
+}
+
+void EditorViewport::pickAt(core::GridPosition cell) {
+    const std::optional<PickedBrush> picked =
+        pickBrush(_draft, _activeLayer, cell, _appearancePlace.empty() ? nullptr : &_appearance);
+    if (!picked) {
+        emit statusMessage(QStringLiteral("Nothing to pick here."));
+        return;
+    }
+    if (picked->brush.kind == BrushKind::Piece) {
+        setActivePiece(picked->brush.piece, picked->brush.floor);
+    } else {
+        _brush = picked->brush;
+        setActiveLayer(picked->layer);
+    }
+    emit brushPicked(_brush);
+    emit statusMessage(
+        QStringLiteral("Picked %1.").arg(QString::fromStdString(brushLabel(_brush))));
+}
+
+void EditorViewport::setMirror(bool enabled) {
+    if (!enabled) {
+        _mirror.reset();
+    } else {
+        const core::GridPosition through = _hoverCell.value_or(core::GridPosition{
+            .column = _draft.tileMap().width() / 2, .row = _draft.tileMap().height() / 2});
+        _mirror = mirrorAxisThrough(through);
+        emit statusMessage(QStringLiteral("Mirror across the vertical through (%1, %2).")
+                               .arg(through.column)
+                               .arg(through.row));
+    }
+    viewport()->update();
+    emit toolStateChanged();
+}
+
+std::string EditorViewport::measureText() const {
+    if (_dragging && _tool == hmi::EditorTool::Measure) {
+        return measureLabel(measureBetween(_dragStart, _dragCurrent));
+    }
+    return _measure && _tool == hmi::EditorTool::Measure
+               ? measureLabel(measureBetween(_measure->first, _measure->second))
+               : std::string{};
+}
+
+void EditorViewport::reloadSidecar() {
+    const SidecarReadResult read = readSidecar(sidecarPath(levelPath()));
+    _sidecar = read.sidecar;
+    if (!read.warning.empty()) {
+        HMI_LOG_WARNING("Editeur : annexe illisible : " + read.warning);
+        emit statusMessage(
+            QStringLiteral("Author notes: %1").arg(QString::fromStdString(read.warning)));
+    }
+    viewport()->update();
+    emit toolStateChanged();
+}
+
+void EditorViewport::setNote(core::GridPosition cell, const std::string& text) {
+    if (!hmi::setNote(_sidecar, cell, text)) {
+        return;
+    }
+    if (!writeSidecar(sidecarPath(levelPath()), _sidecar)) {
+        HMI_LOG_ERROR("Editeur : echec d'ecriture de l'annexe de " + _mapId);
+        emit statusMessage(QStringLiteral("Failed to write the author notes."));
+    }
+    viewport()->update();
+    emit toolStateChanged();
+}
+
+std::string EditorViewport::hoveredNote() const {
+    if (!_hoverCell || _play) {
+        return {};
+    }
+    const AuthorNote* const note = noteAt(_sidecar, *_hoverCell);
+    if (note == nullptr) {
+        return {};
+    }
+    std::string line = note->text;
+    std::ranges::replace(line, '\n', ' ');
+    constexpr std::size_t MAX_LENGTH = 60;
+    if (line.size() > MAX_LENGTH) {
+        line = line.substr(0, MAX_LENGTH) + "…";
+    }
+    return line;
+}
+
 CanvasBrush EditorViewport::currentBrush() const {
+    if (_tool == hmi::EditorTool::Eraser) {
+        return CanvasBrush{.kind = BrushKind::Eraser, .type = {}, .piece = {}, .floor = false};
+    }
     CanvasBrush brush = _brush;
     if (brush.kind == BrushKind::Piece) {
         // La table du lieu peut avoir changé depuis le choix (une autre carte ouverte).
@@ -647,6 +832,10 @@ void EditorViewport::reportBrush(const BrushResult& result) {
 
 void EditorViewport::setActiveTile(core::TileType type) {
     _brush = CanvasBrush{.kind = BrushKind::Type, .type = type, .piece = {}, .floor = false};
+    // Choisir dans la palette, c'est vouloir peindre : l'outil du peintre reprend la main.
+    if (!paintsWithBrush(_tool)) {
+        setTool(_paintTool);
+    }
 }
 
 void EditorViewport::setActivePiece(const std::string& piece, bool floor) {
@@ -658,10 +847,9 @@ void EditorViewport::setActivePiece(const std::string& piece, bool floor) {
     if (const std::optional<std::size_t> layer = pieceTargetLayer(_draft.layers(), floor)) {
         setActiveLayer(*layer);
     }
-}
-
-void EditorViewport::setEraser() {
-    _brush = CanvasBrush{.kind = BrushKind::Eraser, .type = {}, .piece = {}, .floor = false};
+    if (!paintsWithBrush(_tool)) {
+        setTool(_paintTool);
+    }
 }
 
 std::vector<PieceCatalogGroup> EditorViewport::pieceCatalog() const {
@@ -704,7 +892,8 @@ const core::TileMap& EditorViewport::activeLayerTiles() const {
 
 void EditorViewport::applyRectangle(core::GridPosition a, core::GridPosition b) {
     // Un seul pas d'annulation pour tout le rectangle ; une pièce le pave au pas de son emprise.
-    reportBrush(applyBrush(_draft, currentBrush(), _activeLayer, _layerView, a, b));
+    reportBrush(applyRectangleStroke(_draft, currentBrush(), _activeLayer, _layerView, a, b,
+                                     strokeContext()));
 }
 
 void EditorViewport::copySelection() {
@@ -840,16 +1029,43 @@ void EditorViewport::stepPlaytest() {
     viewport()->update();
 }
 
-void EditorViewport::startPlaytest() {
+void EditorViewport::startPlaytestHere() {
+    startPlaytest(_hoverCell);
+}
+
+void EditorViewport::startPlaytest(std::optional<core::GridPosition> from) {
     if (_play) {
         return;
     }
+    endPainting();
     core::LevelLoadResult validated = _draft.toLevel();
     if (!validated.ok()) {
         HMI_LOG_WARNING("Editeur : essai refuse (brouillon invalide) : " + validated.error);
         emit statusMessage(
             QStringLiteral("Cannot playtest: %1").arg(QString::fromStdString(validated.error)));
         return;
+    }
+    if (from) {
+        // L'essai part de la case : une copie du brouillon, sans historique, dont l'entrée y est
+        // déplacée. Le brouillon, lui, ne bouge pas.
+        const core::TileMap& tiles = validated.level->tileMap();
+        if (!tiles.inBounds(from->column, from->row) ||
+            core::isSolid(tiles.tile(from->column, from->row))) {
+            emit statusMessage(QStringLiteral("Cannot playtest from (%1, %2): the cell blocks the "
+                                              "way.")
+                                   .arg(from->column)
+                                   .arg(from->row));
+            return;
+        }
+        core::LevelDraft moved = core::LevelDraft::fromLevel(*validated.level);
+        moved.setPieceManifest(_manifest);
+        moved.setEntry(from->column, from->row);
+        validated = moved.toLevel();
+        if (!validated.ok()) {
+            emit statusMessage(QStringLiteral("Cannot playtest from here: %1")
+                                   .arg(QString::fromStdString(validated.error)));
+            return;
+        }
     }
     // Le brouillon est servi sous l'identifiant de sa carte ; toute autre carte vient du disque,
     // comme en jeu. Un portail qui ramène ici retrouve donc le brouillon, pas le fichier d'avant.
@@ -888,7 +1104,11 @@ void EditorViewport::startPlaytest() {
     _playTimer.start();
     setFocus();
     HMI_LOG_INFO("Editeur : essai immediat demarre.");
-    emit statusMessage(QStringLiteral("Playtesting — Esc to return to editing."));
+    emit statusMessage(from
+                           ? QStringLiteral("Playtesting from (%1, %2) — Esc to return to editing.")
+                                 .arg(from->column)
+                                 .arg(from->row)
+                           : QStringLiteral("Playtesting — Esc to return to editing."));
 }
 
 void EditorViewport::stopPlaytest() {
@@ -920,6 +1140,7 @@ bool EditorViewport::viewportEvent(QEvent* event) {
 
 void EditorViewport::focusOutEvent(QFocusEvent* event) {
     _heldKeys.clear();
+    endPainting();
     QGraphicsView::focusOutEvent(event);
 }
 
@@ -950,6 +1171,15 @@ void EditorViewport::keyPressEvent(QKeyEvent* event) {
         removeEntity(*_selectedEntity);
         return;
     }
+    // Suppr gomme la sélection, sur la couche active, en un pas (LOT-EDITOR-04).
+    if (event->key() == Qt::Key_Delete && _tool == hmi::EditorTool::Selection && _selection) {
+        const CanvasBrush eraser{
+            .kind = BrushKind::Eraser, .type = {}, .piece = {}, .floor = false};
+        reportBrush(applyRectangleStroke(_draft, eraser, _activeLayer, _layerView,
+                                         _selection->first, _selection->second, StrokeContext{}));
+        _refusalReported = false;
+        return;
+    }
     QGraphicsView::keyPressEvent(event);
 }
 
@@ -972,20 +1202,54 @@ void EditorViewport::mousePressEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton) {
         return;
     }
+    const std::optional<core::GridPosition> cell = cellAt(event);
+    // Alt + clic : la pipette, depuis n'importe quel outil (LOT-EDITOR-04).
+    if (event->modifiers().testFlag(Qt::AltModifier)) {
+        if (cell) {
+            pickAt(*cell);
+        }
+        return;
+    }
     switch (_tool) {
         case hmi::EditorTool::Paint:
+        case hmi::EditorTool::Eraser:
+            // Du clic au relâchement, un seul geste : un seul pas d'annulation.
             _painting = true;
+            _draft.beginGesture();
             paintAt(event, false);
             break;
         case hmi::EditorTool::Rectangle:
+        case hmi::EditorTool::Line:
         case hmi::EditorTool::Selection:
+        case hmi::EditorTool::Measure:
             _dragging = true;
             _dragStart = clampedCell(event);
             _dragCurrent = _dragStart;
+            if (_tool == hmi::EditorTool::Measure) {
+                _measure.reset();
+                emit toolStateChanged();
+            }
             viewport()->update();
+            break;
+        case hmi::EditorTool::Bucket:
+            if (cell) {
+                reportBrush(applyBucket(_draft, currentBrush(), _activeLayer, _layerView, *cell,
+                                        strokeContext()));
+            }
+            break;
+        case hmi::EditorTool::Pipette:
+            if (cell) {
+                pickAt(*cell);
+                setTool(_paintTool);  // pris : on repeint aussitôt.
+            }
             break;
         case hmi::EditorTool::Entity:
             handleEntityPress(event);
+            break;
+        case hmi::EditorTool::Note:
+            if (cell) {
+                emit noteRequested(*cell);
+            }
             break;
     }
 }
@@ -1007,6 +1271,12 @@ void EditorViewport::mouseReleaseEvent(QMouseEvent* event) {
         _dragging = false;
         if (_tool == hmi::EditorTool::Rectangle) {
             applyRectangle(_dragStart, _dragCurrent);
+        } else if (_tool == hmi::EditorTool::Line) {
+            reportBrush(applyStroke(_draft, currentBrush(), _activeLayer, _layerView,
+                                    lineCells(_dragStart, _dragCurrent), false, strokeContext()));
+        } else if (_tool == hmi::EditorTool::Measure) {
+            _measure = std::make_pair(_dragStart, _dragCurrent);
+            emit toolStateChanged();
         } else if (_tool == hmi::EditorTool::Selection) {
             _selection = std::make_pair(
                 core::GridPosition{.column = std::min(_dragStart.column, _dragCurrent.column),
@@ -1016,7 +1286,7 @@ void EditorViewport::mouseReleaseEvent(QMouseEvent* event) {
         }
         viewport()->update();
     }
-    _painting = false;
+    endPainting();
 }
 
 void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
@@ -1044,6 +1314,9 @@ void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
         if (current != _dragCurrent) {
             _dragCurrent = current;
             viewport()->update();
+            if (_tool == hmi::EditorTool::Measure) {
+                emit toolStateChanged();
+            }
         }
     }
 }
@@ -1123,6 +1396,12 @@ bool EditorViewport::renameOpenLevel(const std::string& newName) {
     _draft.setName(trimmed);
     _mapId = mapIdOf(renamedPath);
     _diskFingerprint = fingerprintFile(renamedPath);
+    // Les notes suivent la carte ; celles d'une carte jamais enregistrée n'ont pas été déplacées
+    // avec son fichier (LOT-EDITOR-04).
+    if (!_sidecar.empty() && writeSidecar(sidecarPath(renamedPath), _sidecar)) {
+        std::error_code ignored;
+        std::filesystem::remove(sidecarPath(oldPath), ignored);
+    }
     markDraftMutated();
     HMI_LOG_INFO("Editeur : carte renommee en « " + trimmed + " ».");
     emit statusMessage(QStringLiteral("Map renamed: %1").arg(QString::fromStdString(trimmed)));
@@ -1138,6 +1417,8 @@ bool EditorViewport::openLevel(const std::filesystem::path& path) {
         return false;
     }
     stopPlaytest();
+    _painting = false;  // un geste en cours visait l'ancien brouillon.
+    _dragging = false;
     _draft = core::LevelDraft::fromLevel(*loaded.level);
     _mapId = mapIdOf(path);
     // Une carte ouverte repart de sa collision, tout affiché, rien de sélectionné : les réglages
@@ -1148,6 +1429,8 @@ bool EditorViewport::openLevel(const std::filesystem::path& path) {
     _selection.reset();
     _savedRevision = _draft.revision();
     _diskFingerprint = fingerprintFile(path);
+    _measure.reset();
+    reloadSidecar();
     markDraftMutated();
     resetCamera();
     HMI_LOG_INFO("Editeur : carte ouverte : " + path.string());
@@ -1168,6 +1451,8 @@ bool EditorViewport::restoreDraft(const std::string& mapId, const std::string& d
         return false;
     }
     stopPlaytest();
+    _painting = false;  // un geste en cours visait l'ancien brouillon.
+    _dragging = false;
     _draft = core::LevelDraft::fromLevel(*loaded.level);
     _mapId = mapId;
     _layerView.reset();
@@ -1178,6 +1463,7 @@ bool EditorViewport::restoreDraft(const std::string& mapId, const std::string& d
     // fichier, lui, est pris tel qu'il est maintenant -- c'est contre lui que la garde compare.
     _savedRevision = NEVER_SAVED;
     _diskFingerprint = fingerprintFile(levelPath());
+    reloadSidecar();
     markDraftMutated();
     resetCamera();
     HMI_LOG_INFO("Editeur : brouillon repris : " + mapId);

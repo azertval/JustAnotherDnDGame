@@ -39,14 +39,24 @@ constexpr QStyle::StandardPixmap TEXT_ONLY = QStyle::SP_CustomBase;
 
 const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
     static const std::array<CommandSpec, EDITOR_COMMAND_COUNT> specs{{
-        {EditorCommand::ToolPaint, "Brush", "", TEXT_ONLY, true, std::nullopt},
-        {EditorCommand::ToolRectangle, "Rectangle", "", TEXT_ONLY, true, std::nullopt},
-        {EditorCommand::ToolSelection, "Selection", "", TEXT_ONLY, true, std::nullopt},
-        {EditorCommand::ToolEntity, "Entity", "", TEXT_ONLY, true, std::nullopt},
+        // Une touche par outil (LOT-EDITOR-04) : la lettre de son nom anglais, sauf le seau (G,
+        // l'usage des logiciels de dessin), les entités (O, objets) et la mesure (D, distance).
+        {EditorCommand::ToolPaint, "Brush", "B", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolRectangle, "Rectangle", "R", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolLine, "Line", "L", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolBucket, "Bucket", "G", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolEraser, "Eraser", "E", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolPipette, "Pipette", "I", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolSelection, "Selection", "S", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolEntity, "Entity", "O", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolMeasure, "Measure", "D", TEXT_ONLY, true, std::nullopt},
+        {EditorCommand::ToolNote, "Note", "N", TEXT_ONLY, true, std::nullopt},
         {EditorCommand::Save, "Save", "Ctrl+S", QStyle::SP_DialogSaveButton, true,
          EditorAction::Save},
         {EditorCommand::Playtest, "Playtest", "P", QStyle::SP_MediaPlay, true,
          EditorAction::Playtest},
+        {EditorCommand::PlaytestHere, "Playtest from hovered cell", "Shift+P", TEXT_ONLY, false,
+         std::nullopt},
         {EditorCommand::Undo, "Undo", "Ctrl+Z", QStyle::SP_ArrowBack, true, EditorAction::Undo},
         {EditorCommand::Redo, "Redo", "Ctrl+Y", QStyle::SP_ArrowForward, true, EditorAction::Redo},
         {EditorCommand::ToggleGrid, "Grid", "F10", TEXT_ONLY, false, EditorAction::ToggleGrid},
@@ -54,6 +64,7 @@ const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
         {EditorCommand::IsoView, "Iso view", "F9", TEXT_ONLY, true, std::nullopt},
         {EditorCommand::SeeThroughRelief, "See-through relief", "F8", TEXT_ONLY, false,
          std::nullopt},
+        {EditorCommand::Mirror, "Mirror", "M", TEXT_ONLY, true, std::nullopt},
         {EditorCommand::Copy, "Copy", "Ctrl+C", TEXT_ONLY, false, EditorAction::Copy},
         {EditorCommand::Paste, "Paste", "Ctrl+V", TEXT_ONLY, false, EditorAction::Paste},
         {EditorCommand::Rename, "Rename", "F2", TEXT_ONLY, false, EditorAction::Rename},
@@ -107,6 +118,7 @@ EditorActions::EditorActions(QObject* parent)
     action(EditorCommand::IsoView)->setCheckable(true);
     action(EditorCommand::IsoView)->setChecked(true);
     action(EditorCommand::SeeThroughRelief)->setCheckable(true);
+    action(EditorCommand::Mirror)->setCheckable(true);
     refreshToolTips();
 }
 
@@ -120,10 +132,22 @@ std::optional<EditorTool> EditorActions::toolOf(EditorCommand command) {
             return EditorTool::Paint;
         case EditorCommand::ToolRectangle:
             return EditorTool::Rectangle;
+        case EditorCommand::ToolLine:
+            return EditorTool::Line;
+        case EditorCommand::ToolBucket:
+            return EditorTool::Bucket;
+        case EditorCommand::ToolEraser:
+            return EditorTool::Eraser;
+        case EditorCommand::ToolPipette:
+            return EditorTool::Pipette;
         case EditorCommand::ToolSelection:
             return EditorTool::Selection;
         case EditorCommand::ToolEntity:
             return EditorTool::Entity;
+        case EditorCommand::ToolMeasure:
+            return EditorTool::Measure;
+        case EditorCommand::ToolNote:
+            return EditorTool::Note;
         default:
             return std::nullopt;
     }

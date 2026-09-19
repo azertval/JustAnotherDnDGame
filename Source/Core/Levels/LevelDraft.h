@@ -308,6 +308,30 @@ public:
     [[nodiscard]] bool wouldResizeDropContent(int width, int height) const noexcept;
 
     /**
+     * @name Gestes (`LOT-EDITOR-04`)
+     *
+     * Un geste de l'auteur — un glisser du pinceau, une ligne, un seau, un trait et son reflet —
+     * enchaîne plusieurs mutations ; il se défait pourtant **en un pas**. Entre `beginGesture` et
+     * `endGesture`, seule la première mutation qui change la carte empile un pas d'annulation ; un
+     * geste sans effet n'en empile aucun. Les appels s'imbriquent : seul le plus extérieur ferme le
+     * geste. La révision change à chaque mutation, comme hors geste.
+     * @{
+     */
+
+    /// Ouvre un geste.
+    void beginGesture() noexcept;
+
+    /// Ferme le geste ouvert ; sans effet s'il n'y en a pas.
+    void endGesture() noexcept;
+
+    /// @return Vrai si un geste est ouvert.
+    [[nodiscard]] bool inGesture() const noexcept {
+        return _gestureDepth > 0;
+    }
+
+    /** @} */
+
+    /**
      * @brief Annule la dernière mutation (`EX-EDIT-005`).
      * @return `true` si une mutation a été annulée, `false` si l'historique était vide.
      */
@@ -495,6 +519,28 @@ private:
     std::uint64_t _revision = 0;
     /// Dernière révision donnée : jamais réemployée, même après un `undo()`.
     std::uint64_t _lastRevision = 0;
+    /// Profondeur des gestes ouverts (`beginGesture`).
+    int _gestureDepth = 0;
+    /// Le geste ouvert a déjà empilé son pas d'annulation.
+    bool _gesturePushed = false;
+};
+
+/// @brief Un geste ouvert le temps d'une portée (`LevelDraft::beginGesture`).
+class GestureScope {
+public:
+    explicit GestureScope(LevelDraft& draft) noexcept : _draft(draft) {
+        _draft.beginGesture();
+    }
+    ~GestureScope() {
+        _draft.endGesture();
+    }
+    GestureScope(const GestureScope&) = delete;
+    GestureScope& operator=(const GestureScope&) = delete;
+    GestureScope(GestureScope&&) = delete;
+    GestureScope& operator=(GestureScope&&) = delete;
+
+private:
+    LevelDraft& _draft;
 };
 
 }  // namespace core

@@ -16,7 +16,6 @@
 #include <QStandardItemModel>
 #include <QString>
 #include <QTabWidget>
-#include <QToolButton>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <QVariant>
@@ -89,7 +88,6 @@ constexpr int PIECE_THUMBNAIL_SIZE = 48;
 
 PalettePanel::PalettePanel(QWidget* parent)
     : QWidget(parent),
-      _eraser(new QToolButton(this)),
       _tabs(new QTabWidget(this)),
       _piecesPage(new QWidget(this)),
       _search(new QLineEdit(this)),
@@ -99,23 +97,6 @@ PalettePanel::PalettePanel(QWidget* parent)
       _model(new QStandardItemModel(this)) {
     auto* const layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
-
-    _eraser->setText(QStringLiteral("Eraser"));
-    _eraser->setCheckable(true);
-    _eraser->setToolButtonStyle(Qt::ToolButtonTextOnly);
-    _eraser->setToolTip(
-        QStringLiteral("Erase on the active layer: a whole piece, or a cell's type. On the "
-                       "collision, release forced cells."));
-    layout->addWidget(_eraser);
-    connect(_eraser, &QToolButton::toggled, this, [this](bool checked) {
-        if (checked) {
-            emit eraserSelected();
-        } else if (_tabs->currentIndex() == 0 && !_selectedPiece.isEmpty()) {
-            emit pieceSelected(_selectedPiece, _selectedPieceFloor);  // on repose la gomme
-        } else {
-            emit tileSelected(_selected);
-        }
-    });
 
     auto* const piecesLayout = new QVBoxLayout(_piecesPage);
     piecesLayout->setContentsMargins(0, 0, 0, 0);
@@ -130,7 +111,7 @@ PalettePanel::PalettePanel(QWidget* parent)
     connect(_search, &QLineEdit::textChanged, this, [this](const QString&) { buildPieceModel(); });
     connect(_pieceTree->selectionModel(), &QItemSelectionModel::currentChanged, this,
             [this](const QModelIndex& current, const QModelIndex&) { onPieceChanged(current); });
-    // Recliquer la pièce courante la reprend, après la gomme par exemple.
+    // Recliquer la pièce courante la reprend, après la gomme ou la pipette par exemple.
     connect(_pieceTree, &QTreeView::clicked, this, &PalettePanel::onPieceChanged);
 
     _tree->setHeaderHidden(true);
@@ -287,7 +268,6 @@ void PalettePanel::onCurrentChanged(const QModelIndex& current) {
         return;  // en-tête (catégorie/sous-groupe) : pas un type sélectionnable.
     }
     _selected = static_cast<core::TileType>(tileData.toInt());
-    releaseEraser();
     emit tileSelected(_selected);
 }
 
@@ -298,13 +278,36 @@ void PalettePanel::onPieceChanged(const QModelIndex& current) {
     }
     _selectedPiece = name.toString();
     _selectedPieceFloor = current.data(PIECE_FLOOR_ROLE).toBool();
-    releaseEraser();
     emit pieceSelected(_selectedPiece, _selectedPieceFloor);
 }
 
-void PalettePanel::releaseEraser() {
-    const QSignalBlocker blocker(_eraser);  // le choix qui suit arme le pinceau, pas la gomme
-    _eraser->setChecked(false);
+void PalettePanel::showPiece(const QString& piece, bool floor) {
+    _selectedPiece = piece;
+    _selectedPieceFloor = floor;
+    if (!_tabs->isTabEnabled(0)) {
+        return;
+    }
+    _tabs->setCurrentIndex(0);
+    // Une recherche qui cacherait la pièce prise s'efface ; le modèle refait la resélectionne.
+    if (!_search->text().isEmpty()) {
+        _search->clear();  // textChanged refait le modèle, signaux de sélection bloqués.
+    } else {
+        buildPieceModel();
+    }
+}
+
+void PalettePanel::showTile(core::TileType type) {
+    _selected = type;
+    _tabs->setCurrentIndex(1);
+    const QSignalBlocker blocker(_tree->selectionModel());
+    const QModelIndexList found =
+        _model->match(_model->index(0, 0), TILE_TYPE_ROLE, static_cast<int>(type), 1,
+                      Qt::MatchExactly | Qt::MatchRecursive);
+    if (!found.isEmpty()) {
+        _tree->selectionModel()->setCurrentIndex(found.front(),
+                                                 QItemSelectionModel::ClearAndSelect);
+        _tree->scrollTo(found.front());
+    }
 }
 
 }  // namespace hmi

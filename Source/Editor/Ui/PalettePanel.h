@@ -22,7 +22,6 @@ class QLineEdit;
 class QModelIndex;
 class QStandardItemModel;
 class QTabWidget;
-class QToolButton;
 class QTreeView;
 
 namespace hmi {
@@ -30,7 +29,7 @@ namespace hmi {
 /**
  * @brief La palette : **la planche du lieu** d'abord, les types en repli (`LOT-EDITOR-03`).
  *
- * Deux onglets et une gomme :
+ * Deux onglets :
  *
  * - **Pieces** — le catalogue du lieu (`hmi::pieceCatalog`) : vignettes groupées par classe, sous
  *   le nom court que la carte écrit, une recherche, et à part les pièces que la carte cite et que
@@ -38,9 +37,10 @@ namespace hmi {
  *   la pièce va d'elle-même sur sa couche.
  * - **Types** — la taxonomie des types de tuile (`hmi::tileTaxonomy`), en arbre : le repli d'une
  *   carte sans lieu, et la collision (`EX-EDIT-018`). Sans lieu, l'onglet des pièces est éteint.
- * - **Eraser** — la gomme de la couche active.
  *
- * Le panneau ne connaît ni brouillon ni canevas : il émet ce qu'on choisit.
+ * Le panneau ne connaît ni brouillon ni canevas : il émet ce qu'on choisit. La gomme est un outil
+ * de la barre d'outils depuis le `LOT-EDITOR-04` ; la pipette montre ici ce qu'elle a pris
+ * (`showPiece`, `showTile`), sans rien émettre.
  */
 class PalettePanel : public QWidget {
     Q_OBJECT
@@ -62,13 +62,16 @@ public:
     void setPieceCatalog(std::vector<PieceCatalogGroup> catalog,
                          const std::filesystem::path& placeDirectory);
 
+    /// Montre @p piece choisie (la pipette l'a prise), sans rien émettre.
+    void showPiece(const QString& piece, bool floor);
+    /// Montre le type @p type choisi (la pipette l'a pris), sans rien émettre.
+    void showTile(core::TileType type);
+
 signals:
     /// Émis quand l'utilisateur sélectionne une tuile (feuille) dans l'arbre des types.
     void tileSelected(core::TileType type);
     /// Émis quand l'utilisateur choisit une pièce ; @p floor : elle va sur la couche de sol.
     void pieceSelected(const QString& piece, bool floor);
-    /// Émis quand l'utilisateur prend la gomme.
-    void eraserSelected();
 
 protected:
     /// Régénère les vignettes lors d'un changement d'écran (`QEvent::ScreenChangeInternal`) :
@@ -80,14 +83,11 @@ private:
     void buildPieceModel();
     void onCurrentChanged(const QModelIndex& current);
     void onPieceChanged(const QModelIndex& current);
-    /// Relâche la gomme sans rien émettre : un choix de la palette arme son propre pinceau.
-    void releaseEraser();
     /// Vignette d'un type : sa couleur dans l'atlas procédural.
     [[nodiscard]] QPixmap thumbnailFor(core::TileType type);
     /// Vignette d'une pièce : son image, réduite dans un carré ; le damier si elle manque.
     [[nodiscard]] QPixmap pieceThumbnail(const PieceCatalogEntry& entry) const;
 
-    QToolButton* _eraser;
     QTabWidget* _tabs;
     QWidget* _piecesPage;
     QLineEdit* _search;

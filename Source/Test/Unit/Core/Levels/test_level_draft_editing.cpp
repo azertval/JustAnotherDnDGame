@@ -383,3 +383,44 @@ TEST(EditionDeCarteTest, CasePartageeDesigneLEntiteDuDessus) {
     ASSERT_TRUE(draft.undo());
     EXPECT_TRUE(draft.entities()[0].properties.contains("dialogue"));
 }
+
+/**
+ * @brief Un geste qui enchaîne plusieurs mutations se défait en un pas (`LOT-EDITOR-04`).
+ * \castest{<b>Un geste = un pas d'annulation.</b><br/>
+ * \tcat Unitaire · Edition de carte<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Ouvrir un geste, peindre trois cases l'une après l'autre, le fermer.<br/>2. Ouvrir
+ * un geste sans rien changer.<br/>3. Annuler, refaire.<br/>
+ * \tattendu Un seul pas empilé, aucun pour le geste vide ; annuler rend les trois cases, refaire
+ * les repeint ; la révision a changé à chaque mutation.
+ * }
+ */
+TEST(EditionDeCarteTest, UnGesteSeDefaitEnUnPas) {
+    core::LevelDraft draft = draftOf(MAP_FLAT);
+    const std::uint64_t avant = draft.revision();
+    {
+        const core::GestureScope geste(draft);
+        EXPECT_TRUE(draft.inGesture());
+        draft.paintTile(2, 0, core::TileType::Wall);
+        const std::uint64_t apresUne = draft.revision();
+        draft.paintTile(3, 0, core::TileType::Wall);
+        EXPECT_NE(draft.revision(), apresUne);
+        draft.paintTile(3, 1, core::TileType::Wall);
+    }
+    EXPECT_FALSE(draft.inGesture());
+    EXPECT_EQ(draft.undoDepth(), 1U);
+    {
+        const core::GestureScope vide(draft);
+        draft.paintTile(3, 1, core::TileType::Wall);  // déjà un mur : rien ne change.
+    }
+    EXPECT_EQ(draft.undoDepth(), 1U);
+
+    const std::uint64_t apres = draft.revision();
+    ASSERT_TRUE(draft.undo());
+    EXPECT_EQ(draft.revision(), avant);
+    EXPECT_EQ(draft.tileMap().tile(2, 0), core::TileType::Empty);
+    EXPECT_EQ(draft.tileMap().tile(3, 1), core::TileType::Empty);
+    ASSERT_TRUE(draft.redo());
+    EXPECT_EQ(draft.revision(), apres);
+    EXPECT_EQ(draft.tileMap().tile(3, 1), core::TileType::Wall);
+}

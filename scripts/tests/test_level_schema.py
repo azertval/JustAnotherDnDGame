@@ -24,7 +24,9 @@ def valider(root):
 
 
 def cartes_v4(root):
-    livrees = sorted((root / 'Source/Elements/Levels').rglob('*.json'))
+    # Les annexes de l'editeur (`*.editor.json`, LOT-EDITOR-04) vivent a cote des cartes sans en etre.
+    livrees = sorted(p for p in (root / 'Source/Elements/Levels').rglob('*.json')
+                     if not p.name.endswith('.editor.json'))
     fixtures = [root / 'Source/Test/Fixtures/Levels' / nom
                 for nom in ('format-v4.json', 'variante/base.json', 'variante/quartier/nuit.json')]
     return livrees + fixtures

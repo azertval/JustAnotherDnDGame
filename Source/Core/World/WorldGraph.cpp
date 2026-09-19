@@ -168,15 +168,15 @@ WorldGraph loadWorldGraph(const std::filesystem::path& levelsDir) {
         const std::filesystem::directory_entry& fichier = *iterateur;
         const std::filesystem::path& chemin = fichier.path();
         // Memes exclusions que le navigateur de cartes (`hmi::LevelFileOperations::list`) : les
-        // scripts `sequence-*.json` vivent a cote des niveaux sans en etre.
+        // scripts `sequence-*.json` et les annexes de l'editeur (`*.editor.json`) vivent a cote
+        // des niveaux sans en etre.
         if (!fichier.is_regular_file(code) || chemin.extension() != ".json" ||
-            chemin.filename().string().starts_with("sequence-")) {
+            chemin.filename().string().starts_with("sequence-") ||
+            chemin.filename().string().ends_with(".editor.json")) {
             continue;
         }
-        WorldMapInput carte{.mapId = mapIdOf(levelsDir, chemin),
-                            .name = {},
-                            .entities = {},
-                            .loadError = {}};
+        WorldMapInput carte{
+            .mapId = mapIdOf(levelsDir, chemin), .name = {}, .entities = {}, .loadError = {}};
         LevelLoadResult lu = LevelLoader::loadFromFile(chemin);
         if (lu.ok()) {
             carte.name = lu.level->name();

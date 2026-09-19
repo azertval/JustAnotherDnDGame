@@ -40,6 +40,8 @@ add_library(EditorLogic STATIC
     # Peindre avec les pièces du lieu (LOT-EDITOR-03) : catalogue et coups de pinceau.
     Logic/PieceCatalog.cpp
     Logic/BrushGesture.cpp
+    Logic/PaintTools.cpp
+    Logic/EditorSidecar.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic
