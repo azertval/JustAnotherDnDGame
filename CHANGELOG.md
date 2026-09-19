@@ -6,6 +6,13 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **Fabrique d’assets, premier essai PNJ (LOT-CREATION-ASSETS, hors roadmap).**
+  Préparation A+B+C, mémoire par asset, réception, reprises ciblées, contrôles bloquants,
+  comparaisons et journaux en ligne de commande, avec génération dans le chat local.
+  39 tours sur les cinq PNJ du pilote ; aucun remplacement des assets livrés : échelle,
+  palette et animation restent insuffisantes pour valider le pilote. Bilan dans
+  `Tools/AssetFactory/bilan-poc.md`.
+
 - **L'éditeur montre le lieu tel qu'on le jouera (LOT-EDITOR-02).**
   - **Vue iso par défaut** : le canevas peint les pièces des planches comme le jeu, même liste,
     même ordre ; son image égale celle du jeu à 0,06 % des pixels près. `F9` bascule vers la vue à
