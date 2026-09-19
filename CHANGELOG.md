@@ -6,6 +6,14 @@ le projet suit le [versionnage sémantique](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+- **L'éditeur sans fenêtre (LOT-EDITOR-13).**
+  - **`LevelEditor --apply gestes.json`** rejoue sur une carte ce que ferait la main — outil, appui,
+    glisser, pièce ou couche armée — par les fonctions mêmes que le canevas appelle ; un geste
+    refusé est nommé, et la carte n'est pas touchée. Les onze outils s'y rejouent.
+  - **`LevelEditor --render`** rend une carte en PNG, en isométrie, sans ouvrir de fenêtre ; la CI
+    publie le rendu de chaque carte qu'une PR ajoute ou change (artefact `map-renders`).
+  - **Un scénario par outil**, comparé à un fichier attendu, tient lieu de test d'IHM ; une rue de
+    Martpart gommée puis retracée par `--apply` redonne la carte livrée octet pour octet.
 - **Entités et zones sur le canevas (LOT-EDITOR-05).**
   - **Les zones se tirent à la souris** : une zone de combat, un îlot ou une zone de règles se
     tire entre deux coins et se redimensionne par huit poignées ; pendant qu'on tire la zone de
