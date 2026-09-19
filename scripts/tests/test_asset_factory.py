@@ -139,6 +139,12 @@ def test_unsafe_tour_identifier_is_rejected():
         factory.reprocess("anariel", "../../elsewhere")
 
 
+def test_cli_qc_failure_returns_unsuccessful_exit(monkeypatch):
+    monkeypatch.setattr("sys.argv", ["asset_factory.py", "qc", "anariel"])
+    monkeypatch.setattr(factory, "qc", lambda slug: {"errors": ["missing animation"]})
+    assert factory.main() == 1
+
+
 def test_missing_candidate_removes_stale_gif(tmp_path):
     candidate, proofs, baseline = (tmp_path / name for name in ("candidate", "proofs", "baseline"))
     proofs.mkdir()

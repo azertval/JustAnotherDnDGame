@@ -352,6 +352,7 @@ def receive(slug, tour_name, source):
     write(provenance_file, provenance)
     print(json.dumps(response, ensure_ascii=False))
     status()
+    return response
 
 
 def reprocess(slug, tour_name):
@@ -364,7 +365,7 @@ def reprocess(slug, tour_name):
     write(tour / f"processing-{number:03}.json", previous)
     (tour / "response.json").unlink()
     try:
-        receive(slug, tour_name, tour / "response.png")
+        return receive(slug, tour_name, tour / "response.png")
     except Exception:
         write(tour / "response.json", previous)
         raise
@@ -586,7 +587,9 @@ def main():
         elif args.command == "request":
             request(args.slug, args.stage, args.correction)
         elif args.command == "qc":
-            print(json.dumps(qc(args.slug), ensure_ascii=False, indent=2))
+            result = qc(args.slug)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 1 if result["errors"] else 0
         elif args.command == "report":
             report()
         elif args.command == "freeze-references":
@@ -598,12 +601,14 @@ def main():
         elif args.command == "integrate":
             integrate(args.slug)
         elif args.command == "reprocess":
-            reprocess(args.slug, args.tour)
+            result = reprocess(args.slug, args.tour)
+            return 1 if result["state"] == "rejected" else 0
         else:
-            receive(args.slug, args.tour, args.image)
+            result = receive(args.slug, args.tour, args.image)
+            return 1 if result["state"] == "rejected" else 0
     except (ValueError, OSError) as error:
         parser.exit(1, f"Erreur : {error}\n")
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
