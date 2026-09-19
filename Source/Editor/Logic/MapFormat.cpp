@@ -20,6 +20,8 @@
 #include "Core/Levels/TileTypeName.h"
 #include "Core/World/WorldGraph.h"
 #include "Core/World/WorldTravel.h"
+#include "Editor/Logic/EditorSidecar.h"
+#include "Editor/Logic/GestureScript.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
 
 namespace hmi {
@@ -346,7 +348,7 @@ std::size_t alignCollision(core::LevelData& data, const PlaceAssets& assets) {
 
 // Les fichiers de carte d'un dossier de niveaux, triés : pas les séquences, pas les annexes de
 // l'éditeur.
-[[nodiscard]] std::vector<std::filesystem::path> mapFiles(const std::filesystem::path& levels) {
+[[nodiscard]] std::vector<std::filesystem::path> listMapFiles(const std::filesystem::path& levels) {
     std::vector<std::filesystem::path> files;
     std::error_code error;
     for (auto entry = std::filesystem::recursive_directory_iterator(levels, error);
@@ -365,6 +367,10 @@ std::size_t alignCollision(core::LevelData& data, const PlaceAssets& assets) {
 }
 
 }  // namespace
+
+std::vector<std::filesystem::path> mapFiles(const std::filesystem::path& dataRoot) {
+    return listMapFiles(levelsOf(dataRoot));
+}
 
 PlaceAssets loadPlaceAssets(const std::filesystem::path& dataRoot, std::string_view place) {
     PlaceAssets assets;
@@ -446,7 +452,7 @@ std::size_t MapCheckReport::count(MapCheckSeverity severity) const {
 MapCheckReport checkAllMaps(const std::filesystem::path& dataRoot) {
     MapCheckReport report;
     const std::filesystem::path levels = levelsOf(dataRoot);
-    for (const std::filesystem::path& file : mapFiles(levels)) {
+    for (const std::filesystem::path& file : listMapFiles(levels)) {
         ++report.maps;
         std::vector<MapCheckFinding> found =
             checkMapFile(core::mapIdOf(levels, file), file, dataRoot);
@@ -496,83 +502,152 @@ MapMigration migrateMapFile(const std::filesystem::path& file,
                         loadPlaceAssets(dataRoot, scenePlaceOf(loaded.level->layers())));
 }
 
-std::optional<int> runMapCommand(const std::vector<std::string>& arguments,
-                                 const std::filesystem::path& defaultDataRoot,
-                                 std::string& output) {
+namespace {
+
+// La ligne de commande des commandes sans fenêtre.
+struct MapCommandLine {
     bool check = false;
     bool migrate = false;
-    std::filesystem::path dataRoot = defaultDataRoot;
+    std::optional<std::filesystem::path> gestures;
+    std::filesystem::path dataRoot;
     std::optional<std::filesystem::path> outputFile;
     std::vector<std::string> targets;
+};
+
+[[nodiscard]] MapCommandLine parseMapCommand(const std::vector<std::string>& arguments,
+                                             const std::filesystem::path& defaultDataRoot) {
+    MapCommandLine line;
+    line.dataRoot = defaultDataRoot;
     for (std::size_t index = 0; index < arguments.size(); ++index) {
         const std::string& argument = arguments[index];
         const bool hasValue = index + 1 < arguments.size();
         if (argument == "--check") {
-            check = true;
+            line.check = true;
         } else if (argument == "--migrate") {
-            migrate = true;
+            line.migrate = true;
+        } else if (argument == "--apply" && hasValue) {
+            line.gestures = arguments[++index];
         } else if (argument == "--data" && hasValue) {
-            dataRoot = arguments[++index];
+            line.dataRoot = arguments[++index];
         } else if (argument == "--output" && hasValue) {
-            outputFile = arguments[++index];
-        } else if (migrate && !argument.starts_with("--")) {
-            targets.push_back(argument);
+            line.outputFile = arguments[++index];
+        } else if ((line.migrate || line.gestures) && !argument.starts_with("--")) {
+            line.targets.push_back(argument);
         }
     }
-    if (!check && !migrate) {
-        return std::nullopt;
-    }
+    return line;
+}
 
-    if (migrate) {
-        const std::filesystem::path levels = levelsOf(dataRoot);
-        std::vector<std::filesystem::path> files;
-        for (const std::string& target : targets) {
-            const std::filesystem::path asPath{target};
-            files.push_back(std::filesystem::is_regular_file(asPath) ? asPath
-                                                                     : levels / (target + ".json"));
-        }
-        if (targets.empty()) {
-            files = mapFiles(levels);
-        }
-        if (outputFile && files.size() != 1) {
-            output += "--output needs exactly one map to migrate\n";
-            return 2;
-        }
-        for (const std::filesystem::path& file : files) {
-            const MapMigration migration = migrateMapFile(file, dataRoot);
-            if (!migration.ok()) {
-                output += "error: " + migration.error + "\n";
-                return 1;
-            }
-            const std::filesystem::path destination = outputFile.value_or(file);
-            std::ofstream stream(destination, std::ios::binary);
-            stream.write(migration.text.data(),
-                         static_cast<std::streamsize>(migration.text.size()));
-            if (!stream.good()) {
-                output += "error: cannot write " + destination.string() + "\n";
-                return 1;
-            }
-            output += "migrated " + file.string() + ": " + std::to_string(migration.namedPieces) +
-                      " pieces named, " + std::to_string(migration.newIds) + " ids given, " +
-                      std::to_string(migration.newForcedCells) + " cells forced\n";
-        }
+// --apply : rejoue les gestes, puis écrit la carte et son annexe — rien si un geste est refusé.
+int applyGestureCommand(const MapCommandLine& line, std::string& output) {
+    if (line.migrate || line.targets.size() > 1) {
+        output += "--apply edits one map, alone\n";
+        return 2;
     }
+    const std::string map = line.targets.empty() ? std::string{} : line.targets.front();
+    std::filesystem::path mapFile;
+    const GestureFileResult applied = applyGestureFile(*line.gestures, map, line.dataRoot, mapFile);
+    for (const std::string& logged : applied.script.log) {
+        output += logged + "\n";
+    }
+    if (!applied.script.ok()) {
+        output += "error: " + applied.script.error + "\n";
+        output += "nothing written\n";
+        return 1;
+    }
+    const std::filesystem::path destination = line.outputFile.value_or(mapFile);
+    std::ofstream stream(destination, std::ios::binary);
+    stream.write(applied.mapText.data(), static_cast<std::streamsize>(applied.mapText.size()));
+    stream.close();
+    if (!stream.good()) {
+        output += "error: cannot write " + destination.string() + "\n";
+        return 1;
+    }
+    if (applied.sidecar && !writeSidecar(sidecarPath(destination), *applied.sidecar)) {
+        output += "error: cannot write " + sidecarPath(destination).string() + "\n";
+        return 1;
+    }
+    output += "applied " + line.gestures->string() + " to " + applied.mapId + ": " +
+              std::to_string(applied.script.gestures) + " gestures, " +
+              std::to_string(applied.script.steps) + " undo steps, written to " +
+              destination.string() + "\n";
+    return 0;
+}
 
-    if (check) {
-        const MapCheckReport report = checkAllMaps(dataRoot);
-        for (const MapCheckFinding& finding : report.findings) {
-            output += formatFinding(finding) + "\n";
-        }
-        output += "checked " + std::to_string(report.maps) +
-                  " maps: " + std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
-                  std::to_string(report.count(MapCheckSeverity::Warning)) + " warnings\n";
-        if (report.maps == 0) {
-            output += "error: no map under " + levelsOf(dataRoot).string() + "\n";
+// --migrate : les cartes nommées, toutes à défaut, en place ou dans --output.
+int migrateCommand(const MapCommandLine& line, std::string& output) {
+    const std::filesystem::path levels = levelsOf(line.dataRoot);
+    std::vector<std::filesystem::path> files;
+    for (const std::string& target : line.targets) {
+        const std::filesystem::path asPath{target};
+        files.push_back(std::filesystem::is_regular_file(asPath) ? asPath
+                                                                 : levels / (target + ".json"));
+    }
+    if (line.targets.empty()) {
+        files = listMapFiles(levels);
+    }
+    if (line.outputFile && files.size() != 1) {
+        output += "--output needs exactly one map to migrate\n";
+        return 2;
+    }
+    for (const std::filesystem::path& file : files) {
+        const MapMigration migration = migrateMapFile(file, line.dataRoot);
+        if (!migration.ok()) {
+            output += "error: " + migration.error + "\n";
             return 1;
         }
-        return report.ok() ? 0 : 1;
+        const std::filesystem::path destination = line.outputFile.value_or(file);
+        std::ofstream stream(destination, std::ios::binary);
+        stream.write(migration.text.data(), static_cast<std::streamsize>(migration.text.size()));
+        if (!stream.good()) {
+            output += "error: cannot write " + destination.string() + "\n";
+            return 1;
+        }
+        output += "migrated " + file.string() + ": " + std::to_string(migration.namedPieces) +
+                  " pieces named, " + std::to_string(migration.newIds) + " ids given, " +
+                  std::to_string(migration.newForcedCells) + " cells forced\n";
     }
     return 0;
+}
+
+// --check : toutes les cartes ; 1 à la première erreur.
+int checkCommand(const std::filesystem::path& dataRoot, std::string& output) {
+    const MapCheckReport report = checkAllMaps(dataRoot);
+    for (const MapCheckFinding& finding : report.findings) {
+        output += formatFinding(finding) + "\n";
+    }
+    output += "checked " + std::to_string(report.maps) +
+              " maps: " + std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
+              std::to_string(report.count(MapCheckSeverity::Warning)) + " warnings\n";
+    if (report.maps == 0) {
+        output += "error: no map under " + levelsOf(dataRoot).string() + "\n";
+        return 1;
+    }
+    return report.ok() ? 0 : 1;
+}
+
+}  // namespace
+
+std::optional<int> runMapCommand(const std::vector<std::string>& arguments,
+                                 const std::filesystem::path& defaultDataRoot,
+                                 std::string& output) {
+    const MapCommandLine line = parseMapCommand(arguments, defaultDataRoot);
+    if (!line.check && !line.migrate && !line.gestures) {
+        return std::nullopt;
+    }
+    if (line.gestures) {
+        const int code = applyGestureCommand(line, output);
+        if (code != 0 || !line.check) {
+            return code;
+        }
+    }
+    if (line.migrate) {
+        const int code = migrateCommand(line, output);
+        if (code != 0) {
+            return code;
+        }
+    }
+    return line.check ? checkCommand(line.dataRoot, output) : 0;
 }
 
 }  // namespace hmi

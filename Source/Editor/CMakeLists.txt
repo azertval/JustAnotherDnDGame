@@ -43,6 +43,8 @@ add_library(EditorLogic STATIC
     Logic/BrushGesture.cpp
     Logic/PaintTools.cpp
     Logic/EditorSidecar.cpp
+    # L'éditeur sans fenêtre (LOT-EDITOR-13) : --apply rejoue des gestes par les fonctions des outils.
+    Logic/GestureScript.cpp
 )
 target_include_directories(EditorLogic PUBLIC ${PROJECT_SOURCE_DIR}/Source)
 target_link_libraries(EditorLogic
@@ -79,6 +81,8 @@ add_executable(LevelEditor
     Ui/SceneImages.cpp
     Ui/ScenePainter.cpp
     Ui/MiniMap.cpp
+    # --render (LOT-EDITOR-13) : une carte rendue hors écran en PNG, par le peintre du canevas.
+    Ui/MapRender.cpp
     # La fenêtre et ses actions.
     Ui/EditorActions.cpp
     Ui/MainWindow.cpp

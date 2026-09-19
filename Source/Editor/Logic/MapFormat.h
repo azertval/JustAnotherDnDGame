@@ -58,6 +58,10 @@ struct PlaceAssets {
 [[nodiscard]] PlaceAssets loadPlaceAssets(const std::filesystem::path& dataRoot,
                                           std::string_view place);
 
+/// @return Les fichiers de carte de `<dataRoot>/Levels`, sous-dossiers compris, triés — sans les
+///         séquences ni les annexes de l'éditeur.
+[[nodiscard]] std::vector<std::filesystem::path> mapFiles(const std::filesystem::path& dataRoot);
+
 /// @brief Gravité d'un constat du contrôle.
 enum class MapCheckSeverity {
     Error,
@@ -134,16 +138,20 @@ struct MapMigration {
                                           const std::filesystem::path& dataRoot);
 
 /**
- * @brief L'entrée sans fenêtre de l'éditeur (décision D9) : `--check` et `--migrate`.
+ * @brief L'entrée sans fenêtre de l'éditeur (décision D9) : `--check`, `--migrate` et `--apply`
+ *        (`--render`, qui peint, vit du côté de l'IHM : `hmi::runRenderCommand`).
  *
  * - `--data <racine>` : la racine des données, `Source/Elements` ou le dossier de l'exécutable
  *   (défaut : @p defaultDataRoot) ;
  * - `--check` : contrôle toutes les cartes ; sortie 1 à la première erreur, 0 sinon ;
  * - `--migrate [carte…]` : migre en place les cartes nommées (identifiant ou chemin), toutes à
- *   défaut ; `--output <fichier>` écrit ailleurs une carte unique.
+ *   défaut ; `--output <fichier>` écrit ailleurs une carte unique ;
+ * - `--apply <gestes.json> [carte]` : rejoue les gestes du fichier sur la carte (celle que nomme le
+ *   fichier, à défaut) et l'écrit en place, ou dans `--output` ; un geste refusé n'écrit rien et
+ *   sort en 1 (`hmi::applyGestureFile`). Suivi de `--check`, il contrôle ensuite toutes les cartes.
  *
- * @return Le code de sortie, ou `std::nullopt` si la ligne de commande ne demande ni l'un ni
- *         l'autre — l'éditeur ouvre alors sa fenêtre.
+ * @return Le code de sortie, ou `std::nullopt` si la ligne de commande ne demande aucune de ces
+ *         commandes — l'éditeur ouvre alors sa fenêtre.
  */
 [[nodiscard]] std::optional<int> runMapCommand(const std::vector<std::string>& arguments,
                                                const std::filesystem::path& defaultDataRoot,

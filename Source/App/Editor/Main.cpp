@@ -12,9 +12,9 @@
  * `--crash-test` ne plante pas au démarrage, comme le jeu, mais juste après la première sauvegarde
  * automatique : c'est ce qui éprouve la reprise d'un brouillon après un plantage.
  *
- * `--check` et `--migrate` (`LOT-EDITOR-12`, décision D9) s'exécutent **sans fenêtre** et rendent
- * la main aussitôt : ni `QApplication` ni affichage, ce qui les fait tourner en CI
- * (`hmi::runMapCommand`).
+ * `--check` et `--migrate` (`LOT-EDITOR-12`, décision D9), `--apply` et `--render`
+ * (`LOT-EDITOR-13`) s'exécutent **sans fenêtre** et rendent la main aussitôt : ni `QApplication` ni
+ * affichage, ce qui les fait tourner en CI (`hmi::runMapCommand`, `hmi::runRenderCommand`).
  */
 
 #include <QApplication>
@@ -30,6 +30,7 @@
 #include "App/Common/Bootstrap.h"
 #include "Editor/Logic/MapFormat.h"
 #include "Editor/Ui/MainWindow.h"
+#include "Editor/Ui/MapRender.h"
 #include "HMI/HmiLog.h"
 
 /**
@@ -47,6 +48,11 @@ int main(int argc, char** argv) {
     const std::filesystem::path executable = std::filesystem::absolute(argv[0]);
     if (const std::optional<int> code =
             hmi::runMapCommand(arguments, executable.parent_path(), report)) {
+        std::cout << report << std::flush;
+        return *code;
+    }
+    if (const std::optional<int> code =
+            hmi::runRenderCommand(arguments, executable.parent_path(), report)) {
         std::cout << report << std::flush;
         return *code;
     }

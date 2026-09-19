@@ -9,6 +9,8 @@
 #include <vector>
 
 #include "Core/Levels/GridPosition.h"
+#include "Core/Levels/TileMap.h"
+#include "Core/Levels/TileType.h"
 #include "Editor/Logic/BrushGesture.h"
 #include "Editor/Logic/LayerView.h"
 
@@ -21,8 +23,8 @@
  * `floodRegion`) ou ce qu'il lit (`pickBrush`, `measureBetween`), puis le geste passe par le
  * pinceau du `LOT-EDITOR-03` (`hmi::applyBrush`), case par case, **dans un seul geste du
  * brouillon** (`core::GestureScope`) : un geste se défait en un pas, quel que soit le nombre de
- * cases. Le canevas les appelle à la souris ; l'éditeur sans fenêtre (`LOT-EDITOR-13`) les
- * appellera telles quelles (règle 4 de la feuille de route).
+ * cases. Le canevas les appelle à la souris ; l'éditeur sans fenêtre (`LOT-EDITOR-13`,
+ * `hmi::applyGestureScript`) les appelle telles quelles (règle 4 de la feuille de route).
  *
  * ## Le miroir
  *
@@ -68,6 +70,16 @@ struct MirrorAxis {
  */
 [[nodiscard]] std::string mirrorPieceName(const core::ScenePieceManifest* manifest,
                                           std::string_view piece);
+
+/**
+ * @brief Le pinceau d'une pièce choisie dans la palette : la pièce, le type qu'écrit sa case
+ *        d'ancrage (`hmi::pieceCellType`), sa couche.
+ * @param appearance La table du lieu, `nullptr` sans lieu.
+ * @param piece      Le nom court de la pièce.
+ * @param floor      La pièce est un sol.
+ */
+[[nodiscard]] CanvasBrush pieceBrush(const PlaceAppearance* appearance, std::string piece,
+                                     bool floor);
 
 /// @brief Ce qui accompagne un geste : le miroir s'il est actif, la table du lieu pour les types.
 struct StrokeContext {
@@ -159,6 +171,15 @@ struct PickedBrush {
 [[nodiscard]] std::optional<PickedBrush> pickBrush(const core::LevelDraft& draft, LayerSlot active,
                                                    core::GridPosition cell,
                                                    const PlaceAppearance* appearance);
+
+/**
+ * @brief Les types du rectangle [@p first, @p last] de @p tiles (`[ligne][colonne]`), bornes dans
+ *        n'importe quel ordre : ce que copie la sélection (`Ctrl+C`) et que colle
+ *        `hmi::paintTypeBlock`. Une case hors de la grille est vide.
+ */
+[[nodiscard]] std::vector<std::vector<core::TileType>> copyTypeBlock(const core::TileMap& tiles,
+                                                                     core::GridPosition first,
+                                                                     core::GridPosition last);
 
 /// @brief Une mesure entre deux cases.
 struct Measure {

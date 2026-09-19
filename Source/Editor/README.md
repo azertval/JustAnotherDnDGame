@@ -35,6 +35,9 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - **La forme, pas le type.** Une entité se dessine et se manipule par la forme que sa famille
   déclare dans `core::knownEntityKinds` ; aucune famille n'a de code dans le module, et un test
   bloque toute famille lue par le jeu et absente de la table (`EX-EDIT-070`, `EX-EDIT-073`).
+- **Deux façons d'éditer, un seul chemin.** La souris et `--apply` appellent les mêmes fonctions
+  pures, dans le même ordre ; un scénario `--apply` par outil, comparé à un fichier attendu, tient
+  lieu de test d'IHM (`EX-EDIT-074`, `EX-EDIT-076`).
 
 ## Logique pure (`Logic/`)
 
@@ -48,7 +51,10 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
   chacun en un geste du brouillon (`EX-EDIT-066`, `EX-EDIT-067`, `EX-EDIT-069`).
 - `EditorSidecar` — l'annexe d'une carte, `<carte>.editor.json`, et ses notes d'auteur
   (`EX-EDIT-068`).
-- `MapFormat` — `--migrate` et `--check`, la garde du format v4 (`EX-EDIT-062`).
+- `MapFormat` — `--migrate` et `--check`, la garde du format v4 (`EX-EDIT-062`), et l'entrée des
+  commandes sans fenêtre (`hmi::runMapCommand`).
+- `GestureScript` — `--apply` : un fichier de gestes rejoué par les fonctions des outils, l'état
+  que la fenêtre garde d'un geste à l'autre, et le refus lisible d'un geste (`EX-EDIT-074`).
 - `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
 - `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
 - `EntityShapes` — les entités à forme : rectangle et poignées, zone peinte, trajet, entité sous
@@ -72,6 +78,24 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - `Autosave` — les brouillons de reprise (`%LOCALAPPDATA%\JustAnotherRpgGame\Editor\autosave`) et
   les versions mises de côté (`conflicts\`).
 - `DiskGuard` — l'empreinte d'un fichier et la réaction à son changement.
+
+## Sans fenêtre
+
+Ces commandes rendent la main aussitôt, sans `QApplication` ; elles tournent en CI. `--data`
+désigne la racine des données (`Source/Elements`, ou par défaut le dossier de l'exécutable).
+
+| Commande | Ce qu'elle fait |
+|---|---|
+| `LevelEditor --data Source/Elements --check` | Contrôle toutes les cartes ; sort en 1 à la première erreur (`EX-EDIT-062`). |
+| `LevelEditor --migrate [carte…] [--output f]` | Convertit en v4 canonique (`EX-EDIT-062`). |
+| `LevelEditor --apply gestes.json [carte] [--output f]` | Rejoue les gestes du fichier ; un geste refusé n'écrit rien (`EX-EDIT-074`). |
+| `LevelEditor --render [carte…] [--output f.png\|dossier] [--layers floors,relief,figures,collision] [--scale s]` | Rend en PNG, en isométrie (`EX-EDIT-075`). |
+
+Un fichier de gestes (`jadg-editor-gestures`, version 1) décrit ce que la main ferait : l'outil,
+l'appui (`at`), le glisser (`path`, ou `from` et `to`), et ce qu'on arme entre deux gestes (`piece`,
+`type`, `layer`, `lock`, `mirror`, `kind`, `select`). Le format complet est dans l'en-tête de
+`Logic/GestureScript.h` ; un exemple par outil dans `Source/Test/Fixtures/Gestures/`, et une rue de
+Martpart entière dans `martpart-rue.json`.
 
 ## Fichiers du poste
 

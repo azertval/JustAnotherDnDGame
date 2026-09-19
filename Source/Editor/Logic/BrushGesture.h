@@ -16,8 +16,8 @@
  *        une case ou un rectangle (`LOT-EDITOR-03`, `EX-EDIT-064`, `EX-EDIT-065`).
  *
  * Fonctions pures : le canevas les appelle au clic et au glisser, et l'éditeur sans fenêtre
- * (`LOT-EDITOR-13`) les appellera telles quelles (règle 4 de la feuille de route). Chaque appel
- * est **un** pas d'annulation, ou rien.
+ * (`LOT-EDITOR-13`, `hmi::applyGestureScript`) les appelle telles quelles (règle 4 de la feuille
+ * de route). Chaque appel est **un** pas d'annulation, ou rien.
  *
  * ## Où va le geste
  *

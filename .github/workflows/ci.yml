@@ -295,6 +295,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          # Deux commits : le commit de fusion de la PR et son premier parent, la base -- ce qui
+          # dit quelles cartes la PR change (etape --render, LOT-EDITOR-13).
+          fetch-depth: 2
 
       # Cache de compilation (phase 2), stocké dans le cache GitHub Actions. Le CMakeLists racine
       # l'active dès que `sccache` est dans le PATH. Le cache d'une PR ne sert qu'à cette PR (la CI
@@ -358,6 +361,32 @@ jobs:
         # pieces presentes au manifeste, collision egale a la deduction hors des cases forcees --
         # sans fenetre, et echoue a la premiere erreur.
         run: build/ninja/bin/LevelEditor.exe --data Source/Elements --check
+
+      - name: Rendre les cartes que la PR change (LevelEditor --render)
+        if: ${{ github.event_name == 'pull_request' }}
+        shell: pwsh
+        # LOT-EDITOR-13 : une carte se relit en diff, mais une image dit d'un coup d'oeil ce que la
+        # PR a change. Chaque carte modifiee ou ajoutee sous Source/Elements/Levels est rendue en
+        # isometrie, sans fenetre, par le peintre du canevas (demi-echelle), et publiee en artefact.
+        run: |
+          $maps = @(git diff --name-only --diff-filter=AMR HEAD^1 HEAD -- 'Source/Elements/Levels/' |
+            Where-Object { $_ -like '*.json' -and $_ -notlike '*.editor.json' -and (Split-Path $_ -Leaf) -notlike 'sequence-*' })
+          if ($maps.Count -eq 0) {
+            Write-Host 'Aucune carte changee par cette PR.'
+            exit 0
+          }
+          build/ninja/bin/LevelEditor.exe --data Source/Elements --render @maps --scale 0.5 --output map-renders
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          "### Cartes rendues (artefact ``map-renders``)" >> $env:GITHUB_STEP_SUMMARY
+          foreach ($map in $maps) { "- ``$map``" >> $env:GITHUB_STEP_SUMMARY }
+
+      - name: Publier le rendu des cartes changees
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: map-renders
+          path: map-renders/
+          if-no-files-found: ignore
 
       - name: Conserver le rapport de tests
         if: ${{ !cancelled() }}

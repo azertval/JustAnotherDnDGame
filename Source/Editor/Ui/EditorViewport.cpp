@@ -886,10 +886,7 @@ void EditorViewport::setActiveTile(core::TileType type) {
 }
 
 void EditorViewport::setActivePiece(const std::string& piece, bool floor) {
-    _brush = CanvasBrush{.kind = BrushKind::Piece,
-                         .type = pieceCellType(&_appearance, piece, floor),
-                         .piece = piece,
-                         .floor = floor};
+    _brush = pieceBrush(&_appearance, piece, floor);
     // La pièce va sur sa couche : on la montre active, verrou et opacité compris.
     if (const std::optional<std::size_t> layer = pieceTargetLayer(_draft.layers(), floor)) {
         setActiveLayer(*layer);
@@ -949,15 +946,7 @@ void EditorViewport::copySelection() {
     }
     const core::GridPosition mn = _selection->first;
     const core::GridPosition mx = _selection->second;
-    const core::TileMap& map = activeLayerTiles();
-    _clipboard.clear();
-    for (int row = mn.row; row <= mx.row; ++row) {
-        std::vector<core::TileType> line;
-        for (int column = mn.column; column <= mx.column; ++column) {
-            line.push_back(map.tile(column, row));
-        }
-        _clipboard.push_back(std::move(line));
-    }
+    _clipboard = copyTypeBlock(activeLayerTiles(), mn, mx);
     emit statusMessage(QStringLiteral("Region copied (%1 × %2).")
                            .arg(mx.column - mn.column + 1)
                            .arg(mx.row - mn.row + 1));
@@ -1750,14 +1739,7 @@ void EditorViewport::removeSelectedEntities() {
     if (_selectedEntities.empty()) {
         return;
     }
-    const std::size_t removed = _selectedEntities.size();
-    {
-        // Du dernier au premier : un retrait ne décale pas les rangs qui restent à retirer.
-        const core::GestureScope gesture(_draft);
-        for (auto index = _selectedEntities.rbegin(); index != _selectedEntities.rend(); ++index) {
-            static_cast<void>(_draft.removeEntity(*index));
-        }
-    }
+    const std::size_t removed = removeEntities(_draft, _selectedEntities);
     _entityDrag.reset();
     _selectedEntities.clear();
     _selectedEntity.reset();
@@ -1817,12 +1799,8 @@ void EditorViewport::handleEntityPress(const QMouseEvent* event) {
                                      .from = *cell};
             break;
         case hmi::EntityGestureAction::Place: {
-            const core::EntityKind* const kind = core::findEntityKind(_entityKindToPlace);
-            core::MapEntity entity = kind != nullptr ? core::makeEntity(*kind, decision.cell)
-                                                     : core::MapEntity{.type = _entityKindToPlace,
-                                                                       .position = decision.cell,
-                                                                       .properties = {}};
-            if (const std::optional<std::size_t> placed = _draft.placeEntity(std::move(entity))) {
+            if (const std::optional<std::size_t> placed =
+                    placeEntityOfKind(_draft, _entityKindToPlace, decision.cell)) {
                 markDraftMutated();
                 selectEntity(*placed);
                 emit statusMessage(QStringLiteral("%1 placed at (%2, %3).")
@@ -1929,25 +1907,14 @@ void EditorViewport::applyEntityDrag(const EntityDragResult& result) {
     if (result.empty()) {
         return;
     }
-    bool changed = false;
-    std::optional<std::size_t> placed;
-    {
-        // Un groupe déplacé, une zone tirée : un geste, un pas d'annulation.
-        const core::GestureScope gesture(_draft);
-        for (const auto& [index, entity] : result.replaced) {
-            changed = _draft.replaceEntity(index, entity) || changed;
-        }
-        if (result.placed) {
-            placed = _draft.placeEntity(*result.placed);
-            changed = placed.has_value() || changed;
-        }
-    }
-    if (!changed) {
+    // Un groupe déplacé, une zone tirée : un geste, un pas d'annulation.
+    const EntityDragApplied applied = hmi::applyEntityDrag(_draft, result);
+    if (!applied.changed) {
         return;
     }
     markDraftMutated();
-    if (placed) {
-        selectEntity(*placed);
+    if (applied.placed) {
+        selectEntity(*applied.placed);
         emit statusMessage(QStringLiteral("%1 drawn at (%2, %3).")
                                .arg(QString::fromStdString(result.placed->type))
                                .arg(result.placed->position.column)

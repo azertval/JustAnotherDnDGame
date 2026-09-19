@@ -1,0 +1,10 @@
+{
+  "format": "jadg-editor-gestures",
+  "version": 1,
+  "note": "La sélection : trois murs de la collision copiés puis collés plus bas, et la pièce large du décor retirée par Suppr.",
+  "gestures": [
+    {"layer": "collision", "tool": "selection", "from": [3, 0], "to": [5, 0], "then": "copy"},
+    {"tool": "paste", "at": [3, 4]},
+    {"layer": "relief", "tool": "selection", "from": [7, 6], "to": [8, 6], "then": "delete"}
+  ]
+}
