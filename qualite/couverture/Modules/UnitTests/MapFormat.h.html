@@ -69,6 +69,10 @@ struct PlaceAssets {
 [[nodiscard]] PlaceAssets loadPlaceAssets(const std::filesystem::path&amp; dataRoot,
                                           std::string_view place);
 
+/// @return Les fichiers de carte de `&lt;dataRoot&gt;/Levels`, sous-dossiers compris, triÃ©s â sans les
+///         sÃ©quences ni les annexes de l'Ã©diteur.
+[[nodiscard]] std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; dataRoot);
+
 /// @brief GravitÃ© d'un constat du contrÃ´le.
 enum class MapCheckSeverity {
     Error,
@@ -145,16 +149,20 @@ struct MapMigration {
                                           const std::filesystem::path&amp; dataRoot);
 
 /**
- * @brief L'entrÃ©e sans fenÃªtre de l'Ã©diteur (dÃ©cision D9) : `--check` et `--migrate`.
+ * @brief L'entrÃ©e sans fenÃªtre de l'Ã©diteur (dÃ©cision D9) : `--check`, `--migrate` et `--apply`
+ *        (`--render`, qui peint, vit du cÃ´tÃ© de l'IHM : `hmi::runRenderCommand`).
  *
  * - `--data &lt;racine&gt;` : la racine des donnÃ©es, `Source/Elements` ou le dossier de l'exÃ©cutable
  *   (dÃ©faut : @p defaultDataRoot) ;
  * - `--check` : contrÃ´le toutes les cartes ; sortie 1 Ã  la premiÃ¨re erreur, 0 sinon ;
  * - `--migrate [carteâ¦]` : migre en place les cartes nommÃ©es (identifiant ou chemin), toutes Ã 
- *   dÃ©faut ; `--output &lt;fichier&gt;` Ã©crit ailleurs une carte unique.
+ *   dÃ©faut ; `--output &lt;fichier&gt;` Ã©crit ailleurs une carte unique ;
+ * - `--apply &lt;gestes.json&gt; [carte]` : rejoue les gestes du fichier sur la carte (celle que nomme le
+ *   fichier, Ã  dÃ©faut) et l'Ã©crit en place, ou dans `--output` ; un geste refusÃ© n'Ã©crit rien et
+ *   sort en 1 (`hmi::applyGestureFile`). Suivi de `--check`, il contrÃ´le ensuite toutes les cartes.
  *
- * @return Le code de sortie, ou `std::nullopt` si la ligne de commande ne demande ni l'un ni
- *         l'autre â l'Ã©diteur ouvre alors sa fenÃªtre.
+ * @return Le code de sortie, ou `std::nullopt` si la ligne de commande ne demande aucune de ces
+ *         commandes â l'Ã©diteur ouvre alors sa fenÃªtre.
  */
 [[nodiscard]] std::optional&lt;int&gt; runMapCommand(const std::vector&lt;std::string&gt;&amp; arguments,
                                                const std::filesystem::path&amp; defaultDataRoot,

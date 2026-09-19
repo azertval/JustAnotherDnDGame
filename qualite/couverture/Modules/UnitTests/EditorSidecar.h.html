@@ -56,7 +56,7 @@ struct EditorSidecar {
     /// Les notes, une au plus par case, triÃ©es ligne par ligne.
     std::vector&lt;AuthorNote&gt; notes;
     /// Les clÃ©s que ce lecteur ne connaÃ®t pas, gardÃ©es pour la rÃ©Ã©criture.
-    nlohmann::json unknown = nlohmann::json::object();
+<span style = "background-color:#dfd">    nlohmann::json unknown = nlohmann::json::object();</span>
 
     [[nodiscard]] bool operator==(const EditorSidecar&amp;) const = default;
 

@@ -521,9 +521,9 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
         for (int column = minColumn; column &lt;= maxColumn; ++column) {
             const GridPosition cell{.column = column, .row = row};
             if (const std::optional&lt;GridPosition&gt; anchor = pieceAnchorAt(index, cell)) {
-                removePieceInternal(index, *anchor, touched);</span>
-<span style = "background-color:#fdd">            } else if (_layers[index].tiles.tile(column, row) != TileType::Empty) {
-                _layers[index].tiles.setTile(column, row, TileType::Empty);
+                removePieceInternal(index, *anchor, touched);
+            } else if (_layers[index].tiles.tile(column, row) != TileType::Empty) {</span>
+<span style = "background-color:#fdd">                _layers[index].tiles.setTile(column, row, TileType::Empty);
                 touched.push_back(cell);</span>
             }
 <span style = "background-color:#dfd">        }
@@ -649,10 +649,10 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
     if (!isEntityIndex(index)) {
         return false;</span>
     }
-<span style = "background-color:#fdd">    pushUndo();
+<span style = "background-color:#dfd">    pushUndo();
     _entities.erase(_entities.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
-    return true;</span>
-<span style = "background-color:#dfd">}</span>
+    return true;
+}</span>
 
 <span style = "background-color:#dfd">bool LevelDraft::setEntityProperty(std::size_t index, const std::string&amp; key, PropertyValue value) {
     if (!isEntityIndex(index) || key.empty()) {</span>

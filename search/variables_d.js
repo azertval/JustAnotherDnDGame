@@ -18,9 +18,10 @@ var searchData=
   ['normal_15',['normal',['../structcore_1_1AttackRange.html#aaf80314fc3103e2b11aaedea23769239',1,'core::AttackRange']]],
   ['note_16',['note',['../structhmi_1_1MapSite.html#a510c22962173039523718b3c269cd69c',1,'hmi::MapSite']]],
   ['notes_17',['notes',['../structhmi_1_1EditorSidecar.html#aac086eb4b9d3d8a7e675f090b04abc1d',1,'hmi::EditorSidecar']]],
-  ['npc_5fdialogue_5fproperty_18',['NPC_DIALOGUE_PROPERTY',['../namespacecore.html#ae2e3fb1ff10ddbebb4cdf1b1636afb25',1,'core']]],
-  ['npc_5fentity_5ftype_19',['NPC_ENTITY_TYPE',['../namespacecore.html#a9d88411f2638378a427c3aeb435d7590',1,'core']]],
-  ['npc_5ffigure_5fproperty_20',['NPC_FIGURE_PROPERTY',['../namespacecore.html#a319ef53aa8e54d8b5a6e045b39461f73',1,'core']]],
-  ['npc_5fguarded_5fdistrict_5fproperty_21',['NPC_GUARDED_DISTRICT_PROPERTY',['../namespacecore.html#ad9d25f6f58513b895d3b7c2324e62ca1',1,'core']]],
-  ['number_22',['number',['../structhmi_1_1MapSite.html#a9f1c46ad3a73f538137f80f904fa1f80',1,'hmi::MapSite::number'],['../structhmi_1_1MapCityPointView.html#a22f2dcb96d62fc838be7f23cd88c5ba0',1,'hmi::MapCityPointView::number']]]
+  ['noteschanged_18',['notesChanged',['../structhmi_1_1GestureScriptResult.html#ad836e90a322e87efa46d67765b881eb1',1,'hmi::GestureScriptResult']]],
+  ['npc_5fdialogue_5fproperty_19',['NPC_DIALOGUE_PROPERTY',['../namespacecore.html#ae2e3fb1ff10ddbebb4cdf1b1636afb25',1,'core']]],
+  ['npc_5fentity_5ftype_20',['NPC_ENTITY_TYPE',['../namespacecore.html#a9d88411f2638378a427c3aeb435d7590',1,'core']]],
+  ['npc_5ffigure_5fproperty_21',['NPC_FIGURE_PROPERTY',['../namespacecore.html#a319ef53aa8e54d8b5a6e045b39461f73',1,'core']]],
+  ['npc_5fguarded_5fdistrict_5fproperty_22',['NPC_GUARDED_DISTRICT_PROPERTY',['../namespacecore.html#ad9d25f6f58513b895d3b7c2324e62ca1',1,'core']]],
+  ['number_23',['number',['../structhmi_1_1MapSite.html#a9f1c46ad3a73f538137f80f904fa1f80',1,'hmi::MapSite::number'],['../structhmi_1_1MapCityPointView.html#a22f2dcb96d62fc838be7f23cd88c5ba0',1,'hmi::MapCityPointView::number']]]
 ];

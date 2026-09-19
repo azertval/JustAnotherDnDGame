@@ -1,0 +1,311 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+        <meta charset="utf-8"/>
+	    <title>MapRender.cpp</title>
+	    <link href="../../third-party/google-code-prettify/prettify-CppCoverage.css" type="text/css" rel="stylesheet" />
+	    <script type="text/javascript" src="../../third-party/google-code-prettify/prettify.js"></script>
+	</head>
+    <body onload="prettyPrint()">
+        <h4></h4>
+        <pre class="prettyprint lang-cpp linenums">
+// SPDX-FileCopyrightText: 2026 Valentin Eloy
+// SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+#include "Editor/Ui/MapRender.h"
+
+#include &lt;QPainter&gt;
+#include &lt;QPolygonF&gt;
+#include &lt;QString&gt;
+#include &lt;algorithm&gt;
+#include &lt;array&gt;
+#include &lt;cmath&gt;
+#include &lt;functional&gt;
+#include &lt;utility&gt;
+
+#include "Core/Combat/IsoProjection.h"
+#include "Core/Levels/LevelDraft.h"
+#include "Core/Levels/LevelLoader.h"
+#include "Core/Levels/TileLayer.h"
+#include "Core/World/WorldGraph.h"
+#include "Editor/Logic/CanvasPicking.h"
+#include "Editor/Logic/LayerView.h"
+#include "Editor/Logic/MapFormat.h"
+#include "Editor/Ui/SceneImages.h"
+#include "Editor/Ui/ScenePainter.h"
+#include "HMI/Graphics/Camera2D.h"
+#include "HMI/Graphics/ComposedScene.h"
+#include "HMI/Graphics/PlaceAppearance.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
+
+namespace hmi {
+
+namespace {
+
+constexpr double MAX_SCALE = 4.0;
+
+<span style = "background-color:#dfd">[[nodiscard]] QPolygonF diamondOf(const core::IsoProjection&amp; projection, core::GridPosition cell) {
+    const std::array&lt;core::Vector2, 4&gt; vertices = isoCellDiamond(projection, cell);
+    QPolygonF polygon;
+    for (const core::Vector2 vertex : vertices) {
+        polygon &lt;&lt; QPointF(static_cast&lt;double&gt;(vertex.x), static_cast&lt;double&gt;(vertex.y));
+    }
+    return polygon;
+}</span>
+
+// Une grille de types, case par case, en losanges de la couleur que @p color donne (invalide :
+// la case n'est pas peinte).
+void paintDiamonds(QPainter&amp; painter, const core::IsoProjection&amp; projection,
+<span style = "background-color:#dfd">                   const core::TileMap&amp; tiles, const std::function&lt;QColor(core::TileType)&gt;&amp; color) {
+    painter.setPen(Qt::NoPen);
+    for (int row = 0; row &lt; tiles.height(); ++row) {
+        for (int column = 0; column &lt; tiles.width(); ++column) {
+            const QColor tint = color(tiles.tile(column, row));
+            if (!tint.isValid()) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            painter.setBrush(tint);
+            painter.drawPolygon(diamondOf(projection, {.column = column, .row = row}));
+        }
+    }
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] QColor withAlpha(QColor color, float alpha) {
+    color.setAlphaF(std::clamp(alpha, 0.0F, 1.0F));
+    return color;
+}</span>
+
+<span style = "background-color:#dfd">[[nodiscard]] std::string imageNameOf(const std::string&amp; mapId) {
+    std::string name = mapId;
+    std::ranges::replace(name, '/', '-');
+    return name + ".png";
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::optional&lt;IsoBandOpacity&gt; parseRenderLayers(std::string_view list) {
+    IsoBandOpacity bands{.floors = 0.0F, .relief = 0.0F, .figures = 0.0F, .collision = 0.0F};
+    std::size_t start = 0;
+    while (start &lt;= list.size()) {
+        const std::size_t comma = std::min(list.find(',', start), list.size());
+        const std::string_view name = list.substr(start, comma - start);
+        if (name == "floors") {
+            bands.floors = 1.0F;
+        } else if (name == "relief") {</span>
+<span style = "background-color:#fdd">            bands.relief = 1.0F;</span>
+<span style = "background-color:#dfd">        } else if (name == "figures") {</span>
+<span style = "background-color:#fdd">            bands.figures = 1.0F;</span>
+<span style = "background-color:#dfd">        } else if (name == "collision") {
+            bands.collision = 1.0F;
+        } else if (!name.empty()) {
+            return std::nullopt;</span>
+        }
+<span style = "background-color:#dfd">        start = comma + 1;
+    }
+    return bands;
+}</span>
+
+QImage renderMap(const core::Level&amp; level, const std::filesystem::path&amp; dataRoot,
+<span style = "background-color:#dfd">                 const MapRenderOptions&amp; options) {
+    const core::LevelDraft draft = core::LevelDraft::fromLevel(level);
+    const std::string place = scenePlaceOf(level.layers());
+    const PlaceAppearance appearance = [&amp;] {
+        PlaceAssets assets = loadPlaceAssets(dataRoot, place);
+        return assets.appearance ? std::move(*assets.appearance) : PlaceAppearance{};
+    }();
+    const WorldSceneSnapshot snapshot = canvasSnapshot(draft, appearance);
+    const core::IsoProjection projection(snapshot.columns, snapshot.rows);</span>
+
+<span style = "background-color:#dfd">    SceneImages images(dataRoot / "Assets");
+    images.ensure(worldTexturePaths(snapshot));
+    ComposedScene scene;
+    composeWorldScene(scene, snapshot, projection, images.textures());
+    scene.sort();</span>
+
+    // Le cadre du canevas : la carte et une marge d'un losange, oÃ¹ dÃ©passent les reliefs.
+<span style = "background-color:#dfd">    const core::Vector2 size = projection.sceneSize();
+    const double margin = projection.tileWidth();
+    const double scale = static_cast&lt;double&gt;(Camera2D::PIXELS_PER_UNIT) *</span>
+                         std::clamp(options.scale, 1.0 / 64.0, MAX_SCALE);
+<span style = "background-color:#dfd">    const int width = std::max(</span>
+        1, static_cast&lt;int&gt;(std::ceil((static_cast&lt;double&gt;(size.x) + (2 * margin)) * scale)));
+<span style = "background-color:#dfd">    const int height = std::max(</span>
+        1, static_cast&lt;int&gt;(std::ceil((static_cast&lt;double&gt;(size.y) + (2 * margin)) * scale)));
+
+<span style = "background-color:#dfd">    QImage image(width, height, QImage::Format_ARGB32_Premultiplied);
+    image.fill(options.background);
+    QPainter painter(&amp;image);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform, false);
+    painter.setRenderHint(QPainter::Antialiasing, false);
+    painter.setTransform(QTransform(scale, 0.0, 0.0, scale, margin * scale, margin * scale));</span>
+
+<span style = "background-color:#dfd">    const IsoBandOpacity&amp; bands = options.bands;
+    if (place.empty() &amp;&amp; bands.floors &gt; 0.0F) {</span>
+        // Une carte sans lieu n'a aucune piÃ¨ce : ses types, en couleurs, comme dans le canevas.
+<span style = "background-color:#fdd">        const auto typeColor = [&amp;images, &amp;bands](core::TileType type) {
+            return type == core::TileType::Empty ? QColor{}</span>
+                                                 : withAlpha(images.tileColor(type), bands.floors);
+<span style = "background-color:#fdd">        };
+        bool visual = false;
+        for (const core::TileLayer&amp; layer : draft.layers()) {
+            if (core::isVisualLayerKind(layer.kind)) {
+                visual = true;
+                paintDiamonds(painter, projection, layer.tiles, typeColor);</span>
+            }
+<span style = "background-color:#fdd">        }
+        if (!visual) {
+            paintDiamonds(painter, projection, draft.tileMap(), typeColor);</span>
+        }
+    }
+<span style = "background-color:#dfd">    paintComposedScene(painter, scene, std::nullopt, [&amp;bands](const ComposedQuad&amp; quad) {
+        return bandOpacity(bands, quad.layer);
+    });
+    if (bands.collision &gt; 0.0F) {</span>
+        // Le masque du canevas : rouge ce qui arrÃªte, vert l'entrÃ©e.
+<span style = "background-color:#dfd">        paintDiamonds(painter, projection, draft.tileMap(), [&amp;bands](core::TileType type) {
+            if (core::isSolid(type)) {
+                return withAlpha(QColor::fromRgbF(0.85F, 0.20F, 0.20F),</span>
+                                 bands.collision * DEFAULT_COLLISION_OVERLAY_OPACITY);
+            }
+<span style = "background-color:#dfd">            if (type == core::TileType::Entry) {
+                return withAlpha(QColor::fromRgbF(0.20F, 0.85F, 0.30F),</span>
+                                 bands.collision * DEFAULT_COLLISION_OVERLAY_OPACITY);
+            }
+<span style = "background-color:#dfd">            return QColor{};
+        });</span>
+    }
+<span style = "background-color:#dfd">    painter.end();
+    return image;
+}</span>
+
+namespace {
+
+// La ligne de commande de --render ; `error` dit pourquoi elle est fausse.
+struct RenderCommandLine {
+    bool render = false;
+    std::filesystem::path dataRoot;
+    std::optional&lt;std::filesystem::path&gt; destination;
+    MapRenderOptions options;
+    std::vector&lt;std::string&gt; targets;
+    std::string error;
+};
+
+[[nodiscard]] RenderCommandLine parseRenderCommand(const std::vector&lt;std::string&gt;&amp; arguments,
+<span style = "background-color:#dfd">                                                   const std::filesystem::path&amp; defaultDataRoot) {
+    RenderCommandLine line;
+    line.dataRoot = defaultDataRoot;
+    for (std::size_t index = 0; index &lt; arguments.size() &amp;&amp; line.error.empty(); ++index) {
+        const std::string&amp; argument = arguments[index];
+        const bool hasValue = index + 1 &lt; arguments.size();
+        if (argument == "--render") {
+            line.render = true;
+        } else if (argument == "--data" &amp;&amp; hasValue) {
+            line.dataRoot = arguments[++index];
+        } else if (argument == "--output" &amp;&amp; hasValue) {
+            line.destination = arguments[++index];
+        } else if (argument == "--layers" &amp;&amp; hasValue) {</span>
+<span style = "background-color:#fdd">            const std::optional&lt;IsoBandOpacity&gt; bands = parseRenderLayers(arguments[++index]);
+            if (bands) {
+                line.options.bands = *bands;
+            } else {
+                line.error = "--layers takes floors, relief, figures, collision";
+            }</span>
+<span style = "background-color:#dfd">        } else if (argument == "--scale" &amp;&amp; hasValue) {
+            bool ok = false;
+            line.options.scale = QString::fromStdString(arguments[++index]).toDouble(&amp;ok);
+            if (!ok || line.options.scale &lt;= 0.0 || line.options.scale &gt; MAX_SCALE) {</span>
+<span style = "background-color:#fdd">                line.error = "--scale takes a number in ]0, 4]";</span>
+<span style = "background-color:#dfd">            }
+        } else if (line.render &amp;&amp; !argument.starts_with("--")) {
+            line.targets.push_back(argument);</span>
+        }
+<span style = "background-color:#dfd">    }
+    return line;
+}</span>
+
+// Chaque carte, et le nom de son image : son identifiant, ou le nom de son fichier. Un fichier
+// sous Levels/ garde son identifiant (capital/martpart) ; sans carte nommÃ©e, toutes.
+[[nodiscard]] std::vector&lt;std::pair&lt;std::filesystem::path, std::string&gt;&gt; renderTargets(
+<span style = "background-color:#dfd">    const RenderCommandLine&amp; line) {
+    const std::filesystem::path levels = line.dataRoot / "Levels";
+    std::vector&lt;std::pair&lt;std::filesystem::path, std::string&gt;&gt; files;
+    for (const std::string&amp; target : line.targets) {
+        const std::filesystem::path asPath{target};
+        if (!std::filesystem::is_regular_file(asPath)) {
+            files.emplace_back(levels / (target + ".json"), target);
+            continue;</span>
+        }
+<span style = "background-color:#fdd">        const std::string mapId =</span>
+            core::mapIdOf(std::filesystem::absolute(levels).lexically_normal(),
+                          std::filesystem::absolute(asPath).lexically_normal());
+<span style = "background-color:#fdd">        files.emplace_back(</span>
+            asPath, mapId.empty() || mapId.starts_with("..") ? asPath.stem().string() : mapId);
+<span style = "background-color:#fdd">    }</span>
+<span style = "background-color:#dfd">    if (line.targets.empty()) {</span>
+<span style = "background-color:#fdd">        for (const std::filesystem::path&amp; file : mapFiles(line.dataRoot)) {
+            files.emplace_back(file, core::mapIdOf(levels, file));
+        }</span>
+    }
+<span style = "background-color:#dfd">    return files;
+}</span>
+
+}  // namespace
+
+std::optional&lt;int&gt; runRenderCommand(const std::vector&lt;std::string&gt;&amp; arguments,
+                                    const std::filesystem::path&amp; defaultDataRoot,
+<span style = "background-color:#dfd">                                    std::string&amp; output) {
+    const RenderCommandLine line = parseRenderCommand(arguments, defaultDataRoot);
+    if (!line.render) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (!line.error.empty()) {</span>
+<span style = "background-color:#fdd">        output += line.error + "\n";
+        return 2;</span>
+    }
+<span style = "background-color:#dfd">    const std::vector&lt;std::pair&lt;std::filesystem::path, std::string&gt;&gt; files = renderTargets(line);
+    const bool singleFile = line.destination &amp;&amp; line.destination-&gt;extension() == ".png";
+    if (singleFile &amp;&amp; files.size() != 1) {</span>
+<span style = "background-color:#fdd">        output += "--output names a .png: render exactly one map, or give a directory\n";
+        return 2;</span>
+    }
+<span style = "background-color:#dfd">    const std::filesystem::path directory =</span>
+        singleFile ? std::filesystem::path{} : line.destination.value_or(".");
+<span style = "background-color:#dfd">    if (!singleFile) {
+        std::error_code error;
+        std::filesystem::create_directories(directory, error);</span>
+    }
+<span style = "background-color:#dfd">    for (const auto&amp; [file, mapId] : files) {
+        const core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(file);
+        if (!loaded.ok()) {</span>
+<span style = "background-color:#fdd">            output += "error: " + file.string() + ": " + loaded.error + "\n";
+            return 1;</span>
+        }
+<span style = "background-color:#dfd">        const std::filesystem::path png =</span>
+            singleFile ? *line.destination : directory / imageNameOf(mapId);
+<span style = "background-color:#dfd">        const QImage image = renderMap(*loaded.level, line.dataRoot, line.options);
+        if (!image.save(QString::fromStdWString(png.wstring()), "PNG")) {</span>
+<span style = "background-color:#fdd">            output += "error: cannot write " + png.string() + "\n";
+            return 1;</span>
+        }
+<span style = "background-color:#dfd">        output += "rendered " + mapId + " (" + std::to_string(image.width()) + " Ã " +</span>
+                  std::to_string(image.height()) + ") to " + png.string() + "\n";
+<span style = "background-color:#dfd">    }
+    return 0;
+}</span>
+
+}  // namespace hmi</pre>
+        <hr />
+        <table width="100%">
+            <thead>
+                <tr>
+                    <th align="center">
+                        <small>Generated by</small>
+                        <a href="https://github.com/OpenCppCoverage/OpenCppCoverage/releases">
+                            <strong>OpenCppCoverage (Version: 0.9.9.0)</strong>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </body>
+</html>

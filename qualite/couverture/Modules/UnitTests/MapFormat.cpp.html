@@ -31,6 +31,8 @@
 #include "Core/Levels/TileTypeName.h"
 #include "Core/World/WorldGraph.h"
 #include "Core/World/WorldTravel.h"
+#include "Editor/Logic/EditorSidecar.h"
+#include "Editor/Logic/GestureScript.h"
 #include "HMI/Graphics/WorldSceneComposer.h"
 
 namespace hmi {
@@ -357,7 +359,7 @@ void checkPieces(const core::Level&amp; level, const PlaceAssets&amp; assets, co
 
 // Les fichiers de carte d'un dossier de niveaux, triÃ©s : pas les sÃ©quences, pas les annexes de
 // l'Ã©diteur.
-<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; levels) {
+<span style = "background-color:#dfd">[[nodiscard]] std::vector&lt;std::filesystem::path&gt; listMapFiles(const std::filesystem::path&amp; levels) {
     std::vector&lt;std::filesystem::path&gt; files;
     std::error_code error;
     for (auto entry = std::filesystem::recursive_directory_iterator(levels, error);
@@ -376,6 +378,10 @@ void checkPieces(const core::Level&amp; level, const PlaceAssets&amp; assets, co
 }</span>
 
 }  // namespace
+
+<span style = "background-color:#fdd">std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; dataRoot) {
+    return listMapFiles(levelsOf(dataRoot));
+}</span>
 
 <span style = "background-color:#dfd">PlaceAssets loadPlaceAssets(const std::filesystem::path&amp; dataRoot, std::string_view place) {
     PlaceAssets assets;
@@ -457,7 +463,7 @@ std::vector&lt;MapCheckFinding&gt; checkMapFile(std::string_view mapId, const st
 <span style = "background-color:#dfd">MapCheckReport checkAllMaps(const std::filesystem::path&amp; dataRoot) {
     MapCheckReport report;
     const std::filesystem::path levels = levelsOf(dataRoot);
-    for (const std::filesystem::path&amp; file : mapFiles(levels)) {
+    for (const std::filesystem::path&amp; file : listMapFiles(levels)) {
         ++report.maps;
         std::vector&lt;MapCheckFinding&gt; found =</span>
             checkMapFile(core::mapIdOf(levels, file), file, dataRoot);
@@ -507,83 +513,152 @@ MapMigration migrateMapFile(const std::filesystem::path&amp; file,
                         loadPlaceAssets(dataRoot, scenePlaceOf(loaded.level-&gt;layers())));
 <span style = "background-color:#dfd">}</span>
 
-std::optional&lt;int&gt; runMapCommand(const std::vector&lt;std::string&gt;&amp; arguments,
-                                 const std::filesystem::path&amp; defaultDataRoot,
-<span style = "background-color:#dfd">                                 std::string&amp; output) {
+namespace {
+
+// La ligne de commande des commandes sans fenÃªtre.
+struct MapCommandLine {
     bool check = false;
     bool migrate = false;
-    std::filesystem::path dataRoot = defaultDataRoot;
+    std::optional&lt;std::filesystem::path&gt; gestures;
+    std::filesystem::path dataRoot;
     std::optional&lt;std::filesystem::path&gt; outputFile;
     std::vector&lt;std::string&gt; targets;
+};
+
+[[nodiscard]] MapCommandLine parseMapCommand(const std::vector&lt;std::string&gt;&amp; arguments,
+<span style = "background-color:#dfd">                                             const std::filesystem::path&amp; defaultDataRoot) {
+    MapCommandLine line;
+    line.dataRoot = defaultDataRoot;
     for (std::size_t index = 0; index &lt; arguments.size(); ++index) {
         const std::string&amp; argument = arguments[index];
         const bool hasValue = index + 1 &lt; arguments.size();
         if (argument == "--check") {
-            check = true;
+            line.check = true;
         } else if (argument == "--migrate") {
-            migrate = true;
+            line.migrate = true;
+        } else if (argument == "--apply" &amp;&amp; hasValue) {
+            line.gestures = arguments[++index];
         } else if (argument == "--data" &amp;&amp; hasValue) {
-            dataRoot = arguments[++index];
-        } else if (argument == "--output" &amp;&amp; hasValue) {</span>
-<span style = "background-color:#fdd">            outputFile = arguments[++index];</span>
-<span style = "background-color:#dfd">        } else if (migrate &amp;&amp; !argument.starts_with("--")) {
-            targets.push_back(argument);</span>
+            line.dataRoot = arguments[++index];
+        } else if (argument == "--output" &amp;&amp; hasValue) {
+            line.outputFile = arguments[++index];
+        } else if ((line.migrate || line.gestures) &amp;&amp; !argument.starts_with("--")) {
+            line.targets.push_back(argument);</span>
         }
 <span style = "background-color:#dfd">    }
-    if (!check &amp;&amp; !migrate) {
-        return std::nullopt;</span>
+    return line;
+}</span>
+
+// --apply : rejoue les gestes, puis Ã©crit la carte et son annexe â rien si un geste est refusÃ©.
+<span style = "background-color:#dfd">int applyGestureCommand(const MapCommandLine&amp; line, std::string&amp; output) {
+    if (line.migrate || line.targets.size() &gt; 1) {</span>
+<span style = "background-color:#fdd">        output += "--apply edits one map, alone\n";
+        return 2;</span>
     }
-
-<span style = "background-color:#dfd">    if (migrate) {
-        const std::filesystem::path levels = levelsOf(dataRoot);
-        std::vector&lt;std::filesystem::path&gt; files;
-        for (const std::string&amp; target : targets) {
-            const std::filesystem::path asPath{target};
-            files.push_back(std::filesystem::is_regular_file(asPath) ? asPath</span>
-                                                                     : levels / (target + ".json"));
-<span style = "background-color:#dfd">        }
-        if (targets.empty()) {</span>
-<span style = "background-color:#fdd">            files = mapFiles(levels);</span>
-        }
-<span style = "background-color:#dfd">        if (outputFile &amp;&amp; files.size() != 1) {</span>
-<span style = "background-color:#fdd">            output += "--output needs exactly one map to migrate\n";
-            return 2;</span>
-        }
-<span style = "background-color:#dfd">        for (const std::filesystem::path&amp; file : files) {
-            const MapMigration migration = migrateMapFile(file, dataRoot);
-            if (!migration.ok()) {</span>
-<span style = "background-color:#fdd">                output += "error: " + migration.error + "\n";
-                return 1;</span>
-            }
-<span style = "background-color:#dfd">            const std::filesystem::path destination = outputFile.value_or(file);
-            std::ofstream stream(destination, std::ios::binary);
-            stream.write(migration.text.data(),</span>
-                         static_cast&lt;std::streamsize&gt;(migration.text.size()));
-<span style = "background-color:#dfd">            if (!stream.good()) {</span>
-<span style = "background-color:#fdd">                output += "error: cannot write " + destination.string() + "\n";
-                return 1;</span>
-            }
-<span style = "background-color:#dfd">            output += "migrated " + file.string() + ": " + std::to_string(migration.namedPieces) +</span>
-                      " pieces named, " + std::to_string(migration.newIds) + " ids given, " +
-                      std::to_string(migration.newForcedCells) + " cells forced\n";
-<span style = "background-color:#dfd">        }
+<span style = "background-color:#dfd">    const std::string map = line.targets.empty() ? std::string{} : line.targets.front();
+    std::filesystem::path mapFile;
+    const GestureFileResult applied = applyGestureFile(*line.gestures, map, line.dataRoot, mapFile);
+    for (const std::string&amp; logged : applied.script.log) {</span>
+<span style = "background-color:#fdd">        output += logged + "\n";
     }</span>
+<span style = "background-color:#dfd">    if (!applied.script.ok()) {
+        output += "error: " + applied.script.error + "\n";
+        output += "nothing written\n";
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    const std::filesystem::path destination = line.outputFile.value_or(mapFile);
+    std::ofstream stream(destination, std::ios::binary);
+    stream.write(applied.mapText.data(), static_cast&lt;std::streamsize&gt;(applied.mapText.size()));
+    stream.close();
+    if (!stream.good()) {</span>
+<span style = "background-color:#fdd">        output += "error: cannot write " + destination.string() + "\n";
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    if (applied.sidecar &amp;&amp; !writeSidecar(sidecarPath(destination), *applied.sidecar)) {</span>
+<span style = "background-color:#fdd">        output += "error: cannot write " + sidecarPath(destination).string() + "\n";
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    output += "applied " + line.gestures-&gt;string() + " to " + applied.mapId + ": " +</span>
+              std::to_string(applied.script.gestures) + " gestures, " +
+              std::to_string(applied.script.steps) + " undo steps, written to " +
+              destination.string() + "\n";
+<span style = "background-color:#dfd">    return 0;
+}</span>
 
-<span style = "background-color:#dfd">    if (check) {
-        const MapCheckReport report = checkAllMaps(dataRoot);
-        for (const MapCheckFinding&amp; finding : report.findings) {
-            output += formatFinding(finding) + "\n";
-        }
-        output += "checked " + std::to_string(report.maps) +</span>
-                  " maps: " + std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
-                  std::to_string(report.count(MapCheckSeverity::Warning)) + " warnings\n";
-<span style = "background-color:#dfd">        if (report.maps == 0) {</span>
-<span style = "background-color:#fdd">            output += "error: no map under " + levelsOf(dataRoot).string() + "\n";
+// --migrate : les cartes nommÃ©es, toutes Ã  dÃ©faut, en place ou dans --output.
+<span style = "background-color:#dfd">int migrateCommand(const MapCommandLine&amp; line, std::string&amp; output) {
+    const std::filesystem::path levels = levelsOf(line.dataRoot);
+    std::vector&lt;std::filesystem::path&gt; files;
+    for (const std::string&amp; target : line.targets) {
+        const std::filesystem::path asPath{target};
+        files.push_back(std::filesystem::is_regular_file(asPath) ? asPath</span>
+                                                                 : levels / (target + ".json"));
+<span style = "background-color:#dfd">    }
+    if (line.targets.empty()) {</span>
+<span style = "background-color:#fdd">        files = listMapFiles(levels);</span>
+    }
+<span style = "background-color:#dfd">    if (line.outputFile &amp;&amp; files.size() != 1) {</span>
+<span style = "background-color:#fdd">        output += "--output needs exactly one map to migrate\n";
+        return 2;</span>
+    }
+<span style = "background-color:#dfd">    for (const std::filesystem::path&amp; file : files) {
+        const MapMigration migration = migrateMapFile(file, line.dataRoot);
+        if (!migration.ok()) {</span>
+<span style = "background-color:#fdd">            output += "error: " + migration.error + "\n";
             return 1;</span>
         }
-<span style = "background-color:#dfd">        return report.ok() ? 0 : 1;</span>
+<span style = "background-color:#dfd">        const std::filesystem::path destination = line.outputFile.value_or(file);
+        std::ofstream stream(destination, std::ios::binary);
+        stream.write(migration.text.data(), static_cast&lt;std::streamsize&gt;(migration.text.size()));
+        if (!stream.good()) {</span>
+<span style = "background-color:#fdd">            output += "error: cannot write " + destination.string() + "\n";
+            return 1;</span>
+        }
+<span style = "background-color:#dfd">        output += "migrated " + file.string() + ": " + std::to_string(migration.namedPieces) +</span>
+                  " pieces named, " + std::to_string(migration.newIds) + " ids given, " +
+                  std::to_string(migration.newForcedCells) + " cells forced\n";
+<span style = "background-color:#dfd">    }
+    return 0;
+}</span>
+
+// --check : toutes les cartes ; 1 Ã  la premiÃ¨re erreur.
+<span style = "background-color:#dfd">int checkCommand(const std::filesystem::path&amp; dataRoot, std::string&amp; output) {
+    const MapCheckReport report = checkAllMaps(dataRoot);
+    for (const MapCheckFinding&amp; finding : report.findings) {
+        output += formatFinding(finding) + "\n";
     }
-<span style = "background-color:#dfd">    return 0;
+    output += "checked " + std::to_string(report.maps) +</span>
+              " maps: " + std::to_string(report.count(MapCheckSeverity::Error)) + " errors, " +
+              std::to_string(report.count(MapCheckSeverity::Warning)) + " warnings\n";
+<span style = "background-color:#dfd">    if (report.maps == 0) {</span>
+<span style = "background-color:#fdd">        output += "error: no map under " + levelsOf(dataRoot).string() + "\n";
+        return 1;</span>
+    }
+<span style = "background-color:#dfd">    return report.ok() ? 0 : 1;
+}</span>
+
+}  // namespace
+
+std::optional&lt;int&gt; runMapCommand(const std::vector&lt;std::string&gt;&amp; arguments,
+                                 const std::filesystem::path&amp; defaultDataRoot,
+<span style = "background-color:#dfd">                                 std::string&amp; output) {
+    const MapCommandLine line = parseMapCommand(arguments, defaultDataRoot);
+    if (!line.check &amp;&amp; !line.migrate &amp;&amp; !line.gestures) {
+        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (line.gestures) {
+        const int code = applyGestureCommand(line, output);
+        if (code != 0 || !line.check) {
+            return code;</span>
+        }
+    }
+<span style = "background-color:#dfd">    if (line.migrate) {
+        const int code = migrateCommand(line, output);
+        if (code != 0) {</span>
+<span style = "background-color:#fdd">            return code;</span>
+        }
+    }
+<span style = "background-color:#dfd">    return line.check ? checkCommand(line.dataRoot, output) : 0;
 }</span>
 
 }  // namespace hmi</pre>

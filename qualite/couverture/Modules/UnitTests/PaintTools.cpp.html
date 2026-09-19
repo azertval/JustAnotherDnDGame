@@ -69,8 +69,8 @@ struct CellBox {
 /// @return @p brush vu dans le miroir : la jumelle d'une piÃ¨ce, et le type de sa case d'ancrage.
 [[nodiscard]] CanvasBrush mirroredBrush(const core::LevelDraft&amp; draft, const CanvasBrush&amp; brush,
 <span style = "background-color:#dfd">                                        const StrokeContext&amp; context) {
-    if (brush.kind != BrushKind::Piece) {</span>
-<span style = "background-color:#fdd">        return brush;</span>
+    if (brush.kind != BrushKind::Piece) {
+        return brush;</span>
     }
 <span style = "background-color:#dfd">    CanvasBrush twin = brush;
     twin.piece = mirrorPieceName(draft.pieceManifest(), brush.piece);
@@ -83,8 +83,8 @@ struct CellBox {
 /// Ajoute le rÃ©sultat d'un pas au rÃ©sultat du geste : changÃ© si un pas a changÃ©, premier refus.
 <span style = "background-color:#dfd">void merge(BrushResult&amp; total, const BrushResult&amp; step) {
     total.changed = total.changed || step.changed;
-    if (total.refusal.empty() &amp;&amp; !step.refusal.empty()) {</span>
-<span style = "background-color:#fdd">        total.refusal = step.refusal;</span>
+    if (total.refusal.empty() &amp;&amp; !step.refusal.empty()) {
+        total.refusal = step.refusal;</span>
     }
 <span style = "background-color:#dfd">}</span>
 
@@ -357,6 +357,28 @@ std::optional&lt;PickedBrush&gt; pickBrush(const core::LevelDraft&amp; draft, La
         }
     }
     return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">CanvasBrush pieceBrush(const PlaceAppearance* appearance, std::string piece, bool floor) {
+    const core::TileType type = pieceCellType(appearance, piece, floor);
+    return CanvasBrush{</span>
+        .kind = BrushKind::Piece, .type = type, .piece = std::move(piece), .floor = floor};
+<span style = "background-color:#dfd">}</span>
+
+std::vector&lt;std::vector&lt;core::TileType&gt;&gt; copyTypeBlock(const core::TileMap&amp; tiles,
+                                                       core::GridPosition first,
+<span style = "background-color:#dfd">                                                       core::GridPosition last) {
+    std::vector&lt;std::vector&lt;core::TileType&gt;&gt; block;
+    for (int row = std::min(first.row, last.row); row &lt;= std::max(first.row, last.row); ++row) {
+        std::vector&lt;core::TileType&gt; line;
+        for (int column = std::min(first.column, last.column);
+             column &lt;= std::max(first.column, last.column); ++column) {
+            line.push_back(tiles.inBounds(column, row) ? tiles.tile(column, row)</span>
+                                                       : core::TileType::Empty);
+<span style = "background-color:#dfd">        }
+        block.push_back(std::move(line));
+    }
+    return block;
 }</span>
 
 <span style = "background-color:#dfd">Measure measureBetween(core::GridPosition from, core::GridPosition to) noexcept {

@@ -10,6 +10,7 @@ var searchData=
   ['values_7',['values',['../structhmi_1_1DialogueModel_1_1Session.html#aaa0029eddd9430a658bb08a0f5fa5e09',1,'hmi::DialogueModel::Session']]],
   ['verdictlabel_8',['verdictLabel',['../structhmi_1_1EntityPanel_1_1Widgets.html#ae86a78ee5fcdf20df13b769a57570568',1,'hmi::EntityPanel::Widgets']]],
   ['version_9',['version',['../structcore_1_1JsonDocument.html#a82433ff86ddc54ef83fa27e989da6399',1,'core::JsonDocument']]],
-  ['viewtabs_10',['viewTabs',['../structhmi_1_1LevelBrowserPanel_1_1Widgets.html#aaf6af167086a860ae413e638887ffe4a',1,'hmi::LevelBrowserPanel::Widgets']]],
-  ['visible_11',['visible',['../structhmi_1_1LayerDisplay.html#a8a9b2b56a414ed5020c74472bad68d10',1,'hmi::LayerDisplay']]]
+  ['view_10',['view',['../structhmi_1_1GestureState.html#a8adce05e1195b2d4125d88f61be85071',1,'hmi::GestureState']]],
+  ['viewtabs_11',['viewTabs',['../structhmi_1_1LevelBrowserPanel_1_1Widgets.html#aaf6af167086a860ae413e638887ffe4a',1,'hmi::LevelBrowserPanel::Widgets']]],
+  ['visible_12',['visible',['../structhmi_1_1LayerDisplay.html#a8a9b2b56a414ed5020c74472bad68d10',1,'hmi::LayerDisplay']]]
 ];

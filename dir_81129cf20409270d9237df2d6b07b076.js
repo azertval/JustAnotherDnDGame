@@ -14,6 +14,8 @@ var dir_81129cf20409270d9237df2d6b07b076 =
     [ "LevelBrowserPanel.h", "LevelBrowserPanel_8h.html", "LevelBrowserPanel_8h" ],
     [ "MainWindow.cpp", "MainWindow_8cpp.html", null ],
     [ "MainWindow.h", "MainWindow_8h.html", "MainWindow_8h" ],
+    [ "MapRender.cpp", "MapRender_8cpp.html", "MapRender_8cpp" ],
+    [ "MapRender.h", "MapRender_8h.html", "MapRender_8h" ],
     [ "MiniMap.cpp", "MiniMap_8cpp.html", null ],
     [ "MiniMap.h", "MiniMap_8h.html", "MiniMap_8h" ],
     [ "PalettePanel.cpp", "PalettePanel_8cpp.html", null ],

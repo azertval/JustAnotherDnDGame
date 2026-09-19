@@ -169,6 +169,38 @@ struct ShapeGestureDecision {
 [[nodiscard]] ShapeGestureDecision resolveShapePress(const core::MapEntity&amp; entity,
                                                      core::GridPosition cell, bool remove);
 
+/// @brief Ce qu'un glisser a Ã©crit dans le brouillon.
+struct EntityDragApplied {
+    /// Le brouillon a changÃ© (un pas d'annulation de plus).
+    bool changed = false;
+    /// Le rang de l'entitÃ© tirÃ©e (`Draw`), si elle a Ã©tÃ© posÃ©e.
+    std::optional&lt;std::size_t&gt; placed;
+};
+
+/**
+ * @brief Ãcrit @p result dans @p draft, en **un** geste du brouillon (`core::GestureScope`) : un
+ *        groupe dÃ©placÃ©, une zone tirÃ©e se dÃ©font en un pas.
+ *
+ * Ce que le canevas fait au relÃ¢chement, et ce que l'Ã©diteur sans fenÃªtre rejoue
+ * (`LOT-EDITOR-13`). Un rÃ©sultat refusÃ© ou vide n'Ã©crit rien.
+ */
+EntityDragApplied applyEntityDrag(core::LevelDraft&amp; draft, const EntityDragResult&amp; result);
+
+/**
+ * @brief Pose en @p cell une entitÃ© neuve de la famille @p kind, ses propriÃ©tÃ©s Ã  leur dÃ©faut
+ *        (`core::makeEntity`) â aucune pour une famille inconnue, qui se pose tout de mÃªme.
+ * @return Son rang, ou rien si le brouillon l'a refusÃ©e.
+ */
+std::optional&lt;std::size_t&gt; placeEntityOfKind(core::LevelDraft&amp; draft, const std::string&amp; kind,
+                                             core::GridPosition cell);
+
+/**
+ * @brief Retire les entitÃ©s @p indices, en un geste, du dernier rang au premier : un retrait ne
+ *        dÃ©cale pas les rangs qui restent Ã  retirer.
+ * @return Le nombre d'entitÃ©s retirÃ©es.
+ */
+std::size_t removeEntities(core::LevelDraft&amp; draft, std::vector&lt;std::size_t&gt; indices);
+
 }  // namespace hmi</pre>
         <hr />
         <table width="100%">

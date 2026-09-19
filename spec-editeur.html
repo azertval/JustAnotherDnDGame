@@ -213,6 +213,14 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-072"></a><b>EX-EDIT-072</b> — Les entités se <b>sélectionnent à plusieurs</b> (<span class="tt">Maj</span> + clic sur le canevas, sélection étendue dans la liste), se <b>déplacent en groupe</b> — tout le groupe ou rien, s'il sortirait de la carte — et se retirent ensemble, en un pas. La liste des entités se <b>filtre</b> sur la famille, l'identifiant et les valeurs, et montre l'identifiant et l'étiquette de chacune.</li>
 <li><a class="anchor" id="EX-EDIT-073"></a><b>EX-EDIT-073</b> — L'inspecteur est tiré d'un <b>schéma typé</b> : entier <b>borné</b>, énumération, et <b>référence</b> à un catalogue avec sa liste de choix — dialogue, rencontre, carte, point d'arrivée, figurine, drapeau, lieu de l'atlas, objet, <span class="tt">carte#id</span>. Une valeur hors bornes ou absente de son catalogue avertit, sans empêcher d'enregistrer. <b>Contrat d'extension</b> : toute famille d'entité que le jeu lit est dans <span class="tt"><a class="el" href="namespacecore.html#a3c877363f8258fc1ba137c48aa283397" title="Les familles que l&#39;éditeur sait poser, dans l&#39;ordre de sa liste.">core::knownEntityKinds</a></span>, et un test bloquant le vérifie sur les sources du jeu et les cartes livrées.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
+14. L'éditeur sans fenêtre (<span class="tt">LOT-EDITOR-13</span>)</h1>
+<p>Ce que les scripts des cartes apportaient — l'édition en masse, rejouable, relue en diff —, sans les scripts (<a class="el" href="lot-editor-13.html" title="LOT-EDITOR-13 — L&#39;éditeur sans fenêtre">LOT-EDITOR-13</a>).</p>
+<ul>
+<li><a class="anchor" id="EX-EDIT-074"></a><b>EX-EDIT-074</b> — <span class="tt">LevelEditor --apply gestes.json [carte]</span> rejoue sur une carte une liste de <b>gestes</b> : un outil, un appui, un glisser, un relâchement, et ce qu'on arme entre deux gestes (pièce, type, couche, verrou, miroir, famille d'entité, sélection). Il appelle <b>les fonctions mêmes</b> que le canevas appelle à la souris, dans le même ordre : un geste rejoué rend le fichier que le geste à la main aurait rendu, et chaque geste qui change la carte est un pas d'annulation. Tous les outils s'y rejouent, notes et mesure comprises. Un geste que la fenêtre refuserait arrête tout, avec une erreur qui <b>nomme le geste</b> et sa raison, et <b>le fichier n'est pas touché</b>.</li>
+<li><a class="anchor" id="EX-EDIT-075"></a><b>EX-EDIT-075</b> — <span class="tt">LevelEditor --render [carte…]</span> rend une carte en PNG, en isométrie et <b>sans fenêtre</b>, par le peintre du canevas (<span class="tt">EX-EDIT-059</span>) : bandes au choix (sol, relief, figurines, masque de collision), échelle au choix, une image par carte nommée d'après son identifiant. La CI rend chaque carte qu'une PR ajoute ou change et publie les images.</li>
+<li><a class="anchor" id="EX-EDIT-076"></a><b>EX-EDIT-076</b> — Chaque outil a <b>un scénario <span class="tt">--apply</span></b>, rejoué sur une carte-témoin et comparé octet pour octet à un fichier attendu : c'est le test d'IHM du module (règle 4 de la feuille de route).</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="edit-retirees"></a>
 Exigences retirées</h1>
 <blockquote class="doxtable">
@@ -238,7 +246,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-EDIT-046"></a><b>EX-EDIT-046</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — mode création des plans.</li>
 <li><a class="anchor" id="EX-EDIT-047"></a><b>EX-EDIT-047</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — panneau des plans.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md235"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md236"></a>
 Traçabilité</h1>
 <p>Le code vit dans <span class="tt">Source/Editor</span> : <span class="tt">Logic/</span> (bibliothèque <span class="tt">EditorLogic</span>, testée sous <span class="tt">Source/Test/Unit/Editor</span>) et <span class="tt">Ui/</span> (l'exécutable <span class="tt">LevelEditor</span>). L'éditeur s'appuie sur <span class="tt">Core</span> (modèle et validation de carte, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) et sur le rendu de <span class="tt">HMI</span> (<span class="tt"><a class="el" href="rendu-technique_8md.html">rendu-technique.md</a></span>) ; ce qui reste de sa présentation est dans <a class="el" href="spec-interface-ihm.html#md_Specification_2interface-ihm" title="Specification/interface-ihm.md"><span class="tt">interface-ihm.md</span></a>. </p>
 </div></div><!-- contents -->

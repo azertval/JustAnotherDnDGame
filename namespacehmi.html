@@ -137,6 +137,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un glisser ferait s'il s'arrêtait sur une case.  <a href="structhmi_1_1EntityDragResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ShapeGestureDecision" id="r_ShapeGestureDecision"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1ShapeGestureDecision.html">ShapeGestureDecision</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Décision rendue par <span class="tt"><a class="el" href="#a586c3f62e9d9cb45b762db2f4da03e61" title="Résout l&#39;appui de l&#39;outil « Forme » sur cell, pour l&#39;entité entity.">resolveShapePress</a></span>.  <a href="structhmi_1_1ShapeGestureDecision.html#details">More...</a><br /></td></tr>
+<tr class="memitem:EntityDragApplied" id="r_EntityDragApplied"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EntityDragApplied.html">EntityDragApplied</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un glisser a écrit dans le brouillon.  <a href="structhmi_1_1EntityDragApplied.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EditorReferences" id="r_EditorReferences"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les catalogues que les entités d'une carte référencent, lus une fois à l'ouverture de l'éditeur puis à la demande (enregistrement d'une carte, rechargement des assets).  <a href="structhmi_1_1EditorReferences.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CellRect" id="r_CellRect"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1CellRect.html">CellRect</a></td></tr>
@@ -147,6 +149,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que le curseur désigne : une entité, et la poignée tenue s'il y en a une.  <a href="structhmi_1_1EntityPick.html#details">More...</a><br /></td></tr>
 <tr class="memitem:FileOperationResult" id="r_FileOperationResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1FileOperationResult.html">FileOperationResult</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Succès (avec le chemin résultant) ou échec (avec un message lisible).  <a href="structhmi_1_1FileOperationResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GestureState" id="r_GestureState"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1GestureState.html">GestureState</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que la fenêtre garde d'un geste à l'autre : le pinceau, la couche active, le miroir, la sélection… — l'état de l'éditeur que les gestes arment.  <a href="structhmi_1_1GestureState.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GestureScriptResult" id="r_GestureScriptResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1GestureScriptResult.html">GestureScriptResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'un fichier de gestes a fait.  <a href="structhmi_1_1GestureScriptResult.html#details">More...</a><br /></td></tr>
+<tr class="memitem:GestureFileResult" id="r_GestureFileResult"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1GestureFileResult.html">GestureFileResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce que <span class="tt">--apply</span> a produit : le texte de la carte et celui de son annexe.  <a href="structhmi_1_1GestureFileResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LayerRow" id="r_LayerRow"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une ligne du panneau « Couches ».  <a href="structhmi_1_1LayerRow.html#details">More...</a><br /></td></tr>
 <tr class="memitem:LayerDisplay" id="r_LayerDisplay"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1LayerDisplay.html">LayerDisplay</a></td></tr>
@@ -209,6 +217,8 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panneau de gestion des niveaux : liste filtrable + créer/renommer/dupliquer/supprimer.  <a href="classhmi_1_1LevelBrowserPanel.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MainWindow" id="r_MainWindow"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MainWindow.html">MainWindow</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fenêtre principale de l'éditeur (Qt Widgets, style Fusion, textes anglais).  <a href="classhmi_1_1MainWindow.html#details">More...</a><br /></td></tr>
+<tr class="memitem:MapRenderOptions" id="r_MapRenderOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structhmi_1_1MapRenderOptions.html">MapRenderOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les réglages d'un rendu.  <a href="structhmi_1_1MapRenderOptions.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MiniMap" id="r_MiniMap"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1MiniMap.html">MiniMap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">La mini-carte : l'image de la carte, le cadre de la vue, et le clic qui la déplace.  <a href="classhmi_1_1MiniMap.html#details">More...</a><br /></td></tr>
 <tr class="memitem:PalettePanel" id="r_PalettePanel"><td class="memItemLeft">class &#160;</td><td class="memItemRight"><a class="el" href="classhmi_1_1PalettePanel.html">PalettePanel</a></td></tr>
@@ -865,6 +875,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a0a372480a8c4bb2d1af4b9b17874eb72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat de <code class="param">drag</code> arrêté sur <code class="param">to</code>, sur une carte de <code class="param">width</code> × <code class="param">height</code>.  <br /></td></tr>
 <tr class="memitem:a586c3f62e9d9cb45b762db2f4da03e61" id="r_a586c3f62e9d9cb45b762db2f4da03e61"><td class="memItemLeft"><a class="el" href="structhmi_1_1ShapeGestureDecision.html">ShapeGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="#a586c3f62e9d9cb45b762db2f4da03e61">resolveShapePress</a> (const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;entity, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, bool remove)</td></tr>
 <tr class="memdesc:a586c3f62e9d9cb45b762db2f4da03e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout l'appui de l'outil « Forme » sur <code class="param">cell</code>, pour l'entité <code class="param">entity</code>.  <br /></td></tr>
+<tr class="memitem:a7e90154e3a07fe248feeaf76304a3ef4" id="r_a7e90154e3a07fe248feeaf76304a3ef4"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityDragApplied.html">EntityDragApplied</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7e90154e3a07fe248feeaf76304a3ef4">applyEntityDrag</a> (<a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const <a class="el" href="structhmi_1_1EntityDragResult.html">EntityDragResult</a> &amp;result)</td></tr>
+<tr class="memdesc:a7e90154e3a07fe248feeaf76304a3ef4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Écrit <code class="param">result</code> dans <code class="param">draft</code>, en <b>un</b> geste du brouillon (<span class="tt"><a class="el" href="classcore_1_1GestureScope.html" title="Un geste ouvert le temps d&#39;une portée (LevelDraft::beginGesture).">core::GestureScope</a></span>) : un groupe déplacé, une zone tirée se défont en un pas.  <br /></td></tr>
+<tr class="memitem:a0fe0f8aac4172e6b811a591bcbd0a218" id="r_a0fe0f8aac4172e6b811a591bcbd0a218"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0fe0f8aac4172e6b811a591bcbd0a218">placeEntityOfKind</a> (<a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const std::string &amp;kind, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell)</td></tr>
+<tr class="memdesc:a0fe0f8aac4172e6b811a591bcbd0a218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose en <code class="param">cell</code> une entité neuve de la famille <code class="param">kind</code>, ses propriétés à leur défaut (<span class="tt"><a class="el" href="namespacecore.html#a88adb5289b8943d6a8f1f33b3d296e73" title="Une entité neuve de la famille kind en position, ses propriétés à leur défaut.">core::makeEntity</a></span>) — aucune pour une famille inconnue, qui se pose tout de même.  <br /></td></tr>
+<tr class="memitem:ab73081148950114f89ec71abcbb1befe" id="r_ab73081148950114f89ec71abcbb1befe"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ab73081148950114f89ec71abcbb1befe">removeEntities</a> (<a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, std::vector&lt; std::size_t &gt; indices)</td></tr>
+<tr class="memdesc:ab73081148950114f89ec71abcbb1befe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire les entités <code class="param">indices</code>, en un geste, du dernier rang au premier : un retrait ne décale pas les rangs qui restent à retirer.  <br /></td></tr>
 <tr class="memitem:a080952a1a1d790dc8b26f71b2fcd00d6" id="r_a080952a1a1d790dc8b26f71b2fcd00d6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a080952a1a1d790dc8b26f71b2fcd00d6">entityRef</a> (std::string_view mapId, std::string_view entityId)</td></tr>
 <tr class="memitem:a9a7176a33d5205537d912eb3dbcbf61c" id="r_a9a7176a33d5205537d912eb3dbcbf61c"><td class="memItemLeft"><a class="el" href="structhmi_1_1EditorReferences.html">EditorReferences</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9a7176a33d5205537d912eb3dbcbf61c">loadEditorReferences</a> (const std::filesystem::path &amp;root)</td></tr>
 <tr class="memdesc:a9a7176a33d5205537d912eb3dbcbf61c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit les catalogues sous <code class="param">root</code>, la racine des éléments déployés à côté de l'exécutable : <span class="tt">World/dialogues</span>, <span class="tt">World/locations</span>, <span class="tt">Rpg/encounters</span>, <span class="tt">Rpg/creatures</span>, <span class="tt">Rpg/items</span>, les manifestes des figurines sous <span class="tt">Assets</span>, et <span class="tt">Levels</span>.  <br /></td></tr>
@@ -895,6 +911,10 @@ Functions</h2></td></tr>
 <tr class="memitem:aa9bc383870e52d4d94f97981c63c4a62" id="r_aa9bc383870e52d4d94f97981c63c4a62"><td class="memItemLeft">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa9bc383870e52d4d94f97981c63c4a62">filterEntities</a> (const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;entities, std::string_view filter)</td></tr>
 <tr class="memdesc:aa9bc383870e52d4d94f97981c63c4a62"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les rangs des entités que <code class="param">filter</code> désigne, dans l'ordre de la carte.  <br /></td></tr>
 <tr class="memitem:ab5d9a77ac353caf145404f16a59ab39b" id="r_ab5d9a77ac353caf145404f16a59ab39b"><td class="memItemLeft">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab5d9a77ac353caf145404f16a59ab39b">toggledSelection</a> (std::vector&lt; std::size_t &gt; selection, std::size_t index)</td></tr>
+<tr class="memitem:ad2d5ef8bbea644403c389e5d20a5fbde" id="r_ad2d5ef8bbea644403c389e5d20a5fbde"><td class="memItemLeft"><a class="el" href="structhmi_1_1GestureScriptResult.html">GestureScriptResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad2d5ef8bbea644403c389e5d20a5fbde">applyGestureScript</a> (const nlohmann::json &amp;script, <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a> &amp;sidecar, const <a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a> &amp;assets)</td></tr>
+<tr class="memdesc:ad2d5ef8bbea644403c389e5d20a5fbde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rejoue les gestes de <code class="param">script</code> sur <code class="param">draft</code>.  <br /></td></tr>
+<tr class="memitem:ab1145769bfcc581f39091b42c792705c" id="r_ab1145769bfcc581f39091b42c792705c"><td class="memItemLeft"><a class="el" href="structhmi_1_1GestureFileResult.html">GestureFileResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab1145769bfcc581f39091b42c792705c">applyGestureFile</a> (const std::filesystem::path &amp;scriptFile, std::string_view map, const std::filesystem::path &amp;dataRoot, std::filesystem::path &amp;mapFile)</td></tr>
+<tr class="memdesc:ab1145769bfcc581f39091b42c792705c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit le fichier de gestes <code class="param">scriptFile</code>, charge la carte, rejoue les gestes et rend les textes à écrire — sans rien écrire.  <br /></td></tr>
 <tr class="memitem:a5513925544b8628185e12eae822a83e8" id="r_a5513925544b8628185e12eae822a83e8"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1LayerRow.html">LayerRow</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5513925544b8628185e12eae822a83e8">layerRows</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;layers)</td></tr>
 <tr class="memdesc:a5513925544b8628185e12eae822a83e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les lignes du panneau, dans l'<b>ordre de dessin</b> : la grille racine d'abord, puis les couches visuelles dans l'ordre de <span class="tt">layers</span>.  <br /></td></tr>
 <tr class="memitem:ab632ba3c3120c215116a504837d137b9" id="r_ab632ba3c3120c215116a504837d137b9"><td class="memItemLeft"><a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab632ba3c3120c215116a504837d137b9">validActiveLayer</a> (const std::vector&lt; <a class="el" href="structcore_1_1TileLayer.html">core::TileLayer</a> &gt; &amp;layers, <a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> active)</td></tr>
@@ -902,6 +922,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:abf93f3d263fe7268a624a8a96566a89e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indique si <code class="param">name</code> peut servir de nom de niveau (donc de nom de fichier Windows).  <br /></td></tr>
 <tr class="memitem:acb440eec2a1a3d3cc760795b9875ae8e" id="r_acb440eec2a1a3d3cc760795b9875ae8e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#acb440eec2a1a3d3cc760795b9875ae8e">trimLevelName</a> (const std::string &amp;name)</td></tr>
 <tr class="memdesc:acb440eec2a1a3d3cc760795b9875ae8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire les espaces de bord de <code class="param">name</code> (le nom réellement utilisé une fois confirmé).  <br /></td></tr>
+<tr class="memitem:a1d87e7deb27801e9b0fbb99ecbac3bcd" id="r_a1d87e7deb27801e9b0fbb99ecbac3bcd"><td class="memItemLeft">std::vector&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1d87e7deb27801e9b0fbb99ecbac3bcd">mapFiles</a> (const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memitem:a5b2225206c785643e614da4760a74f95" id="r_a5b2225206c785643e614da4760a74f95"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5b2225206c785643e614da4760a74f95">loadPlaceAssets</a> (const std::filesystem::path &amp;dataRoot, std::string_view place)</td></tr>
 <tr class="memitem:ae7b3f6f5d7f2751645dc12ed67e74af8" id="r_ae7b3f6f5d7f2751645dc12ed67e74af8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae7b3f6f5d7f2751645dc12ed67e74af8">formatFinding</a> (const <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &amp;finding)</td></tr>
 <tr class="memitem:a42fc6546d215eea2d52d55f917655fd4" id="r_a42fc6546d215eea2d52d55f917655fd4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a42fc6546d215eea2d52d55f917655fd4">checkMapFile</a> (std::string_view mapId, const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
@@ -913,7 +934,7 @@ Functions</h2></td></tr>
 <tr class="memitem:a856d281d19a2bb61819bed1b54cd3eb1" id="r_a856d281d19a2bb61819bed1b54cd3eb1"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a>&#160;</td><td class="memItemRight"><a class="el" href="#a856d281d19a2bb61819bed1b54cd3eb1">migrateMapFile</a> (const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memdesc:a856d281d19a2bb61819bed1b54cd3eb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit <code class="param">file</code> et le migre, le lieu étant cherché sous <code class="param">dataRoot</code>.  <br /></td></tr>
 <tr class="memitem:a75e0715b710f1ffbe1d6392719cb07c2" id="r_a75e0715b710f1ffbe1d6392719cb07c2"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a75e0715b710f1ffbe1d6392719cb07c2">runMapCommand</a> (const std::vector&lt; std::string &gt; &amp;arguments, const std::filesystem::path &amp;defaultDataRoot, std::string &amp;output)</td></tr>
-<tr class="memdesc:a75e0715b710f1ffbe1d6392719cb07c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span> et <span class="tt">--migrate</span>.  <br /></td></tr>
+<tr class="memdesc:a75e0715b710f1ffbe1d6392719cb07c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span>, <span class="tt">--migrate</span> et <span class="tt">--apply</span> (<span class="tt">--render</span>, qui peint, vit du côté de l'IHM : <span class="tt"><a class="el" href="#ad551059312355ed10cda2f2300d1a6b9" title="L&#39;entrée --render de l&#39;éditeur, avant toute construction de fenêtre.">hmi::runRenderCommand</a></span>).  <br /></td></tr>
 <tr class="memitem:a13d0948bf5c40088ff4dc6eb01fd319c" id="r_a13d0948bf5c40088ff4dc6eb01fd319c"><td class="memItemLeft"><a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a>&#160;</td><td class="memItemRight"><a class="el" href="#a13d0948bf5c40088ff4dc6eb01fd319c">mirrorAxisThrough</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell) noexcept</td></tr>
 <tr class="memitem:ac0ae9e678bcf9c742436127d81b94b40" id="r_ac0ae9e678bcf9c742436127d81b94b40"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#ac0ae9e678bcf9c742436127d81b94b40">mirrorCell</a> (const <a class="el" href="structhmi_1_1MirrorAxis.html">MirrorAxis</a> &amp;axis, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell) noexcept</td></tr>
 <tr class="memitem:aa976a1e8cdd376c6e1142fad5214e286" id="r_aa976a1e8cdd376c6e1142fad5214e286"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#aa976a1e8cdd376c6e1142fad5214e286">mirrorPieceName</a> (const <a class="el" href="classcore_1_1ScenePieceManifest.html">core::ScenePieceManifest</a> *manifest, std::string_view piece)</td></tr>
@@ -929,6 +950,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:a1b4b5266d93f723f666ec5bfa2958dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplit au seau depuis <code class="param">seed</code>, en un geste, reflet compris.  <br /></td></tr>
 <tr class="memitem:ab96fa423fcd48543b29174b992e6f5c0" id="r_ab96fa423fcd48543b29174b992e6f5c0"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1PickedBrush.html">PickedBrush</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab96fa423fcd48543b29174b992e6f5c0">pickBrush</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="#ad45953c7acf96290259f1333570fda4d">LayerSlot</a> active, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> *appearance)</td></tr>
 <tr class="memdesc:ab96fa423fcd48543b29174b992e6f5c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pipette : le pinceau qui repeindrait ce qu'on voit en <code class="param">cell</code>.  <br /></td></tr>
+<tr class="memitem:aad110f20f3c42237d01dfeb1093565a3" id="r_aad110f20f3c42237d01dfeb1093565a3"><td class="memItemLeft"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a>&#160;</td><td class="memItemRight"><a class="el" href="#aad110f20f3c42237d01dfeb1093565a3">pieceBrush</a> (const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> *appearance, std::string piece, bool floor)</td></tr>
+<tr class="memdesc:aad110f20f3c42237d01dfeb1093565a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau d'une pièce choisie dans la palette : la pièce, le type qu'écrit sa case d'ancrage (<span class="tt"><a class="el" href="#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a></span>), sa couche.  <br /></td></tr>
+<tr class="memitem:a58adc24cc2fdca4a1bd04954b8893ea1" id="r_a58adc24cc2fdca4a1bd04954b8893ea1"><td class="memItemLeft">std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a58adc24cc2fdca4a1bd04954b8893ea1">copyTypeBlock</a> (const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;tiles, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> first, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> last)</td></tr>
+<tr class="memdesc:a58adc24cc2fdca4a1bd04954b8893ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les types du rectangle [<code class="param">first</code>, <code class="param">last</code>] de <code class="param">tiles</code> (<span class="tt">[ligne][colonne]</span>), bornes dans n'importe quel ordre : ce que copie la sélection (<span class="tt">Ctrl+C</span>) et que colle <span class="tt"><a class="el" href="#a0e0956e7e96a74928e44f3f75a32061b" title="Peint un bloc de types ([ligne][colonne]) à partir de origin sur la couche active,...">hmi::paintTypeBlock</a></span>.  <br /></td></tr>
 <tr class="memitem:a9e8aa722715e4ca8b1c75806a71e7b56" id="r_a9e8aa722715e4ca8b1c75806a71e7b56"><td class="memItemLeft"><a class="el" href="structhmi_1_1Measure.html">Measure</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9e8aa722715e4ca8b1c75806a71e7b56">measureBetween</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> from, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> to) noexcept</td></tr>
 <tr class="memitem:ad700de438e32b031575672ea56198aed" id="r_ad700de438e32b031575672ea56198aed"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ad700de438e32b031575672ea56198aed">measureLabel</a> (const <a class="el" href="structhmi_1_1Measure.html">Measure</a> &amp;measure)</td></tr>
 <tr class="memitem:ad532ff719e53686ef85d80516e85089e" id="r_ad532ff719e53686ef85d80516e85089e"><td class="memItemLeft">const std::array&lt; <a class="el" href="structhmi_1_1PanelFocusEntry.html">PanelFocusEntry</a>, <a class="el" href="#aa22d8fa67dd7b945de1a25413ef6532e">PANEL_FOCUS_CATALOG_COUNT</a> &gt; &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad532ff719e53686ef85d80516e85089e">panelFocusCatalog</a> ()</td></tr>
@@ -955,6 +980,12 @@ Functions</h2></td></tr>
 <tr class="memdesc:a3d7bd36db569f5109211462ad696fe6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tracé de la flèche <code class="param">edgeIndex</code>.  <br /></td></tr>
 <tr class="memitem:a8f058cebbeb2de49915110ec3f501b2a" id="r_a8f058cebbeb2de49915110ec3f501b2a"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8f058cebbeb2de49915110ec3f501b2a">edgeAt</a> (const <a class="el" href="structhmi_1_1WorldGraphLayout.html">WorldGraphLayout</a> &amp;layout, <a class="el" href="structcore_1_1Vector2.html">core::Vector2</a> point, float tolerance)</td></tr>
 <tr class="memdesc:a8f058cebbeb2de49915110ec3f501b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">La flèche sous <code class="param">point</code> : distance au trait (ou au cercle d'une boucle) au plus <code class="param">tolerance</code>.  <br /></td></tr>
+<tr class="memitem:aea9d8742fc17bfd6135f669a67430cd7" id="r_aea9d8742fc17bfd6135f669a67430cd7"><td class="memItemLeft">std::optional&lt; <a class="el" href="structhmi_1_1IsoBandOpacity.html">IsoBandOpacity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aea9d8742fc17bfd6135f669a67430cd7">parseRenderLayers</a> (std::string_view list)</td></tr>
+<tr class="memdesc:aea9d8742fc17bfd6135f669a67430cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit une liste de bandes (<span class="tt">floors,relief,figures,collision</span>).  <br /></td></tr>
+<tr class="memitem:ad9167a1055ccb957be12eecf083c3054" id="r_ad9167a1055ccb957be12eecf083c3054"><td class="memItemLeft">QImage&#160;</td><td class="memItemRight"><a class="el" href="#ad9167a1055ccb957be12eecf083c3054">renderMap</a> (const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;level, const std::filesystem::path &amp;dataRoot, const <a class="el" href="structhmi_1_1MapRenderOptions.html">MapRenderOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:ad9167a1055ccb957be12eecf083c3054"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rend <code class="param">level</code> en isométrie, hors écran.  <br /></td></tr>
+<tr class="memitem:ad551059312355ed10cda2f2300d1a6b9" id="r_ad551059312355ed10cda2f2300d1a6b9"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad551059312355ed10cda2f2300d1a6b9">runRenderCommand</a> (const std::vector&lt; std::string &gt; &amp;arguments, const std::filesystem::path &amp;defaultDataRoot, std::string &amp;output)</td></tr>
+<tr class="memdesc:ad551059312355ed10cda2f2300d1a6b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée <span class="tt">--render</span> de l'éditeur, avant toute construction de fenêtre.  <br /></td></tr>
 <tr class="memitem:ab7a286078c3b760b7c7bcd400c3efc93" id="r_ab7a286078c3b760b7c7bcd400c3efc93"><td class="memItemLeft">const QImage *&#160;</td><td class="memItemRight"><a class="el" href="#ab7a286078c3b760b7c7bcd400c3efc93">sceneImageOf</a> (<a class="el" href="#a979f7ffd7c87877cb1f65f0d08e4419d">TextureHandle</a> handle) noexcept</td></tr>
 <tr class="memitem:a13d39d2941050cdcde712bd03062a037" id="r_a13d39d2941050cdcde712bd03062a037"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a13d39d2941050cdcde712bd03062a037">paintComposedScene</a> (QPainter &amp;painter, const <a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a> &amp;scene, const std::optional&lt; <a class="el" href="structcore_1_1Rect.html">core::Rect</a> &gt; &amp;visible=std::nullopt, const <a class="el" href="#ad39e4163a49fc5ba81aab9827d83118e">QuadOpacity</a> &amp;opacity={})</td></tr>
 <tr class="memdesc:a13d39d2941050cdcde712bd03062a037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint <code class="param">scene</code> dans <code class="param">painter</code>, dont la transformation porte déjà le cadrage (unités monde vers pixels).  <br /></td></tr>
@@ -1136,6 +1167,10 @@ Variables</h2></td></tr>
 <tr class="memdesc:a1f839ead2efea40ebbae87f2015d39de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre de zones permanentes de la barre d'état.  <br /></td></tr>
 <tr class="memitem:a96d20a1938609691a1560c6dae34527f" id="r_a96d20a1938609691a1560c6dae34527f"><td class="memItemLeft">constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a96d20a1938609691a1560c6dae34527f">EDITOR_TOOL_COUNT</a> = 11</td></tr>
 <tr class="memdesc:a96d20a1938609691a1560c6dae34527f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nombre d'outils d'édition, déclaré au plus près de l'énumération qu'il compte.  <br /></td></tr>
+<tr class="memitem:a5d67831ba4723f9904629c2b54bc7f9c" id="r_a5d67831ba4723f9904629c2b54bc7f9c"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a5d67831ba4723f9904629c2b54bc7f9c">GESTURE_SCRIPT_FORMAT</a> = &quot;jadg-editor-gestures&quot;</td></tr>
+<tr class="memdesc:a5d67831ba4723f9904629c2b54bc7f9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Nom du format d'un fichier de gestes (champ <span class="tt">format</span>).  <br /></td></tr>
+<tr class="memitem:a710d74b78f8cc0078e56dc64772f575f" id="r_a710d74b78f8cc0078e56dc64772f575f"><td class="memItemLeft">constexpr int&#160;</td><td class="memItemRight"><a class="el" href="#a710d74b78f8cc0078e56dc64772f575f">GESTURE_SCRIPT_VERSION</a> = 1</td></tr>
+<tr class="memdesc:a710d74b78f8cc0078e56dc64772f575f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Version du format d'un fichier de gestes (champ <span class="tt">version</span>).  <br /></td></tr>
 <tr class="memitem:a444bc34d9bb51def7585ca8f530bf2b2" id="r_a444bc34d9bb51def7585ca8f530bf2b2"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a444bc34d9bb51def7585ca8f530bf2b2">DEFAULT_COLLISION_OVERLAY_OPACITY</a> = 0.55F</td></tr>
 <tr class="memdesc:a444bc34d9bb51def7585ca8f530bf2b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opacité par défaut de la collision <b>par-dessus</b> des couches visuelles : assez pour voir où l'on bute, assez peu pour voir le sol dessous.  <br /></td></tr>
 <tr class="memitem:a9d005a8117089b54f18763e2b17e08f6" id="r_a9d005a8117089b54f18763e2b17e08f6"><td class="memItemLeft">constexpr float&#160;</td><td class="memItemRight"><a class="el" href="#a9d005a8117089b54f18763e2b17e08f6">DIMMED_LAYER_OPACITY</a> = 0.3F</td></tr>
@@ -2625,6 +2660,131 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a7e90154e3a07fe248feeaf76304a3ef4" name="a7e90154e3a07fe248feeaf76304a3ef4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e90154e3a07fe248feeaf76304a3ef4">&#9670;&#160;</a></span>applyEntityDrag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1EntityDragApplied.html">EntityDragApplied</a> hmi::applyEntityDrag </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1EntityDragResult.html">EntityDragResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Écrit <code class="param">result</code> dans <code class="param">draft</code>, en <b>un</b> geste du brouillon (<span class="tt"><a class="el" href="classcore_1_1GestureScope.html" title="Un geste ouvert le temps d&#39;une portée (LevelDraft::beginGesture).">core::GestureScope</a></span>) : un groupe déplacé, une zone tirée se défont en un pas. </p>
+<p>Ce que le canevas fait au relâchement, et ce que l'éditeur sans fenêtre rejoue (<span class="tt">LOT-EDITOR-13</span>). Un résultat refusé ou vide n'écrit rien. </p>
+
+</div>
+</div>
+<a id="ab1145769bfcc581f39091b42c792705c" name="ab1145769bfcc581f39091b42c792705c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1145769bfcc581f39091b42c792705c">&#9670;&#160;</a></span>applyGestureFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1GestureFileResult.html">GestureFileResult</a> hmi::applyGestureFile </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>scriptFile</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>map</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>mapFile</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit le fichier de gestes <code class="param">scriptFile</code>, charge la carte, rejoue les gestes et rend les textes à écrire — sans rien écrire. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scriptFile</td><td>Le fichier de gestes. </td></tr>
+    <tr><td class="paramname">map</td><td>La carte (identifiant ou chemin) ; vide : celle que nomme le champ <span class="tt">map</span>. </td></tr>
+    <tr><td class="paramname">dataRoot</td><td>La racine des données. </td></tr>
+    <tr><td class="paramname">mapFile</td><td>Reçoit le fichier de la carte. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ad2d5ef8bbea644403c389e5d20a5fbde" name="ad2d5ef8bbea644403c389e5d20a5fbde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2d5ef8bbea644403c389e5d20a5fbde">&#9670;&#160;</a></span>applyGestureScript()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1GestureScriptResult.html">GestureScriptResult</a> hmi::applyGestureScript </td>
+          <td>(</td>
+          <td class="paramtype">const nlohmann::json &amp;</td>          <td class="paramname"><span class="paramname"><em>script</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structhmi_1_1EditorSidecar.html">EditorSidecar</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sidecar</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>assets</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rejoue les gestes de <code class="param">script</code> sur <code class="param">draft</code>. </p>
+<p>Le brouillon doit porter le manifeste du lieu (<span class="tt"><a class="el" href="classcore_1_1LevelDraft.html#a6d6f0918e51872d54205bf3bfd7df276" title="Le manifeste des pièces du lieu : emprises et types tactiques. Ni peint ni défait.">core::LevelDraft::setPieceManifest</a></span>) : la collision suit chaque geste par la déduction, comme dans la fenêtre. En cas d'échec, <code class="param">draft</code> et <code class="param">sidecar</code> sont dans l'état du geste refusé ; l'appelant les jette.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">script</td><td>Le fichier de gestes, lu. </td></tr>
+    <tr><td class="paramname">draft</td><td>La carte à modifier. </td></tr>
+    <tr><td class="paramname">sidecar</td><td>Son annexe (les notes). </td></tr>
+    <tr><td class="paramname">assets</td><td>Le manifeste et la table de son lieu. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a1a59e0da62704797c214af4c224f7e57" name="a1a59e0da62704797c214af4c224f7e57"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1a59e0da62704797c214af4c224f7e57">&#9670;&#160;</a></span>applyRectangleStroke()</h2>
 
@@ -3777,6 +3937,43 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compose le lieu dans une scène neuve, <b>triée</b> — commodité des tests et des captures. </p>
+
+</div>
+</div>
+<a id="a58adc24cc2fdca4a1bd04954b8893ea1" name="a58adc24cc2fdca4a1bd04954b8893ea1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58adc24cc2fdca4a1bd04954b8893ea1">&#9670;&#160;</a></span>copyTypeBlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; hmi::copyTypeBlock </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>tiles</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Les types du rectangle [<code class="param">first</code>, <code class="param">last</code>] de <code class="param">tiles</code> (<span class="tt">[ligne][colonne]</span>), bornes dans n'importe quel ordre : ce que copie la sélection (<span class="tt">Ctrl+C</span>) et que colle <span class="tt"><a class="el" href="#a0e0956e7e96a74928e44f3f75a32061b" title="Peint un bloc de types ([ligne][colonne]) à partir de origin sur la couche active,...">hmi::paintTypeBlock</a></span>. </p>
+<p>Une case hors de la grille est vide. </p>
 
 </div>
 </div>
@@ -5864,6 +6061,32 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a1d87e7deb27801e9b0fbb99ecbac3bcd" name="a1d87e7deb27801e9b0fbb99ecbac3bcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d87e7deb27801e9b0fbb99ecbac3bcd">&#9670;&#160;</a></span>mapFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::filesystem::path &gt; hmi::mapFiles </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les fichiers de carte de <span class="tt">&lt;dataRoot&gt;/Levels</span>, sous-dossiers compris, triés — sans les séquences ni les annexes de l'éditeur. </dd></dl>
+
+</div>
+</div>
 <a id="abb5b5c18732cf5389e71bb864df46380" name="abb5b5c18732cf5389e71bb864df46380"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#abb5b5c18732cf5389e71bb864df46380">&#9670;&#160;</a></span>markerPixelsRgba8()</h2>
 
@@ -6530,6 +6753,34 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aea9d8742fc17bfd6135f669a67430cd7" name="aea9d8742fc17bfd6135f669a67430cd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea9d8742fc17bfd6135f669a67430cd7">&#9670;&#160;</a></span>parseRenderLayers()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structhmi_1_1IsoBandOpacity.html">IsoBandOpacity</a> &gt; hmi::parseRenderLayers </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>list</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Lit une liste de bandes (<span class="tt">floors,relief,figures,collision</span>). </p>
+<dl class="section return"><dt>Returns</dt><dd>Les opacités (1 pour une bande nommée, 0 sinon), ou rien si un nom est inconnu. </dd></dl>
+
+</div>
+</div>
 <a id="acc668b4889979f8fe050aa66513c6ae5" name="acc668b4889979f8fe050aa66513c6ae5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acc668b4889979f8fe050aa66513c6ae5">&#9670;&#160;</a></span>parseSidecar()</h2>
 
@@ -6752,6 +7003,50 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aad110f20f3c42237d01dfeb1093565a3" name="aad110f20f3c42237d01dfeb1093565a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad110f20f3c42237d01dfeb1093565a3">&#9670;&#160;</a></span>pieceBrush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> hmi::pieceBrush </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a> *</td>          <td class="paramname"><span class="paramname"><em>appearance</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>floor</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le pinceau d'une pièce choisie dans la palette : la pièce, le type qu'écrit sa case d'ancrage (<span class="tt"><a class="el" href="#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a></span>), sa couche. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">appearance</td><td>La table du lieu, <span class="tt">nullptr</span> sans lieu. </td></tr>
+    <tr><td class="paramname">piece</td><td>Le nom court de la pièce. </td></tr>
+    <tr><td class="paramname">floor</td><td>La pièce est un sol. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="af13dc656bfde25b7f2e991d124ec836e" name="af13dc656bfde25b7f2e991d124ec836e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af13dc656bfde25b7f2e991d124ec836e">&#9670;&#160;</a></span>pieceCatalog()</h2>
 
@@ -6887,6 +7182,35 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>La couche que vise une pièce : la première couche de sol pour un sol (<code class="param">floor</code>), la première couche de décor sinon — celles que la composition du jeu lit. <span class="tt">std::nullopt</span> si la carte n'en a pas. </dd></dl>
+
+</div>
+</div>
+<a id="a0fe0f8aac4172e6b811a591bcbd0a218" name="a0fe0f8aac4172e6b811a591bcbd0a218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fe0f8aac4172e6b811a591bcbd0a218">&#9670;&#160;</a></span>placeEntityOfKind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; std::size_t &gt; hmi::placeEntityOfKind </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>kind</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pose en <code class="param">cell</code> une entité neuve de la famille <code class="param">kind</code>, ses propriétés à leur défaut (<span class="tt"><a class="el" href="namespacecore.html#a88adb5289b8943d6a8f1f33b3d296e73" title="Une entité neuve de la famille kind en position, ses propriétés à leur défaut.">core::makeEntity</a></span>) — aucune pour une famille inconnue, qui se pose tout de même. </p>
+<dl class="section return"><dt>Returns</dt><dd>Son rang, ou rien si le brouillon l'a refusée. </dd></dl>
 
 </div>
 </div>
@@ -7180,6 +7504,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="ab73081148950114f89ec71abcbb1befe" name="ab73081148950114f89ec71abcbb1befe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab73081148950114f89ec71abcbb1befe">&#9670;&#160;</a></span>removeEntities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t hmi::removeEntities </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::size_t &gt;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Retire les entités <code class="param">indices</code>, en un geste, du dernier rang au premier : un retrait ne décale pas les rangs qui restent à retirer. </p>
+<dl class="section return"><dt>Returns</dt><dd>Le nombre d'entités retirées. </dd></dl>
+
+</div>
+</div>
 <a id="a3173a03ac9ce6550a4d84437290a64dc" name="a3173a03ac9ce6550a4d84437290a64dc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3173a03ac9ce6550a4d84437290a64dc">&#9670;&#160;</a></span>renderBand()</h2>
 
@@ -7330,6 +7678,50 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Le nom du calque (chaîne statique, jamais nulle). </dd></dl>
+
+</div>
+</div>
+<a id="ad9167a1055ccb957be12eecf083c3054" name="ad9167a1055ccb957be12eecf083c3054"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9167a1055ccb957be12eecf083c3054">&#9670;&#160;</a></span>renderMap()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QImage hmi::renderMap </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1Level.html">core::Level</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>level</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1MapRenderOptions.html">MapRenderOptions</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>options</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rend <code class="param">level</code> en isométrie, hors écran. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">level</td><td>La carte. </td></tr>
+    <tr><td class="paramname">dataRoot</td><td>La racine des données : la table du lieu, ses planches, les figurines. </td></tr>
+    <tr><td class="paramname">options</td><td>Bandes, échelle et fond. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -7584,7 +7976,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1168"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1178"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -7631,13 +8023,58 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </table>
 </div><div class="memdoc">
 
-<p>L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span> et <span class="tt">--migrate</span>. </p>
+<p>L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span>, <span class="tt">--migrate</span> et <span class="tt">--apply</span> (<span class="tt">--render</span>, qui peint, vit du côté de l'IHM : <span class="tt"><a class="el" href="#ad551059312355ed10cda2f2300d1a6b9" title="L&#39;entrée --render de l&#39;éditeur, avant toute construction de fenêtre.">hmi::runRenderCommand</a></span>). </p>
 <ul>
 <li><span class="tt">--data &lt;racine&gt;</span> : la racine des données, <span class="tt">Source/Elements</span> ou le dossier de l'exécutable (défaut : <code class="param">defaultDataRoot</code>) ;</li>
 <li><span class="tt">--check</span> : contrôle toutes les cartes ; sortie 1 à la première erreur, 0 sinon ;</li>
-<li><span class="tt">--migrate [carte…]</span> : migre en place les cartes nommées (identifiant ou chemin), toutes à défaut ; <span class="tt">--output &lt;fichier&gt;</span> écrit ailleurs une carte unique.</li>
+<li><span class="tt">--migrate [carte…]</span> : migre en place les cartes nommées (identifiant ou chemin), toutes à défaut ; <span class="tt">--output &lt;fichier&gt;</span> écrit ailleurs une carte unique ;</li>
+<li><span class="tt">--apply &lt;gestes.json&gt; [carte]</span> : rejoue les gestes du fichier sur la carte (celle que nomme le fichier, à défaut) et l'écrit en place, ou dans <span class="tt">--output</span> ; un geste refusé n'écrit rien et sort en 1 (<span class="tt"><a class="el" href="#ab1145769bfcc581f39091b42c792705c" title="Lit le fichier de gestes scriptFile, charge la carte, rejoue les gestes et rend les textes à écrire —...">hmi::applyGestureFile</a></span>). Suivi de <span class="tt">--check</span>, il contrôle ensuite toutes les cartes.</li>
 </ul>
-<dl class="section return"><dt>Returns</dt><dd>Le code de sortie, ou <span class="tt">std::nullopt</span> si la ligne de commande ne demande ni l'un ni l'autre — l'éditeur ouvre alors sa fenêtre. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Le code de sortie, ou <span class="tt">std::nullopt</span> si la ligne de commande ne demande aucune de ces commandes — l'éditeur ouvre alors sa fenêtre. </dd></dl>
+
+</div>
+</div>
+<a id="ad551059312355ed10cda2f2300d1a6b9" name="ad551059312355ed10cda2f2300d1a6b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad551059312355ed10cda2f2300d1a6b9">&#9670;&#160;</a></span>runRenderCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; int &gt; hmi::runRenderCommand </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>arguments</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>defaultDataRoot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>output</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>L'entrée <span class="tt">--render</span> de l'éditeur, avant toute construction de fenêtre. </p>
+<ul>
+<li><span class="tt">--render [carte…]</span> : les cartes nommées (identifiant ou chemin), toutes à défaut ;</li>
+<li><span class="tt">--output &lt;fichier.png | dossier&gt;</span> : un fichier pour une carte unique, sinon un dossier où chaque carte s'écrit <span class="tt">capital-martpart.png</span> (défaut : le dossier courant) ;</li>
+<li><span class="tt">--layers floors,relief,figures,collision</span> : les bandes (défaut : les trois premières) ;</li>
+<li><span class="tt">--scale &lt;s&gt;</span> : l'échelle ;</li>
+<li><span class="tt">--data &lt;racine&gt;</span> : la racine des données (défaut : <code class="param">defaultDataRoot</code>).</li>
+</ul>
+<dl class="section return"><dt>Returns</dt><dd>Le code de sortie (0, 1 si une carte ne se lit pas ou ne s'écrit pas, 2 si la ligne de commande est fausse), ou <span class="tt">std::nullopt</span> sans <span class="tt">--render</span>. </dd></dl>
 
 </div>
 </div>
@@ -9659,6 +10096,54 @@ template&lt;class Map&gt; </div>
 </div><div class="memdoc">
 
 <p>Délai minimal entre deux sondages XInput d'un slot resté <b>déconnecté</b> (anti-saccade). </p>
+
+</div>
+</div>
+<a id="a5d67831ba4723f9904629c2b54bc7f9c" name="a5d67831ba4723f9904629c2b54bc7f9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d67831ba4723f9904629c2b54bc7f9c">&#9670;&#160;</a></span>GESTURE_SCRIPT_FORMAT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view hmi::GESTURE_SCRIPT_FORMAT = &quot;jadg-editor-gestures&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Nom du format d'un fichier de gestes (champ <span class="tt">format</span>). </p>
+
+</div>
+</div>
+<a id="a710d74b78f8cc0078e56dc64772f575f" name="a710d74b78f8cc0078e56dc64772f575f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a710d74b78f8cc0078e56dc64772f575f">&#9670;&#160;</a></span>GESTURE_SCRIPT_VERSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int hmi::GESTURE_SCRIPT_VERSION = 1</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Version du format d'un fichier de gestes (champ <span class="tt">version</span>). </p>
 
 </div>
 </div>

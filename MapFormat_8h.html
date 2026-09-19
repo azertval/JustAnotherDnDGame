@@ -133,6 +133,7 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a5b2225206c785643e614da4760a74f95" id="r_a5b2225206c785643e614da4760a74f95"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a5b2225206c785643e614da4760a74f95">hmi::loadPlaceAssets</a> (const std::filesystem::path &amp;dataRoot, std::string_view place)</td></tr>
+<tr class="memitem:a1d87e7deb27801e9b0fbb99ecbac3bcd" id="r_a1d87e7deb27801e9b0fbb99ecbac3bcd"><td class="memItemLeft">std::vector&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a1d87e7deb27801e9b0fbb99ecbac3bcd">hmi::mapFiles</a> (const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memitem:ae7b3f6f5d7f2751645dc12ed67e74af8" id="r_ae7b3f6f5d7f2751645dc12ed67e74af8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ae7b3f6f5d7f2751645dc12ed67e74af8">hmi::formatFinding</a> (const <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &amp;finding)</td></tr>
 <tr class="memitem:a42fc6546d215eea2d52d55f917655fd4" id="r_a42fc6546d215eea2d52d55f917655fd4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a42fc6546d215eea2d52d55f917655fd4">hmi::checkMapFile</a> (std::string_view mapId, const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memdesc:a42fc6546d215eea2d52d55f917655fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contrôle une carte, lue depuis son fichier.  <br /></td></tr>
@@ -143,13 +144,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a856d281d19a2bb61819bed1b54cd3eb1" id="r_a856d281d19a2bb61819bed1b54cd3eb1"><td class="memItemLeft"><a class="el" href="structhmi_1_1MapMigration.html">MapMigration</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a856d281d19a2bb61819bed1b54cd3eb1">hmi::migrateMapFile</a> (const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memdesc:a856d281d19a2bb61819bed1b54cd3eb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit <code class="param">file</code> et le migre, le lieu étant cherché sous <code class="param">dataRoot</code>.  <br /></td></tr>
 <tr class="memitem:a75e0715b710f1ffbe1d6392719cb07c2" id="r_a75e0715b710f1ffbe1d6392719cb07c2"><td class="memItemLeft">std::optional&lt; int &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2">hmi::runMapCommand</a> (const std::vector&lt; std::string &gt; &amp;arguments, const std::filesystem::path &amp;defaultDataRoot, std::string &amp;output)</td></tr>
-<tr class="memdesc:a75e0715b710f1ffbe1d6392719cb07c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span> et <span class="tt">--migrate</span>.  <br /></td></tr>
+<tr class="memdesc:a75e0715b710f1ffbe1d6392719cb07c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'entrée sans fenêtre de l'éditeur (décision D9) : <span class="tt">--check</span>, <span class="tt">--migrate</span> et <span class="tt">--apply</span> (<span class="tt">--render</span>, qui peint, vit du côté de l'IHM : <span class="tt"><a class="el" href="namespacehmi.html#ad551059312355ed10cda2f2300d1a6b9" title="L&#39;entrée --render de l&#39;éditeur, avant toute construction de fenêtre.">hmi::runRenderCommand</a></span>).  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>La garde du format de carte v4 : la <b>migration</b> d'une carte et le <b>contrôle</b> de toutes (<span class="tt">LOT-EDITOR-12</span>, constat A12, <span class="tt">EX-EDIT-062</span>). </p>
 <p>Logique pure, sans fenêtre.</p>
 <p>Ce que <span class="tt">LevelEditor --migrate</span> et <span class="tt">LevelEditor --check</span> appellent (<span class="tt">runMapCommand</span>), et ce que les tests appellent directement. Les messages sont en anglais, comme toute l'IHM de l'éditeur.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1125"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1135"></a>
 La migration</h2>
 <p>Une carte se convertit par un acte explicite, jamais par l'effet de bord d'un enregistrement (règle 1 de la feuille de route). Migrer une carte, c'est :</p>
 <ol type="1">
@@ -159,7 +160,7 @@ La migration</h2>
 <li><b>déduire la collision</b> (<span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>) : partout où la grille écrite s'accorde avec la déduction, elle en prend la valeur ; ailleurs, elle garde la sienne et la case devient <b>forcée</b> (D10). Le jeu ne voit donc aucune différence ;</li>
 <li>l'écrire en v4 canonique.</li>
 </ol>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1126"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1136"></a>
 Le contrôle</h2>
 <p>Pour chaque carte de <span class="tt">Levels/</span> : version courante, écriture canonique (charger puis écrire rend le même fichier), références (portails, points d'arrivée, zones de combat), pièces présentes au manifeste, collision égale à la déduction hors des cases forcées, identifiants d'entité. Les avertissements ne font pas échouer : réserve de hauteur non nulle, pièce citée par un ancien nom, gêne et abri pas encore joués, case forcée inutile, pièces larges qui se recouvrent. </p>
 </div></div><!-- contents -->

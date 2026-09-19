@@ -119,7 +119,7 @@ namespace {
         case core::EntityShape::Point:
 <span style = "background-color:#dfd">            return {entity.position};</span>
         case core::EntityShape::Path:
-<span style = "background-color:#fdd">            return waypointsOf(entity);</span>
+<span style = "background-color:#dfd">            return waypointsOf(entity);</span>
         case core::EntityShape::Rectangle:
         case core::EntityShape::Area:
             break;
@@ -297,8 +297,8 @@ std::optional&lt;core::MapEntity&gt; translatedEntity(const core::MapEntity&amp;
     };
     core::MapEntity result = entity;
     result.position = moved(entity.position);
-    for (core::GridPosition&amp; cell : result.cells) {</span>
-<span style = "background-color:#fdd">        cell = moved(cell);
+    for (core::GridPosition&amp; cell : result.cells) {
+        cell = moved(cell);
     }</span>
     // Un rectangle entier doit rester sur la carte, pas seulement son coin.
 <span style = "background-color:#dfd">    const std::vector&lt;core::GridPosition&gt; covered = entityCells(result);
@@ -317,9 +317,9 @@ std::optional&lt;EntityPick&gt; pickEntity(const std::vector&lt;core::MapEntity&
 <span style = "background-color:#fdd">            continue;</span>
         }
 <span style = "background-color:#dfd">        if (const std::optional&lt;EntityHandle&gt; handle = handleAt(entities[*selected], cell)) {
-            return EntityPick{.index = *selected, .handle = handle, .body = false};</span>
-<span style = "background-color:#fdd">        }</span>
-<span style = "background-color:#dfd">    }</span>
+            return EntityPick{.index = *selected, .handle = handle, .body = false};
+        }
+    }</span>
     // 2. Une entite dont c'est la case, ou un point de passage : la derniere posee d'abord.
 <span style = "background-color:#dfd">    for (std::size_t index = entities.size(); index-- &gt; 0;) {
         const core::MapEntity&amp; entity = entities[index];

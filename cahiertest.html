@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>836 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>844 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Tests unitaires (833)</h1>
+Tests unitaires (841)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -5199,6 +5199,46 @@ Vérifie que <span class="tt">countIssues(lines, "outside every combat zone")</s
 Vérifie que <span class="tt">hmi::combatZoneSummary(after).find("sable: 11 x 14")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
 Vérifie que <span class="tt">verdict().zone.columns</span> vaut <span class="tt">20</span>.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">test_gesture_script.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>GestureScriptTest.UnScenarioParOutilRendLeFichierAttendu</b> (Bloquant)<br  />
+<sub><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">Source/Test/Unit/Editor/test_gesture_script.cpp</a>:117</span></sub>  </td><td class="markdownTableBodyNone">Un scénario &ndash;apply par outil rend le fichier attendu.  </td><td class="markdownTableBodyNone">1. Pour chacun des onze outils, rejouer <span class="tt">Fixtures/Gestures/&lt;outil&gt;.json</span> sur <span class="tt">terrain.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rendu.script.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rendu.script.gestures</span> vaut <span class="tt">scenario.gestes</span>.<br  />
+Vérifie que <span class="tt">rendu.script.steps</span> vaut <span class="tt">scenario.pas</span>.<br  />
+Vérifie que <span class="tt">rendu.mapText</span> vaut <span class="tt">lire(gestures() / (std::string{scenario.outil} + ".attendu.json"))</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>GestureScriptTest.LaMesureEtLesNotesRendentLeurCompteRendu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">Source/Test/Unit/Editor/test_gesture_script.cpp</a>:144</span></sub>  </td><td class="markdownTableBodyNone">La mesure et les notes rendent leur compte rendu et leur annexe.  </td><td class="markdownTableBodyNone">1. Rejouer <span class="tt">measure.json</span> puis <span class="tt">note.json</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">mesure.script.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">mesure.script.log.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">mesure.script.log.front().find("7 × 4 · 6 cells = 30 ft")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">mesure.sidecar.has_value()</span> est faux.<br  />
+Vérifie que <span class="tt">notes.script.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">notes.sidecar.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af9e99c3df83d453a28ec874bc6106d4a">hmi::sidecarJson</a>(*notes.sidecar)</span> vaut <span class="tt">lire(gestures() / "note.attendu.editor.json")</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>GestureScriptTest.UneRueDeMartpartRefaiteRendLaCarteLivree</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">Source/Test/Unit/Editor/test_gesture_script.cpp</a>:178</span></sub>  </td><td class="markdownTableBodyNone">Une rue de Martpart refaite par &ndash;apply rend la carte livrée.  </td><td class="markdownTableBodyNone">1. Rejouer <span class="tt">Fixtures/Gestures/martpart-rue.json</span> sur <span class="tt">capital/martpart</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rendu.script.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">rendu.mapId</span> vaut <span class="tt">"capital/martpart"</span>.<br  />
+Vérifie que <span class="tt">rendu.script.gestures</span> vaut <span class="tt">10U</span>.<br  />
+Vérifie que <span class="tt">rendu.script.steps</span> vaut <span class="tt">10U</span>.<br  />
+Vérifie que <span class="tt">rendu.mapText</span> vaut <span class="tt">lire(dataRoot() / "Levels" / "capital" / "martpart.json")</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>GestureScriptTest.UnGesteRefuseRendUneErreurLisible</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">Source/Test/Unit/Editor/test_gesture_script.cpp</a>:198</span></sub>  </td><td class="markdownTableBodyNone">Un geste refusé rend une erreur lisible.  </td><td class="markdownTableBodyNone">1. Rejouer un geste sur une couche verrouillée, hors de la carte, avec une pièce inconnue, sur un identifiant absent, un déplacement qui sort une entité, un outil inconnu, un fichier d'un autre format.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">message.find(attendu)</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ad2d5ef8bbea644403c389e5d20a5fbde" title="Rejoue les gestes de script sur draft.">hmi::applyGestureScript</a>(json{{"format", "autre"}}, carte.draft, carte.annexe, carte.lieu) .error.find("not a gesture file")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>GestureScriptTest.UnGesteRefuseNeTouchePasAuFichier</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__gesture__script_8cpp.html" title="Tests de l&#39;éditeur sans fenêtre (LOT-EDITOR-13) : un scénario --apply par outil, comparé à un fichier...">Source/Test/Unit/Editor/test_gesture_script.cpp</a>:236</span></sub>  </td><td class="markdownTableBodyNone">Un geste refusé ne touche pas au fichier.  </td><td class="markdownTableBodyNone">1. <span class="tt">LevelEditor --apply</span> d'un fichier dont le deuxième geste est refusé, avec <span class="tt">--output</span>.<br  />
+2. Le même, avec des notes seulement.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check, --migrate et --apply (--render,...">hmi::runMapCommand</a>({"--data", dataRoot().string(), "--apply", gestes.string(), temoin, "--output", sortie.string()}, {}, compteRendu)</span> vaut <span class="tt">1</span>.<br  />
+Vérifie que <span class="tt">compteRendu.find("nothing written")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(sortie)</span> est faux.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check, --migrate et --apply (--render,...">hmi::runMapCommand</a>( {"--data", dataRoot().string(), "--apply", (gestures() / "note.json").string(), temoin, "--output", sortie.string()}, {}, compteRendu)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">lire(sortie)</span> vaut <span class="tt">lire(gestures() / "note.attendu.json")</span>.<br  />
+Vérifie que <span class="tt">lire(hmi::sidecarPath(sortie))</span> vaut <span class="tt">lire(gestures() / "note.attendu.editor.json")</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__level__file__operations_8cpp.html">test_level_file_operations.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -5323,12 +5363,12 @@ Vérifie que <span class="tt">sortie.find("does not exist")</span> diffère de <
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>MapFormatTest.MigrerRendUneCarteQueLeControleAccepte</b> (Critique)<br  />
 <sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:257</span></sub>  </td><td class="markdownTableBodyNone">&ndash;migrate rend une carte que &ndash;check accepte.  </td><td class="markdownTableBodyNone">1. Copier <span class="tt">format-v3.json</span> dans un dossier de données.<br  />
-2. <span class="tt">--migrate</span> puis <span class="tt">--check</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--migrate", "rue", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
-Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--check", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
+2. <span class="tt">--migrate</span> puis <span class="tt">--check</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check, --migrate et --apply (--render,...">hmi::runMapCommand</a>({"--migrate", "rue", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check, --migrate et --apply (--render,...">hmi::runMapCommand</a>({"--check", "--data", donnees.racine().string()}, {}, sortie)</span> vaut <span class="tt">0</span>.<br  />
 Vérifie que <span class="tt">texte.find("\\"version\\\\": 4\")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><b>MapFormatTest.SansCommandeLEditeurOuvreSaFenetre</b> (Mineur)<br  />
-<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:284</span></sub>  </td><td class="markdownTableBodyNone">Sans commande, l'éditeur ouvre sa fenêtre.  </td><td class="markdownTableBodyNone">1. Passer <span class="tt">--crash-test</span> seul.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check et --migrate.">hmi::runMapCommand</a>({"--crash-test"}, {}, sortie).has_value()</span> est faux.<br  />
+<sub><span class="tt"><a class="el" href="test__map__format_8cpp.html" title="Tests de la garde du format v4 (LOT-EDITOR-12) : migration d&#39;une carte, contrôle de toutes,...">Source/Test/Unit/Editor/test_map_format.cpp</a>:284</span></sub>  </td><td class="markdownTableBodyNone">Sans commande, l'éditeur ouvre sa fenêtre.  </td><td class="markdownTableBodyNone">1. Passer <span class="tt">--crash-test</span> seul.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2" title="L&#39;entrée sans fenêtre de l&#39;éditeur (décision D9) : --check, --migrate et --apply (--render,...">hmi::runMapCommand</a>({"--crash-test"}, {}, sortie).has_value()</span> est faux.<br  />
 Vérifie que <span class="tt">sortie.empty()</span> est vrai.  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><b>MapFormatTest.LesTroisCartesMigreesSeJouentALIdentique</b> (Critique)<br  />
@@ -5336,6 +5376,31 @@ Vérifie que <span class="tt">sortie.empty()</span> est vrai.  </td></tr>
  2. <span class="tt">JADG_V3_MAPS_DIR=&lt;dossier&gt;</span> puis lancer ce test.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">instantane(v4)</span> vaut <span class="tt">instantane(v3)</span>.<br  />
 Vérifie que <span class="tt">memeGrilleTactique(v4, v3)</span> est vrai.<br  />
 Vérifie que <span class="tt">v4.entry()</span> vaut <span class="tt">v3.entry()</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__map__render_8cpp.html" title="Tests de LevelEditor --render (LOT-EDITOR-13) : une carte livrée rendue hors écran,...">test_map_render.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapRenderTest.MartpartSeRendSansFenetre</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__render_8cpp.html" title="Tests de LevelEditor --render (LOT-EDITOR-13) : une carte livrée rendue hors écran,...">Source/Test/Unit/Editor/test_map_render.cpp</a>:49</span></sub>  </td><td class="markdownTableBodyNone">&ndash;render peint une carte livrée hors écran.  </td><td class="markdownTableBodyNone">1. Rendre Martpart au quart de l'échelle, bandes par défaut.<br  />
+ 2. La rendre avec la collision en plus.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">martpart.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">lieu.width()</span> vaut <span class="tt">989</span>.<br  />
+Vérifie que <span class="tt">lieu.height()</span> vaut <span class="tt">648</span>.<br  />
+Vérifie que <span class="tt">peinte(lieu, options.background)</span> est strictement supérieur à <span class="tt">1.0 / 5.0</span>.<br  />
+Vérifie que <span class="tt">collision</span> diffère de <span class="tt">lieu</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>MapRenderTest.LesBandesSeLisentParLeurNom</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__render_8cpp.html" title="Tests de LevelEditor --render (LOT-EDITOR-13) : une carte livrée rendue hors écran,...">Source/Test/Unit/Editor/test_map_render.cpp</a>:78</span></sub>  </td><td class="markdownTableBodyNone">&ndash;layers lit les bandes du canevas.  </td><td class="markdownTableBodyNone">1. Lire <span class="tt">floors,collision</span>, puis <span class="tt">floors,toit</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">bands.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*bands</span> vaut <span class="tt">(<a class="el" href="structhmi_1_1IsoBandOpacity.html" title="L&#39;opacité de chaque bande de la scène iso ; 0 : la bande n&#39;est pas peinte.">hmi::IsoBandOpacity</a>{ .floors = 1.0F, .relief = 0.0F, .figures = 0.0F, .collision = 1.0F})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aea9d8742fc17bfd6135f669a67430cd7" title="Lit une liste de bandes (floors,relief,figures,collision).">hmi::parseRenderLayers</a>("floors,toit").has_value()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>MapRenderTest.RenderEcritUneImageParCarte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__map__render_8cpp.html" title="Tests de LevelEditor --render (LOT-EDITOR-13) : une carte livrée rendue hors écran,...">Source/Test/Unit/Editor/test_map_render.cpp</a>:95</span></sub>  </td><td class="markdownTableBodyNone">&ndash;render écrit une image par carte.  </td><td class="markdownTableBodyNone">1. <span class="tt">--render capital/martpart coliseum --scale 0.125 --output &lt;dossier&gt;</span>.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">code.has_value()</span> est vrai.<br  />
+Vérifie que <span class="tt">*code</span> vaut <span class="tt">0</span>.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(dossier / "capital-martpart.png")</span> est vrai.<br  />
+Vérifie que <span class="tt">std::filesystem::exists(dossier / "coliseum.png")</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#ad551059312355ed10cda2f2300d1a6b9" title="L&#39;entrée --render de l&#39;éditeur, avant toute construction de fenêtre.">hmi::runRenderCommand</a>({"--check"}, {}, sortie).has_value()</span> est faux.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__paint__tools_8cpp.html" title="Tests des outils du peintre — ligne, seau, pipette, miroir, mesure — et de l&#39;acceptation du LOT-EDITO...">test_paint_tools.cpp</a></span></b></p>
 <table class="markdownTable">

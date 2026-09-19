@@ -14,6 +14,7 @@
 
 #include "Editor/Logic/EntityGesture.h"
 
+#include &lt;algorithm&gt;
 #include &lt;utility&gt;
 
 #include "Core/Levels/LevelDraft.h"
@@ -107,8 +108,8 @@ EntityDragResult dragEntities(const EntityDrag&amp; drag, const std::vector&lt;c
             }
 <span style = "background-color:#dfd">            const std::size_t index = drag.indices.front();
             const core::MapEntity&amp; entity = entities[index];
-            if (drag.handle-&gt;kind == HandleKind::Waypoint) {</span>
-<span style = "background-color:#fdd">                result.replaced.emplace_back(index,</span>
+            if (drag.handle-&gt;kind == HandleKind::Waypoint) {
+                result.replaced.emplace_back(index,</span>
                                              withWaypointMoved(entity, drag.handle-&gt;waypoint, to));
 <span style = "background-color:#dfd">            } else if (const std::optional&lt;CellRect&gt; rect = entityRectangle(entity)) {
                 result.replaced.emplace_back(</span>
@@ -163,6 +164,41 @@ ShapeGestureDecision resolveShapePress(const core::MapEntity&amp; entity, core::
             break;
     }
 <span style = "background-color:#dfd">    return {};
+}</span>
+
+<span style = "background-color:#dfd">EntityDragApplied applyEntityDrag(core::LevelDraft&amp; draft, const EntityDragResult&amp; result) {
+    EntityDragApplied applied;
+    if (result.refused || result.empty()) {</span>
+<span style = "background-color:#fdd">        return applied;</span>
+    }
+<span style = "background-color:#dfd">    const core::GestureScope gesture(draft);
+    for (const auto&amp; [index, entity] : result.replaced) {
+        applied.changed = draft.replaceEntity(index, entity) || applied.changed;
+    }
+    if (result.placed) {
+        applied.placed = draft.placeEntity(*result.placed);
+        applied.changed = applied.placed.has_value() || applied.changed;</span>
+    }
+<span style = "background-color:#dfd">    return applied;
+}</span>
+
+std::optional&lt;std::size_t&gt; placeEntityOfKind(core::LevelDraft&amp; draft, const std::string&amp; kind,
+<span style = "background-color:#dfd">                                             core::GridPosition cell) {
+    return draft.placeEntity(newEntity(kind, cell));
+}</span>
+
+<span style = "background-color:#dfd">std::size_t removeEntities(core::LevelDraft&amp; draft, std::vector&lt;std::size_t&gt; indices) {
+    std::ranges::sort(indices);
+    const auto [first, last] = std::ranges::unique(indices);
+    indices.erase(first, last);
+    std::size_t removed = 0;
+    const core::GestureScope gesture(draft);
+    for (auto index = indices.rbegin(); index != indices.rend(); ++index) {
+        if (draft.removeEntity(*index)) {
+            ++removed;
+        }
+    }
+    return removed;
 }</span>
 
 }  // namespace hmi</pre>
