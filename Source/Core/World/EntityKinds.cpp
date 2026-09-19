@@ -6,14 +6,16 @@
 #include <algorithm>
 #include <cstdint>
 #include <optional>
+#include <string>
 #include <utility>
 #include <variant>
 
 #include "Core/Combat/Arena.h"
-#include "Core/World/CityBlock.h"
-#include "Core/World/CombatZone.h"
+#include "Core/Combat/BattleGrid.h"
 #include "Core/Combat/CombatTransition.h"
 #include "Core/Rpg/Dialogue.h"
+#include "Core/World/CityBlock.h"
+#include "Core/World/CombatZone.h"
 
 namespace core {
 
@@ -32,6 +34,36 @@ constexpr std::string_view ENCOUNTER_RESPAWNS_PROPERTY = "respawns";
                               .fixedChoices = {},
                               .required = required,
                               .defaultValue = std::string{}};
+}
+
+[[nodiscard]] EntityPropertySpec text(std::string_view key, bool required) {
+    return EntityPropertySpec{.key = key,
+                              .kind = EntityPropertyKind::Text,
+                              .source = EntityChoiceSource::Fixed,
+                              .fixedChoices = {},
+                              .required = required,
+                              .defaultValue = std::string{}};
+}
+
+[[nodiscard]] EntityPropertySpec boolean(std::string_view key) {
+    return EntityPropertySpec{.key = key,
+                              .kind = EntityPropertyKind::Boolean,
+                              .source = EntityChoiceSource::Fixed,
+                              .fixedChoices = {},
+                              .required = false,
+                              .defaultValue = false};
+}
+
+// Un entier requis, borne par le bas, qui vaut son minimum a la creation.
+[[nodiscard]] EntityPropertySpec atLeast(std::string_view key, std::int64_t minimum,
+                                         bool required = true) {
+    return EntityPropertySpec{.key = key,
+                              .kind = EntityPropertyKind::Integer,
+                              .source = EntityChoiceSource::Fixed,
+                              .fixedChoices = {},
+                              .required = required,
+                              .defaultValue = minimum,
+                              .minimum = minimum};
 }
 
 // Vrai si @p value a le type qu'attend @p kind.
@@ -72,98 +104,67 @@ const std::vector<EntityKind>& knownEntityKinds() {
         // d'un coffre arrive avec le butin (LOT-26) ; la table ne l'invente pas avant.
         EntityKind{.type = "chest", .properties = {}},
         EntityKind{.type = "sign", .properties = {}},
-        // PNJ (LOT-15) : un figurant sans dialogue est legal, d'ou `required = false`.
+        // PNJ (LOT-15) : un figurant sans dialogue est legal, d'ou `required = false`. Sa figurine
+        // (LOT-91) : un PNJ sans figurine se parle et ne se dessine pas (LOT-09). La sentinelle
+        // d'une porte gardee (LOT-96) nomme le quartier qu'elle ferme, par sa fiche d'atlas.
         EntityKind{.type = NPC_ENTITY_TYPE,
                    .properties = {choice(NPC_DIALOGUE_PROPERTY, EntityChoiceSource::Dialogues,
                                          /*required=*/false),
-                                  // La figurine de l'atelier (LOT-91) que la carte lui donne : un
-                                  // PNJ sans figurine se parle et ne se dessine pas (LOT-09).
-                                  EntityPropertySpec{.key = NPC_FIGURE_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = false,
-                                                     .defaultValue = std::string{}},
-                                  // La sentinelle d'une porte gardee (LOT-96) : le quartier
-                                  // qu'elle ferme, par sa fiche d'atlas.
-                                  EntityPropertySpec{.key = NPC_GUARDED_DISTRICT_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = false,
-                                                     .defaultValue = std::string{}}}},
+                                  choice(NPC_FIGURE_PROPERTY, EntityChoiceSource::Figures,
+                                         /*required=*/false),
+                                  choice(NPC_GUARDED_DISTRICT_PROPERTY,
+                                         EntityChoiceSource::Locations, /*required=*/false)},
+                   .labelProperty = NPC_DIALOGUE_PROPERTY,
+                   .figureProperty = NPC_FIGURE_PROPERTY},
         // Rencontre (LOT-18) : sans rencontre nommee, le declencheur n'en est pas un.
         EntityKind{.type = ENCOUNTER_ENTITY_TYPE,
                    .properties = {choice(ENCOUNTER_ID_PROPERTY, EntityChoiceSource::Encounters,
                                          /*required=*/true),
-                                  EntityPropertySpec{.key = ENCOUNTER_RESPAWNS_PROPERTY,
-                                                     .kind = EntityPropertyKind::Boolean,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = false,
-                                                     .defaultValue = false}}},
-        // Portail et point d'arrivee (LOT-11, traverses au LOT-09).
+                                  boolean(ENCOUNTER_RESPAWNS_PROPERTY)},
+                   .labelProperty = ENCOUNTER_ID_PROPERTY},
+        // Portail et point d'arrivee (LOT-11, traverses au LOT-09). Le drapeau exige n'est pas
+        // requis : un portail ordinaire s'ouvre toujours.
         EntityKind{.type = PORTAL_ENTITY_TYPE,
                    .properties = {choice(PORTAL_TARGET_MAP_PROPERTY, EntityChoiceSource::Maps,
                                          /*required=*/true),
                                   choice(PORTAL_ARRIVAL_PROPERTY, EntityChoiceSource::ArrivalPoints,
                                          /*required=*/true),
-                                  // Le drapeau exige n'est pas requis : un portail ordinaire
-                                  // s'ouvre toujours, et c'est le LOT-16 qui posera les drapeaux
-                                  // que celui-ci lit (LOT-09).
-                                  EntityPropertySpec{.key = PORTAL_REQUIRED_FLAG_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = false,
-                                                     .defaultValue = std::string{}}}},
+                                  choice(PORTAL_REQUIRED_FLAG_PROPERTY, EntityChoiceSource::Flags,
+                                         /*required=*/false)},
+                   .labelProperty = PORTAL_TARGET_MAP_PROPERTY},
         EntityKind{.type = SPAWN_POINT_ENTITY_TYPE,
-                   .properties = {EntityPropertySpec{.key = SPAWN_POINT_NAME_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::string{}}}},
+                   .properties = {text(SPAWN_POINT_NAME_PROPERTY, /*required=*/true)},
+                   .labelProperty = SPAWN_POINT_NAME_PROPERTY},
         // Zone de combat (LOT-09) : le rectangle nomme ou l'on se bat, et lui seul (EX-LVL-018).
         EntityKind{.type = COMBAT_ZONE_ENTITY_TYPE,
-                   .properties = {EntityPropertySpec{.key = COMBAT_ZONE_NAME_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::string{}},
-                                  EntityPropertySpec{.key = COMBAT_ZONE_WIDTH_PROPERTY,
-                                                     .kind = EntityPropertyKind::Integer,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::int64_t{1}},
-                                  EntityPropertySpec{.key = COMBAT_ZONE_HEIGHT_PROPERTY,
-                                                     .kind = EntityPropertyKind::Integer,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::int64_t{1}}}},
+                   .properties = {text(COMBAT_ZONE_NAME_PROPERTY, /*required=*/true),
+                                  atLeast(COMBAT_ZONE_WIDTH_PROPERTY, 1),
+                                  atLeast(COMBAT_ZONE_HEIGHT_PROPERTY, 1)},
+                   .shape = EntityShape::Rectangle,
+                   .labelProperty = COMBAT_ZONE_NAME_PROPERTY},
         // Ilot d'un quartier (LOT-96) : le rectangle nomme que le plan de la ville montre.
         EntityKind{.type = CITY_BLOCK_ENTITY_TYPE,
-                   .properties = {EntityPropertySpec{.key = CITY_BLOCK_NAME_PROPERTY,
-                                                     .kind = EntityPropertyKind::Text,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::string{}},
-                                  EntityPropertySpec{.key = CITY_BLOCK_WIDTH_PROPERTY,
-                                                     .kind = EntityPropertyKind::Integer,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::int64_t{1}},
-                                  EntityPropertySpec{.key = CITY_BLOCK_HEIGHT_PROPERTY,
-                                                     .kind = EntityPropertyKind::Integer,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::int64_t{1}}}},
+                   .properties = {text(CITY_BLOCK_NAME_PROPERTY, /*required=*/true),
+                                  atLeast(CITY_BLOCK_WIDTH_PROPERTY, 1),
+                                  atLeast(CITY_BLOCK_HEIGHT_PROPERTY, 1)},
+                   .shape = EntityShape::Rectangle,
+                   .labelProperty = CITY_BLOCK_NAME_PROPERTY},
+        // Zone de regles (D13, lue par BattleGrid) : un rectangle ou des cases peintes. Sa taille
+        // n'est pas requise -- une zone peinte n'en a pas. Le nom n'est lu par personne : il sert a
+        // la reconnaitre dans la liste.
+        EntityKind{.type = ZONE_ENTITY_TYPE,
+                   .properties = {text(ZONE_NAME_PROPERTY, /*required=*/false),
+                                  boolean(DIFFICULT_TERRAIN_PROPERTY),
+                                  atLeast(ZONE_WIDTH_PROPERTY, 1, /*required=*/false),
+                                  atLeast(ZONE_HEIGHT_PROPERTY, 1, /*required=*/false)},
+                   .shape = EntityShape::Area,
+                   .labelProperty = ZONE_NAME_PROPERTY},
+        // Trajet (LOT-70, LOT-82) : ses horaires viendront avec l'horloge du LOT-70.
+        EntityKind{.type = ROUTE_ENTITY_TYPE,
+                   .properties = {text(ROUTE_NAME_PROPERTY, /*required=*/true),
+                                  boolean(ROUTE_LOOP_PROPERTY)},
+                   .shape = EntityShape::Path,
+                   .labelProperty = ROUTE_NAME_PROPERTY},
         // Entree d'arene (LOT-50).
         EntityKind{.type = ARENA_ENTRY_ENTITY_TYPE,
                    .properties = {EntityPropertySpec{.key = ARENA_SIDE_PROPERTY,
@@ -172,12 +173,8 @@ const std::vector<EntityKind>& knownEntityKinds() {
                                                      .fixedChoices = {"allies", "enemies"},
                                                      .required = true,
                                                      .defaultValue = std::string{"allies"}},
-                                  EntityPropertySpec{.key = ARENA_RANK_PROPERTY,
-                                                     .kind = EntityPropertyKind::Integer,
-                                                     .source = EntityChoiceSource::Fixed,
-                                                     .fixedChoices = {},
-                                                     .required = true,
-                                                     .defaultValue = std::int64_t{1}}}},
+                                  atLeast(ARENA_RANK_PROPERTY, 1)},
+                   .labelProperty = ARENA_SIDE_PROPERTY},
     };
     return familles;
 }
@@ -249,6 +246,31 @@ namespace {
             }
             break;
         }
+        case EntityChoiceSource::Figures:
+            if (!context.figures.contains(text)) {
+                return EntityIssueCode::UnknownFigure;
+            }
+            break;
+        case EntityChoiceSource::Flags:
+            if (!context.flags.contains(text)) {
+                return EntityIssueCode::UnsetFlag;
+            }
+            break;
+        case EntityChoiceSource::Locations:
+            if (!context.locations.contains(text)) {
+                return EntityIssueCode::UnknownLocation;
+            }
+            break;
+        case EntityChoiceSource::Items:
+            if (!context.items.contains(text)) {
+                return EntityIssueCode::UnknownItem;
+            }
+            break;
+        case EntityChoiceSource::EntityRefs:
+            if (!context.entityRefs.contains(text)) {
+                return EntityIssueCode::UnknownEntityRef;
+            }
+            break;
     }
     return std::nullopt;
 }
@@ -268,9 +290,15 @@ namespace {
     if (!hasExpectedType(found->second, spec.kind)) {
         return std::pair{EntityIssueCode::WrongValueType, std::string{}};
     }
+    if (const auto* const integer = std::get_if<std::int64_t>(&found->second)) {
+        if (*integer < spec.minimum || *integer > spec.maximum) {
+            return std::pair{EntityIssueCode::OutOfRange, std::to_string(*integer)};
+        }
+        return std::nullopt;
+    }
     const auto* const text = std::get_if<std::string>(&found->second);
     if (text == nullptr) {
-        return std::nullopt;  // entier ou booleen du bon type : rien d'autre a verifier.
+        return std::nullopt;  // booleen du bon type : rien d'autre a verifier.
     }
     if (text->empty()) {
         if (spec.required) {

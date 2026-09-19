@@ -147,53 +147,81 @@ TEST(EditionEntitesTest, ReglagesDAffichageDesCouches) {
 }
 
 /**
- * @brief L'appui de l'outil Entité : une case occupée sélectionne l'entité du dessus, une case
- * libre pose, Ctrl pose sur une case occupée, et sans famille une case libre désélectionne.
+ * @brief L'appui de l'outil Entité : une case occupée prend l'entité du dessus, une case libre
+ * pose, Ctrl pose sur une case occupée, Maj bascule dans la sélection, et sans famille une case
+ * libre désélectionne.
  * \castest{<b>Le geste de l'outil Entite.</b><br/>
  * \tcat Unitaire · Edition d'entites<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Appuyer sur la case du coffre et du panneau, avec et sans Ctrl.<br/>2. Appuyer sur
- * une case libre, avec et sans famille choisie.<br/>3. Appuyer hors de la grille.<br/>
- * \tattendu Selection du panneau (rang 1) ; pose avec Ctrl ; pose ; deselection ; rien.
+ * \tetapes 1. Appuyer sur la case du coffre et du panneau, avec et sans Ctrl, avec Maj.<br/>2.
+ * Appuyer sur une case libre, avec et sans famille choisie.<br/>3. Appuyer hors de la grille.<br/>
+ * \tattendu Prise du panneau (rang 1) ; pose avec Ctrl ; bascule avec Maj ; pose ; deselection ;
+ * rien.
  * }
  */
 TEST(EditionEntitesTest, GesteDeLOutilEntite) {
     const core::LevelDraft map = draft();
     const core::GridPosition shared{.column = 2, .row = 1};
     const core::GridPosition libre{.column = 0, .row = 3};
+    const std::vector<std::size_t> none;
 
-    EXPECT_EQ(hmi::resolveEntityPress(map, shared, "npc", false),
-              (hmi::EntityGestureDecision{
-                  .action = hmi::EntityGestureAction::Select, .entityIndex = 1, .cell = shared}));
-    EXPECT_EQ(hmi::resolveEntityPress(map, shared, "npc", true).action,
-              hmi::EntityGestureAction::Place);
-    EXPECT_EQ(hmi::resolveEntityPress(map, libre, "npc", false),
-              (hmi::EntityGestureDecision{
-                  .action = hmi::EntityGestureAction::Place, .entityIndex = 0, .cell = libre}));
-    EXPECT_EQ(hmi::resolveEntityPress(map, libre, "", false).action,
+    EXPECT_EQ(hmi::resolveEntityPress(map, shared, none, "npc", {}),
+              (hmi::EntityGestureDecision{.action = hmi::EntityGestureAction::Grab,
+                                          .entityIndex = 1,
+                                          .cell = shared,
+                                          .handle = std::nullopt}));
+    EXPECT_EQ(
+        hmi::resolveEntityPress(map, shared, none, "npc", {.force = true, .toggle = false}).action,
+        hmi::EntityGestureAction::Place);
+    EXPECT_EQ(hmi::resolveEntityPress(map, shared, none, "", {.force = false, .toggle = true}),
+              (hmi::EntityGestureDecision{.action = hmi::EntityGestureAction::Toggle,
+                                          .entityIndex = 1,
+                                          .cell = shared,
+                                          .handle = std::nullopt}));
+    EXPECT_EQ(hmi::resolveEntityPress(map, libre, none, "npc", {}),
+              (hmi::EntityGestureDecision{.action = hmi::EntityGestureAction::Place,
+                                          .entityIndex = 0,
+                                          .cell = libre,
+                                          .handle = std::nullopt}));
+    EXPECT_EQ(hmi::resolveEntityPress(map, libre, none, "", {}).action,
               hmi::EntityGestureAction::Deselect);
-    EXPECT_EQ(hmi::resolveEntityPress(map, {.column = 9, .row = 9}, "npc", false).action,
+    EXPECT_EQ(hmi::resolveEntityPress(map, {.column = 9, .row = 9}, none, "npc", {}).action,
               hmi::EntityGestureAction::Ignore);
 }
 
 /**
- * @brief Relâcher un glisser déplace l'entité saisie seulement si la case a changé.
- * \castest{<b>Un glisser deplace l'entite saisie.</b><br/>
+ * @brief Un glisser déplace l'entité prise seulement si la case a changé, et un groupe bouge entier
+ * ou pas du tout.
+ * \castest{<b>Un glisser deplace l'entite saisie, ou le groupe.</b><br/>
  * \tcat Unitaire · Edition d'entites<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Relacher sur une autre case, sur la meme, sans entite saisie.<br/>
- * \tattendu Deplacement ; rien ; rien.
+ * \tetapes 1. Glisser le coffre d'une case, puis sur place.<br/>2. Glisser le coffre et le
+ * panneau ensemble, puis hors de la carte.<br/>
+ * \tattendu Deplacement ; rien ; deux entites deplacees ; refus, rien ne bouge.
  * }
  */
 TEST(EditionEntitesTest, GlisserDeplaceLEntiteSaisie) {
+    const core::LevelDraft map = draft();
     const core::GridPosition from{.column = 2, .row = 1};
     const core::GridPosition to{.column = 3, .row = 1};
-    EXPECT_EQ(hmi::resolveEntityRelease(0, from, to),
-              (hmi::EntityGestureDecision{
-                  .action = hmi::EntityGestureAction::Move, .entityIndex = 0, .cell = to}));
-    EXPECT_EQ(hmi::resolveEntityRelease(0, from, from).action, hmi::EntityGestureAction::Ignore);
-    EXPECT_EQ(hmi::resolveEntityRelease(std::nullopt, from, to).action,
-              hmi::EntityGestureAction::Ignore);
+    const hmi::EntityDrag one{.mode = hmi::EntityDrag::Mode::Move,
+                              .indices = {0},
+                              .handle = std::nullopt,
+                              .kind = {},
+                              .from = from};
+    const hmi::EntityDragResult moved = hmi::dragEntities(one, map.entities(), to, 5, 4);
+    ASSERT_EQ(moved.replaced.size(), 1U);
+    EXPECT_EQ(moved.replaced[0].first, 0U);
+    EXPECT_EQ(moved.replaced[0].second.position, to);
+    EXPECT_TRUE(hmi::dragEntities(one, map.entities(), from, 5, 4).empty());
+
+    hmi::EntityDrag both = one;
+    both.indices = {0, 1};
+    EXPECT_EQ(hmi::dragEntities(both, map.entities(), to, 5, 4).replaced.size(), 2U);
+    const hmi::EntityDragResult refused =
+        hmi::dragEntities(both, map.entities(), {.column = 2, .row = 3}, 5, 3);
+    EXPECT_TRUE(refused.refused);
+    EXPECT_TRUE(refused.replaced.empty());
 }
 
 /**
@@ -242,14 +270,15 @@ TEST(EditionEntitesTest, ChoixProposesParLePanneau) {
 }
 
 /**
- * @brief Les catalogues livrés se lisent, et le Colisée livré ne lève aucun avertissement.
+ * @brief Les catalogues livrés se lisent, et les trois cartes livrées ne lèvent aucun
+ * avertissement : figurines, quartiers gardés, portails et points d'arrivée sont tous connus.
  * \castest{<b>Les catalogues livres alimentent l'editeur.</b><br/>
  * \tcat Unitaire · Edition d'entites<br/>
  * \tcrit Majeur<br/>
- * \tetapes 1. Lire les references sous Source/Elements.<br/>2. Valider les entites de l'arene du
- * futur.<br/>
- * \tattendu Le dialogue du heraut, la rencontre du Colisee et l'arene sont connus ; aucune entite
- * de l'arene n'est signalee.
+ * \tetapes 1. Lire les references sous Source/Elements.<br/>2. Valider les entites du Colisee, de
+ * Martpart et d'Arenarea.<br/>
+ * \tattendu Le dialogue du heraut, la rencontre du Colisee, les figurines des deux ateliers, les
+ * lieux de l'atlas, les objets et les cartes sont connus ; aucune entite n'est signalee.
  * }
  */
 TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
@@ -258,13 +287,24 @@ TEST(EditionEntitesTest, CataloguesLivresAlimententLEditeur) {
               references.dialogues.end());
     EXPECT_NE(references.encounters.find("colisee-fauves"), nullptr);
     ASSERT_NE(references.world.find("coliseum"), nullptr);
+    EXPECT_TRUE(std::ranges::binary_search(references.figures, "anariel"));
+    EXPECT_TRUE(std::ranges::binary_search(references.figures, "Monsters/lion"));
+    EXPECT_FALSE(references.locations.empty());
+    EXPECT_FALSE(references.items.empty());
 
-    const core::LevelLoadResult arena =
-        core::LevelLoader::loadFromFile(elementsRoot() / "Levels" / "coliseum.json");
-    ASSERT_TRUE(arena.ok()) << arena.error;
-    const core::EntityReferenceContext context =
-        hmi::referenceContext(references, "coliseum", arena.level->entities());
-    EXPECT_TRUE(core::validateMapEntities(arena.level->entities(), context).empty());
+    for (const char* const mapId : {"coliseum", "capital/martpart", "capital/arenarea"}) {
+        const core::LevelLoadResult map = core::LevelLoader::loadFromFile(
+            elementsRoot() / "Levels" / (std::string{mapId} + ".json"));
+        ASSERT_TRUE(map.ok()) << map.error;
+        const core::EntityReferenceContext context =
+            hmi::referenceContext(references, mapId, map.level->entities());
+        EXPECT_TRUE(context.entityRefs.contains(std::string{mapId} + "#e1")) << mapId;
+        for (const core::EntityIssue& issue :
+             core::validateMapEntities(map.level->entities(), context)) {
+            ADD_FAILURE() << mapId << " : entite " << issue.entityIndex << ", " << issue.key
+                          << " = " << issue.value;
+        }
+    }
 }
 
 /**

@@ -4,6 +4,8 @@
 #pragma once
 
 #include <cstddef>
+#include <cstdint>
+#include <limits>
 #include <map>
 #include <set>
 #include <string>
@@ -48,6 +50,9 @@ enum class EntityPropertyKind {
 };
 
 /// @brief D'où viennent les choix d'une propriété `Choice`.
+///
+/// Une source est un **catalogue** : l'inspecteur de l'éditeur en tire sa liste de choix, et
+/// `validateMapEntities` signale une valeur qui n'y est pas.
 enum class EntityChoiceSource {
     /// Les valeurs de `EntityPropertySpec::fixedChoices`.
     Fixed,
@@ -59,7 +64,58 @@ enum class EntityChoiceSource {
     Maps,
     /// Les points d'arrivée de la carte nommée par `targetMap` de la **même** entité.
     ArrivalPoints,
+    /// Les figurines des ateliers (`LOT-91`, `LOT-93`) : un slug de PNJ (`anariel`), ou le dossier
+    /// d'un monstre (`Monsters/lion`).
+    Figures,
+    /// Les drapeaux de monde qu'un dialogue pose (`LOT-15`, et les quêtes du `LOT-16`). Un drapeau
+    /// que rien ne pose est signalé : le portail qui l'exige ne s'ouvrirait jamais.
+    Flags,
+    /// Les fiches de lieu de l'atlas (`World/locations`, `LOT-37`) : un quartier, une ville.
+    Locations,
+    /// Les objets du catalogue (`Rpg/items`) : le contenu d'un coffre, l'étal d'un marchand
+    /// (`LOT-26`).
+    Items,
+    /// Une entité d'une carte, par `carte#id` (décision D8) : ce que quêtes et drapeaux citent.
+    EntityRefs,
 };
+
+/**
+ * @brief La forme d'une famille d'entités sur la carte : ce que le canevas de l'éditeur dessine et
+ *        les poignées qu'il lui donne (`LOT-EDITOR-05`).
+ *
+ * C'est la forme, et non le type, que l'éditeur connaît : une famille nouvelle déclare la sienne
+ * ici et reçoit poignées, tracé et déplacement sans une ligne de code d'éditeur (§5, règle 2).
+ */
+enum class EntityShape {
+    /// Une case : un coffre, un PNJ, un portail.
+    Point,
+    /// Un rectangle : la case est son coin haut-gauche, `width` et `height` sa taille. Le jeu ne
+    /// lit
+    /// que cette forme (zone de combat, îlot).
+    Rectangle,
+    /// Une zone de règles (décision D13) : un rectangle, **ou** un ensemble de cases peint
+    /// (`MapEntity::cells`) ; la case est alors une case de la zone.
+    Area,
+    /// Une ligne brisée : les points de passage dans `MapEntity::cells`, **dans l'ordre**, le
+    /// premier sur la case de l'entité (un trajet de PNJ, une ronde).
+    Path,
+};
+
+/// @brief Propriété d'une forme `Rectangle` ou `Area` : sa largeur, en cases.
+inline constexpr std::string_view SHAPE_WIDTH_PROPERTY = "width";
+/// @brief Propriété d'une forme `Rectangle` ou `Area` : sa hauteur, en cases.
+inline constexpr std::string_view SHAPE_HEIGHT_PROPERTY = "height";
+
+/// @brief Propriété d'une zone de règles (`core::ZONE_ENTITY_TYPE`) : son nom, que seul l'éditeur
+///        montre.
+inline constexpr std::string_view ZONE_NAME_PROPERTY = "name";
+
+/// @brief Type d'entité d'un trajet : la ligne brisée qu'un PNJ parcourt (`LOT-70`, `LOT-82`).
+inline constexpr std::string_view ROUTE_ENTITY_TYPE = "route";
+/// @brief Propriété d'un trajet : son nom, unique dans la carte, que le PNJ citera.
+inline constexpr std::string_view ROUTE_NAME_PROPERTY = "name";
+/// @brief Propriété d'un trajet : vrai pour une ronde, qui revient à son premier point.
+inline constexpr std::string_view ROUTE_LOOP_PROPERTY = "loop";
 
 /// @brief Une propriété qu'une famille d'entités déclare.
 struct EntityPropertySpec {
@@ -72,12 +128,23 @@ struct EntityPropertySpec {
     bool required = false;
     /// Valeur posée à la création de l'entité.
     PropertyValue defaultValue;
+    /// Bornes d'une propriété `Integer`, incluses ; une valeur hors bornes est signalée.
+    std::int64_t minimum = (std::numeric_limits<std::int64_t>::min)();
+    std::int64_t maximum = (std::numeric_limits<std::int64_t>::max)();
 };
 
-/// @brief Une famille d'entités : son type, et les propriétés qu'elle déclare.
+/// @brief Une famille d'entités : son type, les propriétés qu'elle déclare, et comment le canevas
+///        de l'éditeur la montre.
 struct EntityKind {
     std::string_view type;
     std::vector<EntityPropertySpec> properties;
+    /// Sa forme sur la carte.
+    EntityShape shape = EntityShape::Point;
+    /// La propriété que le canevas écrit à côté d'elle (la carte cible d'un portail) ; vide : rien.
+    std::string_view labelProperty;
+    /// La propriété qui nomme sa figurine (source `Figures`) : le canevas dessine la figurine à la
+    /// place du marqueur quand elle existe. Vide : la famille n'a pas de figurine.
+    std::string_view figureProperty;
 
     [[nodiscard]] const EntityPropertySpec* find(std::string_view key) const;
 };
@@ -85,11 +152,16 @@ struct EntityKind {
 /**
  * @brief Les familles que l'éditeur sait poser, dans l'ordre de sa liste.
  *
- * Coffre, panneau, PNJ, rencontre, portail, point d'arrivée, entrée d'arène. Les types et leurs
- * propriétés sont ceux que le gameplay lit déjà (`core::knownInteractableKinds`,
- * `core::dialogueTriggerFor`, `core::encounterTriggerFor`, `core::arenaEntryPoints`) : la table ne
- * les invente pas, elle les rassemble. Un type absent de la table reste **légal** sur une carte
- * (`EX-NFR-040`) : l'éditeur le transporte et en montre les propriétés brutes.
+ * Coffre, panneau, PNJ, rencontre, portail, point d'arrivée, zone de combat, îlot, zone de règles,
+ * trajet, entrée d'arène. Les types et leurs propriétés sont ceux que le jeu lit déjà
+ * (`core::knownInteractableKinds`, `core::dialogueTriggerFor`, `core::encounterTriggerFor`,
+ * `core::arenaEntryPoints`, `core::BattleGrid`) : la table ne les invente pas, elle les rassemble.
+ * Une seule exception, le **trajet**, que la feuille de route de l'éditeur demande avant que le jeu
+ * ne le lise (`LOT-70`, `LOT-82`) : le format lui garde sa place, comme à la hauteur.
+ *
+ * Toute famille que le jeu lit **doit** y être : un test bloquant le vérifie (`EX-EDIT-073`). Un
+ * type absent de la table reste **légal** sur une carte (`EX-NFR-040`) : l'éditeur le transporte et
+ * en montre les propriétés brutes.
  */
 [[nodiscard]] const std::vector<EntityKind>& knownEntityKinds();
 
@@ -103,6 +175,13 @@ struct EntityKind {
 struct EntityReferenceContext {
     std::set<std::string, std::less<>> dialogues;
     std::set<std::string, std::less<>> encounters;
+    std::set<std::string, std::less<>> figures;
+    /// Les drapeaux qu'un dialogue pose.
+    std::set<std::string, std::less<>> flags;
+    std::set<std::string, std::less<>> locations;
+    std::set<std::string, std::less<>> items;
+    /// `carte#id` de chaque entité des cartes, la carte éditée comprise.
+    std::set<std::string, std::less<>> entityRefs;
     /// Identifiant de carte → noms de ses points d'arrivée. La carte **éditée** y figure aussi : un
     /// portail peut ramener ailleurs sur la même carte.
     std::map<std::string, std::set<std::string, std::less<>>, std::less<>> arrivalPointsByMap;
@@ -129,6 +208,18 @@ enum class EntityIssueCode {
     UnknownArrivalPoint,
     /// Deux points d'arrivée de la carte portent le même nom. `value`.
     DuplicateArrivalPoint,
+    /// Un entier hors de ses bornes. `key` et `value`.
+    OutOfRange,
+    /// La figurine nommée n'est dans aucun atelier. `value`.
+    UnknownFigure,
+    /// Aucun dialogue ne pose ce drapeau. `value`.
+    UnsetFlag,
+    /// La fiche de lieu nommée n'est pas dans l'atlas. `value`.
+    UnknownLocation,
+    /// L'objet nommé n'est pas dans le catalogue. `value`.
+    UnknownItem,
+    /// Aucune carte n'a d'entité `carte#id`. `value`.
+    UnknownEntityRef,
 };
 
 /// @brief Un problème relevé sur l'entité de rang `entityIndex`.

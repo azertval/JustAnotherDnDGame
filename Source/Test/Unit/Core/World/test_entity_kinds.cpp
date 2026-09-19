@@ -8,15 +8,23 @@
  */
 
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
 #include <functional>
+#include <iterator>
+#include <map>
+#include <regex>
 #include <set>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include <gtest/gtest.h>
 
 #include "Core/Combat/Arena.h"
 #include "Core/Combat/CombatTransition.h"
+#include "Core/Gameplay/MapEntitySpawner.h"
+#include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/MapEntity.h"
 #include "Core/Rpg/Dialogue.h"
 #include "Core/World/EntityKinds.h"
@@ -200,4 +208,134 @@ TEST(FamillesDEntitesTest, NomDePointDArriveeUnique) {
     EXPECT_EQ(issues[0].code, core::EntityIssueCode::DuplicateArrivalPoint);
     EXPECT_EQ(core::arrivalPointNames(entities),
               (std::set<std::string, std::less<>>{"gue", "puits"}));
+}
+
+/**
+ * @brief **Contrat d'extension** (§5, règle 2 de la feuille de route de l'éditeur) : toute famille
+ * d'entité que le jeu lit est dans `core::knownEntityKinds`, et reçoit donc inspecteur, forme et
+ * contrôle sans code d'éditeur.
+ * \castest{<b>Aucune famille lue par le jeu n'echappe a l'editeur.</b><br/>
+ * \tcat Unitaire · Familles d'entites<br/>
+ * \tcrit Bloquant<br/>
+ * \tetapes 1. Relever dans les sources du jeu (Core, HMI, App) chaque constante
+ * <code>*_ENTITY_TYPE</code>.<br/>2. Y ajouter les familles interactives
+ * (<code>core::knownInteractableKinds</code>) et chaque type des cartes livrees.<br/>3. Chercher
+ * chacune dans la table.<br/>
+ * \tattendu Toutes y sont ; le releve trouve au moins les onze familles d'aujourd'hui.
+ * }
+ */
+TEST(FamillesDEntitesTest, ToutFamilleLueParLeJeuEstDansLaTable) {
+    const std::filesystem::path source(JADG_SOURCE_DIR);
+    // Pas de chaine brute : Doxygen la lit mal, et perd les blocs de documentation qui suivent.
+    const std::regex constant(
+        "inline\\s+constexpr\\s+std::string_view\\s+\\w+_ENTITY_TYPE\\s*=\\s*\"([^\"]+)\"");
+    std::map<std::string, std::string, std::less<>> read;  // type -> ou il est lu
+    for (const char* const part : {"Core", "HMI", "App"}) {
+        for (const auto& file : std::filesystem::recursive_directory_iterator(source / part)) {
+            if (file.path().extension() != ".h" && file.path().extension() != ".cpp") {
+                continue;
+            }
+            std::ifstream stream(file.path());
+            const std::string text((std::istreambuf_iterator<char>(stream)),
+                                   std::istreambuf_iterator<char>());
+            for (auto match = std::sregex_iterator(text.begin(), text.end(), constant);
+                 match != std::sregex_iterator(); ++match) {
+                read.emplace((*match)[1].str(), file.path().filename().string());
+            }
+        }
+    }
+    for (const core::InteractableKind& kind : core::knownInteractableKinds()) {
+        read.emplace(std::string{kind.type}, "MapEntitySpawner.cpp");
+    }
+    for (const auto& file :
+         std::filesystem::recursive_directory_iterator(source / "Elements" / "Levels")) {
+        if (file.path().extension() != ".json" ||
+            file.path().filename().string().ends_with(".editor.json")) {
+            continue;
+        }
+        const core::LevelLoadResult loaded = core::LevelLoader::loadFromFile(file.path());
+        ASSERT_TRUE(loaded.ok()) << file.path() << " : " << loaded.error;
+        for (const core::MapEntity& entity : loaded.level->entities()) {
+            read.emplace(entity.type, file.path().filename().string());
+        }
+    }
+    EXPECT_GE(read.size(), 11U);
+    for (const auto& [type, where] : read) {
+        EXPECT_NE(core::findEntityKind(type), nullptr)
+            << "La famille \"" << type << "\" (" << where
+            << ") est lue par le jeu mais absente de core::knownEntityKinds : l'editeur ne sait ni "
+               "la poser, ni l'inspecter, ni la controler (EX-EDIT-073).";
+    }
+}
+
+/**
+ * @brief Chaque forme a ce qu'il lui faut : un rectangle ou une zone déclare sa largeur et sa
+ * hauteur en entiers d'au moins 1, une étiquette et une figurine nomment une propriété déclarée.
+ * \castest{<b>La table des familles est coherente avec ses formes.</b><br/>
+ * \tcat Unitaire · Familles d'entites<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Parcourir la table.<br/>
+ * \tattendu Largeur et hauteur entieres, bornees a 1, pour chaque rectangle et chaque zone ;
+ * l'etiquette et la figurine sont des proprietes declarees.
+ * }
+ */
+TEST(FamillesDEntitesTest, LaTableEstCoherenteAvecSesFormes) {
+    for (const core::EntityKind& kind : core::knownEntityKinds()) {
+        if (kind.shape == core::EntityShape::Rectangle || kind.shape == core::EntityShape::Area) {
+            for (const std::string_view key :
+                 {core::SHAPE_WIDTH_PROPERTY, core::SHAPE_HEIGHT_PROPERTY}) {
+                const core::EntityPropertySpec* const spec = kind.find(key);
+                ASSERT_NE(spec, nullptr) << kind.type << "." << key;
+                EXPECT_EQ(spec->kind, core::EntityPropertyKind::Integer) << kind.type;
+                EXPECT_EQ(spec->minimum, 1) << kind.type;
+            }
+        }
+        if (!kind.labelProperty.empty()) {
+            EXPECT_NE(kind.find(kind.labelProperty), nullptr) << kind.type;
+        }
+        if (!kind.figureProperty.empty()) {
+            ASSERT_NE(kind.find(kind.figureProperty), nullptr) << kind.type;
+            EXPECT_EQ(kind.find(kind.figureProperty)->source, core::EntityChoiceSource::Figures);
+        }
+    }
+}
+
+/**
+ * @brief Un entier hors de ses bornes, et une référence absente de son catalogue, sont signalés.
+ * \castest{<b>Le schema type controle bornes et catalogues.</b><br/>
+ * \tcat Unitaire · Familles d'entites<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Une zone de combat de largeur 0 ; une entree d'arene de rang 0.<br/>2. Un PNJ a
+ * figurine inconnue, gardant un lieu inconnu ; un portail exigeant un drapeau que rien ne
+ * pose.<br/>
+ * 3. Les memes, references connues.<br/>
+ * \tattendu Deux valeurs hors bornes ; figurine, lieu, drapeau signales ; puis rien.
+ * }
+ */
+TEST(FamillesDEntitesTest, BornesEtCataloguesControles) {
+    core::EntityReferenceContext references = context();
+    const std::vector<core::MapEntity> bounded = {
+        entity("combatZone", {{"name", std::string{"sable"}},
+                              {"width", std::int64_t{0}},
+                              {"height", std::int64_t{3}}}),
+        entity("arenaEntry", {{"side", std::string{"allies"}}, {"rank", std::int64_t{0}}}),
+    };
+    EXPECT_EQ(codes(core::validateMapEntities(bounded, references)),
+              (std::vector<core::EntityIssueCode>{core::EntityIssueCode::OutOfRange,
+                                                  core::EntityIssueCode::OutOfRange}));
+
+    const std::vector<core::MapEntity> referenced = {
+        entity("npc", {{"figure", std::string{"anariel"}}, {"guards", std::string{"oldtown"}}}),
+        entity("portal", {{"targetMap", std::string{"village"}},
+                          {"arrival", std::string{"porte-nord"}},
+                          {"requiresFlag", std::string{"pont-repare"}}}),
+    };
+    EXPECT_EQ(codes(core::validateMapEntities(referenced, references)),
+              (std::vector<core::EntityIssueCode>{core::EntityIssueCode::UnknownFigure,
+                                                  core::EntityIssueCode::UnknownLocation,
+                                                  core::EntityIssueCode::UnsetFlag}));
+    references.figures = {"anariel"};
+    references.locations = {"oldtown"};
+    references.flags = {"pont-repare"};
+    EXPECT_TRUE(core::validateMapEntities(referenced, references).empty());
 }

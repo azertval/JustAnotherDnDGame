@@ -25,6 +25,7 @@ add_library(EditorLogic STATIC
     Logic/ThumbnailGeometry.cpp
     Logic/LayerView.cpp
     Logic/EntityGesture.cpp
+    Logic/EntityShapes.cpp
     Logic/EntityReferences.cpp
     Logic/EditorDiagnostics.cpp
     Logic/WorldGraphLayout.cpp

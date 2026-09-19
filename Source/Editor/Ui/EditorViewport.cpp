@@ -4,6 +4,8 @@
 #include "Editor/Ui/EditorViewport.h"
 
 #include <QEvent>
+#include <QFont>
+#include <QFontMetricsF>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <QKeyEvent>
@@ -17,6 +19,8 @@
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <functional>
+#include <iterator>
 #include <limits>
 #include <memory>
 #include <optional>
@@ -31,6 +35,7 @@
 #include "Core/World/WorldTravel.h"
 #include "Editor/Logic/EntityGesture.h"
 #include "Editor/Logic/EntityReferences.h"
+#include "Editor/Logic/EntityShapes.h"
 #include "Editor/Logic/LevelFileOperations.h"
 #include "Editor/Logic/LevelNameValidation.h"
 #include "Editor/Logic/MapFormat.h"
@@ -136,6 +141,60 @@ constexpr std::uint64_t NEVER_SAVED = std::numeric_limits<std::uint64_t>::max();
     return color;
 }
 
+/// Ajoute à @p snapshot les figurines de la formation de la rencontre @p selected, s'il y en a une.
+void appendFormation(WorldSceneSnapshot& snapshot,
+                     const std::vector<core::EncounterTerrain>& terrains, std::size_t selected,
+                     const std::vector<std::string>& figures) {
+    const auto terrain =
+        std::ranges::find(terrains, selected, &core::EncounterTerrain::entityIndex);
+    if (terrain != terrains.end()) {
+        std::ranges::move(formationFigures(*terrain, figures),
+                          std::back_inserter(snapshot.figures));
+    }
+}
+
+/// La teinte d'une famille d'entités à forme : tirée de son type, stable d'une session à l'autre,
+/// sans table par famille (LOT-EDITOR-05).
+[[nodiscard]] QColor kindColor(const std::string& type) {
+    std::uint32_t hash = 2166136261U;  // FNV-1a : court, et assez dispersé pour quelques familles.
+    for (const char character : type) {
+        hash = (hash ^ static_cast<unsigned char>(character)) * 16777619U;
+    }
+    return QColor::fromHsv(static_cast<int>(hash % 360U), 170, 240);
+}
+
+/// La police des étiquettes du canevas, en pixels d'écran.
+[[nodiscard]] QFont labelFont(const QPainter& painter) {
+    QFont font = painter.font();
+    font.setPixelSize(11);
+    return font;
+}
+
+/// Le cadre, en pixels d'écran, de l'étiquette @p text posée au-dessus de @p at (coordonnées du
+/// monde).
+[[nodiscard]] QRectF screenLabelBox(const QPainter& painter, QPointF at, const QString& text) {
+    const QPointF device = painter.transform().map(at);
+    const QRectF box =
+        QFontMetricsF(labelFont(painter)).boundingRect(text).adjusted(-3.0, -1.0, 3.0, 1.0);
+    return box.translated(device.x() - (box.width() / 2.0) - box.left(),
+                          device.y() - box.height() - box.top());
+}
+
+/// Écrit @p text à @p at (coordonnées du monde), en pixels d'écran : une étiquette garde sa taille
+/// quel que soit l'agrandissement.
+void drawScreenLabel(QPainter& painter, QPointF at, const QString& text, const QColor& color) {
+    const QRectF placed = screenLabelBox(painter, at, text);
+    painter.save();
+    painter.resetTransform();
+    painter.setFont(labelFont(painter));
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor(13, 13, 13, 190));
+    painter.drawRoundedRect(placed, 3.0, 3.0);
+    painter.setPen(color);
+    painter.drawText(placed, Qt::AlignCenter, text);
+    painter.restore();
+}
+
 }  // namespace
 
 /**
@@ -231,8 +290,13 @@ void EditorViewport::setTool(hmi::EditorTool tool) {
         _measure.reset();
         emit toolStateChanged();
     }
+    _entityDrag.reset();
+    if (_shapePainting) {
+        _shapePainting = false;
+        _draft.endGesture();
+    }
     emit toolChanged(tool);
-    viewport()->update();  // le terrain de rencontre ne se montre qu'à l'outil Entité.
+    invalidateScene();  // la formation de la rencontre ne se montre qu'à l'outil Entité.
 }
 
 // --- Cadrage
@@ -396,6 +460,10 @@ void EditorViewport::ensureIsoScene() {
     // Un brouillon remplacé (ouverture, reprise) repart sans manifeste : on le lui redonne.
     _draft.setPieceManifest(_manifest);
     _snapshot = canvasSnapshot(_draft, _appearance);
+    // La formation de la rencontre sélectionnée, par ses figurines (LOT-EDITOR-05).
+    if (_tool == hmi::EditorTool::Entity && _selectedEntity && _references != nullptr) {
+        appendFormation(_snapshot, _terrains, *_selectedEntity, _references->figures);
+    }
     _images->ensure(worldTexturePaths(_snapshot));
     _isoScene.clear();
     composeWorldScene(_isoScene, _snapshot, core::IsoProjection(_snapshot.columns, _snapshot.rows),
@@ -440,6 +508,8 @@ void EditorViewport::paintFlat(QPainter& painter, const QRectF& exposed) {
     if (!_activeLayer && hasVisualLayers()) {
         paintForcedMask(painter, flatCells, false);
     }
+    paintZoneVerdict(painter, false);
+    paintEntities(painter, flatCells, false);
     paintNotes(painter, flatCells, false);
     paintDragPreview(painter, false);
     paintMirrorAxis(painter, false);
@@ -577,31 +647,8 @@ void EditorViewport::paintIsoOverlays(QPainter& painter, const CellRange& cells,
             }
         }
     }
-    // Entités : le marqueur de leur famille au centre de leur losange (LOT-39) ; leurs figurines
-    // et leurs poignées viendront au LOT-EDITOR-05.
-    const float markerSide = iso.tileHeight() * 0.7F;
-    const std::vector<core::MapEntity>& entities = _draft.entities();
-    for (std::size_t index = 0; index < entities.size(); ++index) {
-        const core::MapEntity& entity = entities[index];
-        if (!cells.contains(entity.position)) {
-            continue;
-        }
-        const QPointF center = toQt(iso.tileToWorld(entity.position));
-        const QRectF target(center.x() - (markerSide / 2.0), center.y() - (markerSide / 2.0),
-                            markerSide, markerSide);
-        if (const QImage* const marker = _images->marker(entityMarkerKey(entity.type))) {
-            painter.drawImage(target, *marker);
-        } else {
-            painter.fillRect(target, QColor(255, 0, 255, 204));
-        }
-        if (_selectedEntity == index) {
-            painter.setBrush(Qt::NoBrush);
-            painter.setPen(screenPen(QColor(13, 13, 13), 4.0));
-            painter.drawPolygon(diamondOf(iso, entity.position));
-            painter.setPen(screenPen(QColor(255, 242, 89), 2.0));
-            painter.drawPolygon(diamondOf(iso, entity.position));
-        }
-    }
+    paintZoneVerdict(painter, true);
+    paintEntities(painter, cells, true);
     paintNotes(painter, cells, true);
     paintDragPreview(painter, true);
     paintMirrorAxis(painter, true);
@@ -1166,9 +1213,10 @@ void EditorViewport::keyPressEvent(QKeyEvent* event) {
         QGraphicsView::keyPressEvent(event);
         return;
     }
-    // Retrait de l'entité sélectionnée (outil Entité, LOT-11) : Suppr, comme dans tout éditeur.
-    if (event->key() == Qt::Key_Delete && _tool == hmi::EditorTool::Entity && _selectedEntity) {
-        removeEntity(*_selectedEntity);
+    // Retrait des entités sélectionnées (outil Entité, LOT-11) : Suppr, comme dans tout éditeur.
+    if (event->key() == Qt::Key_Delete && _tool == hmi::EditorTool::Entity &&
+        !_selectedEntities.empty()) {
+        removeSelectedEntities();
         return;
     }
     // Suppr gomme la sélection, sur la couche active, en un pas (LOT-EDITOR-04).
@@ -1246,6 +1294,9 @@ void EditorViewport::mousePressEvent(QMouseEvent* event) {
         case hmi::EditorTool::Entity:
             handleEntityPress(event);
             break;
+        case hmi::EditorTool::Shape:
+            handleShapePress(event);
+            break;
         case hmi::EditorTool::Note:
             if (cell) {
                 emit noteRequested(*cell);
@@ -1262,7 +1313,7 @@ void EditorViewport::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() != Qt::LeftButton || _play) {
         return;
     }
-    if (_tool == hmi::EditorTool::Entity) {
+    if (_tool == hmi::EditorTool::Entity || _tool == hmi::EditorTool::Shape) {
         handleEntityRelease(event);
     }
     _refusalReported = false;
@@ -1307,7 +1358,17 @@ void EditorViewport::mouseMoveEvent(QMouseEvent* event) {
         emit hoveredCellChanged(_hoverCell);
         viewport()->update();
     }
-    if (_painting) {
+    if (_entityDrag) {
+        const core::GridPosition current = clampedCell(event);
+        if (current != _entityDragTo) {
+            _entityDragTo = current;
+            viewport()->update();
+        }
+    } else if (_shapePainting) {
+        if (cell) {
+            paintShapeAt(*cell);
+        }
+    } else if (_painting) {
         paintAt(event, true);
     } else if (_dragging) {
         const core::GridPosition current = clampedCell(event);
@@ -1525,12 +1586,16 @@ void EditorViewport::syncEditingState() {
         _activeLayer = active;
         emit activeLayerChanged(_activeLayer);
     }
-    if (_selectedEntity && *_selectedEntity >= _draft.entities().size()) {
-        _selectedEntity.reset();
+    const std::size_t count = _draft.entities().size();
+    std::erase_if(_selectedEntities, [count](std::size_t index) { return index >= count; });
+    if (_selectedEntity && *_selectedEntity >= count) {
+        _selectedEntity =
+            _selectedEntities.empty() ? std::nullopt : std::make_optional(_selectedEntities.back());
         emit entitySelectionChanged(_selectedEntity);
     }
-    if (_grabbedEntity && *_grabbedEntity >= _draft.entities().size()) {
-        _grabbedEntity.reset();
+    if (_entityDrag && std::ranges::any_of(_entityDrag->indices,
+                                           [count](std::size_t index) { return index >= count; })) {
+        _entityDrag.reset();
     }
     refreshDiagnostics();
 }
@@ -1544,7 +1609,8 @@ void EditorViewport::refreshDiagnostics() {
         core::validateMapEntities(_draft.entities(), _referenceContext);
     _terrains = core::analyzeEncounterTerrain(_draft.tileMap(), _draft.entities(),
                                               references.encounters, &references.bestiary);
-    _diagnostics = hmi::editorDiagnostics(_draft.entities(), issues, _terrains);
+    _zoneVerdicts = core::analyzeCombatZones(_draft.tileMap(), _draft.entities());
+    _diagnostics = hmi::editorDiagnostics(_draft.entities(), issues, _terrains, _zoneVerdicts);
 }
 
 void EditorViewport::setActiveLayer(LayerSlot slot) {
@@ -1627,14 +1693,26 @@ void EditorViewport::setEntityKindToPlace(std::string type) {
 }
 
 void EditorViewport::selectEntity(std::optional<std::size_t> index) {
-    if (index && *index >= _draft.entities().size()) {
-        index.reset();
+    setEntitySelection(index ? std::vector<std::size_t>{*index} : std::vector<std::size_t>{},
+                       index);
+}
+
+void EditorViewport::setEntitySelection(std::vector<std::size_t> indices,
+                                        std::optional<std::size_t> primary) {
+    const std::size_t count = _draft.entities().size();
+    std::erase_if(indices, [count](std::size_t index) { return index >= count; });
+    std::ranges::sort(indices);
+    const auto [first, last] = std::ranges::unique(indices);
+    indices.erase(first, last);
+    if (!primary || !std::ranges::binary_search(indices, *primary)) {
+        primary = indices.empty() ? std::nullopt : std::make_optional(indices.back());
     }
-    if (index == _selectedEntity) {
+    if (indices == _selectedEntities && primary == _selectedEntity) {
         return;
     }
-    _selectedEntity = index;
-    viewport()->update();
+    _selectedEntities = std::move(indices);
+    _selectedEntity = primary;
+    invalidateScene();  // la formation de la rencontre sélectionnée suit la sélection.
     emit entitySelectionChanged(_selectedEntity);
 }
 
@@ -1649,15 +1727,45 @@ void EditorViewport::removeEntity(std::size_t index) {
     if (!_draft.removeEntity(index)) {
         return;
     }
-    if (_selectedEntity == index) {
-        _selectedEntity.reset();
-        emit entitySelectionChanged(_selectedEntity);
-    } else if (_selectedEntity && *_selectedEntity > index) {
-        selectEntity(*_selectedEntity - 1);  // la même entité, un rang plus haut.
+    // La sélection garde les mêmes entités : celles d'après remontent d'un rang.
+    std::vector<std::size_t> kept;
+    for (const std::size_t selected : _selectedEntities) {
+        if (selected != index) {
+            kept.push_back(selected > index ? selected - 1 : selected);
+        }
     }
-    _grabbedEntity.reset();
+    std::optional<std::size_t> primary = _selectedEntity;
+    if (primary && *primary > index) {
+        primary = *primary - 1;
+    } else if (primary == index) {
+        primary.reset();
+    }
+    _entityDrag.reset();
     markDraftMutated();
+    setEntitySelection(std::move(kept), primary);
     emit statusMessage(QStringLiteral("Entity removed."));
+}
+
+void EditorViewport::removeSelectedEntities() {
+    if (_selectedEntities.empty()) {
+        return;
+    }
+    const std::size_t removed = _selectedEntities.size();
+    {
+        // Du dernier au premier : un retrait ne décale pas les rangs qui restent à retirer.
+        const core::GestureScope gesture(_draft);
+        for (auto index = _selectedEntities.rbegin(); index != _selectedEntities.rend(); ++index) {
+            static_cast<void>(_draft.removeEntity(*index));
+        }
+    }
+    _entityDrag.reset();
+    _selectedEntities.clear();
+    _selectedEntity.reset();
+    markDraftMutated();
+    invalidateScene();
+    emit entitySelectionChanged(_selectedEntity);
+    emit statusMessage(removed == 1 ? QStringLiteral("Entity removed.")
+                                    : QStringLiteral("%1 entities removed.").arg(removed));
 }
 
 void EditorViewport::handleEntityPress(const QMouseEvent* event) {
@@ -1665,21 +1773,48 @@ void EditorViewport::handleEntityPress(const QMouseEvent* event) {
     if (!cell) {
         return;
     }
-    const bool forcePlace = event->modifiers().testFlag(Qt::ControlModifier);
+    const hmi::EntityPressModifiers modifiers{
+        .force = event->modifiers().testFlag(Qt::ControlModifier),
+        .toggle = event->modifiers().testFlag(Qt::ShiftModifier)};
     const hmi::EntityGestureDecision decision =
-        hmi::resolveEntityPress(_draft, *cell, _entityKindToPlace, forcePlace);
-    _grabbedEntity.reset();
+        hmi::resolveEntityPress(_draft, *cell, _selectedEntities, _entityKindToPlace, modifiers);
+    _entityDrag.reset();
+    _entityDragTo = *cell;
     switch (decision.action) {
         case hmi::EntityGestureAction::Ignore:
-        case hmi::EntityGestureAction::Move:  // jamais rendu à l'appui.
             break;
         case hmi::EntityGestureAction::Deselect:
             selectEntity(std::nullopt);
             break;
-        case hmi::EntityGestureAction::Select:
-            selectEntity(decision.entityIndex);
-            _grabbedEntity = decision.entityIndex;
-            _entityPressCell = decision.cell;
+        case hmi::EntityGestureAction::Toggle: {
+            std::vector<std::size_t> toggled =
+                toggledSelection(_selectedEntities, decision.entityIndex);
+            setEntitySelection(std::move(toggled), decision.entityIndex);
+            break;
+        }
+        case hmi::EntityGestureAction::Grab: {
+            // Prendre une entité de la sélection emporte toute la sélection ; une autre la
+            // remplace.
+            if (std::ranges::binary_search(_selectedEntities, decision.entityIndex)) {
+                setEntitySelection(_selectedEntities, decision.entityIndex);
+            } else {
+                selectEntity(decision.entityIndex);
+            }
+            _entityDrag = EntityDrag{
+                .mode = decision.handle ? EntityDrag::Mode::Reshape : EntityDrag::Mode::Move,
+                .indices = decision.handle ? std::vector<std::size_t>{decision.entityIndex}
+                                           : _selectedEntities,
+                .handle = decision.handle,
+                .kind = {},
+                .from = *cell};
+            break;
+        }
+        case hmi::EntityGestureAction::Draw:
+            _entityDrag = EntityDrag{.mode = EntityDrag::Mode::Draw,
+                                     .indices = {},
+                                     .handle = std::nullopt,
+                                     .kind = _entityKindToPlace,
+                                     .from = *cell};
             break;
         case hmi::EntityGestureAction::Place: {
             const core::EntityKind* const kind = core::findEntityKind(_entityKindToPlace);
@@ -1698,24 +1833,363 @@ void EditorViewport::handleEntityPress(const QMouseEvent* event) {
             break;
         }
     }
+    viewport()->update();
 }
 
 void EditorViewport::handleEntityRelease(const QMouseEvent* event) {
+    if (_shapePainting) {
+        _shapePainting = false;
+        _draft.endGesture();
+        return;
+    }
+    if (!_entityDrag) {
+        return;
+    }
+    _entityDragTo = clampedCell(event);
+    const EntityDragResult result = pendingEntityDrag();
+    _entityDrag.reset();
+    applyEntityDrag(result);
+    viewport()->update();
+}
+
+void EditorViewport::handleShapePress(const QMouseEvent* event) {
     const std::optional<core::GridPosition> cell = cellAt(event);
-    const std::optional<std::size_t> grabbed = _grabbedEntity;
-    _grabbedEntity.reset();
     if (!cell) {
         return;
     }
-    const hmi::EntityGestureDecision decision =
-        hmi::resolveEntityRelease(grabbed, _entityPressCell, *cell);
-    if (decision.action == hmi::EntityGestureAction::Move &&
-        _draft.moveEntity(decision.entityIndex, decision.cell)) {
-        markDraftMutated();
-        emit statusMessage(QStringLiteral("Entity moved to (%1, %2).")
-                               .arg(decision.cell.column)
-                               .arg(decision.cell.row));
+    if (!_selectedEntity) {
+        emit statusMessage(QStringLiteral("Select a zone or a route first, with the Entity tool."));
+        return;
     }
+    const std::size_t index = *_selectedEntity;
+    const core::MapEntity& entity = _draft.entities()[index];
+    const hmi::ShapeGestureDecision decision =
+        hmi::resolveShapePress(entity, *cell, event->modifiers().testFlag(Qt::ControlModifier));
+    switch (decision.action) {
+        case hmi::ShapeGestureAction::Ignore:
+            emit statusMessage(
+                QStringLiteral("The selected entity has no cells to paint: "
+                               "resize it with its handles (Entity tool)."));
+            break;
+        case hmi::ShapeGestureAction::PaintCells:
+        case hmi::ShapeGestureAction::EraseCells:
+            // Du clic au relâchement, un seul geste : un seul pas d'annulation.
+            _shapePainting = true;
+            _shapeErasing = decision.action == hmi::ShapeGestureAction::EraseCells;
+            _draft.beginGesture();
+            paintShapeAt(*cell);
+            break;
+        case hmi::ShapeGestureAction::AppendWaypoint:
+            if (_draft.replaceEntity(index, withWaypointAdded(entity, *cell))) {
+                markDraftMutated();
+            }
+            break;
+        case hmi::ShapeGestureAction::GrabWaypoint:
+            _entityDrag = EntityDrag{.mode = EntityDrag::Mode::Reshape,
+                                     .indices = {index},
+                                     .handle = EntityHandle{.kind = HandleKind::Waypoint,
+                                                            .cell = *cell,
+                                                            .waypoint = decision.waypoint},
+                                     .kind = {},
+                                     .from = *cell};
+            _entityDragTo = *cell;
+            break;
+        case hmi::ShapeGestureAction::RemoveWaypoint:
+            if (_draft.replaceEntity(index, withWaypointRemoved(entity, decision.waypoint))) {
+                markDraftMutated();
+            }
+            break;
+    }
+    viewport()->update();
+}
+
+void EditorViewport::paintShapeAt(core::GridPosition cell) {
+    if (!_selectedEntity || *_selectedEntity >= _draft.entities().size()) {
+        return;
+    }
+    const std::size_t index = *_selectedEntity;
+    if (_draft.replaceEntity(index, paintArea(_draft.entities()[index], {cell}, !_shapeErasing))) {
+        markDraftMutated();
+    }
+}
+
+EntityDragResult EditorViewport::pendingEntityDrag() const {
+    if (!_entityDrag) {
+        return {};
+    }
+    return dragEntities(*_entityDrag, _draft.entities(), _entityDragTo, _draft.tileMap().width(),
+                        _draft.tileMap().height());
+}
+
+void EditorViewport::applyEntityDrag(const EntityDragResult& result) {
+    if (result.refused) {
+        emit statusMessage(QStringLiteral("Move refused: an entity would leave the map."));
+        return;
+    }
+    if (result.empty()) {
+        return;
+    }
+    bool changed = false;
+    std::optional<std::size_t> placed;
+    {
+        // Un groupe déplacé, une zone tirée : un geste, un pas d'annulation.
+        const core::GestureScope gesture(_draft);
+        for (const auto& [index, entity] : result.replaced) {
+            changed = _draft.replaceEntity(index, entity) || changed;
+        }
+        if (result.placed) {
+            placed = _draft.placeEntity(*result.placed);
+            changed = placed.has_value() || changed;
+        }
+    }
+    if (!changed) {
+        return;
+    }
+    markDraftMutated();
+    if (placed) {
+        selectEntity(*placed);
+        emit statusMessage(QStringLiteral("%1 drawn at (%2, %3).")
+                               .arg(QString::fromStdString(result.placed->type))
+                               .arg(result.placed->position.column)
+                               .arg(result.placed->position.row));
+    } else {
+        emit statusMessage(result.replaced.size() == 1
+                               ? QStringLiteral("Entity changed.")
+                               : QStringLiteral("%1 entities moved.").arg(result.replaced.size()));
+    }
+}
+
+namespace {
+
+/// La géométrie d'une vue du canevas, en iso ou à plat : ce que les aides d'édition dessinent.
+struct CanvasGeometry {
+    CanvasGeometry(core::IsoProjection projection, bool isometric)
+        : projected(projection), iso(isometric) {}
+
+    core::IsoProjection projected;
+    bool iso;
+
+    [[nodiscard]] QPolygonF cell(core::GridPosition at) const {
+        return iso ? diamondOf(projected, at) : QPolygonF(QRectF(at.column, at.row, 1.0, 1.0));
+    }
+    [[nodiscard]] QPolygonF rect(const CellRect& area) const {
+        return iso ? isoRegion(projected, area.origin, area.last())
+                   : QPolygonF(
+                         QRectF(area.origin.column, area.origin.row, area.columns, area.rows));
+    }
+    [[nodiscard]] QPointF point(float column, float row) const {
+        const core::Vector2 grid{column, row};
+        return toQt(iso ? projected.gridToWorld(grid) : grid);
+    }
+    [[nodiscard]] QPointF center(core::GridPosition at) const {
+        return point(static_cast<float>(at.column) + 0.5F, static_cast<float>(at.row) + 0.5F);
+    }
+    /// Le point d'où part l'étiquette d'une case : au-dessus de son marqueur.
+    [[nodiscard]] QPointF above(core::GridPosition at) const {
+        if (!iso) {
+            return point(static_cast<float>(at.column) + 0.5F, static_cast<float>(at.row) + 0.1F);
+        }
+        const QPointF middle = center(at);
+        return {middle.x(), middle.y() - (projected.tileHeight() * 0.45)};
+    }
+};
+
+/// Un trajet : la ligne brisée qui joint les centres de ses points.
+void paintPath(QPainter& painter, const CanvasGeometry& geometry, const core::MapEntity& entity,
+               const QColor& tint, bool chosen) {
+    const std::vector<core::GridPosition> points = entityCells(entity);
+    painter.setPen(screenPen(withAlpha(tint, 0.9F), chosen ? 3.0 : 2.0));
+    for (std::size_t point = 1; point < points.size(); ++point) {
+        painter.drawLine(geometry.center(points[point - 1]), geometry.center(points[point]));
+    }
+}
+
+/// Les formes, sous les marqueurs : trajets, rectangles, zones peintes.
+void paintEntityShapes(QPainter& painter, const CanvasGeometry& geometry,
+                       const std::vector<core::MapEntity>& entities, const CellRange& cells,
+                       const std::function<bool(std::size_t)>& selected) {
+    for (std::size_t index = 0; index < entities.size(); ++index) {
+        const core::MapEntity& entity = entities[index];
+        const core::EntityShape shape = entityShape(entity);
+        const QColor tint = kindColor(entity.type);
+        const bool chosen = selected(index);
+        if (shape == core::EntityShape::Point) {
+            continue;
+        }
+        if (shape == core::EntityShape::Path) {
+            paintPath(painter, geometry, entity, tint, chosen);
+        } else if (const std::optional<CellRect> rect = entityRectangle(entity)) {
+            painter.setPen(screenPen(tint, chosen ? 2.0 : 1.0));
+            painter.setBrush(withAlpha(tint, chosen ? 0.20F : 0.08F));
+            painter.drawPolygon(geometry.rect(*rect));
+        } else {
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(withAlpha(tint, chosen ? 0.38F : 0.22F));
+            for (const core::GridPosition cell : entity.cells) {
+                if (cells.contains(cell)) {
+                    painter.drawPolygon(geometry.cell(cell));
+                }
+            }
+        }
+    }
+}
+
+/// Le cadre d'une entité sélectionnée, sur sa case : jaune cerclé de sombre.
+void paintSelectedCell(QPainter& painter, const CanvasGeometry& geometry, core::GridPosition cell) {
+    painter.setBrush(Qt::NoBrush);
+    painter.setPen(screenPen(QColor(13, 13, 13), 4.0));
+    painter.drawPolygon(geometry.cell(cell));
+    painter.setPen(screenPen(QColor(255, 242, 89), 2.0));
+    painter.drawPolygon(geometry.cell(cell));
+}
+
+/// Les étiquettes (la carte cible d'un portail, le nom d'une zone), au-dessus de la case. Une
+/// étiquette qui en couvrirait une autre déjà écrite se tait — celles de la sélection passent en
+/// premier : huit entrées d'arène côte à côte ne font pas un pâté.
+void paintEntityLabels(QPainter& painter, const CanvasGeometry& geometry,
+                       const std::vector<core::MapEntity>& entities, const CellRange& cells,
+                       const std::function<bool(std::size_t)>& selected) {
+    std::vector<QRectF> written;
+    for (const bool pass : {true, false}) {
+        for (std::size_t index = 0; index < entities.size(); ++index) {
+            const QString label = QString::fromStdString(entityLabel(entities[index]));
+            if (selected(index) != pass || label.isEmpty() ||
+                !cells.contains(entities[index].position)) {
+                continue;
+            }
+            const QPointF at = geometry.above(entities[index].position);
+            const QRectF box = screenLabelBox(painter, at, label);
+            if (std::ranges::any_of(
+                    written, [&box](const QRectF& other) { return other.intersects(box); })) {
+                continue;
+            }
+            written.push_back(box);
+            drawScreenLabel(painter, at, label,
+                            pass ? QColor(255, 242, 89) : QColor(235, 235, 235));
+        }
+    }
+}
+
+/// Les poignées de la sélection : un carré fixe à l'écran, au centre de sa case.
+void paintEntityHandles(QPainter& painter, const CanvasGeometry& geometry,
+                        const std::vector<core::MapEntity>& entities,
+                        const std::function<bool(std::size_t)>& selected) {
+    for (std::size_t index = 0; index < entities.size(); ++index) {
+        if (!selected(index)) {
+            continue;
+        }
+        for (const EntityHandle& handle : entityHandles(entities[index])) {
+            const QPointF device = painter.transform().map(geometry.center(handle.cell));
+            painter.save();
+            painter.resetTransform();
+            painter.setPen(QPen(QColor(13, 13, 13), 1.0));
+            painter.setBrush(QColor(255, 255, 255));
+            painter.drawRect(QRectF(device.x() - 4.0, device.y() - 4.0, 8.0, 8.0));
+            painter.restore();
+        }
+    }
+}
+
+}  // namespace
+
+std::vector<core::MapEntity> EditorViewport::previewEntities(bool withPlaced) const {
+    // Ce qu'on voit est ce que le geste en cours ferait : l'aperçu remplace les entités qu'il
+    // touche, et l'entité tirée s'ajoute en fin de liste.
+    std::vector<core::MapEntity> entities = _draft.entities();
+    const EntityDragResult pending = pendingEntityDrag();
+    for (const auto& [index, entity] : pending.replaced) {
+        if (index < entities.size()) {
+            entities[index] = entity;
+        }
+    }
+    if (withPlaced && pending.placed) {
+        entities.push_back(*pending.placed);
+    }
+    return entities;
+}
+
+void EditorViewport::paintEntities(QPainter& painter, const CellRange& cells, bool iso) {
+    const CanvasGeometry geometry(projection(), iso);
+    const std::vector<core::MapEntity> entities = previewEntities(true);
+    const bool drawing = entities.size() > _draft.entities().size();
+    const std::function<bool(std::size_t)> selected = [&](std::size_t index) {
+        return std::ranges::binary_search(_selectedEntities, index) ||
+               (drawing && index + 1 == entities.size());
+    };
+    paintEntityShapes(painter, geometry, entities, cells, selected);
+
+    // Les marqueurs, à la case de chaque entité. À plat, `DraftRenderer` les a déjà posés ; en
+    // iso, une entité dont la figurine existe est déjà dessinée par la scène, comme dans le jeu.
+    const double markerSide = geometry.projected.tileHeight() * 0.7;
+    for (std::size_t index = 0; index < entities.size(); ++index) {
+        const core::MapEntity& entity = entities[index];
+        if (!cells.contains(entity.position)) {
+            continue;
+        }
+        const std::string figure = entityFigure(entity);
+        const bool drawnByScene = !figure.empty() && _referenceContext.figures.contains(figure) &&
+                                  index < _draft.entities().size() &&
+                                  _draft.entities()[index].position == entity.position;
+        if (iso && !drawnByScene) {
+            const QPointF center = geometry.center(entity.position);
+            const QRectF target(center.x() - (markerSide / 2.0), center.y() - (markerSide / 2.0),
+                                markerSide, markerSide);
+            if (const QImage* const marker = _images->marker(entityMarkerKey(entity.type))) {
+                painter.drawImage(target, *marker);
+            } else {
+                painter.fillRect(target, QColor(255, 0, 255, 204));
+            }
+        }
+        if (selected(index)) {
+            paintSelectedCell(painter, geometry, entity.position);
+        }
+    }
+    paintEntityLabels(painter, geometry, entities, cells, selected);
+    paintEntityHandles(painter, geometry, entities, selected);
+}
+
+void EditorViewport::paintZoneVerdict(QPainter& painter, bool iso) {
+    if (_tool != hmi::EditorTool::Entity || !_selectedEntity) {
+        return;
+    }
+    // Pendant qu'on tire la zone, le verdict est celui de l'aperçu.
+    const std::vector<core::MapEntity> entities = previewEntities(false);
+    const std::vector<core::CombatZoneTerrain> previewed =
+        _entityDrag ? core::analyzeCombatZones(_draft.tileMap(), entities)
+                    : std::vector<core::CombatZoneTerrain>{};
+    const std::vector<core::CombatZoneTerrain>& verdicts = _entityDrag ? previewed : _zoneVerdicts;
+    const auto found =
+        std::ranges::find(verdicts, *_selectedEntity, &core::CombatZoneTerrain::entityIndex);
+    if (found == verdicts.end()) {
+        return;
+    }
+    const CanvasGeometry geometry(projection(), iso);
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(QColor::fromRgbF(0.30F, 0.70F, 1.00F, 0.14F));
+    for (const core::GridPosition cell : found->freeCells) {
+        painter.drawPolygon(geometry.cell(cell));
+    }
+    painter.setBrush(QColor::fromRgbF(0.95F, 0.20F, 0.20F, 0.30F));
+    for (const core::GridPosition cell : found->blockedCells) {
+        painter.drawPolygon(geometry.cell(cell));
+    }
+    painter.setBrush(Qt::NoBrush);
+    const auto ring = [&](const std::vector<std::size_t>& entries, const QColor& color) {
+        painter.setPen(screenPen(color, 2.0));
+        for (const std::size_t entry : entries) {
+            if (entry < entities.size()) {
+                painter.drawPolygon(geometry.cell(entities[entry].position));
+            }
+        }
+    };
+    ring(found->entriesInside, QColor(64, 220, 90));
+    ring(found->entriesOutside, QColor(240, 60, 60));
+    // Le verdict en une ligne, au coin haut-gauche de la zone.
+    const core::GridPosition origin = found->zone.origin;
+    drawScreenLabel(
+        painter, geometry.point(static_cast<float>(origin.column), static_cast<float>(origin.row)),
+        QString::fromStdString(combatZoneSummary(*found)),
+        found->issue ? QColor(255, 120, 120) : QColor(160, 220, 255));
 }
 
 }  // namespace hmi

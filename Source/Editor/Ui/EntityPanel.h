@@ -18,8 +18,8 @@
 
 /**
  * @file Editor/Ui/EntityPanel.h
- * @brief Panneau « Entités » : famille à poser, liste des entités, propriétés de l'entité
- *        sélectionnée et avertissements (`LOT-11`).
+ * @brief Panneau « Entités » : famille à poser, liste filtrable des entités, propriétés de l'entité
+ *        sélectionnée et avertissements (`LOT-11`, `LOT-EDITOR-05`).
  */
 
 class QFormLayout;
@@ -37,8 +37,12 @@ namespace hmi {
  * Même patron que `hmi::LinkPanel` : le panneau reflète et demande, le viewport applique. Le
  * formulaire est **dérivé** de `core::knownEntityKinds` : une famille ou une propriété ajoutée à la
  * table y apparaît sans toucher au panneau, avec le contrôle que sa nature appelle (liste, texte,
- * entier, case à cocher). Une propriété que la table ne déclare pas est montrée telle quelle, sans
- * contrôle : elle est transportée, pas éditée (`EX-EDIT-011`).
+ * entier borné, case à cocher). Une propriété que la table ne déclare pas est montrée telle quelle,
+ * sans contrôle : elle est transportée, pas éditée (`EX-EDIT-011`).
+ *
+ * La liste se filtre (`hmi::filterEntities`) et se sélectionne à plusieurs, comme le canevas : le
+ * formulaire montre l'entité **principale**, la dernière prise, et le verdict d'une zone de combat
+ * (`LOT-EDITOR-05`, `EX-EDIT-072`, `EX-EDIT-073`).
  */
 class EntityPanel : public QWidget {
     Q_OBJECT
@@ -54,9 +58,9 @@ public:
      * ont changé : un coup de pinceau ailleurs sur la carte ne doit pas effacer un nom en cours de
      * saisie.
      */
-    void refresh(const core::LevelDraft& draft, std::optional<std::size_t> selected,
-                 const core::EntityReferenceContext& context,
-                 const std::vector<EditorDiagnostic>& diagnostics);
+    void refresh(const core::LevelDraft& draft, const std::vector<std::size_t>& selection,
+                 std::optional<std::size_t> selected, const core::EntityReferenceContext& context,
+                 const std::vector<EditorDiagnostic>& diagnostics, const std::string& verdict);
 
     /// @return Le type que l'outil « Entité » pose, vide en simple sélection.
     [[nodiscard]] std::string kindToPlace() const;
@@ -64,8 +68,12 @@ public:
 signals:
     void kindToPlaceChanged(const QString& type);
     void entitySelected(std::optional<std::size_t> index);
+    /// La liste a changé la sélection : @p indices, dont @p primary est la dernière prise.
+    void entitiesSelected(const std::vector<std::size_t>& indices,
+                          std::optional<std::size_t> primary);
     void propertyChanged(std::size_t index, const QString& key, const core::PropertyValue& value);
-    void removeRequested(std::size_t index);
+    /// Retirer toutes les entités sélectionnées.
+    void removeRequested();
 
 private:
     void rebuildKinds();
@@ -98,7 +106,10 @@ private:
     std::unique_ptr<Widgets> _ui;
     QFormLayout* _form;
     std::vector<core::MapEntity> _entities;
+    std::vector<std::size_t> _selection;
     std::optional<std::size_t> _selected;
+    /// Le verdict de la zone de combat principale (`hmi::combatZoneSummary`), vide sinon.
+    std::string _verdict;
     core::EntityReferenceContext _context;
     std::vector<EditorDiagnostic> _diagnostics;
     /// Ce que montre le formulaire, pour ne le refaire que s'il a changé.

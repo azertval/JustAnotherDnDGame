@@ -268,6 +268,17 @@ public:
     /// Déplace l'entité @p index en @p position. Refusé hors bornes ; sans effet sur place.
     bool moveEntity(std::size_t index, GridPosition position);
 
+    /**
+     * @brief Remplace l'entité @p index par @p entity : sa case, sa forme (`cells`), ses
+     *        propriétés, en un pas (`LOT-EDITOR-05`).
+     *
+     * Le type et l'identifiant restent ceux de l'entité en place : ceux de @p entity sont ignorés.
+     * Un identifiant ne change jamais (décision D8), et changer de famille n'est pas un geste de
+     * l'éditeur. Refusé si la case ou une case de `cells` sort de la grille ; sans effet si rien ne
+     * change.
+     */
+    bool replaceEntity(std::size_t index, MapEntity entity);
+
     /// Retire l'entité @p index.
     bool removeEntity(std::size_t index);
 

@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <cstddef>
+#include <optional>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -56,6 +58,42 @@ struct CombatZone {
 
 /// @return Les zones de combat de @p level, dans l'ordre des entités.
 [[nodiscard]] std::vector<CombatZone> combatZonesOf(const Level& level);
+
+/// @return La zone de combat que déclare @p entity : son nom, sa case, sa taille (0 si elle
+///         manque ou n'est pas un entier). L'appelant a vérifié le type.
+[[nodiscard]] CombatZone combatZoneOf(const MapEntity& entity);
+
+/**
+ * @brief Le verdict tactique d'une zone de combat : ce que l'éditeur montre pendant qu'on la tire
+ *        (`LOT-EDITOR-05`), et ce que `validateCombatZones` rapporte au chargement.
+ */
+struct CombatZoneTerrain {
+    /// Rang de l'entité dans la liste d'entités de la carte.
+    std::size_t entityIndex = 0;
+    CombatZone zone;
+    /// Les cases de la zone où l'on peut se tenir, triées (ligne, colonne).
+    std::vector<GridPosition> freeCells;
+    /// Les cases de la zone qui sont solides, triées (ligne, colonne).
+    std::vector<GridPosition> blockedCells;
+    /// Les entrées d'arène (`core::ARENA_ENTRY_ENTITY_TYPE`) dans la zone, par rang d'entité.
+    std::vector<std::size_t> entriesInside;
+    /// Les entrées d'arène hors de la zone : un combat dans cette zone ne les voit pas
+    /// (`cropLevelToZone` les écarte).
+    std::vector<std::size_t> entriesOutside;
+    /// Ce qui empêche la zone d'être une grille tactique : `CombatZoneDegenerate`,
+    /// `CombatZoneOutOfBounds` ou `CombatZoneBlocked`. Rien pour une zone jouable.
+    std::optional<WorldIssueCode> issue;
+};
+
+/**
+ * @brief Le verdict de chaque zone de combat de @p entities sur la collision @p collision, dans
+ *        l'ordre des entités.
+ *
+ * Il prend une grille et des entités, et non une carte : l'éditeur le calcule sur son brouillon à
+ * chaque geste, sans reconstruire de `Level`.
+ */
+[[nodiscard]] std::vector<CombatZoneTerrain> analyzeCombatZones(
+    const TileMap& collision, const std::vector<MapEntity>& entities);
 
 /// @return La zone nommée @p name, ou `nullptr`. Un nom vide rend la **première** zone : une carte
 ///         à une seule zone n'a pas à se nommer deux fois.

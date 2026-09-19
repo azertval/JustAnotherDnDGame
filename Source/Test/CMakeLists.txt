@@ -125,6 +125,7 @@ add_executable(UnitTests
     Unit/Editor/test_brush_gesture.cpp
     Unit/Editor/test_paint_tools.cpp
     Unit/Editor/test_editor_sidecar.cpp
+    Unit/Editor/test_entity_shapes.cpp
 )
 
 # Encodage/decodage d'image : QImage (Qt) lit et ecrit le PNG, mais aucun device
@@ -252,6 +253,9 @@ target_compile_definitions(UnitTests PRIVATE
     # Positions relevees sur les cartes (LOT-94, LOT-95) : le test joint le fichier REEL a l'atlas.
     JADG_WORLD_MAPS="${PROJECT_SOURCE_DIR}/Source/Elements/Maps/world-maps.json"
     JADG_ASSETS_DIR="${PROJECT_SOURCE_DIR}/Source/Elements/Assets"
+    # Sources du jeu (LOT-EDITOR-05) : le test du contrat d'extension y releve chaque famille
+    # d'entite que le jeu lit, pour exiger qu'elle soit dans core::knownEntityKinds.
+    JADG_SOURCE_DIR="${PROJECT_SOURCE_DIR}/Source"
     JADG_FR_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/fr.lang"
     JADG_EN_LANG_PATH="${PROJECT_SOURCE_DIR}/Source/Elements/Localization/en.lang")
 # La planche de la fiche (LOT-38) se lit desormais sous JADG_ASSETS_DIR : depuis la reprise, sa mise
