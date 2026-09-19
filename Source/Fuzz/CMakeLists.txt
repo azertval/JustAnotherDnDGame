@@ -27,7 +27,9 @@ endif()
 # premières secondes le code qui suit l'enveloppe JSON. Le job de nuit les lit à côté du corpus
 # qu'il conserve d'une nuit à l'autre.
 set(JADG_FUZZ_SEEDS_json "${PROJECT_SOURCE_DIR}/Source/Test/Fixtures/Json;${PROJECT_SOURCE_DIR}/Source/Elements/Rpg/rules")
-set(JADG_FUZZ_SEEDS_level "${PROJECT_SOURCE_DIR}/Source/Elements/Levels")
+# Les cartes livrées (v4), et une carte de chaque version passée : le chargeur lit les deux formats
+# (LOT-EDITOR-12), et une amorce v3 seule laisserait la v4 à la chance.
+set(JADG_FUZZ_SEEDS_level "${PROJECT_SOURCE_DIR}/Source/Elements/Levels;${PROJECT_SOURCE_DIR}/Source/Elements/Levels/capital;${PROJECT_SOURCE_DIR}/Source/Test/Fixtures/Levels;${PROJECT_SOURCE_DIR}/Source/Test/Fixtures/Levels/variante/quartier")
 set(JADG_FUZZ_SEEDS_dialogue "${PROJECT_SOURCE_DIR}/Source/Elements/World/dialogues")
 set(JADG_FUZZ_SEEDS_localization "${PROJECT_SOURCE_DIR}/Source/Elements/Localization")
 
