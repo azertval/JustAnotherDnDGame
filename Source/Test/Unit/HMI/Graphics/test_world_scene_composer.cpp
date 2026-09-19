@@ -7,6 +7,9 @@
  *        relief de la piece nommee a la case, et la figurine se pose au pied de sa case.
  */
 
+#include <algorithm>
+#include <cstdint>
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -18,6 +21,7 @@
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
+#include "Core/Resources/ScenePieceManifest.h"
 #include "HMI/Graphics/ComposedScene.h"
 #include "HMI/Graphics/PlaceAppearance.h"
 #include "HMI/Graphics/RenderLayer.h"
@@ -67,8 +71,7 @@ constexpr const char* TABLE_JSON = R"({
                                              .kind = core::LayerKind::Decor,
                                              .tiles = std::move(decor),
                                              .properties = {}});
-    donnees.textureOverrides.push_back(
-        core::TileTextureOverride{.position = {2, 2}, .assetName = "torch-left"});
+    donnees.layers.back().setPiece(2, 2, "torch-left");
     return core::Level{std::move(donnees)};
 }
 
@@ -94,11 +97,10 @@ constexpr const char* TABLE_JSON = R"({
  * \castest{<b>Le sol vient du type de tuile, le relief de la piece nommee a la case.</b><br/>
  * \tcat Unitaire · Lieu compose<br/>
  * \tcrit Critique<br/>
- * \tetapes 1. Batir une carte de sable avec une case de pierre, un mur de decor et une
- * assignation de texture a la case.<br/>
+ * \tetapes 1. Batir une carte de sable avec une case de pierre, un mur de decor et une piece
+ * nommee a une case du decor.<br/>
  * 2. En tirer l'instantane.<br/>
- * \tattendu Chaque case porte la piece de son type ; la case assignee porte SA piece, et elle
- * l'emporte sur la table du lieu.
+ * \tattendu Chaque case porte la piece de son type ; la case qui nomme une piece porte SA piece.
  * }
  */
 TEST(WorldSceneComposerTest, LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase) {
@@ -116,7 +118,7 @@ TEST(WorldSceneComposerTest, LInstantaneTireLeSolDuTypeEtLeReliefDeLaCase) {
     EXPECT_EQ(instantane.floorAt({0, 0}),
               hmi::snapshotWorldScene(carte(), table(), {}).floorAt({0, 0}));
 
-    // Le relief : le mur de la couche de decor, et la piece assignee a la case.
+    // Le relief : le mur de la couche de decor, et la piece nommee a la case.
     EXPECT_EQ(instantane.reliefAt({0, 0}), "wall-left");
     EXPECT_EQ(instantane.reliefAt({2, 2}), "torch-left");
     EXPECT_TRUE(instantane.reliefAt({1, 1}).empty());
@@ -241,4 +243,75 @@ TEST(WorldSceneComposerTest, UneFigurineSeNommeParSlugOuParDossier) {
     EXPECT_EQ(hmi::figureStripPath("anariel", ""), "Npc/anariel/idle.png");
     EXPECT_EQ(hmi::figureStripPath("Monsters/ironhand-soldier", "walk"),
               "Monsters/ironhand-soldier/walk.png");
+}
+
+/**
+ * @brief Une pièce nommée sur une case de **sol** l'emporte sur la table ; un ancien nom se montre
+ *        sous le nom courant (format v4, `LOT-EDITOR-12`).
+ * \castest{<b>La pièce nommée l'emporte, sous son nom courant.</b><br/>
+ * \tcat Unitaire · Lieu compose<br/>
+ * \tcrit Critique<br/>
+ * \tetapes 1. Nommer `stone-slab` sur une case de sable, et `old-torch`, ancien nom de
+ * `torch-left`, sur le décor.<br/>2. Tirer l'instantané avec le manifeste des alias.<br/>
+ * \tattendu Le sol montre `stone-slab`, le relief `torch-left`.
+ * }
+ */
+TEST(WorldSceneComposerTest, LaPieceNommeeLEmporteSousSonNomCourant) {
+    core::LevelData donnees = carte().data();
+    donnees.layers[0].setPiece(0, 1, "stone-slab");
+    donnees.layers[1].setPiece(2, 2, "old-torch");
+    hmi::PlaceAppearance appearance = table();
+    const core::ScenePieceManifestResult manifeste = core::ScenePieceManifest::loadFromString(R"({
+      "version": 1, "textures": {
+        "scene/coliseum/torch-left": {"file": "torch-left.png", "class": "tall",
+                                      "aliases": ["old-torch"]}}})");
+    ASSERT_TRUE(manifeste.ok()) << manifeste.message;
+    appearance.adoptManifest(manifeste.manifest);
+
+    const hmi::WorldSceneSnapshot instantane =
+        hmi::snapshotWorldScene(core::Level{std::move(donnees)}, appearance, {});
+
+    EXPECT_EQ(instantane.floorAt({0, 1}), "stone-slab");
+    EXPECT_EQ(instantane.reliefAt({2, 2}), "torch-left");
+}
+
+/**
+ * @brief Une pièce **large** se trie au pied de son emprise, pas de sa case d'ancrage (constat A4).
+ * \castest{<b>Une pièce large se trie au pied de son emprise.</b><br/>
+ * \tcat Unitaire · Lieu compose<br/>
+ * \tcrit Majeur<br/>
+ * \tetapes 1. Poser un étal 2 × 1 et un mur 1 × 1 sur la même case d'ancrage de deux cartes.<br/>
+ * 2. Composer les deux.<br/>
+ * \tattendu L'étal se trie après le mur : son pied est plus bas à l'écran.
+ * }
+ */
+TEST(WorldSceneComposerTest, UnePieceLargeSeTrieAuPiedDeSonEmprise) {
+    core::LevelData donnees = carte().data();
+    donnees.layers[1].setPiece(0, 0, "stall");
+    hmi::PlaceAppearance appearance = table();
+    const core::ScenePieceManifestResult manifeste = core::ScenePieceManifest::loadFromString(R"({
+      "version": 1, "textures": {
+        "scene/coliseum/stall": {"file": "stall.png", "class": "wide", "footprint": [2, 1]}}})");
+    ASSERT_TRUE(manifeste.ok()) << manifeste.message;
+    appearance.adoptManifest(manifeste.manifest);
+
+    const hmi::WorldSceneSnapshot large =
+        hmi::snapshotWorldScene(core::Level{std::move(donnees)}, appearance, {});
+    const hmi::WorldSceneSnapshot simple = hmi::snapshotWorldScene(carte(), appearance, {});
+    ASSERT_EQ(large.footprints.at("stall"), (core::PieceFootprint{.columns = 2, .rows = 1}));
+
+    const core::IsoProjection projection{4, 3};
+    const auto ordreDuRelief = [&projection](const hmi::WorldSceneSnapshot& instantane) {
+        const hmi::ComposedScene scene = hmi::composeWorldScene(
+            instantane, projection, textures(hmi::worldTexturePaths(instantane)));
+        // Le relief le plus en arriere est celui de la case (0, 0) : le mur, ou l'etal.
+        std::int32_t plusEnArriere = std::numeric_limits<std::int32_t>::max();
+        for (const hmi::ComposedQuad& quad : scene.quads()) {
+            if (quad.layer == hmi::RenderLayer::Object) {
+                plusEnArriere = std::min(plusEnArriere, quad.sortOrder);
+            }
+        }
+        return plusEnArriere;
+    };
+    EXPECT_GT(ordreDuRelief(large), ordreDuRelief(simple));
 }

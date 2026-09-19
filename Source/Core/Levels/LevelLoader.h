@@ -4,6 +4,7 @@
 #pragma once
 
 #include <filesystem>
+#include <functional>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -34,6 +35,8 @@ enum class LevelValidationError {
     InvalidEntryCount,         ///< Zéro ou plusieurs tuiles d'entrée (une seule attendue).
     FileNotFound,              ///< Fichier de carte introuvable sur disque.
     UnsupportedFormatVersion,  ///< `"version"` du fichier supérieure à celle gérée (`EX-LVL-005`).
+    DuplicateEntityId,         ///< Deux entités portent le même `id` (format v4, décision D8).
+    MissingBase,               ///< Variante dont la base est introuvable, ou elle-même variante.
 };
 
 /**
@@ -42,21 +45,27 @@ enum class LevelValidationError {
  * Écrite par `LevelWriter` dans le champ racine `"version"`. Un fichier sans ce champ est lu
  * comme la version initiale (0), sans erreur ni avertissement — rétrocompatibilité des niveaux
  * antérieurs à ce champ. Une version supérieure à celle-ci est une erreur exploitable
- * (`LevelValidationError::UnsupportedFormatVersion`), pas une lecture au mieux.
+ * (`LevelValidationError::UnsupportedFormatVersion`), pas une lecture au mieux. **Toute version
+ * passée se lit pour toujours** : une fixture par version reste dans les tests.
  *
- * Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entités**
- * (`"entities"`, `core::MapEntity`), les deux optionnels. `"layers"` ne porte que les couches
- * **visibles** (sol, décor) : la grille de collision d'une carte est son tableau racine
- * `"tiles"`, celui qui porte déjà l'entrée — une couche
- * `"collision"` déclarée est refusée (`EX-LVL-016`). Cette grille racine est **promue** en couche
- * de tête, de rôle `LayerKind::Collision`, ou `LayerKind::Legacy` quand la carte ne déclare aucune
- * couche : aucun fichier existant n'a besoin d'être touché, et rien de son comportement ne change.
+ * - Version 3 (`LOT-04`) : **couches de tuiles** (`"layers"`, `core::TileLayer`) et **entités**
+ *   (`"entities"`, `core::MapEntity`). `"layers"` ne porte que les couches **visibles** (sol,
+ *   décor) : la grille de collision d'une carte est son tableau racine `"tiles"`, celui qui porte
+ *   l'entrée — une couche `"collision"` déclarée est refusée (`EX-LVL-016`). La grille racine est
+ *   **promue** en couche de tête, de rôle `Collision`, ou `Legacy` sans couche déclarée.
+ * - Version 4 (`LOT-EDITOR-12`, la seule révision du module éditeur) : chaque case de couche porte
+ *   son `type` et une `piece` facultative — l'assignation `"texture"` de la grille racine est lue
+ *   dans une carte v3 et rangée comme pièce de la couche de décor, refusée dans une v4 ; la grille
+ *   racine est la collision **écrite**, avec ses cases forcées (`"forced"`) ; les entités portent un
+ *   `id` unique et un compteur (`"nextEntityId"`) ; une zone peut être peinte (`"cells"`) ; une
+ *   carte peut être la **variante** d'une autre (`"base"`, `"scene"`) ; la hauteur est réservée
+ *   (`"floor"` par couche, `"elevation"` par case et par entité).
  *
  * Toute clé non reconnue dans une couche ou une entité est rangée dans ses propriétés libres
  * (`core::PropertyMap`) et **réémise** à l'écriture : un fichier produit par une version
  * ultérieure de l'éditeur traverse une version antérieure sans rien perdre.
  */
-inline constexpr int LEVEL_FORMAT_VERSION = 3;
+inline constexpr int LEVEL_FORMAT_VERSION = 4;
 
 /**
  * @brief Résultat d'un chargement de niveau : soit un `Level`, soit une **erreur** décrite.
@@ -88,10 +97,32 @@ struct LevelLoadResult {
  */
 class LevelLoader {
 public:
-    /// @brief Charge un niveau depuis une chaîne JSON. @param json Contenu JSON. @return Résultat.
-    [[nodiscard]] static LevelLoadResult loadFromString(std::string_view json);
+    /**
+     * @brief Ce qui rend la carte de base d'une variante (décision D12), à partir de son
+     *        identifiant (`coliseum`, `capital/martpart`).
+     */
+    using BaseResolver = std::function<LevelLoadResult(std::string_view baseId)>;
 
-    /// @brief Charge un niveau depuis un fichier. @param path Chemin du fichier. @return Résultat.
+    /**
+     * @brief Charge un niveau depuis une chaîne JSON.
+     * @param json        Contenu JSON.
+     * @param resolveBase Pour une variante, ce qui charge sa base ; sans lui, une variante est
+     *                    refusée (`LevelValidationError::MissingBase`).
+     * @return Résultat.
+     */
+    [[nodiscard]] static LevelLoadResult loadFromString(std::string_view json,
+                                                        const BaseResolver& resolveBase = {});
+
+    /**
+     * @brief Charge un niveau depuis un fichier.
+     *
+     * La base d'une variante se cherche comme `<dossier>/<base>.json`, du dossier de la variante
+     * vers la racine du disque : le premier qui existe l'emporte. Une carte `capital/x.json` qui
+     * déclare `"base": "coliseum"` trouve donc `Levels/coliseum.json`, et `"base":
+     * "capital/martpart"` trouve `Levels/capital/martpart.json`.
+     * @param path Chemin du fichier.
+     * @return Résultat.
+     */
     [[nodiscard]] static LevelLoadResult loadFromFile(const std::filesystem::path& path);
 };
 

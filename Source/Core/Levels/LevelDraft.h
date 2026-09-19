@@ -169,7 +169,8 @@ public:
      * @{
      */
 
-    /// Pose @p entity en fin de liste.
+    /// Pose @p entity en fin de liste. Une entité sans identifiant en reçoit un neuf
+    /// (`core::entityIdFor`), jamais donné auparavant dans cette carte (décision D8).
     /// @return Son rang, ou `std::nullopt` si sa case est hors de la grille (`EX-LVL-017`).
     std::optional<std::size_t> placeEntity(MapEntity entity);
 
@@ -279,9 +280,14 @@ public:
         return _entry;
     }
 
-    /// @return Les pièces assignées par case (`EX-EDIT-043`).
-    [[nodiscard]] const std::vector<TileTextureOverride>& textureOverrides() const noexcept {
-        return _textureOverrides;
+    /// @return Les cases de collision forcées à la main (`core::LevelData::forcedCollision`).
+    [[nodiscard]] const std::vector<GridPosition>& forcedCollision() const noexcept {
+        return _forcedCollision;
+    }
+
+    /// @return Le prochain identifiant d'entité que `placeEntity` donnera.
+    [[nodiscard]] int nextEntityId() const noexcept {
+        return _nextEntityId;
     }
 
     /// @return Les couches de tuiles du niveau (`LOT-04`), dans leur ordre de superposition.
@@ -333,9 +339,6 @@ private:
     /// Logique de `setEntry`, sans `pushUndo()`.
     void setEntryInternal(int column, int row);
 
-    /// Retire la pièce assignée à @p position, s'il y en a une.
-    void removeTextureOverrideAt(GridPosition position);
-
     /// État complet du brouillon, hors historique (utilisé pour les snapshots undo/redo).
     struct State {
         std::string name;
@@ -343,7 +346,7 @@ private:
         std::optional<GridPosition> entry;
         std::vector<TileLayer> layers;
         std::vector<MapEntity> entities;
-        std::vector<TileTextureOverride> textureOverrides;
+        std::vector<GridPosition> forcedCollision;
         std::uint64_t revision = 0;
     };
 
@@ -366,7 +369,12 @@ private:
     std::optional<GridPosition> _entry;
     std::vector<TileLayer> _layers;
     std::vector<MapEntity> _entities;
-    std::vector<TileTextureOverride> _textureOverrides;
+    std::vector<GridPosition> _forcedCollision;
+    /// Compteur d'identifiants : hors des instantanés, il ne recule jamais (décision D8).
+    int _nextEntityId = 1;
+    /// Base et planche d'une variante (décision D12) : ni peintes ni défaites, recopiées.
+    std::string _base;
+    std::string _scene;
     std::vector<State> _undoHistory;
     std::vector<State> _redoHistory;
     std::uint64_t _revision = 0;

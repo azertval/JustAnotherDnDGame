@@ -14,23 +14,10 @@
 
 /**
  * @file Core/Levels/Level.h
- * @brief Carte chargée : grille de collision, couches, entités, point d'entrée.
+ * @brief Carte chargée : grille de collision, couches, entités, point d'entrée, variante.
  */
 
 namespace core {
-
-/**
- * @brief Pièce de la planche du lieu assignée explicitement à **une case précise**, prioritaire sur
- *        la table d'apparence de son type (`EX-EDIT-043`, `EX-VIS-008`).
- *
- * Vecteur annexe de `Level`, keyé par position, `TileMap` ne portant qu'un `TileType` par case. Le
- * nom de pièce est une simple chaîne : `Core` ne vérifie pas son existence (`EX-NFR-011`), une
- * assignation pointant une pièce absente reste une carte valide.
- */
-struct TileTextureOverride {
-    GridPosition position;
-    std::string assetName;
-};
 
 /**
  * @brief Composantes d'une carte, nommées — agrégat de construction de `core::Level` (`LOT-03`).
@@ -69,8 +56,21 @@ struct LevelData {
     std::vector<MapEntity> entities;
     /// Point d'arrivée par défaut (case `Entry`).
     GridPosition entry{};
-    /// Pièces assignées par case (`EX-EDIT-043`), prioritaires sur la table d'apparence du lieu.
-    std::vector<TileTextureOverride> textureOverrides;
+    /// Cases de collision **forcées à la main** (format v4, décision D10) : là, la grille de
+    /// collision peut s'écarter de ce que `core::deriveCollision` tire des pièces et des types.
+    /// Partout ailleurs, `LevelEditor --check` exige que la grille égale la déduction. Triées
+    /// (ligne, colonne), sans doublon.
+    std::vector<GridPosition> forcedCollision;
+    /// Prochain identifiant d'entité à donner (décision D8) : un compteur écrit dans la carte, pour
+    /// qu'un identifiant retiré ne soit **jamais** redonné à une autre entité. 1 par défaut.
+    int nextEntityId = 1;
+    /// Carte dont celle-ci est une **variante** (décision D12), par son identifiant
+    /// (`coliseum`, `capital/martpart`) ; vide pour une carte ordinaire. Une variante ne porte ni
+    /// case ni couche : elle reprend celles de sa base, change de planche (`scene`) et porte ses
+    /// propres entités (`core::applyVariant`).
+    std::string base;
+    /// Planche que la variante substitue à celle de sa base ; vide pour la garder.
+    std::string scene;
 };
 
 /**
@@ -91,7 +91,10 @@ public:
           _layers(std::move(data.layers)),
           _entities(std::move(data.entities)),
           _entry(data.entry),
-          _textureOverrides(std::move(data.textureOverrides)) {}
+          _forcedCollision(std::move(data.forcedCollision)),
+          _nextEntityId(data.nextEntityId),
+          _base(std::move(data.base)),
+          _scene(std::move(data.scene)) {}
 
     /// @return Le nom de la carte.
     [[nodiscard]] const std::string& name() const noexcept {
@@ -119,9 +122,38 @@ public:
         return _entry;
     }
 
-    /// @return Les pièces assignées par case (`EX-EDIT-043`).
-    [[nodiscard]] const std::vector<TileTextureOverride>& textureOverrides() const noexcept {
-        return _textureOverrides;
+    /// @return Les cases de collision forcées à la main (`LevelData::forcedCollision`).
+    [[nodiscard]] const std::vector<GridPosition>& forcedCollision() const noexcept {
+        return _forcedCollision;
+    }
+
+    /// @return Le prochain identifiant d'entité à donner (`LevelData::nextEntityId`).
+    [[nodiscard]] int nextEntityId() const noexcept {
+        return _nextEntityId;
+    }
+
+    /// @return La carte dont celle-ci est une variante, vide pour une carte ordinaire.
+    [[nodiscard]] const std::string& base() const noexcept {
+        return _base;
+    }
+
+    /// @return La planche que la variante substitue à celle de sa base, vide sinon.
+    [[nodiscard]] const std::string& scene() const noexcept {
+        return _scene;
+    }
+
+    /// @return Toutes les composantes de la carte, recopiées — ce que l'écrivain et le brouillon
+    ///         reprennent sans en oublier une.
+    [[nodiscard]] LevelData data() const {
+        return LevelData{.name = _name,
+                         .tileMap = _tileMap,
+                         .layers = _layers,
+                         .entities = _entities,
+                         .entry = _entry,
+                         .forcedCollision = _forcedCollision,
+                         .nextEntityId = _nextEntityId,
+                         .base = _base,
+                         .scene = _scene};
     }
 
 private:
@@ -130,7 +162,10 @@ private:
     std::vector<TileLayer> _layers;
     std::vector<MapEntity> _entities;
     GridPosition _entry;
-    std::vector<TileTextureOverride> _textureOverrides;
+    std::vector<GridPosition> _forcedCollision;
+    int _nextEntityId = 1;
+    std::string _base;
+    std::string _scene;
 };
 
 }  // namespace core

@@ -51,10 +51,9 @@ core::Level carte(std::vector<core::MapEntity> entites) {
     donnees.entry = {1, 1};
     donnees.layers.push_back(core::TileLayer{
         .name = "relief", .kind = core::LayerKind::Decor, .tiles = std::move(decor), .properties = {}});
-    donnees.textureOverrides.push_back(
-        core::TileTextureOverride{.position = {5, 5}, .assetName = "torch-left"});
-    donnees.textureOverrides.push_back(
-        core::TileTextureOverride{.position = {1, 1}, .assetName = "wall-left"});
+    donnees.layers.back().setPiece(5, 5, "torch-left");
+    donnees.layers.back().setPiece(1, 1, "wall-left");
+    donnees.forcedCollision = {{1, 1}, {6, 5}};
     donnees.entities = std::move(entites);
     return core::Level{std::move(donnees)};
 }
@@ -69,7 +68,7 @@ core::Level carte(std::vector<core::MapEntity> entites) {
  * \tetapes 1. Declarer une zone « sable » de 4 x 3 en (4, 4) sur une carte de 12 x 10.<br/>
  * 2. Reduire la carte a la zone.<br/>
  * \tattendu Une grille de 4 x 3 ; les entites du dedans translatees a l'origine de la zone, celles
- * du dehors absentes ; le decor et les assignations de texture decoupes de meme.
+ * du dehors absentes ; le decor, ses pieces et les cases forcees decoupes de meme.
  * }
  */
 TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
@@ -111,14 +110,14 @@ TEST(CombatZoneTest, LaCarteReduiteNEstQueLaZone) {
     }
     EXPECT_EQ(pnj, 1) << "le PNJ du dehors n'entre pas dans la grille de combat";
 
-    // Le decor et les assignations suivent : une seule couche visible, decoupee, et la torche de
-    // la zone translatee ; le mur du dehors est parti.
+    // Le decor et ses pieces suivent : une seule couche visible, decoupee, et la torche de la zone
+    // translatee ; le mur du dehors est parti. Les cases forcees suivent de meme.
     ASSERT_EQ(reduite.layers().size(), 1U);
     EXPECT_EQ(reduite.layers().front().tiles.width(), 4);
     EXPECT_EQ(reduite.layers().front().tiles.tile(0, 0), core::TileType::Wall);
-    ASSERT_EQ(reduite.textureOverrides().size(), 1U);
-    EXPECT_EQ(reduite.textureOverrides().front().position, (core::GridPosition{1, 1}));
-    EXPECT_EQ(reduite.textureOverrides().front().assetName, "torch-left");
+    EXPECT_EQ(reduite.layers().front().pieceAt(1, 1), "torch-left");
+    EXPECT_EQ(reduite.layers().front().pieces.size(), 12U) << "une piece par case de la zone";
+    EXPECT_EQ(reduite.forcedCollision(), (std::vector<core::GridPosition>{{2, 1}}));
 }
 
 /**

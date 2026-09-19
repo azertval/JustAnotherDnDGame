@@ -12,10 +12,7 @@ namespace core {
 
 namespace {
 
-// Copie @p source dans une grille de @p width x @p height, tronquee aux bords. Extrait de
-// resize() : les couches du LOT-04 subissent exactement le meme sort que la grille racine, une
-// couche restee aux anciennes dimensions rendrait le niveau irrecuperable a l'enregistrement (le
-// chargeur refuse une tuile hors bornes).
+// Copie @p source dans une grille de @p width x @p height, tronquee aux bords.
 [[nodiscard]] TileMap resizedCopy(const TileMap& source, int width, int height) {
     TileMap resized(width, height);
     const int copyWidth = (std::min)(width, source.width());
@@ -44,9 +41,12 @@ LevelDraft LevelDraft::fromLevel(const Level& level) {
     // ne fait echouer aucun appel, il s'efface simplement au premier enregistrement. Ajouter un
     // champ a Level, c'est l'ajouter ici.
     draft._entry = level.entry();
-    draft._textureOverrides = level.textureOverrides();
     draft._layers = level.layers();
     draft._entities = level.entities();
+    draft._forcedCollision = level.forcedCollision();
+    draft._nextEntityId = level.nextEntityId();
+    draft._base = level.base();
+    draft._scene = level.scene();
     return draft;
 }
 
@@ -110,11 +110,6 @@ void LevelDraft::paintTileInternal(int column, int row, TileType type) {
     if (_entry && *_entry == position) {
         _entry.reset();
     }
-    // Reposer le meme type ne doit pas effacer une piece assignee (EX-EDIT-043) : un coup de
-    // pinceau involontaire sur une case deja du bon type l'effacerait sinon.
-    if (_tileMap.tile(column, row) != type) {
-        removeTextureOverrideAt(position);
-    }
     _tileMap.setTile(column, row, type);
 }
 
@@ -128,7 +123,6 @@ void LevelDraft::setEntryInternal(int column, int row) {
     if (_entry && *_entry != position) {
         _tileMap.setTile(_entry->column, _entry->row, TileType::Empty);
     }
-    removeTextureOverrideAt(position);
     _tileMap.setTile(column, row, TileType::Entry);
     _entry = position;
 }
@@ -167,6 +161,16 @@ void alignRootLayer(std::vector<TileLayer>& layers, const TileMap& root) {
     layers.insert(
         layers.begin(),
         TileLayer{.name = {}, .kind = LayerKind::Collision, .tiles = root, .properties = {}});
+}
+
+// Peint @p type sur une case de couche. Un type DIFFERENT retire la piece de la case : elle
+// habillait l'ancien type, et la garder montrerait un mur sur une rue fraichement peinte. Reposer
+// le meme type la garde -- un coup de pinceau involontaire ne l'efface pas.
+void setLayerCellType(TileLayer& layer, int column, int row, TileType type) {
+    if (layer.tiles.tile(column, row) != type) {
+        layer.setPiece(column, row, {});
+    }
+    layer.tiles.setTile(column, row, type);
 }
 
 // Vrai si chaque type de @p block se peint sur une couche visuelle.
@@ -262,7 +266,7 @@ bool LevelDraft::paintLayerTile(std::size_t index, int column, int row, TileType
         return false;
     }
     pushUndo();
-    _layers[index].tiles.setTile(column, row, type);
+    setLayerCellType(_layers[index], column, row, type);
     return true;
 }
 
@@ -279,7 +283,7 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
             const int column = originColumn + static_cast<int>(columnOffset);
             const int row = originRow + static_cast<int>(rowOffset);
             if (tiles.inBounds(column, row)) {
-                tiles.setTile(column, row, rowTiles[columnOffset]);
+                setLayerCellType(_layers[index], column, row, rowTiles[columnOffset]);
             }
         }
     }
@@ -293,6 +297,11 @@ std::optional<std::size_t> LevelDraft::placeEntity(MapEntity entity) {
         return std::nullopt;
     }
     pushUndo();
+    if (entity.id.empty()) {
+        // Le compteur ne recule jamais, pas meme a l'annulation : un identifiant donne une fois ne
+        // designera jamais une autre entite (decision D8).
+        entity.id = entityIdFor(_nextEntityId++);
+    }
     _entities.push_back(std::move(entity));
     return _entities.size() - 1;
 }
@@ -354,20 +363,25 @@ void LevelDraft::resize(int width, int height) {
     // Les couches suivent la grille racine (LOT-04) : toutes les couches d'une carte partagent ses
     // dimensions, c'est ce que le chargeur verifie a la relecture.
     for (TileLayer& layer : _layers) {
-        layer.tiles = resizedCopy(layer.tiles, width, height);
+        layer = resizedLayer(layer, width, height);
     }
 
     if (_entry && !_tileMap.inBounds(_entry->column, _entry->row)) {
         _entry.reset();
     }
-    std::erase_if(_textureOverrides, [this](const TileTextureOverride& override) {
-        return !_tileMap.inBounds(override.position.column, override.position.row);
+    std::erase_if(_forcedCollision, [this](GridPosition cell) {
+        return !_tileMap.inBounds(cell.column, cell.row);
     });
     // Une entite est keyee par sa case : hors de la nouvelle grille, elle n'a plus de place ou
     // exister, et la garder rendrait la carte irrecuperable (EX-LVL-017).
     std::erase_if(_entities, [this](const MapEntity& entity) {
         return !_tileMap.inBounds(entity.position.column, entity.position.row);
     });
+    for (MapEntity& entity : _entities) {
+        std::erase_if(entity.cells, [this](GridPosition cell) {
+            return !_tileMap.inBounds(cell.column, cell.row);
+        });
+    }
 }
 
 bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
@@ -377,11 +391,6 @@ bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
     };
     if (_entry && outOfBounds(*_entry)) {
         return true;
-    }
-    for (const TileTextureOverride& override : _textureOverrides) {
-        if (outOfBounds(override.position)) {
-            return true;
-        }
     }
     return std::ranges::any_of(_entities, [&outOfBounds](const MapEntity& entity) {
         return outOfBounds(entity.position);
@@ -414,7 +423,7 @@ LevelDraft::State LevelDraft::snapshot() const {
                  .entry = _entry,
                  .layers = _layers,
                  .entities = _entities,
-                 .textureOverrides = _textureOverrides,
+                 .forcedCollision = _forcedCollision,
                  .revision = _revision};
 }
 
@@ -424,7 +433,7 @@ void LevelDraft::restore(State state) {
     _entry = state.entry;
     _layers = std::move(state.layers);
     _entities = std::move(state.entities);
-    _textureOverrides = std::move(state.textureOverrides);
+    _forcedCollision = std::move(state.forcedCollision);
     _revision = state.revision;
 }
 
@@ -452,17 +461,14 @@ std::string LevelDraft::toJson() const {
                                             .tileMap = _tileMap,
                                             .layers = std::move(layers),
                                             .entities = _entities,
-                                            .textureOverrides = _textureOverrides});
+                                            .forcedCollision = _forcedCollision,
+                                            .nextEntityId = _nextEntityId,
+                                            .base = _base,
+                                            .scene = _scene});
 }
 
 LevelLoadResult LevelDraft::toLevel() const {
     return LevelLoader::loadFromString(toJson());
-}
-
-void LevelDraft::removeTextureOverrideAt(GridPosition position) {
-    std::erase_if(_textureOverrides, [position](const TileTextureOverride& override) {
-        return override.position == position;
-    });
 }
 
 }  // namespace core

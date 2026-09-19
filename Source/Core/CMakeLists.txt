@@ -56,6 +56,10 @@ add_library(Core STATIC
     Rpg/RpgEnumNames.cpp
     Rpg/Multiclassing.cpp
     Levels/TileMap.cpp
+    Levels/TileLayer.cpp
+    Levels/MapEntity.cpp
+    Levels/CollisionDerivation.cpp
+    Levels/LevelVariant.cpp
     Levels/TileTypeName.cpp
     Levels/LevelLoader.cpp
     Levels/LevelWriter.cpp

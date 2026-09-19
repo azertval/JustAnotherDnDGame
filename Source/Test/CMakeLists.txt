@@ -56,7 +56,8 @@ add_executable(UnitTests
     Unit/Core/Rpg/test_character_options.cpp
     Unit/Core/Rpg/test_character_sheet.cpp
     Unit/Core/Levels/test_rpg_terrain.cpp
-    Unit/Core/Levels/test_tile_texture_override.cpp
+    Unit/Core/Levels/test_layer_pieces.cpp
+    Unit/Core/Levels/test_format_v4.cpp
     Unit/Core/World/test_world_graph.cpp
     Unit/Core/World/test_world_travel.cpp
     Unit/Core/World/test_exploration_session.cpp

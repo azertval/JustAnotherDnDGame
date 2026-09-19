@@ -57,10 +57,52 @@ namespace {
     if (const auto mirror = value.find("mirrorOf"); mirror != value.end() && mirror->is_string()) {
         piece.mirrorOf = std::string{scenePieceShortName(mirror->get<std::string>())};
     }
+    // Un sol passe, une pièce debout arrête la vue ; un nom tactique inconnu garde ce défaut
+    // plutôt que de faire perdre la pièce.
+    piece.tactical = piece.pieceClass == ScenePieceClass::Floor ? PieceTactical::Open
+                                                                : PieceTactical::Solid;
+    if (const auto tactical = value.find("tactical");
+        tactical != value.end() && tactical->is_string()) {
+        piece.tactical = parsePieceTactical(tactical->get<std::string>()).value_or(piece.tactical);
+    }
+    if (const auto aliases = value.find("aliases"); aliases != value.end() && aliases->is_array()) {
+        for (const nlohmann::json& alias : *aliases) {
+            if (alias.is_string()) {
+                piece.aliases.emplace_back(scenePieceShortName(alias.get<std::string>()));
+            }
+        }
+    }
     return piece;
 }
 
 }  // namespace
+
+const char* pieceTacticalName(PieceTactical tactical) noexcept {
+    switch (tactical) {
+        case PieceTactical::Open:
+            return "open";
+        case PieceTactical::Difficult:
+            return "difficult";
+        case PieceTactical::Cover:
+            return "cover";
+        case PieceTactical::Obstacle:
+            return "obstacle";
+        case PieceTactical::Solid:
+            return "solid";
+    }
+    return "solid";
+}
+
+std::optional<PieceTactical> parsePieceTactical(std::string_view name) noexcept {
+    for (const PieceTactical tactical :
+         {PieceTactical::Open, PieceTactical::Difficult, PieceTactical::Cover,
+          PieceTactical::Obstacle, PieceTactical::Solid}) {
+        if (name == pieceTacticalName(tactical)) {
+            return tactical;
+        }
+    }
+    return std::nullopt;
+}
 
 ScenePieceClass parseScenePieceClass(std::string_view name) noexcept {
     if (name == "floor") {
@@ -89,8 +131,16 @@ ScenePieceManifestResult ScenePieceManifest::loadFromFile(const std::filesystem:
 }
 
 const ScenePiece* ScenePieceManifest::find(std::string_view name) const noexcept {
-    const auto found = std::ranges::find(_pieces, name, &ScenePiece::name);
-    return found == _pieces.end() ? nullptr : &*found;
+    if (const auto found = std::ranges::find(_pieces, name, &ScenePiece::name);
+        found != _pieces.end()) {
+        return &*found;
+    }
+    // Un nom courant l'emporte toujours sur un ancien nom : une pièce renommée puis remplacée par
+    // une nouvelle pièce du même nom ne détourne pas les cartes qui citent la nouvelle.
+    const auto aliased = std::ranges::find_if(_pieces, [name](const ScenePiece& piece) {
+        return std::ranges::find(piece.aliases, name) != piece.aliases.end();
+    });
+    return aliased == _pieces.end() ? nullptr : &*aliased;
 }
 
 ScenePieceManifestResult ScenePieceManifest::fromDocument(const JsonDocument& document) {
