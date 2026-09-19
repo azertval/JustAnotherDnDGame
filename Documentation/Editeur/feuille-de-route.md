@@ -191,7 +191,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 | `LOT-EDITOR-12` | Le format v4 et sa garde en CI — **livré** | 01 | M |
 | `LOT-EDITOR-03` | Peindre avec les pièces du lieu — **livré** | 02, 12 | M |
 | `LOT-EDITOR-04` | Les outils du peintre — **livré** | 03 | M |
-| `LOT-EDITOR-05` | Entités et zones sur le canevas | 02, 12 | M |
+| `LOT-EDITOR-05` | Entités et zones sur le canevas — **livré** | 02, 12 | M |
 | `LOT-EDITOR-13` | L'éditeur sans fenêtre | 04 | S |
 | `LOT-EDITOR-06` | Les cartes quittent leurs scripts | 05, 13 | S |
 | `LOT-EDITOR-07` | Contrôle du contenu | 06 | M |
@@ -203,7 +203,7 @@ sont des noms, pas un ordre : l'ordre vient des prérequis.
 
 Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.
 
-Ordre conseillé jusqu'au jalon : 01, 02, 12, 03 et 04 (livrés), 05, 13, 06. Le graphe est donné en source
+Ordre conseillé jusqu'au jalon : 01, 02, 12, 03, 04 et 05 (livrés), 13, 06. Le graphe est donné en source
 Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans `HAVE_DOT`).
 
 ```dot
@@ -215,7 +215,7 @@ digraph editeur {
   E12 [label="12\nformat v4\n+ check en CI\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E03 [label="03\npièces\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E04 [label="04\noutils\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
-  E05 [label="05\nentités, zones"];
+  E05 [label="05\nentités, zones\n(livré)", style="rounded,filled", fillcolor="#dddddd"];
   E13 [label="13\nsans fenêtre"];
   E06 [label="06\nfin des scripts\n(jalon)", style="rounded,bold"];
   E07 [label="07\ncontrôles"];
@@ -298,23 +298,20 @@ Les notes d'auteur vivent dans `<carte>.editor.json` (`EX-EDIT-068`) ; la mesure
 pieds, et l'essai part de la case survolée (`EX-EDIT-069`). Une maison de Martpart — sol, deux
 façades, portes, seuils — se trace en cinq gestes, sans la couche collision.
 
-### LOT-EDITOR-05 — Entités et zones sur le canevas {#lot-editor-05}
+### LOT-EDITOR-05 — Entités et zones sur le canevas
 
-> Statut : **à faire**. Prérequis : 02, 12.
+> Statut : **livré le 19 septembre 2026**. Le lot a quitté cette page pour son dossier :
+> @subpage lot-editor-05.
 
-Les zones se tirent à la souris, les entités montrent leur figurine et leurs liens.
-
-- Poignées pour toute famille à emprise ; zones **peintes** en plus des rectangles (D13) ; famille
-  « trajet » en ligne brisée (rondes, horaires).
-- Figurine de l'atelier du [LOT-91](@ref lot-91) à la place du marqueur quand elle existe ;
-  portail : étiquette de la carte cible ; rencontre : formation et créatures dessinées.
-- Multi-sélection, déplacement groupé, liste filtrable des entités.
-- Inspecteur tiré d'un **schéma typé** de `EntityKinds` : entier borné, énumération, référence à
-  un catalogue (dialogue, objet, drapeau, figurine, `carte#id`) avec liste de choix.
-
-*Acceptation* — redimensionner la zone de combat du Colisée à la souris met à jour son verdict
-tactique ; aucune famille n'a de code propre dans le canevas ; un test bloque toute famille
-d'entité lue par le jeu et absente de `EntityKinds` (§5, règle 2).
+Une entité se dessine et se manipule par la **forme** que sa famille déclare — point, rectangle,
+zone rectangle ou peinte, trajet — : les zones se tirent, se redimensionnent par huit poignées et se
+peignent case par case (outil Forme, `Z`), les trajets se tracent point par point (`EX-EDIT-070`).
+Le canevas montre la figurine à la place du marqueur, l'étiquette de chaque famille, la formation
+d'une rencontre et le verdict tactique d'une zone de combat, recalculé pendant qu'on la tire
+(`EX-EDIT-071`). Les entités se sélectionnent à plusieurs, se déplacent en groupe, et la liste se
+filtre (`EX-EDIT-072`). L'inspecteur est tiré d'un schéma typé — entiers bornés, figurines,
+drapeaux, lieux, objets, `carte#id` —, et un test bloque toute famille lue par le jeu et absente de
+la table : il a trouvé `zone` (`EX-EDIT-073`).
 
 ### LOT-EDITOR-13 — L'éditeur sans fenêtre {#lot-editor-13}
 

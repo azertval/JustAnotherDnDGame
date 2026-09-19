@@ -10,12 +10,14 @@
 #include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/MapEntity.h"
+#include "Core/World/CombatZone.h"
 #include "Core/World/EntityKinds.h"
 
 /**
  * @file Editor/Logic/EditorDiagnostics.h
- * @brief Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées
- *        et rencontres posées hors d'un terrain tactique valide (`LOT-11`).
+ * @brief Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées,
+ *        rencontres posées hors d'un terrain tactique valide (`LOT-11`), zones de combat qui ne se
+ *        jouent pas (`LOT-EDITOR-05`).
  */
 
 namespace hmi {
@@ -43,18 +45,30 @@ struct EditorDiagnostic {
     [[nodiscard]] bool operator==(const EditorDiagnostic&) const = default;
 };
 
-/// @return La clé de traduction de @p code.
-[[nodiscard]] const char* entityIssueKey(core::EntityIssueCode code) noexcept;
+/// @return Le message de @p code, `%1` l'entité, `%2` la propriété, `%3` la valeur.
+[[nodiscard]] const char* entityIssueTemplate(core::EntityIssueCode code) noexcept;
 
-/// @return La clé de traduction de @p code.
-[[nodiscard]] const char* tacticalIssueKey(core::TacticalIssueCode code) noexcept;
+/// @return Le message de @p code, `%1` la rencontre, `%2` et `%3` ce qu'il cite.
+[[nodiscard]] const char* tacticalIssueTemplate(core::TacticalIssueCode code) noexcept;
 
 /**
- * @brief Les avertissements de la carte, les références d'abord, puis le terrain, chacun dans
- *        l'ordre des entités.
+ * @brief Les avertissements de la carte : les références, puis le terrain des rencontres, puis les
+ *        zones de combat, chacun dans l'ordre des entités.
+ *
+ * Une zone de combat avertit si elle ne se joue pas (vide, hors de la carte, sans case libre), et
+ * une entrée d'arène si elle n'est dans aucune zone : le combat ne la verrait pas.
  */
 [[nodiscard]] std::vector<EditorDiagnostic> editorDiagnostics(
     const std::vector<core::MapEntity>& entities, const std::vector<core::EntityIssue>& issues,
-    const std::vector<core::EncounterTerrain>& terrains);
+    const std::vector<core::EncounterTerrain>& terrains,
+    const std::vector<core::CombatZoneTerrain>& zones = {});
+
+/**
+ * @brief Le verdict d'une zone de combat en une ligne, pour l'inspecteur : sa taille, ses cases
+ *        libres, ses entrées d'arène dedans et dehors — ou son défaut.
+ *
+ * Par exemple : `sable: 20 x 14, 230 free cells of 280, 8 arena entries inside, 0 outside.`
+ */
+[[nodiscard]] std::string combatZoneSummary(const core::CombatZoneTerrain& zone);
 
 }  // namespace hmi

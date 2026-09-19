@@ -9,6 +9,7 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QHeaderView>
+#include <QItemSelection>
 #include <QItemSelectionModel>
 #include <QLabel>
 #include <QLayoutItem>
@@ -20,12 +21,14 @@
 #include <QTableWidget>
 #include <QTableWidgetItem>
 #include <QVBoxLayout>
+#include <algorithm>
 #include <cstdint>
 #include <limits>
 #include <variant>
 
 #include "Core/Levels/LevelDraft.h"
 #include "Editor/Logic/EntityReferences.h"
+#include "Editor/Logic/EntityShapes.h"
 
 namespace hmi {
 
@@ -36,8 +39,15 @@ constexpr int INTEGER_MINIMUM = -9999;
 constexpr int INTEGER_MAXIMUM = 9999;
 
 [[nodiscard]] bool sameEntity(const core::MapEntity& a, const core::MapEntity& b) {
-    return a.type == b.type && a.position == b.position && a.properties == b.properties;
+    return a.type == b.type && a.position == b.position && a.properties == b.properties &&
+           a.id == b.id && a.cells == b.cells;
 }
+
+// Colonnes de la liste : identifiant, famille, étiquette, case.
+constexpr int ID_COLUMN = 0;
+constexpr int TYPE_COLUMN = 1;
+constexpr int LABEL_COLUMN = 2;
+constexpr int CELL_COLUMN = 3;
 
 [[nodiscard]] QString valueText(const core::PropertyValue& value) {
     if (const auto* const flag = std::get_if<bool>(&value)) {
@@ -73,27 +83,36 @@ constexpr int INTEGER_MAXIMUM = 9999;
 /// et les avertissements.
 struct EntityPanel::Widgets {
     QComboBox* kindCombo;
+    QLineEdit* filterEdit;
     QTableWidget* entityTable;
     QLabel* selectionLabel;
     QWidget* propertiesForm;
+    QLabel* verdictLabel;
     QPushButton* removeButton;
     QListWidget* warningList;
 
     explicit Widgets(QWidget* panel)
         : kindCombo(new QComboBox(panel)),
-          entityTable(new QTableWidget(0, 2, panel)),
+          filterEdit(new QLineEdit(panel)),
+          entityTable(new QTableWidget(0, 4, panel)),
           selectionLabel(new QLabel(panel)),
           propertiesForm(new QWidget(panel)),
+          verdictLabel(new QLabel(panel)),
           removeButton(new QPushButton(QStringLiteral("Remove"), panel)),
           warningList(new QListWidget(panel)) {
         kindCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         entityTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-        entityTable->setSelectionMode(QAbstractItemView::SingleSelection);
+        filterEdit->setPlaceholderText(QStringLiteral("Filter: kind, id or value"));
+        filterEdit->setClearButtonEnabled(true);
+        entityTable->setSelectionMode(QAbstractItemView::ExtendedSelection);
         entityTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        entityTable->setHorizontalHeaderLabels({QStringLiteral("Type"), QStringLiteral("Cell")});
+        entityTable->setHorizontalHeaderLabels({QStringLiteral("Id"), QStringLiteral("Kind"),
+                                                QStringLiteral("Label"), QStringLiteral("Cell")});
         entityTable->horizontalHeader()->setStretchLastSection(true);
         entityTable->verticalHeader()->setVisible(false);
         selectionLabel->setWordWrap(true);
+        verdictLabel->setWordWrap(true);
+        verdictLabel->setVisible(false);
         removeButton->setEnabled(false);
         warningList->setWordWrap(true);
         warningList->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -104,6 +123,7 @@ struct EntityPanel::Widgets {
         auto* const propertiesBox = new QGroupBox(QStringLiteral("Properties"), panel);
         auto* const propertiesLayout = new QVBoxLayout(propertiesBox);
         propertiesLayout->addWidget(selectionLabel);
+        propertiesLayout->addWidget(verdictLabel);
         propertiesLayout->addWidget(propertiesForm);
         propertiesLayout->addWidget(removeButton);
         auto* const warningsBox = new QGroupBox(QStringLiteral("Warnings"), panel);
@@ -111,6 +131,7 @@ struct EntityPanel::Widgets {
         warningsLayout->addWidget(warningList);
         auto* const layout = new QVBoxLayout(panel);
         layout->addLayout(placeRow);
+        layout->addWidget(filterEdit);
         layout->addWidget(entityTable);
         layout->addWidget(propertiesBox);
         layout->addWidget(warningsBox);
@@ -128,19 +149,29 @@ EntityPanel::EntityPanel(QWidget* parent)
             emit kindToPlaceChanged(QString::fromStdString(kindToPlace()));
         }
     });
-    connect(_ui->entityTable->selectionModel(), &QItemSelectionModel::selectionChanged, this,
-            [this] {
-                if (_rebuilding) {
-                    return;
-                }
-                const QModelIndexList rows = _ui->entityTable->selectionModel()->selectedRows();
-                emit entitySelected(rows.isEmpty() ? std::nullopt
-                                                   : std::make_optional(static_cast<std::size_t>(
-                                                         rows.constFirst().row())));
-            });
+    connect(
+        _ui->entityTable->selectionModel(), &QItemSelectionModel::selectionChanged, this, [this] {
+            if (_rebuilding) {
+                return;
+            }
+            // Le rang d'entité est porté par la ligne : la liste filtrée n'a pas l'ordre de
+            // la carte. La ligne courante est la principale, la dernière cliquée.
+            std::vector<std::size_t> indices;
+            for (const QModelIndex& row :
+                 _ui->entityTable->selectionModel()->selectedRows(ID_COLUMN)) {
+                indices.push_back(static_cast<std::size_t>(row.data(Qt::UserRole).toULongLong()));
+            }
+            std::optional<std::size_t> primary;
+            if (const QTableWidgetItem* const current =
+                    _ui->entityTable->item(_ui->entityTable->currentRow(), ID_COLUMN)) {
+                primary = static_cast<std::size_t>(current->data(Qt::UserRole).toULongLong());
+            }
+            emit entitiesSelected(indices, primary);
+        });
+    connect(_ui->filterEdit, &QLineEdit::textChanged, this, [this] { rebuildTable(); });
     connect(_ui->removeButton, &QPushButton::clicked, this, [this] {
-        if (_selected) {
-            emit removeRequested(*_selected);
+        if (!_selection.empty()) {
+            emit removeRequested();
         }
     });
     connect(_ui->warningList, &QListWidget::itemActivated, this, [this](QListWidgetItem* item) {
@@ -159,11 +190,16 @@ std::string EntityPanel::kindToPlace() const {
     return _ui->kindCombo->currentData().toString().toStdString();
 }
 
-void EntityPanel::refresh(const core::LevelDraft& draft, std::optional<std::size_t> selected,
+void EntityPanel::refresh(const core::LevelDraft& draft, const std::vector<std::size_t>& selection,
+                          std::optional<std::size_t> selected,
                           const core::EntityReferenceContext& context,
-                          const std::vector<EditorDiagnostic>& diagnostics) {
+                          const std::vector<EditorDiagnostic>& diagnostics,
+                          const std::string& verdict) {
     _entities = draft.entities();
+    _selection = selection;
+    std::erase_if(_selection, [this](std::size_t index) { return index >= _entities.size(); });
     _selected = selected && *selected < _entities.size() ? selected : std::nullopt;
+    _verdict = verdict;
     _context = context;
     _diagnostics = diagnostics;
     rebuildTable();
@@ -189,19 +225,33 @@ void EntityPanel::rebuildKinds() {
 void EntityPanel::rebuildTable() {
     _rebuilding = true;
     const QSignalBlocker block(_ui->entityTable);
+    const std::vector<std::size_t> shown =
+        filterEntities(_entities, _ui->filterEdit->text().toStdString());
     _ui->entityTable->clearContents();
-    _ui->entityTable->setRowCount(static_cast<int>(_entities.size()));
-    for (std::size_t row = 0; row < _entities.size(); ++row) {
-        const core::MapEntity& entity = _entities[row];
-        _ui->entityTable->setItem(static_cast<int>(row), 0,
-                                  new QTableWidgetItem(kindLabel(entity.type)));
-        _ui->entityTable->setItem(static_cast<int>(row), 1,
+    _ui->entityTable->setRowCount(static_cast<int>(shown.size()));
+    QItemSelection selected;
+    for (std::size_t row = 0; row < shown.size(); ++row) {
+        const std::size_t index = shown[row];
+        const core::MapEntity& entity = _entities[index];
+        const int line = static_cast<int>(row);
+        auto* const id = new QTableWidgetItem(QString::fromStdString(entity.id));
+        id->setData(Qt::UserRole, QVariant::fromValue<qulonglong>(index));
+        _ui->entityTable->setItem(line, ID_COLUMN, id);
+        _ui->entityTable->setItem(line, TYPE_COLUMN, new QTableWidgetItem(kindLabel(entity.type)));
+        _ui->entityTable->setItem(
+            line, LABEL_COLUMN, new QTableWidgetItem(QString::fromStdString(entityLabel(entity))));
+        _ui->entityTable->setItem(line, CELL_COLUMN,
                                   new QTableWidgetItem(cellText(entity.position)));
+        if (std::ranges::find(_selection, index) != _selection.end()) {
+            const QModelIndex left = _ui->entityTable->model()->index(line, 0);
+            const QModelIndex right = _ui->entityTable->model()->index(line, CELL_COLUMN);
+            selected.select(left, right);
+        }
+        if (_selected == index) {
+            _ui->entityTable->setCurrentCell(line, ID_COLUMN, QItemSelectionModel::NoUpdate);
+        }
     }
-    _ui->entityTable->clearSelection();
-    if (_selected) {
-        _ui->entityTable->selectRow(static_cast<int>(*_selected));
-    }
+    _ui->entityTable->selectionModel()->select(selected, QItemSelectionModel::ClearAndSelect);
     _rebuilding = false;
 }
 
@@ -216,6 +266,9 @@ void EntityPanel::rebuildForm() {
             choices.push_back(entityChoices(spec, *entity, _context));
         }
     }
+    _ui->verdictLabel->setText(QString::fromStdString(_verdict));
+    _ui->verdictLabel->setVisible(!_verdict.empty());
+    _ui->removeButton->setEnabled(!_selection.empty());
     const bool unchanged =
         _formIndex == _selected && _formChoices == choices &&
         ((entity == nullptr && !_formEntity) ||
@@ -228,17 +281,23 @@ void EntityPanel::rebuildForm() {
     _formChoices = choices;
 
     clearForm();
-    _ui->removeButton->setEnabled(entity != nullptr);
     if (entity == nullptr) {
         _ui->selectionLabel->setText(QStringLiteral("No entity selected."));
         return;
     }
     const std::size_t index = *_selected;
-    _ui->selectionLabel->setText(
-        kind != nullptr ? kindLabel(entity->type) + QStringLiteral(" ") + cellText(entity->position)
-                        : QStringLiteral("Kind \"%1\" is unknown to the editor: its properties are "
-                                         "carried over unchanged.")
-                              .arg(QString::fromStdString(entity->type)));
+    QString heading = kind != nullptr
+                          ? kindLabel(entity->type) + QStringLiteral(" ") +
+                                QString::fromStdString(entity->id) + QStringLiteral(" ") +
+                                cellText(entity->position)
+                          : QStringLiteral(
+                                "Kind \"%1\" is unknown to the editor: its properties are "
+                                "carried over unchanged.")
+                                .arg(QString::fromStdString(entity->type));
+    if (_selection.size() > 1) {
+        heading = QStringLiteral("%1 entities selected; showing ").arg(_selection.size()) + heading;
+    }
+    _ui->selectionLabel->setText(heading);
 
     if (kind != nullptr) {
         for (std::size_t specIndex = 0; specIndex < kind->properties.size(); ++specIndex) {
@@ -300,7 +359,11 @@ void EntityPanel::addPropertyRow(std::size_t index, const core::EntityPropertySp
         }
         case core::EntityPropertyKind::Integer: {
             auto* const spin = new QSpinBox(_ui->propertiesForm);
-            spin->setRange(INTEGER_MINIMUM, INTEGER_MAXIMUM);
+            // Les bornes de la déclaration, dans celles du champ.
+            spin->setRange(static_cast<int>(std::clamp<std::int64_t>(spec.minimum, INTEGER_MINIMUM,
+                                                                     INTEGER_MAXIMUM)),
+                           static_cast<int>(std::clamp<std::int64_t>(spec.maximum, INTEGER_MINIMUM,
+                                                                     INTEGER_MAXIMUM)));
             const auto* const held = std::get_if<std::int64_t>(&value);
             spin->setValue(held != nullptr ? static_cast<int>(*held) : 0);
             connect(spin, &QSpinBox::editingFinished, this, [this, index, key, spin] {

@@ -26,6 +26,7 @@
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileType.h"
 #include "Core/Time/FixedTimestep.h"
+#include "Core/World/CombatZone.h"
 #include "Core/World/EntityKinds.h"
 #include "Editor/Logic/BrushGesture.h"
 #include "Editor/Logic/CanvasPicking.h"
@@ -36,6 +37,7 @@
 #include "Editor/Logic/EditorKeyBindings.h"
 #include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/EditorTool.h"
+#include "Editor/Logic/EntityGesture.h"
 #include "Editor/Logic/LayerView.h"
 #include "Editor/Logic/PaintTools.h"
 #include "Editor/Logic/PieceCatalog.h"
@@ -55,7 +57,11 @@ class QPainter;
  * que la composition du jeu produit — mêmes primitives, même ordre — et la peint par `QPainter`
  * (`hmi::paintComposedScene`), en ne touchant que la partie visible. Par-dessus, les aides
  * d'édition : quadrillage en losanges, case survolée, masque de collision, aperçu des outils,
- * marqueurs d'entité, notes d'auteur, axe du miroir.
+ * entités (marqueur, ou figurine quand elle existe ; forme, étiquette et poignées), notes
+ * d'auteur, axe du miroir.
+ *
+ * Les entités se dessinent et se manipulent **par leur forme** (`core::EntityKind::shape`), jamais
+ * par leur type (`LOT-EDITOR-05`) : aucune famille n'a de code propre ici.
  *
  * Les outils du peintre (`LOT-EDITOR-04`) sont les fonctions pures de `Editor/Logic/PaintTools.h` :
  * le canevas ne fait que les appeler et en montrer l'aperçu. Un geste — du clic au relâchement —
@@ -272,12 +278,30 @@ public:
     /// Catalogues que les entités référencent (non possédés), relus par la fenêtre.
     void setEditorReferences(const EditorReferences* references);
     void setEntityKindToPlace(std::string type);
+    /// Sélectionne la seule entité @p index, ou vide la sélection.
     void selectEntity(std::optional<std::size_t> index);
+    /**
+     * @brief Sélectionne les entités @p indices (`LOT-EDITOR-05`) ; @p primary, l'une d'elles, est
+     *        celle que l'inspecteur montre (la dernière de la liste à défaut).
+     */
+    void setEntitySelection(std::vector<std::size_t> indices,
+                            std::optional<std::size_t> primary = std::nullopt);
+    /// @return L'entité que l'inspecteur montre : la dernière prise.
     [[nodiscard]] std::optional<std::size_t> selectedEntity() const noexcept {
         return _selectedEntity;
     }
+    /// @return Toutes les entités sélectionnées, triées.
+    [[nodiscard]] const std::vector<std::size_t>& selectedEntities() const noexcept {
+        return _selectedEntities;
+    }
     void setEntityProperty(std::size_t index, const std::string& key, core::PropertyValue value);
     void removeEntity(std::size_t index);
+    /// Retire toutes les entités sélectionnées, en un pas.
+    void removeSelectedEntities();
+    /// @return Le verdict de chaque zone de combat du brouillon (`core::analyzeCombatZones`).
+    [[nodiscard]] const std::vector<core::CombatZoneTerrain>& combatZones() const noexcept {
+        return _zoneVerdicts;
+    }
     [[nodiscard]] const std::vector<EditorDiagnostic>& diagnostics() const noexcept {
         return _diagnostics;
     }
@@ -387,6 +411,25 @@ private:
     [[nodiscard]] const core::TileMap& activeLayerTiles() const;
     void handleEntityPress(const QMouseEvent* event);
     void handleEntityRelease(const QMouseEvent* event);
+    /// L'outil Forme : peindre la zone sélectionnée, tracer le trajet sélectionné.
+    void handleShapePress(const QMouseEvent* event);
+    /// Peint ou gomme @p cell dans la zone sélectionnée, dans le geste ouvert à l'appui.
+    void paintShapeAt(core::GridPosition cell);
+    /// Écrit le résultat d'un glisser d'entités, en un pas.
+    void applyEntityDrag(const EntityDragResult& result);
+    /// @return Ce que le glisser en cours ferait, arrêté sur la case courante.
+    [[nodiscard]] EntityDragResult pendingEntityDrag() const;
+    /**
+     * @brief Les entités du brouillon telles que le glisser en cours les laisserait.
+     * @param withPlaced Ajouter en fin de liste l'entité qu'on tire, s'il y en a une.
+     */
+    [[nodiscard]] std::vector<core::MapEntity> previewEntities(bool withPlaced) const;
+    /// Les entités par leur forme : zones, trajets, marqueurs, étiquettes, poignées et aperçu du
+    /// glisser, en iso ou à plat.
+    void paintEntities(QPainter& painter, const CellRange& cells, bool iso);
+    /// Le verdict de la zone de combat sélectionnée : cases libres et pleines, entrées d'arène
+    /// (`EX-EDIT-071`), recalculé sur l'aperçu pendant qu'on la tire.
+    void paintZoneVerdict(QPainter& painter, bool iso);
     [[nodiscard]] bool hasVisualLayers() const;
 
     using Clock = std::chrono::steady_clock;
@@ -462,10 +505,16 @@ private:
     const EditorReferences* _references = nullptr;
     std::string _entityKindToPlace;
     std::optional<std::size_t> _selectedEntity;
-    std::optional<std::size_t> _grabbedEntity;
-    core::GridPosition _entityPressCell{};
+    std::vector<std::size_t> _selectedEntities;
+    /// Le glisser de l'outil Entité (ou d'un point de trajet de l'outil Forme), et sa case.
+    std::optional<EntityDrag> _entityDrag;
+    core::GridPosition _entityDragTo{};
+    /// L'outil Forme peint (ou gomme, `Ctrl`) la zone sélectionnée, du clic au relâchement.
+    bool _shapePainting = false;
+    bool _shapeErasing = false;
     core::EntityReferenceContext _referenceContext;
     std::vector<core::EncounterTerrain> _terrains;
+    std::vector<core::CombatZoneTerrain> _zoneVerdicts;
     std::vector<EditorDiagnostic> _diagnostics;
 };
 

@@ -114,7 +114,11 @@ WorldGraph buildWorldGraph(std::vector<WorldMapInput> maps) {
     graphe.maps.reserve(maps.size());
     for (const WorldMapInput& entree : maps) {
         std::set<std::string, std::less<>> points;
+        std::set<std::string, std::less<>> identifiants;
         for (const MapEntity& entite : entree.entities) {
+            if (!entite.id.empty()) {
+                identifiants.insert(entite.id);
+            }
             if (entite.type != SPAWN_POINT_ENTITY_TYPE) {
                 continue;
             }
@@ -123,11 +127,12 @@ WorldGraph buildWorldGraph(std::vector<WorldMapInput> maps) {
                 points.insert(std::move(nom));
             }
         }
-        graphe.maps.push_back(
-            WorldMapNode{.mapId = entree.mapId,
-                         .name = entree.name,
-                         .arrivalPoints = std::vector<std::string>(points.begin(), points.end()),
-                         .loadError = entree.loadError});
+        graphe.maps.push_back(WorldMapNode{
+            .mapId = entree.mapId,
+            .name = entree.name,
+            .arrivalPoints = std::vector<std::string>(points.begin(), points.end()),
+            .loadError = entree.loadError,
+            .entityIds = std::vector<std::string>(identifiants.begin(), identifiants.end())});
     }
 
     // Deux passes : un portail peut viser une carte triee apres la sienne.

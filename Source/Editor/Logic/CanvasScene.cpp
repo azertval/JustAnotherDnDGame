@@ -66,6 +66,24 @@ WorldSceneSnapshot canvasSnapshot(const core::LevelDraft& draft,
     return snapshotWorldScene(worldSceneSource(draft), appearance, npcFigures(draft.entities(), 0));
 }
 
+std::vector<WorldFigureSnapshot> formationFigures(const core::EncounterTerrain& terrain,
+                                                  const std::vector<std::string>& figures) {
+    std::vector<WorldFigureSnapshot> formation;
+    for (const core::CombatantPlacement& placement : terrain.placements) {
+        const std::string figure = "Monsters/" + placement.creatureId;
+        if (!std::ranges::binary_search(figures, figure)) {
+            continue;
+        }
+        formation.push_back(
+            WorldFigureSnapshot{.figure = figure,
+                                .clip = "idle",
+                                .point = {static_cast<float>(placement.position.column) + 0.5F,
+                                          static_cast<float>(placement.position.row) + 0.5F},
+                                .frame = 0});
+    }
+    return formation;
+}
+
 std::string cellPieces(const WorldSceneSnapshot& snapshot, core::GridPosition cell) {
     std::string pieces{snapshot.floorAt(cell)};
     const std::string_view relief = snapshot.reliefAt(cell);

@@ -167,14 +167,21 @@ rassemblés dans `core::knownEntityKinds` (`Source/Core/World/EntityKinds.h`) :
 |---|---|---|
 | `chest` | — | `core::knownInteractableKinds` (`LOT-10`) |
 | `sign` | — | `core::knownInteractableKinds` (`LOT-10`) |
-| `npc` | `dialogue`, `figure` (figurine de l'atelier), `guards` (quartier gardé) | `core::dialogueTriggerFor` (`LOT-15`), rendu du lieu |
+| `npc` | `dialogue`, `figure` (figurine de l'atelier), `guards` (fiche de lieu du quartier gardé) | `core::dialogueTriggerFor` (`LOT-15`), rendu du lieu |
 | `encounter` | `encounterId` (requis), `respawns` (booléen) | `core::encounterTriggerFor` (`LOT-18`) |
 | `portal` | `targetMap`, `arrival` — requis ; `requiresFlag` | graphe du monde (`LOT-09`) |
 | `spawnPoint` | `name` (requis, unique dans la carte) | graphe du monde (`LOT-09`) |
 | `combatZone` | `name`, `width`, `height` — requis | découpe de la grille de combat (`LOT-09`) |
 | `cityBlock` | `name`, `width`, `height` — requis | plan de ville (`LOT-96`) |
-| `arenaEntry` | `side` (`allies` ou `enemies`), `rank` (entier) | `core::arenaEntryPoints` (`LOT-50`) |
-| `zone` | `width`, `height` (rectangle) ou `cells` (peinte) ; propriétés de règles | `core::BattleGrid::zonesAt` (`LOT-EDITOR-12`) |
+| `arenaEntry` | `side` (`allies` ou `enemies`), `rank` (entier, au moins 1) | `core::arenaEntryPoints` (`LOT-50`) |
+| `zone` | `width`, `height` (rectangle) ou `cells` (peinte) ; `name`, `difficultTerrain` | `core::BattleGrid::zonesAt` (`LOT-EDITOR-12`) |
+| `route` | `name` (requis), `loop` (booléen, une ronde) ; ses points dans `cells`, **dans l'ordre** | personne encore : le `LOT-70` et le `LOT-82` (`LOT-EDITOR-05`) |
+
+Chaque famille déclare aussi sa **forme** sur la carte — point, rectangle (`width` × `height`,
+au moins 1), zone rectangle ou peinte, trajet —, la propriété que l'éditeur écrit à côté d'elle et
+celle qui nomme sa figurine : l'éditeur les dessine et les manipule par là, sans code par famille
+(`EX-EDIT-070`). Toute famille que le jeu lit doit être dans la table ; un test bloquant le vérifie
+(`EX-EDIT-073`).
 
 L'**identifiant d'une carte** est le chemin de son fichier sous `Source/Elements/Levels/`, sans
 extension (`coliseum`, `capital/martpart`). Un portail désigne sa destination par `(carte, point

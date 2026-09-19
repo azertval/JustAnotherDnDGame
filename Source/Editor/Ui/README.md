@@ -21,13 +21,16 @@ textes anglais, aucun formulaire `.ui` (`LOT-EDITOR-01`).
   du rendu du jeu (marqueur d'une figurine absente, damier d'une pièce absente), l'atlas des types
   et les marqueurs d'entité.
 - `DraftRenderer` — la vue à plat composée : une couleur par type de tuile, la collision en masque,
-  les entités par leur marqueur.
+  les entités par leur marqueur ; le canevas y ajoute formes, étiquettes et poignées, comme en
+  iso.
 - `MiniMap` — toute la carte, un pixel par case, et le cadre de la vue ; un clic y recentre la vue.
 - `PalettePanel` — la palette : l'onglet « Pieces » (la planche du lieu, `hmi::pieceCatalog`,
   vignettes et recherche), l'onglet « Types » (`hmi::tileTaxonomy`) et la gomme.
 - `LevelBrowserPanel`, `WorldGraphView` — la liste des cartes et le graphe du monde.
 - `LayersPanel` — couche active, visibilité, opacité, grisé, verrou, ajout, retrait, ordre et
   nom.
-- `EntityPanel` — famille à poser, liste des entités, propriétés et avertissements.
+- `EntityPanel` — famille à poser, liste filtrable des entités (identifiant, famille, étiquette,
+  case ; sélection étendue), propriétés de l'entité principale, verdict d'une zone de combat et
+  avertissements.
 
 Chaque panneau garde ses widgets dans une `struct Widgets` privée, construite dans son `.cpp`.

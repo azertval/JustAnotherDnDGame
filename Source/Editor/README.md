@@ -32,6 +32,9 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
   `EX-EDIT-065`).
 - **Un geste, un pas.** Du clic au relâchement, tout outil — trait, ligne, seau, rectangle, reflet
   du miroir — se défait d'un seul `Ctrl+Z` (`core::GestureScope`, `EX-EDIT-066`).
+- **La forme, pas le type.** Une entité se dessine et se manipule par la forme que sa famille
+  déclare dans `core::knownEntityKinds` ; aucune famille n'a de code dans le module, et un test
+  bloque toute famille lue par le jeu et absente de la table (`EX-EDIT-070`, `EX-EDIT-073`).
 
 ## Logique pure (`Logic/`)
 
@@ -48,9 +51,14 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - `MapFormat` — `--migrate` et `--check`, la garde du format v4 (`EX-EDIT-062`).
 - `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
 - `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
-- `EntityGesture` — le geste de l'outil « Entité » : sélectionner, poser, déplacer.
-- `EntityReferences`, `EditorDiagnostics` — les catalogues que les entités citent, et les
-  avertissements rendus en anglais.
+- `EntityShapes` — les entités à forme : rectangle et poignées, zone peinte, trajet, entité sous
+  le curseur, liste filtrable (`EX-EDIT-070`, `EX-EDIT-072`).
+- `EntityGesture` — les gestes des outils « Entité » et « Forme » : prendre, basculer, poser, tirer
+  une zone, déplacer un groupe, tirer une poignée, peindre une zone, tracer un trajet ; l'aperçu et
+  l'écriture sont la même fonction (`hmi::dragEntities`).
+- `EntityReferences`, `EditorDiagnostics` — les catalogues que les entités citent (dialogues,
+  rencontres, cartes, figurines, drapeaux, lieux, objets, `carte#id`), et les avertissements rendus
+  en anglais, verdict des zones de combat compris (`EX-EDIT-071`, `EX-EDIT-073`).
 - `LayerView` — les couches telles que l'éditeur les montre : visibles, opacité, grisées,
   verrouillées (`EX-EDIT-061`).
 - `CanvasPicking` — le pointage du canevas, iso et à plat : la case sous un point, par son losange,
@@ -87,7 +95,8 @@ d'éprouver la reprise.
 |---|---|
 | `B` · `R` · `L` · `G` | pinceau, rectangle, ligne, seau |
 | `E` · `I` | gomme, pipette (`Alt` + clic : pipette depuis tout outil) |
-| `S` · `O` | sélection (`Suppr` la gomme), entité |
+| `S` · `O` | sélection (`Suppr` la gomme), entité (`Maj` + clic : sélection multiple, `Suppr` retire) |
+| `Z` | forme : peindre la zone sélectionnée (`Ctrl` gomme), tracer le trajet sélectionné |
 | `D` · `N` | mesure (5 pieds la case), note d'auteur |
 | `M` | miroir, par la case survolée |
 | `P` · `Shift+P` | essai depuis l'entrée, depuis la case survolée |

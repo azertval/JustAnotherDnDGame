@@ -612,6 +612,28 @@ bool LevelDraft::moveEntity(std::size_t index, GridPosition position) {
     return true;
 }
 
+bool LevelDraft::replaceEntity(std::size_t index, MapEntity entity) {
+    if (!isEntityIndex(index)) {
+        return false;
+    }
+    const auto inGrid = [this](GridPosition cell) {
+        return _tileMap.inBounds(cell.column, cell.row);
+    };
+    if (!inGrid(entity.position) || !std::ranges::all_of(entity.cells, inGrid)) {
+        return false;
+    }
+    const MapEntity& current = _entities[index];
+    entity.type = current.type;
+    entity.id = current.id;
+    if (entity.position == current.position && entity.properties == current.properties &&
+        entity.cells == current.cells && entity.elevation == current.elevation) {
+        return false;
+    }
+    pushUndo();
+    _entities[index] = std::move(entity);
+    return true;
+}
+
 bool LevelDraft::removeEntity(std::size_t index) {
     if (!isEntityIndex(index)) {
         return false;

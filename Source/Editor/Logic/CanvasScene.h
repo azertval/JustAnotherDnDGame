@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "Core/Combat/TacticalTerrain.h"
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/TileLayer.h"
 #include "Editor/Logic/LayerView.h"
@@ -85,6 +86,19 @@ struct IsoBandOpacity {
  */
 [[nodiscard]] WorldSceneSnapshot canvasSnapshot(const core::LevelDraft& draft,
                                                 const PlaceAppearance& appearance);
+
+/**
+ * @brief Les figurines de la formation d'une rencontre (`LOT-EDITOR-05`) : chaque combattant sur sa
+ *        case, par la figurine de l'atelier des monstres qui porte l'identifiant de sa créature
+ *        (`Monsters/<créature>`, `LOT-93`, `EX-EDIT-071`).
+ *
+ * Un combattant sans figurine n'en reçoit pas : le canevas montre sa case, comme avant.
+ *
+ * @param terrain Le terrain de la rencontre (`core::analyzeEncounterTerrain`).
+ * @param figures Les figurines connues (`hmi::EditorReferences::figures`), triées.
+ */
+[[nodiscard]] std::vector<WorldFigureSnapshot> formationFigures(
+    const core::EncounterTerrain& terrain, const std::vector<std::string>& figures);
 
 /**
  * @brief Les pièces d'une case, pour la barre d'état : `street · wall-left`, `street`, ou rien.

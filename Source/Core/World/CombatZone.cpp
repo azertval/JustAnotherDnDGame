@@ -5,9 +5,11 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <optional>
 #include <utility>
 #include <variant>
 
+#include "Core/Combat/Arena.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
@@ -58,18 +60,94 @@ bool CombatZone::contains(GridPosition cell) const noexcept {
            cell.column < origin.column + columns && cell.row < origin.row + rows;
 }
 
+CombatZone combatZoneOf(const MapEntity& entity) {
+    return CombatZone{.name = texteDe(entity, COMBAT_ZONE_NAME_PROPERTY),
+                      .origin = entity.position,
+                      .columns = entierDe(entity, COMBAT_ZONE_WIDTH_PROPERTY),
+                      .rows = entierDe(entity, COMBAT_ZONE_HEIGHT_PROPERTY)};
+}
+
 std::vector<CombatZone> combatZonesOf(const Level& level) {
     std::vector<CombatZone> zones;
     for (const MapEntity& entite : level.entities()) {
-        if (entite.type != COMBAT_ZONE_ENTITY_TYPE) {
-            continue;
+        if (entite.type == COMBAT_ZONE_ENTITY_TYPE) {
+            zones.push_back(combatZoneOf(entite));
         }
-        zones.push_back(CombatZone{.name = texteDe(entite, COMBAT_ZONE_NAME_PROPERTY),
-                                   .origin = entite.position,
-                                   .columns = entierDe(entite, COMBAT_ZONE_WIDTH_PROPERTY),
-                                   .rows = entierDe(entite, COMBAT_ZONE_HEIGHT_PROPERTY)});
     }
     return zones;
+}
+
+namespace {
+
+// Ce qui empeche la zone d'etre une grille tactique, avant de compter ses cases : une taille nulle,
+// ou un debord de la carte.
+[[nodiscard]] std::optional<WorldIssueCode> formeFautive(const TileMap& collision,
+                                                         const CombatZone& zone) {
+    if (zone.columns <= 0 || zone.rows <= 0) {
+        return WorldIssueCode::CombatZoneDegenerate;
+    }
+    if (!collision.inBounds(zone.origin.column, zone.origin.row) ||
+        !collision.inBounds(zone.origin.column + zone.columns - 1,
+                            zone.origin.row + zone.rows - 1)) {
+        return WorldIssueCode::CombatZoneOutOfBounds;
+    }
+    return std::nullopt;
+}
+
+// Les cases de la zone posees sur la carte, libres puis pleines : meme une zone qui deborde, pour
+// que l'editeur montre sa partie posee pendant qu'on la ramene.
+void releverCases(const TileMap& collision, CombatZoneTerrain& verdict) {
+    const CombatZone& zone = verdict.zone;
+    for (int ligne = 0; ligne < std::max(zone.rows, 0); ++ligne) {
+        for (int colonne = 0; colonne < std::max(zone.columns, 0); ++colonne) {
+            const GridPosition cell{.column = zone.origin.column + colonne,
+                                    .row = zone.origin.row + ligne};
+            if (collision.inBounds(cell.column, cell.row)) {
+                (collision.isSolid(cell.column, cell.row) ? verdict.blockedCells
+                                                          : verdict.freeCells)
+                    .push_back(cell);
+            }
+        }
+    }
+}
+
+[[nodiscard]] CombatZoneTerrain analyserZone(const TileMap& collision,
+                                             const std::vector<MapEntity>& entities,
+                                             std::size_t rang) {
+    CombatZoneTerrain verdict{.entityIndex = rang,
+                              .zone = combatZoneOf(entities[rang]),
+                              .freeCells = {},
+                              .blockedCells = {},
+                              .entriesInside = {},
+                              .entriesOutside = {},
+                              .issue = std::nullopt};
+    for (std::size_t autre = 0; autre < entities.size(); ++autre) {
+        if (entities[autre].type == ARENA_ENTRY_ENTITY_TYPE) {
+            (verdict.zone.contains(entities[autre].position) ? verdict.entriesInside
+                                                             : verdict.entriesOutside)
+                .push_back(autre);
+        }
+    }
+    verdict.issue = formeFautive(collision, verdict.zone);
+    releverCases(collision, verdict);
+    // Une zone entierement pleine n'est pas un terrain tactique : personne ne peut s'y poser.
+    if (!verdict.issue && verdict.freeCells.empty()) {
+        verdict.issue = WorldIssueCode::CombatZoneBlocked;
+    }
+    return verdict;
+}
+
+}  // namespace
+
+std::vector<CombatZoneTerrain> analyzeCombatZones(const TileMap& collision,
+                                                  const std::vector<MapEntity>& entities) {
+    std::vector<CombatZoneTerrain> verdicts;
+    for (std::size_t rang = 0; rang < entities.size(); ++rang) {
+        if (entities[rang].type == COMBAT_ZONE_ENTITY_TYPE) {
+            verdicts.push_back(analyserZone(collision, entities, rang));
+        }
+    }
+    return verdicts;
 }
 
 const CombatZone* findCombatZone(const std::vector<CombatZone>& zones, std::string_view name) {
@@ -85,33 +163,12 @@ const CombatZone* findCombatZone(const std::vector<CombatZone>& zones, std::stri
 
 std::vector<WorldIssue> validateCombatZones(std::string_view mapId, const Level& level) {
     std::vector<WorldIssue> defauts;
-    const TileMap& collision = level.tileMap();
-    for (const CombatZone& zone : combatZonesOf(level)) {
-        const auto signaler = [&](WorldIssueCode code) {
+    for (const CombatZoneTerrain& verdict : analyzeCombatZones(level.tileMap(), level.entities())) {
+        if (verdict.issue) {
             defauts.push_back(WorldIssue{.mapId = std::string{mapId},
-                                         .position = zone.origin,
-                                         .code = code,
-                                         .value = zone.name});
-        };
-        if (zone.columns <= 0 || zone.rows <= 0) {
-            signaler(WorldIssueCode::CombatZoneDegenerate);
-            continue;
-        }
-        if (!collision.inBounds(zone.origin.column, zone.origin.row) ||
-            !collision.inBounds(zone.origin.column + zone.columns - 1,
-                                zone.origin.row + zone.rows - 1)) {
-            signaler(WorldIssueCode::CombatZoneOutOfBounds);
-            continue;
-        }
-        // Une zone entierement pleine n'est pas un terrain tactique : personne ne peut s'y poser.
-        bool libre = false;
-        for (int ligne = 0; ligne < zone.rows && !libre; ++ligne) {
-            for (int colonne = 0; colonne < zone.columns && !libre; ++colonne) {
-                libre = !collision.isSolid(zone.origin.column + colonne, zone.origin.row + ligne);
-            }
-        }
-        if (!libre) {
-            signaler(WorldIssueCode::CombatZoneBlocked);
+                                         .position = verdict.zone.origin,
+                                         .code = *verdict.issue,
+                                         .value = verdict.zone.name});
         }
     }
     return defauts;

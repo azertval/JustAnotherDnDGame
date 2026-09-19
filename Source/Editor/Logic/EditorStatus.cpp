@@ -53,6 +53,8 @@ const char* toolLabel(EditorTool tool) {
             return "Selection";
         case EditorTool::Entity:
             return "Entity";
+        case EditorTool::Shape:
+            return "Shape";
         case EditorTool::Measure:
             return "Measure";
         case EditorTool::Note:
@@ -82,9 +84,13 @@ const char* toolHelp(EditorTool tool) {
         case EditorTool::Note:
             return "Note: click a cell to write, edit or clear its author note";
         case EditorTool::Entity:
-            return "Entity: click an empty cell to place the chosen kind · click an entity to "
-                   "select it, drag to move it · Del removes it · Ctrl+click places on an "
-                   "occupied cell";
+            return "Entity: click to place the chosen kind, drag to draw a zone or a route · "
+                   "drag an entity to move the selection, a handle to resize · Shift+click: add "
+                   "to the selection · Del removes · Ctrl+click places on an occupied cell";
+        case EditorTool::Shape:
+            return "Shape: drag to paint cells into the selected zone, Ctrl+drag to erase · "
+                   "click to extend the selected route, drag a point to move it, Ctrl+click to "
+                   "remove it";
     }
     return "";
 }

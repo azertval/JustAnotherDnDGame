@@ -34,11 +34,22 @@ struct EditorReferences {
     /// Pour l'emprise des créatures d'une rencontre (`core::analyzeEncounterTerrain`).
     core::Bestiary bestiary;
     core::WorldGraph world;
+    /// Les figurines des ateliers, triées : les slugs de `Assets/Npc/manifest.json`, puis
+    /// `Monsters/<slug>` pour chaque monstre de `Assets/Monsters/manifest.json`.
+    std::vector<std::string> figures;
+    /// Les drapeaux qu'un dialogue accepté pose (`SetFlag`, et le drapeau d'une quête démarrée),
+    /// triés.
+    std::vector<std::string> flags;
+    /// Les fiches de lieu de l'atlas (`World/locations/<id>.json`), triées.
+    std::vector<std::string> locations;
+    /// Les objets du catalogue (`Rpg/items`), triés.
+    std::vector<std::string> items;
 };
 
 /**
  * @brief Lit les catalogues sous @p root, la racine des éléments déployés à côté de l'exécutable :
- *        `World/dialogues`, `Rpg/encounters`, `Rpg/creatures` et `Levels`.
+ *        `World/dialogues`, `World/locations`, `Rpg/encounters`, `Rpg/creatures`, `Rpg/items`,
+ *        les manifestes des figurines sous `Assets`, et `Levels`.
  *
  * Un dossier absent donne un catalogue vide, jamais une exception (`EX-NFR-040`) : l'éditeur reste
  * utilisable, et les références qu'il ne peut vérifier sont signalées comme inconnues.
@@ -59,6 +70,9 @@ struct EditorReferences {
 [[nodiscard]] core::EntityReferenceContext referenceContext(
     const EditorReferences& references, std::string_view editedMapId,
     const std::vector<core::MapEntity>& editedEntities);
+
+/// @return `carte#id` : l'entité @p entityId de la carte @p mapId (décision D8).
+[[nodiscard]] std::string entityRef(std::string_view mapId, std::string_view entityId);
 
 /**
  * @brief Les valeurs que le panneau propose pour la propriété @p spec de @p entity, triées.

@@ -40,7 +40,8 @@ constexpr QStyle::StandardPixmap TEXT_ONLY = QStyle::SP_CustomBase;
 const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
     static const std::array<CommandSpec, EDITOR_COMMAND_COUNT> specs{{
         // Une touche par outil (LOT-EDITOR-04) : la lettre de son nom anglais, sauf le seau (G,
-        // l'usage des logiciels de dessin), les entités (O, objets) et la mesure (D, distance).
+        // l'usage des logiciels de dessin), les entités (O, objets), la forme (Z, zone) et la
+        // mesure (D, distance).
         {.command = EditorCommand::ToolPaint,
          .label = "Brush",
          .shortcut = "B",
@@ -86,6 +87,12 @@ const std::array<CommandSpec, EDITOR_COMMAND_COUNT>& commandSpecs() {
         {.command = EditorCommand::ToolEntity,
          .label = "Entity",
          .shortcut = "O",
+         .icon = TEXT_ONLY,
+         .onToolBar = true,
+         .binding = std::nullopt},
+        {.command = EditorCommand::ToolShape,
+         .label = "Shape",
+         .shortcut = "Z",
          .icon = TEXT_ONLY,
          .onToolBar = true,
          .binding = std::nullopt},
@@ -259,6 +266,8 @@ std::optional<EditorTool> EditorActions::toolOf(EditorCommand command) {
             return EditorTool::Selection;
         case EditorCommand::ToolEntity:
             return EditorTool::Entity;
+        case EditorCommand::ToolShape:
+            return EditorTool::Shape;
         case EditorCommand::ToolMeasure:
             return EditorTool::Measure;
         case EditorCommand::ToolNote:

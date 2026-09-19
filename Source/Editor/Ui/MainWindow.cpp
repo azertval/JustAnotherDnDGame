@@ -328,8 +328,18 @@ void MainWindow::connectMapPanels() {
         _layers->refresh(_viewport->draft(), _viewport->activeLayer(), _viewport->layerView());
     };
     const auto refreshEntities = [this] {
-        _entities->refresh(_viewport->draft(), _viewport->selectedEntity(),
-                           _viewport->entityReferenceContext(), _viewport->diagnostics());
+        // Le verdict de la zone de combat principale, s'il y en a une (LOT-EDITOR-05).
+        std::string verdict;
+        if (const std::optional<std::size_t> selected = _viewport->selectedEntity()) {
+            for (const core::CombatZoneTerrain& zone : _viewport->combatZones()) {
+                if (zone.entityIndex == *selected) {
+                    verdict = hmi::combatZoneSummary(zone);
+                }
+            }
+        }
+        _entities->refresh(_viewport->draft(), _viewport->selectedEntities(),
+                           _viewport->selectedEntity(), _viewport->entityReferenceContext(),
+                           _viewport->diagnostics(), verdict);
     };
     connect(_viewport, &EditorViewport::draftChanged, this, [refreshLayers, refreshEntities] {
         refreshLayers();
@@ -393,11 +403,16 @@ void MainWindow::connectMapPanels() {
         }
     });
     connect(_entities, &EntityPanel::entitySelected, _viewport, &EditorViewport::selectEntity);
+    connect(_entities, &EntityPanel::entitiesSelected, this,
+            [this](const std::vector<std::size_t>& indices, std::optional<std::size_t> primary) {
+                _viewport->setEntitySelection(indices, primary);
+            });
     connect(_entities, &EntityPanel::propertyChanged, this,
             [this](std::size_t index, const QString& key, const core::PropertyValue& value) {
                 _viewport->setEntityProperty(index, key.toStdString(), value);
             });
-    connect(_entities, &EntityPanel::removeRequested, _viewport, &EditorViewport::removeEntity);
+    connect(_entities, &EntityPanel::removeRequested, _viewport,
+            &EditorViewport::removeSelectedEntities);
 
     refreshLayers();  // état initial (avant tout draftChanged).
     refreshEntities();
