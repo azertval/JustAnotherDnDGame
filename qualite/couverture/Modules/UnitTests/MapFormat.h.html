@@ -69,6 +69,10 @@ struct PlaceAssets {
 [[nodiscard]] PlaceAssets loadPlaceAssets(const std::filesystem::path&amp; dataRoot,
                                           std::string_view place);
 
+/// @return Les lieux qu'une carte peut prendre : les dossiers de `&lt;dataRoot&gt;/Assets/Scene` qui ont
+///         un manifeste de piÃ¨ces, triÃ©s (`LOT-EDITOR-06`).
+[[nodiscard]] std::vector&lt;std::string&gt; scenePlaces(const std::filesystem::path&amp; dataRoot);
+
 /// @return Les fichiers de carte de `&lt;dataRoot&gt;/Levels`, sous-dossiers compris, triÃ©s â sans les
 ///         sÃ©quences ni les annexes de l'Ã©diteur.
 [[nodiscard]] std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; dataRoot);

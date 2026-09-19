@@ -76,8 +76,8 @@ CollisionDerivation deriveCollision(const std::vector&lt;TileLayer&gt;&amp; laye
                static_cast&lt;std::size_t&gt;(column);
 <span style = "background-color:#dfd">    };
     const auto contribute = [&amp;](int column, int row, PieceTactical tactical) {
-        if (!bounds.inBounds(column, row)) {
-            return;  // une emprise qui dÃ©borde de la carte n'y occupe que ce qui y tient</span>
+        if (!bounds.inBounds(column, row)) {</span>
+<span style = "background-color:#fdd">            return;  // une emprise qui dÃ©borde de la carte n'y occupe que ce qui y tient</span>
         }
 <span style = "background-color:#dfd">        std::optional&lt;PieceTactical&gt;&amp; cell = contributions[indexOf(column, row)];
         cell = cell ? strongest(*cell, tactical) : tactical;

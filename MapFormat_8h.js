@@ -15,5 +15,6 @@ var MapFormat_8h =
     [ "hmi::mapFiles", "namespacehmi.html#a1d87e7deb27801e9b0fbb99ecbac3bcd", null ],
     [ "hmi::migrateLevel", "namespacehmi.html#a1644ea52edad99de10786aa95605fb5b", null ],
     [ "hmi::migrateMapFile", "namespacehmi.html#a856d281d19a2bb61819bed1b54cd3eb1", null ],
-    [ "hmi::runMapCommand", "namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2", null ]
+    [ "hmi::runMapCommand", "namespacehmi.html#a75e0715b710f1ffbe1d6392719cb07c2", null ],
+    [ "hmi::scenePlaces", "namespacehmi.html#a35165b3b99c6aacab4c7d7c907983f15", null ]
 ];

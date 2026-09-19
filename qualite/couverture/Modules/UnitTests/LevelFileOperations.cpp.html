@@ -15,8 +15,11 @@
 #include "Editor/Logic/LevelFileOperations.h"
 
 #include &lt;algorithm&gt;
+#include &lt;cstddef&gt;
+#include &lt;optional&gt;
 #include &lt;system_error&gt;
 #include &lt;utility&gt;
+#include &lt;vector&gt;
 
 #include "Core/Levels/LevelDraft.h"
 #include "Core/Levels/LevelLoader.h"
@@ -24,6 +27,7 @@
 #include "Core/World/WorldGraph.h"
 #include "Editor/Logic/EditorSidecar.h"
 #include "Editor/Logic/LevelNameValidation.h"
+#include "HMI/Graphics/WorldSceneComposer.h"
 
 namespace hmi {
 
@@ -85,8 +89,8 @@ LevelFileOperations::LevelFileOperations(std::filesystem::path levelsDir)
     return levels;
 }</span>
 
-FileOperationResult LevelFileOperations::create(const std::string&amp; name, int width,
-<span style = "background-color:#dfd">                                                int height) const {
+FileOperationResult LevelFileOperations::create(const std::string&amp; name, int width, int height,
+<span style = "background-color:#dfd">                                                const std::string&amp; place) const {
     const std::string trimmed = hmi::trimLevelName(name);
     if (!hmi::isValidLevelName(name)) {
         return FileOperationResult::failure("Nom de niveau invalide.");</span>
@@ -101,7 +105,22 @@ FileOperationResult LevelFileOperations::create(const std::string&amp; name, int
     }
     // Niveau minimal valide : grille vide + une entrÃ©e (coin bas gauche).
 <span style = "background-color:#dfd">    core::LevelDraft draft = core::LevelDraft::empty(trimmed, width, height);
-    draft.setEntry(0, height - 1);
+    if (!place.empty()) {</span>
+        // Les couches des cartes livrÃ©es. Le sol nomme le lieu ; la collision est celle que la
+        // dÃ©duction donne Ã  une carte vide : le vide arrÃªte la vue (dÃ©cision D10).
+<span style = "background-color:#dfd">        const std::optional&lt;std::size_t&gt; ground = draft.addLayer(core::LayerKind::Ground, "sol");
+        draft.setLayerProperty(*ground, std::string{SCENE_PLACE_PROPERTY}, place);
+        draft.addLayer(core::LayerKind::Decor, "relief");
+        draft.paintRegion(0, 0,</span>
+                          std::vector&lt;std::vector&lt;core::TileType&gt;&gt;(
+                              static_cast&lt;std::size_t&gt;(height),
+                              std::vector&lt;core::TileType&gt;(static_cast&lt;std::size_t&gt;(width),
+                                                          core::TileType::Wall)));
+        // L'entrÃ©e ne se tient pas dans le vide : sa case reÃ§oit un sol de terre, que la table du
+        // lieu traduit en piÃ¨ce.
+<span style = "background-color:#dfd">        draft.paintLayerTile(*ground, 0, height - 1, core::TileType::Dirt);</span>
+    }
+<span style = "background-color:#dfd">    draft.setEntry(0, height - 1);
     core::LevelLoadResult validated = draft.toLevel();
     if (!validated.ok()) {</span>
 <span style = "background-color:#fdd">        return FileOperationResult::failure("Niveau invalide : " + validated.error);</span>

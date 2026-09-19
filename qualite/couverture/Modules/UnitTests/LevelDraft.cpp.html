@@ -276,6 +276,20 @@ namespace {
     return true;
 }</span>
 
+<span style = "background-color:#dfd">bool LevelDraft::setLayerProperty(std::size_t index, const std::string&amp; key, PropertyValue value) {
+    if (!isVisualLayerIndex(index) || key.empty()) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    const PropertyMap&amp; properties = _layers[index].properties;
+    if (const auto found = properties.find(key);
+        found != properties.end() &amp;&amp; found-&gt;second == value) {
+        return false;
+    }
+    pushUndo();
+    _layers[index].properties[key] = std::move(value);
+    return true;
+}</span>
+
 <span style = "background-color:#dfd">std::optional&lt;std::size_t&gt; LevelDraft::moveLayer(std::size_t index, bool forward) {
     if (!isVisualLayerIndex(index)) {
         return std::nullopt;</span>

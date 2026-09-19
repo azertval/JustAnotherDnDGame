@@ -171,6 +171,10 @@ public:
     /// Change le rÃ´le (sol â dÃ©cor) de la couche visuelle au rang @p index.
     bool setLayerKind(std::size_t index, LayerKind kind);
 
+    /// Assigne la propriÃ©tÃ© @p key de la couche visuelle au rang @p index â par exemple le lieu
+    /// dont elle prend les piÃ¨ces (`scene`, `LOT-EDITOR-06`). Une valeur identique n'empile rien.
+    bool setLayerProperty(std::size_t index, const std::string&amp; key, PropertyValue value);
+
     /**
      * @brief Ãchange la couche visuelle au rang @p index avec sa voisine visuelle, en avant
      *        (@p forward) ou en arriÃ¨re. L'entrÃ©e de collision ne se franchit pas : elle n'a pas

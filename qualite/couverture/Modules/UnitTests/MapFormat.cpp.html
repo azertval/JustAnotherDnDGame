@@ -149,15 +149,15 @@ void checkPieces(const core::Level&amp; level, const PlaceAssets&amp; assets, co
                 }
                 for (const core::GridPosition covered :
 <span style = "background-color:#dfd">                     core::footprintCells(cell, piece-&gt;footprint())) {
-                    if (!layer.tiles.inBounds(covered.column, covered.row)) {
-                        continue;</span>
+                    if (!layer.tiles.inBounds(covered.column, covered.row)) {</span>
+<span style = "background-color:#fdd">                        continue;</span>
                     }
 <span style = "background-color:#dfd">                    const std::size_t index = (static_cast&lt;std::size_t&gt;(covered.row) *</span>
                                                static_cast&lt;std::size_t&gt;(layer.tiles.width())) +
                                               static_cast&lt;std::size_t&gt;(covered.column);
-<span style = "background-color:#dfd">                    if (++occupants[index] == 2) {
-                        overlapping.push_back(covered);
-                    }
+<span style = "background-color:#dfd">                    if (++occupants[index] == 2) {</span>
+<span style = "background-color:#fdd">                        overlapping.push_back(covered);</span>
+<span style = "background-color:#dfd">                    }
                 }
             }
         }
@@ -379,7 +379,7 @@ void checkPieces(const core::Level&amp; level, const PlaceAssets&amp; assets, co
 
 }  // namespace
 
-<span style = "background-color:#fdd">std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; dataRoot) {
+<span style = "background-color:#dfd">std::vector&lt;std::filesystem::path&gt; mapFiles(const std::filesystem::path&amp; dataRoot) {
     return listMapFiles(levelsOf(dataRoot));
 }</span>
 
@@ -399,6 +399,20 @@ void checkPieces(const core::Level&amp; level, const PlaceAssets&amp; assets, co
         assets.appearance = std::move(appearance.appearance);</span>
     }
 <span style = "background-color:#dfd">    return assets;
+}</span>
+
+<span style = "background-color:#dfd">std::vector&lt;std::string&gt; scenePlaces(const std::filesystem::path&amp; dataRoot) {
+    std::vector&lt;std::string&gt; places;
+    std::error_code error;
+    for (auto it = std::filesystem::directory_iterator(dataRoot / "Assets" / "Scene", error);
+         !error &amp;&amp; it != std::filesystem::directory_iterator(); it.increment(error)) {
+        if (it-&gt;is_directory(error) &amp;&amp;</span>
+            std::filesystem::is_regular_file(it-&gt;path() / "manifest.json", error)) {
+<span style = "background-color:#dfd">            places.push_back(it-&gt;path().filename().string());
+        }
+    }
+    std::ranges::sort(places);
+    return places;
 }</span>
 
 <span style = "background-color:#dfd">std::string formatFinding(const MapCheckFinding&amp; finding) {

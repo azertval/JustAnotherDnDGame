@@ -844,6 +844,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:a191e62e067f4684ef2f0d66f57a397ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les figurines de la formation d'une rencontre (<span class="tt">LOT-EDITOR-05</span>) : chaque combattant sur sa case, par la figurine de l'atelier des monstres qui porte l'identifiant de sa créature (<span class="tt">Monsters/&lt;créature&gt;</span>, <span class="tt">LOT-93</span>, <span class="tt">EX-EDIT-071</span>).  <br /></td></tr>
 <tr class="memitem:a271254d23a253fefeed273ecba888f0c" id="r_a271254d23a253fefeed273ecba888f0c"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a271254d23a253fefeed273ecba888f0c">cellPieces</a> (const <a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a> &amp;snapshot, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell)</td></tr>
 <tr class="memdesc:a271254d23a253fefeed273ecba888f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les pièces d'une case, pour la barre d'état : <span class="tt">street · wall-left</span>, <span class="tt">street</span>, ou rien.  <br /></td></tr>
+<tr class="memitem:aef264a6aa52e500e958603c000aaf053" id="r_aef264a6aa52e500e958603c000aaf053"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#aef264a6aa52e500e958603c000aaf053">resolveDataRoot</a> (const std::vector&lt; std::string &gt; &amp;arguments, const std::filesystem::path &amp;<a class="el" href="#a18648161d8a6c752202b6034613a947b">executableDirectory</a>, const std::filesystem::path &amp;sourceData)</td></tr>
+<tr class="memdesc:aef264a6aa52e500e958603c000aaf053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Choisit la racine des données.  <br /></td></tr>
+<tr class="memitem:afd2e3832814f32d1a4298bb2a32b6586" id="r_afd2e3832814f32d1a4298bb2a32b6586"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afd2e3832814f32d1a4298bb2a32b6586">setEditorDataRoot</a> (std::filesystem::path root)</td></tr>
+<tr class="memdesc:afd2e3832814f32d1a4298bb2a32b6586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixe la racine des données de la fenêtre, une fois, au lancement.  <br /></td></tr>
+<tr class="memitem:ad41e52637055455371c988b133007805" id="r_ad41e52637055455371c988b133007805"><td class="memItemLeft">const std::filesystem::path &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ad41e52637055455371c988b133007805">editorDataRoot</a> ()</td></tr>
 <tr class="memitem:ae3ed8cd27066f0de03e259d1c4a610bc" id="r_ae3ed8cd27066f0de03e259d1c4a610bc"><td class="memItemLeft"><a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae3ed8cd27066f0de03e259d1c4a610bc">fingerprintOf</a> (std::string_view content) noexcept</td></tr>
 <tr class="memitem:ab32c2b7569b2dd624b5195deffa3ddd0" id="r_ab32c2b7569b2dd624b5195deffa3ddd0"><td class="memItemLeft"><a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab32c2b7569b2dd624b5195deffa3ddd0">fingerprintFile</a> (const std::filesystem::path &amp;path)</td></tr>
 <tr class="memitem:ae2248a93260beafe0197b7246f664287" id="r_ae2248a93260beafe0197b7246f664287"><td class="memItemLeft"><a class="el" href="#ad3d9a6a21747a6c69be71dfc46024733">DiskChange</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae2248a93260beafe0197b7246f664287">compareFingerprints</a> (const <a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a> &amp;known, const <a class="el" href="structhmi_1_1FileFingerprint.html">FileFingerprint</a> &amp;current) noexcept</td></tr>
@@ -924,6 +929,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:acb440eec2a1a3d3cc760795b9875ae8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire les espaces de bord de <code class="param">name</code> (le nom réellement utilisé une fois confirmé).  <br /></td></tr>
 <tr class="memitem:a1d87e7deb27801e9b0fbb99ecbac3bcd" id="r_a1d87e7deb27801e9b0fbb99ecbac3bcd"><td class="memItemLeft">std::vector&lt; std::filesystem::path &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a1d87e7deb27801e9b0fbb99ecbac3bcd">mapFiles</a> (const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memitem:a5b2225206c785643e614da4760a74f95" id="r_a5b2225206c785643e614da4760a74f95"><td class="memItemLeft"><a class="el" href="structhmi_1_1PlaceAssets.html">PlaceAssets</a>&#160;</td><td class="memItemRight"><a class="el" href="#a5b2225206c785643e614da4760a74f95">loadPlaceAssets</a> (const std::filesystem::path &amp;dataRoot, std::string_view place)</td></tr>
+<tr class="memitem:a35165b3b99c6aacab4c7d7c907983f15" id="r_a35165b3b99c6aacab4c7d7c907983f15"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a35165b3b99c6aacab4c7d7c907983f15">scenePlaces</a> (const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memitem:ae7b3f6f5d7f2751645dc12ed67e74af8" id="r_ae7b3f6f5d7f2751645dc12ed67e74af8"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae7b3f6f5d7f2751645dc12ed67e74af8">formatFinding</a> (const <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &amp;finding)</td></tr>
 <tr class="memitem:a42fc6546d215eea2d52d55f917655fd4" id="r_a42fc6546d215eea2d52d55f917655fd4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1MapCheckFinding.html">MapCheckFinding</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a42fc6546d215eea2d52d55f917655fd4">checkMapFile</a> (std::string_view mapId, const std::filesystem::path &amp;file, const std::filesystem::path &amp;dataRoot)</td></tr>
 <tr class="memdesc:a42fc6546d215eea2d52d55f917655fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contrôle une carte, lue depuis son fichier.  <br /></td></tr>
@@ -4319,6 +4325,32 @@ Variables</h2></td></tr>
 
 <p>La flèche sous <code class="param">point</code> : distance au trait (ou au cercle d'une boucle) au plus <code class="param">tolerance</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd>L'indice de la flèche la plus proche ; à distance égale, le plus petit indice. </dd></dl>
+
+</div>
+</div>
+<a id="ad41e52637055455371c988b133007805" name="ad41e52637055455371c988b133007805"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad41e52637055455371c988b133007805">&#9670;&#160;</a></span>editorDataRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::filesystem::path &amp; hmi::editorDataRoot </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La racine des données de la fenêtre : <span class="tt">Levels/</span>, <span class="tt">Assets/</span>, <span class="tt">World/</span>… y vivent. </dd></dl>
 
 </div>
 </div>
@@ -7762,6 +7794,51 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="aef264a6aa52e500e958603c000aaf053" name="aef264a6aa52e500e958603c000aaf053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef264a6aa52e500e958603c000aaf053">&#9670;&#160;</a></span>resolveDataRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::filesystem::path hmi::resolveDataRoot </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::string &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>arguments</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>executableDirectory</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>sourceData</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Choisit la racine des données. </p>
+<p>Dans l'ordre : la valeur de <span class="tt">--data</span>, si la ligne de commande en donne une ; sinon <code class="param">sourceData</code>, le <span class="tt">Source/Elements</span> de l'arbre qui a construit l'éditeur, s'il existe sur ce poste ; sinon <code class="param">executableDirectory</code>, où la construction recopie les données.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arguments</td><td>Les arguments de la ligne de commande, sans le programme. </td></tr>
+    <tr><td class="paramname"><a class="el" href="#a18648161d8a6c752202b6034613a947b" title="Dossier contenant l&#39;exécutable en cours, pour localiser les ressources copiées à côté (niveaux,...">executableDirectory</a></td><td>Le dossier de l'exécutable. </td></tr>
+    <tr><td class="paramname">sourceData</td><td>Le dossier des données de l'arbre des sources ; vide s'il est inconnu. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a9f1a74dfaba460298fa87f389a43cb02" name="a9f1a74dfaba460298fa87f389a43cb02"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f1a74dfaba460298fa87f389a43cb02">&#9670;&#160;</a></span>resolveEntityPress()</h2>
 
@@ -7976,7 +8053,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Nom lisible d'un terme de règle — caractéristique, emplacement d'équipement, condition. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1178"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1196"></a>
 Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 <p>La chrome des écrans (« Points de vie », « Nouvelle partie ») s'écrit en français <b>dans le fichier QML</b>, et Qt la traduit par sa source. Ces libellés-ci ne le peuvent pas : leur clé est <b>calculée</b> (<span class="tt">rpg.ability.</span> + l'identifiant que le modèle rend), et <span class="tt">qsTr</span> exige une chaîne littérale — c'est ce qui permet à <span class="tt">lupdate</span> de l'extraire sans exécuter le programme.</p>
 <p>Ce n'est pas qu'une contrainte technique. Ces termes sont un <b>lexique</b> : <span class="tt">rpg.glossary.csv</span> garantit une seule traduction par terme de règle dans tout le jeu, et <span class="tt">scripts/check_glossary.py</span> le vérifie. Les disperser en littéraux dans les écrans casserait précisément cette garantie.</p>
@@ -8156,6 +8233,32 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 
 </div>
 </div>
+<a id="a35165b3b99c6aacab4c7d7c907983f15" name="a35165b3b99c6aacab4c7d7c907983f15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35165b3b99c6aacab4c7d7c907983f15">&#9670;&#160;</a></span>scenePlaces()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; hmi::scenePlaces </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>dataRoot</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Les lieux qu'une carte peut prendre : les dossiers de <span class="tt">&lt;dataRoot&gt;/Assets/Scene</span> qui ont un manifeste de pièces, triés (<span class="tt">LOT-EDITOR-06</span>). </dd></dl>
+
+</div>
+</div>
 <a id="a9fbb2bf9b95887bf5bf16e14e750bac4" name="a9fbb2bf9b95887bf5bf16e14e750bac4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9fbb2bf9b95887bf5bf16e14e750bac4">&#9670;&#160;</a></span>screenProjectionMatrix()</h2>
 
@@ -8217,6 +8320,25 @@ Pourquoi ceux-là ne passent pas par <span class="tt">qsTr</span></h2>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le contenu d'un fichier de reprise pour <code class="param">record</code> (JSON, format <span class="tt"><a class="el" href="#ae89429fc222ed90274545f4bd5dd9511" title="Version du format des fichiers de reprise.">AUTOSAVE_FORMAT</a></span>). </dd></dl>
+
+</div>
+</div>
+<a id="afd2e3832814f32d1a4298bb2a32b6586" name="afd2e3832814f32d1a4298bb2a32b6586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd2e3832814f32d1a4298bb2a32b6586">&#9670;&#160;</a></span>setEditorDataRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::setEditorDataRoot </td>
+          <td>(</td>
+          <td class="paramtype">std::filesystem::path</td>          <td class="paramname"><span class="paramname"><em>root</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fixe la racine des données de la fenêtre, une fois, au lancement. </p>
 
 </div>
 </div>

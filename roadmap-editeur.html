@@ -295,7 +295,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-13</span>  </td><td class="markdownTableBodyNone">L'éditeur sans fenêtre — <b>livré</b>  </td><td class="markdownTableBodyNone">04  </td><td class="markdownTableBodyNone">S  </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-06</span>  </td><td class="markdownTableBodyNone">Les cartes quittent leurs scripts  </td><td class="markdownTableBodyNone">05, 13  </td><td class="markdownTableBodyNone">S  </td></tr>
+<td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-06</span>  </td><td class="markdownTableBodyNone">Les cartes quittent leurs scripts — <b>livré</b>  </td><td class="markdownTableBodyNone">05, 13  </td><td class="markdownTableBodyNone">S  </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-07</span>  </td><td class="markdownTableBodyNone">Contrôle du contenu  </td><td class="markdownTableBodyNone">06  </td><td class="markdownTableBodyNone">M  </td></tr>
 <tr class="markdownTableRowEven">
@@ -310,7 +310,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <td class="markdownTableBodyNone"><span class="tt">LOT-EDITOR-11</span>  </td><td class="markdownTableBodyNone">Génération assistée  </td><td class="markdownTableBodyNone">07 et <a class="el" href="roadmap.html#lot-40" title="&lt;tt&gt;LOT-40&lt;/tt&gt; — Générateur de terrain">LOT-40</a>  </td><td class="markdownTableBodyNone">M  </td></tr>
 </table>
 <p>Tailles relatives : S tient en une séance, M en quelques-unes, L demande un découpage en phases.</p>
-<p>Ordre conseillé jusqu'au jalon : 01, 02, 12, 03, 04, 05 et 13 (livrés), 06. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
+<p>Le jalon est atteint : 01, 02, 12, 03, 04, 05, 13 et 06 sont livrés. Le graphe est donné en source Graphviz, comme celui du jeu (la chaîne Doxygen tourne sans <span class="tt">HAVE_DOT</span>).</p>
 <div class="fragment"><div class="line">digraph editeur {</div>
 <div class="line">  rankdir=LR;</div>
 <div class="line">  node [shape=box, style=rounded, fontsize=10];</div>
@@ -321,7 +321,7 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <div class="line">  E04 [label=&quot;04\noutils\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E05 [label=&quot;05\nentités, zones\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E13 [label=&quot;13\nsans fenêtre\n(livré)&quot;, style=&quot;rounded,filled&quot;, fillcolor=&quot;#dddddd&quot;];</div>
-<div class="line">  E06 [label=&quot;06\nfin des scripts\n(jalon)&quot;, style=&quot;rounded,bold&quot;];</div>
+<div class="line">  E06 [label=&quot;06\nfin des scripts\n(jalon, livré)&quot;, style=&quot;rounded,filled,bold&quot;, fillcolor=&quot;#dddddd&quot;];</div>
 <div class="line">  E07 [label=&quot;07\ncontrôles&quot;];</div>
 <div class="line">  E14 [label=&quot;14\nrenommer, remplacer&quot;];</div>
 <div class="line">  E08 [label=&quot;08\ntampons&quot;];</div>
@@ -338,60 +338,54 @@ $(function(){initNavTree('roadmap-editeur.html','',''); });
 <div class="line">  E05 -&gt; E09; E13 -&gt; E09;</div>
 <div class="line">  E07 -&gt; E11; L40 -&gt; E11;</div>
 <div class="line">}</div>
-</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1005"></a>
+</div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
 LOT-EDITOR-01 — Le socle du module</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-01.html" title="LOT-EDITOR-01 — Le socle du module">LOT-EDITOR-01 — Le socle du module</a>. </p>
 </blockquote>
 <p>L'éditeur vit dans <span class="tt">Source/Editor/{Logic,Ui}</span> (bibliothèque <span class="tt">EditorLogic</span>, exécutable <span class="tt">LevelEditor</span>) ; il prend le style Fusion, écrit ses textes en anglais et construit ses widgets en code. Un brouillon modifié est sauvegardé automatiquement et proposé à la reprise après un plantage (<span class="tt">EX-EDIT-056</span>), une carte changée sur disque n'est jamais écrasée en silence (<span class="tt">EX-EDIT-057</span>), et l'historique d'annulation est plafonné, « modifié » suivant le contenu (<span class="tt">EX-EDIT-058</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1006"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
 LOT-EDITOR-02 — Le canevas montre le lieu</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 18 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-02.html" title="LOT-EDITOR-02 — Le canevas montre le lieu">LOT-EDITOR-02 — Le canevas montre le lieu</a>. </p>
 </blockquote>
 <p>Le canevas est une <span class="tt">QGraphicsView</span> dont l'élément unique peint, par <span class="tt">QPainter</span>, la liste de primitives que compose le jeu ; son image égale celle du GPU à 0,06 % des pixels près (<span class="tt">EX-EDIT-059</span>). Vue iso par défaut, vue à plat en bascule ; le pointage désigne la case par son losange, hauteur en paramètre (<span class="tt">EX-EDIT-060</span>) ; calques grisés ou verrouillés, reliefs en transparence, mini-carte (<span class="tt">EX-EDIT-061</span>). La composition vit dans la cible <span class="tt">SceneComposition</span>, le manifeste des pièces dans <span class="tt">Core</span> ; l'éditeur ne parle plus au GPU.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1007"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
 LOT-EDITOR-12 — Le format v4 et sa garde en CI</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-12.html" title="LOT-EDITOR-12 — Le format v4 et sa garde en CI">LOT-EDITOR-12 — Le format v4 et sa garde en CI</a>. </p>
 </blockquote>
 <p>Chaque case de couche porte son type et sa pièce ; la grille de collision est déduite des pièces et écrite, avec ses cases forcées (<span class="tt">EX-LVL-019</span>, <span class="tt">EX-LVL-020</span>). Les entités ont un identifiant jamais réemployé, les zones une forme peinte, les cartes des variantes, la hauteur une place réservée (<span class="tt">EX-LVL-021</span> à <span class="tt">EX-LVL-024</span>). <span class="tt">LevelEditor --migrate</span> a converti les trois cartes sans changer ce que le jeu joue ; <span class="tt">LevelEditor --check</span> les garde en CI (<span class="tt">EX-EDIT-062</span>). Schéma publié : <span class="tt">Documentation/Editeur/level.schema.json</span>. Le Colisée gardait 540 cases forcées, libérées au <span class="tt">LOT-EDITOR-03</span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1008"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
 LOT-EDITOR-03 — Peindre avec les pièces du lieu</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-03.html" title="LOT-EDITOR-03 — Peindre avec les pièces du lieu">LOT-EDITOR-03 — Peindre avec les pièces du lieu</a>. </p>
 </blockquote>
 <p>La palette est la planche du lieu : vignettes groupées par classe, recherche, et à part les pièces que la carte cite sans que la planche les ait, en damier (<span class="tt">EX-EDIT-063</span>). Une pièce va sur sa couche et écrit, en un geste, sa pièce, le type de sa case et la collision de son emprise ; la gomme retire une pièce entière (<span class="tt">EX-EDIT-064</span>). La collision suit chaque geste sur ses seules cases ; peindre la collision force la case, la gomme la libère, et le masque montre les cases forcées (<span class="tt">EX-EDIT-065</span>). Les 540 cases forcées du Colisée — le vide autour de l'amphithéâtre, que le héros atteignait par la porte, et deux piliers qui se traversaient — sont libérées : sa collision est la déduction.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1009"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
 LOT-EDITOR-04 — Les outils du peintre</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-04.html" title="LOT-EDITOR-04 — Les outils du peintre">LOT-EDITOR-04 — Les outils du peintre</a>. </p>
 </blockquote>
 <p>Ligne, seau, gomme en outil et pipette (<span class="tt">Alt</span> + clic depuis tout outil), chacun à sa touche ; un geste, du clic au relâchement, est un pas d'annulation (<span class="tt">EX-EDIT-066</span>). Le miroir reflète chaque geste de l'autre côté d'un axe vertical de l'écran et pose la jumelle des pièces (<span class="tt">EX-EDIT-067</span>). Les notes d'auteur vivent dans <span class="tt">&lt;carte&gt;.editor.json</span> (<span class="tt">EX-EDIT-068</span>) ; la mesure dit cases et pieds, et l'essai part de la case survolée (<span class="tt">EX-EDIT-069</span>). Une maison de Martpart — sol, deux façades, portes, seuils — se trace en cinq gestes, sans la couche collision.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1010"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1011"></a>
 LOT-EDITOR-05 — Entités et zones sur le canevas</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-05.html" title="LOT-EDITOR-05 — Entités et zones sur le canevas">LOT-EDITOR-05 — Entités et zones sur le canevas</a>. </p>
 </blockquote>
 <p>Une entité se dessine et se manipule par la <b>forme</b> que sa famille déclare — point, rectangle, zone rectangle ou peinte, trajet — : les zones se tirent, se redimensionnent par huit poignées et se peignent case par case (outil Forme, <span class="tt">Z</span>), les trajets se tracent point par point (<span class="tt">EX-EDIT-070</span>). Le canevas montre la figurine à la place du marqueur, l'étiquette de chaque famille, la formation d'une rencontre et le verdict tactique d'une zone de combat, recalculé pendant qu'on la tire (<span class="tt">EX-EDIT-071</span>). Les entités se sélectionnent à plusieurs, se déplacent en groupe, et la liste se filtre (<span class="tt">EX-EDIT-072</span>). L'inspecteur est tiré d'un schéma typé — entiers bornés, figurines, drapeaux, lieux, objets, <span class="tt">carte#id</span> —, et un test bloque toute famille lue par le jeu et absente de la table : il a trouvé <span class="tt">zone</span> (<span class="tt">EX-EDIT-073</span>).</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1011"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1012"></a>
 LOT-EDITOR-13 — L'éditeur sans fenêtre</h2>
 <blockquote class="doxtable">
 <p>Statut : <b>livré le 19 septembre 2026</b>. Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-13.html" title="LOT-EDITOR-13 — L&#39;éditeur sans fenêtre">LOT-EDITOR-13 — L'éditeur sans fenêtre</a>. </p>
 </blockquote>
 <p><span class="tt">LevelEditor --apply gestes.json</span> rejoue sur une carte ce que ferait la main — un outil, un appui, un glisser, et ce qu'on arme entre deux gestes — par les fonctions mêmes que le canevas appelle ; un geste refusé nomme le geste et n'écrit rien (<span class="tt">EX-EDIT-074</span>). <span class="tt">LevelEditor --render</span> rend une carte en PNG, en isométrie et sans fenêtre, et la CI publie le rendu des cartes qu'une PR change (<span class="tt">EX-EDIT-075</span>). Chaque outil a son scénario, comparé à un fichier attendu (<span class="tt">EX-EDIT-076</span>). La rue d'Arenarea, à Martpart, gommée puis retracée en dix gestes, rend la carte livrée octet pour octet.</p>
-<h2 class="doxsection"><a class="anchor" id="lot-editor-06"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1013"></a>
 LOT-EDITOR-06 — Les cartes quittent leurs scripts</h2>
 <blockquote class="doxtable">
-<p>Statut : <b>à faire</b>. Prérequis : 05, 13. <b>Premier jalon.</b> </p>
+<p>Statut : <b>livré le 19 septembre 2026</b>. <b>Premier jalon.</b> Le lot a quitté cette page pour son dossier : <a class="el" href="lot-editor-06.html" title="LOT-EDITOR-06 — Les cartes quittent leurs scripts">LOT-EDITOR-06 — Les cartes quittent leurs scripts</a>. </p>
 </blockquote>
-<p>L'éditeur devient la source des cartes faites à la main (D4).</p>
-<ul>
-<li>Dernière génération de <span class="tt">carte_colisee.py</span> et <span class="tt">carte_quartiers.py</span>, puis retrait de leur <span class="tt">--check</span> — celui du 12 tourne déjà en CI ; les scripts restent dans leurs dossiers de lot, comme trace.</li>
-<li>Une vraie retouche faite dans l'éditeur sur chacune des trois cartes.</li>
-<li>Guide d'usage : créer une carte de bout en bout.</li>
-</ul>
-<p><em>Acceptation</em> — les trois cartes se modifient, s'enregistrent et se rechargent dans l'éditeur sans perte et sans script.</p>
+<p>L'éditeur est la source des cartes faites à la main (D4). Les scripts du Colisée et des quartiers restent dans leurs dossiers de lot, comme trace, et refusent d'écrire dans <span class="tt">Levels/</span>. Chaque carte livrée s'ouvre et s'enregistre dans l'éditeur sans changer d'un octet (<span class="tt">EX-EDIT-078</span>), et a reçu sa retouche par <span class="tt">--apply</span> : la porte sud et la loge du Colisée (plus aucun chevauchement), les boutiques du marché de Martpart, un angle de mur égaré sur le parvis d'Arenarea. La fenêtre ouvre enfin l'arbre des sources, et non la copie de la construction ; une nouvelle carte choisit son lieu et passe le contrôle telle quelle (<span class="tt">EX-EDIT-077</span>). Guide : <a class="el" href="guide-usage-editeur.html" title="Faire une carte dans l&#39;éditeur">Faire une carte dans l'éditeur</a>.</p>
 <h2 class="doxsection"><a class="anchor" id="lot-editor-07"></a>
 LOT-EDITOR-07 — Contrôle du contenu</h2>
 <blockquote class="doxtable">

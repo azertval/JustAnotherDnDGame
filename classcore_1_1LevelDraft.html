@@ -150,6 +150,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3f45174b2fe91d89f6d0856a58d5b32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renomme la couche visuelle au rang <code class="param">index</code>. Un nom identique n'empile rien.  <br /></td></tr>
 <tr class="memitem:a90471e4d217d3e369c3c08872a2a25ee" id="r_a90471e4d217d3e369c3c08872a2a25ee"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a90471e4d217d3e369c3c08872a2a25ee">setLayerKind</a> (std::size_t index, <a class="el" href="namespacecore.html#ab0cf50b7ad0dce1357c85662e0fb7e5d">LayerKind</a> kind)</td></tr>
 <tr class="memdesc:a90471e4d217d3e369c3c08872a2a25ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change le rôle (sol ↔ décor) de la couche visuelle au rang <code class="param">index</code>.  <br /></td></tr>
+<tr class="memitem:a3068ff19e9083535520cdb0dc01e6ddf" id="r_a3068ff19e9083535520cdb0dc01e6ddf"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3068ff19e9083535520cdb0dc01e6ddf">setLayerProperty</a> (std::size_t index, const std::string &amp;key, <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a> value)</td></tr>
+<tr class="memdesc:a3068ff19e9083535520cdb0dc01e6ddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigne la propriété <code class="param">key</code> de la couche visuelle au rang <code class="param">index</code> — par exemple le lieu dont elle prend les pièces (<span class="tt">scene</span>, <span class="tt">LOT-EDITOR-06</span>).  <br /></td></tr>
 <tr class="memitem:ab3a5f821f3978837e9273b428f22bc29" id="r_ab3a5f821f3978837e9273b428f22bc29"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab3a5f821f3978837e9273b428f22bc29">moveLayer</a> (std::size_t index, bool forward)</td></tr>
 <tr class="memdesc:ab3a5f821f3978837e9273b428f22bc29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Échange la couche visuelle au rang <code class="param">index</code> avec sa voisine visuelle, en avant (<code class="param">forward</code>) ou en arrière.  <br /></td></tr>
 <tr class="memitem:a9d2d7eaf3b34811e1339d8a3be044920" id="r_a9d2d7eaf3b34811e1339d8a3be044920"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9d2d7eaf3b34811e1339d8a3be044920">paintLayerTile</a> (std::size_t index, int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
@@ -274,7 +276,7 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
 <p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
 <p>Invariant maintenu par tous les mutateurs : la grille de tuiles reste la <b>source de vérité</b> de la position d'entrée (comme pour <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>) ; <span class="tt"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry()</a></span> n'est qu'un accès en cache, toujours synchronisé avec le contenu de <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1114"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1132"></a>
 La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class="tt">EX-EDIT-064</span>, <span class="tt">EX-EDIT-065</span>)</h2>
 <p>Dès qu'une carte a une couche visuelle, sa collision se <b>déduit</b> de ce qu'elle montre (<span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>, décision D10) et s'écrit, hors des cases <b>forcées</b> à la main. Le brouillon tient cet accord geste par geste, sans rien toucher d'autre :</p>
 <ul>
@@ -1793,6 +1795,35 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
 </div><div class="memdoc">
 
 <p>Change le rôle (sol ↔ décor) de la couche visuelle au rang <code class="param">index</code>. </p>
+
+</div>
+</div>
+<a id="a3068ff19e9083535520cdb0dc01e6ddf" name="a3068ff19e9083535520cdb0dc01e6ddf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3068ff19e9083535520cdb0dc01e6ddf">&#9670;&#160;</a></span>setLayerProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::setLayerProperty </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Assigne la propriété <code class="param">key</code> de la couche visuelle au rang <code class="param">index</code> — par exemple le lieu dont elle prend les pièces (<span class="tt">scene</span>, <span class="tt">LOT-EDITOR-06</span>). </p>
+<p>Une valeur identique n'empile rien. </p>
 
 </div>
 </div>

@@ -92,19 +92,28 @@ $(function(){initNavTree('test__level__file__operations_8cpp.html','',''); });
   <div class="headertitle"><div class="title">test_level_file_operations.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;filesystem&gt;</code><br />
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;system_error&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="LevelLoader_8h_source.html">Core/Levels/LevelLoader.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TileLayer_8h_source.html">Core/Levels/TileLayer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LevelFileOperations_8h_source.html">Editor/Logic/LevelFileOperations.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MapFormat_8h_source.html">Editor/Logic/MapFormat.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="WorldSceneComposer_8h_source.html">HMI/Graphics/WorldSceneComposer.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ad67ac8305af02c7245a71b1cf3557b2d" id="r_ad67ac8305af02c7245a71b1cf3557b2d"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad67ac8305af02c7245a71b1cf3557b2d">TEST_F</a> (LevelFileOps, CreeUnNiveauValide)</td></tr>
 <tr class="memdesc:ad67ac8305af02c7245a71b1cf3557b2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Créer un niveau écrit sur disque un fichier <b>valide</b> et l'expose immédiatement dans la liste : la création part d'un <span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">core::LevelDraft</a></span> vide passé par la validation, jamais d'un fichier vide qui échouerait au premier chargement.  <br /></td></tr>
+<tr class="memitem:a1a5cb3646f3982f26d0f5a4da795d884" id="r_a1a5cb3646f3982f26d0f5a4da795d884"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1a5cb3646f3982f26d0f5a4da795d884">TEST_F</a> (LevelFileOps, UneCarteCreeeAvecUnLieuPasseLeControle)</td></tr>
+<tr class="memdesc:a1a5cb3646f3982f26d0f5a4da795d884"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte créée avec un lieu naît comme les cartes livrées, et passe le contrôle (<span class="tt">LOT-EDITOR-06</span>) : on la fait ensuite entièrement dans l'éditeur.  <br /></td></tr>
+<tr class="memitem:a9423a3f90e4424d0f413e035c38d0044" id="r_a9423a3f90e4424d0f413e035c38d0044"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9423a3f90e4424d0f413e035c38d0044">TEST</a> (ScenePlacesTest, LesLieuxProposesOntUnManifeste)</td></tr>
+<tr class="memdesc:a9423a3f90e4424d0f413e035c38d0044"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les lieux qu'une nouvelle carte peut prendre sont les planches qui ont un manifeste.  <br /></td></tr>
 <tr class="memitem:a8c629c3aea97ecc02804a4844945a032" id="r_a8c629c3aea97ecc02804a4844945a032"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a8c629c3aea97ecc02804a4844945a032">TEST_F</a> (LevelFileOps, LaPlusPetiteCarteFaitUneCase)</td></tr>
 <tr class="memdesc:a8c629c3aea97ecc02804a4844945a032"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une carte ne demande qu'une case d'entrée : 1×1 se crée, une dimension nulle est refusée.  <br /></td></tr>
 <tr class="memitem:ad8013bbede77ac0774de05c0834d2279" id="r_ad8013bbede77ac0774de05c0834d2279"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ad8013bbede77ac0774de05c0834d2279">TEST_F</a> (LevelFileOps, FichierDeSequenceExcluDeLaListe)</td></tr>
@@ -119,8 +128,37 @@ Functions</h2></td></tr>
 <tr class="memdesc:a88ecd94bb63d2c6851e23c2689105ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Supprimer retire effectivement le fichier du disque et le signale par un résultat favorable — le panneau se fie à ce résultat pour retirer la ligne de sa liste.  <br /></td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a9423a3f90e4424d0f413e035c38d0044" name="a9423a3f90e4424d0f413e035c38d0044"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9423a3f90e4424d0f413e035c38d0044">&#9670;&#160;</a></span>TEST()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">ScenePlacesTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LesLieuxProposesOntUnManifeste</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les lieux qu'une nouvelle carte peut prendre sont les planches qui ont un manifeste. </p>
+<p><b>Cas de test :</b> <b>Les lieux proposes ont un manifeste.</b><br  />
+ <b>Categorie :</b> Unitaire · Opérations sur fichiers de niveau<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Lister les lieux de <span class="tt">Source/Elements</span>.<br  />
+ <b>Resultat attendu :</b> <span class="tt">coliseum</span> et <span class="tt">martpart</span> en font partie, triés ; chacun a son <span class="tt">manifest.json</span>. </p>
+
+</div>
+</div>
 <a id="ad67ac8305af02c7245a71b1cf3557b2d" name="ad67ac8305af02c7245a71b1cf3557b2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad67ac8305af02c7245a71b1cf3557b2d">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad67ac8305af02c7245a71b1cf3557b2d">&#9670;&#160;</a></span>TEST_F() <span class="overload">[1/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,7 +188,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a84e4befacc22f243237f14b14908b7e8" name="a84e4befacc22f243237f14b14908b7e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84e4befacc22f243237f14b14908b7e8">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a84e4befacc22f243237f14b14908b7e8">&#9670;&#160;</a></span>TEST_F() <span class="overload">[2/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -180,7 +218,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad8013bbede77ac0774de05c0834d2279" name="ad8013bbede77ac0774de05c0834d2279"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad8013bbede77ac0774de05c0834d2279">&#9670;&#160;</a></span>TEST_F() <span class="overload">[3/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8013bbede77ac0774de05c0834d2279">&#9670;&#160;</a></span>TEST_F() <span class="overload">[3/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -210,7 +248,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a8c629c3aea97ecc02804a4844945a032" name="a8c629c3aea97ecc02804a4844945a032"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8c629c3aea97ecc02804a4844945a032">&#9670;&#160;</a></span>TEST_F() <span class="overload">[4/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c629c3aea97ecc02804a4844945a032">&#9670;&#160;</a></span>TEST_F() <span class="overload">[4/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -240,7 +278,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="aca91cb54e8a29f21e49a8d13bb2eef14" name="aca91cb54e8a29f21e49a8d13bb2eef14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca91cb54e8a29f21e49a8d13bb2eef14">&#9670;&#160;</a></span>TEST_F() <span class="overload">[5/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aca91cb54e8a29f21e49a8d13bb2eef14">&#9670;&#160;</a></span>TEST_F() <span class="overload">[5/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -270,7 +308,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad859ebb492f6e6ce614b986c83dd2817" name="ad859ebb492f6e6ce614b986c83dd2817"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad859ebb492f6e6ce614b986c83dd2817">&#9670;&#160;</a></span>TEST_F() <span class="overload">[6/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad859ebb492f6e6ce614b986c83dd2817">&#9670;&#160;</a></span>TEST_F() <span class="overload">[6/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,7 +338,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a88ecd94bb63d2c6851e23c2689105ae9" name="a88ecd94bb63d2c6851e23c2689105ae9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a88ecd94bb63d2c6851e23c2689105ae9">&#9670;&#160;</a></span>TEST_F() <span class="overload">[7/7]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ecd94bb63d2c6851e23c2689105ae9">&#9670;&#160;</a></span>TEST_F() <span class="overload">[7/8]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -326,6 +364,36 @@ Functions</h2></td></tr>
  1. Mettre en place le contexte du test (arrangement).<br  />
 2. Executer le scenario et verifier les assertions.<br  />
  </p>
+
+</div>
+</div>
+<a id="a1a5cb3646f3982f26d0f5a4da795d884" name="a1a5cb3646f3982f26d0f5a4da795d884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5cb3646f3982f26d0f5a4da795d884">&#9670;&#160;</a></span>TEST_F() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST_F </td>
+          <td>(</td>
+          <td class="paramtype">LevelFileOps</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UneCarteCreeeAvecUnLieuPasseLeControle</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Une carte créée avec un lieu naît comme les cartes livrées, et passe le contrôle (<span class="tt">LOT-EDITOR-06</span>) : on la fait ensuite entièrement dans l'éditeur. </p>
+<p><b>Cas de test :</b> <b>Une carte creee avec un lieu passe le controle.</b><br  />
+ <b>Categorie :</b> Unitaire · Opérations sur fichiers de niveau<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Créer une carte 12 × 8 au lieu <span class="tt">martpart</span>.<br  />
+2. La relire, puis la contrôler avec les planches livrées.<br  />
+ <b>Resultat attendu :</b> Une couche de sol <span class="tt">sol</span> au lieu <span class="tt">martpart</span>, une couche de décor <span class="tt">relief</span> ; aucune erreur de contrôle. </p>
 
 </div>
 </div>

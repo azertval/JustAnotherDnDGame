@@ -12,5 +12,6 @@ var test__level__draft__editing_8cpp =
     [ "TEST", "test__level__draft__editing_8cpp.html#a02b08edde78a20e2de376e8abec919e2", null ],
     [ "TEST", "test__level__draft__editing_8cpp.html#a5a9aaa175be65b90d14489d37c9a4874", null ],
     [ "TEST", "test__level__draft__editing_8cpp.html#ae4d17fd9d1f571691b24df4aa180594c", null ],
+    [ "TEST", "test__level__draft__editing_8cpp.html#a65bb4be26750f69cc36a3ccadad3a9f8", null ],
     [ "TEST", "test__level__draft__editing_8cpp.html#a5bdbd2396abd6be99b775f7d53f06284", null ]
 ];

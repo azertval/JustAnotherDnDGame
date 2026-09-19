@@ -25,5 +25,6 @@ var searchData=
   ['guide_2dmaths_2emd_22',['guide-maths.md',['../guide-maths_8md.html',1,'']]],
   ['guide_2dniveaux_2emd_23',['guide-niveaux.md',['../guide-niveaux_8md.html',1,'']]],
   ['guide_2drendu_2emd_24',['guide-rendu.md',['../guide-rendu_8md.html',1,'']]],
-  ['guide_2emd_25',['guide.md',['../guide_8md.html',1,'']]]
+  ['guide_2dusage_2emd_25',['guide-usage.md',['../guide-usage_8md.html',1,'']]],
+  ['guide_2emd_26',['guide.md',['../guide_8md.html',1,'']]]
 ];
