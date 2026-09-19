@@ -24,6 +24,8 @@ var dir_772c1d7d11cd878bc340037b824a0fc7 =
     [ "EntityGesture.h", "EntityGesture_8h.html", "EntityGesture_8h" ],
     [ "EntityReferences.cpp", "EntityReferences_8cpp.html", "EntityReferences_8cpp" ],
     [ "EntityReferences.h", "EntityReferences_8h.html", "EntityReferences_8h" ],
+    [ "EntityShapes.cpp", "EntityShapes_8cpp.html", "EntityShapes_8cpp" ],
+    [ "EntityShapes.h", "EntityShapes_8h.html", "EntityShapes_8h" ],
     [ "FileOperationResult.h", "FileOperationResult_8h.html", "FileOperationResult_8h" ],
     [ "LayerView.cpp", "LayerView_8cpp.html", "LayerView_8cpp" ],
     [ "LayerView.h", "LayerView_8h.html", "LayerView_8h" ],

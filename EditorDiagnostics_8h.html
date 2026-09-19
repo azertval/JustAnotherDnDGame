@@ -93,7 +93,7 @@ $(function(){initNavTree('EditorDiagnostics_8h.html','',''); });
 </div><!--header-->
 <div class="contents">
 
-<p>Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées et rencontres posées hors d'un terrain tactique valide (<span class="tt">LOT-11</span>).  
+<p>Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées, rencontres posées hors d'un terrain tactique valide (<span class="tt">LOT-11</span>), zones de combat qui ne se jouent pas (<span class="tt">LOT-EDITOR-05</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
@@ -101,6 +101,7 @@ $(function(){initNavTree('EditorDiagnostics_8h.html','',''); });
 <code>#include &quot;<a class="el" href="TacticalTerrain_8h_source.html">Core/Combat/TacticalTerrain.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="GridPosition_8h_source.html">Core/Levels/GridPosition.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MapEntity_8h_source.html">Core/Levels/MapEntity.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="CombatZone_8h_source.html">Core/World/CombatZone.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityKinds_8h_source.html">Core/World/EntityKinds.h</a>&quot;</code><br />
 </div>
 <p><a href="EditorDiagnostics_8h_source.html">Go to the source code of this file.</a></p>
@@ -123,13 +124,15 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae839ec29b82b08549c2c1c6839ab42a5" id="r_ae839ec29b82b08549c2c1c6839ab42a5"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ae839ec29b82b08549c2c1c6839ab42a5">hmi::entityIssueKey</a> (<a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035e">core::EntityIssueCode</a> code) noexcept</td></tr>
-<tr class="memitem:af29bd95d71df419fcc521a9c36b1ea40" id="r_af29bd95d71df419fcc521a9c36b1ea40"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#af29bd95d71df419fcc521a9c36b1ea40">hmi::tacticalIssueKey</a> (<a class="el" href="namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910">core::TacticalIssueCode</a> code) noexcept</td></tr>
-<tr class="memitem:acd5fbb54930da91b137dd315290253ff" id="r_acd5fbb54930da91b137dd315290253ff"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#acd5fbb54930da91b137dd315290253ff">hmi::editorDiagnostics</a> (const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;entities, const std::vector&lt; <a class="el" href="structcore_1_1EntityIssue.html">core::EntityIssue</a> &gt; &amp;issues, const std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt; &amp;terrains)</td></tr>
-<tr class="memdesc:acd5fbb54930da91b137dd315290253ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les avertissements de la carte, les références d'abord, puis le terrain, chacun dans l'ordre des entités.  <br /></td></tr>
+<tr class="memitem:aae4092d693f838bf7beb6e021fedc2b0" id="r_aae4092d693f838bf7beb6e021fedc2b0"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#aae4092d693f838bf7beb6e021fedc2b0">hmi::entityIssueTemplate</a> (<a class="el" href="namespacecore.html#ac1032ee70b0c730c8727b80822ab035e">core::EntityIssueCode</a> code) noexcept</td></tr>
+<tr class="memitem:ae04c1f256387579c522acc9d41c38f54" id="r_ae04c1f256387579c522acc9d41c38f54"><td class="memItemLeft">const char *&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#ae04c1f256387579c522acc9d41c38f54">hmi::tacticalIssueTemplate</a> (<a class="el" href="namespacecore.html#a81dfcf1ac21704e4f64a7780ec772910">core::TacticalIssueCode</a> code) noexcept</td></tr>
+<tr class="memitem:a3f098738a2160784b60a63f9b6d3c5e2" id="r_a3f098738a2160784b60a63f9b6d3c5e2"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a3f098738a2160784b60a63f9b6d3c5e2">hmi::editorDiagnostics</a> (const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;entities, const std::vector&lt; <a class="el" href="structcore_1_1EntityIssue.html">core::EntityIssue</a> &gt; &amp;issues, const std::vector&lt; <a class="el" href="structcore_1_1EncounterTerrain.html">core::EncounterTerrain</a> &gt; &amp;terrains, const std::vector&lt; <a class="el" href="structcore_1_1CombatZoneTerrain.html">core::CombatZoneTerrain</a> &gt; &amp;zones={})</td></tr>
+<tr class="memdesc:a3f098738a2160784b60a63f9b6d3c5e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les avertissements de la carte : les références, puis le terrain des rencontres, puis les zones de combat, chacun dans l'ordre des entités.  <br /></td></tr>
+<tr class="memitem:a84629539a766d354203c18ea75e0bab9" id="r_a84629539a766d354203c18ea75e0bab9"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a84629539a766d354203c18ea75e0bab9">hmi::combatZoneSummary</a> (const <a class="el" href="structcore_1_1CombatZoneTerrain.html">core::CombatZoneTerrain</a> &amp;zone)</td></tr>
+<tr class="memdesc:a84629539a766d354203c18ea75e0bab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le verdict d'une zone de combat en une ligne, pour l'inspecteur : sa taille, ses cases libres, ses entrées d'arène dedans et dehors — ou son défaut.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées et rencontres posées hors d'un terrain tactique valide (<span class="tt">LOT-11</span>). </p>
+<div class="textblock"><p>Les avertissements que l'éditeur montre sur les entités d'une carte : références cassées, rencontres posées hors d'un terrain tactique valide (<span class="tt">LOT-11</span>), zones de combat qui ne se jouent pas (<span class="tt">LOT-EDITOR-05</span>). </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <div id="page-nav" class="page-nav-panel">

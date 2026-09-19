@@ -106,6 +106,14 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a2347b4745df3c2f026bfb4972b4e2132" id="r_a2347b4745df3c2f026bfb4972b4e2132"><td class="memItemLeft"><a class="el" href="structcore_1_1Bestiary.html">core::Bestiary</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2347b4745df3c2f026bfb4972b4e2132">bestiary</a></td></tr>
 <tr class="memdesc:a2347b4745df3c2f026bfb4972b4e2132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pour l'emprise des créatures d'une rencontre (<span class="tt"><a class="el" href="namespacecore.html#a0224a562daa9e9d9bc0358fb71a2a04d" title="Vérifie que chaque rencontre posée sur la carte tombe sur un terrain tactique valide.">core::analyzeEncounterTerrain</a></span>).  <br /></td></tr>
 <tr class="memitem:a1b9a14a7e8d8fafb6d81ec468819b357" id="r_a1b9a14a7e8d8fafb6d81ec468819b357"><td class="memItemLeft"><a class="el" href="structcore_1_1WorldGraph.html">core::WorldGraph</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1b9a14a7e8d8fafb6d81ec468819b357">world</a></td></tr>
+<tr class="memitem:ae65812f5ec623b0414bc4f1abd217e8f" id="r_ae65812f5ec623b0414bc4f1abd217e8f"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae65812f5ec623b0414bc4f1abd217e8f">figures</a></td></tr>
+<tr class="memdesc:ae65812f5ec623b0414bc4f1abd217e8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les figurines des ateliers, triées : les slugs de <span class="tt">Assets/Npc/manifest.json</span>, puis <span class="tt">Monsters/&lt;slug&gt;</span> pour chaque monstre de <span class="tt">Assets/Monsters/manifest.json</span>.  <br /></td></tr>
+<tr class="memitem:adfce73beec39e6122b2a340b5bb6ec41" id="r_adfce73beec39e6122b2a340b5bb6ec41"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adfce73beec39e6122b2a340b5bb6ec41">flags</a></td></tr>
+<tr class="memdesc:adfce73beec39e6122b2a340b5bb6ec41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les drapeaux qu'un dialogue accepté pose (<span class="tt">SetFlag</span>, et le drapeau d'une quête démarrée), triés.  <br /></td></tr>
+<tr class="memitem:a3a6c93884d9c63175d7748beccec956f" id="r_a3a6c93884d9c63175d7748beccec956f"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a3a6c93884d9c63175d7748beccec956f">locations</a></td></tr>
+<tr class="memdesc:a3a6c93884d9c63175d7748beccec956f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les fiches de lieu de l'atlas (<span class="tt">World/locations/&lt;id&gt;.json</span>), triées.  <br /></td></tr>
+<tr class="memitem:a6c9c470eed8c3a6884cde93d5097dc9f" id="r_a6c9c470eed8c3a6884cde93d5097dc9f"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a6c9c470eed8c3a6884cde93d5097dc9f">items</a></td></tr>
+<tr class="memdesc:a6c9c470eed8c3a6884cde93d5097dc9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les objets du catalogue (<span class="tt">Rpg/items</span>), triés.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Les catalogues que les entités d'une carte référencent, lus une fois à l'ouverture de l'éditeur puis à la demande (enregistrement d'une carte, rechargement des assets). </p>
@@ -154,6 +162,70 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae65812f5ec623b0414bc4f1abd217e8f" name="ae65812f5ec623b0414bc4f1abd217e8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae65812f5ec623b0414bc4f1abd217e8f">&#9670;&#160;</a></span>figures</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hmi::EditorReferences::figures</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les figurines des ateliers, triées : les slugs de <span class="tt">Assets/Npc/manifest.json</span>, puis <span class="tt">Monsters/&lt;slug&gt;</span> pour chaque monstre de <span class="tt">Assets/Monsters/manifest.json</span>. </p>
+
+</div>
+</div>
+<a id="adfce73beec39e6122b2a340b5bb6ec41" name="adfce73beec39e6122b2a340b5bb6ec41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfce73beec39e6122b2a340b5bb6ec41">&#9670;&#160;</a></span>flags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hmi::EditorReferences::flags</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les drapeaux qu'un dialogue accepté pose (<span class="tt">SetFlag</span>, et le drapeau d'une quête démarrée), triés. </p>
+
+</div>
+</div>
+<a id="a6c9c470eed8c3a6884cde93d5097dc9f" name="a6c9c470eed8c3a6884cde93d5097dc9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c9c470eed8c3a6884cde93d5097dc9f">&#9670;&#160;</a></span>items</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hmi::EditorReferences::items</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les objets du catalogue (<span class="tt">Rpg/items</span>), triés. </p>
+
+</div>
+</div>
+<a id="a3a6c93884d9c63175d7748beccec956f" name="a3a6c93884d9c63175d7748beccec956f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a6c93884d9c63175d7748beccec956f">&#9670;&#160;</a></span>locations</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::string&gt; hmi::EditorReferences::locations</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Les fiches de lieu de l'atlas (<span class="tt">World/locations/&lt;id&gt;.json</span>), triées. </p>
 
 </div>
 </div>

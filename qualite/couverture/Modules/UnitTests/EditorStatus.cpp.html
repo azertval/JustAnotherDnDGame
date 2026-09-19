@@ -64,6 +64,8 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
 <span style = "background-color:#fdd">            return "Selection";</span>
         case EditorTool::Entity:
 <span style = "background-color:#dfd">            return "Entity";</span>
+        case EditorTool::Shape:
+<span style = "background-color:#fdd">            return "Shape";</span>
         case EditorTool::Measure:
 <span style = "background-color:#dfd">            return "Measure";</span>
         case EditorTool::Note:
@@ -93,9 +95,13 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
         case EditorTool::Note:
 <span style = "background-color:#fdd">            return "Note: click a cell to write, edit or clear its author note";</span>
         case EditorTool::Entity:
-<span style = "background-color:#dfd">            return "Entity: click an empty cell to place the chosen kind Â· click an entity to "</span>
-                   "select it, drag to move it Â· Del removes it Â· Ctrl+click places on an "
-                   "occupied cell";
+<span style = "background-color:#dfd">            return "Entity: click to place the chosen kind, drag to draw a zone or a route Â· "</span>
+                   "drag an entity to move the selection, a handle to resize Â· Shift+click: add "
+                   "to the selection Â· Del removes Â· Ctrl+click places on an occupied cell";
+        case EditorTool::Shape:
+<span style = "background-color:#fdd">            return "Shape: drag to paint cells into the selected zone, Ctrl+drag to erase Â· "</span>
+                   "click to extend the selected route, drag a point to move it, Ctrl+click to "
+                   "remove it";
     }
 <span style = "background-color:#fdd">    return "";</span>
 <span style = "background-color:#dfd">}</span>

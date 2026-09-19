@@ -33,9 +33,10 @@ namespace hmi {
  * le pinceau armÃ©. `Pipette` prend le pinceau de ce qu'on voit sous la case, puis rend la main Ã 
  * l'outil du peintre d'avant (`Alt` + clic fait de mÃªme depuis n'importe quel outil).
  * `Selection` dÃ©finit une zone qu'on copie (`Ctrl+C`), colle (`Ctrl+V`) ou gomme (`Suppr`).
- * `Entity` (`LOT-11`) pose, sÃ©lectionne, dÃ©place et retire les entitÃ©s de carte (voir
- * `hmi::resolveEntityPress`). `Measure` mesure en cases et en pieds, `Note` Ã©pingle une note
- * d'auteur Ã  une case.
+ * `Entity` (`LOT-11`) pose, sÃ©lectionne, dÃ©place et retire les entitÃ©s de carte, tire les zones et
+ * leurs poignÃ©es (voir `hmi::resolveEntityPress`) ; `Shape` peint une zone de rÃ¨gles case par case
+ * et trace un trajet point par point (`LOT-EDITOR-05`, `hmi::resolveShapePress`). `Measure` mesure
+ * en cases et en pieds, `Note` Ã©pingle une note d'auteur Ã  une case.
  */
 enum class EditorTool {
     Paint,
@@ -46,12 +47,13 @@ enum class EditorTool {
     Pipette,
     Selection,
     Entity,
+    Shape,
     Measure,
     Note,
 };
 
 /// Nombre d'outils d'Ã©dition, dÃ©clarÃ© au plus prÃ¨s de l'Ã©numÃ©ration qu'il compte.
-inline constexpr std::size_t EDITOR_TOOL_COUNT = 10;
+inline constexpr std::size_t EDITOR_TOOL_COUNT = 11;
 
 /// @return Vrai si @p tool pose le pinceau armÃ© (pinceau, rectangle, ligne, seau).
 <span style = "background-color:#dfd">[[nodiscard]] constexpr bool paintsWithBrush(EditorTool tool) noexcept {

@@ -65,9 +65,10 @@ var searchData=
   ['draftchanged_62',['draftChanged',['../classhmi_1_1EditorViewport.html#a7c355b35edfde092e790577fb6b136cc',1,'hmi::EditorViewport']]],
   ['draftjson_63',['draftJson',['../classhmi_1_1EditorViewport.html#a4decd31ed28cf70d9fe3ea73826780a2',1,'hmi::EditorViewport']]],
   ['draftrenderer_64',['DraftRenderer',['../classhmi_1_1DraftRenderer.html#a49dc04aebe5a58546f208be19a05add1',1,'hmi::DraftRenderer']]],
-  ['draw_65',['draw',['../classhmi_1_1SpriteBatch.html#adf3e122b7b78551672d6e8642941383d',1,'hmi::SpriteBatch::draw(const SpriteQuad &amp;quad)'],['../classhmi_1_1SpriteBatch.html#afb2cf10826482b3ad8d503a829a8ed5b',1,'hmi::SpriteBatch::draw(const LineQuad &amp;line)']]],
-  ['drawncount_66',['drawnCount',['../classhmi_1_1AssetGalleryItem.html#a95a99c8bad7fa656d6747edaad1e5dcd',1,'hmi::AssetGalleryItem']]],
-  ['dropfrombackpack_67',['dropFromBackpack',['../namespacehmi.html#a750d910df13135536b34892bf61ff32e',1,'hmi']]],
-  ['dropselected_68',['dropSelected',['../classhmi_1_1InventoryModel.html#afe4073a9bd332076c099f1556852107a',1,'hmi::InventoryModel']]],
-  ['duplicate_69',['duplicate',['../classhmi_1_1LevelFileOperations.html#a551c21f123f010c79dc0092566523968',1,'hmi::LevelFileOperations']]]
+  ['dragentities_65',['dragEntities',['../namespacehmi.html#a0a372480a8c4bb2d1af4b9b17874eb72',1,'hmi']]],
+  ['draw_66',['draw',['../classhmi_1_1SpriteBatch.html#adf3e122b7b78551672d6e8642941383d',1,'hmi::SpriteBatch::draw(const SpriteQuad &amp;quad)'],['../classhmi_1_1SpriteBatch.html#afb2cf10826482b3ad8d503a829a8ed5b',1,'hmi::SpriteBatch::draw(const LineQuad &amp;line)']]],
+  ['drawncount_67',['drawnCount',['../classhmi_1_1AssetGalleryItem.html#a95a99c8bad7fa656d6747edaad1e5dcd',1,'hmi::AssetGalleryItem']]],
+  ['dropfrombackpack_68',['dropFromBackpack',['../namespacehmi.html#a750d910df13135536b34892bf61ff32e',1,'hmi']]],
+  ['dropselected_69',['dropSelected',['../classhmi_1_1InventoryModel.html#afe4073a9bd332076c099f1556852107a',1,'hmi::InventoryModel']]],
+  ['duplicate_70',['duplicate',['../classhmi_1_1LevelFileOperations.html#a551c21f123f010c79dc0092566523968',1,'hmi::LevelFileOperations']]]
 ];

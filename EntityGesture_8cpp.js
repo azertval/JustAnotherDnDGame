@@ -1,5 +1,6 @@
 var EntityGesture_8cpp =
 [
-    [ "hmi::resolveEntityPress", "namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2", null ],
-    [ "hmi::resolveEntityRelease", "namespacehmi.html#a8b42bf668a4e9cbe5f7a14ff3678888d", null ]
+    [ "hmi::dragEntities", "namespacehmi.html#a0a372480a8c4bb2d1af4b9b17874eb72", null ],
+    [ "hmi::resolveEntityPress", "namespacehmi.html#a9f1a74dfaba460298fa87f389a43cb02", null ],
+    [ "hmi::resolveShapePress", "namespacehmi.html#a586c3f62e9d9cb45b762db2f4da03e61", null ]
 ];

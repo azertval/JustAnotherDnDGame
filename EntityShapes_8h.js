@@ -1,0 +1,35 @@
+var EntityShapes_8h =
+[
+    [ "hmi::CellRect", "structhmi_1_1CellRect.html", "structhmi_1_1CellRect" ],
+    [ "hmi::EntityHandle", "structhmi_1_1EntityHandle.html", "structhmi_1_1EntityHandle" ],
+    [ "hmi::EntityPick", "structhmi_1_1EntityPick.html", "structhmi_1_1EntityPick" ],
+    [ "hmi::HandleKind", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19", [
+      [ "hmi::HandleKind::NorthWest", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a142cbe82227bdec147eff3a629dd366b", null ],
+      [ "hmi::HandleKind::North", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a601560b94fbb188919dd1d36c8ab70a4", null ],
+      [ "hmi::HandleKind::NorthEast", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a7254edb19370d28e3466c971d2f8a03e", null ],
+      [ "hmi::HandleKind::East", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19aa99dc62d017d04cf67266593f9c3761e", null ],
+      [ "hmi::HandleKind::SouthEast", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a865a51dff69223f0cf5ad630e5ada190", null ],
+      [ "hmi::HandleKind::South", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a263d7b2cf53802c9ed127b718c0bf9fd", null ],
+      [ "hmi::HandleKind::SouthWest", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19ae8eaf797b01fdb4246ed54904368b592", null ],
+      [ "hmi::HandleKind::West", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19abf495fc048d8d44b7f32536df5cf3930", null ],
+      [ "hmi::HandleKind::Waypoint", "namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a21c0c263ee08d68e9824f0dbadeb0cda", null ]
+    ] ],
+    [ "hmi::entityCells", "namespacehmi.html#ab0d68ca81ae946e34354b011803bd507", null ],
+    [ "hmi::entityFigure", "namespacehmi.html#ab75f93b0436784f8e814112518ec2c65", null ],
+    [ "hmi::entityHandles", "namespacehmi.html#ae90429dea58162b87715247d49ae5217", null ],
+    [ "hmi::entityLabel", "namespacehmi.html#a333fa4a20747ad58da7b46855a568780", null ],
+    [ "hmi::entityRectangle", "namespacehmi.html#aec60fc5394646542f8e9dcdc0f68a6c8", null ],
+    [ "hmi::entityShape", "namespacehmi.html#a85003a18fc16ecb0133fc982181ff5ff", null ],
+    [ "hmi::filterEntities", "namespacehmi.html#aa9bc383870e52d4d94f97981c63c4a62", null ],
+    [ "hmi::handleAt", "namespacehmi.html#a4d88ae02088595f068f5f247b8489c72", null ],
+    [ "hmi::paintArea", "namespacehmi.html#ada2a18a45109679e891c69b3afdcdcf1", null ],
+    [ "hmi::pickEntity", "namespacehmi.html#a8ca9869a786abe6bb5c913fa9436563c", null ],
+    [ "hmi::rectangleBetween", "namespacehmi.html#a86d3ee7e1175c46fe82758d43457c854", null ],
+    [ "hmi::resizeRectangle", "namespacehmi.html#a47eb27b6f73b5d9a8bedda2b55e0d371", null ],
+    [ "hmi::toggledSelection", "namespacehmi.html#ab5d9a77ac353caf145404f16a59ab39b", null ],
+    [ "hmi::translatedEntity", "namespacehmi.html#a08b3c56d6c34ffc8624d44546918bb7a", null ],
+    [ "hmi::withRectangle", "namespacehmi.html#a623ce146b2856402205c3c418bd03a30", null ],
+    [ "hmi::withWaypointAdded", "namespacehmi.html#a9d35fecdef49f55e20c921513b777e36", null ],
+    [ "hmi::withWaypointMoved", "namespacehmi.html#a9302664a9208a41752a179edd0081a37", null ],
+    [ "hmi::withWaypointRemoved", "namespacehmi.html#a8ad2acbbb84437e0a6ae213bddaed842", null ]
+];

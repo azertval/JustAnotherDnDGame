@@ -56,6 +56,8 @@ struct WorldMapNode {
     /// Message technique du chargeur, vide si la carte a Ã©tÃ© lue. Une carte illisible reste un
     /// nÅud : la retirer ferait passer ses portails entrants pour des cibles inconnues.
     std::string loadError;
+    /// Identifiants des entitÃ©s de la carte (dÃ©cision D8), triÃ©s : ce qu'un `carte#id` peut citer.
+    std::vector&lt;std::string&gt; entityIds;
 };
 
 /// @brief Ce que vaut un portail. `Core` n'Ã©crit pas de texte (`EX-NFR-011`) : l'Ã©diteur traduit.

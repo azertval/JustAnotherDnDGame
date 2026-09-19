@@ -124,13 +124,13 @@ Functions</h2></td></tr>
 <tr class="memitem:af93ff2ff8545ac6b47f190f746b95bbe" id="r_af93ff2ff8545ac6b47f190f746b95bbe"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#af93ff2ff8545ac6b47f190f746b95bbe">TEST</a> (EditionEntitesTest, ReglagesDAffichageDesCouches)</td></tr>
 <tr class="memdesc:af93ff2ff8545ac6b47f190f746b95bbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">La collision se montre à demi par-dessus des couches visuelles, pleine sur une carte à grille unique ; les réglages se bornent et suivent un déplacement.  <br /></td></tr>
 <tr class="memitem:a4f0a3810f54752d55ab153a464c9b4e1" id="r_a4f0a3810f54752d55ab153a464c9b4e1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a4f0a3810f54752d55ab153a464c9b4e1">TEST</a> (EditionEntitesTest, GesteDeLOutilEntite)</td></tr>
-<tr class="memdesc:a4f0a3810f54752d55ab153a464c9b4e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'appui de l'outil Entité : une case occupée sélectionne l'entité du dessus, une case libre pose, Ctrl pose sur une case occupée, et sans famille une case libre désélectionne.  <br /></td></tr>
+<tr class="memdesc:a4f0a3810f54752d55ab153a464c9b4e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">L'appui de l'outil Entité : une case occupée prend l'entité du dessus, une case libre pose, Ctrl pose sur une case occupée, Maj bascule dans la sélection, et sans famille une case libre désélectionne.  <br /></td></tr>
 <tr class="memitem:a6e268d3e91f0a7b709d81df7b7c7282b" id="r_a6e268d3e91f0a7b709d81df7b7c7282b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a6e268d3e91f0a7b709d81df7b7c7282b">TEST</a> (EditionEntitesTest, GlisserDeplaceLEntiteSaisie)</td></tr>
-<tr class="memdesc:a6e268d3e91f0a7b709d81df7b7c7282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relâcher un glisser déplace l'entité saisie seulement si la case a changé.  <br /></td></tr>
+<tr class="memdesc:a6e268d3e91f0a7b709d81df7b7c7282b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un glisser déplace l'entité prise seulement si la case a changé, et un groupe bouge entier ou pas du tout.  <br /></td></tr>
 <tr class="memitem:ae8a806e0ee912112b62399e9c0ddeb3e" id="r_ae8a806e0ee912112b62399e9c0ddeb3e"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ae8a806e0ee912112b62399e9c0ddeb3e">TEST</a> (EditionEntitesTest, ChoixProposesParLePanneau)</td></tr>
 <tr class="memdesc:ae8a806e0ee912112b62399e9c0ddeb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les choix proposés : liste fixe, catalogues, cartes, et points d'arrivée de la carte nommée par l'entité — ceux du brouillon pour la carte éditée.  <br /></td></tr>
 <tr class="memitem:a88c1f9ef6df799e3b6063700bd85869a" id="r_a88c1f9ef6df799e3b6063700bd85869a"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a88c1f9ef6df799e3b6063700bd85869a">TEST</a> (EditionEntitesTest, CataloguesLivresAlimententLEditeur)</td></tr>
-<tr class="memdesc:a88c1f9ef6df799e3b6063700bd85869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les catalogues livrés se lisent, et le Colisée livré ne lève aucun avertissement.  <br /></td></tr>
+<tr class="memdesc:a88c1f9ef6df799e3b6063700bd85869a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les catalogues livrés se lisent, et les trois cartes livrées ne lèvent aucun avertissement : figurines, quartiers gardés, portails et points d'arrivée sont tous connus.  <br /></td></tr>
 <tr class="memitem:a2dfeb0cd058ae2d8e8d6f75cd2712201" id="r_a2dfeb0cd058ae2d8e8d6f75cd2712201"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a2dfeb0cd058ae2d8e8d6f75cd2712201">TEST</a> (EditionEntitesTest, AvertissementsDeLEditeur)</td></tr>
 <tr class="memdesc:a2dfeb0cd058ae2d8e8d6f75cd2712201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Les avertissements nomment l'entité, la propriété et la valeur, puis le terrain.  <br /></td></tr>
 </table>
@@ -185,14 +185,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Les catalogues livrés se lisent, et le Colisée livré ne lève aucun avertissement. </p>
+<p>Les catalogues livrés se lisent, et les trois cartes livrées ne lèvent aucun avertissement : figurines, quartiers gardés, portails et points d'arrivée sont tous connus. </p>
 <p><b>Cas de test :</b> <b>Les catalogues livres alimentent l'editeur.</b><br  />
  <b>Categorie :</b> Unitaire · Edition d'entites<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
  1. Lire les references sous Source/Elements.<br  />
-2. Valider les entites de l'arene du futur.<br  />
- <b>Resultat attendu :</b> Le dialogue du heraut, la rencontre du Colisee et l'arene sont connus ; aucune entite de l'arene n'est signalee. </p>
+2. Valider les entites du Colisee, de Martpart et d'Arenarea.<br  />
+ <b>Resultat attendu :</b> Le dialogue du heraut, la rencontre du Colisee, les figurines des deux ateliers, les lieux de l'atlas, les objets et les cartes sont connus ; aucune entite n'est signalee. </p>
 
 </div>
 </div>
@@ -274,15 +274,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>L'appui de l'outil Entité : une case occupée sélectionne l'entité du dessus, une case libre pose, Ctrl pose sur une case occupée, et sans famille une case libre désélectionne. </p>
+<p>L'appui de l'outil Entité : une case occupée prend l'entité du dessus, une case libre pose, Ctrl pose sur une case occupée, Maj bascule dans la sélection, et sans famille une case libre désélectionne. </p>
 <p><b>Cas de test :</b> <b>Le geste de l'outil Entite.</b><br  />
  <b>Categorie :</b> Unitaire · Edition d'entites<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Appuyer sur la case du coffre et du panneau, avec et sans Ctrl.<br  />
+ 1. Appuyer sur la case du coffre et du panneau, avec et sans Ctrl, avec Maj.<br  />
 2. Appuyer sur une case libre, avec et sans famille choisie.<br  />
 3. Appuyer hors de la grille.<br  />
- <b>Resultat attendu :</b> Selection du panneau (rang 1) ; pose avec Ctrl ; pose ; deselection ; rien. </p>
+ <b>Resultat attendu :</b> Prise du panneau (rang 1) ; pose avec Ctrl ; bascule avec Maj ; pose ; deselection ; rien. </p>
 
 </div>
 </div>
@@ -305,13 +305,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Relâcher un glisser déplace l'entité saisie seulement si la case a changé. </p>
-<p><b>Cas de test :</b> <b>Un glisser deplace l'entite saisie.</b><br  />
+<p>Un glisser déplace l'entité prise seulement si la case a changé, et un groupe bouge entier ou pas du tout. </p>
+<p><b>Cas de test :</b> <b>Un glisser deplace l'entite saisie, ou le groupe.</b><br  />
  <b>Categorie :</b> Unitaire · Edition d'entites<br  />
  <b>Criticite :</b> Majeur<br  />
  <b>Etapes :</b><br  />
- 1. Relacher sur une autre case, sur la meme, sans entite saisie.<br  />
- <b>Resultat attendu :</b> Deplacement ; rien ; rien. </p>
+ 1. Glisser le coffre d'une case, puis sur place.<br  />
+2. Glisser le coffre et le panneau ensemble, puis hors de la carte.<br  />
+ <b>Resultat attendu :</b> Deplacement ; rien ; deux entites deplacees ; refus, rien ne bouge. </p>
 
 </div>
 </div>

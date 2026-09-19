@@ -9,7 +9,12 @@ var EntityKinds_8h =
       [ "core::EntityChoiceSource::Dialogues", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a7a1e8fd6a793526a49af3c2ce8fe5e52", null ],
       [ "core::EntityChoiceSource::Encounters", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a89faa52485aadb6d1181384f88d20014", null ],
       [ "core::EntityChoiceSource::Maps", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37aaf51fdf94adbb4b6fe4f1275b07df10d", null ],
-      [ "core::EntityChoiceSource::ArrivalPoints", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a76e792516a9afec30df53f882a407d5b", null ]
+      [ "core::EntityChoiceSource::ArrivalPoints", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a76e792516a9afec30df53f882a407d5b", null ],
+      [ "core::EntityChoiceSource::Figures", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37ab368d7f177985bbe50c6e6c991357b97", null ],
+      [ "core::EntityChoiceSource::Flags", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a4ea7801f17a4e5485e8b050c052fb443", null ],
+      [ "core::EntityChoiceSource::Locations", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37aeebd338ddbd547e41e4a1296de82963a", null ],
+      [ "core::EntityChoiceSource::Items", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a9dea4016dbcc290b773ab2fae678aaa8", null ],
+      [ "core::EntityChoiceSource::EntityRefs", "namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a6b26adcaf0f87640fe94cc398ed0dd06", null ]
     ] ],
     [ "core::EntityIssueCode", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035e", [
       [ "core::EntityIssueCode::UnknownType", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea916c74f40cb3a7d245c9f9eefde044db", null ],
@@ -20,13 +25,25 @@ var EntityKinds_8h =
       [ "core::EntityIssueCode::UnknownEncounter", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eabf97b979ba906f53b50838e78a790824", null ],
       [ "core::EntityIssueCode::UnknownTargetMap", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea5d340c87c409e2b939ebcdec9e572406", null ],
       [ "core::EntityIssueCode::UnknownArrivalPoint", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea25b35f4409074408fe4921bfcd9e9f2c", null ],
-      [ "core::EntityIssueCode::DuplicateArrivalPoint", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273", null ]
+      [ "core::EntityIssueCode::DuplicateArrivalPoint", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273", null ],
+      [ "core::EntityIssueCode::OutOfRange", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea365b2699d38b61ef4b4c8a1066c8468f", null ],
+      [ "core::EntityIssueCode::UnknownFigure", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eaba7196008331e807c37fa89af564f28a", null ],
+      [ "core::EntityIssueCode::UnsetFlag", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035ea21ee9ca42970897cbcacc79f34e6cb4e", null ],
+      [ "core::EntityIssueCode::UnknownLocation", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eacebd93e10fdff9ab8b4a4a84352cdfb4", null ],
+      [ "core::EntityIssueCode::UnknownItem", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab94b40e5c60319f4fc15e8166bd8d2af", null ],
+      [ "core::EntityIssueCode::UnknownEntityRef", "namespacecore.html#ac1032ee70b0c730c8727b80822ab035eae56bd292e4050ea440d03f594711b42f", null ]
     ] ],
     [ "core::EntityPropertyKind", "namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126e", [
       [ "core::EntityPropertyKind::Text", "namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126ea9dffbf69ffba8bc38bc4e01abf4b1675", null ],
       [ "core::EntityPropertyKind::Integer", "namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126eaa0faef0851b4294c06f2b94bb1cb2044", null ],
       [ "core::EntityPropertyKind::Boolean", "namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126ea27226c864bac7454a8504f8edb15d95b", null ],
       [ "core::EntityPropertyKind::Choice", "namespacecore.html#a9d3c367e939d3d4dd488fbaf5bba126ea458b9dcc0921f46b1192427426d59c10", null ]
+    ] ],
+    [ "core::EntityShape", "namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9", [
+      [ "core::EntityShape::Point", "namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c", null ],
+      [ "core::EntityShape::Rectangle", "namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9ace9291906a4c3b042650b70d7f3b152e", null ],
+      [ "core::EntityShape::Area", "namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9adeec4ff19974f12ed781cb9a59064214", null ],
+      [ "core::EntityShape::Path", "namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9aac70412e939d72a9234cdebb1af5867b", null ]
     ] ],
     [ "core::arrivalPointNames", "namespacecore.html#abc06c6673c9166f8a66a174e7b12b58f", null ],
     [ "core::findEntityKind", "namespacecore.html#adac8d52fca402a3edb35f19ad4ee4af1", null ],
@@ -37,6 +54,12 @@ var EntityKinds_8h =
     [ "core::PORTAL_ENTITY_TYPE", "namespacecore.html#ae8c8163510cf5011c7db67f7f96ea761", null ],
     [ "core::PORTAL_REQUIRED_FLAG_PROPERTY", "namespacecore.html#a109d5133c9ae9af8f88a4c4b40267419", null ],
     [ "core::PORTAL_TARGET_MAP_PROPERTY", "namespacecore.html#a01ea80a94b6d563987d5ff486a2dcd31", null ],
+    [ "core::ROUTE_ENTITY_TYPE", "namespacecore.html#a0fe304f84c3b2f39219fd28296982945", null ],
+    [ "core::ROUTE_LOOP_PROPERTY", "namespacecore.html#ac541942d62f7957cde3f8c36f9f02353", null ],
+    [ "core::ROUTE_NAME_PROPERTY", "namespacecore.html#acb8dfe24f7b8464d68b8f1fd3cef1697", null ],
+    [ "core::SHAPE_HEIGHT_PROPERTY", "namespacecore.html#a2f185047592ba6cc121a943f9b394d0e", null ],
+    [ "core::SHAPE_WIDTH_PROPERTY", "namespacecore.html#a63a25424abfa6e4563a86652fef27492", null ],
     [ "core::SPAWN_POINT_ENTITY_TYPE", "namespacecore.html#a14b37b629c559f3f0bcc2481f4178393", null ],
-    [ "core::SPAWN_POINT_NAME_PROPERTY", "namespacecore.html#a4cd504e13e1cafd2e4759e9c0f3a9970", null ]
+    [ "core::SPAWN_POINT_NAME_PROPERTY", "namespacecore.html#a4cd504e13e1cafd2e4759e9c0f3a9970", null ],
+    [ "core::ZONE_NAME_PROPERTY", "namespacecore.html#a0b994a5837bad127870719860ea34002", null ]
 ];

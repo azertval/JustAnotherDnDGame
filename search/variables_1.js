@@ -6,7 +6,7 @@ var searchData=
   ['abilityscoreincrease_3',['abilityScoreIncrease',['../structcore_1_1Species.html#a7fc107cf248285353a43481ddf3f42d2',1,'core::Species']]],
   ['absorbed_4',['absorbed',['../structcore_1_1DamageWork.html#a620cc8e6913ee401066f391fd016ae03',1,'core::DamageWork']]],
   ['actedthisround_5',['actedThisRound',['../structcore_1_1Combatant.html#a956cd5e749ca3cdd94241445037e25d7',1,'core::Combatant']]],
-  ['action_6',['action',['../structcore_1_1TurnPlan.html#a3acaac061b0d3e99d60c0fdff5e8d7ee',1,'core::TurnPlan::action'],['../structhmi_1_1EntityGestureDecision.html#a98f46b6f0b953c2bb543efe9aae50272',1,'hmi::EntityGestureDecision::action'],['../structhmi_1_1ArenaCombatantAnimation.html#aab8af6d155b52bb2ffdbcec82287a133',1,'hmi::ArenaCombatantAnimation::action']]],
+  ['action_6',['action',['../structcore_1_1TurnPlan.html#a3acaac061b0d3e99d60c0fdff5e8d7ee',1,'core::TurnPlan::action'],['../structhmi_1_1EntityGestureDecision.html#a98f46b6f0b953c2bb543efe9aae50272',1,'hmi::EntityGestureDecision::action'],['../structhmi_1_1ShapeGestureDecision.html#a5ec1f2eb2971e865ecf589f795b31020',1,'hmi::ShapeGestureDecision::action'],['../structhmi_1_1ArenaCombatantAnimation.html#aab8af6d155b52bb2ffdbcec82287a133',1,'hmi::ArenaCombatantAnimation::action']]],
   ['action_5fresource_7',['ACTION_RESOURCE',['../namespacecore.html#a7593d494012f47485e1173a68a1209c1',1,'core']]],
   ['actions_8',['actions',['../structcore_1_1Creature.html#a1110a88139ff4efdf089b4032e498b21',1,'core::Creature::actions'],['../structcore_1_1DialogueNode.html#ab737ab57d7dae91c2623abab564b71f4',1,'core::DialogueNode::actions']]],
   ['active_9',['active',['../structhmi_1_1LayersPanel_1_1Snapshot.html#af955d5d074e752d6f6a2909be6b68957',1,'hmi::LayersPanel::Snapshot']]],

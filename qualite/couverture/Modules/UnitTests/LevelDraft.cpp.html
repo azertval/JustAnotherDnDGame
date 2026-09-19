@@ -623,6 +623,28 @@ bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPos
     return true;
 }</span>
 
+<span style = "background-color:#dfd">bool LevelDraft::replaceEntity(std::size_t index, MapEntity entity) {
+    if (!isEntityIndex(index)) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const auto inGrid = [this](GridPosition cell) {
+        return _tileMap.inBounds(cell.column, cell.row);
+    };
+    if (!inGrid(entity.position) || !std::ranges::all_of(entity.cells, inGrid)) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    const MapEntity&amp; current = _entities[index];
+    entity.type = current.type;
+    entity.id = current.id;</span>
+    if (entity.position == current.position &amp;&amp; entity.properties == current.properties &amp;&amp;
+<span style = "background-color:#dfd">        entity.cells == current.cells &amp;&amp; entity.elevation == current.elevation) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
+    _entities[index] = std::move(entity);
+    return true;
+}</span>
+
 <span style = "background-color:#dfd">bool LevelDraft::removeEntity(std::size_t index) {
     if (!isEntityIndex(index)) {
         return false;</span>

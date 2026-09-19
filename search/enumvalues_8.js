@@ -2,7 +2,7 @@ var searchData=
 [
   ['idle_0',['Idle',['../namespacehmi.html#ad5ace887c9d040dd9cd8b5649a5ab9b3ae599161956d626eda4cb0a5ffb85271c',1,'hmi']]],
   ['idrole_1',['IdRole',['../classhmi_1_1SheetRowModel.html#ac254339b8a3fccbc693eeefbbb8928faafb1be8282417276d2a29725a4bdc37ff',1,'hmi::SheetRowModel']]],
-  ['ignore_2',['Ignore',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore'],['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore']]],
+  ['ignore_2',['Ignore',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore'],['../namespacehmi.html#a406a41b256977e2be0da3b64f976cce1afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore'],['../namespacehmi.html#a89e362f40fcd08bc4c65661aff7fff62afd038fc7f319e48f3115d92bf5bdbef9',1,'hmi::Ignore']]],
   ['ignoresreserves_3',['IgnoresReserves',['../namespacecore.html#aa275f4ee3dcd04b2c433620118cf54c4ad37f77dacfbf160a4967b83e099d1a37',1,'core']]],
   ['ignoresresistance_4',['IgnoresResistance',['../namespacecore.html#aa275f4ee3dcd04b2c433620118cf54c4a16a1449394d124d5f792d1b5b5c097b5',1,'core']]],
   ['illusion_5',['Illusion',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2ab89d6bd44fd0021f05a1f829a425f0c9',1,'core']]],
@@ -22,5 +22,6 @@ var searchData=
   ['inventory_19',['Inventory',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdea4d604dd8f008145471dc845683399189',1,'hmi::ScreenRouter::Inventory'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72a4d604dd8f008145471dc845683399189',1,'hmi::Inventory']]],
   ['invisible_20',['Invisible',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493a8bcda43732b0928d269955e0f09ff76f',1,'core']]],
   ['iso_21',['Iso',['../namespacehmi.html#a78257412917b7881b3766489df80d4c4a3a631438d6f2eba0ef81c8cc070fe15f',1,'hmi']]],
-  ['isoview_22',['IsoView',['../namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ae8de0394e2f02256b2ef89c94a67f84f',1,'hmi']]]
+  ['isoview_22',['IsoView',['../namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ae8de0394e2f02256b2ef89c94a67f84f',1,'hmi']]],
+  ['items_23',['Items',['../namespacecore.html#a26db7cfadc5ea47bb85e806bd8010f37a9dea4016dbcc290b773ab2fae678aaa8',1,'core']]]
 ];

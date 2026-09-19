@@ -182,6 +182,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aa37465c2a3293c00fc88743b287b6649"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose <code class="param">entity</code> en fin de liste.  <br /></td></tr>
 <tr class="memitem:af482091fd6c1b1c65b9d3f9a4cf3501c" id="r_af482091fd6c1b1c65b9d3f9a4cf3501c"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af482091fd6c1b1c65b9d3f9a4cf3501c">moveEntity</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> position)</td></tr>
 <tr class="memdesc:af482091fd6c1b1c65b9d3f9a4cf3501c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Déplace l'entité <code class="param">index</code> en <code class="param">position</code>. Refusé hors bornes ; sans effet sur place.  <br /></td></tr>
+<tr class="memitem:a9bd7a3e2c524f4f2ebbaa0bf89fbb513" id="r_a9bd7a3e2c524f4f2ebbaa0bf89fbb513"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9bd7a3e2c524f4f2ebbaa0bf89fbb513">replaceEntity</a> (std::size_t index, <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> entity)</td></tr>
+<tr class="memdesc:a9bd7a3e2c524f4f2ebbaa0bf89fbb513"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remplace l'entité <code class="param">index</code> par <code class="param">entity</code> : sa case, sa forme (<span class="tt">cells</span>), ses propriétés, en un pas (<span class="tt">LOT-EDITOR-05</span>).  <br /></td></tr>
 <tr class="memitem:a2481967d25d79cb4911d718797accc44" id="r_a2481967d25d79cb4911d718797accc44"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a2481967d25d79cb4911d718797accc44">removeEntity</a> (std::size_t index)</td></tr>
 <tr class="memdesc:a2481967d25d79cb4911d718797accc44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire l'entité <code class="param">index</code>.  <br /></td></tr>
 <tr class="memitem:a3593196bd271ce43b79cb83e5daad217" id="r_a3593196bd271ce43b79cb83e5daad217"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a3593196bd271ce43b79cb83e5daad217">setEntityProperty</a> (std::size_t index, const std::string &amp;key, <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">PropertyValue</a> value)</td></tr>
@@ -272,7 +274,7 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
 <p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
 <p>Invariant maintenu par tous les mutateurs : la grille de tuiles reste la <b>source de vérité</b> de la position d'entrée (comme pour <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>) ; <span class="tt"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry()</a></span> n'est qu'un accès en cache, toujours synchronisé avec le contenu de <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1098"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1106"></a>
 La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class="tt">EX-EDIT-064</span>, <span class="tt">EX-EDIT-065</span>)</h2>
 <p>Dès qu'une carte a une couche visuelle, sa collision se <b>déduit</b> de ce qu'elle montre (<span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>, décision D10) et s'écrit, hors des cases <b>forcées</b> à la main. Le brouillon tient cet accord geste par geste, sans rien toucher d'autre :</p>
 <ul>
@@ -1577,6 +1579,30 @@ La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class
 </div><div class="memdoc">
 
 <p>Renomme la couche visuelle au rang <code class="param">index</code>. Un nom identique n'empile rien. </p>
+
+</div>
+</div>
+<a id="a9bd7a3e2c524f4f2ebbaa0bf89fbb513" name="a9bd7a3e2c524f4f2ebbaa0bf89fbb513"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bd7a3e2c524f4f2ebbaa0bf89fbb513">&#9670;&#160;</a></span>replaceEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::replaceEntity </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1MapEntity.html">MapEntity</a></td>          <td class="paramname"><span class="paramname"><em>entity</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remplace l'entité <code class="param">index</code> par <code class="param">entity</code> : sa case, sa forme (<span class="tt">cells</span>), ses propriétés, en un pas (<span class="tt">LOT-EDITOR-05</span>). </p>
+<p>Le type et l'identifiant restent ceux de l'entité en place : ceux de <code class="param">entity</code> sont ignorés. Un identifiant ne change jamais (décision D8), et changer de famille n'est pas un geste de l'éditeur. Refusé si la case ou une case de <span class="tt">cells</span> sort de la grille ; sans effet si rien ne change. </p>
 
 </div>
 </div>

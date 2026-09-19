@@ -46,6 +46,7 @@ var classcore_1_1LevelDraft =
     [ "removeLayer", "classcore_1_1LevelDraft.html#a3917b4a6f87764ed15bebaf935d31453", null ],
     [ "removePieceInternal", "classcore_1_1LevelDraft.html#a51881cb5d971ca0e5e78ab6c0a8958ca", null ],
     [ "renameLayer", "classcore_1_1LevelDraft.html#a3f45174b2fe91d89f6d0856a58d5b32c", null ],
+    [ "replaceEntity", "classcore_1_1LevelDraft.html#a9bd7a3e2c524f4f2ebbaa0bf89fbb513", null ],
     [ "resize", "classcore_1_1LevelDraft.html#adcaec64d68695ac6214641b19e2ec1af", null ],
     [ "restore", "classcore_1_1LevelDraft.html#a320a399e76d85ed27d70875d6b410f93", null ],
     [ "revision", "classcore_1_1LevelDraft.html#ae1dc7f0a73b888edbcc04e114116fefe", null ],

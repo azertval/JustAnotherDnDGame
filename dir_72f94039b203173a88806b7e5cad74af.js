@@ -9,6 +9,7 @@ var dir_72f94039b203173a88806b7e5cad74af =
     [ "test_editor_sidecar.cpp", "test__editor__sidecar_8cpp.html", "test__editor__sidecar_8cpp" ],
     [ "test_editor_status.cpp", "test__editor__status_8cpp.html", "test__editor__status_8cpp" ],
     [ "test_entity_editing.cpp", "test__entity__editing_8cpp.html", "test__entity__editing_8cpp" ],
+    [ "test_entity_shapes.cpp", "test__entity__shapes_8cpp.html", "test__entity__shapes_8cpp" ],
     [ "test_level_file_operations.cpp", "test__level__file__operations_8cpp.html", "test__level__file__operations_8cpp" ],
     [ "test_level_name_validation.cpp", "test__level__name__validation_8cpp.html", "test__level__name__validation_8cpp" ],
     [ "test_map_format.cpp", "test__map__format_8cpp.html", "test__map__format_8cpp" ],

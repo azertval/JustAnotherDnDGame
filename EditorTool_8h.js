@@ -9,6 +9,7 @@ var EditorTool_8h =
       [ "hmi::EditorTool::Pipette", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68ddabf54875d27ecf38f3409b85b3e8d3a71", null ],
       [ "hmi::EditorTool::Selection", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda6ff9dd0d34f65181173c1e4bc39939de", null ],
       [ "hmi::EditorTool::Entity", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda1a434befae3f49ae09347ded52032f6f", null ],
+      [ "hmi::EditorTool::Shape", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda880c1273b27d27cfc82004c3a4b205c9", null ],
       [ "hmi::EditorTool::Measure", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda0cbbe0321e0c40dfa77a159ef6bfad6b", null ],
       [ "hmi::EditorTool::Note", "namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda3b0649c72650c313a357338dcdfb64ec", null ]
     ] ],

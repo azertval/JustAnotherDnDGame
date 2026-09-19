@@ -8,10 +8,12 @@ var searchData=
   ['warndeleted_5',['WarnDeleted',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7aa30447d6d036b6f7f6a80bd7ff53b27f',1,'hmi']]],
   ['warning_6',['Warning',['../namespacecore.html#aa9b5a444ee11933c91d5e3235aa5b5e3a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'core::Warning'],['../namespacehmi.html#a89e7b964e1125a35414c9694fad4fd64a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'hmi::Warning']]],
   ['water_7',['Water',['../namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a27634ff8002b12e75d98e07ccd005d18',1,'core']]],
-  ['whilewalking_8',['WhileWalking',['../namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf',1,'hmi']]],
-  ['wide_9',['Wide',['../namespacecore.html#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1',1,'core']]],
-  ['wisdom_10',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
-  ['withdrawn_11',['Withdrawn',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn'],['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn']]],
-  ['worldmap_12',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]],
-  ['wrongvaluetype_13',['WrongValueType',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab7af0ce30d52dc67ec4d090184b78e3a',1,'core']]]
+  ['waypoint_8',['Waypoint',['../namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19a21c0c263ee08d68e9824f0dbadeb0cda',1,'hmi']]],
+  ['west_9',['West',['../namespacehmi.html#ac6386008eafd49b088cdd36ffd4f3c19abf495fc048d8d44b7f32536df5cf3930',1,'hmi']]],
+  ['whilewalking_10',['WhileWalking',['../namespacehmi.html#a3222e3cf5f453d3a55c104456a615430a56876e48dbe57b9eb2e66e54c6576eaf',1,'hmi']]],
+  ['wide_11',['Wide',['../namespacecore.html#a4a3860a249c1a2e07497950f57f4d461ae7c770a61dbdf81ca922ae0260e327c1',1,'core']]],
+  ['wisdom_12',['Wisdom',['../namespacecore.html#a97f31c7914a6cfc54cc026a77da58fd1a646f0a01b685558b975b5cd3f5b36241',1,'core']]],
+  ['withdrawn_13',['Withdrawn',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn'],['../namespacecore.html#ae1ab268fb5658f04b32b785790e7c082af62dedad685b570f499b61e94084dab2',1,'core::Withdrawn']]],
+  ['worldmap_14',['WorldMap',['../classhmi_1_1ScreenRouter.html#a0277d29471d1699b63793797bbab3bdeade45fe3bb002bd16009ebd8331e35146',1,'hmi::ScreenRouter::WorldMap'],['../namespacehmi.html#a86e4ce6097c7a029c683096302528e72ade45fe3bb002bd16009ebd8331e35146',1,'hmi::WorldMap']]],
+  ['wrongvaluetype_15',['WrongValueType',['../namespacecore.html#ac1032ee70b0c730c8727b80822ab035eab7af0ce30d52dc67ec4d090184b78e3a',1,'core']]]
 ];

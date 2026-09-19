@@ -125,8 +125,12 @@ namespace {
     graphe.maps.reserve(maps.size());
     for (const WorldMapInput&amp; entree : maps) {
         std::set&lt;std::string, std::less&lt;&gt;&gt; points;
+        std::set&lt;std::string, std::less&lt;&gt;&gt; identifiants;
         for (const MapEntity&amp; entite : entree.entities) {
-            if (entite.type != SPAWN_POINT_ENTITY_TYPE) {
+            if (!entite.id.empty()) {
+                identifiants.insert(entite.id);</span>
+            }
+<span style = "background-color:#dfd">            if (entite.type != SPAWN_POINT_ENTITY_TYPE) {
                 continue;</span>
             }
 <span style = "background-color:#dfd">            std::string nom = texteDe(entite, SPAWN_POINT_NAME_PROPERTY);
@@ -134,11 +138,12 @@ namespace {
                 points.insert(std::move(nom));</span>
             }
 <span style = "background-color:#dfd">        }
-        graphe.maps.push_back(</span>
-            WorldMapNode{.mapId = entree.mapId,
-                         .name = entree.name,
-                         .arrivalPoints = std::vector&lt;std::string&gt;(points.begin(), points.end()),
-                         .loadError = entree.loadError});
+        graphe.maps.push_back(WorldMapNode{</span>
+            .mapId = entree.mapId,
+            .name = entree.name,
+            .arrivalPoints = std::vector&lt;std::string&gt;(points.begin(), points.end()),
+            .loadError = entree.loadError,
+            .entityIds = std::vector&lt;std::string&gt;(identifiants.begin(), identifiants.end())});
 <span style = "background-color:#dfd">    }</span>
 
     // Deux passes : un portail peut viser une carte triee apres la sienne.

@@ -95,8 +95,10 @@ $(function(){initNavTree('CombatZone_8cpp.html','',''); });
 <div class="textblock"><code>#include &quot;<a class="el" href="CombatZone_8h_source.html">Core/World/CombatZone.h</a>&quot;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;utility&gt;</code><br />
 <code>#include &lt;variant&gt;</code><br />
+<code>#include &quot;<a class="el" href="Arena_8h_source.html">Core/Combat/Arena.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileLayer_8h_source.html">Core/Levels/TileLayer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileMap_8h_source.html">Core/Levels/TileMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="TileType_8h_source.html">Core/Levels/TileType.h</a>&quot;</code><br />
@@ -108,7 +110,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a2f5aee616c4afd984124b93ee026af37" id="r_a2f5aee616c4afd984124b93ee026af37"><td class="memItemLeft"><a class="el" href="structcore_1_1CombatZone.html">CombatZone</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a2f5aee616c4afd984124b93ee026af37">core::combatZoneOf</a> (const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;entity)</td></tr>
 <tr class="memitem:a7c047c5fef857528c6b8441b5a3155a4" id="r_a7c047c5fef857528c6b8441b5a3155a4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a7c047c5fef857528c6b8441b5a3155a4">core::combatZonesOf</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
+<tr class="memitem:a2202cb32725409d8b48364db226a6fde" id="r_a2202cb32725409d8b48364db226a6fde"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatZoneTerrain.html">CombatZoneTerrain</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a2202cb32725409d8b48364db226a6fde">core::analyzeCombatZones</a> (const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;collision, const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt; &amp;entities)</td></tr>
+<tr class="memdesc:a2202cb32725409d8b48364db226a6fde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le verdict de chaque zone de combat de <code class="param">entities</code> sur la collision <code class="param">collision</code>, dans l'ordre des entités.  <br /></td></tr>
 <tr class="memitem:aad245d7e0f83b0197bf751008f87bfe2" id="r_aad245d7e0f83b0197bf751008f87bfe2"><td class="memItemLeft">const <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> *&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#aad245d7e0f83b0197bf751008f87bfe2">core::findCombatZone</a> (const std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt; &amp;zones, std::string_view name)</td></tr>
 <tr class="memitem:a2f8f6aa025b66709486f9e1e585ac334" id="r_a2f8f6aa025b66709486f9e1e585ac334"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1WorldIssue.html">WorldIssue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="namespacecore.html#a2f8f6aa025b66709486f9e1e585ac334">core::validateCombatZones</a> (std::string_view mapId, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memdesc:a2f8f6aa025b66709486f9e1e585ac334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relève ce qui empêche une zone d'être une grille tactique (<span class="tt">EX-NFR-040</span>).  <br /></td></tr>

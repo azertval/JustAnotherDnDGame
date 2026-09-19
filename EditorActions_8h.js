@@ -10,6 +10,7 @@ var EditorActions_8h =
       [ "hmi::EditorCommand::ToolPipette", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18af7777c081ac0cc17cb83fd99cd1986af", null ],
       [ "hmi::EditorCommand::ToolSelection", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a7252d7debae0bab6f7e97a0f9537ae7e", null ],
       [ "hmi::EditorCommand::ToolEntity", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ac7b3c7d7478c431d2eb3d79c9b834d87", null ],
+      [ "hmi::EditorCommand::ToolShape", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a07bbde61bfceaeb53115b8cb7d634998", null ],
       [ "hmi::EditorCommand::ToolMeasure", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18aa9e7dd926406d41f76831d0888bd0e75", null ],
       [ "hmi::EditorCommand::ToolNote", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18a736ed21307e5df34fd9ce53175537dd0", null ],
       [ "hmi::EditorCommand::Save", "namespacehmi.html#a576cb29b1af75dc6bda8abb048330f18ac9cc8cce247e49bae79f15173ce97354", null ],

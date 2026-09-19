@@ -113,15 +113,18 @@ Classes</h2></td></tr>
 Signals</h2></td></tr>
 <tr class="memitem:a7e69f5cb14a7e3e569ea913dfdebb6b1" id="r_a7e69f5cb14a7e3e569ea913dfdebb6b1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7e69f5cb14a7e3e569ea913dfdebb6b1">kindToPlaceChanged</a> (const QString &amp;type)</td></tr>
 <tr class="memitem:a11f1a1d750f7eb7f27bb9a6eec42bc33" id="r_a11f1a1d750f7eb7f27bb9a6eec42bc33"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a11f1a1d750f7eb7f27bb9a6eec42bc33">entitySelected</a> (std::optional&lt; std::size_t &gt; index)</td></tr>
+<tr class="memitem:aa50e8529f70b0410b2df82c56ca1e7b3" id="r_aa50e8529f70b0410b2df82c56ca1e7b3"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa50e8529f70b0410b2df82c56ca1e7b3">entitiesSelected</a> (const std::vector&lt; std::size_t &gt; &amp;indices, std::optional&lt; std::size_t &gt; primary)</td></tr>
+<tr class="memdesc:aa50e8529f70b0410b2df82c56ca1e7b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">La liste a changé la sélection : <code class="param">indices</code>, dont <code class="param">primary</code> est la dernière prise.  <br /></td></tr>
 <tr class="memitem:a7b2f10554ef53c27b369a7ad8f773b58" id="r_a7b2f10554ef53c27b369a7ad8f773b58"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7b2f10554ef53c27b369a7ad8f773b58">propertyChanged</a> (std::size_t index, const QString &amp;key, const <a class="el" href="namespacecore.html#a9f79b235a73b6264aa3a97d51267919d">core::PropertyValue</a> &amp;value)</td></tr>
-<tr class="memitem:a04a2c43393a88cfa9592155d384f172a" id="r_a04a2c43393a88cfa9592155d384f172a"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a04a2c43393a88cfa9592155d384f172a">removeRequested</a> (std::size_t index)</td></tr>
+<tr class="memitem:a544fc33e6b5ae61f2f4b6c7b46863495" id="r_a544fc33e6b5ae61f2f4b6c7b46863495"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a544fc33e6b5ae61f2f4b6c7b46863495">removeRequested</a> ()</td></tr>
+<tr class="memdesc:a544fc33e6b5ae61f2f4b6c7b46863495"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retirer toutes les entités sélectionnées.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a7b25f952e66212262dc69ff3256310d4" id="r_a7b25f952e66212262dc69ff3256310d4"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a7b25f952e66212262dc69ff3256310d4">EntityPanel</a> (QWidget *parent=nullptr)</td></tr>
 <tr class="memitem:a057a81d88961c14170d824eb0a3ec1bf" id="r_a057a81d88961c14170d824eb0a3ec1bf"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a057a81d88961c14170d824eb0a3ec1bf">~EntityPanel</a> () override</td></tr>
-<tr class="memitem:a7ea1e1f0b244fdf96169857b53412153" id="r_a7ea1e1f0b244fdf96169857b53412153"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a7ea1e1f0b244fdf96169857b53412153">refresh</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, std::optional&lt; std::size_t &gt; selected, const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;context, const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;diagnostics)</td></tr>
-<tr class="memdesc:a7ea1e1f0b244fdf96169857b53412153"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reconstruit liste, formulaire et avertissements.  <br /></td></tr>
+<tr class="memitem:ada8279372bb01716d6e8f77c5f4695e1" id="r_ada8279372bb01716d6e8f77c5f4695e1"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ada8279372bb01716d6e8f77c5f4695e1">refresh</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, const std::vector&lt; std::size_t &gt; &amp;selection, std::optional&lt; std::size_t &gt; selected, const <a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a> &amp;context, const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;diagnostics, const std::string &amp;verdict)</td></tr>
+<tr class="memdesc:ada8279372bb01716d6e8f77c5f4695e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reconstruit liste, formulaire et avertissements.  <br /></td></tr>
 <tr class="memitem:a3e09c0091086b69baf02c9d9c2e92c3a" id="r_a3e09c0091086b69baf02c9d9c2e92c3a"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a3e09c0091086b69baf02c9d9c2e92c3a">kindToPlace</a> () const</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-methods" class="groupheader"><a id="pri-methods" name="pri-methods"></a>
@@ -142,7 +145,10 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a7571239669a8f6c55b3ec568fa21a403" id="r_a7571239669a8f6c55b3ec568fa21a403"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="structhmi_1_1EntityPanel_1_1Widgets.html">Widgets</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7571239669a8f6c55b3ec568fa21a403">_ui</a></td></tr>
 <tr class="memitem:a1729e46846ed1b0cc584f0918f994349" id="r_a1729e46846ed1b0cc584f0918f994349"><td class="memItemLeft">QFormLayout *&#160;</td><td class="memItemRight"><a class="el" href="#a1729e46846ed1b0cc584f0918f994349">_form</a></td></tr>
 <tr class="memitem:a9d20b20fca121f41d8e1d39134adda7b" id="r_a9d20b20fca121f41d8e1d39134adda7b"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9d20b20fca121f41d8e1d39134adda7b">_entities</a></td></tr>
+<tr class="memitem:a41f572ab085473e649398ea705971d6f" id="r_a41f572ab085473e649398ea705971d6f"><td class="memItemLeft">std::vector&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a41f572ab085473e649398ea705971d6f">_selection</a></td></tr>
 <tr class="memitem:a70005c4cc5712e70f2105ad54182d46e" id="r_a70005c4cc5712e70f2105ad54182d46e"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a70005c4cc5712e70f2105ad54182d46e">_selected</a></td></tr>
+<tr class="memitem:a49aa30861a928f997658d70b5fc7686e" id="r_a49aa30861a928f997658d70b5fc7686e"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a49aa30861a928f997658d70b5fc7686e">_verdict</a></td></tr>
+<tr class="memdesc:a49aa30861a928f997658d70b5fc7686e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le verdict de la zone de combat principale (<span class="tt"><a class="el" href="namespacehmi.html#a84629539a766d354203c18ea75e0bab9" title="Le verdict d&#39;une zone de combat en une ligne, pour l&#39;inspecteur : sa taille, ses cases libres,...">hmi::combatZoneSummary</a></span>), vide sinon.  <br /></td></tr>
 <tr class="memitem:abab0deec54d8351cb2fe1b6399da53c2" id="r_abab0deec54d8351cb2fe1b6399da53c2"><td class="memItemLeft"><a class="el" href="structcore_1_1EntityReferenceContext.html">core::EntityReferenceContext</a>&#160;</td><td class="memItemRight"><a class="el" href="#abab0deec54d8351cb2fe1b6399da53c2">_context</a></td></tr>
 <tr class="memitem:a75ecce479d57d39f3da4fc453b8e7d9d" id="r_a75ecce479d57d39f3da4fc453b8e7d9d"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a75ecce479d57d39f3da4fc453b8e7d9d">_diagnostics</a></td></tr>
 <tr class="memitem:a7868d01e55b978fc44506ec2c5c0dd81" id="r_a7868d01e55b978fc44506ec2c5c0dd81"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7868d01e55b978fc44506ec2c5c0dd81">_formIndex</a></td></tr>
@@ -153,7 +159,8 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Vue des entités du brouillon courant — remplace le panneau « Propriétés » retiré au <span class="tt">LOT-01</span>. </p>
-<p>Même patron que <span class="tt">hmi::LinkPanel</span> : le panneau reflète et demande, le viewport applique. Le formulaire est <b>dérivé</b> de <span class="tt"><a class="el" href="namespacecore.html#a3c877363f8258fc1ba137c48aa283397" title="Les familles que l&#39;éditeur sait poser, dans l&#39;ordre de sa liste.">core::knownEntityKinds</a></span> : une famille ou une propriété ajoutée à la table y apparaît sans toucher au panneau, avec le contrôle que sa nature appelle (liste, texte, entier, case à cocher). Une propriété que la table ne déclare pas est montrée telle quelle, sans contrôle : elle est transportée, pas éditée (<span class="tt">EX-EDIT-011</span>). </p>
+<p>Même patron que <span class="tt">hmi::LinkPanel</span> : le panneau reflète et demande, le viewport applique. Le formulaire est <b>dérivé</b> de <span class="tt"><a class="el" href="namespacecore.html#a3c877363f8258fc1ba137c48aa283397" title="Les familles que l&#39;éditeur sait poser, dans l&#39;ordre de sa liste.">core::knownEntityKinds</a></span> : une famille ou une propriété ajoutée à la table y apparaît sans toucher au panneau, avec le contrôle que sa nature appelle (liste, texte, entier borné, case à cocher). Une propriété que la table ne déclare pas est montrée telle quelle, sans contrôle : elle est transportée, pas éditée (<span class="tt">EX-EDIT-011</span>).</p>
+<p>La liste se filtre (<span class="tt"><a class="el" href="namespacehmi.html#aa9bc383870e52d4d94f97981c63c4a62" title="Les rangs des entités que filter désigne, dans l&#39;ordre de la carte.">hmi::filterEntities</a></span>) et se sélectionne à plusieurs, comme le canevas : le formulaire montre l'entité <b>principale</b>, la dernière prise, et le verdict d'une zone de combat (<span class="tt">LOT-EDITOR-05</span>, <span class="tt">EX-EDIT-072</span>, <span class="tt">EX-EDIT-073</span>). </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a7b25f952e66212262dc69ff3256310d4" name="a7b25f952e66212262dc69ff3256310d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7b25f952e66212262dc69ff3256310d4">&#9670;&#160;</a></span>EntityPanel()</h2>
@@ -330,6 +337,37 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Retire les lignes du formulaire ; leurs champs sont détruits au retour à la boucle. </p>
+
+</div>
+</div>
+<a id="aa50e8529f70b0410b2df82c56ca1e7b3" name="aa50e8529f70b0410b2df82c56ca1e7b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa50e8529f70b0410b2df82c56ca1e7b3">&#9670;&#160;</a></span>entitiesSelected</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EntityPanel::entitiesSelected </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>indices</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::optional&lt; std::size_t &gt;</td>          <td class="paramname"><span class="paramname"><em>primary</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel signal">signal</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La liste a changé la sélection : <code class="param">indices</code>, dont <code class="param">primary</code> est la dernière prise. </p>
 
 </div>
 </div>
@@ -543,8 +581,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a7ea1e1f0b244fdf96169857b53412153" name="a7ea1e1f0b244fdf96169857b53412153"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ea1e1f0b244fdf96169857b53412153">&#9670;&#160;</a></span>refresh()</h2>
+<a id="ada8279372bb01716d6e8f77c5f4695e1" name="ada8279372bb01716d6e8f77c5f4695e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada8279372bb01716d6e8f77c5f4695e1">&#9670;&#160;</a></span>refresh()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -553,6 +591,11 @@ Private Attributes</h2></td></tr>
           <td class="memname">void hmi::EntityPanel::refresh </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>draft</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::size_t &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>selection</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -567,7 +610,12 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>diagnostics</em></span>&#160;)</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structhmi_1_1EditorDiagnostic.html">EditorDiagnostic</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>diagnostics</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>verdict</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -577,8 +625,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a04a2c43393a88cfa9592155d384f172a" name="a04a2c43393a88cfa9592155d384f172a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04a2c43393a88cfa9592155d384f172a">&#9670;&#160;</a></span>removeRequested</h2>
+<a id="a544fc33e6b5ae61f2f4b6c7b46863495" name="a544fc33e6b5ae61f2f4b6c7b46863495"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a544fc33e6b5ae61f2f4b6c7b46863495">&#9670;&#160;</a></span>removeRequested</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -589,7 +637,7 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void hmi::EntityPanel::removeRequested </td>
           <td>(</td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span></td><td>)</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -599,6 +647,8 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Retirer toutes les entités sélectionnées. </p>
 
 </div>
 </div>
@@ -803,6 +853,28 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a41f572ab085473e649398ea705971d6f" name="a41f572ab085473e649398ea705971d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41f572ab085473e649398ea705971d6f">&#9670;&#160;</a></span>_selection</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::size_t&gt; hmi::EntityPanel::_selection</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a7571239669a8f6c55b3ec568fa21a403" name="a7571239669a8f6c55b3ec568fa21a403"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7571239669a8f6c55b3ec568fa21a403">&#9670;&#160;</a></span>_ui</h2>
 
@@ -822,6 +894,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a49aa30861a928f997658d70b5fc7686e" name="a49aa30861a928f997658d70b5fc7686e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49aa30861a928f997658d70b5fc7686e">&#9670;&#160;</a></span>_verdict</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::EntityPanel::_verdict</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le verdict de la zone de combat principale (<span class="tt"><a class="el" href="namespacehmi.html#a84629539a766d354203c18ea75e0bab9" title="Le verdict d&#39;une zone de combat en une ligne, pour l&#39;inspecteur : sa taille, ses cases libres,...">hmi::combatZoneSummary</a></span>), vide sinon. </p>
 
 </div>
 </div>

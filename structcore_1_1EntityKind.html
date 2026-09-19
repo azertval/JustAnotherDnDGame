@@ -93,7 +93,7 @@ $(function(){initNavTree('structcore_1_1EntityKind.html','','structcore_1_1Entit
 </div><!--header-->
 <div class="contents">
 
-<p>Une famille d'entités : son type, et les propriétés qu'elle déclare.  
+<p>Une famille d'entités : son type, les propriétés qu'elle déclare, et comment le canevas de l'éditeur la montre.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="EntityKinds_8h_source.html">EntityKinds.h</a>&gt;</code></p>
@@ -106,9 +106,15 @@ Public Member Functions</h2></td></tr>
 Public Attributes</h2></td></tr>
 <tr class="memitem:abbec390499fc099485d1458dc6cf0fbf" id="r_abbec390499fc099485d1458dc6cf0fbf"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#abbec390499fc099485d1458dc6cf0fbf">type</a></td></tr>
 <tr class="memitem:ae2c5f1db2e4abcf00d6d98ee6914401c" id="r_ae2c5f1db2e4abcf00d6d98ee6914401c"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1EntityPropertySpec.html">EntityPropertySpec</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ae2c5f1db2e4abcf00d6d98ee6914401c">properties</a></td></tr>
+<tr class="memitem:a8e9333a30294b263a23a6235670093a8" id="r_a8e9333a30294b263a23a6235670093a8"><td class="memItemLeft"><a class="el" href="namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9">EntityShape</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8e9333a30294b263a23a6235670093a8">shape</a> = <a class="el" href="namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c">EntityShape::Point</a></td></tr>
+<tr class="memdesc:a8e9333a30294b263a23a6235670093a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sa forme sur la carte.  <br /></td></tr>
+<tr class="memitem:ae2466bda4eedaa2278aa57f8074d9f65" id="r_ae2466bda4eedaa2278aa57f8074d9f65"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ae2466bda4eedaa2278aa57f8074d9f65">labelProperty</a></td></tr>
+<tr class="memdesc:ae2466bda4eedaa2278aa57f8074d9f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">La propriété que le canevas écrit à côté d'elle (la carte cible d'un portail) ; vide : rien.  <br /></td></tr>
+<tr class="memitem:ac88c71c6d773f383926397a9ba41568c" id="r_ac88c71c6d773f383926397a9ba41568c"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ac88c71c6d773f383926397a9ba41568c">figureProperty</a></td></tr>
+<tr class="memdesc:ac88c71c6d773f383926397a9ba41568c"><td class="mdescLeft">&#160;</td><td class="mdescRight">La propriété qui nomme sa figurine (source <span class="tt">Figures</span>) : le canevas dessine la figurine à la place du marqueur quand elle existe.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Une famille d'entités : son type, et les propriétés qu'elle déclare. </p>
+<div class="textblock"><p>Une famille d'entités : son type, les propriétés qu'elle déclare, et comment le canevas de l'éditeur la montre. </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="ab2fde25009869fa33a999fe245b6aff1" name="ab2fde25009869fa33a999fe245b6aff1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab2fde25009869fa33a999fe245b6aff1">&#9670;&#160;</a></span>find()</h2>
@@ -136,6 +142,39 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="ac88c71c6d773f383926397a9ba41568c" name="ac88c71c6d773f383926397a9ba41568c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac88c71c6d773f383926397a9ba41568c">&#9670;&#160;</a></span>figureProperty</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::EntityKind::figureProperty</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La propriété qui nomme sa figurine (source <span class="tt">Figures</span>) : le canevas dessine la figurine à la place du marqueur quand elle existe. </p>
+<p>Vide : la famille n'a pas de figurine. </p>
+
+</div>
+</div>
+<a id="ae2466bda4eedaa2278aa57f8074d9f65" name="ae2466bda4eedaa2278aa57f8074d9f65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2466bda4eedaa2278aa57f8074d9f65">&#9670;&#160;</a></span>labelProperty</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::EntityKind::labelProperty</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La propriété que le canevas écrit à côté d'elle (la carte cible d'un portail) ; vide : rien. </p>
+
+</div>
+</div>
 <a id="ae2c5f1db2e4abcf00d6d98ee6914401c" name="ae2c5f1db2e4abcf00d6d98ee6914401c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae2c5f1db2e4abcf00d6d98ee6914401c">&#9670;&#160;</a></span>properties</h2>
 
@@ -147,6 +186,22 @@ Public Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8e9333a30294b263a23a6235670093a8" name="a8e9333a30294b263a23a6235670093a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e9333a30294b263a23a6235670093a8">&#9670;&#160;</a></span>shape</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9">EntityShape</a> core::EntityKind::shape = <a class="el" href="namespacecore.html#a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c">EntityShape::Point</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sa forme sur la carte. </p>
 
 </div>
 </div>

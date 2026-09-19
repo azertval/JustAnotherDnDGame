@@ -96,13 +96,21 @@ $(function(){initNavTree('test__entity__kinds_8cpp.html','',''); });
 <p>Tests unitaires des familles d'entités de carte et de la validation de leurs références (<span class="tt">LOT-11</span>).  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;filesystem&gt;</code><br />
+<code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;map&gt;</code><br />
+<code>#include &lt;regex&gt;</code><br />
 <code>#include &lt;set&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;gtest/gtest.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="Arena_8h_source.html">Core/Combat/Arena.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="CombatTransition_8h_source.html">Core/Combat/CombatTransition.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="MapEntitySpawner_8h_source.html">Core/Gameplay/MapEntitySpawner.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LevelLoader_8h_source.html">Core/Levels/LevelLoader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="MapEntity_8h_source.html">Core/Levels/MapEntity.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Dialogue_8h_source.html">Core/Rpg/Dialogue.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="EntityKinds_8h_source.html">Core/World/EntityKinds.h</a>&quot;</code><br />
@@ -121,12 +129,51 @@ Functions</h2></td></tr>
 <tr class="memdesc:acd68d2561716a660d22c3c102b97138a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriétés manquantes, vides, mal typées ou hors liste, et type inconnu.  <br /></td></tr>
 <tr class="memitem:a17fbd8eb7dfc7a4c379ab265b47b9444" id="r_a17fbd8eb7dfc7a4c379ab265b47b9444"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a17fbd8eb7dfc7a4c379ab265b47b9444">TEST</a> (FamillesDEntitesTest, NomDePointDArriveeUnique)</td></tr>
 <tr class="memdesc:a17fbd8eb7dfc7a4c379ab265b47b9444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deux points d'arrivée du même nom : le second est signalé, et les noms se relèvent sans doublon.  <br /></td></tr>
+<tr class="memitem:a360887fbcfca9c97f8303ff4c4d884c1" id="r_a360887fbcfca9c97f8303ff4c4d884c1"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a360887fbcfca9c97f8303ff4c4d884c1">TEST</a> (FamillesDEntitesTest, ToutFamilleLueParLeJeuEstDansLaTable)</td></tr>
+<tr class="memdesc:a360887fbcfca9c97f8303ff4c4d884c1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><b>Contrat d'extension</b> (§5, règle 2 de la feuille de route de l'éditeur) : toute famille d'entité que le jeu lit est dans <span class="tt"><a class="el" href="namespacecore.html#a3c877363f8258fc1ba137c48aa283397" title="Les familles que l&#39;éditeur sait poser, dans l&#39;ordre de sa liste.">core::knownEntityKinds</a></span>, et reçoit donc inspecteur, forme et contrôle sans code d'éditeur.  <br /></td></tr>
+<tr class="memitem:a1faab975bc3ef81bb19f21e35a736ff6" id="r_a1faab975bc3ef81bb19f21e35a736ff6"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a1faab975bc3ef81bb19f21e35a736ff6">TEST</a> (FamillesDEntitesTest, LaTableEstCoherenteAvecSesFormes)</td></tr>
+<tr class="memdesc:a1faab975bc3ef81bb19f21e35a736ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chaque forme a ce qu'il lui faut : un rectangle ou une zone déclare sa largeur et sa hauteur en entiers d'au moins 1, une étiquette et une figurine nomment une propriété déclarée.  <br /></td></tr>
+<tr class="memitem:a9fca0f30b56de2369cc872a609637af9" id="r_a9fca0f30b56de2369cc872a609637af9"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a9fca0f30b56de2369cc872a609637af9">TEST</a> (FamillesDEntitesTest, BornesEtCataloguesControles)</td></tr>
+<tr class="memdesc:a9fca0f30b56de2369cc872a609637af9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Un entier hors de ses bornes, et une référence absente de son catalogue, sont signalés.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests unitaires des familles d'entités de carte et de la validation de leurs références (<span class="tt">LOT-11</span>). </p>
 </div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="a9fca0f30b56de2369cc872a609637af9" name="a9fca0f30b56de2369cc872a609637af9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fca0f30b56de2369cc872a609637af9">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">FamillesDEntitesTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BornesEtCataloguesControles</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Un entier hors de ses bornes, et une référence absente de son catalogue, sont signalés. </p>
+<p><b>Cas de test :</b> <b>Le schema type controle bornes et catalogues.</b><br  />
+ <b>Categorie :</b> Unitaire · Familles d'entites<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Une zone de combat de largeur 0 ; une entree d'arene de rang 0.<br  />
+2. Un PNJ a figurine inconnue, gardant un lieu inconnu ; un portail exigeant un drapeau que rien ne pose.<br  />
+</p><ol type="1">
+<li>Les memes, references connues.<br  />
+ <b>Resultat attendu :</b> Deux valeurs hors bornes ; figurine, lieu, drapeau signales ; puis rien. </li>
+</ol>
+
+</div>
+</div>
 <a id="a623c9619ae49fe39e69a35f048d7ca7a" name="a623c9619ae49fe39e69a35f048d7ca7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a623c9619ae49fe39e69a35f048d7ca7a">&#9670;&#160;</a></span>TEST() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a623c9619ae49fe39e69a35f048d7ca7a">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,7 +202,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a7c329fc521d34308bd8b443b277aa59a" name="a7c329fc521d34308bd8b443b277aa59a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c329fc521d34308bd8b443b277aa59a">&#9670;&#160;</a></span>TEST() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c329fc521d34308bd8b443b277aa59a">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -183,8 +230,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a1faab975bc3ef81bb19f21e35a736ff6" name="a1faab975bc3ef81bb19f21e35a736ff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1faab975bc3ef81bb19f21e35a736ff6">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">FamillesDEntitesTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LaTableEstCoherenteAvecSesFormes</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Chaque forme a ce qu'il lui faut : un rectangle ou une zone déclare sa largeur et sa hauteur en entiers d'au moins 1, une étiquette et une figurine nomment une propriété déclarée. </p>
+<p><b>Cas de test :</b> <b>La table des familles est coherente avec ses formes.</b><br  />
+ <b>Categorie :</b> Unitaire · Familles d'entites<br  />
+ <b>Criticite :</b> Majeur<br  />
+ <b>Etapes :</b><br  />
+ 1. Parcourir la table.<br  />
+ <b>Resultat attendu :</b> Largeur et hauteur entieres, bornees a 1, pour chaque rectangle et chaque zone ; l'etiquette et la figurine sont des proprietes declarees. </p>
+
+</div>
+</div>
 <a id="a962554f4aeb292247b3687ecb8567c50" name="a962554f4aeb292247b3687ecb8567c50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a962554f4aeb292247b3687ecb8567c50">&#9670;&#160;</a></span>TEST() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a962554f4aeb292247b3687ecb8567c50">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,7 +289,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="a17fbd8eb7dfc7a4c379ab265b47b9444" name="a17fbd8eb7dfc7a4c379ab265b47b9444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17fbd8eb7dfc7a4c379ab265b47b9444">&#9670;&#160;</a></span>TEST() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17fbd8eb7dfc7a4c379ab265b47b9444">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -243,7 +319,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="acd68d2561716a660d22c3c102b97138a" name="acd68d2561716a660d22c3c102b97138a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acd68d2561716a660d22c3c102b97138a">&#9670;&#160;</a></span>TEST() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acd68d2561716a660d22c3c102b97138a">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -272,7 +348,7 @@ Functions</h2></td></tr>
 </div>
 </div>
 <a id="ad2b34a5e2b08b3466ac6eaa676a58596" name="ad2b34a5e2b08b3466ac6eaa676a58596"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2b34a5e2b08b3466ac6eaa676a58596">&#9670;&#160;</a></span>TEST() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2b34a5e2b08b3466ac6eaa676a58596">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -297,6 +373,37 @@ Functions</h2></td></tr>
  <b>Etapes :</b><br  />
  1. Valider un PNJ au dialogue inconnu, une rencontre inconnue, un portail vers une carte inconnue et un portail vers un point absent d'une carte connue.<br  />
  <b>Resultat attendu :</b> Un probleme chacun, dans l'ordre des entites ; le portail vers une carte inconnue ne signale pas en plus son point d'arrivee. </p>
+
+</div>
+</div>
+<a id="a360887fbcfca9c97f8303ff4c4d884c1" name="a360887fbcfca9c97f8303ff4c4d884c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a360887fbcfca9c97f8303ff4c4d884c1">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">FamillesDEntitesTest</td>          <td class="paramname"><span class="paramname"><em></em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ToutFamilleLueParLeJeuEstDansLaTable</td>          <td class="paramname"><span class="paramname"><em></em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><b>Contrat d'extension</b> (§5, règle 2 de la feuille de route de l'éditeur) : toute famille d'entité que le jeu lit est dans <span class="tt"><a class="el" href="namespacecore.html#a3c877363f8258fc1ba137c48aa283397" title="Les familles que l&#39;éditeur sait poser, dans l&#39;ordre de sa liste.">core::knownEntityKinds</a></span>, et reçoit donc inspecteur, forme et contrôle sans code d'éditeur. </p>
+<p><b>Cas de test :</b> <b>Aucune famille lue par le jeu n'echappe a l'editeur.</b><br  />
+ <b>Categorie :</b> Unitaire · Familles d'entites<br  />
+ <b>Criticite :</b> Bloquant<br  />
+ <b>Etapes :</b><br  />
+ 1. Relever dans les sources du jeu (Core, HMI, App) chaque constante <code>*_ENTITY_TYPE</code>.<br  />
+2. Y ajouter les familles interactives (<code><a class="el" href="namespacecore.html#a07f40df9fbe2a910d1e99b9756220fea" title="Les familles connues : coffre, panneau (LOT-10), PNJ (LOT-15).">core::knownInteractableKinds</a></code>) et chaque type des cartes livrees.<br  />
+3. Chercher chacune dans la table.<br  />
+ <b>Resultat attendu :</b> Toutes y sont ; le releve trouve au moins les onze familles d'aujourd'hui. </p>
 
 </div>
 </div>

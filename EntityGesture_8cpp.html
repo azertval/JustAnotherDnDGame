@@ -93,7 +93,9 @@ $(function(){initNavTree('EntityGesture_8cpp.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="EntityGesture_8h_source.html">Editor/Logic/EntityGesture.h</a>&quot;</code><br />
+<code>#include &lt;utility&gt;</code><br />
 <code>#include &quot;<a class="el" href="LevelDraft_8h_source.html">Core/Levels/LevelDraft.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="EntityKinds_8h_source.html">Core/World/EntityKinds.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-namespaces" class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
@@ -101,10 +103,12 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a90ab483e48dc54dce84409a933b6cda2" id="r_a90ab483e48dc54dce84409a933b6cda2"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a90ab483e48dc54dce84409a933b6cda2">hmi::resolveEntityPress</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, const std::string &amp;kindToPlace, bool forcePlace)</td></tr>
-<tr class="memdesc:a90ab483e48dc54dce84409a933b6cda2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout l'appui du bouton gauche sur <code class="param">cell</code>.  <br /></td></tr>
-<tr class="memitem:a8b42bf668a4e9cbe5f7a14ff3678888d" id="r_a8b42bf668a4e9cbe5f7a14ff3678888d"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a8b42bf668a4e9cbe5f7a14ff3678888d">hmi::resolveEntityRelease</a> (std::optional&lt; std::size_t &gt; grabbed, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> pressCell, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> releaseCell)</td></tr>
-<tr class="memdesc:a8b42bf668a4e9cbe5f7a14ff3678888d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout le relâchement d'un glisser commencé sur l'entité <code class="param">grabbed</code>.  <br /></td></tr>
+<tr class="memitem:a9f1a74dfaba460298fa87f389a43cb02" id="r_a9f1a74dfaba460298fa87f389a43cb02"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityGestureDecision.html">EntityGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a9f1a74dfaba460298fa87f389a43cb02">hmi::resolveEntityPress</a> (const <a class="el" href="classcore_1_1LevelDraft.html">core::LevelDraft</a> &amp;draft, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, const std::vector&lt; std::size_t &gt; &amp;selection, const std::string &amp;kindToPlace, <a class="el" href="structhmi_1_1EntityPressModifiers.html">EntityPressModifiers</a> modifiers)</td></tr>
+<tr class="memdesc:a9f1a74dfaba460298fa87f389a43cb02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout l'appui du bouton gauche sur <code class="param">cell</code>.  <br /></td></tr>
+<tr class="memitem:a0a372480a8c4bb2d1af4b9b17874eb72" id="r_a0a372480a8c4bb2d1af4b9b17874eb72"><td class="memItemLeft"><a class="el" href="structhmi_1_1EntityDragResult.html">EntityDragResult</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a0a372480a8c4bb2d1af4b9b17874eb72">hmi::dragEntities</a> (const <a class="el" href="structhmi_1_1EntityDrag.html">EntityDrag</a> &amp;drag, const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &gt; &amp;entities, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> to, int width, int height)</td></tr>
+<tr class="memdesc:a0a372480a8c4bb2d1af4b9b17874eb72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le résultat de <code class="param">drag</code> arrêté sur <code class="param">to</code>, sur une carte de <code class="param">width</code> × <code class="param">height</code>.  <br /></td></tr>
+<tr class="memitem:a586c3f62e9d9cb45b762db2f4da03e61" id="r_a586c3f62e9d9cb45b762db2f4da03e61"><td class="memItemLeft"><a class="el" href="structhmi_1_1ShapeGestureDecision.html">ShapeGestureDecision</a>&#160;</td><td class="memItemRight"><a class="el" href="namespacehmi.html#a586c3f62e9d9cb45b762db2f4da03e61">hmi::resolveShapePress</a> (const <a class="el" href="structcore_1_1MapEntity.html">core::MapEntity</a> &amp;entity, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell, bool remove)</td></tr>
+<tr class="memdesc:a586c3f62e9d9cb45b762db2f4da03e61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résout l'appui de l'outil « Forme » sur <code class="param">cell</code>, pour l'entité <code class="param">entity</code>.  <br /></td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

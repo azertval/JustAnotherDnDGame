@@ -16,9 +16,11 @@
 
 #include &lt;algorithm&gt;
 #include &lt;cstdint&gt;
+#include &lt;optional&gt;
 #include &lt;utility&gt;
 #include &lt;variant&gt;
 
+#include "Core/Combat/Arena.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
@@ -69,18 +71,94 @@ namespace {
            cell.column &lt; origin.column + columns &amp;&amp; cell.row &lt; origin.row + rows;
 <span style = "background-color:#dfd">}</span>
 
+<span style = "background-color:#dfd">CombatZone combatZoneOf(const MapEntity&amp; entity) {
+    return CombatZone{.name = texteDe(entity, COMBAT_ZONE_NAME_PROPERTY),</span>
+                      .origin = entity.position,
+                      .columns = entierDe(entity, COMBAT_ZONE_WIDTH_PROPERTY),
+                      .rows = entierDe(entity, COMBAT_ZONE_HEIGHT_PROPERTY)};
+<span style = "background-color:#dfd">}</span>
+
 <span style = "background-color:#dfd">std::vector&lt;CombatZone&gt; combatZonesOf(const Level&amp; level) {
     std::vector&lt;CombatZone&gt; zones;
     for (const MapEntity&amp; entite : level.entities()) {
-        if (entite.type != COMBAT_ZONE_ENTITY_TYPE) {
-            continue;</span>
+        if (entite.type == COMBAT_ZONE_ENTITY_TYPE) {
+            zones.push_back(combatZoneOf(entite));</span>
         }
-<span style = "background-color:#dfd">        zones.push_back(CombatZone{.name = texteDe(entite, COMBAT_ZONE_NAME_PROPERTY),</span>
-                                   .origin = entite.position,
-                                   .columns = entierDe(entite, COMBAT_ZONE_WIDTH_PROPERTY),
-                                   .rows = entierDe(entite, COMBAT_ZONE_HEIGHT_PROPERTY)});
 <span style = "background-color:#dfd">    }
     return zones;
+}</span>
+
+namespace {
+
+// Ce qui empeche la zone d'etre une grille tactique, avant de compter ses cases : une taille nulle,
+// ou un debord de la carte.
+[[nodiscard]] std::optional&lt;WorldIssueCode&gt; formeFautive(const TileMap&amp; collision,
+<span style = "background-color:#dfd">                                                         const CombatZone&amp; zone) {
+    if (zone.columns &lt;= 0 || zone.rows &lt;= 0) {
+        return WorldIssueCode::CombatZoneDegenerate;</span>
+    }
+<span style = "background-color:#dfd">    if (!collision.inBounds(zone.origin.column, zone.origin.row) ||</span>
+        !collision.inBounds(zone.origin.column + zone.columns - 1,
+                            zone.origin.row + zone.rows - 1)) {
+<span style = "background-color:#dfd">        return WorldIssueCode::CombatZoneOutOfBounds;</span>
+    }
+<span style = "background-color:#dfd">    return std::nullopt;
+}</span>
+
+// Les cases de la zone posees sur la carte, libres puis pleines : meme une zone qui deborde, pour
+// que l'editeur montre sa partie posee pendant qu'on la ramene.
+<span style = "background-color:#dfd">void releverCases(const TileMap&amp; collision, CombatZoneTerrain&amp; verdict) {
+    const CombatZone&amp; zone = verdict.zone;
+    for (int ligne = 0; ligne &lt; std::max(zone.rows, 0); ++ligne) {
+        for (int colonne = 0; colonne &lt; std::max(zone.columns, 0); ++colonne) {
+            const GridPosition cell{.column = zone.origin.column + colonne,
+                                    .row = zone.origin.row + ligne};
+            if (collision.inBounds(cell.column, cell.row)) {
+                (collision.isSolid(cell.column, cell.row) ? verdict.blockedCells</span>
+                                                          : verdict.freeCells)
+                    .push_back(cell);
+            }
+<span style = "background-color:#dfd">        }
+    }
+}</span>
+
+[[nodiscard]] CombatZoneTerrain analyserZone(const TileMap&amp; collision,
+                                             const std::vector&lt;MapEntity&gt;&amp; entities,
+<span style = "background-color:#dfd">                                             std::size_t rang) {
+    CombatZoneTerrain verdict{.entityIndex = rang,
+                              .zone = combatZoneOf(entities[rang]),
+                              .freeCells = {},
+                              .blockedCells = {},
+                              .entriesInside = {},
+                              .entriesOutside = {},
+                              .issue = std::nullopt};
+    for (std::size_t autre = 0; autre &lt; entities.size(); ++autre) {
+        if (entities[autre].type == ARENA_ENTRY_ENTITY_TYPE) {
+            (verdict.zone.contains(entities[autre].position) ? verdict.entriesInside</span>
+                                                             : verdict.entriesOutside)
+                .push_back(autre);
+        }
+<span style = "background-color:#dfd">    }
+    verdict.issue = formeFautive(collision, verdict.zone);
+    releverCases(collision, verdict);</span>
+    // Une zone entierement pleine n'est pas un terrain tactique : personne ne peut s'y poser.
+<span style = "background-color:#dfd">    if (!verdict.issue &amp;&amp; verdict.freeCells.empty()) {
+        verdict.issue = WorldIssueCode::CombatZoneBlocked;</span>
+    }
+<span style = "background-color:#dfd">    return verdict;
+}</span>
+
+}  // namespace
+
+std::vector&lt;CombatZoneTerrain&gt; analyzeCombatZones(const TileMap&amp; collision,
+<span style = "background-color:#dfd">                                                  const std::vector&lt;MapEntity&gt;&amp; entities) {
+    std::vector&lt;CombatZoneTerrain&gt; verdicts;
+    for (std::size_t rang = 0; rang &lt; entities.size(); ++rang) {
+        if (entities[rang].type == COMBAT_ZONE_ENTITY_TYPE) {
+            verdicts.push_back(analyserZone(collision, entities, rang));</span>
+        }
+<span style = "background-color:#dfd">    }
+    return verdicts;
 }</span>
 
 <span style = "background-color:#dfd">const CombatZone* findCombatZone(const std::vector&lt;CombatZone&gt;&amp; zones, std::string_view name) {
@@ -96,34 +174,13 @@ namespace {
 
 <span style = "background-color:#dfd">std::vector&lt;WorldIssue&gt; validateCombatZones(std::string_view mapId, const Level&amp; level) {
     std::vector&lt;WorldIssue&gt; defauts;
-    const TileMap&amp; collision = level.tileMap();
-    for (const CombatZone&amp; zone : combatZonesOf(level)) {
-        const auto signaler = [&amp;](WorldIssueCode code) {
+    for (const CombatZoneTerrain&amp; verdict : analyzeCombatZones(level.tileMap(), level.entities())) {
+        if (verdict.issue) {
             defauts.push_back(WorldIssue{.mapId = std::string{mapId},</span>
-                                         .position = zone.origin,
-                                         .code = code,
-                                         .value = zone.name});
-<span style = "background-color:#dfd">        };
-        if (zone.columns &lt;= 0 || zone.rows &lt;= 0) {
-            signaler(WorldIssueCode::CombatZoneDegenerate);
-            continue;</span>
-        }
-<span style = "background-color:#dfd">        if (!collision.inBounds(zone.origin.column, zone.origin.row) ||</span>
-            !collision.inBounds(zone.origin.column + zone.columns - 1,
-                                zone.origin.row + zone.rows - 1)) {
-<span style = "background-color:#dfd">            signaler(WorldIssueCode::CombatZoneOutOfBounds);
-            continue;</span>
-        }
-        // Une zone entierement pleine n'est pas un terrain tactique : personne ne peut s'y poser.
-<span style = "background-color:#dfd">        bool libre = false;
-        for (int ligne = 0; ligne &lt; zone.rows &amp;&amp; !libre; ++ligne) {
-            for (int colonne = 0; colonne &lt; zone.columns &amp;&amp; !libre; ++colonne) {
-                libre = !collision.isSolid(zone.origin.column + colonne, zone.origin.row + ligne);
-            }
-        }
-        if (!libre) {
-            signaler(WorldIssueCode::CombatZoneBlocked);
-        }
+                                         .position = verdict.zone.origin,
+                                         .code = *verdict.issue,
+                                         .value = verdict.zone.name});
+<span style = "background-color:#dfd">        }
     }
     return defauts;
 }</span>

@@ -480,10 +480,12 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Résultat d'une lecture : le graphe, ou ce qui l'a empêché.  <a href="structcore_1_1CityPlanResult.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CombatZone" id="r_CombatZone"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatZone.html">CombatZone</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une zone de combat : son nom, son coin haut-gauche, sa taille.  <a href="structcore_1_1CombatZone.html#details">More...</a><br /></td></tr>
+<tr class="memitem:CombatZoneTerrain" id="r_CombatZoneTerrain"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1CombatZoneTerrain.html">CombatZoneTerrain</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le verdict tactique d'une zone de combat : ce que l'éditeur montre pendant qu'on la tire (<span class="tt">LOT-EDITOR-05</span>), et ce que <span class="tt"><a class="el" href="#a2f8f6aa025b66709486f9e1e585ac334" title="Relève ce qui empêche une zone d&#39;être une grille tactique (EX-NFR-040).">validateCombatZones</a></span> rapporte au chargement.  <a href="structcore_1_1CombatZoneTerrain.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EntityPropertySpec" id="r_EntityPropertySpec"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EntityPropertySpec.html">EntityPropertySpec</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une propriété qu'une famille d'entités déclare.  <a href="structcore_1_1EntityPropertySpec.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EntityKind" id="r_EntityKind"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EntityKind.html">EntityKind</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une famille d'entités : son type, et les propriétés qu'elle déclare.  <a href="structcore_1_1EntityKind.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Une famille d'entités : son type, les propriétés qu'elle déclare, et comment le canevas de l'éditeur la montre.  <a href="structcore_1_1EntityKind.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EntityReferenceContext" id="r_EntityReferenceContext"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EntityReferenceContext.html">EntityReferenceContext</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qu'une carte peut référencer hors d'elle-même : les catalogues et les autres cartes.  <a href="structcore_1_1EntityReferenceContext.html#details">More...</a><br /></td></tr>
 <tr class="memitem:EntityIssue" id="r_EntityIssue"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structcore_1_1EntityIssue.html">EntityIssue</a></td></tr>
@@ -976,9 +978,21 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37aaf51fdf94adbb4b6fe4f1275b07df10d">Maps</a>
 , <br />
 &#160;&#160;<a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37a76e792516a9afec30df53f882a407d5b">ArrivalPoints</a>
+, <a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37ab368d7f177985bbe50c6e6c991357b97">Figures</a>
+, <a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37a4ea7801f17a4e5485e8b050c052fb443">Flags</a>
+, <a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37aeebd338ddbd547e41e4a1296de82963a">Locations</a>
+, <br />
+&#160;&#160;<a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37a9dea4016dbcc290b773ab2fae678aaa8">Items</a>
+, <a class="el" href="#a26db7cfadc5ea47bb85e806bd8010f37a6b26adcaf0f87640fe94cc398ed0dd06">EntityRefs</a>
 <br />
  }</td></tr>
 <tr class="memdesc:a26db7cfadc5ea47bb85e806bd8010f37"><td class="mdescLeft">&#160;</td><td class="mdescRight">D'où viennent les choix d'une propriété <span class="tt">Choice</span>.  <a href="#a26db7cfadc5ea47bb85e806bd8010f37">More...</a><br /></td></tr>
+<tr class="memitem:a64b3830ace127763a5bb2d6eca3194b9" id="r_a64b3830ace127763a5bb2d6eca3194b9"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9">EntityShape</a> { <a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c">Point</a>
+, <a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9ace9291906a4c3b042650b70d7f3b152e">Rectangle</a>
+, <a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9adeec4ff19974f12ed781cb9a59064214">Area</a>
+, <a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9aac70412e939d72a9234cdebb1af5867b">Path</a>
+ }</td></tr>
+<tr class="memdesc:a64b3830ace127763a5bb2d6eca3194b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">La forme d'une famille d'entités sur la carte : ce que le canevas de l'éditeur dessine et les poignées qu'il lui donne (<span class="tt">LOT-EDITOR-05</span>).  <a href="#a64b3830ace127763a5bb2d6eca3194b9">More...</a><br /></td></tr>
 <tr class="memitem:ac1032ee70b0c730c8727b80822ab035e" id="r_ac1032ee70b0c730c8727b80822ab035e"><td class="memItemLeft">enum class &#160;</td><td class="memItemRight"><a class="el" href="#ac1032ee70b0c730c8727b80822ab035e">EntityIssueCode</a> { <br />
 &#160;&#160;<a class="el" href="#ac1032ee70b0c730c8727b80822ab035ea916c74f40cb3a7d245c9f9eefde044db">UnknownType</a>
 , <a class="el" href="#ac1032ee70b0c730c8727b80822ab035ea3cbd2aa5927cdb935e3c77e9dbd8620f">MissingProperty</a>
@@ -991,6 +1005,13 @@ Enumerations</h2></td></tr>
 , <a class="el" href="#ac1032ee70b0c730c8727b80822ab035ea25b35f4409074408fe4921bfcd9e9f2c">UnknownArrivalPoint</a>
 , <br />
 &#160;&#160;<a class="el" href="#ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273">DuplicateArrivalPoint</a>
+, <a class="el" href="#ac1032ee70b0c730c8727b80822ab035ea365b2699d38b61ef4b4c8a1066c8468f">OutOfRange</a>
+, <a class="el" href="#ac1032ee70b0c730c8727b80822ab035eaba7196008331e807c37fa89af564f28a">UnknownFigure</a>
+, <a class="el" href="#ac1032ee70b0c730c8727b80822ab035ea21ee9ca42970897cbcacc79f34e6cb4e">UnsetFlag</a>
+, <br />
+&#160;&#160;<a class="el" href="#ac1032ee70b0c730c8727b80822ab035eacebd93e10fdff9ab8b4a4a84352cdfb4">UnknownLocation</a>
+, <a class="el" href="#ac1032ee70b0c730c8727b80822ab035eab94b40e5c60319f4fc15e8166bd8d2af">UnknownItem</a>
+, <a class="el" href="#ac1032ee70b0c730c8727b80822ab035eae56bd292e4050ea440d03f594711b42f">UnknownEntityRef</a>
 <br />
  }</td></tr>
 <tr class="memdesc:ac1032ee70b0c730c8727b80822ab035e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ce qui ne va pas dans une entité.  <a href="#ac1032ee70b0c730c8727b80822ab035e">More...</a><br /></td></tr>
@@ -1410,7 +1431,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a474b696de6dd60c63a9af06b04f00eee" id="r_a474b696de6dd60c63a9af06b04f00eee"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CityBlock.html">CityBlock</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a474b696de6dd60c63a9af06b04f00eee">cityBlocksOf</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memitem:aaecd848d6b8b1fee4c49ef3e9dcb36c3" id="r_aaecd848d6b8b1fee4c49ef3e9dcb36c3"><td class="memItemLeft"><a class="el" href="structcore_1_1CityPlanResult.html">CityPlanResult</a>&#160;</td><td class="memItemRight"><a class="el" href="#aaecd848d6b8b1fee4c49ef3e9dcb36c3">loadCityPlan</a> (const std::filesystem::path &amp;file)</td></tr>
 <tr class="memdesc:aaecd848d6b8b1fee4c49ef3e9dcb36c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lit une ville jouable.  <br /></td></tr>
+<tr class="memitem:a2f5aee616c4afd984124b93ee026af37" id="r_a2f5aee616c4afd984124b93ee026af37"><td class="memItemLeft"><a class="el" href="structcore_1_1CombatZone.html">CombatZone</a>&#160;</td><td class="memItemRight"><a class="el" href="#a2f5aee616c4afd984124b93ee026af37">combatZoneOf</a> (const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;entity)</td></tr>
 <tr class="memitem:a7c047c5fef857528c6b8441b5a3155a4" id="r_a7c047c5fef857528c6b8441b5a3155a4"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a7c047c5fef857528c6b8441b5a3155a4">combatZonesOf</a> (const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
+<tr class="memitem:a2202cb32725409d8b48364db226a6fde" id="r_a2202cb32725409d8b48364db226a6fde"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1CombatZoneTerrain.html">CombatZoneTerrain</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2202cb32725409d8b48364db226a6fde">analyzeCombatZones</a> (const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;collision, const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt; &amp;entities)</td></tr>
+<tr class="memdesc:a2202cb32725409d8b48364db226a6fde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le verdict de chaque zone de combat de <code class="param">entities</code> sur la collision <code class="param">collision</code>, dans l'ordre des entités.  <br /></td></tr>
 <tr class="memitem:aad245d7e0f83b0197bf751008f87bfe2" id="r_aad245d7e0f83b0197bf751008f87bfe2"><td class="memItemLeft">const <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> *&#160;</td><td class="memItemRight"><a class="el" href="#aad245d7e0f83b0197bf751008f87bfe2">findCombatZone</a> (const std::vector&lt; <a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> &gt; &amp;zones, std::string_view name)</td></tr>
 <tr class="memitem:a2f8f6aa025b66709486f9e1e585ac334" id="r_a2f8f6aa025b66709486f9e1e585ac334"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1WorldIssue.html">WorldIssue</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a2f8f6aa025b66709486f9e1e585ac334">validateCombatZones</a> (std::string_view mapId, const <a class="el" href="classcore_1_1Level.html">Level</a> &amp;level)</td></tr>
 <tr class="memdesc:a2f8f6aa025b66709486f9e1e585ac334"><td class="mdescLeft">&#160;</td><td class="mdescRight">Relève ce qui empêche une zone d'être une grille tactique (<span class="tt">EX-NFR-040</span>).  <br /></td></tr>
@@ -1579,6 +1603,18 @@ Variables</h2></td></tr>
 <tr class="memdesc:a14b37b629c559f3f0bcc2481f4178393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'un point d'arrivée nommé : là où l'on apparaît en entrant par un portail.  <br /></td></tr>
 <tr class="memitem:a4cd504e13e1cafd2e4759e9c0f3a9970" id="r_a4cd504e13e1cafd2e4759e9c0f3a9970"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a4cd504e13e1cafd2e4759e9c0f3a9970">SPAWN_POINT_NAME_PROPERTY</a> = &quot;name&quot;</td></tr>
 <tr class="memdesc:a4cd504e13e1cafd2e4759e9c0f3a9970"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un point d'arrivée : son nom, unique dans la carte.  <br /></td></tr>
+<tr class="memitem:a63a25424abfa6e4563a86652fef27492" id="r_a63a25424abfa6e4563a86652fef27492"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a63a25424abfa6e4563a86652fef27492">SHAPE_WIDTH_PROPERTY</a> = &quot;width&quot;</td></tr>
+<tr class="memdesc:a63a25424abfa6e4563a86652fef27492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une forme <span class="tt">Rectangle</span> ou <span class="tt">Area</span> : sa largeur, en cases.  <br /></td></tr>
+<tr class="memitem:a2f185047592ba6cc121a943f9b394d0e" id="r_a2f185047592ba6cc121a943f9b394d0e"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a2f185047592ba6cc121a943f9b394d0e">SHAPE_HEIGHT_PROPERTY</a> = &quot;height&quot;</td></tr>
+<tr class="memdesc:a2f185047592ba6cc121a943f9b394d0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une forme <span class="tt">Rectangle</span> ou <span class="tt">Area</span> : sa hauteur, en cases.  <br /></td></tr>
+<tr class="memitem:a0b994a5837bad127870719860ea34002" id="r_a0b994a5837bad127870719860ea34002"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a0b994a5837bad127870719860ea34002">ZONE_NAME_PROPERTY</a> = &quot;name&quot;</td></tr>
+<tr class="memdesc:a0b994a5837bad127870719860ea34002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'une zone de règles (<span class="tt"><a class="el" href="#ac09dbc5848329505d30e5ab32b462538" title="Type d&#39;entité d&#39;une zone de règles : un rectangle (width × height depuis sa case) ou un ensemble de c...">core::ZONE_ENTITY_TYPE</a></span>) : son nom, que seul l'éditeur montre.  <br /></td></tr>
+<tr class="memitem:a0fe304f84c3b2f39219fd28296982945" id="r_a0fe304f84c3b2f39219fd28296982945"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a0fe304f84c3b2f39219fd28296982945">ROUTE_ENTITY_TYPE</a> = &quot;route&quot;</td></tr>
+<tr class="memdesc:a0fe304f84c3b2f39219fd28296982945"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type d'entité d'un trajet : la ligne brisée qu'un PNJ parcourt (<span class="tt">LOT-70</span>, <span class="tt">LOT-82</span>).  <br /></td></tr>
+<tr class="memitem:acb8dfe24f7b8464d68b8f1fd3cef1697" id="r_acb8dfe24f7b8464d68b8f1fd3cef1697"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#acb8dfe24f7b8464d68b8f1fd3cef1697">ROUTE_NAME_PROPERTY</a> = &quot;name&quot;</td></tr>
+<tr class="memdesc:acb8dfe24f7b8464d68b8f1fd3cef1697"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un trajet : son nom, unique dans la carte, que le PNJ citera.  <br /></td></tr>
+<tr class="memitem:ac541942d62f7957cde3f8c36f9f02353" id="r_ac541942d62f7957cde3f8c36f9f02353"><td class="memItemLeft">constexpr std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#ac541942d62f7957cde3f8c36f9f02353">ROUTE_LOOP_PROPERTY</a> = &quot;loop&quot;</td></tr>
+<tr class="memdesc:ac541942d62f7957cde3f8c36f9f02353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Propriété d'un trajet : vrai pour une ronde, qui revient à son premier point.  <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Espace de noms du moteur et de la logique de jeu. </p>
@@ -2728,6 +2764,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>D'où viennent les choix d'une propriété <span class="tt">Choice</span>. </p>
+<p>Une source est un <b>catalogue</b> : l'inspecteur de l'éditeur en tire sa liste de choix, et <span class="tt"><a class="el" href="#a0482bd5ffd0165e722879709e592607e" title="Relève ce que les entités de entities référencent sans l&#39;atteindre.">validateMapEntities</a></span> signale une valeur qui n'y est pas. </p>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37a4457d440870ad6d42bab9082d9bf9b61" name="a26db7cfadc5ea47bb85e806bd8010f37a4457d440870ad6d42bab9082d9bf9b61"></a>Fixed&#160;</td><td class="fielddoc"><p>Les valeurs de <span class="tt"><a class="el" href="structcore_1_1EntityPropertySpec.html#a7006555bcdcacb7224905f65f555d58b">EntityPropertySpec::fixedChoices</a></span>. </p>
 </td></tr>
@@ -2738,6 +2775,17 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37aaf51fdf94adbb4b6fe4f1275b07df10d" name="a26db7cfadc5ea47bb85e806bd8010f37aaf51fdf94adbb4b6fe4f1275b07df10d"></a>Maps&#160;</td><td class="fielddoc"><p>Les cartes du dossier des niveaux, par identifiant. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37a76e792516a9afec30df53f882a407d5b" name="a26db7cfadc5ea47bb85e806bd8010f37a76e792516a9afec30df53f882a407d5b"></a>ArrivalPoints&#160;</td><td class="fielddoc"><p>Les points d'arrivée de la carte nommée par <span class="tt">targetMap</span> de la <b>même</b> entité. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37ab368d7f177985bbe50c6e6c991357b97" name="a26db7cfadc5ea47bb85e806bd8010f37ab368d7f177985bbe50c6e6c991357b97"></a>Figures&#160;</td><td class="fielddoc"><p>Les figurines des ateliers (<span class="tt">LOT-91</span>, <span class="tt">LOT-93</span>) : un slug de PNJ (<span class="tt">anariel</span>), ou le dossier d'un monstre (<span class="tt">Monsters/lion</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37a4ea7801f17a4e5485e8b050c052fb443" name="a26db7cfadc5ea47bb85e806bd8010f37a4ea7801f17a4e5485e8b050c052fb443"></a>Flags&#160;</td><td class="fielddoc"><p>Les drapeaux de monde qu'un dialogue pose (<span class="tt">LOT-15</span>, et les quêtes du <span class="tt">LOT-16</span>). </p>
+<p>Un drapeau que rien ne pose est signalé : le portail qui l'exige ne s'ouvrirait jamais. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37aeebd338ddbd547e41e4a1296de82963a" name="a26db7cfadc5ea47bb85e806bd8010f37aeebd338ddbd547e41e4a1296de82963a"></a>Locations&#160;</td><td class="fielddoc"><p>Les fiches de lieu de l'atlas (<span class="tt">World/locations</span>, <span class="tt">LOT-37</span>) : un quartier, une ville. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37a9dea4016dbcc290b773ab2fae678aaa8" name="a26db7cfadc5ea47bb85e806bd8010f37a9dea4016dbcc290b773ab2fae678aaa8"></a>Items&#160;</td><td class="fielddoc"><p>Les objets du catalogue (<span class="tt">Rpg/items</span>) : le contenu d'un coffre, l'étal d'un marchand (<span class="tt">LOT-26</span>). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26db7cfadc5ea47bb85e806bd8010f37a6b26adcaf0f87640fe94cc398ed0dd06" name="a26db7cfadc5ea47bb85e806bd8010f37a6b26adcaf0f87640fe94cc398ed0dd06"></a>EntityRefs&#160;</td><td class="fielddoc"><p>Une entité d'une carte, par <span class="tt">carte#id</span> (décision D8) : ce que quêtes et drapeaux citent. </p>
 </td></tr>
 </table>
 
@@ -2784,6 +2832,18 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273" name="ac1032ee70b0c730c8727b80822ab035eacd7c9ae5e908a19e060bbcbd35f08273"></a>DuplicateArrivalPoint&#160;</td><td class="fielddoc"><p>Deux points d'arrivée de la carte portent le même nom. <span class="tt">value</span>. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035ea365b2699d38b61ef4b4c8a1066c8468f" name="ac1032ee70b0c730c8727b80822ab035ea365b2699d38b61ef4b4c8a1066c8468f"></a>OutOfRange&#160;</td><td class="fielddoc"><p>Un entier hors de ses bornes. <span class="tt">key</span> et <span class="tt">value</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035eaba7196008331e807c37fa89af564f28a" name="ac1032ee70b0c730c8727b80822ab035eaba7196008331e807c37fa89af564f28a"></a>UnknownFigure&#160;</td><td class="fielddoc"><p>La figurine nommée n'est dans aucun atelier. <span class="tt">value</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035ea21ee9ca42970897cbcacc79f34e6cb4e" name="ac1032ee70b0c730c8727b80822ab035ea21ee9ca42970897cbcacc79f34e6cb4e"></a>UnsetFlag&#160;</td><td class="fielddoc"><p>Aucun dialogue ne pose ce drapeau. <span class="tt">value</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035eacebd93e10fdff9ab8b4a4a84352cdfb4" name="ac1032ee70b0c730c8727b80822ab035eacebd93e10fdff9ab8b4a4a84352cdfb4"></a>UnknownLocation&#160;</td><td class="fielddoc"><p>La fiche de lieu nommée n'est pas dans l'atlas. <span class="tt">value</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035eab94b40e5c60319f4fc15e8166bd8d2af" name="ac1032ee70b0c730c8727b80822ab035eab94b40e5c60319f4fc15e8166bd8d2af"></a>UnknownItem&#160;</td><td class="fielddoc"><p>L'objet nommé n'est pas dans le catalogue. <span class="tt">value</span>. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac1032ee70b0c730c8727b80822ab035eae56bd292e4050ea440d03f594711b42f" name="ac1032ee70b0c730c8727b80822ab035eae56bd292e4050ea440d03f594711b42f"></a>UnknownEntityRef&#160;</td><td class="fielddoc"><p>Aucune carte n'a d'entité <span class="tt">carte#id</span>. <span class="tt">value</span>. </p>
+</td></tr>
 </table>
 
 </div>
@@ -2814,6 +2874,42 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a9d3c367e939d3d4dd488fbaf5bba126eaa0faef0851b4294c06f2b94bb1cb2044" name="a9d3c367e939d3d4dd488fbaf5bba126eaa0faef0851b4294c06f2b94bb1cb2044"></a>Integer&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9d3c367e939d3d4dd488fbaf5bba126ea27226c864bac7454a8504f8edb15d95b" name="a9d3c367e939d3d4dd488fbaf5bba126ea27226c864bac7454a8504f8edb15d95b"></a>Boolean&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a9d3c367e939d3d4dd488fbaf5bba126ea458b9dcc0921f46b1192427426d59c10" name="a9d3c367e939d3d4dd488fbaf5bba126ea458b9dcc0921f46b1192427426d59c10"></a>Choice&#160;</td><td class="fielddoc"><p>Une valeur texte choisie dans une liste (fixe, ou tirée d'un catalogue). </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a64b3830ace127763a5bb2d6eca3194b9" name="a64b3830ace127763a5bb2d6eca3194b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64b3830ace127763a5bb2d6eca3194b9">&#9670;&#160;</a></span>EntityShape</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="#a64b3830ace127763a5bb2d6eca3194b9">core::EntityShape</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel strong">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>La forme d'une famille d'entités sur la carte : ce que le canevas de l'éditeur dessine et les poignées qu'il lui donne (<span class="tt">LOT-EDITOR-05</span>). </p>
+<p>C'est la forme, et non le type, que l'éditeur connaît : une famille nouvelle déclare la sienne ici et reçoit poignées, tracé et déplacement sans une ligne de code d'éditeur (§5, règle 2). </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c" name="a64b3830ace127763a5bb2d6eca3194b9a2a3cd5946cfd317eb99c3d32e35e2d4c"></a>Point&#160;</td><td class="fielddoc"><p>Une case : un coffre, un PNJ, un portail. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a64b3830ace127763a5bb2d6eca3194b9ace9291906a4c3b042650b70d7f3b152e" name="a64b3830ace127763a5bb2d6eca3194b9ace9291906a4c3b042650b70d7f3b152e"></a>Rectangle&#160;</td><td class="fielddoc"><p>Un rectangle : la case est son coin haut-gauche, <span class="tt">width</span> et <span class="tt">height</span> sa taille. </p>
+<p>Le jeu ne lit que cette forme (zone de combat, îlot). </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a64b3830ace127763a5bb2d6eca3194b9adeec4ff19974f12ed781cb9a59064214" name="a64b3830ace127763a5bb2d6eca3194b9adeec4ff19974f12ed781cb9a59064214"></a>Area&#160;</td><td class="fielddoc"><p>Une zone de règles (décision D13) : un rectangle, <b>ou</b> un ensemble de cases peint (<span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a7852db46b5652c07b44fe5fd9bc198f3" title="Forme peinte d&#39;une zone (décision D13) : les cases qu&#39;elle couvre.">MapEntity::cells</a></span>) ; la case est alors une case de la zone. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a64b3830ace127763a5bb2d6eca3194b9aac70412e939d72a9234cdebb1af5867b" name="a64b3830ace127763a5bb2d6eca3194b9aac70412e939d72a9234cdebb1af5867b"></a>Path&#160;</td><td class="fielddoc"><p>Une ligne brisée : les points de passage dans <span class="tt"><a class="el" href="structcore_1_1MapEntity.html#a7852db46b5652c07b44fe5fd9bc198f3" title="Forme peinte d&#39;une zone (décision D13) : les cases qu&#39;elle couvre.">MapEntity::cells</a></span>, <b>dans l'ordre</b>, le premier sur la case de l'entité (un trajet de PNJ, une ronde). </p>
 </td></tr>
 </table>
 
@@ -3042,7 +3138,7 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Comment un combattant se déplace : au sol, ou en vol. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1069"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1077"></a>
 L'altitude est un attribut, jamais une géométrie</h2>
 <p>Le jeu est vu de dessus, et sa grille n'a pas de hauteur. Donner une altitude aux cases — une grille par étage, ou une case « en l'air » au-dessus d'une autre — ferait de chaque requête de portée, de chemin et d'occupation une requête en trois dimensions, pour un contenu qui n'en a besoin qu'au passage d'un dragon. Le vol est donc une <b>manière de traverser</b> la même grille :</p>
 <ul>
@@ -3834,7 +3930,7 @@ L'altitude est un attribut, jamais une géométrie</h2>
 </div><div class="memdoc">
 
 <p>Vrai si <code class="param">first</code> joue avant <code class="param">second</code>. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1095"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1103"></a>
 La règle de départage</h2>
 <p>Manuel des Joueurs, « Initiative » (PDF p. 191) : les combattants se classent du plus haut résultat au plus bas, et « en cas d'égalité », c'est le MD qui tranche entre ses créatures, les joueurs entre leurs personnages, et le MD encore entre un monstre et un personnage. Le jeu n'a pas de MD : la règle doit être <b>écrite</b>, et elle ne peut pas dépendre de l'ordre dans lequel les combattants ont été rangés en mémoire (<span class="tt">EX-CBT-010</span>). Dans l'ordre :</p>
 <ol type="1">
@@ -4095,6 +4191,38 @@ La règle de départage</h2>
 
 </div>
 </div>
+<a id="a2202cb32725409d8b48364db226a6fde" name="a2202cb32725409d8b48364db226a6fde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2202cb32725409d8b48364db226a6fde">&#9670;&#160;</a></span>analyzeCombatZones()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structcore_1_1CombatZoneTerrain.html">CombatZoneTerrain</a> &gt; core::analyzeCombatZones </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcore_1_1TileMap.html">TileMap</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>collision</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>entities</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le verdict de chaque zone de combat de <code class="param">entities</code> sur la collision <code class="param">collision</code>, dans l'ordre des entités. </p>
+<p>Il prend une grille et des entités, et non une carte : l'éditeur le calcule sur son brouillon à chaque geste, sans reconstruire de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>. </p>
+
+</div>
+</div>
 <a id="a0224a562daa9e9d9bc0358fb71a2a04d" name="a0224a562daa9e9d9bc0358fb71a2a04d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0224a562daa9e9d9bc0358fb71a2a04d">&#9670;&#160;</a></span>analyzeEncounterTerrain()</h2>
 
@@ -4134,10 +4262,10 @@ La règle de départage</h2>
 
 <p>Vérifie que chaque rencontre posée sur la carte tombe sur un terrain tactique valide. </p>
 <p>Le combat se joue <b>sur la carte d'exploration</b> : une rencontre posée dans un couloir d'une case, ou dont la formation entre dans un mur, ne se découvrirait sinon qu'en jeu. Cette fonction le dit à l'auteur au moment où il pose.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1093"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1101"></a>
 Une seule règle pour « se tenir ici »</h2>
 <p>Les combattants sont posés sur une <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html" title="La grille tactique d&#39;une rencontre.">core::BattleGrid</a></span> construite depuis <code class="param">collision</code>, par <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html#ae717e61951843569c4bed5e1b9adba67" title="Place combatant, d&#39;emprise side × side, avec anchor pour coin haut-gauche.">core::BattleGrid::place</a></span>, dans l'ordre de la formation — ce que fait le montage (<span class="tt"><a class="el" href="#a5921fce291ef1e0650a91c91bc158a3e" title="Monte la rencontre run sur combat : le groupe, puis les créatures, dans cet ordre.">core::mountEncounter</a></span>). Un avertissement de l'éditeur et un refus au montage ne peuvent donc pas diverger. La zone est une <span class="tt"><a class="el" href="classcore_1_1ReachableArea.html" title="Les cases qu&#39;un combattant peut atteindre ce tour-ci, et par où.">core::ReachableArea</a></span> : diagonales, coins de mur et terrain difficile y suivent la règle du <span class="tt">LOT-19</span>, sans seconde implémentation.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1094"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1102"></a>
 Ce qu'elle ne vérifie pas</h2>
 <p>Une rencontre absente de <code class="param">encounters</code> est <b>ignorée</b> : un autre validateur la signale, et la signaler deux fois n'apprendrait rien. Une créature absente du bestiaire — ou un bestiaire absent — compte pour une emprise de taille M. Le groupe du joueur n'est pas posé : ses cases ne sont pas connues avant le jeu, et c'est la taille de la zone qui en répond.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -4504,10 +4632,10 @@ Ce qu'elle ne vérifie pas</h2>
 </div><div class="memdoc">
 
 <p>Peint le marqueur d'une clé d'asset. </p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1102"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1110"></a>
 Pourquoi un marqueur plutôt qu'une image manquante</h2>
 <p><span class="tt">EX-CNT-041</span> : le jeu doit tourner <b>complet</b> avant qu'aucune illustration ne soit produite. Sans marqueur, trois cents entrées s'afficheraient comme des trous, la production graphique deviendrait un préalable bloquant, et rien ne pourrait être joué ni relu avant elle. Avec, elle devient un <b>remplacement progressif</b> : on remplace un marqueur par une image, une à la fois, et le jeu ne cesse jamais d'être jouable.</p>
-<h2 class="doxsection"><a class="anchor" id="autotoc_md1103"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1111"></a>
 Déterministe, et c'est le point</h2>
 <p>La même clé donne <b>toujours</b> le même marqueur — même teinte, même figure. Un marqueur tiré au hasard changerait à chaque lancement : le loup ne serait plus reconnaissable d'une partie à l'autre, deux captures d'écran du même combat différeraient, et un test ne pourrait rien en dire. La teinte est donc dérivée de la clé elle-même, par un hachage stable écrit ici plutôt qu'emprunté à <span class="tt">std::hash</span>, dont la valeur n'est <b>pas</b> garantie d'une plateforme ou d'une version de bibliothèque à l'autre.</p>
 <p>Le marqueur reste <b>manifestement</b> un marqueur : deux diagonales barrent la vignette, de sorte qu'on ne le prenne jamais pour une illustration définitive livrée un peu vite.</p>
@@ -5131,6 +5259,32 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Les combattants dont une case au moins est atteinte, par identifiant croissant. </p>
+
+</div>
+</div>
+<a id="a2f5aee616c4afd984124b93ee026af37" name="a2f5aee616c4afd984124b93ee026af37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f5aee616c4afd984124b93ee026af37">&#9670;&#160;</a></span>combatZoneOf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1CombatZone.html">CombatZone</a> core::combatZoneOf </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structcore_1_1MapEntity.html">MapEntity</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>entity</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La zone de combat que déclare <code class="param">entity</code> : son nom, sa case, sa taille (0 si elle manque ou n'est pas un entier). L'appelant a vérifié le type. </dd></dl>
 
 </div>
 </div>
@@ -7604,7 +7758,8 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Les familles que l'éditeur sait poser, dans l'ordre de sa liste. </p>
-<p>Coffre, panneau, PNJ, rencontre, portail, point d'arrivée, entrée d'arène. Les types et leurs propriétés sont ceux que le gameplay lit déjà (<span class="tt"><a class="el" href="#a07f40df9fbe2a910d1e99b9756220fea" title="Les familles connues : coffre, panneau (LOT-10), PNJ (LOT-15).">core::knownInteractableKinds</a></span>, <span class="tt"><a class="el" href="#ac8e8c2031667df66e1dbb70f7e64d3b8" title="Lit entity comme un PNJ à qui parler, s&#39;il en est un.">core::dialogueTriggerFor</a></span>, <span class="tt"><a class="el" href="#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a></span>, <span class="tt"><a class="el" href="#a91e905d2d65ad1c9a0916752b0fd9b95" title="Les points d&#39;entrée d&#39;une carte, rangés par camp, rang, puis position.">core::arenaEntryPoints</a></span>) : la table ne les invente pas, elle les rassemble. Un type absent de la table reste <b>légal</b> sur une carte (<span class="tt">EX-NFR-040</span>) : l'éditeur le transporte et en montre les propriétés brutes. </p>
+<p>Coffre, panneau, PNJ, rencontre, portail, point d'arrivée, zone de combat, îlot, zone de règles, trajet, entrée d'arène. Les types et leurs propriétés sont ceux que le jeu lit déjà (<span class="tt"><a class="el" href="#a07f40df9fbe2a910d1e99b9756220fea" title="Les familles connues : coffre, panneau (LOT-10), PNJ (LOT-15).">core::knownInteractableKinds</a></span>, <span class="tt"><a class="el" href="#ac8e8c2031667df66e1dbb70f7e64d3b8" title="Lit entity comme un PNJ à qui parler, s&#39;il en est un.">core::dialogueTriggerFor</a></span>, <span class="tt"><a class="el" href="#a930b849a4d1c903dd56b8f5fe14d26ca" title="Lit entity comme un déclencheur de rencontre, s&#39;il en est un.">core::encounterTriggerFor</a></span>, <span class="tt"><a class="el" href="#a91e905d2d65ad1c9a0916752b0fd9b95" title="Les points d&#39;entrée d&#39;une carte, rangés par camp, rang, puis position.">core::arenaEntryPoints</a></span>, <span class="tt"><a class="el" href="classcore_1_1BattleGrid.html" title="La grille tactique d&#39;une rencontre.">core::BattleGrid</a></span>) : la table ne les invente pas, elle les rassemble. Une seule exception, le <b>trajet</b>, que la feuille de route de l'éditeur demande avant que le jeu ne le lise (<span class="tt">LOT-70</span>, <span class="tt">LOT-82</span>) : le format lui garde sa place, comme à la hauteur.</p>
+<p>Toute famille que le jeu lit <b>doit</b> y être : un test bloquant le vérifie (<span class="tt">EX-EDIT-073</span>). Un type absent de la table reste <b>légal</b> sur une carte (<span class="tt">EX-NFR-040</span>) : l'éditeur le transporte et en montre les propriétés brutes. </p>
 
 </div>
 </div>
@@ -12225,6 +12380,78 @@ Déterministe, et c'est le point</h2>
 
 </div>
 </div>
+<a id="a0fe304f84c3b2f39219fd28296982945" name="a0fe304f84c3b2f39219fd28296982945"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fe304f84c3b2f39219fd28296982945">&#9670;&#160;</a></span>ROUTE_ENTITY_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ROUTE_ENTITY_TYPE = &quot;route&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Type d'entité d'un trajet : la ligne brisée qu'un PNJ parcourt (<span class="tt">LOT-70</span>, <span class="tt">LOT-82</span>). </p>
+
+</div>
+</div>
+<a id="ac541942d62f7957cde3f8c36f9f02353" name="ac541942d62f7957cde3f8c36f9f02353"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac541942d62f7957cde3f8c36f9f02353">&#9670;&#160;</a></span>ROUTE_LOOP_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ROUTE_LOOP_PROPERTY = &quot;loop&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un trajet : vrai pour une ronde, qui revient à son premier point. </p>
+
+</div>
+</div>
+<a id="acb8dfe24f7b8464d68b8f1fd3cef1697" name="acb8dfe24f7b8464d68b8f1fd3cef1697"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb8dfe24f7b8464d68b8f1fd3cef1697">&#9670;&#160;</a></span>ROUTE_NAME_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ROUTE_NAME_PROPERTY = &quot;name&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'un trajet : son nom, unique dans la carte, que le PNJ citera. </p>
+
+</div>
+</div>
 <a id="a455104c902c36c4055632cff3653a4b7" name="a455104c902c36c4055632cff3653a4b7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a455104c902c36c4055632cff3653a4b7">&#9670;&#160;</a></span>SCENE_LAYER_PROPERTY</h2>
 
@@ -12246,6 +12473,54 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Propriété de couche qui nomme le lieu dont la carte porte les planches (<span class="tt">scene</span>). </p>
+
+</div>
+</div>
+<a id="a2f185047592ba6cc121a943f9b394d0e" name="a2f185047592ba6cc121a943f9b394d0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f185047592ba6cc121a943f9b394d0e">&#9670;&#160;</a></span>SHAPE_HEIGHT_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::SHAPE_HEIGHT_PROPERTY = &quot;height&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'une forme <span class="tt">Rectangle</span> ou <span class="tt">Area</span> : sa hauteur, en cases. </p>
+
+</div>
+</div>
+<a id="a63a25424abfa6e4563a86652fef27492" name="a63a25424abfa6e4563a86652fef27492"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63a25424abfa6e4563a86652fef27492">&#9670;&#160;</a></span>SHAPE_WIDTH_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::SHAPE_WIDTH_PROPERTY = &quot;width&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'une forme <span class="tt">Rectangle</span> ou <span class="tt">Area</span> : sa largeur, en cases. </p>
 
 </div>
 </div>
@@ -12467,6 +12742,30 @@ Déterministe, et c'est le point</h2>
 </div><div class="memdoc">
 
 <p>Propriété d'une zone rectangle : sa hauteur, en cases. </p>
+
+</div>
+</div>
+<a id="a0b994a5837bad127870719860ea34002" name="a0b994a5837bad127870719860ea34002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b994a5837bad127870719860ea34002">&#9670;&#160;</a></span>ZONE_NAME_PROPERTY</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view core::ZONE_NAME_PROPERTY = &quot;name&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel constexpr">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Propriété d'une zone de règles (<span class="tt"><a class="el" href="#ac09dbc5848329505d30e5ab32b462538" title="Type d&#39;entité d&#39;une zone de règles : un rectangle (width × height depuis sa case) ou un ensemble de c...">core::ZONE_ENTITY_TYPE</a></span>) : son nom, que seul l'éditeur montre. </p>
 
 </div>
 </div>

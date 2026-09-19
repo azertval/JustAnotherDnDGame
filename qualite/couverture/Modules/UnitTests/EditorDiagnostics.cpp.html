@@ -14,6 +14,8 @@
 
 #include "Editor/Logic/EditorDiagnostics.h"
 
+#include &lt;algorithm&gt;
+
 namespace hmi {
 
 namespace {
@@ -52,6 +54,18 @@ namespace {
 <span style = "background-color:#fdd">            return "%1: the target map has no arrival point \"%3\".";</span>
         case core::EntityIssueCode::DuplicateArrivalPoint:
 <span style = "background-color:#fdd">            return "Two arrival points are named \"%3\".";</span>
+        case core::EntityIssueCode::OutOfRange:
+<span style = "background-color:#fdd">            return "%1: %3 is out of range for \"%2\".";</span>
+        case core::EntityIssueCode::UnknownFigure:
+<span style = "background-color:#fdd">            return "%1: figure \"%3\" is in no workshop.";</span>
+        case core::EntityIssueCode::UnsetFlag:
+<span style = "background-color:#fdd">            return "%1: no dialogue sets flag \"%3\".";</span>
+        case core::EntityIssueCode::UnknownLocation:
+<span style = "background-color:#fdd">            return "%1: location \"%3\" is not in the atlas.";</span>
+        case core::EntityIssueCode::UnknownItem:
+<span style = "background-color:#fdd">            return "%1: item \"%3\" does not exist.";</span>
+        case core::EntityIssueCode::UnknownEntityRef:
+<span style = "background-color:#fdd">            return "%1: no map has an entity \"%3\".";</span>
     }
 <span style = "background-color:#fdd">    return "Entity kind \"%1\" is unknown to the editor.";</span>
 <span style = "background-color:#dfd">}</span>
@@ -70,9 +84,46 @@ namespace {
 <span style = "background-color:#fdd">    return "Encounter \"%1\": area too narrow to fight in (%2 free cells, %3 required).";</span>
 <span style = "background-color:#dfd">}</span>
 
-std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(
-    const std::vector&lt;core::MapEntity&gt;&amp; entities, const std::vector&lt;core::EntityIssue&gt;&amp; issues,
-<span style = "background-color:#dfd">    const std::vector&lt;core::EncounterTerrain&gt;&amp; terrains) {
+namespace {
+
+<span style = "background-color:#fdd">[[nodiscard]] const char* combatZoneTemplate(core::WorldIssueCode code) noexcept {
+    switch (code) {</span>
+        case core::WorldIssueCode::CombatZoneDegenerate:
+<span style = "background-color:#fdd">            return "Combat zone \"%1\" has no width or no height.";</span>
+        case core::WorldIssueCode::CombatZoneOutOfBounds:
+<span style = "background-color:#fdd">            return "Combat zone \"%1\" overflows the map.";</span>
+        case core::WorldIssueCode::CombatZoneBlocked:
+<span style = "background-color:#fdd">            return "Combat zone \"%1\" has no free cell: nobody can stand in it.";</span>
+        case core::WorldIssueCode::UnreadableMap:
+        case core::WorldIssueCode::MissingTargetMap:
+        case core::WorldIssueCode::UnknownTargetMap:
+        case core::WorldIssueCode::UnreadableTargetMap:
+        case core::WorldIssueCode::MissingArrivalPoint:
+        case core::WorldIssueCode::UnknownArrivalPoint:
+        case core::WorldIssueCode::DuplicateArrivalPoint:
+            break;
+    }
+<span style = "background-color:#fdd">    return "Combat zone \"%1\" cannot be played.";
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">std::string combatZoneSummary(const core::CombatZoneTerrain&amp; zone) {
+    if (zone.issue) {</span>
+<span style = "background-color:#fdd">        return format(combatZoneTemplate(*zone.issue), {zone.zone.name});</span>
+    }
+<span style = "background-color:#dfd">    return format(</span>
+        "%1: %2 x %3, %4 free cells of %5, %6 arena entries inside, %7 outside.",
+        {zone.zone.name, std::to_string(zone.zone.columns), std::to_string(zone.zone.rows),
+         std::to_string(zone.freeCells.size()),
+         std::to_string(zone.freeCells.size() + zone.blockedCells.size()),
+         std::to_string(zone.entriesInside.size()), std::to_string(zone.entriesOutside.size())});
+<span style = "background-color:#dfd">}</span>
+
+std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(const std::vector&lt;core::MapEntity&gt;&amp; entities,
+                                                const std::vector&lt;core::EntityIssue&gt;&amp; issues,
+                                                const std::vector&lt;core::EncounterTerrain&gt;&amp; terrains,
+<span style = "background-color:#dfd">                                                const std::vector&lt;core::CombatZoneTerrain&gt;&amp; zones) {
     std::vector&lt;EditorDiagnostic&gt; lines;
     for (const core::EntityIssue&amp; issue : issues) {
         if (issue.entityIndex &gt;= entities.size()) {</span>
@@ -100,7 +151,31 @@ std::vector&lt;EditorDiagnostic&gt; editorDiagnostics(
                                  .message = format(tacticalIssueTemplate(issue.code), args)});
 <span style = "background-color:#dfd">        }
     }
-    return lines;
+    for (const core::CombatZoneTerrain&amp; zone : zones) {
+        if (zone.issue) {</span>
+<span style = "background-color:#fdd">            lines.push_back(EditorDiagnostic{.kind = EditorDiagnosticKind::Terrain,</span>
+                                             .entityIndex = zone.entityIndex,
+                                             .cell = zone.zone.origin,
+                                             .message = combatZoneSummary(zone)});
+        }
+<span style = "background-color:#dfd">    }</span>
+    // Une entree d'arene hors de TOUTE zone : aucun combat de cette carte ne la verra.
+<span style = "background-color:#dfd">    if (!zones.empty()) {
+        for (const std::size_t entry : zones.front().entriesOutside) {
+            const bool outsideAll = std::ranges::all_of(zones, [entry](const auto&amp; zone) {
+                return std::ranges::find(zone.entriesOutside, entry) != zone.entriesOutside.end();
+            });
+            if (outsideAll &amp;&amp; entry &lt; entities.size()) {
+                lines.push_back(EditorDiagnostic{</span>
+                    .kind = EditorDiagnosticKind::Terrain,
+                    .entityIndex = entry,
+                    .cell = entities[entry].position,
+                    .message = "Arena entry stands outside every combat zone: the fight will not "
+                               "see it."});
+            }
+<span style = "background-color:#dfd">        }</span>
+    }
+<span style = "background-color:#dfd">    return lines;
 }</span>
 
 }  // namespace hmi</pre>
