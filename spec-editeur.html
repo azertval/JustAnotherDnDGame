@@ -106,7 +106,7 @@ Objectif</h1>
 1. Exigences fonctionnelles</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-001"></a><b>EX-EDIT-001</b> — L'éditeur doit permettre de créer et modifier une carte <b>sans compétence en programmation</b> ni ligne de commande.</li>
-<li><a class="anchor" id="EX-EDIT-002"></a><b>EX-EDIT-002</b> — L'édition doit être <b>directe</b> : une grille visuelle où l'on peint les tuiles à la souris, depuis une <b>palette</b> de types, chaque type dessiné de la couleur que le canevas lui donne.</li>
+<li><a class="anchor" id="EX-EDIT-002"></a><b>EX-EDIT-002</b> — L'édition doit être <b>directe</b> : une grille visuelle où l'on peint à la souris, depuis une <b>palette</b>. <em>Révisée au <span class="tt">LOT-EDITOR-03</span></em> : la palette est d'abord la <b>planche du lieu</b> — on y choisit une pièce, dessinée par son image (<span class="tt">EX-EDIT-063</span>) —, et les types de tuile, chacun de la couleur que le canevas lui donne, restent le repli d'une carte sans lieu et le vocabulaire de la collision.</li>
 <li><a class="anchor" id="EX-EDIT-004"></a><b>EX-EDIT-004</b> — L'éditeur doit permettre de poser l'<b>entrée</b> de la carte, unique : la poser ailleurs la déplace.</li>
 <li><a class="anchor" id="EX-EDIT-005"></a><b>EX-EDIT-005</b> — L'éditeur doit permettre de <b>redimensionner</b> la grille et de gérer <b>annuler/refaire</b>.</li>
 <li><a class="anchor" id="EX-EDIT-006"></a><b>EX-EDIT-006</b> — L'éditeur doit <b>enregistrer et charger</b> au format JSON défini par <span class="tt">EX-LVL-003</span>, en produisant des fichiers <b>valides</b>.</li>
@@ -119,7 +119,7 @@ Objectif</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-010"></a><b>EX-EDIT-010</b> — L'éditeur doit <b>réutiliser le modèle de carte et la validation de <span class="tt">Core</span></b> — aucune duplication de la logique de carte entre le jeu et l'éditeur.</li>
 <li><a class="anchor" id="EX-EDIT-011"></a><b>EX-EDIT-011</b> — Une carte enregistrée par l'éditeur doit être <b>directement jouable</b> par le jeu sans conversion, et réciproquement. Ce que l'éditeur ne sait pas modifier, il doit le <b>transporter</b> : les pièces assignées par case, les propriétés libres des couches et des entités (<span class="tt">EX-LVL-018</span>) traversent un cycle ouvrir/enregistrer sans perte — un éditeur qui efface en silence ce qu'il n'affiche pas est pire qu'un éditeur incomplet.</li>
-<li><a class="anchor" id="EX-EDIT-043"></a><b>EX-EDIT-043</b> — La <b>pièce</b> nommée par une case de couche (<span class="tt">"piece"</span>, <span class="tt">EX-LVL-019</span>) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre type. <em>Révisée au <span class="tt">LOT-EDITOR-12</span></em> : la pièce quitte la grille de collision (<span class="tt">"texture"</span> d'une v3) pour sa couche ; la poser devient l'affaire de l'éditeur au <span class="tt">LOT-EDITOR-03</span>.</li>
+<li><a class="anchor" id="EX-EDIT-043"></a><b>EX-EDIT-043</b> — La <b>pièce</b> nommée par une case de couche (<span class="tt">"piece"</span>, <span class="tt">EX-LVL-019</span>) doit être conservée par l'éditeur, et retirée si l'on repeint la case d'un autre type. <em>Révisée au <span class="tt">LOT-EDITOR-12</span></em> : la pièce quitte la grille de collision (<span class="tt">"texture"</span> d'une v3) pour sa couche. <em>Révisée au <span class="tt">LOT-EDITOR-03</span></em> : la poser est l'affaire de l'éditeur (<span class="tt">EX-EDIT-064</span>).</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md224"></a>
 3. Distribution &amp; collaboration</h1>
@@ -150,7 +150,7 @@ Objectif</h1>
 <li><a class="anchor" id="EX-EDIT-014"></a><b>EX-EDIT-014</b> — Au-delà de la peinture case par case, l'éditeur doit fournir un <b>outil de remplissage rectangulaire</b> et un <b>outil de sélection</b> avec <b>copier/coller</b> d'une zone de tuiles.</li>
 <li><a class="anchor" id="EX-EDIT-015"></a><b>EX-EDIT-015</b> — L'éditeur doit exposer ses commandes de façon <b>découvrable</b> à l'écran : une barre d'outils pour changer d'outil, un aperçu des raccourcis clavier, et des libellés sur les entrées de la palette.</li>
 <li><a class="anchor" id="EX-EDIT-017"></a><b>EX-EDIT-017</b> — L'éditeur doit permettre de <b>saisir directement</b> une largeur et une hauteur cibles, sous un <b>plafond généreux</b> qui reste configurable au niveau du code, pas une limite arbitraire de <span class="tt">Core</span>.</li>
-<li><a class="anchor" id="EX-EDIT-018"></a><b>EX-EDIT-018</b> — La palette doit regrouper les types de tuiles en <b>catégories</b> (Tuile, Jalon, Sol, Obstacle, Passage) plutôt qu'en liste plate, et rester entièrement accessible par <b>défilement</b> quand tout est déplié.</li>
+<li><a class="anchor" id="EX-EDIT-018"></a><b>EX-EDIT-018</b> — La palette doit regrouper les types de tuiles en <b>catégories</b> (Tuile, Jalon, Sol, Obstacle, Passage) plutôt qu'en liste plate, et rester entièrement accessible par <b>défilement</b> quand tout est déplié. <em>Révisée au <span class="tt">LOT-EDITOR-03</span></em> : c'est l'onglet « Types » de la palette ; les pièces du lieu ont le leur, groupé par classe (<span class="tt">EX-EDIT-063</span>).</li>
 <li><a class="anchor" id="EX-EDIT-023"></a><b>EX-EDIT-023</b> — L'éditeur doit afficher, en superposition de la grille de tuiles, un <b>quadrillage de repère</b> case par case (bascule <span class="tt">F10</span>), sans effet sur le cadrage.</li>
 </ul>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md228"></a>
@@ -187,6 +187,14 @@ Objectif</h1>
 <ul>
 <li><a class="anchor" id="EX-EDIT-062"></a><b>EX-EDIT-062</b> — <span class="tt">LevelEditor --migrate</span> convertit une carte de toute version passée en v4 canonique <b>sans changer ce que le jeu joue</b> (même instantané de scène, même grille tactique) : il nomme la pièce de chaque case d'après la table du lieu, donne les identifiants et force les cases où la collision écrite s'écarte des pièces. <span class="tt">LevelEditor --check</span> contrôle toutes les cartes — version courante, écriture canonique octet pour octet, références, pièces présentes au manifeste, collision égale à la déduction hors cases forcées, identifiants — et tourne en CI. Les deux s'exécutent sans fenêtre et appellent la même logique que l'éditeur.</li>
 </ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md232"></a>
+11. Peindre avec les pièces du lieu (<span class="tt">LOT-EDITOR-03</span>)</h1>
+<p>On pose ce que le jeu montrera, et la collision suit (<a class="el" href="lot-editor-03.html" title="LOT-EDITOR-03 — Peindre avec les pièces du lieu">LOT-EDITOR-03</a>).</p>
+<ul>
+<li><a class="anchor" id="EX-EDIT-063"></a><b>EX-EDIT-063</b> — La palette montre les <b>pièces du lieu</b> de la carte, par leur image, <b>groupées par classe</b> (sols, pièces debout, pièces larges) sous le nom court que la carte écrit, avec une <b>recherche</b> sur le nom et la classe. Une pièce que la carte cite et que la planche n'a pas y paraît à part, en damier, et se pose encore : elle n'est jamais retirée que par un geste qui la vise. Une carte sans lieu retombe sur la palette des types.</li>
+<li><a class="anchor" id="EX-EDIT-064"></a><b>EX-EDIT-064</b> — Poser une pièce écrit, <b>en un geste</b> et un pas d'annulation, sa couche (la première de sol pour un sol, la première de décor sinon), sa pièce, le type de sa case et la <b>collision de son emprise</b>. Deux emprises ne se recouvrent pas sur une couche ; la gomme retire une pièce entière depuis n'importe laquelle de ses cases, collision comprise ; reposer la même pièce ne modifie pas la carte.</li>
+<li><a class="anchor" id="EX-EDIT-065"></a><b>EX-EDIT-065</b> — La collision <b>suit</b> chaque geste sur une couche visuelle, sur les seules cases qu'il touche, hors cases forcées et hors entrée. Peindre la grille de collision <b>force</b> la case qui s'écarte de la déduction et libère celle qui s'y accorde ; la gomme, la collision active, rend les cases forcées à la déduction. Les cases forcées se montrent en <b>masque</b> quand on peint la collision, et la barre d'état les signale.</li>
+</ul>
 <h1 class="doxsection"><a class="anchor" id="edit-retirees"></a>
 Exigences retirées</h1>
 <blockquote class="doxtable">
@@ -212,7 +220,7 @@ Exigences retirées</h1>
 <li><a class="anchor" id="EX-EDIT-046"></a><b>EX-EDIT-046</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — mode création des plans.</li>
 <li><a class="anchor" id="EX-EDIT-047"></a><b>EX-EDIT-047</b> <em>(retirée au <span class="tt">LOT-88</span>)</em> — panneau des plans.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md232"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md233"></a>
 Traçabilité</h1>
 <p>Le code vit dans <span class="tt">Source/Editor</span> : <span class="tt">Logic/</span> (bibliothèque <span class="tt">EditorLogic</span>, testée sous <span class="tt">Source/Test/Unit/Editor</span>) et <span class="tt">Ui/</span> (l'exécutable <span class="tt">LevelEditor</span>). L'éditeur s'appuie sur <span class="tt">Core</span> (modèle et validation de carte, <span class="tt"><a class="el" href="niveaux_8md.html">niveaux.md</a></span>) et sur le rendu de <span class="tt">HMI</span> (<span class="tt"><a class="el" href="rendu-technique_8md.html">rendu-technique.md</a></span>) ; ce qui reste de sa présentation est dans <a class="el" href="spec-interface-ihm.html#md_Specification_2interface-ihm" title="Specification/interface-ihm.md"><span class="tt">interface-ihm.md</span></a>. </p>
 </div></div><!-- contents -->

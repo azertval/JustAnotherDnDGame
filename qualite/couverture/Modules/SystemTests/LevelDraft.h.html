@@ -16,17 +16,21 @@
 
 #include &lt;cstddef&gt;
 #include &lt;cstdint&gt;
+#include &lt;memory&gt;
 #include &lt;optional&gt;
 #include &lt;string&gt;
+#include &lt;string_view&gt;
 #include &lt;vector&gt;
 
 #include "Core/Levels/GridPosition.h"
 #include "Core/Levels/Level.h"
 #include "Core/Levels/LevelLoader.h"
 #include "Core/Levels/MapEntity.h"
+#include "Core/Levels/PieceFootprint.h"
 #include "Core/Levels/TileLayer.h"
 #include "Core/Levels/TileMap.h"
 #include "Core/Levels/TileType.h"
+#include "Core/Resources/ScenePieceManifest.h"
 
 /**
  * @file Core/Levels/LevelDraft.h
@@ -48,6 +52,21 @@ namespace core {
  * Invariant maintenu par tous les mutateurs : la grille de tuiles reste la **source de vÃ©ritÃ©**
  * de la position d'entrÃ©e (comme pour `Level`) ; `entry()` n'est qu'un accÃ¨s en cache, toujours
  * synchronisÃ© avec le contenu de `tileMap()`.
+ *
+ * ## La collision suit les gestes (`LOT-EDITOR-03`, `EX-EDIT-064`, `EX-EDIT-065`)
+ *
+ * DÃ¨s qu'une carte a une couche visuelle, sa collision se **dÃ©duit** de ce qu'elle montre
+ * (`core::deriveCollision`, dÃ©cision D10) et s'Ã©crit, hors des cases **forcÃ©es** Ã  la main. Le
+ * brouillon tient cet accord geste par geste, sans rien toucher d'autre :
+ *
+ * - un geste sur une couche visuelle (type, piÃ¨ce, gomme) redÃ©duit la collision des **seules**
+ *   cases qu'il a touchÃ©es â emprises comprises â, hors cases forcÃ©es et hors entrÃ©e ;
+ * - peindre la grille de collision elle-mÃªme **force** la case si la valeur peinte s'Ã©carte de la
+ *   dÃ©duction, et la **libÃ¨re** si elle s'y accorde ;
+ * - `unforceCollision` rend des cases forcÃ©es Ã  la dÃ©duction.
+ *
+ * La dÃ©duction lit le manifeste des piÃ¨ces du lieu (`setPieceManifest`) ; sans manifeste, toute
+ * piÃ¨ce compte pour inconnue et la case suit la rÃ¨gle de son type, comme au contrÃ´le.
  *
  * Logique **pure**, sans dÃ©pendance rendu ni fenÃªtre â testable sans GPU (`EX-NFR-010`).
  */
@@ -81,7 +100,9 @@ public:
      *
      * Cas particulier : peindre `Entry` dÃ©lÃ¨gue Ã  `setEntry` (unicitÃ©). Peindre un autre type sur
      * la case de l'entrÃ©e l'invalide, et peindre un type diffÃ©rent retire la piÃ¨ce assignÃ©e Ã  la
-     * case, pour ne jamais laisser d'incohÃ©rence entre la grille et ces caches.
+     * case, pour ne jamais laisser d'incohÃ©rence entre la grille et ces caches. Sur une carte Ã 
+     * couches visuelles, la case est forcÃ©e si la valeur peinte s'Ã©carte de la dÃ©duction, libÃ©rÃ©e
+     * sinon (voir l'en-tÃªte).
      * @param column Colonne visÃ©e (doit Ãªtre dans les bornes).
      * @param row    Ligne visÃ©e (doit Ãªtre dans les bornes).
      * @param type   Type de tuile Ã  poser.
@@ -159,7 +180,8 @@ public:
      */
     std::optional&lt;std::size_t&gt; moveLayer(std::size_t index, bool forward);
 
-    /// Peint @p type en (@p column, @p row) de la couche visuelle @p index.
+    /// Peint @p type en (@p column, @p row) de la couche visuelle @p index ; la collision de la
+    /// case suit.
     /// @return `false` (rien d'empilÃ©) si le rang, la case ou le type est refusÃ©, ou si la case
     ///         porte dÃ©jÃ  ce type.
     bool paintLayerTile(std::size_t index, int column, int row, TileType type);
@@ -168,6 +190,75 @@ public:
     /// bords, en **un** pas d'annulation. Un bloc contenant un type refusÃ© est refusÃ© en entier.
     bool paintLayerRegion(std::size_t index, int originColumn, int originRow,
                           const std::vector&lt;std::vector&lt;TileType&gt;&gt;&amp; block);
+
+    /** @} */
+
+    /**
+     * @name PiÃ¨ces de couche (`LOT-EDITOR-03`)
+     *
+     * Poser une piÃ¨ce Ã©crit, **en un pas d'annulation**, sa couche, sa piÃ¨ce et la collision
+     * qu'elle donne (`EX-EDIT-064`). Une piÃ¨ce est **ancrÃ©e** sur une case et occupe son emprise
+     * (`core::footprintCells`) ; l'emprise d'une piÃ¨ce que le manifeste ne connaÃ®t pas vaut 1 Ã 1.
+     * Sur une mÃªme couche, deux emprises ne se recouvrent pas : poser une piÃ¨ce retire celles
+     * qu'elle couvrirait.
+     * @{
+     */
+
+    /// @brief Le manifeste des piÃ¨ces du lieu : emprises et types tactiques. Ni peint ni dÃ©fait.
+<span style = "background-color:#dfd">    void setPieceManifest(std::shared_ptr&lt;const ScenePieceManifest&gt; manifest) noexcept {
+        _manifest = std::move(manifest);
+    }</span>
+
+    /// @return Le manifeste des piÃ¨ces du lieu, `nullptr` sans lieu.
+    [[nodiscard]] const ScenePieceManifest* pieceManifest() const noexcept {
+        return _manifest.get();
+    }
+
+    /// @return L'emprise de @p piece selon le manifeste, 1 Ã 1 si elle y est inconnue.
+    [[nodiscard]] PieceFootprint pieceFootprint(std::string_view piece) const noexcept;
+
+    /**
+     * @return La case d'ancrage de la piÃ¨ce de la couche @p index dont l'emprise couvre @p cell
+     *         (elle-mÃªme si la case nomme sa piÃ¨ce), ou `std::nullopt` si aucune ne la couvre.
+     */
+    [[nodiscard]] std::optional&lt;GridPosition&gt; pieceAnchorAt(std::size_t index,
+                                                            GridPosition cell) const;
+
+    /**
+     * @brief Pose @p piece ancrÃ©e en @p anchor sur la couche visuelle @p index, la case d'ancrage
+     *        prenant le type @p type ; les piÃ¨ces que son emprise couvrirait sont retirÃ©es, type
+     *        compris. La collision des cases touchÃ©es suit.
+     * @return `false` (rien d'empilÃ©) si le rang, la case ou le nom est refusÃ©, si l'emprise
+     *         dÃ©borde de la carte, ou si la case porte dÃ©jÃ  cette piÃ¨ce et ce type.
+     */
+    bool placePiece(std::size_t index, GridPosition anchor, const std::string&amp; piece,
+                    TileType type);
+
+    /**
+     * @brief Pave de @p piece le rectangle [@p first, @p last] (bornes incluses) de la couche
+     *        @p index, au pas de son emprise, en **un** pas d'annulation. Une piÃ¨ce dont
+     *        l'emprise dÃ©borderait du rectangle n'est pas posÃ©e.
+     * @return `false` si rien n'a changÃ©.
+     */
+    bool placePieceRegion(std::size_t index, GridPosition first, GridPosition last,
+                          const std::string&amp; piece, TileType type);
+
+    /**
+     * @brief Gomme les cases du rectangle [@p first, @p last] de la couche visuelle @p index : une
+     *        case couverte par une piÃ¨ce retire la piÃ¨ce **entiÃ¨re** (type de sa case d'ancrage
+     *        compris), une case sans piÃ¨ce perd son type. La collision suit, en un pas.
+     * @return `false` si rien n'a changÃ©.
+     */
+    bool eraseLayerRegion(std::size_t index, GridPosition first, GridPosition last);
+
+    /**
+     * @brief Rend les cases forcÃ©es de @p cells Ã  la dÃ©duction (`EX-EDIT-065`), en un pas.
+     * @return `false` si aucune n'Ã©tait forcÃ©e.
+     */
+    bool unforceCollision(const std::vector&lt;GridPosition&gt;&amp; cells);
+
+    /// @return Vrai si la collision de @p cell est forcÃ©e Ã  la main.
+    [[nodiscard]] bool isCollisionForced(GridPosition cell) const noexcept;
 
     /** @} */
 
@@ -292,9 +383,9 @@ public:
     }</span>
 
     /// @return Les cases de collision forcÃ©es Ã  la main (`core::LevelData::forcedCollision`).
-    [[nodiscard]] const std::vector&lt;GridPosition&gt;&amp; forcedCollision() const noexcept {
+<span style = "background-color:#dfd">    [[nodiscard]] const std::vector&lt;GridPosition&gt;&amp; forcedCollision() const noexcept {
         return _forcedCollision;
-    }
+    }</span>
 
     /// @return Le prochain identifiant d'entitÃ© que `placeEntity` donnera.
     [[nodiscard]] int nextEntityId() const noexcept {
@@ -375,6 +466,28 @@ private:
     /// Vrai si peindre @p type en (@p column, @p row) changerait la carte.
     [[nodiscard]] bool paintChanges(int column, int row, TileType type) const;
 
+    /// Vrai si la carte a une couche visuelle : sa collision se dÃ©duit alors de ses couches.
+    [[nodiscard]] bool derivesCollision() const noexcept;
+
+    /// RedÃ©duit la collision de @p cells, hors cases forcÃ©es et hors entrÃ©e (voir l'en-tÃªte).
+    void followCollision(const std::vector&lt;GridPosition&gt;&amp; cells);
+
+    /// AprÃ¨s une peinture de la grille de collision : force chaque case de @p cells qui s'Ã©carte
+    /// de la dÃ©duction, libÃ¨re celle qui s'y accorde.
+    void updateForcing(const std::vector&lt;GridPosition&gt;&amp; cells);
+
+    /// Retire de la couche @p index la piÃ¨ce ancrÃ©e en @p anchor, type de l'ancre compris ; ajoute
+    /// ses cases Ã  @p touched.
+    void removePieceInternal(std::size_t index, GridPosition anchor,
+                             std::vector&lt;GridPosition&gt;&amp; touched);
+
+    /// Logique de `placePiece`, sans `pushUndo()` ; ajoute les cases touchÃ©es Ã  @p touched.
+    void placePieceInternal(std::size_t index, GridPosition anchor, const std::string&amp; piece,
+                            TileType type, std::vector&lt;GridPosition&gt;&amp; touched);
+
+    /// Vrai si l'emprise de @p piece ancrÃ©e en @p anchor tient dans la carte.
+    [[nodiscard]] bool pieceFits(GridPosition anchor, std::string_view piece) const noexcept;
+
     std::string _name;
     TileMap _tileMap;
     std::optional&lt;GridPosition&gt; _entry;
@@ -386,6 +499,8 @@ private:
     /// Base et planche d'une variante (dÃ©cision D12) : ni peintes ni dÃ©faites, recopiÃ©es.
     std::string _base;
     std::string _scene;
+    /// Manifeste des piÃ¨ces du lieu, partagÃ© : copier un brouillon ne le recopie pas.
+    std::shared_ptr&lt;const ScenePieceManifest&gt; _manifest;
     std::vector&lt;State&gt; _undoHistory;
     std::vector&lt;State&gt; _redoHistory;
 <span style = "background-color:#dfd">    std::uint64_t _revision = 0;</span>

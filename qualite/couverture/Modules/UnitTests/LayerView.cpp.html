@@ -100,8 +100,8 @@ namespace hmi {
         _rootLocked = locked;
         return;</span>
     }
-<span style = "background-color:#fdd">    at(*slot).locked = locked;</span>
-<span style = "background-color:#dfd">}</span>
+<span style = "background-color:#dfd">    at(*slot).locked = locked;
+}</span>
 
 <span style = "background-color:#dfd">void LayerViewState::swap(std::size_t a, std::size_t b) {
     std::swap(at(a), at(b));

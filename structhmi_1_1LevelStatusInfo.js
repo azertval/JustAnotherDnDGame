@@ -1,7 +1,10 @@
 var structhmi_1_1LevelStatusInfo =
 [
+    [ "brush", "structhmi_1_1LevelStatusInfo.html#af7a683c327b50588af07ffeb31952c45", null ],
+    [ "collisionActive", "structhmi_1_1LevelStatusInfo.html#a5e79b8c27aa7f5e7173ebe943b0305ba", null ],
     [ "dirty", "structhmi_1_1LevelStatusInfo.html#a9cd9b8b2b1e60de42886994d2ffb1310", null ],
     [ "hoveredCell", "structhmi_1_1LevelStatusInfo.html#ae31b27e74cbacf3e320a2e9f5467c414", null ],
+    [ "hoveredForced", "structhmi_1_1LevelStatusInfo.html#a0d258b359594eefc33b451516f2e3c2d", null ],
     [ "hoveredPieces", "structhmi_1_1LevelStatusInfo.html#a2effd6644d86469c43423355353cded6", null ],
     [ "isoView", "structhmi_1_1LevelStatusInfo.html#a1a37c393c46c84bc6d6e0f7db90d60b6", null ],
     [ "name", "structhmi_1_1LevelStatusInfo.html#a59ad1f344767a485525518e8c2c193ee", null ],

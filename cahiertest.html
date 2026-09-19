@@ -93,9 +93,9 @@ $(function(){initNavTree('cahiertest.html','',''); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md_CahierTest"></a></p>
-<p><b>784 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
+<p><b>809 cas de test</b>, générés depuis les blocs <span class="tt">\castest{...}</span> du code par <span class="tt">scripts/generate_cahier_test.py</span> (ne pas éditer directement — modifier le commentaire du test concerné puis relancer le script). Organisés ici selon l'arborescence de <span class="tt">Source/Test/</span> pour rester lisibles page par page.</p>
 <h1 class="doxsection"><a class="anchor" id="autotoc_md4"></a>
-Tests unitaires (781)</h1>
+Tests unitaires (806)</h1>
 <h2 class="doxsection"><a class="anchor" id="autotoc_md5"></a>
 Core</h2>
 <p><b><span class="tt"><a class="el" href="test__core_8cpp.html" title="Tests unitaires de la bibliothèque Core (amorçage).">test_core.cpp</a></span></b></p>
@@ -2104,7 +2104,7 @@ Vérifie que <span class="tt">drapeaux.isSet("donjon/chest@1,1")</span> est faux
 Vérifie que <span class="tt">drapeaux.size()</span> vaut <span class="tt">2U</span>.  </td></tr>
 </table>
 <h3 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
-Levels (100)</h3>
+Levels (111)</h3>
 <p><b><span class="tt"><a class="el" href="test__format__v4_8cpp.html" title="Tests unitaires du format de carte v4 (LOT-EDITOR-12) : versions passées, écriture canonique,...">test_format_v4.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -2632,6 +2632,108 @@ Vérifie que <span class="tt">draft.removeEntityProperty(0, "dialogue")</span> e
 Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est faux.<br  />
 Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
 Vérifie que <span class="tt">draft.entities()[0].properties.contains("dialogue")</span> est vrai.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">test_level_draft_pieces.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.PoserUnePieceEcritSaCoucheSaPieceEtSaCollision</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:82</span></sub>  </td><td class="markdownTableBodyNone">Poser une pièce écrit sa couche, sa pièce et sa collision.  </td><td class="markdownTableBodyNone">1. Poser un pilier en (2, 1) du décor.<br  />
+2. Défaire.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 2, .row = 1}, "pillar", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(2, 1)</span> vaut <span class="tt">"pillar"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].tiles.tile(2, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.undo()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(2, 1).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Empty</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.PoserPuisGommerUnEtalOccupePuisLibereSesDeuxCases</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:108</span></sub>  </td><td class="markdownTableBodyNone">Un étal 2 × 1 occupe puis libère ses deux cases.  </td><td class="markdownTableBodyNone">1. Poser l'étal en (1, 1).<br  />
+2. Gommer sa deuxième case, (2, 1).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 1, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 3, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(2, 1).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.pieceAnchorAt(DECOR, {.column = 2, .row = 1})</span> vaut <span class="tt">(GridPosition{.column = 1, .row = 1})</span>.<br  />
+Vérifie que <span class="tt">draft.eraseLayerRegion(DECOR, {.column = 2, .row = 1}, {.column = 2, .row = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].tiles.tile(1, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Empty</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.ReposerLaMemePieceNeModifiePasLaCarte</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:136</span></sub>  </td><td class="markdownTableBodyNone">Reposer la même pièce ne modifie pas la carte.  </td><td class="markdownTableBodyNone">1. Reposer <span class="tt">street</span> sur une case qui la porte déjà.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(SOL, {.column = 3, .row = 2}, "street", TileType::Dirt)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.revision()</span> vaut <span class="tt">revision</span>.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UnePieceRetireCellesQuElleCouvrirait</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:156</span></sub>  </td><td class="markdownTableBodyNone">Une pièce retire celles qu'elle couvrirait.  </td><td class="markdownTableBodyNone">1. Poser un étal en (0, 1) et un pilier en (3, 1).<br  />
+2. Poser un étal en (1, 1).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 0, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 3, .row = 1}, "pillar", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 1, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(0, 1).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 0, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(1, 1)</span> vaut <span class="tt">"stall"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(3, 1)</span> vaut <span class="tt">"pillar"</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 3, 1)</span> vaut <span class="tt">TileType::Wall</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UneEmpriseQuiDebordeEstRefusee</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:181</span></sub>  </td><td class="markdownTableBodyNone">Une emprise qui déborde est refusée.  </td><td class="markdownTableBodyNone">1. Poser l'étal 2 × 1 sur la dernière colonne.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 3, .row = 0}, "stall", TileType::Wall)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.LeRectanglePaveAuPasDeLEmprise</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:197</span></sub>  </td><td class="markdownTableBodyNone">Le rectangle pave au pas de l'emprise.  </td><td class="markdownTableBodyNone">1. Paver d'étals le rectangle (0, 0)–(2, 1).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePieceRegion(DECOR, {.column = 0, .row = 0}, {.column = 2, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(0, 0)</span> vaut <span class="tt">"stall"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(0, 1)</span> vaut <span class="tt">"stall"</span>.<br  />
+Vérifie que <span class="tt">draft.layers()[DECOR].pieceAt(2, 0).empty()</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">draft.undoDepth()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.placePieceRegion(DECOR, {.column = 0, .row = 0}, {.column = 2, .row = 1}, "stall", TileType::Wall)</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UneFosseArreteLePasEtLEntreeResteLEntree</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:223</span></sub>  </td><td class="markdownTableBodyNone">Une fosse arrête le pas ; l'entrée reste l'entrée.  </td><td class="markdownTableBodyNone">1. Poser la fosse 1 × 2 en (0, 0), sur l'entrée.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 0, .row = 0}, "pit", TileType::Cliff)</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 0, 0)</span> vaut <span class="tt">TileType::Entry</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 0, 1)</span> vaut <span class="tt">TileType::Cliff</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UnTypePeintSurUneCoucheLaCollisionSuit</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:242</span></sub>  </td><td class="markdownTableBodyNone">Un type peint sur une couche : la collision suit.  </td><td class="markdownTableBodyNone">1. Poser un étal en (1, 1).<br  />
+2. Peindre <span class="tt">dirt</span> sur son ancre.<br  />
+3. Peindre <span class="tt">water</span> profonde sur le sol en (3, 2).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 1, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(DECOR, 1, 1, TileType::Dirt)</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 2, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">draft.paintLayerTile(SOL, 3, 2, TileType::DeepWater)</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 3, 2)</span> vaut <span class="tt">TileType::Cliff</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.PeindreLaCollisionForceOuLibereLaCase</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:265</span></sub>  </td><td class="markdownTableBodyNone">Peindre la collision force ou libère la case.  </td><td class="markdownTableBodyNone">1. Peindre un mur de collision en (2, 2).<br  />
+2. Y repeindre du vide.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.isCollisionForced(cell)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.forcedCollision().size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">draft.isCollisionForced(cell)</span> est faux.<br  />
+Vérifie que <span class="tt">draft.forcedCollision().empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UneCaseForceeTientPuisSeLibere</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:288</span></sub>  </td><td class="markdownTableBodyNone">Une case forcée tient, puis se libère.  </td><td class="markdownTableBodyNone">1. Forcer un mur de collision en (1, 1).<br  />
+2. Poser un étal en (0, 1).<br  />
+3. Libérer la case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">draft.isCollisionForced({.column = 1, .row = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 0, .row = 1}, "stall", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.isCollisionForced({.column = 1, .row = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.unforceCollision({{.column = 1, .row = 1}, {.column = 3, .row = 2}})</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.isCollisionForced({.column = 1, .row = 1})</span> est faux.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 1)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">draft.eraseLayerRegion(DECOR, {.column = 0, .row = 1}, {.column = 0, .row = 1})</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 1)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">draft.unforceCollision({{.column = 1, .row = 1}})</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>LevelDraftPiecesTest.UnGesteNeToucheQueSesCases</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__level__draft__pieces_8cpp.html" title="Tests unitaires de la pose des pièces dans le brouillon, et de la collision qui suit les gestes (LOT-...">Source/Test/Unit/Core/Levels/test_level_draft_pieces.cpp</a>:317</span></sub>  </td><td class="markdownTableBodyNone">Un geste ne touche que ses cases.  </td><td class="markdownTableBodyNone">1. Charger une carte dont la collision s'écarte de la déduction en (3, 0), sans la forcer.<br  />
+2. Poser un pilier en (1, 2).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">loaded.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt">draft.placePiece(DECOR, {.column = 1, .row = 2}, "pillar", TileType::Wall)</span> est vrai.<br  />
+Vérifie que <span class="tt">collision(draft, 1, 2)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">collision(draft, 3, 0)</span> vaut <span class="tt">TileType::Wall</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__level__loader_8cpp.html" title="Tests unitaires du chargement de niveau (format JSON, erreurs récupérables).">test_level_loader.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4527,6 +4629,68 @@ Vérifie que <span class="tt">kept-&gt;parent_path().filename().string()</span> 
 Vérifie que <span class="tt">content</span> vaut <span class="tt">"contenu disque"</span>.<br  />
 Vérifie que <span class="tt">store.pending().empty()</span> est vrai.  </td></tr>
 </table>
+<p><b><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">test_brush_gesture.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.RepeindreUneRueEtUneFacadeRendLeMemeFichier</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:97</span></sub>  </td><td class="markdownTableBodyNone">Repeindre une rue et une façade rend le même fichier.  </td><td class="markdownTableBodyNone">1. Ouvrir Martpart.<br  />
+2. Gommer une case de rue (<span class="tt">street-2</span>) et un pan de façade (<span class="tt">window-left</span>), puis les reposer du pinceau de pièce, le décor actif.<br  />
+3. Écrire le brouillon.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">rue &amp;&amp; facade</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, GOMME, sol, vue, *rue, *rue).changed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, GOMME, decor, vue, *facade, *facade).changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(rue-&gt;column, rue-&gt;row)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> diffère de <span class="tt">carte.fichier</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, pinceau(carte, "street-2", true), decor, vue, *rue, *rue) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, pinceau(carte, "window-left", false), decor, vue, *facade, *facade) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.PoserPuisGommerUnEtalSurMartpart</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:134</span></sub>  </td><td class="markdownTableBodyNone">Un étal 2 × 1 posé puis gommé sur Martpart.  </td><td class="markdownTableBodyNone">1. Ouvrir Martpart.<br  />
+2. Poser <span class="tt">feature-1</span> (2 × 1) sur deux cases libres de la place.<br  />
+3. Le gommer par sa deuxième case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">place</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, pinceau(carte, "feature-1", false), std::nullopt, vue, *place, *place) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.layers()[decor].pieceAt(place-&gt;column, place-&gt;row)</span> vaut <span class="tt">"feature-1"</span>.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(place-&gt;column, place-&gt;row)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(seconde.column, seconde.row)</span> vaut <span class="tt">TileType::Wall</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, GOMME, decor, vue, seconde, seconde).changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(place-&gt;column, place-&gt;row)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">carte.draft.tileMap().tile(seconde.column, seconde.row)</span> vaut <span class="tt">TileType::Empty</span>.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.GlisserUnEtalNeLeDecalePas</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:182</span></sub>  </td><td class="markdownTableBodyNone">Glisser un étal ne le décale pas.  </td><td class="markdownTableBodyNone">1. Poser <span class="tt">feature-1</span> au clic.<br  />
+2. Prolonger le glisser sur sa deuxième case.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, pinceau(carte, "feature-1", false), decor, vue, ancre, ancre) .changed</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, pinceau(carte, "feature-1", false), decor, vue, seconde, seconde, true) .changed</span> est faux.<br  />
+Vérifie que <span class="tt">carte.draft.layers()[decor].pieceAt(ancre.column, ancre.row)</span> vaut <span class="tt">"feature-1"</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.CoucheVerrouilleeOuAbsenteLeGesteEstRefuse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:208</span></sub>  </td><td class="markdownTableBodyNone">Couche verrouillée ou absente : le geste est refusé.  </td><td class="markdownTableBodyNone">1. Verrouiller le décor, poser une pièce debout.<br  />
+2. Poser une pièce debout sur une carte sans décor.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">verrou.changed</span> est faux.<br  />
+Vérifie que <span class="tt">verrou.refusal</span> vaut <span class="tt">"The decor layer is locked."</span>.<br  />
+Vérifie que <span class="tt">absente.changed</span> est faux.<br  />
+Vérifie que <span class="tt">absente.refusal.find("no decor layer")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">carte.draft.canUndo()</span> est faux.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.SurLaCollisionLePinceauForceEtLaGommeLibere</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:240</span></sub>  </td><td class="markdownTableBodyNone">Sur la collision, le pinceau force et la gomme libère.  </td><td class="markdownTableBodyNone">1. Peindre un mur sur la collision d'une case de rue.<br  />
+2. La gommer, la collision active.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, mur, std::nullopt, vue, rue, rue).changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.isCollisionForced(rue)</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a4a19c9c3981d4b0c1ad65c34b55d2b82" title="Applique brush au rectangle [first, last] (bornes incluses, dans n&#39;importe quel ordre).">hmi::applyBrush</a>(carte.draft, GOMME, std::nullopt, vue, rue, rue).changed</span> est vrai.<br  />
+Vérifie que <span class="tt">carte.draft.isCollisionForced(rue)</span> est faux.<br  />
+Vérifie que <span class="tt">carte.draft.toJson()</span> vaut <span class="tt">carte.fichier</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.UnTypeVaSurLaCoucheActiveJamaisLEntree</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:266</span></sub>  </td><td class="markdownTableBodyNone">Un type va sur la couche active, jamais l'entrée.  </td><td class="markdownTableBodyNone">1. Peindre <span class="tt">entry</span> sur le sol de Martpart.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">result.changed</span> est faux.<br  />
+Vérifie que <span class="tt">result.refusal.find("entry lives in the collision grid")</span> diffère de <span class="tt">std::string::npos</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>BrushGestureTest.LePinceauSeNomme</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__brush__gesture_8cpp.html" title="Tests des coups de pinceau — type, pièce, gomme — sur le brouillon (LOT-EDITOR-03,...">Source/Test/Unit/Editor/test_brush_gesture.cpp</a>:289</span></sub>  </td><td class="markdownTableBodyNone">Le pinceau se nomme.  </td><td class="markdownTableBodyNone">1. Nommer un pinceau de type, de pièce, la gomme.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8cb1b5d7bb160648c402da03dc262732">hmi::brushLabel</a>( {.kind = BrushKind::Type, .type = TileType::Grass, .piece = {}, .floor = false})</span> vaut <span class="tt">"grass"</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a8cb1b5d7bb160648c402da03dc262732">hmi::brushLabel</a>({.kind = BrushKind::Piece, .type = TileType::Wall, .piece = "wall-left", .floor = false})</span> vaut <span class="tt">"wall-left"</span>.<br  />
+Vérifie que <span class="tt">hmi::brushLabel(GOMME)</span> vaut <span class="tt">"Eraser"</span>.  </td></tr>
+</table>
 <p><b><span class="tt"><a class="el" href="test__canvas__picking_8cpp.html" title="Le pointage du canevas de l&#39;éditeur (LOT-EDITOR-02) : juste aux quatre coins de Martpart,...">test_canvas_picking.cpp</a></span></b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -4727,6 +4891,13 @@ Vérifie que <span class="tt">first.permanent</span> vaut <span class="tt">secon
 <sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">Source/Test/Unit/Editor/test_editor_status.cpp</a>:135</span></sub>  </td><td class="markdownTableBodyNone">La barre d'etat nomme les pieces survolees et la vue du canevas. cat Unitaire · Barre d'etat de l'editeur crit Mineur etapes 1. Survoler une case qui porte un sol et un relief, en vue iso. 2. Passer en vue a plat. attendu Les coordonnees sont suivies des pieces ; la zone du zoom finit par « Iso », puis par « Flat » (LOT-EDITOR-02).  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lines.permanent[3]</span> vaut <span class="tt">"(12, 7) street · wall-left"</span>.<br  />
 Vérifie que <span class="tt">lines.permanent[4]</span> vaut <span class="tt">"Zoom: 100% · Iso"</span>.<br  />
 Vérifie que <span class="tt">lines.permanent[4]</span> vaut <span class="tt">"Zoom: 100% · Flat"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>EditorStatusTest.LePinceauEtLesCasesForceesSeLisent</b> (?)<br  />
+<sub><span class="tt"><a class="el" href="test__editor__status_8cpp.html" title="Tests unitaires du choix de contenu de la barre d&#39;état de l&#39;éditeur Fonction pure,...">Source/Test/Unit/Editor/test_editor_status.cpp</a>:163</span></sub>  </td><td class="markdownTableBodyNone">La barre d'etat dit le pinceau et les cases forcees. cat Unitaire · Barre d'etat de l'editeur crit Mineur etapes 1. Armer la piece <span class="tt">wall-left</span>, survoler une case forcee, la collision active. 2. Passer a l'outil Entite. attendu « Brush · wall-left », « · forced collision », et l'aide de la collision ; l'outil Entite ne nomme plus de pinceau.  </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">Vérifie que <span class="tt">lines.permanent[2]</span> vaut <span class="tt">"Brush · wall-left"</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[3]</span> vaut <span class="tt">"(3, 4) · forced collision"</span>.<br  />
+Vérifie que <span class="tt">lines.help.find("the eraser releases it")</span> diffère de <span class="tt">std::string::npos</span>.<br  />
+Vérifie que <span class="tt">lines.permanent[2]</span> vaut <span class="tt">"Entity"</span>.<br  />
+Vérifie que <span class="tt">lines.help.find("the eraser releases it")</span> vaut <span class="tt">std::string::npos</span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__entity__editing_8cpp.html" title="Tests unitaires de la logique d&#39;édition des couches et des entités de l&#39;éditeur (LOT-11) : lignes du ...">test_entity_editing.cpp</a></span></b></p>
 <table class="markdownTable">
@@ -4944,6 +5115,56 @@ Vérifie que <span class="tt">v4.entry()</span> vaut <span class="tt">v3.entry()
 <td class="markdownTableBodyNone"><b>PanelFocusTest.AucunDoublonDOutilDansLaTable</b> (Majeur)<br  />
 <sub><span class="tt"><a class="el" href="test__panel__focus_8cpp.html" title="Tests unitaires de la correspondance outil → panneau.">Source/Test/Unit/Editor/test_panel_focus.cpp</a>:47</span></sub>  </td><td class="markdownTableBodyNone">La table ne contient aucun doublon d'outil.  </td><td class="markdownTableBodyNone">1. Parcourir toutes les paires d'entrees de la table.<br  />
 2. Comparer leurs outils.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalog[i].tool</span> diffère de <span class="tt">catalog[j].tool</span>.  </td></tr>
+</table>
+<p><b><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">test_piece_catalog.cpp</a></span></b></p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Titre (criticité)  </th><th class="markdownTableHeadNone">Brief  </th><th class="markdownTableHeadNone">Étapes  </th><th class="markdownTableHeadNone">Résultat attendu  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.LeCatalogueGroupeParClasseEtGardeLesAbsentes</b> (Critique)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:73</span></sub>  </td><td class="markdownTableBodyNone">Le catalogue groupe par classe et garde les absentes.  </td><td class="markdownTableBodyNone">1. Construire le catalogue d'une planche de cinq pièces pour une carte qui cite deux pièces inconnues.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalog.size()</span> vaut <span class="tt">5U</span>.<br  />
+Vérifie que <span class="tt">catalog[0].label</span> vaut <span class="tt">"Floors"</span>.<br  />
+Vérifie que <span class="tt">noms(catalog[0])</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"street", "street-2"})</span>.<br  />
+Vérifie que <span class="tt">catalog[0].pieces[0].floor</span> est vrai.<br  />
+Vérifie que <span class="tt">catalog[1].label</span> vaut <span class="tt">"Standing"</span>.<br  />
+Vérifie que <span class="tt">catalog[2].label</span> vaut <span class="tt">"Wide"</span>.<br  />
+Vérifie que <span class="tt">catalog[2].pieces[0].footprint</span> vaut <span class="tt">(<a class="el" href="structcore_1_1PieceFootprint.html" title="Emprise d&#39;une pièce, en cases : colonnes, puis lignes. Au moins 1 × 1.">core::PieceFootprint</a>{.columns = 2, .rows = 1})</span>.<br  />
+Vérifie que <span class="tt">catalog[2].pieces[0].floor</span> est faux.<br  />
+Vérifie que <span class="tt">catalog[3].label</span> vaut <span class="tt">"Other"</span>.<br  />
+Vérifie que <span class="tt">catalog[4].label</span> vaut <span class="tt"><a class="el" href="namespacehmi.html#a5df9b58a558cb32ba554bcb3bff09c45" title="Titre du groupe des pièces que la carte cite et que la planche n&#39;a pas.">hmi::MISSING_PIECES_GROUP</a></span>.<br  />
+Vérifie que <span class="tt">noms(catalog[4])</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"cobble", "fountain"})</span>.<br  />
+Vérifie que <span class="tt">catalog[4].pieces[0].missing</span> est vrai.<br  />
+Vérifie que <span class="tt">catalog[4].pieces[0].floor</span> est vrai.<br  />
+Vérifie que <span class="tt">catalog[4].pieces[1].floor</span> est faux.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.SansLieuSeulesLesPiecesCiteesRestent</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:105</span></sub>  </td><td class="markdownTableBodyNone">Sans lieu, seules les pièces citées restent.  </td><td class="markdownTableBodyNone">1. Construire le catalogue sans manifeste.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">catalog.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">noms(catalog[0])</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"cobble", "fountain", "old-wall"})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#af13dc656bfde25b7f2e991d124ec836e" title="Le catalogue d&#39;un lieu.">hmi::pieceCatalog</a>(nullptr, {}).empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.LaRechercheFiltreParNomEtParClasse</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:123</span></sub>  </td><td class="markdownTableBodyNone">La recherche filtre par nom et par classe.  </td><td class="markdownTableBodyNone">1. Chercher <span class="tt">STREET</span>, puis <span class="tt">wide</span>, puis rien.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">streets.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">noms(streets[0])</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"street", "street-2"})</span>.<br  />
+Vérifie que <span class="tt">wide.size()</span> vaut <span class="tt">1U</span>.<br  />
+Vérifie que <span class="tt">noms(wide[0])</span> vaut <span class="tt">(std::vector&lt;std::string&gt;{"stall"})</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aecbe4c4d16394d8fcbd7b6ccffeb1da6" title="Le catalogue réduit aux pièces dont le nom ou la classe contient query, sans égard à la casse ; les g...">hmi::filterPieceCatalog</a>(catalog, "")</span> vaut <span class="tt">catalog</span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#aecbe4c4d16394d8fcbd7b6ccffeb1da6" title="Le catalogue réduit aux pièces dont le nom ou la classe contient query, sans égard à la casse ; les g...">hmi::filterPieceCatalog</a>(catalog, "nothing like it").empty()</span> est vrai.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.LaBulleDAideDecritLaPiece</b> (Mineur)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:148</span></sub>  </td><td class="markdownTableBodyNone">La bulle d'aide décrit la pièce.  </td><td class="markdownTableBodyNone">1. Décrire l'étal.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a886aa8303d2fee185b1413e5c425896f">hmi::pieceDescription</a>(catalog[2].pieces[0])</span> vaut <span class="tt">"stall — wide, 2 × 1, solid"</span>.  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.UnePieceViseSaCouche</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:165</span></sub>  </td><td class="markdownTableBodyNone">Une pièce vise sa couche.  </td><td class="markdownTableBodyNone">1. Chercher la couche d'un sol, puis d'une pièce debout, puis sans couche de décor.  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">hmi::pieceTargetLayer(layers, true)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{1}</span>.<br  />
+Vérifie que <span class="tt">hmi::pieceTargetLayer(layers, false)</span> vaut <span class="tt">std::optional&lt;std::size_t&gt;{2}</span>.<br  />
+Vérifie que <span class="tt">hmi::pieceTargetLayer(solSeul, false)</span> vaut <span class="tt">std::nullopt</span>.  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><b>PieceCatalogTest.LeTypeDUnePieceVientDeLaTableDuLieu</b> (Majeur)<br  />
+<sub><span class="tt"><a class="el" href="test__piece__catalog_8cpp.html" title="Tests du catalogue des pièces d&#39;un lieu, que montre la palette (LOT-EDITOR-03, EX-EDIT-063).">Source/Test/Unit/Editor/test_piece_catalog.cpp</a>:184</span></sub>  </td><td class="markdownTableBodyNone">Le type d'une pièce vient de la table du lieu.  </td><td class="markdownTableBodyNone">1. Demander le type de <span class="tt">street-2</span>, de <span class="tt">stall</span>, d'un sol inconnu, et de <span class="tt">old-wall</span> (ancien nom).  </td><td class="markdownTableBodyNone">Vérifie que <span class="tt">table.ok()</span> est vrai.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a>(&amp;table.appearance, "street-2", true)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a7cf334b79a84091f27dfc019b4b79229" title="Terre battue : chemins, cours, sols d&#39;intérieur sommaires.">core::TileType::Dirt</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a>(&amp;table.appearance, "stall", false)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875a94e8a499539d1a472f3b5dbbb85508c0" title="Mur : la matière pleine bâtie, distincte de Solid (matière générique du socle) parce que l&#39;éditeur et...">core::TileType::Wall</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a>(&amp;table.appearance, "cobble", true)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a>(&amp;table.appearance, "old-wall", false)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></span>.<br  />
+Vérifie que <span class="tt"><a class="el" href="namespacehmi.html#a2959b61f0394085789d35563568aac2d" title="Le type qu&#39;écrit la case d&#39;ancrage d&#39;une pièce posée à la main (décision D3 : le type garde le sens d...">hmi::pieceCellType</a>(nullptr, "street", true)</span> vaut <span class="tt"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ace2c8aed9c2fa0cfbed56cbda4d8bf07">core::TileType::Empty</a></span>.  </td></tr>
 </table>
 <p><b><span class="tt"><a class="el" href="test__scene__painter_8cpp.html" title="Le canevas de l&#39;éditeur peint le lieu comme le jeu le dessine (LOT-EDITOR-02).">test_scene_painter.cpp</a></span></b></p>
 <table class="markdownTable">

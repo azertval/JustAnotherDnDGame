@@ -210,6 +210,8 @@ var annotated_dup =
     [ "hmi", "namespacehmi.html", [
       [ "AutosaveRecord", "structhmi_1_1AutosaveRecord.html", "structhmi_1_1AutosaveRecord" ],
       [ "AutosaveStore", "classhmi_1_1AutosaveStore.html", "classhmi_1_1AutosaveStore" ],
+      [ "CanvasBrush", "structhmi_1_1CanvasBrush.html", "structhmi_1_1CanvasBrush" ],
+      [ "BrushResult", "structhmi_1_1BrushResult.html", "structhmi_1_1BrushResult" ],
       [ "CellRange", "structhmi_1_1CellRange.html", "structhmi_1_1CellRange" ],
       [ "IsoBandOpacity", "structhmi_1_1IsoBandOpacity.html", "structhmi_1_1IsoBandOpacity" ],
       [ "FileFingerprint", "structhmi_1_1FileFingerprint.html", "structhmi_1_1FileFingerprint" ],
@@ -231,6 +233,8 @@ var annotated_dup =
       [ "MapCheckReport", "structhmi_1_1MapCheckReport.html", "structhmi_1_1MapCheckReport" ],
       [ "MapMigration", "structhmi_1_1MapMigration.html", "structhmi_1_1MapMigration" ],
       [ "PanelFocusEntry", "structhmi_1_1PanelFocusEntry.html", "structhmi_1_1PanelFocusEntry" ],
+      [ "PieceCatalogEntry", "structhmi_1_1PieceCatalogEntry.html", "structhmi_1_1PieceCatalogEntry" ],
+      [ "PieceCatalogGroup", "structhmi_1_1PieceCatalogGroup.html", "structhmi_1_1PieceCatalogGroup" ],
       [ "TileEntry", "structhmi_1_1TileEntry.html", "structhmi_1_1TileEntry" ],
       [ "TileSubgroup", "structhmi_1_1TileSubgroup.html", "structhmi_1_1TileSubgroup" ],
       [ "TileCategory", "structhmi_1_1TileCategory.html", "structhmi_1_1TileCategory" ],

@@ -153,10 +153,28 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3a5f821f3978837e9273b428f22bc29" id="r_ab3a5f821f3978837e9273b428f22bc29"><td class="memItemLeft">std::optional&lt; std::size_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ab3a5f821f3978837e9273b428f22bc29">moveLayer</a> (std::size_t index, bool forward)</td></tr>
 <tr class="memdesc:ab3a5f821f3978837e9273b428f22bc29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Échange la couche visuelle au rang <code class="param">index</code> avec sa voisine visuelle, en avant (<code class="param">forward</code>) ou en arrière.  <br /></td></tr>
 <tr class="memitem:a9d2d7eaf3b34811e1339d8a3be044920" id="r_a9d2d7eaf3b34811e1339d8a3be044920"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9d2d7eaf3b34811e1339d8a3be044920">paintLayerTile</a> (std::size_t index, int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
-<tr class="memdesc:a9d2d7eaf3b34811e1339d8a3be044920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code>.  <br /></td></tr>
+<tr class="memdesc:a9d2d7eaf3b34811e1339d8a3be044920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code> ; la collision de la case suit.  <br /></td></tr>
 <tr class="memitem:a51ed31285d58e24d71d53ea70b357db7" id="r_a51ed31285d58e24d71d53ea70b357db7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a51ed31285d58e24d71d53ea70b357db7">paintLayerRegion</a> (std::size_t index, int originColumn, int originRow, const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> &gt; &gt; &amp;block)</td></tr>
 <tr class="memdesc:a51ed31285d58e24d71d53ea70b357db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique <code class="param">block</code> (indexé <span class="tt">[ligne][colonne]</span>) sur la couche visuelle <code class="param">index</code>, découpé aux bords, en <b>un</b> pas d'annulation.  <br /></td></tr>
-<tr id="pub-methods-1" class="groupHeader"><td colspan="2"><div class="groupHeader">Entités de carte (&lt;tt&gt;LOT-04&lt;/tt&gt;, &lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
+<tr id="pub-methods-1" class="groupHeader"><td colspan="2"><div class="groupHeader">Pièces de couche (&lt;tt&gt;LOT-EDITOR-03&lt;/tt&gt;)</div></td></tr>
+<tr><td colspan="2" class="ititle"><div class="groupText"><p>Poser une pièce écrit, <b>en un pas d'annulation</b>, sa couche, sa pièce et la collision qu'elle donne (<span class="tt">EX-EDIT-064</span>).</p>
+<p>Une pièce est <b>ancrée</b> sur une case et occupe son emprise (<span class="tt"><a class="el" href="namespacecore.html#ae5ef43ac4990d56ddac5719dd23eb279">core::footprintCells</a></span>) ; l'emprise d'une pièce que le manifeste ne connaît pas vaut 1 × 1. Sur une même couche, deux emprises ne se recouvrent pas : poser une pièce retire celles qu'elle couvrirait. </p>
+</div></td></tr>
+<tr class="memitem:a6d6f0918e51872d54205bf3bfd7df276" id="r_a6d6f0918e51872d54205bf3bfd7df276"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a6d6f0918e51872d54205bf3bfd7df276">setPieceManifest</a> (std::shared_ptr&lt; const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> &gt; manifest) noexcept</td></tr>
+<tr class="memdesc:a6d6f0918e51872d54205bf3bfd7df276"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le manifeste des pièces du lieu : emprises et types tactiques. Ni peint ni défait.  <br /></td></tr>
+<tr class="memitem:a51521ca18b819e4af9e45d429a59ea1e" id="r_a51521ca18b819e4af9e45d429a59ea1e"><td class="memItemLeft">const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> *&#160;</td><td class="memItemRight"><a class="el" href="#a51521ca18b819e4af9e45d429a59ea1e">pieceManifest</a> () const noexcept</td></tr>
+<tr class="memitem:a3aeb74d0d6af955cb4d6eb3daa3e619e" id="r_a3aeb74d0d6af955cb4d6eb3daa3e619e"><td class="memItemLeft"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3aeb74d0d6af955cb4d6eb3daa3e619e">pieceFootprint</a> (std::string_view piece) const noexcept</td></tr>
+<tr class="memitem:aa13459da719f9eda07dbf3b2fa61836c" id="r_aa13459da719f9eda07dbf3b2fa61836c"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aa13459da719f9eda07dbf3b2fa61836c">pieceAnchorAt</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> cell) const</td></tr>
+<tr class="memitem:a38d42858e90c972f1f29567339db2aec" id="r_a38d42858e90c972f1f29567339db2aec"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a38d42858e90c972f1f29567339db2aec">placePiece</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, const std::string &amp;piece, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
+<tr class="memdesc:a38d42858e90c972f1f29567339db2aec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pose <code class="param">piece</code> ancrée en <code class="param">anchor</code> sur la couche visuelle <code class="param">index</code>, la case d'ancrage prenant le type <code class="param">type</code> ; les pièces que son emprise couvrirait sont retirées, type compris.  <br /></td></tr>
+<tr class="memitem:a43e2170fe975fdcda127c5003fc6fbee" id="r_a43e2170fe975fdcda127c5003fc6fbee"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a43e2170fe975fdcda127c5003fc6fbee">placePieceRegion</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> first, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> last, const std::string &amp;piece, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type)</td></tr>
+<tr class="memdesc:a43e2170fe975fdcda127c5003fc6fbee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pave de <code class="param">piece</code> le rectangle [<code class="param">first</code>, <code class="param">last</code>] (bornes incluses) de la couche <code class="param">index</code>, au pas de son emprise, en <b>un</b> pas d'annulation.  <br /></td></tr>
+<tr class="memitem:aeab91461a23bab4a939861462789a00f" id="r_aeab91461a23bab4a939861462789a00f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeab91461a23bab4a939861462789a00f">eraseLayerRegion</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> first, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> last)</td></tr>
+<tr class="memdesc:aeab91461a23bab4a939861462789a00f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gomme les cases du rectangle [<code class="param">first</code>, <code class="param">last</code>] de la couche visuelle <code class="param">index</code> : une case couverte par une pièce retire la pièce <b>entière</b> (type de sa case d'ancrage compris), une case sans pièce perd son type.  <br /></td></tr>
+<tr class="memitem:a1767532eba0797c7fa153bcb7a6c56a9" id="r_a1767532eba0797c7fa153bcb7a6c56a9"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1767532eba0797c7fa153bcb7a6c56a9">unforceCollision</a> (const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;cells)</td></tr>
+<tr class="memdesc:a1767532eba0797c7fa153bcb7a6c56a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rend les cases forcées de <code class="param">cells</code> à la déduction (<span class="tt">EX-EDIT-065</span>), en un pas.  <br /></td></tr>
+<tr class="memitem:a47350de07ad6d579644756c3843fdfcf" id="r_a47350de07ad6d579644756c3843fdfcf"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a47350de07ad6d579644756c3843fdfcf">isCollisionForced</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> cell) const noexcept</td></tr>
+<tr id="pub-methods-2" class="groupHeader"><td colspan="2"><div class="groupHeader">Entités de carte (&lt;tt&gt;LOT-04&lt;/tt&gt;, &lt;tt&gt;LOT-11&lt;/tt&gt;)</div></td></tr>
 <tr><td colspan="2" class="ititle"><div class="groupText"><p>Un rang désigne une entrée de <span class="tt"><a class="el" href="#a74e03f07db273bcdd42544044ac78e8f">entities()</a></span>.</p>
 <p>Plusieurs entités peuvent partager une case ; <span class="tt"><a class="el" href="#abb842bc0b3cfa387d1f5c20c7eb5bb3a">entityAt</a></span> rend la <b>dernière</b> posée, celle qu'on voit au-dessus. Chaque mutateur empile un pas d'annulation, sauf s'il est refusé ou sans effet. </p>
 </div></td></tr>
@@ -203,6 +221,18 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a949cfb0148244f0ba05257d4f523f51d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empile l'état courant sur la pile d'annulation ; à appeler avant toute mutation undoable.  <br /></td></tr>
 <tr class="memitem:ab6de0df2dda62ef7a4912d23063a6a54" id="r_ab6de0df2dda62ef7a4912d23063a6a54"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab6de0df2dda62ef7a4912d23063a6a54">paintChanges</a> (int column, int row, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type) const</td></tr>
 <tr class="memdesc:ab6de0df2dda62ef7a4912d23063a6a54"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si peindre <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) changerait la carte.  <br /></td></tr>
+<tr class="memitem:ab195c607dd84ab23004feaab3ee8d25f" id="r_ab195c607dd84ab23004feaab3ee8d25f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ab195c607dd84ab23004feaab3ee8d25f">derivesCollision</a> () const noexcept</td></tr>
+<tr class="memdesc:ab195c607dd84ab23004feaab3ee8d25f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si la carte a une couche visuelle : sa collision se déduit alors de ses couches.  <br /></td></tr>
+<tr class="memitem:a07c5d87a50564c1e9ef5f6030c408c0c" id="r_a07c5d87a50564c1e9ef5f6030c408c0c"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a07c5d87a50564c1e9ef5f6030c408c0c">followCollision</a> (const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;cells)</td></tr>
+<tr class="memdesc:a07c5d87a50564c1e9ef5f6030c408c0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Redéduit la collision de <code class="param">cells</code>, hors cases forcées et hors entrée (voir l'en-tête).  <br /></td></tr>
+<tr class="memitem:a3e55f4d8472f9acd1588b1851cad9c40" id="r_a3e55f4d8472f9acd1588b1851cad9c40"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a3e55f4d8472f9acd1588b1851cad9c40">updateForcing</a> (const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;cells)</td></tr>
+<tr class="memdesc:a3e55f4d8472f9acd1588b1851cad9c40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Après une peinture de la grille de collision : force chaque case de <code class="param">cells</code> qui s'écarte de la déduction, libère celle qui s'y accorde.  <br /></td></tr>
+<tr class="memitem:a51881cb5d971ca0e5e78ab6c0a8958ca" id="r_a51881cb5d971ca0e5e78ab6c0a8958ca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a51881cb5d971ca0e5e78ab6c0a8958ca">removePieceInternal</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;touched)</td></tr>
+<tr class="memdesc:a51881cb5d971ca0e5e78ab6c0a8958ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retire de la couche <code class="param">index</code> la pièce ancrée en <code class="param">anchor</code>, type de l'ancre compris ; ajoute ses cases à <code class="param">touched</code>.  <br /></td></tr>
+<tr class="memitem:a2336f04e4049731a3d59181cd646d5ca" id="r_a2336f04e4049731a3d59181cd646d5ca"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a2336f04e4049731a3d59181cd646d5ca">placePieceInternal</a> (std::size_t index, <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, const std::string &amp;piece, <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a> type, std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;touched)</td></tr>
+<tr class="memdesc:a2336f04e4049731a3d59181cd646d5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logique de <span class="tt"><a class="el" href="#a38d42858e90c972f1f29567339db2aec" title="Pose piece ancrée en anchor sur la couche visuelle index, la case d&#39;ancrage prenant le type type ; le...">placePiece</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span> ; ajoute les cases touchées à <code class="param">touched</code>.  <br /></td></tr>
+<tr class="memitem:a5584f94abb646d2aac7531436f43e0de" id="r_a5584f94abb646d2aac7531436f43e0de"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5584f94abb646d2aac7531436f43e0de">pieceFits</a> (<a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> anchor, std::string_view piece) const noexcept</td></tr>
+<tr class="memdesc:a5584f94abb646d2aac7531436f43e0de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vrai si l'emprise de <code class="param">piece</code> ancrée en <code class="param">anchor</code> tient dans la carte.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -217,6 +247,8 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a0c9cf50df582c84ead881028833651a2" id="r_a0c9cf50df582c84ead881028833651a2"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0c9cf50df582c84ead881028833651a2">_base</a></td></tr>
 <tr class="memdesc:a0c9cf50df582c84ead881028833651a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base et planche d'une variante (décision D12) : ni peintes ni défaites, recopiées.  <br /></td></tr>
 <tr class="memitem:a0cf8062f8459248edfb0a12d3ae341cf" id="r_a0cf8062f8459248edfb0a12d3ae341cf"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a0cf8062f8459248edfb0a12d3ae341cf">_scene</a></td></tr>
+<tr class="memitem:a41d1ec75f4d09b0ad1d7998dc53bff08" id="r_a41d1ec75f4d09b0ad1d7998dc53bff08"><td class="memItemLeft">std::shared_ptr&lt; const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a41d1ec75f4d09b0ad1d7998dc53bff08">_manifest</a></td></tr>
+<tr class="memdesc:a41d1ec75f4d09b0ad1d7998dc53bff08"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manifeste des pièces du lieu, partagé : copier un brouillon ne le recopie pas.  <br /></td></tr>
 <tr class="memitem:a86779d05f96a388738e19979489d7a63" id="r_a86779d05f96a388738e19979489d7a63"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a86779d05f96a388738e19979489d7a63">_undoHistory</a></td></tr>
 <tr class="memitem:a886d07163934d6b0f0f5b8f9da13c410" id="r_a886d07163934d6b0f0f5b8f9da13c410"><td class="memItemLeft">std::vector&lt; <a class="el" href="structcore_1_1LevelDraft_1_1State.html">State</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a886d07163934d6b0f0f5b8f9da13c410">_redoHistory</a></td></tr>
 <tr class="memitem:a162095858b19aa7f372f4416371f5594" id="r_a162095858b19aa7f372f4416371f5594"><td class="memItemLeft">std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a162095858b19aa7f372f4416371f5594">_revision</a> = 0</td></tr>
@@ -227,6 +259,15 @@ Private Attributes</h2></td></tr>
 <div class="textblock"><p>Carte <b>mutable</b> en cours d'édition, distincte de <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span> (immuable). </p>
 <p><span class="tt"><a class="el" href="classcore_1_1LevelDraft.html" title="Carte mutable en cours d&#39;édition, distincte de Level (immuable).">LevelDraft</a></span> porte toute la mutabilité nécessaire à l'éditeur (<span class="tt">EX-EDIT-002</span> à <span class="tt">EX-EDIT-005</span>) : peindre une tuile, déplacer l'entrée, éditer les couches et les entités, redimensionner la grille. Il ne duplique <b>aucune règle de validation</b> : <span class="tt"><a class="el" href="#a0017cadc8caea0b43ba08b120ce76bb0" title="Convertit le brouillon en Level validé (EX-EDIT-007), en repassant par la même validation que LevelLo...">toLevel()</a></span> reconstruit le niveau en repassant par <span class="tt"><a class="el" href="classcore_1_1LevelLoader.html#a4bcca95728207d0743b18a6c34a57cc8" title="Charge un niveau depuis une chaîne JSON.">LevelLoader::loadFromString</a></span> (même chemin que le chargement d'un fichier), garantissant que le niveau produit satisfait exactement les mêmes règles (<span class="tt">EX-LVL-004</span>, <span class="tt">EX-EDIT-010</span>).</p>
 <p>Invariant maintenu par tous les mutateurs : la grille de tuiles reste la <b>source de vérité</b> de la position d'entrée (comme pour <span class="tt"><a class="el" href="classcore_1_1Level.html" title="Carte complète en mémoire.">Level</a></span>) ; <span class="tt"><a class="el" href="#a7614f7f0cdaea145907831e56781182b">entry()</a></span> n'est qu'un accès en cache, toujours synchronisé avec le contenu de <span class="tt"><a class="el" href="#acc48e2f45fb3db53de09e30f60f75845">tileMap()</a></span>.</p>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md1090"></a>
+La collision suit les gestes (<span class="tt">LOT-EDITOR-03</span>, <span class="tt">EX-EDIT-064</span>, <span class="tt">EX-EDIT-065</span>)</h2>
+<p>Dès qu'une carte a une couche visuelle, sa collision se <b>déduit</b> de ce qu'elle montre (<span class="tt"><a class="el" href="namespacecore.html#a3322a01062af04e9242df68f744c142f" title="Déduit la grille de collision d&#39;une carte.">core::deriveCollision</a></span>, décision D10) et s'écrit, hors des cases <b>forcées</b> à la main. Le brouillon tient cet accord geste par geste, sans rien toucher d'autre :</p>
+<ul>
+<li>un geste sur une couche visuelle (type, pièce, gomme) redéduit la collision des <b>seules</b> cases qu'il a touchées — emprises comprises —, hors cases forcées et hors entrée ;</li>
+<li>peindre la grille de collision elle-même <b>force</b> la case si la valeur peinte s'écarte de la déduction, et la <b>libère</b> si elle s'y accorde ;</li>
+<li><span class="tt"><a class="el" href="#a1767532eba0797c7fa153bcb7a6c56a9" title="Rend les cases forcées de cells à la déduction (EX-EDIT-065), en un pas.">unforceCollision</a></span> rend des cases forcées à la déduction.</li>
+</ul>
+<p>La déduction lit le manifeste des pièces du lieu (<span class="tt"><a class="el" href="#a6d6f0918e51872d54205bf3bfd7df276" title="Le manifeste des pièces du lieu : emprises et types tactiques. Ni peint ni défait.">setPieceManifest</a></span>) ; sans manifeste, toute pièce compte pour inconnue et la case suit la règle de son type, comme au contrôle.</p>
 <p>Logique <b>pure</b>, sans dépendance rendu ni fenêtre — testable sans GPU (<span class="tt">EX-NFR-010</span>). </p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="acda8ea200910fc5679cd968d36de87e4" name="acda8ea200910fc5679cd968d36de87e4"></a>
@@ -340,6 +381,33 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">true</span> si <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span> aurait un effet. </dd></dl>
+
+</div>
+</div>
+<a id="ab195c607dd84ab23004feaab3ee8d25f" name="ab195c607dd84ab23004feaab3ee8d25f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab195c607dd84ab23004feaab3ee8d25f">&#9670;&#160;</a></span>derivesCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::derivesCollision </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si la carte a une couche visuelle : sa collision se déduit alors de ses couches. </p>
 
 </div>
 </div>
@@ -465,6 +533,62 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aeab91461a23bab4a939861462789a00f" name="aeab91461a23bab4a939861462789a00f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeab91461a23bab4a939861462789a00f">&#9670;&#160;</a></span>eraseLayerRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::eraseLayerRegion </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>last</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Gomme les cases du rectangle [<code class="param">first</code>, <code class="param">last</code>] de la couche visuelle <code class="param">index</code> : une case couverte par une pièce retire la pièce <b>entière</b> (type de sa case d'ancrage compris), une case sans pièce perd son type. </p>
+<p>La collision suit, en un pas. </p><dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si rien n'a changé. </dd></dl>
+
+</div>
+</div>
+<a id="a07c5d87a50564c1e9ef5f6030c408c0c" name="a07c5d87a50564c1e9ef5f6030c408c0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07c5d87a50564c1e9ef5f6030c408c0c">&#9670;&#160;</a></span>followCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::followCollision </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Redéduit la collision de <code class="param">cells</code>, hors cases forcées et hors entrée (voir l'en-tête). </p>
+
+</div>
+</div>
 <a id="a866028a90b2dd6e0488d093b85e036db" name="a866028a90b2dd6e0488d093b85e036db"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a866028a90b2dd6e0488d093b85e036db">&#9670;&#160;</a></span>forcedCollision()</h2>
 
@@ -521,6 +645,32 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="a47350de07ad6d579644756c3843fdfcf" name="a47350de07ad6d579644756c3843fdfcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47350de07ad6d579644756c3843fdfcf">&#9670;&#160;</a></span>isCollisionForced()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::isCollisionForced </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Vrai si la collision de <code class="param">cell</code> est forcée à la main. </dd></dl>
 
 </div>
 </div>
@@ -803,7 +953,7 @@ Private Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code>. </p>
+<p>Peint <code class="param">type</code> en (<code class="param">column</code>, <code class="param">row</code>) de la couche visuelle <code class="param">index</code> ; la collision de la case suit. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> (rien d'empilé) si le rang, la case ou le type est refusé, ou si la case porte déjà ce type. </dd></dl>
 
 </div>
@@ -869,7 +1019,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Peint le type de tuile <code class="param">type</code> en (column, row). </p>
-<p>Cas particulier : peindre <span class="tt">Entry</span> délègue à <span class="tt"><a class="el" href="#ad27c800742bff5e3bd6f4c04e9780d25" title="Place l&#39;entrée en (column, row) ; déplace l&#39;occurrence existante s&#39;il y en avait une (unicité,...">setEntry</a></span> (unicité). Peindre un autre type sur la case de l'entrée l'invalide, et peindre un type différent retire la pièce assignée à la case, pour ne jamais laisser d'incohérence entre la grille et ces caches. </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Cas particulier : peindre <span class="tt">Entry</span> délègue à <span class="tt"><a class="el" href="#ad27c800742bff5e3bd6f4c04e9780d25" title="Place l&#39;entrée en (column, row) ; déplace l&#39;occurrence existante s&#39;il y en avait une (unicité,...">setEntry</a></span> (unicité). Peindre un autre type sur la case de l'entrée l'invalide, et peindre un type différent retire la pièce assignée à la case, pour ne jamais laisser d'incohérence entre la grille et ces caches. Sur une carte à couches visuelles, la case est forcée si la valeur peinte s'écarte de la déduction, libérée sinon (voir l'en-tête). </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">column</td><td>Colonne visée (doit être dans les bornes). </td></tr>
     <tr><td class="paramname">row</td><td>Ligne visée (doit être dans les bornes). </td></tr>
@@ -916,6 +1066,119 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="aa13459da719f9eda07dbf3b2fa61836c" name="aa13459da719f9eda07dbf3b2fa61836c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa13459da719f9eda07dbf3b2fa61836c">&#9670;&#160;</a></span>pieceAnchorAt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; core::LevelDraft::pieceAnchorAt </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>cell</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>La case d'ancrage de la pièce de la couche <code class="param">index</code> dont l'emprise couvre <code class="param">cell</code> (elle-même si la case nomme sa pièce), ou <span class="tt">std::nullopt</span> si aucune ne la couvre. </dd></dl>
+
+</div>
+</div>
+<a id="a5584f94abb646d2aac7531436f43e0de" name="a5584f94abb646d2aac7531436f43e0de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5584f94abb646d2aac7531436f43e0de">&#9670;&#160;</a></span>pieceFits()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::pieceFits </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Vrai si l'emprise de <code class="param">piece</code> ancrée en <code class="param">anchor</code> tient dans la carte. </p>
+
+</div>
+</div>
+<a id="a3aeb74d0d6af955cb4d6eb3daa3e619e" name="a3aeb74d0d6af955cb4d6eb3daa3e619e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aeb74d0d6af955cb4d6eb3daa3e619e">&#9670;&#160;</a></span>pieceFootprint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structcore_1_1PieceFootprint.html">PieceFootprint</a> core::LevelDraft::pieceFootprint </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>piece</em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>L'emprise de <code class="param">piece</code> selon le manifeste, 1 × 1 si elle y est inconnue. </dd></dl>
+
+</div>
+</div>
+<a id="a51521ca18b819e4af9e45d429a59ea1e" name="a51521ca18b819e4af9e45d429a59ea1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51521ca18b819e4af9e45d429a59ea1e">&#9670;&#160;</a></span>pieceManifest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> * core::LevelDraft::pieceManifest </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le manifeste des pièces du lieu, <span class="tt">nullptr</span> sans lieu. </dd></dl>
+
+</div>
+</div>
 <a id="aa37465c2a3293c00fc88743b287b6649" name="aa37465c2a3293c00fc88743b287b6649"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa37465c2a3293c00fc88743b287b6649">&#9670;&#160;</a></span>placeEntity()</h2>
 
@@ -933,6 +1196,125 @@ Private Attributes</h2></td></tr>
 
 <p>Pose <code class="param">entity</code> en fin de liste. </p>
 <p>Une entité sans identifiant en reçoit un neuf (<span class="tt"><a class="el" href="namespacecore.html#a3764b26ea4ba9abe8e2f727a3ed486b5">core::entityIdFor</a></span>), jamais donné auparavant dans cette carte (décision D8). </p><dl class="section return"><dt>Returns</dt><dd>Son rang, ou <span class="tt">std::nullopt</span> si sa case est hors de la grille (<span class="tt">EX-LVL-017</span>). </dd></dl>
+
+</div>
+</div>
+<a id="a38d42858e90c972f1f29567339db2aec" name="a38d42858e90c972f1f29567339db2aec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38d42858e90c972f1f29567339db2aec">&#9670;&#160;</a></span>placePiece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::placePiece </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pose <code class="param">piece</code> ancrée en <code class="param">anchor</code> sur la couche visuelle <code class="param">index</code>, la case d'ancrage prenant le type <code class="param">type</code> ; les pièces que son emprise couvrirait sont retirées, type compris. </p>
+<p>La collision des cases touchées suit. </p><dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> (rien d'empilé) si le rang, la case ou le nom est refusé, si l'emprise déborde de la carte, ou si la case porte déjà cette pièce et ce type. </dd></dl>
+
+</div>
+</div>
+<a id="a2336f04e4049731a3d59181cd646d5ca" name="a2336f04e4049731a3d59181cd646d5ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2336f04e4049731a3d59181cd646d5ca">&#9670;&#160;</a></span>placePieceInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::placePieceInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>touched</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Logique de <span class="tt"><a class="el" href="#a38d42858e90c972f1f29567339db2aec" title="Pose piece ancrée en anchor sur la couche visuelle index, la case d&#39;ancrage prenant le type type ; le...">placePiece</a></span>, sans <span class="tt"><a class="el" href="#a949cfb0148244f0ba05257d4f523f51d" title="Empile l&#39;état courant sur la pile d&#39;annulation ; à appeler avant toute mutation undoable.">pushUndo()</a></span> ; ajoute les cases touchées à <code class="param">touched</code>. </p>
+
+</div>
+</div>
+<a id="a43e2170fe975fdcda127c5003fc6fbee" name="a43e2170fe975fdcda127c5003fc6fbee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43e2170fe975fdcda127c5003fc6fbee">&#9670;&#160;</a></span>placePieceRegion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::placePieceRegion </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>first</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>last</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">TileType</a></td>          <td class="paramname"><span class="paramname"><em>type</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pave de <code class="param">piece</code> le rectangle [<code class="param">first</code>, <code class="param">last</code>] (bornes incluses) de la couche <code class="param">index</code>, au pas de son emprise, en <b>un</b> pas d'annulation. </p>
+<p>Une pièce dont l'emprise déborderait du rectangle n'est pas posée. </p><dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si rien n'a changé. </dd></dl>
 
 </div>
 </div>
@@ -1043,6 +1425,42 @@ Private Attributes</h2></td></tr>
 
 <p>Retire la couche visuelle au rang <code class="param">index</code>. </p>
 <dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si <code class="param">index</code> est hors bornes ou désigne une couche non visuelle. </dd></dl>
+
+</div>
+</div>
+<a id="a51881cb5d971ca0e5e78ab6c0a8958ca" name="a51881cb5d971ca0e5e78ab6c0a8958ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51881cb5d971ca0e5e78ab6c0a8958ca">&#9670;&#160;</a></span>removePieceInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::removePieceInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>index</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structcore_1_1GridPosition.html">GridPosition</a></td>          <td class="paramname"><span class="paramname"><em>anchor</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>touched</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retire de la couche <code class="param">index</code> la pièce ancrée en <code class="param">anchor</code>, type de l'ancre compris ; ajoute ses cases à <code class="param">touched</code>. </p>
 
 </div>
 </div>
@@ -1286,6 +1704,33 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a6d6f0918e51872d54205bf3bfd7df276" name="a6d6f0918e51872d54205bf3bfd7df276"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d6f0918e51872d54205bf3bfd7df276">&#9670;&#160;</a></span>setPieceManifest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::setPieceManifest </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a> &gt;</td>          <td class="paramname"><span class="paramname"><em>manifest</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le manifeste des pièces du lieu : emprises et types tactiques. Ni peint ni défait. </p>
+
+</div>
+</div>
 <a id="a89fced43d78e2f2fcd89fd03b75373bc" name="a89fced43d78e2f2fcd89fd03b75373bc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a89fced43d78e2f2fcd89fd03b75373bc">&#9670;&#160;</a></span>snapshot()</h2>
 
@@ -1438,6 +1883,53 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Le nombre de pas que <span class="tt"><a class="el" href="#adec82624786f4ad3a83502eccc8712af" title="Annule la dernière mutation (EX-EDIT-005).">undo()</a></span> peut défaire (au plus <span class="tt"><a class="el" href="#a93a9a27cd2d1724f3ea1dc3b16c7bc6a" title="Nombre maximal de pas d&#39;annulation gardés (EX-EDIT-058).">UNDO_HISTORY_LIMIT</a></span>). </dd></dl>
+
+</div>
+</div>
+<a id="a1767532eba0797c7fa153bcb7a6c56a9" name="a1767532eba0797c7fa153bcb7a6c56a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1767532eba0797c7fa153bcb7a6c56a9">&#9670;&#160;</a></span>unforceCollision()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool core::LevelDraft::unforceCollision </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Rend les cases forcées de <code class="param">cells</code> à la déduction (<span class="tt">EX-EDIT-065</span>), en un pas. </p>
+<dl class="section return"><dt>Returns</dt><dd><span class="tt">false</span> si aucune n'était forcée. </dd></dl>
+
+</div>
+</div>
+<a id="a3e55f4d8472f9acd1588b1851cad9c40" name="a3e55f4d8472f9acd1588b1851cad9c40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e55f4d8472f9acd1588b1851cad9c40">&#9670;&#160;</a></span>updateForcing()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void core::LevelDraft::updateForcing </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structcore_1_1GridPosition.html">GridPosition</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Après une peinture de la grille de collision : force chaque case de <code class="param">cells</code> qui s'écarte de la déduction, libère celle qui s'y accorde. </p>
 
 </div>
 </div>
@@ -1614,6 +2106,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a41d1ec75f4d09b0ad1d7998dc53bff08" name="a41d1ec75f4d09b0ad1d7998dc53bff08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41d1ec75f4d09b0ad1d7998dc53bff08">&#9670;&#160;</a></span>_manifest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;const <a class="el" href="classcore_1_1ScenePieceManifest.html">ScenePieceManifest</a>&gt; core::LevelDraft::_manifest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Manifeste des pièces du lieu, partagé : copier un brouillon ne le recopie pas. </p>
 
 </div>
 </div>

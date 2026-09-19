@@ -10,6 +10,8 @@ var searchData=
   ['bilan_2dpoc_2emd_7',['bilan-poc.md',['../bilan-poc_8md.html',1,'']]],
   ['bootstrap_2ecpp_8',['Bootstrap.cpp',['../Bootstrap_8cpp.html',1,'']]],
   ['bootstrap_2eh_9',['Bootstrap.h',['../Bootstrap_8h.html',1,'']]],
-  ['buildconfig_2eh_10',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]],
-  ['buttonrepeat_2eh_11',['ButtonRepeat.h',['../ButtonRepeat_8h.html',1,'']]]
+  ['brushgesture_2ecpp_10',['BrushGesture.cpp',['../BrushGesture_8cpp.html',1,'']]],
+  ['brushgesture_2eh_11',['BrushGesture.h',['../BrushGesture_8h.html',1,'']]],
+  ['buildconfig_2eh_12',['BuildConfig.h',['../BuildConfig_8h.html',1,'']]],
+  ['buttonrepeat_2eh_13',['ButtonRepeat.h',['../ButtonRepeat_8h.html',1,'']]]
 ];

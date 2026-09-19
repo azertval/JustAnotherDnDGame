@@ -110,6 +110,12 @@ Public Attributes</h2></td></tr>
 <tr class="memdesc:ae31b27e74cbacf3e320a2e9f5467c414"><td class="mdescLeft">&#160;</td><td class="mdescRight">Case survolée, si le curseur est dessus.  <br /></td></tr>
 <tr class="memitem:a2effd6644d86469c43423355353cded6" id="r_a2effd6644d86469c43423355353cded6"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a2effd6644d86469c43423355353cded6">hoveredPieces</a></td></tr>
 <tr class="memdesc:a2effd6644d86469c43423355353cded6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pièces de la case survolée (<span class="tt">street · wall-left</span>), vide sans lieu (LOT-EDITOR-02).  <br /></td></tr>
+<tr class="memitem:a0d258b359594eefc33b451516f2e3c2d" id="r_a0d258b359594eefc33b451516f2e3c2d"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0d258b359594eefc33b451516f2e3c2d">hoveredForced</a> = false</td></tr>
+<tr class="memdesc:a0d258b359594eefc33b451516f2e3c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">La collision de la case survolée est forcée à la main (LOT-EDITOR-03).  <br /></td></tr>
+<tr class="memitem:af7a683c327b50588af07ffeb31952c45" id="r_af7a683c327b50588af07ffeb31952c45"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#af7a683c327b50588af07ffeb31952c45">brush</a></td></tr>
+<tr class="memdesc:af7a683c327b50588af07ffeb31952c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau armé (<span class="tt">wall-left</span>, <span class="tt">grass</span>, <span class="tt">Eraser</span>), vide s'il n'y a rien à dire.  <br /></td></tr>
+<tr class="memitem:a5e79b8c27aa7f5e7173ebe943b0305ba" id="r_a5e79b8c27aa7f5e7173ebe943b0305ba"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a5e79b8c27aa7f5e7173ebe943b0305ba">collisionActive</a> = false</td></tr>
+<tr class="memdesc:a5e79b8c27aa7f5e7173ebe943b0305ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">La couche active est la grille de collision.  <br /></td></tr>
 <tr class="memitem:a952a592f66671fc3a835b8fd1158ea5b" id="r_a952a592f66671fc3a835b8fd1158ea5b"><td class="memItemLeft">float&#160;</td><td class="memItemRight"><a class="el" href="#a952a592f66671fc3a835b8fd1158ea5b">zoom</a> = 1.0F</td></tr>
 <tr class="memdesc:a952a592f66671fc3a835b8fd1158ea5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Facteur de zoom courant.  <br /></td></tr>
 <tr class="memitem:a1a37c393c46c84bc6d6e0f7db90d60b6" id="r_a1a37c393c46c84bc6d6e0f7db90d60b6"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a1a37c393c46c84bc6d6e0f7db90d60b6">isoView</a> = true</td></tr>
@@ -118,6 +124,38 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>État affiché pour une carte en cours d'édition (barre d'état, <span class="tt">EX-EDIT-013</span>/<span class="tt">EX-EDIT-012</span>). </p>
 </div><a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
+<a id="af7a683c327b50588af07ffeb31952c45" name="af7a683c327b50588af07ffeb31952c45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7a683c327b50588af07ffeb31952c45">&#9670;&#160;</a></span>brush</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string hmi::LevelStatusInfo::brush</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Le pinceau armé (<span class="tt">wall-left</span>, <span class="tt">grass</span>, <span class="tt">Eraser</span>), vide s'il n'y a rien à dire. </p>
+
+</div>
+</div>
+<a id="a5e79b8c27aa7f5e7173ebe943b0305ba" name="a5e79b8c27aa7f5e7173ebe943b0305ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e79b8c27aa7f5e7173ebe943b0305ba">&#9670;&#160;</a></span>collisionActive</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LevelStatusInfo::collisionActive = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La couche active est la grille de collision. </p>
+
+</div>
+</div>
 <a id="a9cd9b8b2b1e60de42886994d2ffb1310" name="a9cd9b8b2b1e60de42886994d2ffb1310"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9cd9b8b2b1e60de42886994d2ffb1310">&#9670;&#160;</a></span>dirty</h2>
 
@@ -147,6 +185,22 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Case survolée, si le curseur est dessus. </p>
+
+</div>
+</div>
+<a id="a0d258b359594eefc33b451516f2e3c2d" name="a0d258b359594eefc33b451516f2e3c2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d258b359594eefc33b451516f2e3c2d">&#9670;&#160;</a></span>hoveredForced</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::LevelStatusInfo::hoveredForced = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>La collision de la case survolée est forcée à la main (LOT-EDITOR-03). </p>
 
 </div>
 </div>

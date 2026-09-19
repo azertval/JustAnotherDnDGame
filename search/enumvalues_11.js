@@ -29,5 +29,6 @@ var searchData=
   ['turn_26',['Turn',['../namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2a6b12be2513bab07567150f54467bc568',1,'core']]],
   ['turnactive_27',['TurnActive',['../namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840a5015d46b35dcee9bb9a0438bf3adf01f',1,'core']]],
   ['turnend_28',['TurnEnd',['../namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840add2a059ce5c2b0e39ede932ecb5af42f',1,'core::TurnEnd'],['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9add2a059ce5c2b0e39ede932ecb5af42f',1,'core::TurnEnd']]],
-  ['turnstart_29',['TurnStart',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ab0a8a1979409102f824db0a1a8484802',1,'core']]]
+  ['turnstart_29',['TurnStart',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9ab0a8a1979409102f824db0a1a8484802',1,'core']]],
+  ['type_30',['Type',['../namespacehmi.html#a4ec74e0d9a6397a4be1c28869622617faa1fa27779242b4902f7ae3bdd5c6d508',1,'hmi']]]
 ];

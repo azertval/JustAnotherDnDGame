@@ -1,6 +1,7 @@
 var dir_72f94039b203173a88806b7e5cad74af =
 [
     [ "test_autosave.cpp", "test__autosave_8cpp.html", "test__autosave_8cpp" ],
+    [ "test_brush_gesture.cpp", "test__brush__gesture_8cpp.html", "test__brush__gesture_8cpp" ],
     [ "test_canvas_picking.cpp", "test__canvas__picking_8cpp.html", "test__canvas__picking_8cpp" ],
     [ "test_canvas_scene.cpp", "test__canvas__scene_8cpp.html", "test__canvas__scene_8cpp" ],
     [ "test_disk_guard.cpp", "test__disk__guard_8cpp.html", "test__disk__guard_8cpp" ],
@@ -11,6 +12,7 @@ var dir_72f94039b203173a88806b7e5cad74af =
     [ "test_level_name_validation.cpp", "test__level__name__validation_8cpp.html", "test__level__name__validation_8cpp" ],
     [ "test_map_format.cpp", "test__map__format_8cpp.html", "test__map__format_8cpp" ],
     [ "test_panel_focus.cpp", "test__panel__focus_8cpp.html", "test__panel__focus_8cpp" ],
+    [ "test_piece_catalog.cpp", "test__piece__catalog_8cpp.html", "test__piece__catalog_8cpp" ],
     [ "test_scene_painter.cpp", "test__scene__painter_8cpp.html", "test__scene__painter_8cpp" ],
     [ "test_thumbnail_geometry.cpp", "test__thumbnail__geometry_8cpp.html", "test__thumbnail__geometry_8cpp" ],
     [ "test_tile_taxonomy.cpp", "test__tile__taxonomy_8cpp.html", "test__tile__taxonomy_8cpp" ],

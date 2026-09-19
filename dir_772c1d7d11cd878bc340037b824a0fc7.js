@@ -2,6 +2,8 @@ var dir_772c1d7d11cd878bc340037b824a0fc7 =
 [
     [ "Autosave.cpp", "Autosave_8cpp.html", "Autosave_8cpp" ],
     [ "Autosave.h", "Autosave_8h.html", "Autosave_8h" ],
+    [ "BrushGesture.cpp", "BrushGesture_8cpp.html", "BrushGesture_8cpp" ],
+    [ "BrushGesture.h", "BrushGesture_8h.html", "BrushGesture_8h" ],
     [ "CanvasPicking.cpp", "CanvasPicking_8cpp.html", "CanvasPicking_8cpp" ],
     [ "CanvasPicking.h", "CanvasPicking_8h.html", "CanvasPicking_8h" ],
     [ "CanvasScene.cpp", "CanvasScene_8cpp.html", "CanvasScene_8cpp" ],
@@ -31,6 +33,8 @@ var dir_772c1d7d11cd878bc340037b824a0fc7 =
     [ "MapFormat.h", "MapFormat_8h.html", "MapFormat_8h" ],
     [ "PanelFocus.cpp", "PanelFocus_8cpp.html", "PanelFocus_8cpp" ],
     [ "PanelFocus.h", "PanelFocus_8h.html", "PanelFocus_8h" ],
+    [ "PieceCatalog.cpp", "PieceCatalog_8cpp.html", "PieceCatalog_8cpp" ],
+    [ "PieceCatalog.h", "PieceCatalog_8h.html", "PieceCatalog_8h" ],
     [ "ThumbnailGeometry.cpp", "ThumbnailGeometry_8cpp.html", "ThumbnailGeometry_8cpp" ],
     [ "ThumbnailGeometry.h", "ThumbnailGeometry_8h.html", "ThumbnailGeometry_8h" ],
     [ "TileTaxonomy.cpp", "TileTaxonomy_8cpp.html", "TileTaxonomy_8cpp" ],

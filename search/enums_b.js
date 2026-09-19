@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['panelid_0',['PanelId',['../namespacehmi.html#aaa32928dac1bf321cd65435b9a0b0726',1,'hmi']]],
-  ['piecetactical_1',['PieceTactical',['../namespacecore.html#a096c9cc059de39edb20ccea06d18f252',1,'core']]],
-  ['placeappearanceerror_2',['PlaceAppearanceError',['../namespacehmi.html#a8d47401595625329c52d918c550d2957',1,'hmi']]],
-  ['placementresult_3',['PlacementResult',['../namespacecore.html#a56ee2c3f69200e700ac0f1b65dc413b4',1,'core']]],
-  ['portallinkstatus_4',['PortalLinkStatus',['../namespacecore.html#af11c258a9c6ef53d57b7f409006e48df',1,'core']]]
+  ['magicschool_0',['MagicSchool',['../namespacecore.html#acb09396acc95973b3ca488c497bbddb2',1,'core']]],
+  ['mapcheckseverity_1',['MapCheckSeverity',['../namespacehmi.html#a89e7b964e1125a35414c9694fad4fd64',1,'hmi']]],
+  ['mousebutton_2',['MouseButton',['../namespacehmi.html#a4180e6c308353c9965d695855746d982',1,'hmi']]],
+  ['moveresult_3',['MoveResult',['../namespacecore.html#ac0c9dc39aafc4bad02c96a9659df0c1b',1,'core']]]
 ];

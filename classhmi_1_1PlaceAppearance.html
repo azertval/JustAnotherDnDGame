@@ -109,6 +109,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a7f3001880647e7cbd440a608f6c3ad67"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pièce de sol d'une case.  <br /></td></tr>
 <tr class="memitem:a8ea131a78fabbf1a289ac197ea071344" id="r_a8ea131a78fabbf1a289ac197ea071344"><td class="memItemLeft">std::string_view&#160;</td><td class="memItemRight"><a class="el" href="#a8ea131a78fabbf1a289ac197ea071344">reliefPiece</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> cell) const</td></tr>
 <tr class="memdesc:a8ea131a78fabbf1a289ac197ea071344"><td class="mdescLeft">&#160;</td><td class="mdescRight">La pièce de relief d'une case, même règle de variante que le sol.  <br /></td></tr>
+<tr class="memitem:ac9fcb8dbe2ed89afadd27aa15ff9fd0d" id="r_ac9fcb8dbe2ed89afadd27aa15ff9fd0d"><td class="memItemLeft">std::optional&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ac9fcb8dbe2ed89afadd27aa15ff9fd0d">typeOfPiece</a> (std::string_view piece, bool floor) const</td></tr>
+<tr class="memdesc:ac9fcb8dbe2ed89afadd27aa15ff9fd0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le type que la table donne à <code class="param">piece</code> : la réciproque de <span class="tt"><a class="el" href="#a7f3001880647e7cbd440a608f6c3ad67" title="La pièce de sol d&#39;une case.">floorPiece</a></span> (<code class="param">floor</code>) ou de <span class="tt"><a class="el" href="#a8ea131a78fabbf1a289ac197ea071344" title="La pièce de relief d&#39;une case, même règle de variante que le sol.">reliefPiece</a></span> (<span class="tt">LOT-EDITOR-03</span>).  <br /></td></tr>
 <tr class="memitem:a11b4bba56d40a404de47a8d41c620ae8" id="r_a11b4bba56d40a404de47a8d41c620ae8"><td class="memItemLeft">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a11b4bba56d40a404de47a8d41c620ae8">pieces</a> () const</td></tr>
 <tr class="memitem:a675acd63396f543964793480def919a7" id="r_a675acd63396f543964793480def919a7"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a675acd63396f543964793480def919a7">empty</a> () const noexcept</td></tr>
 </table><table class="memberdecls">
@@ -454,6 +456,38 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>La pièce de relief d'une case, même règle de variante que le sol. </p>
+
+</div>
+</div>
+<a id="ac9fcb8dbe2ed89afadd27aa15ff9fd0d" name="ac9fcb8dbe2ed89afadd27aa15ff9fd0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9fcb8dbe2ed89afadd27aa15ff9fd0d">&#9670;&#160;</a></span>typeOfPiece()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::optional&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; hmi::PlaceAppearance::typeOfPiece </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>floor</em></span>&#160;) const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le type que la table donne à <code class="param">piece</code> : la réciproque de <span class="tt"><a class="el" href="#a7f3001880647e7cbd440a608f6c3ad67" title="La pièce de sol d&#39;une case.">floorPiece</a></span> (<code class="param">floor</code>) ou de <span class="tt"><a class="el" href="#a8ea131a78fabbf1a289ac197ea071344" title="La pièce de relief d&#39;une case, même règle de variante que le sol.">reliefPiece</a></span> (<span class="tt">LOT-EDITOR-03</span>). </p>
+<p>Une pièce posée à la main garde ainsi le type dont la table la tirerait, et le type reste le sens de règle de la case (décision D3). </p><dl class="section return"><dt>Returns</dt><dd>Le premier type, dans l'ordre de l'énumération, dont la table cite <code class="param">piece</code> (ou la pièce dont <code class="param">piece</code> est un ancien nom) ; <span class="tt">std::nullopt</span> si aucun ne la cite. </dd></dl>
 
 </div>
 </div>

@@ -12,6 +12,7 @@ var classhmi_1_1PlaceAppearance =
     [ "pieces", "classhmi_1_1PlaceAppearance.html#a11b4bba56d40a404de47a8d41c620ae8", null ],
     [ "place", "classhmi_1_1PlaceAppearance.html#a0d4246e6bc7472127ffce2ffc6b73e05", null ],
     [ "reliefPiece", "classhmi_1_1PlaceAppearance.html#a8ea131a78fabbf1a289ac197ea071344", null ],
+    [ "typeOfPiece", "classhmi_1_1PlaceAppearance.html#ac9fcb8dbe2ed89afadd27aa15ff9fd0d", null ],
     [ "_aliases", "classhmi_1_1PlaceAppearance.html#ad1c91d434a1680b8129ec6aca5246cab", null ],
     [ "_floors", "classhmi_1_1PlaceAppearance.html#a8f89950096f1d9f86881f0e2d92e8ff4", null ],
     [ "_footprints", "classhmi_1_1PlaceAppearance.html#a1c4f8e44f18b0de3a332f42577805e0b", null ],

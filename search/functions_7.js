@@ -35,5 +35,6 @@ var searchData=
   ['holds_32',['holds',['../structcore_1_1FlagCondition.html#a79b84d286e43fcd5a482e35bb4b30ac8',1,'core::FlagCondition']]],
   ['hoveredcell_33',['hoveredCell',['../classhmi_1_1EditorViewport.html#a946f35b8cda276a2ae9aeec447d2edfb',1,'hmi::EditorViewport']]],
   ['hoveredcellchanged_34',['hoveredCellChanged',['../classhmi_1_1EditorViewport.html#afec959b9a2fdf31d666775b83af252bd',1,'hmi::EditorViewport']]],
-  ['hoveredpieces_35',['hoveredPieces',['../classhmi_1_1EditorViewport.html#acea96d2cf94cd7780c655afb1ab5c9df',1,'hmi::EditorViewport']]]
+  ['hoveredcellforced_35',['hoveredCellForced',['../classhmi_1_1EditorViewport.html#a9483dfdcea629d7f7f6879cc75b75cb1',1,'hmi::EditorViewport']]],
+  ['hoveredpieces_36',['hoveredPieces',['../classhmi_1_1EditorViewport.html#acea96d2cf94cd7780c655afb1ab5c9df',1,'hmi::EditorViewport']]]
 ];

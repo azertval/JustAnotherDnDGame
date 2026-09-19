@@ -17,6 +17,7 @@
 #include &lt;algorithm&gt;
 #include &lt;utility&gt;
 
+#include "Core/Levels/CollisionDerivation.h"
 #include "Core/Levels/LevelWriter.h"
 
 namespace core {
@@ -79,6 +80,7 @@ LevelDraft::LevelDraft(std::string name, TileMap tileMap)
     }
 <span style = "background-color:#dfd">    pushUndo();
     paintTileInternal(column, row, type);
+    updateForcing({GridPosition{.column = column, .row = row}});
 }</span>
 
 void LevelDraft::paintRegion(int originColumn, int originRow,
@@ -98,6 +100,7 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
         return;</span>
     }
 <span style = "background-color:#dfd">    pushUndo();
+    std::vector&lt;GridPosition&gt; painted;
     for (std::size_t rowOffset = 0; rowOffset &lt; block.size(); ++rowOffset) {
         const std::vector&lt;TileType&gt;&amp; rowTiles = block[rowOffset];
         for (std::size_t columnOffset = 0; columnOffset &lt; rowTiles.size(); ++columnOffset) {
@@ -107,8 +110,10 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
                 continue;  // decoupe silencieuse aux bords, meme principe que resize()</span>
             }
 <span style = "background-color:#dfd">            paintTileInternal(column, row, rowTiles[columnOffset]);
+            painted.push_back({.column = column, .row = row});
         }
     }
+    updateForcing(painted);
 }</span>
 
 <span style = "background-color:#dfd">void LevelDraft::paintTileInternal(int column, int row, TileType type) {
@@ -131,12 +136,17 @@ void LevelDraft::paintRegion(int originColumn, int originRow,
 
 <span style = "background-color:#dfd">void LevelDraft::setEntryInternal(int column, int row) {
     const GridPosition position{.column = column, .row = row};
-    if (_entry &amp;&amp; *_entry != position) {
-        _tileMap.setTile(_entry-&gt;column, _entry-&gt;row, TileType::Empty);</span>
+    const std::optional&lt;GridPosition&gt; previous = _entry;
+    if (previous &amp;&amp; *previous != position) {
+        _tileMap.setTile(previous-&gt;column, previous-&gt;row, TileType::Empty);</span>
     }
 <span style = "background-color:#dfd">    _tileMap.setTile(column, row, TileType::Entry);
     _entry = position;
-}</span>
+    if (previous &amp;&amp; *previous != position) {</span>
+        // La case quittÃ©e par l'entrÃ©e reprend ce que ses couches lui donnent.
+<span style = "background-color:#dfd">        followCollision({*previous});</span>
+    }
+<span style = "background-color:#dfd">}</span>
 
 // --- Couches de tuiles (LOT-11) ---
 //
@@ -227,9 +237,24 @@ namespace {
     if (!isVisualLayerIndex(index)) {
         return false;</span>
     }
-<span style = "background-color:#dfd">    pushUndo();
+<span style = "background-color:#dfd">    pushUndo();</span>
+    // Ce que la couche couvrait change de collision : ses cases peintes, emprises comprises.
+<span style = "background-color:#dfd">    std::vector&lt;GridPosition&gt; covered;
+    const TileLayer&amp; removed = _layers[index];
+    for (int row = 0; row &lt; removed.tiles.height(); ++row) {
+        for (int column = 0; column &lt; removed.tiles.width(); ++column) {
+            const std::string_view piece = removed.pieceAt(column, row);
+            if (removed.tiles.tile(column, row) == TileType::Empty &amp;&amp; piece.empty()) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const std::vector&lt;GridPosition&gt; cells =</span>
+                footprintCells({.column = column, .row = row}, pieceFootprint(piece));
+<span style = "background-color:#dfd">            covered.insert(covered.end(), cells.begin(), cells.end());
+        }
+    }
     _layers.erase(_layers.begin() + static_cast&lt;std::ptrdiff_t&gt;(index));
     alignRootLayer(_layers, _tileMap);
+    followCollision(covered);
     return true;
 }</span>
 
@@ -277,7 +302,16 @@ namespace {
         return false;</span>
     }
 <span style = "background-color:#dfd">    pushUndo();
+    std::vector&lt;GridPosition&gt; touched{{.column = column, .row = row}};
+    if (const std::optional&lt;GridPosition&gt; anchor =
+            pieceAnchorAt(index, GridPosition{.column = column, .row = row})) {</span>
+        // Un autre type retire la piÃ¨ce : toute son emprise change de collision.
+<span style = "background-color:#dfd">        const std::vector&lt;GridPosition&gt; covered = footprintCells(</span>
+            *anchor, pieceFootprint(_layers[index].pieceAt(anchor-&gt;column, anchor-&gt;row)));
+<span style = "background-color:#dfd">        touched.insert(touched.end(), covered.begin(), covered.end());
+    }
     setLayerCellType(_layers[index], column, row, type);
+    followCollision(touched);
     return true;
 }</span>
 
@@ -288,17 +322,279 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
     }
 <span style = "background-color:#dfd">    pushUndo();
     TileMap&amp; tiles = _layers[index].tiles;
+    std::vector&lt;GridPosition&gt; touched;
     for (std::size_t rowOffset = 0; rowOffset &lt; block.size(); ++rowOffset) {
         const std::vector&lt;TileType&gt;&amp; rowTiles = block[rowOffset];
         for (std::size_t columnOffset = 0; columnOffset &lt; rowTiles.size(); ++columnOffset) {
             const int column = originColumn + static_cast&lt;int&gt;(columnOffset);
             const int row = originRow + static_cast&lt;int&gt;(rowOffset);
-            if (tiles.inBounds(column, row)) {
-                setLayerCellType(_layers[index], column, row, rowTiles[columnOffset]);</span>
+            if (!tiles.inBounds(column, row)) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const std::string_view piece = _layers[index].pieceAt(column, row);
+            const std::vector&lt;GridPosition&gt; covered =</span>
+                footprintCells({.column = column, .row = row}, pieceFootprint(piece));
+<span style = "background-color:#dfd">            touched.insert(touched.end(), covered.begin(), covered.end());
+            setLayerCellType(_layers[index], column, row, rowTiles[columnOffset]);
+        }
+    }
+    followCollision(touched);
+    return true;
+}</span>
+
+// --- Pieces de couche (LOT-EDITOR-03) ---
+
+namespace {
+
+/// Plus grande emprise qu'on cherche autour d'une case : au-dela, une piece couvrant la case
+/// depuis son ancre serait plus grande que tout ce que les planches livrent.
+constexpr int MAX_FOOTPRINT_SEARCH = 8;
+
+<span style = "background-color:#dfd">[[nodiscard]] bool byRow(GridPosition left, GridPosition right) noexcept {
+    return left.row != right.row ? left.row &lt; right.row : left.column &lt; right.column;
+}</span>
+
+}  // namespace
+
+<span style = "background-color:#dfd">PieceFootprint LevelDraft::pieceFootprint(std::string_view piece) const noexcept {
+    const ScenePiece* const found =</span>
+        piece.empty() || _manifest == nullptr ? nullptr : _manifest-&gt;find(piece);
+<span style = "background-color:#dfd">    return found != nullptr ? found-&gt;footprint() : PieceFootprint{};
+}</span>
+
+<span style = "background-color:#dfd">std::optional&lt;GridPosition&gt; LevelDraft::pieceAnchorAt(std::size_t index, GridPosition cell) const {
+    if (!isVisualLayerIndex(index)) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    const TileLayer&amp; layer = _layers[index];
+    if (!layer.tiles.inBounds(cell.column, cell.row)) {</span>
+<span style = "background-color:#fdd">        return std::nullopt;</span>
+    }
+<span style = "background-color:#dfd">    if (!layer.pieceAt(cell.column, cell.row).empty()) {
+        return cell;</span>
+    }
+    // Une piece large couvre la case depuis une ancre en haut a gauche d'elle : la plus proche
+    // d'abord.
+<span style = "background-color:#dfd">    for (int rowOffset = 0; rowOffset &lt; MAX_FOOTPRINT_SEARCH; ++rowOffset) {
+        for (int columnOffset = 0; columnOffset &lt; MAX_FOOTPRINT_SEARCH; ++columnOffset) {
+            if (rowOffset == 0 &amp;&amp; columnOffset == 0) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const GridPosition anchor{.column = cell.column - columnOffset,
+                                      .row = cell.row - rowOffset};
+            const std::string_view piece = layer.pieceAt(anchor.column, anchor.row);
+            if (piece.empty()) {
+                continue;</span>
+            }
+<span style = "background-color:#dfd">            const PieceFootprint footprint = pieceFootprint(piece);
+            if (columnOffset &lt; footprint.columns &amp;&amp; rowOffset &lt; footprint.rows) {
+                return anchor;</span>
             }
 <span style = "background-color:#dfd">        }
     }
+    return std::nullopt;
+}</span>
+
+<span style = "background-color:#dfd">bool LevelDraft::pieceFits(GridPosition anchor, std::string_view piece) const noexcept {
+    const PieceFootprint footprint = pieceFootprint(piece);
+    return _tileMap.inBounds(anchor.column, anchor.row) &amp;&amp;</span>
+           _tileMap.inBounds(anchor.column + footprint.columns - 1,
+                             anchor.row + footprint.rows - 1);
+<span style = "background-color:#dfd">}</span>
+
+void LevelDraft::removePieceInternal(std::size_t index, GridPosition anchor,
+<span style = "background-color:#dfd">                                     std::vector&lt;GridPosition&gt;&amp; touched) {
+    TileLayer&amp; layer = _layers[index];
+    const std::vector&lt;GridPosition&gt; covered =</span>
+        footprintCells(anchor, pieceFootprint(layer.pieceAt(anchor.column, anchor.row)));
+<span style = "background-color:#dfd">    touched.insert(touched.end(), covered.begin(), covered.end());
+    layer.setPiece(anchor.column, anchor.row, {});
+    layer.tiles.setTile(anchor.column, anchor.row, TileType::Empty);
+}</span>
+
+void LevelDraft::placePieceInternal(std::size_t index, GridPosition anchor,
+                                    const std::string&amp; piece, TileType type,
+<span style = "background-color:#dfd">                                    std::vector&lt;GridPosition&gt;&amp; touched) {
+    const std::vector&lt;GridPosition&gt; covered = footprintCells(anchor, pieceFootprint(piece));</span>
+    // Deux emprises ne se recouvrent pas sur une couche : ce que la piece couvrirait part, piece
+    // entiere, meme si son ancre est hors de l'emprise nouvelle.
+<span style = "background-color:#dfd">    for (const GridPosition cell : covered) {
+        while (const std::optional&lt;GridPosition&gt; other = pieceAnchorAt(index, cell)) {
+            removePieceInternal(index, *other, touched);
+        }
+    }
+    TileLayer&amp; layer = _layers[index];</span>
+    // Les autres cases de l'emprise sont occupees par la piece : un type qu'on y laisserait
+    // dessinerait sa piece par defaut sous elle.
+<span style = "background-color:#dfd">    for (const GridPosition cell : covered) {
+        layer.tiles.setTile(cell.column, cell.row, TileType::Empty);
+    }
+    layer.setPiece(anchor.column, anchor.row, piece);
+    layer.tiles.setTile(anchor.column, anchor.row, type);
+    touched.insert(touched.end(), covered.begin(), covered.end());
+}</span>
+
+bool LevelDraft::placePiece(std::size_t index, GridPosition anchor, const std::string&amp; piece,
+<span style = "background-color:#dfd">                            TileType type) {
+    if (!isVisualLayerIndex(index) || piece.empty() || !isVisualLayerTileType(type) ||</span>
+        !pieceFits(anchor, piece)) {
+<span style = "background-color:#dfd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const TileLayer&amp; layer = _layers[index];
+    if (layer.pieceAt(anchor.column, anchor.row) == piece &amp;&amp;</span>
+        layer.tiles.tile(anchor.column, anchor.row) == type) {
+<span style = "background-color:#dfd">        return false;  // reposer la meme piece ne modifie pas la carte (EX-EDIT-058)</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
+    std::vector&lt;GridPosition&gt; touched;
+    placePieceInternal(index, anchor, piece, type, touched);
+    followCollision(touched);
     return true;
+}</span>
+
+bool LevelDraft::placePieceRegion(std::size_t index, GridPosition first, GridPosition last,
+<span style = "background-color:#dfd">                                  const std::string&amp; piece, TileType type) {
+    if (!isVisualLayerIndex(index) || piece.empty() || !isVisualLayerTileType(type)) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const PieceFootprint footprint = pieceFootprint(piece);
+    const int minColumn = (std::max)(0, (std::min)(first.column, last.column));
+    const int maxColumn = (std::min)(_tileMap.width() - 1, (std::max)(first.column, last.column));
+    const int minRow = (std::max)(0, (std::min)(first.row, last.row));
+    const int maxRow = (std::min)(_tileMap.height() - 1, (std::max)(first.row, last.row));
+    std::vector&lt;GridPosition&gt; anchors;
+    for (int row = minRow; row + footprint.rows - 1 &lt;= maxRow; row += footprint.rows) {
+        for (int column = minColumn; column + footprint.columns - 1 &lt;= maxColumn;
+             column += footprint.columns) {
+            anchors.push_back({.column = column, .row = row});
+        }
+    }</span>
+    // Un pavage deja en place n'empile rien : chaque ancre porte la piece et son type, et le reste
+    // de chaque emprise est libre.
+<span style = "background-color:#dfd">    const TileLayer&amp; layer = _layers[index];
+    const bool unchanged = std::ranges::all_of(anchors, [&amp;](GridPosition anchor) {
+        if (layer.pieceAt(anchor.column, anchor.row) != piece ||</span>
+            layer.tiles.tile(anchor.column, anchor.row) != type) {
+<span style = "background-color:#dfd">            return false;</span>
+        }
+<span style = "background-color:#dfd">        return std::ranges::all_of(footprintCells(anchor, footprint), [&amp;](GridPosition cell) {
+            return cell == anchor || (layer.pieceAt(cell.column, cell.row).empty() &amp;&amp;</span>
+                                      layer.tiles.tile(cell.column, cell.row) == TileType::Empty);
+<span style = "background-color:#dfd">        });
+    });
+    if (anchors.empty() || unchanged) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
+    std::vector&lt;GridPosition&gt; touched;
+    for (const GridPosition anchor : anchors) {
+        placePieceInternal(index, anchor, piece, type, touched);
+    }
+    followCollision(touched);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">bool LevelDraft::eraseLayerRegion(std::size_t index, GridPosition first, GridPosition last) {
+    if (!isVisualLayerIndex(index)) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    const int minColumn = (std::max)(0, (std::min)(first.column, last.column));
+    const int maxColumn = (std::min)(_tileMap.width() - 1, (std::max)(first.column, last.column));
+    const int minRow = (std::max)(0, (std::min)(first.row, last.row));
+    const int maxRow = (std::min)(_tileMap.height() - 1, (std::max)(first.row, last.row));
+    const auto holdsSomething = [this, index](GridPosition cell) {
+        return pieceAnchorAt(index, cell).has_value() ||</span>
+               _layers[index].tiles.tile(cell.column, cell.row) != TileType::Empty;
+<span style = "background-color:#dfd">    };
+    bool changes = false;
+    for (int row = minRow; row &lt;= maxRow &amp;&amp; !changes; ++row) {
+        for (int column = minColumn; column &lt;= maxColumn &amp;&amp; !changes; ++column) {
+            changes = holdsSomething({.column = column, .row = row});
+        }
+    }
+    if (!changes) {</span>
+<span style = "background-color:#fdd">        return false;</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
+    std::vector&lt;GridPosition&gt; touched;
+    for (int row = minRow; row &lt;= maxRow; ++row) {
+        for (int column = minColumn; column &lt;= maxColumn; ++column) {
+            const GridPosition cell{.column = column, .row = row};
+            if (const std::optional&lt;GridPosition&gt; anchor = pieceAnchorAt(index, cell)) {
+                removePieceInternal(index, *anchor, touched);</span>
+<span style = "background-color:#fdd">            } else if (_layers[index].tiles.tile(column, row) != TileType::Empty) {
+                _layers[index].tiles.setTile(column, row, TileType::Empty);
+                touched.push_back(cell);</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+    followCollision(touched);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">bool LevelDraft::isCollisionForced(GridPosition cell) const noexcept {
+    return std::ranges::binary_search(_forcedCollision, cell, byRow);
+}</span>
+
+<span style = "background-color:#dfd">bool LevelDraft::unforceCollision(const std::vector&lt;GridPosition&gt;&amp; cells) {
+    std::vector&lt;GridPosition&gt; released;
+    for (const GridPosition cell : cells) {
+        if (isCollisionForced(cell)) {
+            released.push_back(cell);</span>
+        }
+<span style = "background-color:#dfd">    }
+    if (released.empty()) {
+        return false;</span>
+    }
+<span style = "background-color:#dfd">    pushUndo();
+    std::erase_if(_forcedCollision, [&amp;released](GridPosition cell) {
+        return std::ranges::find(released, cell) != released.end();
+    });
+    followCollision(released);
+    return true;
+}</span>
+
+<span style = "background-color:#dfd">bool LevelDraft::derivesCollision() const noexcept {
+    return hasVisualLayer(_layers);
+}</span>
+
+<span style = "background-color:#dfd">void LevelDraft::followCollision(const std::vector&lt;GridPosition&gt;&amp; cells) {
+    if (cells.empty() || !derivesCollision()) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    const CollisionDerivation derived =</span>
+        deriveCollision(_layers, _tileMap.width(), _tileMap.height(), _manifest.get());
+<span style = "background-color:#dfd">    for (const GridPosition cell : cells) {
+        if (!_tileMap.inBounds(cell.column, cell.row) || isCollisionForced(cell) ||</span>
+            _entry == cell) {
+<span style = "background-color:#dfd">            continue;</span>
+        }
+        // Une case qui s'accorde deja garde son ecriture : un geste qui ne change rien a ce qu'elle
+        // oppose ne change pas le fichier.
+<span style = "background-color:#dfd">        if (!collisionAgrees(_tileMap, derived.collision, cell.column, cell.row)) {
+            _tileMap.setTile(cell.column, cell.row, derived.collision.tile(cell.column, cell.row));</span>
+        }
+<span style = "background-color:#dfd">    }
+}</span>
+
+<span style = "background-color:#dfd">void LevelDraft::updateForcing(const std::vector&lt;GridPosition&gt;&amp; cells) {
+    if (cells.empty() || !derivesCollision()) {
+        return;</span>
+    }
+<span style = "background-color:#dfd">    const CollisionDerivation derived =</span>
+        deriveCollision(_layers, _tileMap.width(), _tileMap.height(), _manifest.get());
+<span style = "background-color:#dfd">    for (const GridPosition cell : cells) {
+        if (_entry == cell) {</span>
+<span style = "background-color:#fdd">            continue;  // l'entree est un repere, pas une collision : elle ne se force pas.</span>
+        }
+<span style = "background-color:#dfd">        const bool forced = isCollisionForced(cell);
+        const bool agrees = collisionAgrees(_tileMap, derived.collision, cell.column, cell.row);
+        if (agrees &amp;&amp; forced) {
+            std::erase(_forcedCollision, cell);
+        } else if (!agrees &amp;&amp; !forced) {
+            _forcedCollision.insert(std::ranges::upper_bound(_forcedCollision, cell, byRow), cell);</span>
+        }
+<span style = "background-color:#dfd">    }
 }</span>
 
 // --- Entites de carte (LOT-11) ---
@@ -370,6 +666,8 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
 
 <span style = "background-color:#dfd">void LevelDraft::resize(int width, int height) {
     pushUndo();
+    const int previousWidth = _tileMap.width();
+    const int previousHeight = _tileMap.height();
     _tileMap = resizedCopy(_tileMap, width, height);</span>
     // Les couches suivent la grille racine (LOT-04) : toutes les couches d'une carte partagent ses
     // dimensions, c'est ce que le chargeur verifie a la relecture.
@@ -392,7 +690,17 @@ bool LevelDraft::paintLayerRegion(std::size_t index, int originColumn, int origi
             return !_tileMap.inBounds(cell.column, cell.row);
         });
     }</span>
-<span style = "background-color:#dfd">}</span>
+    // Les cases gagnÃ©es n'ont rien sous elles : leur collision est celle du vide.
+<span style = "background-color:#dfd">    std::vector&lt;GridPosition&gt; gained;
+    for (int row = 0; row &lt; height; ++row) {
+        for (int column = 0; column &lt; width; ++column) {
+            if (column &gt;= previousWidth || row &gt;= previousHeight) {
+                gained.push_back({.column = column, .row = row});</span>
+            }
+<span style = "background-color:#dfd">        }
+    }
+    followCollision(gained);
+}</span>
 
 <span style = "background-color:#dfd">bool LevelDraft::wouldResizeDropContent(int width, int height) const noexcept {
     const auto outOfBounds = [width, height](GridPosition position) {

@@ -92,11 +92,18 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
         lines.permanent[1] = "Modified";</span>
     }
 <span style = "background-color:#dfd">    lines.permanent[2] = toolLabel(level.tool);
-    if (level.hoveredCell) {
+    const bool brushes = level.tool == EditorTool::Paint || level.tool == EditorTool::Rectangle;
+    if (brushes &amp;&amp; !level.brush.empty()) {
+        lines.permanent[2] += " Â· " + level.brush;</span>
+    }
+<span style = "background-color:#dfd">    if (level.hoveredCell) {
         lines.permanent[3] =</span>
             formatTwo("(%1, %2)", level.hoveredCell-&gt;column, level.hoveredCell-&gt;row);
 <span style = "background-color:#dfd">        if (!level.hoveredPieces.empty()) {
             lines.permanent[3] += " " + level.hoveredPieces;</span>
+        }
+<span style = "background-color:#dfd">        if (level.hoveredForced) {
+            lines.permanent[3] += " Â· forced collision";</span>
         }
     }
 <span style = "background-color:#dfd">    const int zoomPercent = static_cast&lt;int&gt;(std::lround(level.zoom * 100.0F));
@@ -104,7 +111,10 @@ std::string replacePlaceholder(std::string text, const std::string&amp; placehol
         formatOne("Zoom: %1%", zoomPercent) + (level.isoView ? " Â· Iso" : " Â· Flat");
 
 <span style = "background-color:#dfd">    lines.help = toolHelp(level.tool);
-    return lines;
+    if (brushes &amp;&amp; level.collisionActive) {
+        lines.help += " Â· On the collision, painting forces a cell; the eraser releases it";</span>
+    }
+<span style = "background-color:#dfd">    return lines;
 }</span>
 
 }  // namespace hmi</pre>

@@ -1,13 +1,18 @@
 var searchData=
 [
-  ['damageaffinitykind_0',['DamageAffinityKind',['../namespacecore.html#a8fe0c8f2f53edc1707d89c25b01a6a88',1,'core']]],
-  ['damageflag_1',['DamageFlag',['../namespacecore.html#aa275f4ee3dcd04b2c433620118cf54c4',1,'core']]],
-  ['damagestage_2',['DamageStage',['../namespacecore.html#aabf3d04e881096180d288d8c6ad9fcf6',1,'core']]],
-  ['damagetype_3',['DamageType',['../namespacecore.html#aae5ed49bedbf68049f008e4efac2edfd',1,'core']]],
-  ['dialogueactionkind_4',['DialogueActionKind',['../namespacecore.html#aae1dbf957fd7a423de4c11a60fc2d680',1,'core']]],
-  ['dialogueattitude_5',['DialogueAttitude',['../namespacecore.html#ade7d6c98b6c0942fee991823b7e237a7',1,'core']]],
-  ['dialoguenodekind_6',['DialogueNodeKind',['../namespacecore.html#a5e072fb2a50712986a2e81fa54b3fc73',1,'core']]],
-  ['dialoguestate_7',['DialogueState',['../namespacecore.html#adbe3368bf4f687b1ab2120308d322c0a',1,'core']]],
-  ['diskchange_8',['DiskChange',['../namespacehmi.html#ad3d9a6a21747a6c69be71dfc46024733',1,'hmi']]],
-  ['diskreaction_9',['DiskReaction',['../namespacehmi.html#a708d53e28e7a6af851f81372cfebd3d7',1,'hmi']]]
+  ['canvasview_0',['CanvasView',['../namespacehmi.html#a78257412917b7881b3766489df80d4c4',1,'hmi']]],
+  ['casterprogression_1',['CasterProgression',['../namespacecore.html#ab1c6c3303c34c417c9a3b6ac3ddb066d',1,'core']]],
+  ['choiceresult_2',['ChoiceResult',['../namespacecore.html#adefc12cd0a71ea980213f083ce537aa1',1,'core']]],
+  ['clipendmode_3',['ClipEndMode',['../namespacecore.html#a71fba78b647ce3be2a8b78f79c84f522',1,'core']]],
+  ['combatantid_4',['CombatantId',['../namespacecore.html#a91235fd72a18c305c494723774630841',1,'core']]],
+  ['combatantstatus_5',['CombatantStatus',['../namespacecore.html#ab77b88490327a0c26ec09d4f6126e382',1,'core']]],
+  ['combathook_6',['CombatHook',['../namespacecore.html#a942a0cabc5c97e0e10dfb8a148e26fb9',1,'core']]],
+  ['combatoutcome_7',['CombatOutcome',['../namespacecore.html#a8825ea64ff05621b7c2c8a073d27577c',1,'core']]],
+  ['combatphase_8',['CombatPhase',['../namespacecore.html#a7257683f3d1f85e256dfdce8b29bc840',1,'core']]],
+  ['combatside_9',['CombatSide',['../namespacecore.html#a5de8069e593ab57dab3a12c60b40b717',1,'core']]],
+  ['condition_10',['Condition',['../namespacecore.html#aae82873d6c7bd0b4db085354c50e1493',1,'core']]],
+  ['counterscope_11',['CounterScope',['../namespacecore.html#a9b42f3467a678d16bee619bc34ddf4e2',1,'core']]],
+  ['cover_12',['Cover',['../namespacecore.html#a0ddd67c0966fb31bf8c2de44a63d6999',1,'core']]],
+  ['crashtest_13',['CrashTest',['../namespaceapp.html#a08a9b726272557de4abbb1580ae92a68',1,'app']]],
+  ['creaturesize_14',['CreatureSize',['../namespacecore.html#ae6c6faeaa28aa7b90280f4dc39237204',1,'core']]]
 ];

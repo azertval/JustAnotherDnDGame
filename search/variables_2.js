@@ -18,12 +18,13 @@ var searchData=
   ['bloodiedtarget_15',['bloodiedTarget',['../structcore_1_1BehaviorProfile.html#adf6c463b3d92f415bd0a349f986e5a6a',1,'core::BehaviorProfile']]],
   ['bonus_5faction_5fresource_16',['BONUS_ACTION_RESOURCE',['../namespacecore.html#a1a7647b95079dc030d27953b8c41ecf6',1,'core']]],
   ['broken_17',['broken',['../structhmi_1_1WorldGraphLayoutEdge.html#a9a3f8b191fcfd59846f45c98f43101de',1,'hmi::WorldGraphLayoutEdge']]],
-  ['burrow_18',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
-  ['button_5fcount_19',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
-  ['button_5frepeat_5fdelay_20',['BUTTON_REPEAT_DELAY',['../namespacehmi.html#a9ab13e58906fc19eaceaa84921d13f32',1,'hmi']]],
-  ['button_5frepeat_5finterval_21',['BUTTON_REPEAT_INTERVAL',['../namespacehmi.html#a19c4e889b587eee63318fd97be53024d',1,'hmi']]],
-  ['bx_22',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
-  ['by_23',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]],
-  ['bypassedby_24',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]],
-  ['bypath_25',['byPath',['../structhmi_1_1ArenaSceneTextures.html#ab07d86253bc7879c97f16804139f1fa4',1,'hmi::ArenaSceneTextures::byPath'],['../structhmi_1_1ScenePieceTextures.html#a34f4bb97c124acb80a4a73e0a348c53f',1,'hmi::ScenePieceTextures::byPath']]]
+  ['brush_18',['brush',['../structhmi_1_1LevelStatusInfo.html#af7a683c327b50588af07ffeb31952c45',1,'hmi::LevelStatusInfo']]],
+  ['burrow_19',['burrow',['../structcore_1_1CreatureSpeed.html#a279a2e0ca9c7dacec5321ca51777d61d',1,'core::CreatureSpeed']]],
+  ['button_5fcount_20',['BUTTON_COUNT',['../classhmi_1_1InputState.html#a692a4d893cae9b15948b3d1081bbafeb',1,'hmi::InputState']]],
+  ['button_5frepeat_5fdelay_21',['BUTTON_REPEAT_DELAY',['../namespacehmi.html#a9ab13e58906fc19eaceaa84921d13f32',1,'hmi']]],
+  ['button_5frepeat_5finterval_22',['BUTTON_REPEAT_INTERVAL',['../namespacehmi.html#a19c4e889b587eee63318fd97be53024d',1,'hmi']]],
+  ['bx_23',['bx',['../structhmi_1_1LineQuad.html#a203b268e3040f841fa7089fc58391d22',1,'hmi::LineQuad']]],
+  ['by_24',['by',['../structhmi_1_1LineQuad.html#aea263b042537c77e3ffbebe64b772a27',1,'hmi::LineQuad']]],
+  ['bypassedby_25',['bypassedBy',['../structcore_1_1DamageAffinity.html#aee4369403d75f62d22159671ceb8a216',1,'core::DamageAffinity']]],
+  ['bypath_26',['byPath',['../structhmi_1_1ArenaSceneTextures.html#ab07d86253bc7879c97f16804139f1fa4',1,'hmi::ArenaSceneTextures::byPath'],['../structhmi_1_1ScenePieceTextures.html#a34f4bb97c124acb80a4a73e0a348c53f',1,'hmi::ScenePieceTextures::byPath']]]
 ];

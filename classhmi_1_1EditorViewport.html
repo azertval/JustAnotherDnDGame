@@ -132,8 +132,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab3b21b9ba32e0dbe38b928c29796034c" id="r_ab3b21b9ba32e0dbe38b928c29796034c"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#ab3b21b9ba32e0dbe38b928c29796034c">~EditorViewport</a> () override</td></tr>
 <tr class="memitem:aca765328d041d38121a730fd7920e11b" id="r_aca765328d041d38121a730fd7920e11b"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#aca765328d041d38121a730fd7920e11b">EditorViewport</a> (const EditorViewport &amp;)=delete</td></tr>
 <tr class="memitem:ac30f349493d1bf8e23989810815b59be" id="r_ac30f349493d1bf8e23989810815b59be"><td class="memItemLeft"><a class="el" href="#a25dfab2529859ea6134a9459e7d155ee">EditorViewport</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#ac30f349493d1bf8e23989810815b59be">operator=</a> (const <a class="el" href="#a25dfab2529859ea6134a9459e7d155ee">EditorViewport</a> &amp;)=delete</td></tr>
-<tr class="memitem:aed90ef32aa2988387e401b9613edae3e" id="r_aed90ef32aa2988387e401b9613edae3e"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aed90ef32aa2988387e401b9613edae3e">setActiveTile</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type) noexcept</td></tr>
-<tr class="memdesc:aed90ef32aa2988387e401b9613edae3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type de tuile peint au clic (choisi dans la palette).  <br /></td></tr>
+<tr class="memitem:af352a355f15f2844e6c2755cf5da4452" id="r_af352a355f15f2844e6c2755cf5da4452"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af352a355f15f2844e6c2755cf5da4452">setActiveTile</a> (<a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> type)</td></tr>
+<tr class="memdesc:af352a355f15f2844e6c2755cf5da4452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme le pinceau d'un type de tuile (palette des types) : il peint la couche active.  <br /></td></tr>
+<tr class="memitem:a25a54d0ec31cb6f2b1bd4fe3a6524fdb" id="r_a25a54d0ec31cb6f2b1bd4fe3a6524fdb"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a25a54d0ec31cb6f2b1bd4fe3a6524fdb">setActivePiece</a> (const std::string &amp;piece, bool floor)</td></tr>
+<tr class="memdesc:a25a54d0ec31cb6f2b1bd4fe3a6524fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme le pinceau d'une pièce (palette des pièces) : elle va sur sa couche, qui devient la couche active (<span class="tt"><a class="el" href="namespacehmi.html#aabb6d90483bf13d7b93dc031ac1cdfb0">hmi::pieceTargetLayer</a></span>).  <br /></td></tr>
+<tr class="memitem:af9cbcb29a4fcba2722230a8f8e03a9cf" id="r_af9cbcb29a4fcba2722230a8f8e03a9cf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#af9cbcb29a4fcba2722230a8f8e03a9cf">setEraser</a> ()</td></tr>
+<tr class="memdesc:af9cbcb29a4fcba2722230a8f8e03a9cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Arme la gomme de la couche active.  <br /></td></tr>
+<tr class="memitem:a092b1ee865b290125749d74f20757baf" id="r_a092b1ee865b290125749d74f20757baf"><td class="memItemLeft">const <a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a092b1ee865b290125749d74f20757baf">brush</a> () const noexcept</td></tr>
+<tr class="memitem:adfec046652f3ec5702b1d6d30947493e" id="r_adfec046652f3ec5702b1d6d30947493e"><td class="memItemLeft">std::vector&lt; <a class="el" href="structhmi_1_1PieceCatalogGroup.html">PieceCatalogGroup</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#adfec046652f3ec5702b1d6d30947493e">pieceCatalog</a> () const</td></tr>
+<tr class="memitem:a187bce4cdab8c53ae8d2f03690d3d18f" id="r_a187bce4cdab8c53ae8d2f03690d3d18f"><td class="memItemLeft">std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#a187bce4cdab8c53ae8d2f03690d3d18f">placeDirectory</a> () const</td></tr>
+<tr class="memitem:a9483dfdcea629d7f7f6879cc75b75cb1" id="r_a9483dfdcea629d7f7f6879cc75b75cb1"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a9483dfdcea629d7f7f6879cc75b75cb1">hoveredCellForced</a> () const</td></tr>
 <tr class="memitem:a01f8f3ad0730421bcde6b0bf5736db59" id="r_a01f8f3ad0730421bcde6b0bf5736db59"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a01f8f3ad0730421bcde6b0bf5736db59">setTool</a> (<a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a> tool)</td></tr>
 <tr class="memitem:a29ff52fd39a14e9ccfb888bb5e61461b" id="r_a29ff52fd39a14e9ccfb888bb5e61461b"><td class="memItemLeft"><a class="el" href="classhmi_1_1EditorKeyBindings.html">hmi::EditorKeyBindings</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a29ff52fd39a14e9ccfb888bb5e61461b">editorBindings</a> () noexcept</td></tr>
 <tr class="memitem:a0a85b5ab2b243cf4286cec616db25fba" id="r_a0a85b5ab2b243cf4286cec616db25fba"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0a85b5ab2b243cf4286cec616db25fba">save</a> ()</td></tr>
@@ -253,7 +261,14 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a98a9b209eb9ca1dfa7a2648a282f27c0" id="r_a98a9b209eb9ca1dfa7a2648a282f27c0"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a98a9b209eb9ca1dfa7a2648a282f27c0">emitZoomIfChanged</a> ()</td></tr>
 <tr class="memitem:a277629170d205ee4953a0c00f9813a43" id="r_a277629170d205ee4953a0c00f9813a43"><td class="memItemLeft">std::optional&lt; <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a277629170d205ee4953a0c00f9813a43">cellAt</a> (const QMouseEvent *event) const</td></tr>
 <tr class="memitem:a6d727766978f50a86e02921d03524d1c" id="r_a6d727766978f50a86e02921d03524d1c"><td class="memItemLeft"><a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6d727766978f50a86e02921d03524d1c">clampedCell</a> (const QMouseEvent *event) const</td></tr>
-<tr class="memitem:a06acc90bc88bcb39a482fd6283f118c8" id="r_a06acc90bc88bcb39a482fd6283f118c8"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a06acc90bc88bcb39a482fd6283f118c8">paintAt</a> (const QMouseEvent *event)</td></tr>
+<tr class="memitem:ad4159f9caacd2bff36b13c7a1422fe43" id="r_ad4159f9caacd2bff36b13c7a1422fe43"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ad4159f9caacd2bff36b13c7a1422fe43">paintAt</a> (const QMouseEvent *event, bool continuing)</td></tr>
+<tr class="memdesc:ad4159f9caacd2bff36b13c7a1422fe43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Donne un coup de pinceau sur la case pointée ; <code class="param">continuing</code> : le geste prolonge un glisser.  <br /></td></tr>
+<tr class="memitem:ae6ecba56f6405a7881120fc02f329eca" id="r_ae6ecba56f6405a7881120fc02f329eca"><td class="memItemLeft"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae6ecba56f6405a7881120fc02f329eca">currentBrush</a> () const</td></tr>
+<tr class="memdesc:ae6ecba56f6405a7881120fc02f329eca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le pinceau armé, son type recalculé d'après la table du lieu courant.  <br /></td></tr>
+<tr class="memitem:aacf895f32863859e3fa65cbd1715fcbf" id="r_aacf895f32863859e3fa65cbd1715fcbf"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aacf895f32863859e3fa65cbd1715fcbf">reportBrush</a> (const <a class="el" href="structhmi_1_1BrushResult.html">BrushResult</a> &amp;result)</td></tr>
+<tr class="memdesc:aacf895f32863859e3fa65cbd1715fcbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applique le résultat d'un geste : brouillon redessiné, ou refus dit une fois par geste.  <br /></td></tr>
+<tr class="memitem:a15def7390e4a5adbafc5bc2d3e447838" id="r_a15def7390e4a5adbafc5bc2d3e447838"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a15def7390e4a5adbafc5bc2d3e447838">paintForcedMask</a> (QPainter &amp;painter, const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;cells, bool iso)</td></tr>
+<tr class="memdesc:a15def7390e4a5adbafc5bc2d3e447838"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le masque des cases forcées, en losanges (iso) ou en carrés (à plat).  <br /></td></tr>
 <tr class="memitem:ab148685747fbd44def06165878ed0fa6" id="r_ab148685747fbd44def06165878ed0fa6"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab148685747fbd44def06165878ed0fa6">applyRectangle</a> (<a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> a, <a class="el" href="structcore_1_1GridPosition.html">core::GridPosition</a> b)</td></tr>
 <tr class="memitem:a357ac41215eab75a5351c0a1fca47a5f" id="r_a357ac41215eab75a5351c0a1fca47a5f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a357ac41215eab75a5351c0a1fca47a5f">copySelection</a> ()</td></tr>
 <tr class="memitem:aa8fa8bbfaa2ac85ce578b2f8ae8dff21" id="r_aa8fa8bbfaa2ac85ce578b2f8ae8dff21"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#aa8fa8bbfaa2ac85ce578b2f8ae8dff21">pasteClipboard</a> ()</td></tr>
@@ -262,7 +277,6 @@ Private Member Functions</h2></td></tr>
 <tr class="memdesc:a166574de2611d0acd82db669d350f3f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invalide le rendu du brouillon et notifie les panneaux (<span class="tt"><a class="el" href="#a7c355b35edfde092e790577fb6b136cc">draftChanged</a></span>) — après toute mutation de <span class="tt"><a class="el" href="#a4b7a7550dd2cfc2863e954b39600e26a">_draft</a></span>.  <br /></td></tr>
 <tr class="memitem:a5214b5ea9e293b58440e79f201c7c883" id="r_a5214b5ea9e293b58440e79f201c7c883"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a5214b5ea9e293b58440e79f201c7c883">syncEditingState</a> ()</td></tr>
 <tr class="memitem:abfc9035b1281d0f00a9a49a4626f1106" id="r_abfc9035b1281d0f00a9a49a4626f1106"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abfc9035b1281d0f00a9a49a4626f1106">refreshDiagnostics</a> ()</td></tr>
-<tr class="memitem:ada38b39ff158f5bbeccfb18391439113" id="r_ada38b39ff158f5bbeccfb18391439113"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ada38b39ff158f5bbeccfb18391439113">paintActiveRegion</a> (int originColumn, int originRow, const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; &amp;block)</td></tr>
 <tr class="memitem:a8c6cf5f13abcf485bf8ec4a0cef84685" id="r_a8c6cf5f13abcf485bf8ec4a0cef84685"><td class="memItemLeft">const <a class="el" href="classcore_1_1TileMap.html">core::TileMap</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a8c6cf5f13abcf485bf8ec4a0cef84685">activeLayerTiles</a> () const</td></tr>
 <tr class="memitem:ab8b7c62e54eb87b36e789c38fe292a47" id="r_ab8b7c62e54eb87b36e789c38fe292a47"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#ab8b7c62e54eb87b36e789c38fe292a47">handleEntityPress</a> (const QMouseEvent *event)</td></tr>
 <tr class="memitem:afff364ef944445a953dbaf15b65dbfd5" id="r_afff364ef944445a953dbaf15b65dbfd5"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#afff364ef944445a953dbaf15b65dbfd5">handleEntityRelease</a> (const QMouseEvent *event)</td></tr>
@@ -282,11 +296,13 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:ae9816c87b04791bfeb600845c28c2d95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Scène iso du brouillon, recomposée seulement quand il change.  <br /></td></tr>
 <tr class="memitem:a449630811b63f61f294cf907fdd1bb3d" id="r_a449630811b63f61f294cf907fdd1bb3d"><td class="memItemLeft"><a class="el" href="classhmi_1_1PlaceAppearance.html">PlaceAppearance</a>&#160;</td><td class="memItemRight"><a class="el" href="#a449630811b63f61f294cf907fdd1bb3d">_appearance</a></td></tr>
 <tr class="memitem:a90dde9cb8452cd58a66e57f41e243dee" id="r_a90dde9cb8452cd58a66e57f41e243dee"><td class="memItemLeft">std::string&#160;</td><td class="memItemRight"><a class="el" href="#a90dde9cb8452cd58a66e57f41e243dee">_appearancePlace</a></td></tr>
+<tr class="memitem:a9c2170adab7584035c79b74d183933fa" id="r_a9c2170adab7584035c79b74d183933fa"><td class="memItemLeft">std::shared_ptr&lt; const <a class="el" href="classcore_1_1ScenePieceManifest.html">core::ScenePieceManifest</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9c2170adab7584035c79b74d183933fa">_manifest</a></td></tr>
+<tr class="memdesc:a9c2170adab7584035c79b74d183933fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Le manifeste des pièces du lieu : le brouillon en tire emprises et collision.  <br /></td></tr>
 <tr class="memitem:a06665bd62f61b914f22be6dc4208b6e6" id="r_a06665bd62f61b914f22be6dc4208b6e6"><td class="memItemLeft"><a class="el" href="structhmi_1_1WorldSceneSnapshot.html">WorldSceneSnapshot</a>&#160;</td><td class="memItemRight"><a class="el" href="#a06665bd62f61b914f22be6dc4208b6e6">_snapshot</a></td></tr>
 <tr class="memitem:a3a3886441a9b32e5819a30cae64a7201" id="r_a3a3886441a9b32e5819a30cae64a7201"><td class="memItemLeft"><a class="el" href="classhmi_1_1ComposedScene.html">ComposedScene</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3a3886441a9b32e5819a30cae64a7201">_isoScene</a></td></tr>
 <tr class="memitem:a8501ccbf6069198b9632f58b189d3a76" id="r_a8501ccbf6069198b9632f58b189d3a76"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a8501ccbf6069198b9632f58b189d3a76">_rightDragging</a> = false</td></tr>
 <tr class="memitem:a892cb197cb3589c6a5ddb1d05c380ce3" id="r_a892cb197cb3589c6a5ddb1d05c380ce3"><td class="memItemLeft">QPoint&#160;</td><td class="memItemRight"><a class="el" href="#a892cb197cb3589c6a5ddb1d05c380ce3">_rightDragLast</a></td></tr>
-<tr class="memitem:a204518e7c62aa2f5e8403696fde0a7b8" id="r_a204518e7c62aa2f5e8403696fde0a7b8"><td class="memItemLeft"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a>&#160;</td><td class="memItemRight"><a class="el" href="#a204518e7c62aa2f5e8403696fde0a7b8">_activeTile</a> = <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></td></tr>
+<tr class="memitem:aac7a636be58f4b53b6c4dc87316da291" id="r_aac7a636be58f4b53b6c4dc87316da291"><td class="memItemLeft"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a>&#160;</td><td class="memItemRight"><a class="el" href="#aac7a636be58f4b53b6c4dc87316da291">_brush</a></td></tr>
 <tr class="memitem:a39acf3a579e4fc9386e065792dfdd795" id="r_a39acf3a579e4fc9386e065792dfdd795"><td class="memItemLeft"><a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dd">hmi::EditorTool</a>&#160;</td><td class="memItemRight"><a class="el" href="#a39acf3a579e4fc9386e065792dfdd795">_tool</a> = <a class="el" href="namespacehmi.html#a02048ad8ad69a87a10e8307ac2bd68dda4802a5ac6005a6ab9c68a2fb29e30a3e">hmi::EditorTool::Paint</a></td></tr>
 <tr class="memitem:aa71f68af481a5d89bf76e8187ad4476b" id="r_aa71f68af481a5d89bf76e8187ad4476b"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aa71f68af481a5d89bf76e8187ad4476b">_painting</a> = false</td></tr>
 <tr class="memitem:a82b5611d3b188ac378fadb6052bf1666" id="r_a82b5611d3b188ac378fadb6052bf1666"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a82b5611d3b188ac378fadb6052bf1666">_dragging</a> = false</td></tr>
@@ -603,6 +619,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a092b1ee865b290125749d74f20757baf" name="a092b1ee865b290125749d74f20757baf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a092b1ee865b290125749d74f20757baf">&#9670;&#160;</a></span>brush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> &amp; hmi::EditorViewport::brush </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le pinceau armé. </dd></dl>
+
+</div>
+</div>
 <a id="a2a55ebbd168bcb95a73b01e001110975" name="a2a55ebbd168bcb95a73b01e001110975"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a55ebbd168bcb95a73b01e001110975">&#9670;&#160;</a></span>canCopy()</h2>
 
@@ -905,6 +947,33 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6ecba56f6405a7881120fc02f329eca" name="ae6ecba56f6405a7881120fc02f329eca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6ecba56f6405a7881120fc02f329eca">&#9670;&#160;</a></span>currentBrush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> hmi::EditorViewport::currentBrush </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le pinceau armé, son type recalculé d'après la table du lieu courant. </p>
 
 </div>
 </div>
@@ -1391,6 +1460,32 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a9483dfdcea629d7f7f6879cc75b75cb1" name="a9483dfdcea629d7f7f6879cc75b75cb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9483dfdcea629d7f7f6879cc75b75cb1">&#9670;&#160;</a></span>hoveredCellForced()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hmi::EditorViewport::hoveredCellForced </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Vrai si la collision de la case survolée est forcée à la main. </dd></dl>
+
+</div>
+</div>
 <a id="acea96d2cf94cd7780c655afb1ab5c9df" name="acea96d2cf94cd7780c655afb1ab5c9df"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acea96d2cf94cd7780c655afb1ab5c9df">&#9670;&#160;</a></span>hoveredPieces()</h2>
 
@@ -1842,42 +1937,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ada38b39ff158f5bbeccfb18391439113" name="ada38b39ff158f5bbeccfb18391439113"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada38b39ff158f5bbeccfb18391439113">&#9670;&#160;</a></span>paintActiveRegion()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool hmi::EditorViewport::paintActiveRegion </td>
-          <td>(</td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originColumn</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>originRow</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::vector&lt; <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> &gt; &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>block</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a06acc90bc88bcb39a482fd6283f118c8" name="a06acc90bc88bcb39a482fd6283f118c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06acc90bc88bcb39a482fd6283f118c8">&#9670;&#160;</a></span>paintAt()</h2>
+<a id="ad4159f9caacd2bff36b13c7a1422fe43" name="ad4159f9caacd2bff36b13c7a1422fe43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4159f9caacd2bff36b13c7a1422fe43">&#9670;&#160;</a></span>paintAt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1888,8 +1949,12 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">void hmi::EditorViewport::paintAt </td>
           <td>(</td>
-          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span></td><td>)</td>
+          <td class="paramtype">const QMouseEvent *</td>          <td class="paramname"><span class="paramname"><em>event</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>continuing</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -1898,6 +1963,8 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Donne un coup de pinceau sur la case pointée ; <code class="param">continuing</code> : le geste prolonge un glisser. </p>
 
 </div>
 </div>
@@ -1950,6 +2017,42 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a15def7390e4a5adbafc5bc2d3e447838" name="a15def7390e4a5adbafc5bc2d3e447838"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15def7390e4a5adbafc5bc2d3e447838">&#9670;&#160;</a></span>paintForcedMask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::paintForcedMask </td>
+          <td>(</td>
+          <td class="paramtype">QPainter &amp;</td>          <td class="paramname"><span class="paramname"><em>painter</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1CellRange.html">CellRange</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>cells</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>iso</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le masque des cases forcées, en losanges (iso) ou en carrés (à plat). </p>
 
 </div>
 </div>
@@ -2125,6 +2228,58 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="adfec046652f3ec5702b1d6d30947493e" name="adfec046652f3ec5702b1d6d30947493e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfec046652f3ec5702b1d6d30947493e">&#9670;&#160;</a></span>pieceCatalog()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="structhmi_1_1PieceCatalogGroup.html">PieceCatalogGroup</a> &gt; hmi::EditorViewport::pieceCatalog </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le catalogue des pièces du lieu de la carte ouverte (<span class="tt"><a class="el" href="namespacehmi.html#af13dc656bfde25b7f2e991d124ec836e" title="Le catalogue d&#39;un lieu.">hmi::pieceCatalog</a></span>). </dd></dl>
+
+</div>
+</div>
+<a id="a187bce4cdab8c53ae8d2f03690d3d18f" name="a187bce4cdab8c53ae8d2f03690d3d18f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a187bce4cdab8c53ae8d2f03690d3d18f">&#9670;&#160;</a></span>placeDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::filesystem::path hmi::EditorViewport::placeDirectory </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>Le dossier des images du lieu (<span class="tt">Assets/Scene/&lt;lieu&gt;</span>), vide sans lieu. </dd></dl>
 
 </div>
 </div>
@@ -2327,6 +2482,33 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacf895f32863859e3fa65cbd1715fcbf" name="aacf895f32863859e3fa65cbd1715fcbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacf895f32863859e3fa65cbd1715fcbf">&#9670;&#160;</a></span>reportBrush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::reportBrush </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structhmi_1_1BrushResult.html">BrushResult</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>result</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Applique le résultat d'un geste : brouillon redessiné, ou refus dit une fois par geste. </p>
 
 </div>
 </div>
@@ -2552,14 +2734,41 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aed90ef32aa2988387e401b9613edae3e" name="aed90ef32aa2988387e401b9613edae3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed90ef32aa2988387e401b9613edae3e">&#9670;&#160;</a></span>setActiveTile()</h2>
+<a id="a25a54d0ec31cb6f2b1bd4fe3a6524fdb" name="a25a54d0ec31cb6f2b1bd4fe3a6524fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25a54d0ec31cb6f2b1bd4fe3a6524fdb">&#9670;&#160;</a></span>setActivePiece()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setActivePiece </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>piece</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>floor</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Arme le pinceau d'une pièce (palette des pièces) : elle va sur sa couche, qui devient la couche active (<span class="tt"><a class="el" href="namespacehmi.html#aabb6d90483bf13d7b93dc031ac1cdfb0">hmi::pieceTargetLayer</a></span>). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">piece</td><td>Le nom court de la pièce. </td></tr>
+    <tr><td class="paramname">floor</td><td>La pièce est un sol. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af352a355f15f2844e6c2755cf5da4452" name="af352a355f15f2844e6c2755cf5da4452"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af352a355f15f2844e6c2755cf5da4452">&#9670;&#160;</a></span>setActiveTile()</h2>
+
+<div class="memitem">
+<div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void hmi::EditorViewport::setActiveTile </td>
@@ -2568,14 +2777,9 @@ Private Attributes</h2></td></tr>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p>Type de tuile peint au clic (choisi dans la palette). </p>
+<p>Arme le pinceau d'un type de tuile (palette des types) : il peint la couche active. </p>
 
 </div>
 </div>
@@ -2657,6 +2861,25 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="af9cbcb29a4fcba2722230a8f8e03a9cf" name="af9cbcb29a4fcba2722230a8f8e03a9cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9cbcb29a4fcba2722230a8f8e03a9cf">&#9670;&#160;</a></span>setEraser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void hmi::EditorViewport::setEraser </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Arme la gomme de la couche active. </p>
 
 </div>
 </div>
@@ -3212,28 +3435,6 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a204518e7c62aa2f5e8403696fde0a7b8" name="a204518e7c62aa2f5e8403696fde0a7b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a204518e7c62aa2f5e8403696fde0a7b8">&#9670;&#160;</a></span>_activeTile</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875">core::TileType</a> hmi::EditorViewport::_activeTile = <a class="el" href="namespacecore.html#ace99a1be913e6294e42e9ebb145eb875ae41480b6bbfbf7407974a88d3d34f4fa">core::TileType::Solid</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a449630811b63f61f294cf907fdd1bb3d" name="a449630811b63f61f294cf907fdd1bb3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a449630811b63f61f294cf907fdd1bb3d">&#9670;&#160;</a></span>_appearance</h2>
 
@@ -3267,6 +3468,28 @@ Private Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::string hmi::EditorViewport::_appearancePlace</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac7a636be58f4b53b6c4dc87316da291" name="aac7a636be58f4b53b6c4dc87316da291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac7a636be58f4b53b6c4dc87316da291">&#9670;&#160;</a></span>_brush</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structhmi_1_1CanvasBrush.html">CanvasBrush</a> hmi::EditorViewport::_brush</td>
         </tr>
       </table>
   </td>
@@ -3837,6 +4060,30 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9c2170adab7584035c79b74d183933fa" name="a9c2170adab7584035c79b74d183933fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c2170adab7584035c79b74d183933fa">&#9670;&#160;</a></span>_manifest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt;const <a class="el" href="classcore_1_1ScenePieceManifest.html">core::ScenePieceManifest</a>&gt; hmi::EditorViewport::_manifest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel private">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Le manifeste des pièces du lieu : le brouillon en tire emprises et collision. </p>
 
 </div>
 </div>

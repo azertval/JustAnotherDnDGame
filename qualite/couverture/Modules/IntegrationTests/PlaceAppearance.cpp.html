@@ -180,6 +180,17 @@ constexpr std::string_view FIELD_RELIEF = "relief";
     return pieceOf(_relief, type, cell);
 }</span>
 
+std::optional&lt;core::TileType&gt; PlaceAppearance::typeOfPiece(std::string_view piece,
+<span style = "background-color:#dfd">                                                           bool floor) const {
+    const std::string_view name = canonicalPiece(piece);
+    for (const auto&amp; [type, noms] : floor ? _floors : _relief) {
+        if (std::ranges::find(noms, name) != noms.end()) {
+            return type;</span>
+        }
+<span style = "background-color:#dfd">    }
+    return std::nullopt;
+}</span>
+
 <span style = "background-color:#fdd">std::vector&lt;std::string&gt; PlaceAppearance::pieces() const {
     std::set&lt;std::string&gt; uniques;
     for (const auto* table : {&amp;_floors, &amp;_relief}) {
