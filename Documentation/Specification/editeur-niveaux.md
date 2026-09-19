@@ -298,6 +298,20 @@ les scripts ([LOT-EDITOR-13](@ref lot-editor-13)).
   carte-témoin et comparé octet pour octet à un fichier attendu : c'est le test d'IHM du module
   (règle 4 de la feuille de route).
 
+## 15. Les cartes se font dans l'éditeur (`LOT-EDITOR-06`)
+L'éditeur fait foi pour les cartes faites à la main (décision D4) : plus aucun script ne les écrit
+([LOT-EDITOR-06](@ref lot-editor-06)).
+
+- \anchor EX-EDIT-077 **EX-EDIT-077** — Une nouvelle carte **choisit son lieu** à la création,
+  parmi les planches qui ont un manifeste de pièces, avec son nom et sa taille. Elle naît comme les
+  cartes livrées : une couche de sol qui nomme le lieu, une couche de décor, la collision déduite ;
+  elle passe le contrôle (`EX-EDIT-062`) sans autre geste. Sans lieu, elle reste une grille unique
+  peinte par types.
+- \anchor EX-EDIT-078 **EX-EDIT-078** — Chaque carte livrée **s'ouvre et s'enregistre dans
+  l'éditeur sans changer d'un octet** ; une retouche s'y enregistre, se recharge à l'identique et se
+  défait jusqu'au fichier livré. Aucun script n'écrit plus dans `Levels/` : ceux qui y écrivaient
+  restent dans leurs dossiers de lot, comme trace, et refusent d'y écrire.
+
 ## Exigences retirées {#edit-retirees}
 
 > Ancres conservées, jamais renumérotées : les lots livrés s'y réfèrent. Chacune servait un

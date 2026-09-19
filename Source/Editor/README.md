@@ -15,6 +15,9 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 | [`Logic/`](Logic/) | La logique pure : sans Qt, testée sous `Source/Test/Unit/Editor` | `EditorLogic` (bibliothèque statique, liée par `UnitTests`) |
 | [`Ui/`](Ui/README.md) | Les widgets, construits en code : fenêtre, canevas, panneaux | `LevelEditor` (point d'entrée : `Source/App/Editor/Main.cpp`) |
 
+Faire une carte de bout en bout : le
+[guide d'usage](../../Documentation/Editeur/guide-usage.md).
+
 ## Règles du module
 
 - **Outil interne.** Style Fusion de Qt, icônes standard ou libellés texte, **textes anglais écrits
@@ -35,6 +38,9 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 - **La forme, pas le type.** Une entité se dessine et se manipule par la forme que sa famille
   déclare dans `core::knownEntityKinds` ; aucune famille n'a de code dans le module, et un test
   bloque toute famille lue par le jeu et absente de la table (`EX-EDIT-070`, `EX-EDIT-073`).
+- **L'éditeur fait foi pour les cartes** (décision D4, `LOT-EDITOR-06`) : il ouvre l'arbre des
+  sources, jamais la copie de la construction, et aucun script n'écrit plus dans `Levels/`
+  (`EX-EDIT-078`).
 - **Deux façons d'éditer, un seul chemin.** La souris et `--apply` appellent les mêmes fonctions
   pures, dans le même ordre ; un scénario `--apply` par outil, comparé à un fichier attendu, tient
   lieu de test d'IHM (`EX-EDIT-074`, `EX-EDIT-076`).
@@ -55,7 +61,10 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
   commandes sans fenêtre (`hmi::runMapCommand`).
 - `GestureScript` — `--apply` : un fichier de gestes rejoué par les fonctions des outils, l'état
   que la fenêtre garde d'un geste à l'autre, et le refus lisible d'un geste (`EX-EDIT-074`).
-- `LevelFileOperations`, `LevelNameValidation` — créer, renommer, dupliquer, supprimer une carte.
+- `LevelFileOperations`, `LevelNameValidation` — créer (avec son lieu, `EX-EDIT-077`), renommer,
+  dupliquer, supprimer une carte.
+- `DataRoot` — la racine des données que l'éditeur ouvre : `--data`, sinon l'arbre des sources qui
+  l'a construit, sinon le dossier de l'exécutable (`LOT-EDITOR-06`).
 - `EditorTool`, `PanelFocus` — l'outil actif et le panneau qu'il met en avant.
 - `EntityShapes` — les entités à forme : rectangle et poignées, zone peinte, trajet, entité sous
   le curseur, liste filtrable (`EX-EDIT-070`, `EX-EDIT-072`).
@@ -82,7 +91,8 @@ l'éditeur ne parle plus au GPU : il peint la composition du jeu par `QPainter`.
 ## Sans fenêtre
 
 Ces commandes rendent la main aussitôt, sans `QApplication` ; elles tournent en CI. `--data`
-désigne la racine des données (`Source/Elements`, ou par défaut le dossier de l'exécutable).
+désigne la racine des données ; par défaut, comme la fenêtre, l'éditeur ouvre le `Source/Elements`
+de l'arbre qui l'a construit, et à défaut le dossier de l'exécutable (`hmi::resolveDataRoot`).
 
 | Commande | Ce qu'elle fait |
 |---|---|
